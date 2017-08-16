@@ -1,0 +1,17 @@
+{
+    "defaultEnv": "dev",
+    "dev": {
+        "database": "strykerscore",
+        "driver": "pg",
+        "host": "localhost",
+        "password": { "ENV": "PGPASSWORD" },
+        "user": "stryker"
+    },
+    "prod": {
+        "database": { "ENV": "PGDATABASE" },
+        "driver": "pg",
+        "host": { "ENV": "PGHOST" },
+        "user": { "ENV": "PGUSER" },
+        "password": { "ENV": "PGPASSWORD" }
+    }
+}

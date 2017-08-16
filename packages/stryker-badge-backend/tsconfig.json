@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "forceConsistentCasingInFileNames": true,
+        "module": "commonjs",
+        "noEmitOnError": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "outDir": "./dist",
+        "sourceMap": true,
+        "strict": true,
+        "target": "es5"
+    },
+    "include": [
+        "src/index.ts"
+    ]
+}

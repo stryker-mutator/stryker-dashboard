@@ -1,0 +1,44 @@
+{
+    "bugs": {
+        "url": "https://github.com/stryker-mutator/stryker-badge/issues"
+    },
+    "contributors": [
+        "Maarten Mulders <mthmulders@users.noreply.github.com>"
+    ],
+    "dependencies": {
+        "body-parser": "1.17.2",
+        "connect-pg-simple": "4.2.0",
+        "debug": "3.0.0",
+        "express": "4.15.4",
+        "express-session": "1.15.5",
+        "morgan": "1.8.2",
+        "passport": "0.4.0",
+        "passport-github2": "0.1.10",
+        "pg": "7.1.2"
+    },
+    "devDependencies": {
+        "@types/body-parser": "1.16.4",
+        "@types/debug": "0.0.30",
+        "@types/express": "4.0.36",
+        "@types/express-session": "1.15.2",
+        "@types/loglevel": "1.4.29",
+        "@types/morgan": "1.7.32",
+        "@types/passport": "0.3.3",
+        "@types/passport-github2": "1.1.0",
+        "@types/pg": "6.1.43",
+        "db-migrate": "0.9.26",
+        "db-migrate-pg": "0.2.5",
+        "typescript": "2.4.2"
+    },
+    "license": "Apache-2.0",
+    "name": "stryker-badge-backend",
+    "version": "0.0.1",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/stryker-mutator/stryker-badge"
+    },
+    "scripts": {
+        "build": "rm -Rf dist/ && tsc -p .",
+        "start": "./start.sh"
+    }
+}
