@@ -16,7 +16,7 @@
         "passport-github2": "0.1.10",
         "pg": "7.1.2"
     },
-	"devDependencies": {
+    "devDependencies": {
         "@types/body-parser": "1.16.4",
         "@types/debug": "0.0.30",
         "@types/express": "4.0.36",
@@ -28,21 +28,22 @@
         "@types/pg": "6.1.43",
         "db-migrate": "0.9.26",
         "db-migrate-pg": "0.2.5",
+        "rimraf": "2.6.1",
         "typescript": "2.4.2"
-	},
+    },
     "license": "Apache-2.0",
     "name": "stryker-badge",
     "repository": {
         "type": "git",
         "url": "https://github.com/stryker-mutator/stryker-badge"
     },
-	"scripts": {
-		"build": "tsc -p server",
-		"clean": "rimraf server/dist/",
-		"prebuild": "npm run clean",
-		"pretest": "npm run build",
+    "scripts": {
+        "build": "tsc -p server",
+        "clean": "rimraf server/dist/",
+        "prebuild": "npm run clean",
+        "pretest": "npm run build",
         "start-server": "./server/start.sh",
-		"test": "echo \"no tests, yet :(\""
-	},
+        "test": "echo \"no tests, yet :(\""
+    },
     "version": "0.0.1"
 }
