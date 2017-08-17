@@ -1,7 +1,7 @@
 import * as debug from 'debug';
 import * as http from 'http';
 
-import App from './App';
+import App from './app';
 
 debug('app')('Booting Stryker Mutator Badge API')
 
