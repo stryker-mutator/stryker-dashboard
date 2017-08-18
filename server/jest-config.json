@@ -1,0 +1,23 @@
+{
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+        "**/*.ts",
+        "!**/__tests__/*.ts"
+    ],
+    "coverageDirectory": "coverage/",
+    "globals": {
+        "ts-jest": {
+            "tsConfigFile": "./server/tsconfig.json"
+        }
+    },
+    "mapCoverage": true,
+    "moduleFileExtensions": [ "ts", "js" ],
+    "rootDir": ".",
+    "roots": [ "." ],
+    "testRegex": "/__tests__/.*Spec\\.ts$",
+    "testResultsProcessor": "<rootDir>/../node_modules/jest-junit",
+    "transform": {
+        ".ts": "<rootDir>/../node_modules/ts-jest/preprocessor.js"
+    },
+    "verbose": true
+}

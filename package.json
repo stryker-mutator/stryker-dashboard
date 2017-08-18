@@ -21,14 +21,17 @@
         "@types/debug": "0.0.30",
         "@types/express": "4.0.36",
         "@types/express-session": "1.15.2",
-        "@types/loglevel": "1.4.29",
+        "@types/jest": "20.0.7",
         "@types/morgan": "1.7.32",
         "@types/passport": "0.3.3",
         "@types/passport-github2": "1.1.0",
         "@types/pg": "6.1.43",
         "db-migrate": "0.9.26",
         "db-migrate-pg": "0.2.5",
+        "jest": "20.0.4",
+        "jest-junit": "2.1.0",
         "rimraf": "2.6.1",
+        "ts-jest": "20.0.10",
         "typescript": "2.4.2"
     },
     "license": "Apache-2.0",
@@ -40,10 +43,11 @@
     "scripts": {
         "build": "tsc -p server",
         "clean": "rimraf server/dist/",
+        "jest-server": "jest --watch -c server/jest-config.json",
         "prebuild": "npm run clean",
         "pretest": "npm run build",
         "start-server": "./server/start.sh",
-        "test": "echo \"no tests, yet :(\""
+        "test": "jest -c server/jest-config.json"
     },
     "version": "0.0.1"
 }

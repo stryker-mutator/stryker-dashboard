@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "forceConsistentCasingInFileNames": true,
+        "lib": ["es5", "es6"],
         "module": "commonjs",
         "noEmitOnError": true,
         "noImplicitReturns": true,

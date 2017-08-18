@@ -1,2 +1,5 @@
-node_modules
+coverage/
+dist/
+junit.xml
+node_modules/
 package-lock.json
