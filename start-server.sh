@@ -11,4 +11,4 @@ DEBUG=*,-express:* \
     PGDATABASE=strykerscore \
     PGUSER=stryker \
     PORT=1337 \
-    node dist/index.js
+    node server/dist/index.js

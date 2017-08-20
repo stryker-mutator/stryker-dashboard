@@ -46,7 +46,7 @@
         "jest-server": "jest --watch -c server/jest-config.json",
         "prebuild": "npm run clean",
         "pretest": "npm run build",
-        "start-server": "./server/start.sh",
+        "start-server": "./start-server.sh",
         "test": "jest -c server/jest-config.json"
     },
     "version": "0.0.1"
