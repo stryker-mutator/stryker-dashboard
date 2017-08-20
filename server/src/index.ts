@@ -1,14 +1,12 @@
 import * as debug from 'debug';
-import * as http from 'http';
 
-import App from './app';
+import app from './app';
 import config from './configuration';
 
 debug('app')('Starting Stryker Mutator Badge API')
 
 const { port } = config;
-const server = http.createServer(App);
-server.listen(port);
+const server = app.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
