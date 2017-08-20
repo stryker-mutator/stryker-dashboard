@@ -32,6 +32,15 @@ Other points
 
 ## Getting started
 
+### Configuration
+To start the application, you need to define the following environment variables:
+
+Variable | Example | Explanation
+-------- | ------- | -----------
+`GH_BASIC_CLIENT_ID`|`1234567890abcdef1234`|GitHub-issued Client ID.
+`GH_BASIC_SECRET_ID`|`1234567890...abcdef1`|GitHub-issued Client Secret.
+`JWT_SECRET`|`u7apm8MrMBe8Fwrx4uMH`|The secret for the HMAC algorithm that creates the signature of the [JWT](https://tools.ietf.org/html/rfc7519).
+`PORT`|`3000`|Port at which the back end will listen for connections.
 
 ## Contributing
 Pull requests are welcome!
