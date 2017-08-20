@@ -34,6 +34,13 @@ export class GitHubRoutes {
     }
 
     public logout(req: Request, res: Response, next: NextFunction) {
+        const cookies = req.cookies || {};
+        for (let cookie in cookies) {
+            if (!cookies.hasOwnProperty(cookie)) {
+                continue;
+            }    
+            res.cookie(cookie, '', { expires: new Date(0) });
+        }
         req.logout();
         res.redirect('/');
     }

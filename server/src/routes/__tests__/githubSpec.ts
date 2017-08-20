@@ -1,3 +1,4 @@
+import cookieParser = require('cookie-parser');
 import * as express from 'express';
 import * as supertest from 'supertest';
 
@@ -18,17 +19,51 @@ import { GitHubRoutes } from '../github';
 const app = express();
 const routes = express.Router();
 GitHubRoutes.create(routes);
+app.use(cookieParser());
 app.use('/', routes);
 app.use(requestLog);
 
 const request = supertest(app);
 
 describe('GitHub routes', () => {
-    beforeEach(() => {
-        
+    describe('\'/auth/github\'', () => {
     });
 
-    describe('\'/auth/github\'', () => {
+    describe('GET /logout', () => {
+        it('should redirect to /', () => {
+            // Arrange
+            const token = 'foo-bar-baz';
+            createToken.mockImplementation((user: any) => {
+                return Promise.resolve(token);
+            });
+
+            // Act
+            const response = request.get('/logout')
+                .set('Cookie', 'jwt=jfdskl');
+
+            // Assert
+            return response
+                .expect(302)
+                .expect('location', '/')
+                .then((res) => {
+                    // console.log(`Response: ${JSON.stringify(res.text)}`);
+                });
+        });
+
+        it('should delete the \'jwt\' cookie', () => {
+            // Act
+            const response = request.get('/logout')
+                .set('Cookie', 'jwt=jfdskl');
+
+            // Assert
+            return response
+                .expect(302)
+                .expect('set-cookie', /jwt/)
+                .expect('set-cookie', /Expires=Thu, 01 Jan 1970 00:00:00 GMT/)
+                .then((res) => {
+                    // console.log(`Response: ${JSON.stringify(res.text)}`);
+                });
+        });
     });
     
     describe('GET /auth/github/callback', () => {
@@ -40,9 +75,7 @@ describe('GitHub routes', () => {
             });
 
             // Act
-            const response = request
-                .get('/auth/github/callback?code=foo')
-                .accept('text/htm');
+            const response = request.get('/auth/github/callback?code=foo');
 
             // Assert
             return response
@@ -52,6 +85,25 @@ describe('GitHub routes', () => {
                 .then((res) => {
                     // console.log(`Response: ${JSON.stringify(res.text)}`);
                 });
-        })
+        });
+
+        it('should redirect to /', () => {
+            // Arrange
+            const token = 'foo-bar-baz';
+            createToken.mockImplementation((user: any) => {
+                return Promise.resolve(token);
+            });
+
+            // Act
+            const response = request.get('/auth/github/callback?code=foo');
+
+            // Assert
+            return response
+                .expect(302)
+                .expect('location', '/')
+                .then((res) => {
+                    // console.log(`Response: ${JSON.stringify(res.text)}`);
+                });
+        });
     });
 });

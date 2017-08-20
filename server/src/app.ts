@@ -70,9 +70,12 @@ class App {
 
         // placeholder route handler
         router.get('/', (req, res, next) => {
-            const { user } = req;
-            const { displayName, username } = user;
-            res.json({ message: 'Hello World!', user: { displayName, username } });
+            res.json({ message: 'Hello World!' });
+        });
+        router.get('/user', (req, res, next) => {
+            const { displayName, username } = req.user;
+            const user = { displayName, username };
+            res.json({ user });
         });
 
         return router;

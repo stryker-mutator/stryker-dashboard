@@ -12,7 +12,7 @@ export const middleware = () => {
         },
         secret: config.jwtSecret
     })
-    return middleware.unless({ path: [ '/auth/github', '/auth/github/callback' ] })
+    return middleware.unless({ path: [ '/', '/auth/github', '/auth/github/callback' ] })
 }
 
 const options = { algorithm: 'HS512', audience: 'stryker', expiresIn: '30m', issuer: 'stryker' }
