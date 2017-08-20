@@ -3,7 +3,7 @@
 GH_BASIC_CLIENT_ID="${GH_BASIC_CLIENT_ID:?Need to set GH_BASIC_CLIENT_ID non-empty}"
 GH_BASIC_SECRET_ID="${GH_BASIC_SECRET_ID:?Need to set GH_BASIC_SECRET_ID non-empty}"
 PGPASSWORD="${PGPASSWORD:?Need to set PGPASSWORD non-empty}"
-SECRET="${SECRET:?Need to set SECRET non-empty}"
+JWT_SECRET="${JWT_SECRET:?Need to set JWT_SECRET non-empty}"
 
 DEBUG=*,-express:* \
     NODE_ENV=development \
