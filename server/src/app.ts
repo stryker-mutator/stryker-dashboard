@@ -34,6 +34,12 @@ class App {
         this.express.use(middleware());
         this.express.use(passport.initialize());
         this.express.use(passport.session());
+        this.express.use(this.errorHandler);
+    }
+
+    private errorHandler(err: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
+        debug('app')(`Error detected: ${err.message} - ${err.stack}`);
+        res.status(500).send({ error: 'Something failed!' });
     }
 
     // Configure Passport to authenticate using GitHub.
