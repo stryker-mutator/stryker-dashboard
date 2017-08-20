@@ -13,7 +13,7 @@ This repository represents a work in progress.
 
 A Node.js application that
 
-- [ ] Authenticates GitHub users using OAuth2.
+- [X] Authenticates GitHub users using OAuth2.
 - [ ] requests a list of projects from the authenticated user and shows it.
 - [ ] saves projects for which a badge has to be displayed.
 - [ ] generates a key for each project and shows it to the user.
