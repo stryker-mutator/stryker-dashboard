@@ -5,8 +5,10 @@ import * as supertest from 'supertest';
 const createToken = jest.fn();
 jest.mock('../../security', () => ({ createToken }));
 
+const logout = jest.fn();
 const authenticate = (req, res, next) => {
     req.user = { username: 'dummy' };
+    req.logout = logout;
     next();
 };
 jest.mock('passport', () => ({
@@ -62,6 +64,18 @@ describe('GitHub routes', () => {
                 .expect('set-cookie', /Expires=Thu, 01 Jan 1970 00:00:00 GMT/)
                 .then((res) => {
                     // console.log(`Response: ${JSON.stringify(res.text)}`);
+                });
+        });
+        
+        it('should end the session', () => {
+            // Act
+            const response = request.get('/logout')
+                .set('Cookie', 'jwt=jfdskl');
+
+            // Assert
+            return response
+                .then((res) => {
+                    expect(logout).toHaveBeenCalled();
                 });
         });
     });

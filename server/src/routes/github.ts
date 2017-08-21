@@ -17,7 +17,10 @@ export class GitHubRoutes {
             passport.authenticate('github'),
             routes.callback
         );
-        router.get('/logout', routes.logout);
+        router.get(
+            '/logout',
+            passport.authenticate('github'),
+            routes.logout);
         debug('GitHubRoutes')('Routes created');
     }
 
