@@ -28,9 +28,6 @@ app.use(requestLog);
 const request = supertest(app);
 
 describe('GitHub routes', () => {
-    describe('\'/auth/github\'', () => {
-    });
-
     describe('GET /logout', () => {
         it('should redirect to /', () => {
             // Arrange
