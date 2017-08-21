@@ -15,7 +15,6 @@ jest.mock('passport', () => ({
     authenticate: () => authenticate,
 }));
 
-import { requestLog } from '../../utils';
 import { GitHubRoutes } from '../github';
 
 const app = express();
@@ -23,7 +22,6 @@ const routes = express.Router();
 GitHubRoutes.create(routes);
 app.use(cookieParser());
 app.use('/', routes);
-app.use(requestLog);
 
 const request = supertest(app);
 
