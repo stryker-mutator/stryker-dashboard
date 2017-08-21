@@ -8,6 +8,3 @@ env:
     - GH_BASIC_SECRET_ID=dummy
     - JWT_SECRET=dummy
     - PORT=3000
-install: npm install
-before_install:
-  - npm install -g lerna
