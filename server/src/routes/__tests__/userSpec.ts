@@ -8,15 +8,13 @@ const authenticate = (req, res, next) => {
     req.user = user;
     next();
 };
-jest.mock('passport', () => ({
-    authenticate: () => authenticate,
-}));
 
 import { UserRoutes } from '../user';
 
 const app = express();
 const routes = express.Router();
 UserRoutes.create(routes);
+app.use(authenticate);
 app.use('/', routes);
 
 const request = supertest(app);
@@ -26,8 +24,8 @@ describe('User API routes', () => {
         it('should return information about the logged in user', () => {
             // Act
             const response = request.get('/api/user');
-            const copy = { ...user };
-            delete copy.accessToken
+            const { displayName, username } = user;
+            const copy = { displayName, username };
 
             // Assert
             return response
