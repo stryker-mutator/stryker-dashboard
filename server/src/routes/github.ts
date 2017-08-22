@@ -19,7 +19,6 @@ export class GitHubRoutes {
         );
         router.get(
             '/logout',
-            passport.authenticate('github'),
             routes.logout);
         debug('GitHubRoutes')('Routes created');
     }

@@ -21,6 +21,7 @@ const app = express();
 const routes = express.Router();
 GitHubRoutes.create(routes);
 app.use(cookieParser());
+app.use(authenticate);
 app.use('/', routes);
 
 const request = supertest(app);
