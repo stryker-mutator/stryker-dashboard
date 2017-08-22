@@ -13,6 +13,6 @@ export const requestLog = (req: Request, res: Response, next: NextFunction) => {
     next();
     const end = new Date().getTime();
     const { statusCode } = res;
-    const line = `${method} ${path}${queryString} -> ${statusCode} (${end - start} ms)`;
+    const line = `${method} ${path}${queryString} : ${statusCode} [${end - start} ms]`;
     log(line);
 }

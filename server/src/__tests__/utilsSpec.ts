@@ -67,7 +67,7 @@ describe('Utility methods', () => {
             requestLog(request, response, jest.fn());
     
             // Assert
-            expect(debug.mock.calls[0][0]).toMatch(/-> 200/);
+            expect(debug.mock.calls[0][0]).toMatch(/200/);
         });
     
         it('should invoke the request handling', () => {
