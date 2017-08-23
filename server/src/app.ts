@@ -9,6 +9,8 @@ import config from './configuration';
 import { middleware } from './security';
 import { requestLog } from './utils';
 import { GitHubRoutes } from './routes/github';
+import { UserRoutes } from './routes/user';
+import { RepositoryRoutes } from './routes/repository';
 
 class App {
     public express: express.Application;
@@ -38,8 +40,12 @@ class App {
     }
 
     private errorHandler(err: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
-        debug('app')(`Error detected: ${err.message} - ${err.stack}`);
-        res.status(500).send({ error: 'Something failed!' });
+        if (err.name == 'UnauthorizedError') {
+            res.status(401).end();
+        } else {
+            debug('app')(`Error detected: ${err.message} - ${err.stack}`);
+            res.status(500).send({ error: 'Something failed!' });
+        }
     }
 
     // Configure Passport to authenticate using GitHub.
@@ -67,16 +73,8 @@ class App {
         const router = express.Router();
 
         GitHubRoutes.create(router);
-
-        // placeholder route handler
-        router.get('/', (req, res, next) => {
-            res.json({ message: 'Hello World!' });
-        });
-        router.get('/user', (req, res, next) => {
-            const { displayName, username } = req.user;
-            const user = { displayName, username };
-            res.json({ user });
-        });
+        UserRoutes.create(router);
+        RepositoryRoutes.create(router);
 
         return router;
     }
