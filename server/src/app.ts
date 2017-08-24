@@ -6,6 +6,7 @@ import * as passport from 'passport';
 import { Strategy as GitHubStrategy } from 'passport-github2';
 
 import config from './configuration';
+import errorHandler from './errorHandler';
 import { middleware } from './security';
 import { requestLog } from './utils';
 import { GitHubRoutes } from './routes/github';
@@ -36,16 +37,7 @@ class App {
         this.express.use(middleware());
         this.express.use(passport.initialize());
         this.express.use(passport.session());
-        this.express.use(this.errorHandler);
-    }
-
-    private errorHandler(err: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
-        if (err.name == 'UnauthorizedError') {
-            res.status(401).end();
-        } else {
-            debug('app')(`Error detected: ${err.message} - ${err.stack}`);
-            res.status(500).send({ error: 'Something failed!' });
-        }
+        this.express.use(errorHandler);
     }
 
     // Configure Passport to authenticate using GitHub.
