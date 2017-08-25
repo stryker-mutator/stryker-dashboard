@@ -1,13 +1,10 @@
 import * as bodyParser from 'body-parser';
 import cookieParser = require('cookie-parser');
-import * as debug from 'debug';
 import * as express from 'express';
 import * as passport from 'passport';
-import { Strategy as GitHubStrategy } from 'passport-github2';
 
-import config from './configuration';
 import errorHandler from './errorHandler';
-import { middleware } from './security';
+import { middleware, githubStrategy } from './security';
 import { requestLog } from './utils';
 import { GitHubRoutes } from './routes/github';
 import { UserRoutes } from './routes/user';
@@ -24,7 +21,7 @@ class App {
         passport.deserializeUser((user, done) => {
             return done(null, user);
         });
-        passport.use(this.github());
+        passport.use(githubStrategy());
         this.middleware();
         this.express.use('/', this.routes());
     }
@@ -39,26 +36,6 @@ class App {
         this.express.use(passport.session());
         this.express.use(errorHandler);
     }
-
-    // Configure Passport to authenticate using GitHub.
-    private github() {
-        const options = {
-            callbackURL: '/auth/github/callback',
-            clientID: config.githubClientId,
-            clientSecret: config.githubSecret,
-        };
-        const callback = (accessToken: string, refreshToken: string, profile: passport.Profile, done: Function) => {
-            debug('auth')('Processing incoming OAuth 2 tokens');
-            const user = {
-                accessToken: accessToken,
-                displayName: profile.displayName,
-                id: profile.id,
-                username: profile.username,
-            };
-            return done(null, user);
-        };
-        return new GitHubStrategy(options, callback);
-    } 
 
     // Configure API endpoints.
     private routes() {

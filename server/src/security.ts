@@ -1,8 +1,30 @@
+import * as debug from 'debug';
 import expressJwt = require('express-jwt');
 import jwt = require('jsonwebtoken');
+import * as passport from 'passport';
+import { Strategy } from 'passport-github2';
 
 import config from './configuration';
 import { User } from './model'
+
+export const githubStrategy = (): Strategy => {
+    const options = {
+        callbackURL: '/auth/github/callback',
+        clientID: config.githubClientId,
+        clientSecret: config.githubSecret,
+    };
+    const callback = (accessToken: string, refreshToken: string, profile: passport.Profile, done: Function) => {
+        debug('auth')('Processing incoming OAuth 2 tokens');
+        const user = {
+            accessToken: accessToken,
+            displayName: profile.displayName,
+            id: profile.id,
+            username: profile.username,
+        };
+        return done(null, user);
+    };
+    return new Strategy(options, callback);
+}
 
 // Configure JWT middleware to persist user details in browser.
 export const middleware = () => {
