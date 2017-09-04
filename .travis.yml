@@ -9,7 +9,7 @@ env:
     - JWT_SECRET=dummy
     - PORT=3000
 before_install:
-  - pushd client && && npm install && popd
+  - pushd client && npm install && popd
 script:
   - pushd client && npm run build && popd
   - npm test
