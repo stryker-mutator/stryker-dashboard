@@ -50,6 +50,7 @@
     "scripts": {
         "build": "tsc -p server",
         "clean": "rimraf server/dist/",
+        "client": "cd client && npm run test && npm run build",
         "jest-server": "jest --watch -c server/jest-config.json",
         "prebuild": "npm run clean",
         "pretest": "npm run build",
