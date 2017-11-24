@@ -8,7 +8,7 @@
     "globals": {
         "ts-jest": {
             "skipBabel": true,
-            "tsConfigFile": "./server/tsconfig.json"
+            "tsConfigFile": "./tsconfig.json"
         }
     },
     "mapCoverage": true,
@@ -16,9 +16,9 @@
     "rootDir": ".",
     "roots": [ "." ],
     "testRegex": "/__tests__/.*Spec\\.ts$",
-    "testResultsProcessor": "<rootDir>/../node_modules/jest-junit",
+    "testResultsProcessor": "<rootDir>/../../node_modules/jest-junit",
     "transform": {
-        ".ts": "<rootDir>/../node_modules/ts-jest/preprocessor.js"
+        ".ts": "<rootDir>/../../node_modules/ts-jest/preprocessor.js"
     },
     "verbose": true
 }
