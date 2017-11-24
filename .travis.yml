@@ -1,15 +1,10 @@
 language: node_js
 node_js:
+  - 'latest'
   - '8'
-  - '7'
 env:
   global:
     - GH_BASIC_CLIENT_ID=dummy
     - GH_BASIC_SECRET_ID=dummy
     - JWT_SECRET=dummy
     - PORT=3000
-before_install:
-  - pushd client && npm install && popd
-script:
-  - pushd client && npm run build && popd
-  - npm test
