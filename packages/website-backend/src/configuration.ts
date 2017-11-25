@@ -1,7 +1,8 @@
 import * as debug from 'debug';
+import { env } from './utils';
 
 export const requiredEnvVar = (name: string): string => {
-    const value = process.env[name];
+    const value = env(name);
     if (!value) {
         throw new Error(`Environment variable ${name} not set.`);
     } else {
@@ -10,19 +11,30 @@ export const requiredEnvVar = (name: string): string => {
 }
 
 export const optionalEnvVar = (name: string, defaultValue: string): string => {
-    const value = process.env[name];
+    const value = env(name);
     return !value ? defaultValue : value;
 }
 
-const config = {
-    githubClientId: requiredEnvVar('GH_BASIC_CLIENT_ID'),
-    githubSecret: requiredEnvVar('GH_BASIC_SECRET_ID'),
-    isDevelopment: (optionalEnvVar('NODE_ENV', 'production') === 'development'),
-    jwtSecret: requiredEnvVar('JWT_SECRET'),
-    port: parseInt(requiredEnvVar('PORT'), 10),
+export interface Configuration {
+    githubClientId: string;
+    githubSecret: string;
+    isDevelopment: boolean;
+    jwtSecret: string;
+    port: number;
 }
 
-debug('config')('Configuration read');
-if (config.isDevelopment) debug('config')('Application running in dev mode!');
+export default (): Configuration => {
+    const config = {
+        githubClientId: requiredEnvVar('GH_BASIC_CLIENT_ID'),
+        githubSecret: requiredEnvVar('GH_BASIC_SECRET_ID'),
+        isDevelopment: (optionalEnvVar('NODE_ENV', 'production') === 'development'),
+        jwtSecret: requiredEnvVar('JWT_SECRET'),
+        port: parseInt(requiredEnvVar('PORT'), 10),
+    }
 
-export default config;
+    debug('config')('Configuration read');
+    if (config.isDevelopment) {
+        debug('config')('Application running in dev mode!');
+    }
+    return config;
+}

@@ -4,10 +4,11 @@ import jwt = require('jsonwebtoken');
 import * as passport from 'passport';
 import { Strategy } from 'passport-github2';
 
-import config from './configuration';
+import configuration from './configuration';
 import { User } from './model'
 
 export const githubStrategy = (): Strategy => {
+    const config = configuration();
     const options = {
         callbackURL: '/auth/github/callback',
         clientID: config.githubClientId,
@@ -28,6 +29,7 @@ export const githubStrategy = (): Strategy => {
 
 // Configure JWT middleware to persist user details in browser.
 export const middleware = () => {
+    const config = configuration();
     const middleware = expressJwt({
         getToken: (request) => {
             return request.cookies.jwt;
@@ -39,6 +41,7 @@ export const middleware = () => {
 
 const options = { algorithm: 'HS512', audience: 'stryker', expiresIn: '30m', issuer: 'stryker' }
 export const createToken = (user: User): Promise<string> => {
+    const config = configuration();
     return new Promise<string>((resolve, reject) => {
         jwt.sign(user, config.jwtSecret, options, (err, encoded) => {
             if (err) reject(err);

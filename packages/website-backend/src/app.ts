@@ -5,10 +5,10 @@ import * as passport from 'passport';
 
 import errorHandler from './errorHandler';
 import { middleware, githubStrategy } from './security';
-import { requestLog } from './utils';
 import { GitHubRoutes } from './routes/github';
 import { UserRoutes } from './routes/user';
 import { RepositoryRoutes } from './routes/repository';
+import { RequestLog } from './RequestLog';
 
 class App {
     public express: express.Application;
@@ -28,7 +28,7 @@ class App {
 
     // Configure Express middleware.
     private middleware() {
-        this.express.use(requestLog);
+        this.express.use(new RequestLog().middleware());
         this.express.use(bodyParser.json());
         this.express.use(cookieParser());
         this.express.use(middleware());

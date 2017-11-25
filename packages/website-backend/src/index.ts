@@ -5,7 +5,7 @@ import config from './configuration';
 
 debug('app')('Starting Stryker Mutator Badge API')
 
-const { port } = config;
+const { port } = config();
 const server = app.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);

@@ -1,25 +1,26 @@
 import * as express from 'express';
 import * as supertest from 'supertest';
-
-import { User } from '../../model';
-
-const user: User = { accessToken: 'foo', displayName: 'Foo', id: 42, username: 'foo' };
-const authenticate = (req, res, next) => {
-    req.user = user;
-    next();
-};
-
-import { UserRoutes } from '../user';
-
-const app = express();
-const routes = express.Router();
-UserRoutes.create(routes);
-app.use(authenticate);
-app.use('/', routes);
-
-const request = supertest(app);
+import { User } from '../../../src/model';
+import { UserRoutes } from '../../../src/routes/user';
 
 describe('User API routes', () => {
+
+    let request: supertest.SuperTest<supertest.Test>;
+    let user: Readonly<User>;
+
+    beforeEach(() => {
+        user =  Object.freeze({ accessToken: 'foo', displayName: 'Foo', id: 42, username: 'foo' });
+        const app = express();
+        const routes = express.Router();
+        UserRoutes.create(routes);
+        app.use((req, res, next) => {
+            req.user = user;
+            next();
+        });
+        app.use('/', routes);
+        request = supertest(app);
+    });
+
     describe('GET /api/user', () => {
         it('should return information about the logged in user', () => {
             // Act

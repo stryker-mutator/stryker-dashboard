@@ -1,12 +1,7 @@
 import * as express from 'express';
 import * as expressJwt from 'express-jwt';
-import * as passport from 'passport';
 import * as supertest from 'supertest';
-
-import errorHandler from '../errorHandler';
-
-
-//const routes = express.Router();
+import errorHandler from '../../src/errorHandler';
 
 describe('Overall Express error handling', () => {
     describe('when the error is created by express-jwt', () => {
@@ -46,7 +41,7 @@ describe('Overall Express error handling', () => {
             // Assert
             return response
                 // .expect(500)
-                .expect((res) => {
+                .expect((res: any) => {
                     console.log(`res: ${res.status} - ${res.text}`)
                 })
         });

@@ -6,14 +6,12 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf server/dist/",
-    "client": "cd client && npm run test && npm run build",
-    "jest-server": "jest --watch -c server/jest-config.json",
+    "clean": "rimraf \"+(test|src)/**/*+(.d.ts|.js|.map)\" .nyc_output reports",
     "prebuild": "npm run clean",
-    "start-server": "./start-server.sh",
-    "test": "jest -c jest-config.json"
+    "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"test/**/*.js\""
   },
   "dependencies": {
+    "azure-storage": "^2.6.0",
     "body-parser": "1.17.2",
     "cookie-parser": "1.4.3",
     "debug": "3.0.0",
@@ -21,24 +19,29 @@
     "express-jwt": "5.3.0",
     "passport": "0.4.0",
     "passport-github2": "0.1.10",
-    "pg": "7.1.2",
     "request": "2.81.0",
     "request-promise-native": "1.0.4"
   },
   "devDependencies": {
     "@types/body-parser": "1.16.4",
+    "@types/chai": "^4.0.5",
+    "@types/chai-as-promised": "^7.1.0",
     "@types/cookie-parser": "1.4.0",
     "@types/debug": "0.0.30",
     "@types/express": "4.0.36",
     "@types/express-jwt": "0.0.36",
-    "@types/jest": "20.0.7",
     "@types/jsonwebtoken": "7.2.3",
+    "@types/mocha": "^2.2.44",
     "@types/passport": "0.3.3",
     "@types/passport-github2": "1.1.0",
-    "@types/pg": "6.1.43",
     "@types/request": "2.0.2",
     "@types/request-promise-native": "1.0.6",
-    "@types/supertest": "2.0.2"
+    "@types/sinon": "^4.0.0",
+    "@types/sinon-chai": "^2.7.29",
+    "@types/supertest": "2.0.2",
+    "chai-as-promised": "^7.1.1",
+    "js-sha512": "^0.7.0",
+    "source-map-support": "^0.5.0"
   },
   "keywords": [],
   "author": "",
