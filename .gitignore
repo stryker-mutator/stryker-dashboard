@@ -4,6 +4,7 @@ junit.xml
 node_modules/
 coverage/
 lerna-debug.log
+.nyc_output
 
 # misc
 .DS_Store
