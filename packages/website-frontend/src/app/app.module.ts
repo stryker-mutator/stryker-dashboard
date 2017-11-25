@@ -1,11 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 
-
-import { AppComponent } from './app.component';
-import { RepositoriesComponent } from './repositories/repositories.component';
-import { RepositoryComponent } from './repository/repository.component';
-
+import { AppComponent } from './components/app.component';
+import { RepositoriesComponent } from './components/repositories/repositories.component';
+import { RepositoryComponent } from './components/repository/repository.component';
+import { RepositoryService } from './services/repository/repository.service';
 
 @NgModule({
   declarations: [
@@ -14,9 +14,10 @@ import { RepositoryComponent } from './repository/repository.component';
     RepositoryComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [ RepositoryService ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

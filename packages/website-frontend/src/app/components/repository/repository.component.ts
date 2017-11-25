@@ -7,13 +7,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class RepositoryComponent implements OnInit {
 
-  @Input() fullName:String;
-  @Input() id:number;
+  @Input() private fullName:String;
+  @Input() private id:number;
 
-  constructor() {
-  }
+  public constructor() {}
 
-  ngOnInit() {
-  }
+  public ngOnInit() {}
 
 }
