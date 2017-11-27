@@ -19,6 +19,7 @@ export interface Configuration {
     githubClientId: string;
     githubSecret: string;
     isDevelopment: boolean;
+    baseUrl: string,
     jwtSecret: string;
     port: number;
 }
@@ -28,6 +29,7 @@ export default (): Configuration => {
         githubClientId: requiredEnvVar('GH_BASIC_CLIENT_ID'),
         githubSecret: requiredEnvVar('GH_BASIC_SECRET_ID'),
         isDevelopment: (optionalEnvVar('NODE_ENV', 'production') === 'development'),
+        baseUrl: (optionalEnvVar('STRYKER_BADGE_BASE_URL', '')),
         jwtSecret: requiredEnvVar('JWT_SECRET'),
         port: parseInt(requiredEnvVar('PORT'), 10),
     }
@@ -35,6 +37,8 @@ export default (): Configuration => {
     debug('config')('Configuration read');
     if (config.isDevelopment) {
         debug('config')('Application running in dev mode!');
+    }else {
+        debug('config')('Application running in prod mode!');
     }
     return config;
 }

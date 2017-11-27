@@ -5,14 +5,13 @@ import { retrieveRepositories } from '../github';
 
 export class RepositoryRoutes {
     static create(router: Router) {
-        const routes = new RepositoryRoutes();
         router.get(
             '/api/repository',
-            routes.getRepositories);
+            this.spa);
         debug('RepositoryRoutes')('Routes created');
     }
 
-    public getRepositories(req: Request, res: Response, next: NextFunction) {
+    static spa(req: Request, res: Response, next: NextFunction) {
         retrieveRepositories(req.user)
             .then(repos => {
                 debug('RepositoryRoutes')(repos);

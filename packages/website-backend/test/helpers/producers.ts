@@ -11,5 +11,6 @@ export const config = factory<Configuration>(() => ({
     githubSecret: 'gh-secret',
     isDevelopment: true,
     jwtSecret: 'jwt-secret',
+    baseUrl: 'https://foobar.com',
     port: 80
 }));

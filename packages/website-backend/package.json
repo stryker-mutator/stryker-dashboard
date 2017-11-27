@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf \"+(test|src)/**/*+(.d.ts|.js|.map)\" .nyc_output reports",
+    "clean": "rimraf \"+(test|src)/**/*+(.d.ts|.js|.map)\" dist .nyc_output reports",
     "prebuild": "npm run clean",
     "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"dist/test/**/*.js\""
   },
@@ -20,7 +20,8 @@
     "passport": "0.4.0",
     "passport-github2": "0.1.10",
     "request": "2.81.0",
-    "request-promise-native": "1.0.4"
+    "request-promise-native": "1.0.4",
+    "stryker-badge-website-frontend": "file:../website-frontend"
   },
   "devDependencies": {
     "@types/body-parser": "1.16.4",

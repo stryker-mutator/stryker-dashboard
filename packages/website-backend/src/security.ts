@@ -10,7 +10,7 @@ import { User } from './model'
 export const githubStrategy = (): Strategy => {
     const config = configuration();
     const options = {
-        callbackURL: '/auth/github/callback',
+        callbackURL: `${config.baseUrl}/auth/github/callback`,
         clientID: config.githubClientId,
         clientSecret: config.githubSecret,
     };
@@ -28,7 +28,7 @@ export const githubStrategy = (): Strategy => {
 }
 
 // Configure JWT middleware to persist user details in browser.
-export const middleware = () => {
+export const securityMiddleware = () => {
     const config = configuration();
     const middleware = expressJwt({
         getToken: (request) => {
