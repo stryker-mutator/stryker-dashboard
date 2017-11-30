@@ -11,6 +11,8 @@
   },
   "keywords": [],
   "author": "",
+  "main": "src/index.js",
+  "typings": "src/index.ts",
   "license": "ISC",
   "dependencies": {
     "azure-storage": "^2.6.0"
