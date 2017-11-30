@@ -1,5 +1,5 @@
 {
-  "name": "data-access",
+  "name": "stryker-dashboard-data-access",
   "version": "0.1.0",
   "private": true,
   "description": "This package contains the data access layer of the stryker dashboard application.",

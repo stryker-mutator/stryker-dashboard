@@ -1,39 +1,32 @@
-import cookieParser = require('cookie-parser');
-import * as express from 'express';
-import * as supertest from 'supertest';
-import { GitHubRoutes } from '../../../src/routes/github';
-import * as security from '../../../src/security';
 import { expect } from 'chai';
 import * as passport from 'passport';
-import * as configuration from '../../../src/configuration';
-import { config } from '../../helpers/producers';
+import cookieParser = require('cookie-parser');
+import * as supertest from 'supertest';
+import GithubAuth from '../../../src/auth/GithubAuth';
+import * as security from '../../../src/middleware/securityMiddleware';
+import testServer from '../../helpers/TestServer';
 
-describe('GitHub routes', () => {
+describe('GitHubAuth', () => {
 
     let createTokenStub: sinon.SinonStub;
     let request: supertest.SuperTest<supertest.Test>;
     let logoutStub: sinon.SinonStub;
     let authenticateStub: sinon.SinonStub;
+    let authenticateMiddleware: sinon.SinonStub;
 
-    beforeEach(() => {
-        sandbox.stub(configuration, 'default').returns(config());
-        
+    beforeEach(async () => {
         createTokenStub = sandbox.stub(security, 'createToken');
-        const app = express();
-        const routes = express.Router();
         authenticateStub = sandbox.stub(passport, 'authenticate');
+        authenticateMiddleware = sandbox.stub();
         logoutStub = sandbox.stub();
-        const authenticate = (req: any, res: any, next: any) => {
+        authenticateStub.returns(authenticateMiddleware);
+        const passThroughMiddleware = (req: any, res: any, next: any) => {
             req.user = { username: 'dummy' };
             req.logout = logoutStub;
             next();
         };
-        authenticateStub.returns(authenticate);
-        GitHubRoutes.create(routes);
-        app.use(cookieParser());
-        app.use(authenticate);
-        app.use('/', routes);
-        request = supertest(app);
+        authenticateMiddleware.callsFake(passThroughMiddleware);
+        request = await testServer(GithubAuth, passThroughMiddleware, cookieParser());
     });
 
     describe('GET /logout', () => {
@@ -43,7 +36,7 @@ describe('GitHub routes', () => {
             createTokenStub.resolves(token)
 
             // Act
-            const response = request.get('/logout')
+            const response = request.get('/github/logout')
                 .set('Cookie', 'jwt=jfdskl');
 
             // Assert
@@ -54,7 +47,7 @@ describe('GitHub routes', () => {
 
         it('should delete the \'jwt\' cookie', () => {
             // Act
-            const response = request.get('/logout')
+            const response = request.get('/github/logout')
                 .set('Cookie', 'jwt=jfdskl');
 
             // Assert
@@ -66,7 +59,7 @@ describe('GitHub routes', () => {
 
         it('should end the session', async () => {
             // Act
-            const response = request.get('/logout')
+            const response = request.get('/github/logout')
                 .set('Cookie', 'jwt=jfdskl');
 
             // Assert
@@ -76,19 +69,20 @@ describe('GitHub routes', () => {
     });
 
     describe('GET /auth/github/callback', () => {
-        it('should set a \'jwt\' cookie', () => {
+        it('should set a \'jwt\' cookie', async () => {
             // Arrange
             const token = 'foo-bar-baz';
             createTokenStub.resolves(token);
 
             // Act
-            const response = request.get('/auth/github/callback?code=foo');
+            const response = request.get('/github/callback?code=foo');
 
             // Assert
-            return response
+            await response
                 .expect(302)
                 .expect('set-cookie', /jwt/)
                 .expect('set-cookie', new RegExp(token));
+            expect(authenticateMiddleware).called;
         });
 
         it('should redirect to /', () => {
@@ -97,7 +91,7 @@ describe('GitHub routes', () => {
             createTokenStub.resolves(token);
 
             // Act
-            const response = request.get('/auth/github/callback?code=foo');
+            const response = request.get('/github/callback?code=foo');
 
             // Assert
             return response

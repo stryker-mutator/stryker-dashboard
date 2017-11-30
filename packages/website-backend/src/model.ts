@@ -1,11 +1,10 @@
 export interface Repository {
-    id: Number,
+    id: number,
     fullName: string,
 }
 
-export interface User {
-    accessToken: string,
-    displayName: string,
-    id: Number,
-    username: string,
+
+export interface Login {
+    name: string;
+    avatarUrl: string;
 }

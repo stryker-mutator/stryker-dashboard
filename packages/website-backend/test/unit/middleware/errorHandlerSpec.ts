@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as expressJwt from 'express-jwt';
 import * as supertest from 'supertest';
-import errorHandler from '../../src/errorHandler';
+import errorHandler from '../../../src/middleware/errorHandler';
 
 describe('Overall Express error handling', () => {
     describe('when the error is created by express-jwt', () => {

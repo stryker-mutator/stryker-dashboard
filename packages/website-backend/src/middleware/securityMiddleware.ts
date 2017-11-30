@@ -3,12 +3,13 @@ import expressJwt = require('express-jwt');
 import jwt = require('jsonwebtoken');
 import * as passport from 'passport';
 import { Strategy } from 'passport-github2';
+import * as express from 'express';
 
-import configuration from './configuration';
-import { User } from './model'
+import Configuration from '../services/Configuration';
+import { User } from '../github/models';
 
 export const githubStrategy = (): Strategy => {
-    const config = configuration();
+    const config = new Configuration();
     const options = {
         callbackURL: `${config.baseUrl}/auth/github/callback`,
         clientID: config.githubClientId,
@@ -29,7 +30,7 @@ export const githubStrategy = (): Strategy => {
 
 // Configure JWT middleware to persist user details in browser.
 export const securityMiddleware = () => {
-    const config = configuration();
+    const config = new Configuration();
     const middleware = expressJwt({
         getToken: (request) => {
             return request.cookies.jwt;
@@ -40,12 +41,16 @@ export const securityMiddleware = () => {
 }
 
 const options = { algorithm: 'HS512', audience: 'stryker', expiresIn: '30m', issuer: 'stryker' }
-export const createToken = (user: User): Promise<string> => {
-    const config = configuration();
+export const createToken = (user: User, jwtSecret: string): Promise<string> => {
     return new Promise<string>((resolve, reject) => {
-        jwt.sign(user, config.jwtSecret, options, (err, encoded) => {
+        jwt.sign(user, jwtSecret, options, (err, encoded) => {
             if (err) reject(err);
             resolve(encoded);
         });
     });
+}
+
+
+export function passportAuthenticateGithub(req: express.Request, res: express.Response, next: express.NextFunction){
+    return passport.authenticate('github')(req, res, next);
 }
