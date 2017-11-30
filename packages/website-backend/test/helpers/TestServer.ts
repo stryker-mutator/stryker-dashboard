@@ -1,8 +1,13 @@
 import { ServerLoader, IServerSettings, Type, OverrideService, ExpressApplication } from 'ts-express-decorators';
+import { ProjectMapper } from 'stryker-dashboard-data-access';
 import { bootstrap, inject } from 'ts-express-decorators/testing';
 import Configuration from '../../src/services/Configuration';
 import * as supertest from 'supertest';
 import { SuperTest, Test } from 'supertest';
+import DataAccess from '../../src/services/DataAccess';
+import { Mock, createMock } from './mock';
+import { Request, Response, NextFunction } from 'express';
+import { Authentication } from '../../src/github/models';
 
 
 @OverrideService(Configuration)
@@ -19,15 +24,24 @@ class ConfigurationStub implements Configuration {
     get isDevelopment() { return ConfigurationStub.isDevelopment; }
 }
 
+@OverrideService(DataAccess)
+export class DataAccessStub implements DataAccess {
+    public static projectMapper: Mock<ProjectMapper>;
+    public get projectMapper(): ProjectMapper {
+        return DataAccessStub.projectMapper as any;
+    }
+}
+
 beforeEach(() => {
     ConfigurationStub.githubClientId = 'github client id';
     ConfigurationStub.githubSecret = 'github secret';
     ConfigurationStub.jwtSecret = 'jwt secret';
     ConfigurationStub.baseUrl = 'base url';
     ConfigurationStub.isDevelopment = true;
+    DataAccessStub.projectMapper = createMock(ProjectMapper)
 });
 
-export default async function testServer<TController>(Controller: Type<TController>, ...middlewares: any[]): Promise<SuperTest<Test>> {
+export default async function testServer<TController>(Controller: Type<TController>, user?: Authentication, ...middlewares: any[]): Promise<SuperTest<Test>> {
     let request: SuperTest<Test> = null as any;
     class TestServer extends ServerLoader {
         constructor() {
@@ -37,11 +51,22 @@ export default async function testServer<TController>(Controller: Type<TControll
                 mount: {}
             };
             this.setSettings(resetSettings);
-            this.addComponents(ConfigurationStub);
+            this.addComponents(
+                ConfigurationStub,
+                DataAccessStub
+            );
             this.addControllers('/', [Controller]);
         }
         $onMountingMiddlewares() {
-            this.use(...middlewares);
+            if (user) {
+                this.use((req: Request, res: Response, next: NextFunction) => {
+                    req.user = user;
+                    next();
+                });
+            }
+            if (middlewares.length) {
+                this.use(...middlewares);
+            }
         }
     }
     await bootstrapAsPromised(TestServer);

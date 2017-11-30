@@ -6,7 +6,7 @@ import { Strategy } from 'passport-github2';
 import * as express from 'express';
 
 import Configuration from '../services/Configuration';
-import { User } from '../github/models';
+import { Authentication } from '../github/models';
 
 export const githubStrategy = (): Strategy => {
     const config = new Configuration();
@@ -41,7 +41,7 @@ export const securityMiddleware = () => {
 }
 
 const options = { algorithm: 'HS512', audience: 'stryker', expiresIn: '30m', issuer: 'stryker' }
-export const createToken = (user: User, jwtSecret: string): Promise<string> => {
+export const createToken = (user: Authentication, jwtSecret: string): Promise<string> => {
     return new Promise<string>((resolve, reject) => {
         jwt.sign(user, jwtSecret, options, (err, encoded) => {
             if (err) reject(err);

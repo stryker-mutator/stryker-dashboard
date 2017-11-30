@@ -26,7 +26,7 @@ describe('GitHubAuth', () => {
             next();
         };
         authenticateMiddleware.callsFake(passThroughMiddleware);
-        request = await testServer(GithubAuth, passThroughMiddleware, cookieParser());
+        request = await testServer(GithubAuth, undefined, passThroughMiddleware, cookieParser());
     });
 
     describe('GET /logout', () => {

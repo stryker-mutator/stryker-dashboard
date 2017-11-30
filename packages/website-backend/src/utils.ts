@@ -19,3 +19,12 @@ export const optionalEnvVar = (name: string, defaultValue: string): string => {
     const value = env(name);
     return !value ? defaultValue : value;
 }
+
+export function shallowMap<TTarget extends object, TSource extends object>
+    (source: TSource, ...keys: Array<keyof TSource & keyof TTarget>): TTarget {
+    const returnObj: TTarget = {} as any;
+    keys.forEach(key => {
+        returnObj[key] = source[key];
+    });
+    return returnObj;
+}

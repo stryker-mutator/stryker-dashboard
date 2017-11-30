@@ -1,7 +1,7 @@
 {
-  "name": "stryker-badge-website-backend",
+  "name": "stryker-dashboard-website-backend",
   "version": "1.0.0",
-  "description": "The package which contains the stryker badge website backend.",
+  "description": "The package which contains the stryker dashboard website backend.",
   "private": true,
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,7 @@
     "sha512": "0.0.1",
     "stryker-badge-website-frontend": "file:../website-frontend",
     "stryker-dashboard-data-access": "file:../data-access",
+    "stryker-dashboard-website-contract": "file:../website-contract",
     "ts-express-decorators": "^2.15.0",
     "typed-rest-client": "^0.14.2",
     "uuid": "^3.1.0"

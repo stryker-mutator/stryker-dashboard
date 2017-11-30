@@ -1,7 +1,6 @@
-import { Organization } from './models';
+import { Organization, Authentication, Repository } from './models';
 import * as utils from '../utils';
 import { BearerCredentialHandler } from 'typed-rest-client/handlers/bearertoken';
-import { Login, Repository } from '../model';
 import HttpClient from '../client/HttpClient';
 
 const GITHUB_BACKEND = 'https://api.github.com';
@@ -39,17 +38,13 @@ export default class GithubAgent {
         }
     }
 
-    public getUser(login: string): Promise<Login> {
-        return this.get<Login>(`${GITHUB_BACKEND}/users/${login}`);
+    public getUser(login: string): Promise<Authentication> {
+        return this.get<Authentication>(`${GITHUB_BACKEND}/users/${login}`);
     }
 
 
-    public async retrieveOrganizations(): Promise<Login[]> {
-        const organizations = await this.get<Organization[]>(`${GITHUB_BACKEND}/user/orgs`);
-        return organizations.map(item => ({
-            name: item.login,
-            avatarUrl: item.avatar_url
-        }));
+    public async retrieveOrganizations(): Promise<Organization[]> {
+        return this.get<Organization[]>(`${GITHUB_BACKEND}/user/orgs`);
     }
 
     public async retrieveRepositories(login: string): Promise<Repository[]> {
