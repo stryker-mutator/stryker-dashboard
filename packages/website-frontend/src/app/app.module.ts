@@ -2,16 +2,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
-import { AppComponent } from './components/app.component';
-import { RepositoriesComponent } from './components/repositories/repositories.component';
-import { RepositoryComponent } from './components/repository/repository.component';
-import { RepositoryService } from './services/repository/repository.service';
+import { AppComponent } from './app.component';
+import { RepositoriesComponent } from './repositories/repositories.component';
+import { RepositoryComponent } from './repository/repository.component';
+import { RepositoryService } from './repository/repository.service';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RepositoriesComponent,
-    RepositoryComponent
+    RepositoryComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

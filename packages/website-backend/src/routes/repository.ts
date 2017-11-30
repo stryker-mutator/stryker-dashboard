@@ -11,9 +11,18 @@ export class RepositoryRoutes {
             routes.getRepositories);
         debug('RepositoryRoutes')('Routes created');
     }
-    
+
     public getRepositories(req: Request, res: Response, next: NextFunction) {
         retrieveRepositories(req.user)
-            .then((repos) => res.send(repos));
+            .then(repos => {
+                debug('RepositoryRoutes')(repos);
+                res.send(repos);
+            })
+            .catch(error => {
+                debug('RepositoryRoutes')('Error!: ' + error);
+                res.statusCode = 500;
+                res.send(error);
+                res.end();
+            });
     }
 }

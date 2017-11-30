@@ -29,7 +29,7 @@ export class GitHubRoutes {
             res.cookie('jwt', token, {
                 httpOnly: true,
                 sameSite: true,
-                secure: !config.isDevelopment
+                secure: !config().isDevelopment
             });
             res.redirect('/');
         });
