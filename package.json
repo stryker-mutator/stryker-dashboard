@@ -36,7 +36,7 @@
         "postinstall": "lerna bootstrap && link-parent-bin",
         "clean": "lerna run clean",
         "prebuild": "npm run clean",
-        "build": "lerna run build",
+        "build": "lerna run build --scope stryker-dashboard-website-contract --scope stryker-dashboard-data-access && lerna run build",
         "pretest": "npm run build",
         "test": "lerna run test"
     },
