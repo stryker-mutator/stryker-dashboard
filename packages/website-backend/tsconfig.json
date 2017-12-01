@@ -1,17 +1,8 @@
 {
+    "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "forceConsistentCasingInFileNames": true,
-        "lib": ["dom", "es5", "es6"],
-        "module": "commonjs",
-        "noEmitOnError": true,
-        "noImplicitReturns": true,
-        "noUnusedLocals": true,
-        "outDir": "./dist",
-        "sourceMap": true,
-        "strict": true,
-        "target": "es5"
-    },
-    "include": [
-        "src/index.ts"
-    ]
+        "outDir": "dist",
+        "experimentalDecorators":true,
+        "emitDecoratorMetadata": true
+    }
 }

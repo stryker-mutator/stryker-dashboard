@@ -1,18 +1,30 @@
-import * as debug from 'debug';
-import { NextFunction, Request, Response} from 'express';
+import debugFn = require('debug');
 
-const log = debug('Request log')
+export function env(key: string) {
+    return process.env[key];
+}
 
-export const requestLog = (req: Request, res: Response, next: NextFunction) => {
-    const { method, path, query } = req;
-    const hasQueryString = Object.keys(query).length > 0;
-    const queryString = hasQueryString
-        ? '?' + Object.keys(query).map((key) => `${key}=${query[key]}`).join('&')
-        : '';
-    const start = new Date().getTime();
-    next();
-    const end = new Date().getTime();
-    const { statusCode } = res;
-    const line = `${method} ${path}${queryString} : ${statusCode} [${end - start} ms]`;
-    log(line);
+export const debug = debugFn;
+
+export const requiredEnvVar = (name: string): string => {
+    const value = env(name);
+    if (!value) {
+        throw new Error(`Environment variable ${name} not set.`);
+    } else {
+        return value;
+    }
+}
+
+export const optionalEnvVar = (name: string, defaultValue: string): string => {
+    const value = env(name);
+    return !value ? defaultValue : value;
+}
+
+export function shallowMap<TTarget extends object, TSource extends object>
+    (source: TSource, ...keys: Array<keyof TSource & keyof TTarget>): TTarget {
+    const returnObj: TTarget = {} as any;
+    keys.forEach(key => {
+        returnObj[key] = source[key];
+    });
+    return returnObj;
 }

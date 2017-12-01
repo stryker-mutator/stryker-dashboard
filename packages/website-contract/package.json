@@ -1,0 +1,15 @@
+{
+  "name": "stryker-dashboard-website-contract",
+  "version": "0.0.1",
+  "description": "This package contains the typescript interfaces shared between front end and backend",
+  "main": "src/index.js",
+  "typings": "src/index.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf \"+(test|src)/**/*+(.d.ts|.js|.map)\" dist .nyc_output reports"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

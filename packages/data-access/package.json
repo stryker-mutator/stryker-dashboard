@@ -1,0 +1,23 @@
+{
+  "name": "stryker-dashboard-data-access",
+  "version": "0.1.0",
+  "private": true,
+  "description": "This package contains the data access layer of the stryker dashboard application.",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf \"+(test|src)/**/*+(.d.ts|.js|.map)\" dist .nyc_output reports",
+    "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"test/helpers/**/*.js\" \"test/unit/**/*.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "main": "src/index.js",
+  "typings": "src/index.ts",
+  "license": "ISC",
+  "dependencies": {
+    "azure-storage": "^2.6.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.44",
+    "@types/node": "^8.0.53"
+  }
+}

@@ -3,6 +3,8 @@ dist/
 junit.xml
 node_modules/
 coverage/
+lerna-debug.log
+.nyc_output
 
 # misc
 .DS_Store
@@ -15,3 +17,6 @@ coverage/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+*.js.map
+*.js
