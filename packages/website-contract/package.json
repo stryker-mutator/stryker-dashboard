@@ -6,7 +6,6 @@
   "typings": "src/index.ts",
   "private": true,
   "scripts": {
-    "prebuild": "npm run clean",
     "build": "tsc",
     "clean": "rimraf \"+(test|src)/**/*+(.d.ts|.js|.map)\" dist .nyc_output reports"
   },
