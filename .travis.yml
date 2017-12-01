@@ -2,17 +2,15 @@ language: node_js
 sudo: required  
 dist: trusty  
 language: node_js  
+addons:
+  chrome: stable
 node_js:
   - 'node'
   - '8'
 before_install:  
- - export CHROME_BIN=/usr/bin/google-chrome
  - export DISPLAY=:99.0
  - sh -e /etc/init.d/xvfb start
- - sudo apt-get update
- - sudo apt-get install -y libappindicator1 fonts-liberation
- - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
- - sudo dpkg -i google-chrome*.deb
+ - sleep 3 # give xvfb some time to start
 env:
   global:
     - GH_BASIC_CLIENT_ID=dummy
