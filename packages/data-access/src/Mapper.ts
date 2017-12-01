@@ -43,4 +43,7 @@ export default abstract class Mapper<T> {
             }));
     }
 
+    public selectSingleEntity(partitionKey: string, rowKey: string): Promise<T> {
+        return this.select(partitionKey, rowKey).then(result => result[0]);
+    }
 }
