@@ -34,9 +34,9 @@
         "postinstall": "lerna bootstrap --concurrency 1 && link-parent-bin",
         "clean": "lerna run clean",
         "prebuild": "npm run clean",
-        "build": "lerna run build --scope stryker-dashboard-website-contract --scope stryker-dashboard-data-access && lerna run build --scope stryker-badge-website-frontend --scope stryker-dashboard-website-backend",
+        "build": "lerna run build",
         "pretest": "npm run build",
-        "test": "lerna run test"
+        "test": "lerna run test --scope !stryker-badge-website-frontend"
     },
     "version": "0.0.1",
     "dependencies": {}
