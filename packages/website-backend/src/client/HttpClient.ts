@@ -2,7 +2,7 @@ import { HttpClient as InnerHttpClient } from 'typed-rest-client/HttpClient';
 import * as utils from '../utils';
 import { isUndefined } from 'util';
 import { IncomingHttpHeaders } from 'http';
-import { IRequestHandler } from 'typed-rest-client/interfaces';
+import { IRequestHandler } from 'typed-rest-client/Interfaces';
 
 export interface Response<T> {
     body: T;

@@ -1,4 +1,4 @@
-import { Organization, Authentication, Repository } from './models';
+import { Organization, Repository, Login } from './models';
 import * as utils from '../utils';
 import { BearerCredentialHandler } from 'typed-rest-client/handlers/bearertoken';
 import HttpClient from '../client/HttpClient';
@@ -38,8 +38,8 @@ export default class GithubAgent {
         }
     }
 
-    public getUser(login: string): Promise<Authentication> {
-        return this.get<Authentication>(`${GITHUB_BACKEND}/users/${login}`);
+    public getUser(login: string): Promise<Login> {
+        return this.get<Login>(`${GITHUB_BACKEND}/users/${login}`);
     }
 
 
