@@ -1,16 +1,17 @@
 const sha512 = require('js-sha512');
 import { MutationScoreMapper, ProjectMapper, MutationScore } from 'stryker-dashboard-data-access';
+import { promisify } from 'util';
 
 export async function run(context: any, req: any) {
     let statusCode = 400;
-    let responseBody = "Invalid request object";
+    let responseBody;
 
     context.res = {
         status: statusCode,
         body: responseBody
     };
 
-    if (typeof req.body != 'undefined' && typeof req.body == 'object') {
+    if (typeof req.body == 'object') {
         if(!req.body.apiKey || !req.body.repositorySlug || !req.body.mutationScore)
         {
             return;
@@ -25,7 +26,7 @@ export async function run(context: any, req: any) {
 
                 let mutationScore: MutationScore = {
                     slug,
-                    branch: req.body.branch,
+                    branch: req.body.branch ? req.body.branch : '',
                     score: req.body.mutationScore
                 };
                 
@@ -33,7 +34,6 @@ export async function run(context: any, req: any) {
                 await scoreRepo.insertOrMergeEntity(mutationScore);
 
                 statusCode = 201;
-                responseBody = 'succesfully created report'
 
                 context.res = {
                     status: statusCode,
@@ -41,7 +41,6 @@ export async function run(context: any, req: any) {
                 };
             } else {
                 statusCode = 403;
-                responseBody = 'access denied'
 
                 context.res = {
                     status: statusCode,
@@ -53,7 +52,6 @@ export async function run(context: any, req: any) {
             console.log(error);
 
             statusCode = 500;
-            responseBody = 'somewhere, something went horribly wrong';
 
             context.res = {
                 status: statusCode,
@@ -64,8 +62,12 @@ export async function run(context: any, req: any) {
 }
 
 function checkApiKey(context: any, projectRepo: ProjectMapper, hash: string, slug: string): Promise<boolean> {
-    context.log('Checking API Key');
     const lastDelimiter = slug.lastIndexOf('/');
 
-    return projectRepo.selectSingleEntity(slug.substr(0, lastDelimiter), slug.substr(lastDelimiter + 1)).then(project => project.apiKeyHash === hash);
+    const projectPromise =  projectRepo.selectSingleEntity(slug.substr(0, lastDelimiter), slug.substr(lastDelimiter + 1));
+    if(projectPromise) {
+        return projectPromise.then(project => project.apiKeyHash === hash);
+    }
+
+    return Promise.resolve(false);
 }
