@@ -5,24 +5,27 @@ export async function run(context: any, req: any) {
     let statusCode = 400;
     let responseBody = "Invalid request object";
 
+    context.res = {
+        status: statusCode,
+        body: responseBody
+    };
+
     if (typeof req.body != 'undefined' && typeof req.body == 'object') {
         const hash = sha512.sha512_256(req.body.apiKey);
         const slug = req.body.repositorySlug;
 
-        // Initialize Table Service
         const projectRepo = new ProjectMapper();
 
         try {
             if (await checkApiKey(context, projectRepo, hash, slug)) {
 
-                const scoreRepo = new MutationScoreMapper();
-
                 let mutationScore: MutationScore = {
-                    slug: slug,
+                    slug,
                     branch: req.body.branch,
-                    score: req.body.mutation_score
+                    score: req.body.mutationScore
                 };
-
+                
+                const scoreRepo = new MutationScoreMapper();
                 await scoreRepo.insertOrMergeEntity(mutationScore);
 
                 statusCode = 201;
@@ -54,7 +57,7 @@ export async function run(context: any, req: any) {
             };
         }
     }
-};
+}
 
 function checkApiKey(context: any, projectRepo: ProjectMapper, hash: string, slug: string): Promise<boolean> {
     context.log('Checking API Key');
