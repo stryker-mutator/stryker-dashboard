@@ -11,6 +11,10 @@ export async function run(context: any, req: any) {
     };
 
     if (typeof req.body != 'undefined' && typeof req.body == 'object') {
+        if(!req.body.apiKey || !req.body.repositorySlug || !req.body.mutationScore)
+        {
+            return;
+        }
         const hash = sha512.sha512_256(req.body.apiKey);
         const slug = req.body.repositorySlug;
 
