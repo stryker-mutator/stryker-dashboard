@@ -21,7 +21,7 @@ export default class Server extends ServerLoader {
 
     constructor(port: number) {
         super();
-        this.setHttpPort(port);
+        this.settings.port = port;
     }
 
     $onMountingMiddlewares() {

@@ -8,6 +8,7 @@ import DataAccess from '../../src/services/DataAccess';
 import { Mock, createMock } from './mock';
 import { Request, Response, NextFunction } from 'express';
 import { Authentication } from '../../src/github/models';
+import RepositoryService from '../../src/services/RepositoryService';
 
 
 @OverrideService(Configuration)
@@ -26,9 +27,21 @@ class ConfigurationStub implements Configuration {
 
 @OverrideService(DataAccess)
 export class DataAccessStub implements DataAccess {
-    public static projectMapper: Mock<ProjectMapper>;
-    public get projectMapper(): ProjectMapper {
-        return DataAccessStub.projectMapper as any;
+    public static repositoryMapper: Mock<ProjectMapper>;
+    public get repositoryMapper(): ProjectMapper {
+        return DataAccessStub.repositoryMapper as any;
+    }
+}
+
+@OverrideService(RepositoryService)
+export class RepositoryServiceStub {
+    static getAllForUser: sinon.SinonStub;
+    static getAllForOrganization: sinon.SinonStub;
+    public get getAllForUser() {
+        return RepositoryServiceStub.getAllForUser;
+    }
+    public get getAllForOrganization() {
+        return RepositoryServiceStub.getAllForOrganization;
     }
 }
 
@@ -38,7 +51,9 @@ beforeEach(() => {
     ConfigurationStub.jwtSecret = 'jwt secret';
     ConfigurationStub.baseUrl = 'base url';
     ConfigurationStub.isDevelopment = true;
-    DataAccessStub.projectMapper = createMock(ProjectMapper)
+    DataAccessStub.repositoryMapper = createMock(ProjectMapper);
+    RepositoryServiceStub.getAllForOrganization = sandbox.stub();
+    RepositoryServiceStub.getAllForUser = sandbox.stub();
 });
 
 export default async function testServer<TController>(Controller: Type<TController>, user?: Authentication, ...middlewares: any[]): Promise<SuperTest<Test>> {
@@ -51,10 +66,11 @@ export default async function testServer<TController>(Controller: Type<TControll
                 mount: {}
             };
             this.setSettings(resetSettings);
-            this.addComponents(
+            this.addComponents([
                 ConfigurationStub,
-                DataAccessStub
-            );
+                DataAccessStub,
+                RepositoryServiceStub
+            ]);
             this.addControllers('/', [Controller]);
         }
         $onMountingMiddlewares() {

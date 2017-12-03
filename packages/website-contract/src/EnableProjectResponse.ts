@@ -1,8 +1,8 @@
-import { Project } from "./Project";
+import { Repository } from "./Project";
 
 
 export interface EnableProjectResponse {
     apiKey: string;
-    project: Project;
+    project: Repository;
 }
 

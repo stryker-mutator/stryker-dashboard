@@ -1,4 +1,4 @@
-import { Organization, Repository, Login } from './models';
+import { Repository, Login } from './models';
 import * as utils from '../utils';
 import { BearerCredentialHandler } from 'typed-rest-client/handlers/bearertoken';
 import HttpClient from '../client/HttpClient';
@@ -38,18 +38,19 @@ export default class GithubAgent {
         }
     }
 
-    public getUser(login: string): Promise<Login> {
-        return this.get<Login>(`${GITHUB_BACKEND}/users/${login}`);
+    public getCurrentUser(): Promise<Login> {
+        return this.get<Login>(`${GITHUB_BACKEND}/user`);
     }
 
-
-    public async retrieveOrganizations(): Promise<Organization[]> {
-        return this.get<Organization[]>(`${GITHUB_BACKEND}/user/orgs`);
+    public getMyOrganizations(): Promise<Login[]> {
+        return this.get<Login[]>(`${GITHUB_BACKEND}/user/orgs`);
     }
 
-    public async retrieveRepositories(login: string): Promise<Repository[]> {
-        return this.get<Repository[]>(`${GITHUB_BACKEND}/users/${login}/repos`);
-    };
+    public getOrganizationRepositories(organizationLogin: string): Promise<Repository[]> {
+        return this.get<Repository[]>(`${GITHUB_BACKEND}/orgs/${organizationLogin}/repos?type=member`);
+    }
 
-
+    public getMyRepositories(): Promise<Repository[]> {
+        return this.get<Repository[]>(`${GITHUB_BACKEND}/user/repos?type=owner`);
+    }
 }

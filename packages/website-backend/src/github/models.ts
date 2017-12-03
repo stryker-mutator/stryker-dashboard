@@ -5,11 +5,6 @@ export interface Authentication {
     username: string,
 }
 
-export interface Organization {
-    avatar_url: string;
-    login: string;
-}
-
 export interface Login {
     login: string;
     avatar_url: string;
