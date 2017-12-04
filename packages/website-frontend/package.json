@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.config.json",
-    "test": "ng test"
+    "test": "ng test --single-run"
   },
   "dependencies": {
     "@angular/animations": "^5.0.0",
