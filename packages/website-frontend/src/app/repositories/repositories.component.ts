@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { RepositoryService } from './../repository/repository.service';
-import { Repository } from '../../../../website-backend/src/model';
+import { Repository } from 'stryker-dashboard-website-contract';
 
 @Component({
   selector: 'repositories',
@@ -21,8 +21,8 @@ export class RepositoriesComponent implements OnInit {
   }
 
   public loadRepositories(): void {
-    this.repositoryService.getRepositories().subscribe(repository => {
-      this.repositories.push(repository);
+    this.repositoryService.getRepositories().subscribe(repositories => {
+      this.repositories = repositories;
     });
   }
 

@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   constructor(private http:Http) { }
 
   ngOnInit() { 
-    this.http.get('/api/me').map(r => r.json()).subscribe((res) => {
+    this.http.get('/api/user').map(r => r.json()).subscribe((res) => {
       this.authenticated = true;
     });
 
