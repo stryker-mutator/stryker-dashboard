@@ -2,7 +2,7 @@ import { Controller, Get, Req } from 'ts-express-decorators';
 import GithubAgent from '../github/GithubAgent';
 import * as contract from 'stryker-dashboard-website-contract';
 import * as github from '../github/models';
-import RepositoryService from '../services/RepositoryService';
+import GithubRepositoryService from '../services/GithubRepositoryService';
 
 function toContract(githubLogin: github.Login): contract.Login {
     return {
@@ -18,7 +18,7 @@ function allToContract(githubLogins: github.Login[]): contract.Login[] {
 @Controller('/user')
 export default class UserController {
 
-    constructor(private repoService: RepositoryService) { }
+    constructor(private repoService: GithubRepositoryService) { }
 
     @Get('/')
     public get( @Req() request: Express.Request): Promise<contract.Login> {

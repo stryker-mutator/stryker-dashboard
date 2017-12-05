@@ -1,4 +1,6 @@
 import debugFn = require('debug');
+import uuid = require('uuid');
+const sha512 = require('js-sha512');
 
 export function env(key: string) {
     return process.env[key];
@@ -20,11 +22,10 @@ export const optionalEnvVar = (name: string, defaultValue: string): string => {
     return !value ? defaultValue : value;
 }
 
-export function shallowMap<TTarget extends object, TSource extends object>
-    (source: TSource, ...keys: Array<keyof TSource & keyof TTarget>): TTarget {
-    const returnObj: TTarget = {} as any;
-    keys.forEach(key => {
-        returnObj[key] = source[key];
-    });
-    return returnObj;
+export function generateApiKey(): string {
+    return uuid.v4();
+}
+
+export function generateHashValue(value: string): string {
+    return sha512(value);
 }

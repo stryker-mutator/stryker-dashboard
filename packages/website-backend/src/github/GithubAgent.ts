@@ -1,4 +1,4 @@
-import { Repository, Login } from './models';
+import { Repository, Login, UserPermission } from './models';
 import * as utils from '../utils';
 import { BearerCredentialHandler } from 'typed-rest-client/handlers/bearertoken';
 import HttpClient from '../client/HttpClient';
@@ -52,5 +52,9 @@ export default class GithubAgent {
 
     public getMyRepositories(): Promise<Repository[]> {
         return this.get<Repository[]>(`${GITHUB_BACKEND}/user/repos?type=owner`);
+    }
+
+    public getUserPermissionForRepository(owner: string, name: string, login: string){
+        return this.get<UserPermission>(`${GITHUB_BACKEND}/repos/${owner}/${name}/collaborators/${login}/permission`);
     }
 }

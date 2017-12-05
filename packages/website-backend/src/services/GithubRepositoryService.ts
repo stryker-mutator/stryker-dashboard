@@ -4,6 +4,8 @@ import GithubAgent from '../github/GithubAgent';
 import * as dal from 'stryker-dashboard-data-access';
 import * as contract from 'stryker-dashboard-website-contract';
 import * as github from '../github/models';
+import { Permission } from '../github/models';
+import { Unauthorized } from 'ts-httpexceptions';
 
 
 /**
@@ -15,7 +17,8 @@ function prefixGithub(slug: string) {
 }
 
 @Service()
-export default class RepositoryService {
+export default class GithubRepositoryService {
+
     private readonly repositoryMapper: dal.ProjectMapper;
 
     constructor(dataAccess: DataAccess) {
@@ -41,13 +44,31 @@ export default class RepositoryService {
         const repositoryEntities = await repositoryEntitiesPromise;
         return githubRepos.map(githubRepo => {
             const projectEntity = repositoryEntities.find(dalRepo => dalRepo.name === githubRepo.name);
-            const project: contract.Repository = {
+            const repository: contract.Repository = {
                 enabled: !!(projectEntity && projectEntity.enabled),
+                origin: 'github',
                 name: githubRepo.name,
                 slug: prefixGithub(githubRepo.full_name),
-                owner: prefixGithub(githubRepo.owner.login)
+                owner: githubRepo.owner.login
             };
-            return project;
+            return repository;
         });
+    }
+
+    public async update(auth: github.Authentication, owner: string, name: string, enabled: boolean, apiKeyHash: string = '') {
+        await this.guardUserHasAccess(auth, owner, name);
+        await this.repositoryMapper.insertOrMergeEntity({ apiKeyHash, name, owner: prefixGithub(owner), enabled: true });
+    }
+
+    private async guardUserHasAccess(auth: github.Authentication, owner: string, name: string): Promise<void> {
+        const agent = new GithubAgent(auth.accessToken);
+        const userPermission = await agent.getUserPermissionForRepository(owner, name, auth.username);
+        if (!this.userHasEditPermissions(userPermission.permission)) {
+            throw new Unauthorized(`Permission denied. ${auth.username} only has ${userPermission.permission} access on ${owner}/${name}.`);
+        }
+    }
+
+    private userHasEditPermissions(permission: Permission): boolean {
+        return permission === Permission.admin || permission === Permission.write;
     }
 }
