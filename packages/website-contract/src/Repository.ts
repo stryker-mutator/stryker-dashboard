@@ -5,6 +5,7 @@
  */
 export interface Repository {
     slug: string;
+    origin: string;
     owner: string;
     name: string;
     enabled: boolean;
