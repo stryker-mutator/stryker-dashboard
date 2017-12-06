@@ -26,7 +26,6 @@ export default class HttpClient {
 
     async get<T>(fullUrl: string): Promise<Response<T>> {
         this.log(`Performing HTTP GET "${fullUrl}"`);
-        // Don't use return request(...) directly, as it returns a string
         const response = await this.client.get(fullUrl);
         const statusCode = response.message.statusCode;
         this.log(`Http GET ${fullUrl} response status: ${statusCode}`);

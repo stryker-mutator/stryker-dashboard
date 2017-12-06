@@ -1,21 +1,16 @@
-import { Controller, Get, Req } from 'ts-express-decorators';
-import GithubAgent from '../github/GithubAgent';
-import { Login } from 'stryker-dashboard-website-contract';
-import { Organization } from '../github/models';
-
-function toLogin(org: Organization): Login {
-    return {
-        avatarUrl: org.avatar_url,
-        name: org.login
-    };
-}
+import { Controller, Get, Req, PathParams } from 'ts-express-decorators';
+import { Repository } from 'stryker-dashboard-website-contract';
+import GithubRepositoryService from '../services/GithubRepositoryService';
 
 @Controller('/organizations')
 export default class OrganizationsController {
 
-    @Get('/')
-    public get( @Req() req: Express.Request): Promise<Login[]> {
-        return new GithubAgent(req.user.accessToken).retrieveOrganizations()
-            .then(organizations => organizations.map(toLogin));
+    constructor(private repositoryService: GithubRepositoryService) {
+
+    }
+
+    @Get('/:name/repositories')
+    public get( @PathParams('name') login: string, @Req() req: Express.Request): Promise<Repository[]> {
+        return this.repositoryService.getAllForOrganization(req.user, login)
     }
 }

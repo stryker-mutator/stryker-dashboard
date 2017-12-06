@@ -6,5 +6,4 @@ export default class ProjectMapper extends Mapper<Project> {
     constructor(tableService: TableServiceAsPromised = new TableServiceAsPromised()) {
         super('Project', 'owner', 'name', tableService);
     }
-
 }

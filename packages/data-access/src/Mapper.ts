@@ -1,5 +1,6 @@
 import TableServiceAsPromised from './TableServiceAsPromised';
 import { TableService, TableQuery } from 'azure-storage';
+import { slashesToSemicolons, semicolonsToSlashes } from './utils';
 
 export default abstract class Mapper<T> {
     constructor(private tableName: string,
@@ -14,8 +15,8 @@ export default abstract class Mapper<T> {
 
     public insertOrMergeEntity(entity: T) {
         const data = {
-            PartitionKey: entity[this.partitionKeyName],
-            RowKey: entity[this.rowKeyName],
+            PartitionKey: this.packKey(entity[this.partitionKeyName] + ''),
+            RowKey: this.packKey(entity[this.rowKeyName] + ''),
             ...(entity as any)
         };
         delete data[this.partitionKeyName];
@@ -23,16 +24,24 @@ export default abstract class Mapper<T> {
         return this.tableService.insertOrMergeEntity(this.tableName, data);
     }
 
+    protected packKey(input: string){ 
+        return slashesToSemicolons(input);
+    }
+
+    protected unpackKey(input: string){
+        return semicolonsToSlashes(input);
+    }
+
     public select(partitionKey: string, rowKey?: string): Promise<T[]> {
-        let tableQuery = new TableQuery().where('PartitionKey eq ?', partitionKey);
+        let tableQuery = new TableQuery().where('PartitionKey eq ?', this.packKey(partitionKey));
         if (rowKey) {
-            tableQuery = tableQuery.and('RowKey eq ?', rowKey);
+            tableQuery = tableQuery.and('RowKey eq ?', this.packKey(rowKey));
         }
         return this.tableService.queryEntities<T>(this.tableName, tableQuery)
             .then(results => results.entries.map((entity: any) => {
                 const value: any = {};
-                value[this.partitionKeyName] = entity.PartitionKey._;
-                value[this.rowKeyName] = entity.RowKey._;
+                value[this.partitionKeyName] = this.unpackKey(entity.PartitionKey._);
+                value[this.rowKeyName] = this.unpackKey(entity.RowKey._);
                 Object.keys(entity).forEach(key => {
                     if (key != 'PartitionKey' && key != 'RowKey' && key != '.metadata' && key != 'Timestamp') {
                         value[key] = entity[key]._;

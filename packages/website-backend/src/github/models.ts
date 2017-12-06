@@ -5,11 +5,6 @@ export interface Authentication {
     username: string,
 }
 
-export interface Organization {
-    avatar_url: string;
-    login: string;
-}
-
 export interface Login {
     login: string;
     avatar_url: string;
@@ -23,4 +18,16 @@ export interface Repository {
     name: string;
     url: string;
     description: string;
+}
+
+export enum Permission {
+    none = 'none',
+    admin = 'admin',
+    write = 'write',
+    read = 'read'
+}
+
+export interface UserPermission {
+    permission: Permission;
+    user: Login;
 }
