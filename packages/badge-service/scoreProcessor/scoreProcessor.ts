@@ -1,6 +1,5 @@
 const sha512 = require('js-sha512');
 import { MutationScoreMapper, ProjectMapper, MutationScore } from 'stryker-dashboard-data-access';
-import { promisify } from 'util';
 
 export async function run(context: any, req: any) {
     let statusCode = 400;
