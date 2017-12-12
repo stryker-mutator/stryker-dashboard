@@ -5,10 +5,10 @@
   "description": "The service for reporting and retrieving badges",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf **/*.js.map **/*.js",
+    "clean": "rimraf src/**/*.js.map src/**/*.js",
     "prebuild": "npm run clean",
     "build": "tsc",
-    "test": "mocha \"**/testHelpers/*.js\" \"**/*Spec.js\""
+    "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"src/testHelpers/**/*.js\" \"src/**/*Spec.js\""
   },
   "dependencies": {
     "js-sha512": "0.7.0",
