@@ -47,7 +47,7 @@ We store our data in [Azure Storage](https://azure.microsoft.com/en-us/free/serv
 > Make sure you set the `Authorization callback URL` to `http://localhost:3000` (you can also use your preferred port).
 
 ### Build the application
-Building the application is easy. First run `npm install && npm run build`, followed by: `docker build -t stryker/dashboard .`.
+Building the application is easy. First run `npm install && npm run build`, to build the application. Followed by: `docker build -t stryker/dashboard .`, to build the Docker image.
 
 > If you run into problems with building using npm, this is likely caused by our use of `lerna` combined with some of the latest `node` features. A solution is to only use the npm install and build command in the `packages/website-frontend` directory.
 
