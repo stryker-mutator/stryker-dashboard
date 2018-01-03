@@ -58,12 +58,12 @@ Next, you need to define the following environment variables in a Docker [enviro
 
 Variable | Example | Explanation | Required
 -------- | ------- | ----------- | --------
-`AZURE_STORAGE_CONNECTION_STRING`|`DefaultEndpointsProtocol...`|Azure-issued String to connect to your Azure Storage.|[X]
-`GH_BASIC_CLIENT_ID`|`1234567890abcdef1234`|GitHub-issued Client ID.|[X]
-`GH_BASIC_SECRET_ID`|`1234567890...abcdef1`|GitHub-issued Client Secret.|[X]
-`JWT_SECRET`|`u7apm8MrMBe8Fwrx4uMH`|The secret for the HMAC algorithm that creates the signature of the [JWT](https://tools.ietf.org/html/rfc7519).|[X]
-`NODE_ENV`|`development`|Node setting for production environment. Used by us for some SSL settings. Can be either: `production` (default) or `development`.|[]
-`PORT`|`3000`|Port on which Stryker Dashboard will listen for connections.|[]
+`AZURE_STORAGE_CONNECTION_STRING`|`DefaultEndpointsProtocol...`|Azure-issued String to connect to your Azure Storage.| Yes
+`GH_BASIC_CLIENT_ID`|`1234567890abcdef1234`|GitHub-issued Client ID.| Yes
+`GH_BASIC_SECRET_ID`|`1234567890...abcdef1`|GitHub-issued Client Secret.| Yes
+`JWT_SECRET`|`u7apm8MrMBe8Fwrx4uMH`|The secret for the HMAC algorithm that creates the signature of the [JWT](https://tools.ietf.org/html/rfc7519).|Yes
+`NODE_ENV`|`development`|Node setting for production environment. Used by us for some SSL settings. Can be either: `production` (default) or `development`.|No
+`PORT`|`3000`|Port on which Stryker Dashboard will listen for connections.|No
 
 ### Start the application
 To start the application, you can now simply run `docker run --env-file env.list -p 3000:3000 stryker/dashboard`. This will spin-up a Docker container with the image that was build earlier; provide it with your environment variables set in the `env-list` file; and open port 3000 so you can access it on your local machine.
