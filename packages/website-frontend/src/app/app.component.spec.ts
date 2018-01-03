@@ -57,7 +57,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    const repositoriesElement: HTMLElement = compiled.querySelector('repositories');
+    const repositoriesElement: HTMLElement = compiled.querySelector('stryker-repositories');
     expect(repositoriesElement.innerHTML.length).toBeGreaterThan(0);
   }));
 

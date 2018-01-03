@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from './../user/user.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'stryker-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
