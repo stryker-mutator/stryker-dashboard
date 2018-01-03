@@ -1,19 +1,40 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable } from 'rxjs/Observable';
 
 import { LoginComponent } from './login.component';
+import { UserService } from '../user/user.service';
+import { Login, Repository } from 'stryker-dashboard-website-contract';
+import { RepositoriesComponent } from '../repositories/repositories.component';
+import { RepositoryComponent } from './../repository/repository.component';
+import { RepositoryService } from '../repository/repository.service';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LoginComponent ]
-    })
-    .compileComponents();
-  }));
+  class UserServiceStub {  
+    public login(): Observable<Login> {
+      return Observable.of({
+        name: 'stryker-mutator',
+        avatarUrl: 'https://avatars0.githubusercontent.com/u/18347996'
+      });
+    }
+  }
+  class RepositoryServiceStub {  
+    public getRepositories(): Observable<Repository[]> {
+      return Observable.of([]);
+    }
+  }
 
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ LoginComponent, RepositoriesComponent, RepositoryComponent ],
+      providers: [
+        { provide: UserService, useClass: UserServiceStub },
+        { provide: RepositoryService, useClass: RepositoryServiceStub }
+      ]
+    }).compileComponents();
+
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

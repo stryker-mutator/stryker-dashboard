@@ -8,7 +8,7 @@ import { Repository } from 'stryker-dashboard-website-contract';
 })
 export class RepositoryComponent implements OnInit {
 
-  @Input() private value: Repository;
+  @Input() value: Repository;
 
   public constructor() { }
 

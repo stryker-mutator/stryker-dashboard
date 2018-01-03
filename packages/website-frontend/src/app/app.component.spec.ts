@@ -1,13 +1,15 @@
 import { TestBed, async } from '@angular/core/testing';
-import { HttpModule, Http } from '@angular/http'
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
 import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
 import { RepositoriesComponent } from './repositories/repositories.component';
 import { RepositoryComponent } from './repository/repository.component';
 import { RepositoryService } from './repository/repository.service';
-import { Repository } from '../../../website-backend/src/model';
+import { UserService } from './user/user.service';
+import { Login } from 'stryker-dashboard-website-contract';
 
 describe('AppComponent', () => {
 
@@ -16,19 +18,24 @@ describe('AppComponent', () => {
       return Observable.of();
     }
   }
+  class UserServiceStub {  
+    public login(): Observable<Login> {
+      return Observable.of({name: '', avatarUrl: ''});
+    }
+  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
+        LoginComponent,
         RepositoriesComponent,
         RepositoryComponent
       ],
-      imports: [
-        HttpModule
-      ],
+      imports: [ HttpClientTestingModule ],
       providers: [ 
-        { provide: RepositoryService, useClass: RepositoryServiceStub } 
+        { provide: RepositoryService, useClass: RepositoryServiceStub },
+        { provide: UserService, useClass: UserServiceStub }
       ]
     }).compileComponents();
   }));

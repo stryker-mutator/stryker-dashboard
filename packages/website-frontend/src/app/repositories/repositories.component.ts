@@ -10,7 +10,7 @@ import { Repository } from 'stryker-dashboard-website-contract';
 })
 export class RepositoriesComponent implements OnInit {
 
-  private repositories: Repository[];
+  public repositories: Repository[];
 
   public constructor(private repositoryService: RepositoryService) {
     this.repositories = [];

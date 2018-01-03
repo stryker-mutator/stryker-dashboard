@@ -5,31 +5,45 @@ import 'rxjs/add/observable/of';
 import { RepositoriesComponent } from './repositories.component';
 import { RepositoryComponent } from '../repository/repository.component';
 import { RepositoryService } from '../repository/repository.service';
-import { Repository } from '../../../../website-backend/src/model';
+import { Repository } from 'stryker-dashboard-website-contract';
 
 describe('RepositoriesComponent', () => {
   let component: RepositoriesComponent;
   let fixture: ComponentFixture<RepositoriesComponent>;
 
-  const mockRepo1 = { id: 1, fullName: 'My first amazing repo' };
-  const mockRepo2 = { id: 2, fullName: 'Another great repo' };
-  const mockRepo3 = { id: 3, fullName: 'Repo repo repo' };
-  const mockRepo4 = { id: 4, fullName: 'Yet another repo' };
-  const mockRepo5 = { id: 5, fullName: 'The last of the repos' };
+  const mockRepo1 = {
+    slug: 'stryker-mutator/stryker-badge',
+    origin: 'https://www.github.com',
+    owner: 'stryker-mutator',
+    name: 'stryker-badge',
+    enabled: true
+  }
+  const mockRepo2 = {
+    slug: 'stryker-mutator/stryker',
+    origin: 'https://www.github.com',
+    owner: 'stryker-mutator',
+    name: 'stryker',
+    enabled: true
+  }
+  const mockRepo3 = {
+    slug: 'stryker-mutator/stryker-jest-runner',
+    origin: 'https://www.github.com',
+    owner: 'stryker-mutator',
+    name: 'stryker-jest-runner',
+    enabled: false
+  }
 
   class RepositoryServiceStub {  
-    public getRepositories(): Observable<Repository> {
-      return Observable.of(
+    public getRepositories(): Observable<Repository[]> {
+      return Observable.of([
         mockRepo1,
         mockRepo2,
-        mockRepo3,
-        mockRepo4,
-        mockRepo5
-      );
+        mockRepo3
+      ]);
     }
   }
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ 
         RepositoriesComponent, 
@@ -38,11 +52,8 @@ describe('RepositoriesComponent', () => {
       providers: [
         { provide: RepositoryService, useClass: RepositoryServiceStub }
       ]
-    })
-    .compileComponents();
-  }));
+    }).compileComponents();
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(RepositoriesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -53,14 +64,9 @@ describe('RepositoriesComponent', () => {
   });
 
   it('should render each of the repository components', async(() => {
-    const fixture = TestBed.createComponent(RepositoriesComponent);
-    fixture.detectChanges();
     const compiled: HTMLElement = fixture.debugElement.nativeElement;
-    expect(compiled.textContent).toContain(mockRepo1.fullName);
-    expect(compiled.textContent).toContain(mockRepo2.fullName);
-    expect(compiled.textContent).toContain(mockRepo3.fullName);
-    expect(compiled.textContent).toContain(mockRepo4.fullName);
-    expect(compiled.textContent).toContain(mockRepo5.fullName);
+    expect(compiled.textContent).toContain(mockRepo1.name);
+    expect(compiled.textContent).toContain(mockRepo2.name);
+    expect(compiled.textContent).toContain(mockRepo3.name);
   }));
-
 });
