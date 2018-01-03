@@ -1,12 +1,28 @@
 const sha512 = require('js-sha512');
 import { MutationScoreMapper, MutationScore } from 'stryker-dashboard-data-access';
-import * as httpHelpers from '../helpers/httpHelpers';
+import * as httpHelpers from '../helpers/helpers';
+import { retrieveUnknownBadge } from '../helpers/helpers';
 
 export async function run(context: any, req: any) {
     let statusCode = 400;
     context.res = {
         status: statusCode,
     };
+
+    async function setResult(badgePromise: Promise<string | undefined>) {
+        let badge = await badgePromise;
+        if (!badge) {
+            badge = await retrieveUnknownBadge();
+        }
+        context.res = {
+            status: 200,
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache'
+            },
+            body: badge
+        }
+    }
 
     const scoreRepo = new MutationScoreMapper();
 
@@ -17,35 +33,16 @@ export async function run(context: any, req: any) {
     }
 
     try {
-        const mutationScore = await scoreRepo.selectSingleEntity(`${context.bindingData.provider}/${context.bindingData.owner}`, rowKey);
+        const mutationScore = await scoreRepo.select(`${context.bindingData.provider}/${context.bindingData.owner}`, rowKey);
         if (mutationScore) {
-            const scoreColor = determineColor(mutationScore.score);
-
-            // Retrieve badge
-            const badge = await retrieveBadge(scoreColor, mutationScore.score);
-
-            if(!badge) {
-                throw 'no valid image found';
-            }
-
-            statusCode = 200;
-
-            context.res = {
-                status: statusCode,
-                headers: {
-                    'Cache-Control': 'no-cache, no-store, must-revalidate',
-                    'Pragma': 'no-cache'
-                },
-                body: badge
-            };
+            const score = Math.round(mutationScore.score * 10) / 10;
+            const scoreColor = determineColor(score);
+            await setResult(retrieveBadge(scoreColor, score.toFixed(1)));
         }
     }
-    catch (exception) {
-        statusCode = 500;
-
-        context.res = {
-            status: statusCode,
-        };
+    catch (error) {
+        httpHelpers.logError(error);
+        await setResult(retrieveUnknownBadge());
     }
 }
 
@@ -59,16 +56,13 @@ function determineColor(score: number): Color {
 }
 
 enum Color {
+    Grey = 'lightgrey',
     Red = 'red',
     Orange = 'orange',
     Green = 'green'
 }
 
-function retrieveBadge(color: Color, score: number) {
+function retrieveBadge(color: Color, score: string): Promise<string | undefined> {
     const url = `https://img.shields.io/badge/mutation%20score-${score}-${color}.svg`;
-
-    // get
-    return httpHelpers.getContent(url).then(content => {
-        return content;
-    });
+    return httpHelpers.getContent(url);
 }

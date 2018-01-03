@@ -7,7 +7,9 @@ import { Mock } from '../testHelpers/mock';
 import { MutationScoreMapper, MutationScore } from "stryker-dashboard-data-access";
 import { run } from "../badgeGenerator/badgeGenerator";
 import * as badgeGenerator from "../badgeGenerator/badgeGenerator";
-import * as httpHelpers from "../helpers/httpHelpers";
+import * as helpers from "../helpers/helpers";
+import * as fs from 'mz/fs';
+import * as path from 'path';
 
 chai.use(sinonchai);
 
@@ -17,7 +19,10 @@ describe('Generating a badge', () => {
     let mutationScoreMapperMock: Mock<MutationScoreMapper>;
     let context: any;
     let req: any;
+    let getContentStub: sinon.SinonStub;
     let mutationScore: MutationScore;
+    let logErrorStub: sinon.SinonStub;
+    const unknownBadge = fs.readFileSync(path.resolve(__dirname, '..', 'mutation-score-unknown-lightgrey.svg'), 'utf8');
 
     beforeEach(() => {
         sandbox = sinon.createSandbox();
@@ -28,14 +33,16 @@ describe('Generating a badge', () => {
         mutationScore.branch = 'master';
         mutationScore.slug = 'github/stryker-mutator/stryker';
         mutationScore.score = 97.8;
+        getContentStub = sandbox.stub(helpers, 'getContent');
+        logErrorStub = sandbox.stub(helpers, 'logError');
 
         let mutationScoreNoBranch = new MutationScore();
         mutationScoreNoBranch.slug = 'github/stryker-mutator/stryker';
-        mutationScoreNoBranch.score = 79;
+        mutationScoreNoBranch.score = 79.01;
 
-        mutationScoreMapperMock.selectSingleEntity.withArgs('github/stryker-mutator', 'stryker/master')
+        mutationScoreMapperMock.select.withArgs('github/stryker-mutator', 'stryker/master')
             .resolves(mutationScore);
-        mutationScoreMapperMock.selectSingleEntity.withArgs('github/stryker-mutator', 'stryker')
+        mutationScoreMapperMock.select.withArgs('github/stryker-mutator', 'stryker')
             .resolves(mutationScoreNoBranch);
 
         context = {
@@ -73,41 +80,46 @@ describe('Generating a badge', () => {
         // Assert
         expect(context.res.status).to.equal(400);
     });
-    it('Should return a http 500 error when storage can not be reached', async () => {
+    it('Should return the unknown badge when storage can not be reached', async () => {
         // Arrange
-        mutationScoreMapperMock.selectSingleEntity.reset();
-        mutationScoreMapperMock.selectSingleEntity.throws("error");
+        const error = new Error('an error');
+        mutationScoreMapperMock.select.reset();
+        mutationScoreMapperMock.select.throws(error);
 
         // Act
         await run(context, req);
 
         // Assert
-        expect(context.res.status).to.equal(500);
+        expect(context.res.status).to.equal(200);
+        expect(context.res.body).to.equal(unknownBadge);
+        expect(logErrorStub).calledWith(error);
     });
-    it('Should return a http 500 error when shields.io returns an empty result', async () => {
+    it('Should return the unknown badge when shields.io returns an empty result', async () => {
         // Arrange
-        sandbox.stub(httpHelpers, 'getContent').resolves(undefined);
+        getContentStub.resolves(undefined);
 
         // Act
         await run(context, req);
 
         // Assert
-        expect(context.res.status).to.equal(500);
+        expect(context.res.status).to.equal(200);
+        expect(context.res.body).to.equal(unknownBadge);
     });
-    it('Should return a http 500 error when shields.io can not be reached', async () => {
+    it('Should return  the unknown badge when shields.io can not be reached', async () => {
         // Arrange
         const content = 'this really is an image string';
-        sandbox.stub(httpHelpers, 'getContent').throws('cannot reach it');
-
+        getContentStub.throws('cannot reach it');
+        
         // Act
         await run(context, req);
-
+        
         // Assert
-        expect(context.res.status).to.equal(500);
+        expect(context.res.status).to.equal(200);
+        expect(context.res.body).to.equal(unknownBadge);
     });
     it('Should call shields.io with the correct parameters without branch', async () => {
         // Arrange
-        sandbox.stub(httpHelpers, 'getContent').resolves('your image');
+        getContentStub.resolves('your image');
         delete context.bindingData.branch;
 
         // Act
@@ -115,22 +127,22 @@ describe('Generating a badge', () => {
 
         // Assert
         expect(context.res.status).to.equal(200);
-        expect(httpHelpers.getContent).calledWith('https://img.shields.io/badge/mutation%20score-79-orange.svg');
+        expect(helpers.getContent).calledWith('https://img.shields.io/badge/mutation%20score-79.0-orange.svg');
     });
     it('Should call shields.io with the correct parameters', async () => {
         // Arrange
-        sandbox.stub(httpHelpers, 'getContent').resolves('your image');
+        getContentStub.resolves('your image');
 
         // Act
         await run(context, req);
 
         // Assert
         expect(context.res.status).to.equal(200);
-        expect(httpHelpers.getContent).calledWith('https://img.shields.io/badge/mutation%20score-97.8-green.svg');
+        expect(helpers.getContent).calledWith('https://img.shields.io/badge/mutation%20score-97.8-green.svg');
     });
     it('Should return correct cache headers', async () => {
         // Arrange
-        sandbox.stub(httpHelpers, 'getContent').resolves('your image');
+        getContentStub.resolves('your image');
 
         // Act
         await run(context, req);
@@ -142,45 +154,45 @@ describe('Generating a badge', () => {
             'Pragma': 'no-cache'
         });
     });
-    it('Should return a green shield with a score >= 80', async () => {
+    it('Should return a green shield with a score >= 80 (rounded to 1 precision)', async () => {
         // Arrange
-        sandbox.stub(httpHelpers, 'getContent').resolves('green');
-        mutationScore.score = 80;
+        getContentStub.resolves('green');
+        mutationScore.score = 79.95;
 
         // Act
         await run(context, req);
 
         // Assert
         expect(context.res.status).to.equal(200);
-        expect(httpHelpers.getContent).calledWith('https://img.shields.io/badge/mutation%20score-80-green.svg');
+        expect(helpers.getContent).calledWith('https://img.shields.io/badge/mutation%20score-80.0-green.svg');
     });
-    it('Should return an orange shield with a 60 <= score < 80', async () => {
+    it('Should return an orange shield with a 60 <= score < 80 (rounded to 1 precision)', async () => {
         // Arrange
-        sandbox.stub(httpHelpers, 'getContent').resolves('orange');
-        mutationScore.score = 79.9;
+        getContentStub.resolves('orange');
+        mutationScore.score = 79.9465;
 
         // Act
         await run(context, req);
 
         // Assert
         expect(context.res.status).to.equal(200);
-        expect(httpHelpers.getContent).calledWith('https://img.shields.io/badge/mutation%20score-79.9-orange.svg');
+        expect(helpers.getContent).calledWith('https://img.shields.io/badge/mutation%20score-79.9-orange.svg');
     });
-    it('Should return an orange shield with a score = 60', async () => {
+    it('Should return an orange shield with a score = 60 (rounded to 1 precision)', async () => {
         // Arrange
-        sandbox.stub(httpHelpers, 'getContent').resolves('orange');
-        mutationScore.score = 60;
+        getContentStub.resolves('orange');
+        mutationScore.score = 59.95;
 
         // Act
         await run(context, req);
 
         // Assert
         expect(context.res.status).to.equal(200);
-        expect(httpHelpers.getContent).calledWith('https://img.shields.io/badge/mutation%20score-60-orange.svg');
+        expect(helpers.getContent).calledWith('https://img.shields.io/badge/mutation%20score-60.0-orange.svg');
     });
     it('Should return a red shield with a score < 60', async () => {
         // Arrange
-        sandbox.stub(httpHelpers, 'getContent').resolves('red');
+        getContentStub.resolves('red');
         mutationScore.score = 59.9;
 
         // Act
@@ -188,6 +200,6 @@ describe('Generating a badge', () => {
 
         // Assert
         expect(context.res.status).to.equal(200);
-        expect(httpHelpers.getContent).calledWith('https://img.shields.io/badge/mutation%20score-59.9-red.svg');
+        expect(helpers.getContent).calledWith('https://img.shields.io/badge/mutation%20score-59.9-red.svg');
     });
 });    

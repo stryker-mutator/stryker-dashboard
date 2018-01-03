@@ -1,5 +1,6 @@
 const sha512 = require('js-sha512');
 import { MutationScoreMapper, ProjectMapper, MutationScore } from 'stryker-dashboard-data-access';
+import { logError } from '../helpers/helpers';
 
 export async function run(context: any, req: any) {
     let statusCode = 400;
@@ -11,8 +12,7 @@ export async function run(context: any, req: any) {
     };
 
     if (typeof req.body == 'object') {
-        if(!req.body.apiKey || !req.body.repositorySlug || !req.body.mutationScore)
-        {
+        if (!req.body.apiKey || !req.body.repositorySlug || !req.body.mutationScore) {
             return;
         }
         const hash = sha512.sha512_256(req.body.apiKey);
@@ -28,7 +28,7 @@ export async function run(context: any, req: any) {
                     branch: req.body.branch ? req.body.branch : '',
                     score: req.body.mutationScore
                 };
-                
+
                 const scoreRepo = new MutationScoreMapper();
                 await scoreRepo.insertOrMergeEntity(mutationScore);
 
@@ -48,10 +48,8 @@ export async function run(context: any, req: any) {
             }
         }
         catch (error) {
-            console.log(error);
-
+            logError(error);
             statusCode = 500;
-
             context.res = {
                 status: statusCode,
                 body: responseBody
@@ -62,11 +60,10 @@ export async function run(context: any, req: any) {
 
 function checkApiKey(context: any, projectRepo: ProjectMapper, hash: string, slug: string): Promise<boolean> {
     const lastDelimiter = slug.lastIndexOf('/');
-
-    const projectPromise =  projectRepo.selectSingleEntity(slug.substr(0, lastDelimiter), slug.substr(lastDelimiter + 1));
-    if(projectPromise) {
-        return projectPromise.then(project => project.apiKeyHash === hash);
+    if (lastDelimiter === -1) {
+        return Promise.resolve(false);
+    } else {
+        const projectPromise = projectRepo.select(slug.substr(0, lastDelimiter), slug.substr(lastDelimiter + 1));
+        return projectPromise.then(project => project !== null && project.apiKeyHash === hash);
     }
-
-    return Promise.resolve(false);
 }

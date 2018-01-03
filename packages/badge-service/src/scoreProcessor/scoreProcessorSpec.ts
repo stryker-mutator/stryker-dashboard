@@ -3,6 +3,7 @@ import * as sinon from 'sinon';
 import * as chai from "chai";
 import * as sinonchai from "sinon-chai";
 import { Mock } from '../testHelpers/mock';
+import * as helpers from '../helpers/helpers';
 import { Project, ProjectMapper, MutationScoreMapper, MutationScore } from "stryker-dashboard-data-access";
 import * as dataAccessModule from "stryker-dashboard-data-access";
 import { run } from "./scoreProcessor";
@@ -23,13 +24,14 @@ describe('Posting a Score', () => {
 
     sandbox.stub(dataAccessModule, 'ProjectMapper').returns(projectMapperStub);
     sandbox.stub(dataAccessModule, 'MutationScoreMapper').returns(mutationScoreMapperMock);
+    sandbox.stub(helpers, 'logError');
 
     const project = new Project();
     project.apiKeyHash = '05fb610008ccb620142a795f198e85d3984e61c997e7f8074d871cabb8309ec1';
     project.owner = 'github/stryker-mutator';
     project.name = 'stryker';
 
-    projectMapperStub.selectSingleEntity.withArgs('github/stryker-mutator', 'stryker').resolves(project);
+    projectMapperStub.select.withArgs('github/stryker-mutator', 'stryker').resolves(project);
 
     context = {
       log: () => { }
@@ -146,8 +148,8 @@ describe('Posting a Score', () => {
   });
   it('should return an http error if project table can not be accessed', async () => {
     // Arrange
-    projectMapperStub.selectSingleEntity.reset();
-    projectMapperStub.selectSingleEntity.throws('error');
+    projectMapperStub.select.reset();
+    projectMapperStub.select.throws('error');
 
     // Act
     await run(context, req);
