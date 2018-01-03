@@ -34,6 +34,7 @@ export const contractFactory = {
     repository: factoryMethod<contract.Repository>(() => ({
         slug: 'github.com/organization/name',
         owner: 'organization',
+        origin: 'github',
         name: 'name',
         enabled: true
     })),

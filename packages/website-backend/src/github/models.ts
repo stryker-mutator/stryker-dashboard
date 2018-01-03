@@ -19,3 +19,15 @@ export interface Repository {
     url: string;
     description: string;
 }
+
+export enum Permission {
+    none = 'none',
+    admin = 'admin',
+    write = 'write',
+    read = 'read'
+}
+
+export interface UserPermission {
+    permission: Permission;
+    user: Login;
+}

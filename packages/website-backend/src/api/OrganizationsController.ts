@@ -1,11 +1,11 @@
 import { Controller, Get, Req, PathParams } from 'ts-express-decorators';
 import { Repository } from 'stryker-dashboard-website-contract';
-import RepositoryService from '../services/RepositoryService';
+import GithubRepositoryService from '../services/GithubRepositoryService';
 
 @Controller('/organizations')
 export default class OrganizationsController {
 
-    constructor(private repositoryService: RepositoryService) {
+    constructor(private repositoryService: GithubRepositoryService) {
 
     }
 

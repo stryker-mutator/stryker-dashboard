@@ -8,7 +8,7 @@ import DataAccess from '../../src/services/DataAccess';
 import { Mock, createMock } from './mock';
 import { Request, Response, NextFunction } from 'express';
 import { Authentication } from '../../src/github/models';
-import RepositoryService from '../../src/services/RepositoryService';
+import GithubRepositoryService from '../../src/services/GithubRepositoryService';
 
 
 @OverrideService(Configuration)
@@ -33,15 +33,19 @@ export class DataAccessStub implements DataAccess {
     }
 }
 
-@OverrideService(RepositoryService)
+@OverrideService(GithubRepositoryService)
 export class RepositoryServiceStub {
     static getAllForUser: sinon.SinonStub;
     static getAllForOrganization: sinon.SinonStub;
+    static update: sinon.SinonStub;
     public get getAllForUser() {
         return RepositoryServiceStub.getAllForUser;
     }
     public get getAllForOrganization() {
         return RepositoryServiceStub.getAllForOrganization;
+    }
+    public get update() {
+        return RepositoryServiceStub.update;
     }
 }
 
@@ -54,6 +58,7 @@ beforeEach(() => {
     DataAccessStub.repositoryMapper = createMock(ProjectMapper);
     RepositoryServiceStub.getAllForOrganization = sandbox.stub();
     RepositoryServiceStub.getAllForUser = sandbox.stub();
+    RepositoryServiceStub.update = sandbox.stub();
 });
 
 export default async function testServer<TController>(Controller: Type<TController>, user?: Authentication, ...middlewares: any[]): Promise<SuperTest<Test>> {

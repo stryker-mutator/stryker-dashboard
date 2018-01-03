@@ -23,7 +23,7 @@ describe('ProjectMapper', () => {
 
     it('should insert the given project if insertOrMergeEntity is called', async () => {
         const expected: Project = {
-            owner: 'owner',
+            owner: 'github/owner',
             name: 'name',
             enabled: true,
             apiKeyHash: 'apiKey'
@@ -31,7 +31,7 @@ describe('ProjectMapper', () => {
         tableServiceMock.insertOrMergeEntity.resolves();
         await sut.insertOrMergeEntity(expected);
         expect(tableServiceMock.insertOrMergeEntity).calledWith('Project', {
-            PartitionKey: 'owner',
+            PartitionKey: 'github;owner',
             RowKey: 'name',
             enabled: true,
             apiKeyHash: 'apiKey'
@@ -41,7 +41,7 @@ describe('ProjectMapper', () => {
 
     it('should query projects select is called', async () => {
         const expectedQuery = new TableQuery()
-            .where('PartitionKey eq ?', 'partKey')
+            .where('PartitionKey eq ?', 'github;partKey')
             .and('RowKey eq ?', 'rowKey');
         const results: Array<Entity<{ enabled: boolean, apiKeyHash: string }> & EntityKey> = [{
             PartitionKey: { _: 'partKey', $: 'Edm.String' },
@@ -59,7 +59,7 @@ describe('ProjectMapper', () => {
             { name: 'rowKey2', owner: 'partKey2', enabled: false, apiKeyHash: 'hash2' }
         ];
         tableServiceMock.queryEntities.resolves({ entries: results });
-        const actualProjects = await sut.select('partKey', 'rowKey');
+        const actualProjects = await sut.select('github/partKey', 'rowKey');
         expect(tableServiceMock.queryEntities).calledWith('Project', expectedQuery);
         expect(actualProjects).deep.eq(expected);
     });

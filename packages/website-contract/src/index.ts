@@ -1,5 +1,5 @@
 
 
-export { EnableProjectResponse } from './EnableProjectResponse';
+export { EnableRepositoryResponse } from './EnableRepositoryResponse';
 export { Login } from './Login';
-export { Repository } from './Project';
+export { Repository } from './Repository';

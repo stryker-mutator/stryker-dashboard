@@ -4,15 +4,16 @@ import * as contract from 'stryker-dashboard-website-contract';
 import * as github from '../../../src/github/models';
 import GithubAgent, * as githubAgentModule from '../../../src/github/GithubAgent';
 import { Mock, createMock } from '../../helpers/mock';
-import RepositoryService from '../../../src/services/RepositoryService';
+import GithubRepositoryService from '../../../src/services/GithubRepositoryService';
 import { expect } from 'chai';
+import { Unauthorized } from 'ts-httpexceptions';
 
-describe('RepositoryService', () => {
+describe('GithubRepositoryService', () => {
 
     let githubAgentMock: Mock<GithubAgent>;
     let repositoryMapperMock: Mock<dal.ProjectMapper>;
     let dataAccessStub: { repositoryMapper: Mock<dal.ProjectMapper> };
-    let sut: RepositoryService;
+    let sut: GithubRepositoryService;
 
     beforeEach(() => {
         githubAgentMock = createMock(GithubAgent);
@@ -21,7 +22,7 @@ describe('RepositoryService', () => {
         dataAccessStub = {
             repositoryMapper: repositoryMapperMock
         };
-        sut = new RepositoryService(dataAccessStub as any);
+        sut = new GithubRepositoryService(dataAccessStub as any);
     });
 
     describe('getAllForOrganizations', () => {
@@ -37,9 +38,9 @@ describe('RepositoryService', () => {
                 dalFactory.repository({ name: 'project3', enabled: false })
             ];
             const expectedRepos: contract.Repository[] = [
-                { enabled: false, name: 'project1', slug: 'github/foobarOrg/project1', owner: 'github/foobar_login' },
-                { enabled: true, name: 'project2', slug: 'github/foobarOrg/project2', owner: 'github/foobar_login' },
-                { enabled: false, name: 'project3', slug: 'github/foobarOrg/project3', owner: 'github/foobar_login' }
+                { enabled: false, name: 'project1', origin: 'github', slug: 'github/foobarOrg/project1', owner: 'foobar_login' },
+                { enabled: true, name: 'project2', origin: 'github', slug: 'github/foobarOrg/project2', owner: 'foobar_login' },
+                { enabled: false, name: 'project3', origin: 'github', slug: 'github/foobarOrg/project3', owner: 'foobar_login' }
             ];
             githubAgentMock.getOrganizationRepositories.resolves(repos);
             dataAccessStub.repositoryMapper.select.resolves(projectEntities);
@@ -71,4 +72,48 @@ describe('RepositoryService', () => {
         });
     });
 
+    describe('update', () => {
+        [github.Permission.none, github.Permission.read].forEach(permission => {
+            it(`should not allow if user has permission "${permission}"`, async () => {
+                const userPermission: github.UserPermission = {
+                    permission: permission,
+                    user: githubFactory.login()
+                };
+                githubAgentMock.getUserPermissionForRepository.resolves(userPermission);
+                try {
+                    await sut.update(githubFactory.authentication(), '', '', true);
+                    expect.fail('Should have thrown');
+                } catch (err) {
+                    expect(err).instanceOf(Unauthorized);
+                }
+            });
+        });
+
+        [github.Permission.admin, github.Permission.write].forEach(permission => {
+            it(`should allow if user has permission "${permission}"`, async () => {
+                const userPermission: github.UserPermission = {
+                    permission: permission,
+                    user: githubFactory.login()
+                };
+                githubAgentMock.getUserPermissionForRepository.resolves(userPermission);
+                await sut.update(githubFactory.authentication(), 'owner', 'name', true);
+                expect(dataAccessStub.repositoryMapper.insertOrMergeEntity).called;
+            });
+        });
+
+        it('should update the repository entity', async () => {
+            const userPermission: github.UserPermission = {
+                permission: github.Permission.admin,
+                user: githubFactory.login()
+            };
+            githubAgentMock.getUserPermissionForRepository.resolves(userPermission);
+            await sut.update(githubFactory.authentication(), 'owner', 'name', true, 'apiKeyHash');
+            expect(dataAccessStub.repositoryMapper.insertOrMergeEntity).calledWith({
+                name: 'name',
+                owner: 'github/owner',
+                enabled: true,
+                apiKeyHash: 'apiKeyHash'
+            });
+        });
+    });
 });
