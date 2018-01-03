@@ -1,6 +1,6 @@
-import 'rxjs/add/operator/map';
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
+
+import { UserService } from './../user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -9,14 +9,16 @@ import { Http } from '@angular/http';
 })
 export class LoginComponent implements OnInit {
 
-  authenticated:Boolean = false;
+  authenticated:boolean = false;
 
-  constructor(private http:Http) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() { 
-    this.http.get('/api/me').map(r => r.json()).subscribe((res) => {
+    this.userService.login().subscribe({ next: () => {
       this.authenticated = true;
-    });
-
+    }, error: (res: any) => {
+      console.error('Failed to login user', res);
+    }});
   }
+
 }

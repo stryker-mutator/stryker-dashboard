@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { RepositoryService } from './../repository/repository.service';
+import { Repository } from 'stryker-dashboard-website-contract';
+
 @Component({
   selector: 'repositories',
   templateUrl: './repositories.component.html',
@@ -7,24 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RepositoriesComponent implements OnInit {
 
-  repositories: any[];
+  public repositories: Repository[];
 
-  constructor() {
-    this.loadRepositories();
+  public constructor(private repositoryService: RepositoryService) {
+    this.repositories = [];
    }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.loadRepositories();
   }
 
   public loadRepositories(): void {
-    this.repositories = [
-      { id: 1, fullName: 'My first amazing repo' },
-      { id: 2, fullName: 'Another great repo' },
-      { id: 3, fullName: 'Repo repo repo' },
-      { id: 4, fullName: 'Yet another repo' },
-      { id: 5, fullName: 'The last of the repos' }
-    ];
+    this.repositoryService.getRepositories().subscribe(repositories => {
+      this.repositories = repositories;
+    });
   }
 
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Repository } from 'stryker-dashboard-website-contract';
 
 @Component({
   selector: 'repository',
@@ -7,13 +8,10 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class RepositoryComponent implements OnInit {
 
-  @Input() fullName:String;
-  @Input() id:number;
+  @Input() value: Repository;
 
-  constructor() {
-  }
+  public constructor() { }
 
-  ngOnInit() {
-  }
+  public ngOnInit() { }
 
 }

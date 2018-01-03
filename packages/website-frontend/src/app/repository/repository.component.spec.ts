@@ -9,13 +9,20 @@ describe('RepositoryComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ RepositoryComponent ]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
+    const mockRepo = {
+      slug: 'stryker-mutator/stryker-badge',
+      origin: 'https://www.github.com',
+      owner: 'stryker-mutator',
+      name: 'stryker-badge',
+      enabled: true
+    }
     fixture = TestBed.createComponent(RepositoryComponent);
-    component = fixture.componentInstance;
+    component = fixture.debugElement.componentInstance;
+    component.value = mockRepo;
     fixture.detectChanges();
   });
 

@@ -38,7 +38,7 @@
         "prebuild": "npm run clean",
         "build": "lerna run build",
         "pretest": "npm run build",
-        "test": "lerna run test --scope !stryker-badge-website-frontend"
+        "test": "lerna run test"
     },
     "version": "0.0.1",
     "dependencies": {}
