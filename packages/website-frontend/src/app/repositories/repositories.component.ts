@@ -4,7 +4,7 @@ import { RepositoryService } from './../repository/repository.service';
 import { Repository } from 'stryker-dashboard-website-contract';
 
 @Component({
-  selector: 'repositories',
+  selector: 'stryker-repositories',
   templateUrl: './repositories.component.html',
   styleUrls: ['./repositories.component.css']
 })

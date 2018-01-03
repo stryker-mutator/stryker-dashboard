@@ -7,6 +7,7 @@ import { RepositoriesComponent } from './repositories/repositories.component';
 import { RepositoryComponent } from './repository/repository.component';
 import { RepositoryService } from './repository/repository.service';
 import { LoginComponent } from './login/login.component';
+import { UserService } from './user/user.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,10 @@ import { LoginComponent } from './login/login.component';
     BrowserModule,
     HttpClientModule
   ],
-  providers: [ RepositoryService ],
+  providers: [ 
+    RepositoryService, 
+    UserService 
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

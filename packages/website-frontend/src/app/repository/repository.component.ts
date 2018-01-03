@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Repository } from 'stryker-dashboard-website-contract';
 
 @Component({
-  selector: 'repository',
+  selector: 'stryker-repository',
   templateUrl: './repository.component.html',
   styleUrls: ['./repository.component.css']
 })
