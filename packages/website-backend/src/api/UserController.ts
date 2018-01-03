@@ -18,13 +18,14 @@ function allToContract(githubLogins: github.Login[]): contract.Login[] {
 @Controller('/user')
 export default class UserController {
 
-    constructor(private repoService: GithubRepositoryService) { }
+    constructor(private repoService: GithubRepositoryService) {
+    }
 
     @Get('/')
-    public get( @Req() request: Express.Request): Promise<contract.Login> {
+    public async get( @Req() request: Express.Request): Promise<contract.Login> {
         return new GithubAgent(request.user.accessToken)
             .getCurrentUser()
-            .then(toContract);;
+            .then(toContract);
     }
 
     @Get('/repositories')

@@ -39,7 +39,18 @@ describe('ProjectMapper', () => {
         expect(expected.name).eq('name');
     });
 
-    it('should query projects select is called', async () => {
+    it('should return null if specific row key and partition key does not exist', async () => {
+        const expectedQuery = new TableQuery()
+            .where('PartitionKey eq ?', 'github;partKey')
+            .and('RowKey eq ?', 'rowKey');
+        const results: Array<Entity<{ enabled: boolean, apiKeyHash: string }> & EntityKey> = [];
+        tableServiceMock.queryEntities.resolves({ entries: results });
+        const actualProjects = await sut.select('github/partKey', 'rowKey');
+        expect(tableServiceMock.queryEntities).calledWith('Project', expectedQuery);
+        expect(actualProjects).null;
+    });
+
+    it('should return the first entity when select is called with a row key', async () => {
         const expectedQuery = new TableQuery()
             .where('PartitionKey eq ?', 'github;partKey')
             .and('RowKey eq ?', 'rowKey');
@@ -54,12 +65,32 @@ describe('ProjectMapper', () => {
             apiKeyHash: { _: 'hash2', $: 'string' },
             enabled: { _: false, $: 'string' }
         }];
+        const expected: Project = { name: 'rowKey', owner: 'partKey', enabled: true, apiKeyHash: 'hash' };
+        tableServiceMock.queryEntities.resolves({ entries: results });
+        const actualProjects = await sut.select('github/partKey', 'rowKey');
+        expect(tableServiceMock.queryEntities).calledWith('Project', expectedQuery);
+        expect(actualProjects).deep.eq(expected);
+    });
+
+    it('should return the all entities when select is called without a row key', async () => {
+        const expectedQuery = new TableQuery().where('PartitionKey eq ?', 'github;partKey');
+        const results: Array<Entity<{ enabled: boolean, apiKeyHash: string }> & EntityKey> = [{
+            PartitionKey: { _: 'partKey', $: 'Edm.String' },
+            RowKey: { _: 'rowKey', $: 'Edm.String' },
+            apiKeyHash: { _: 'hash', $: 'string' },
+            enabled: { _: true, $: 'string' }
+        }, {
+            PartitionKey: { _: 'partKey2', $: 'Edm.String' },
+            RowKey: { _: 'rowKey2', $: 'Edm.String' },
+            apiKeyHash: { _: 'hash2', $: 'string' },
+            enabled: { _: false, $: 'string' }
+        }];        
         const expected: Project[] = [
             { name: 'rowKey', owner: 'partKey', enabled: true, apiKeyHash: 'hash' },
             { name: 'rowKey2', owner: 'partKey2', enabled: false, apiKeyHash: 'hash2' }
         ];
         tableServiceMock.queryEntities.resolves({ entries: results });
-        const actualProjects = await sut.select('github/partKey', 'rowKey');
+        const actualProjects = await sut.select('github/partKey');
         expect(tableServiceMock.queryEntities).calledWith('Project', expectedQuery);
         expect(actualProjects).deep.eq(expected);
     });

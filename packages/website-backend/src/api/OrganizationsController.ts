@@ -6,7 +6,6 @@ import GithubRepositoryService from '../services/GithubRepositoryService';
 export default class OrganizationsController {
 
     constructor(private repositoryService: GithubRepositoryService) {
-
     }
 
     @Get('/:name/repositories')

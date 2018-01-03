@@ -1,0 +1,29 @@
+{
+  "name": "badge-service",
+  "private": true,
+  "version": "0.1.0",
+  "description": "The service for reporting and retrieving badges",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf src/**/*.js.map src/**/*.js",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"src/testHelpers/**/*.js\" \"src/**/*Spec.js\""
+  },
+  "dependencies": {
+    "js-sha512": "0.7.0",
+    "mz": "^2.7.0",
+    "stryker-dashboard-data-access": "file:../data-access"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/mz": "0.0.32",
+    "stryker": "^0.15.4",
+    "stryker-api": "^0.11.0",
+    "stryker-mocha-framework": "^0.7.1",
+    "stryker-mocha-runner": "^0.10.1",
+    "stryker-typescript": "^0.7.1"
+  }
+}

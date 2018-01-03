@@ -1,6 +1,11 @@
 import TableServiceAsPromised from './TableServiceAsPromised';
 import { TableService, TableQuery } from 'azure-storage';
 import { slashesToSemicolons, semicolonsToSlashes } from './utils';
+import { isUndefined } from 'util';
+
+function isDefined<T>(val: T | undefined): val is T {
+    return !isUndefined(val);
+}
 
 export default abstract class Mapper<T> {
     constructor(private tableName: string,
@@ -24,17 +29,19 @@ export default abstract class Mapper<T> {
         return this.tableService.insertOrMergeEntity(this.tableName, data);
     }
 
-    protected packKey(input: string){ 
+    protected packKey(input: string) {
         return slashesToSemicolons(input);
     }
 
-    protected unpackKey(input: string){
+    protected unpackKey(input: string) {
         return semicolonsToSlashes(input);
     }
 
-    public select(partitionKey: string, rowKey?: string): Promise<T[]> {
+    public select(partitionKey: string): Promise<T[]>;
+    public select(partitionKey: string, rowKey: string): Promise<T | null>;
+    public select(partitionKey: string, rowKey?: string): Promise<T[] | T | null> {
         let tableQuery = new TableQuery().where('PartitionKey eq ?', this.packKey(partitionKey));
-        if (rowKey) {
+        if (isDefined(rowKey)) {
             tableQuery = tableQuery.and('RowKey eq ?', this.packKey(rowKey));
         }
         return this.tableService.queryEntities<T>(this.tableName, tableQuery)
@@ -49,6 +56,16 @@ export default abstract class Mapper<T> {
                 });
 
                 return value;
-            }));
+            })).then(results => {
+                if (isDefined(rowKey)) {
+                    if (isUndefined(results[0])) {
+                        return null;
+                    } else {
+                        return results[0];
+                    }
+                } else {
+                    return results;
+                }
+            });
     }
 }

@@ -1,6 +1,5 @@
 import { promisify, isUndefined } from 'util';
-import azure = require('azure-storage');
-import { ErrorOrResult, TableService, TableQuery } from 'azure-storage';
+import { ErrorOrResult, TableService, TableQuery, createTableService } from 'azure-storage';
 
 export type Entity<T> = {
     [K in keyof T]: {
@@ -22,7 +21,7 @@ export interface EntityKey {
 
 export default class TableServiceAsPromised {
 
-    constructor(private tableService = azure.createTableService()) {
+    constructor(private tableService = createTableService()) {
     }
 
     public createTableIfNotExists(name: string): Promise<TableService.TableResult> {
