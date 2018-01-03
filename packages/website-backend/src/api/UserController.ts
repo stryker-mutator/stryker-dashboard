@@ -3,8 +3,6 @@ import GithubAgent from '../github/GithubAgent';
 import * as contract from 'stryker-dashboard-website-contract';
 import * as github from '../github/models';
 import GithubRepositoryService from '../services/GithubRepositoryService';
-import { ProjectMapper } from 'stryker-dashboard-data-access';
-import DataAccess from '../services/DataAccess';
 
 function toContract(githubLogin: github.Login): contract.Login {
     return {
