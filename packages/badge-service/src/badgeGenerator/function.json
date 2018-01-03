@@ -1,0 +1,18 @@
+{
+ "disabled": false,
+ "bindings": [
+  {
+   "authLevel": "function",
+   "type": "httpTrigger",
+   "direction": "in",
+   "name": "req",
+   "route": "{provider}/{owner}/{repo}/{branch?}"   
+  },
+  {
+   "type": "http",
+   "direction": "out",
+   "name": "res"
+  }
+ ],
+ "scriptFile": "badgeGenerator.js"
+}
