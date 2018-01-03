@@ -24,19 +24,35 @@ If the correct key is used, store mutation score in database.
 - [ ] retrieves the most recent score for a given user / repo, returned as a Shields.IO badge.
 - [ ] some kind of database to store projects, keys and scores.
 Let's start with PostgreSQL and see how things go.
-- [ ] a nice front end app (written in React and TypeScript) for selecting projects, re-generating keys and stuff.
+- [ ] a nice front end app (written in Angular 5 and Bootstrap 4) for selecting projects, re-generating keys and stuff.
 
 Other points
-- [ ] Should also works with lerna-style monorepos (with a sub-package name/label to identify the package).
+- [X] Should also works with lerna-style monorepos (with a sub-package name/label to identify the package).
 - [ ] Make app generic so it could be used for other scores.
 
 ## Getting started
 
+### Requirements
+First things first, there's always something before you can start.
+
+Our application runs in [Docker](https://www.docker.com/). If you don't already use it, now would be the time. Make sure the Docker daemon is up and running.
+
+We store our data in [Azure Storage](https://azure.microsoft.com/en-us/free/services/storage/), so you need to be able to do so as well. On Windows, you can use the [Azure Storage Emulator](https://docs.microsoft.com/en-gb/azure/storage/common/storage-use-emulator). For Mac users, we recommend creating a free [Azure account](https://azure.microsoft.com/en-us/free/services/storage/).
+
+### GitHub OAuth application
+[Register](https://github.com/settings/applications/new) a new OAuth application. This will allow users to connect to their GitHub account.
+
+### Build the application
+`docker build -t stryker/dashboard .`
+
 ### Configuration
+To start the application, simply run `docker run stryker/dashboard`
+
 To start the application, you need to define the following environment variables:
 
 Variable | Example | Explanation
 -------- | ------- | -----------
+`AZURE_STORAGE_CONNECTION_STRING`|`DefaultEndpointsProtocol...`|Azure-issued String to connect to your Azure Storage.
 `GH_BASIC_CLIENT_ID`|`1234567890abcdef1234`|GitHub-issued Client ID.
 `GH_BASIC_SECRET_ID`|`1234567890...abcdef1`|GitHub-issued Client Secret.
 `JWT_SECRET`|`u7apm8MrMBe8Fwrx4uMH`|The secret for the HMAC algorithm that creates the signature of the [JWT](https://tools.ietf.org/html/rfc7519).
