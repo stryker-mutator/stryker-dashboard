@@ -44,7 +44,7 @@ We store our data in [Azure Storage](https://azure.microsoft.com/en-us/free/serv
 ### GitHub OAuth application
 [Register](https://github.com/settings/applications/new) a new OAuth application. This will allow users to connect to their GitHub account.
 
-> Make sure you set the `Authorization callback URL` to `http://localhost:3000` (you can also use your preferred port).
+> Make sure you set the `Authorization callback URL` to `http://localhost:1337` (you can also use your preferred port).
 
 ### Build the application
 Building the application is easy. First run `npm install && npm run build`, to build the application. Followed by: `docker build -t stryker/dashboard .`, to build the Docker image.
@@ -63,12 +63,12 @@ Variable | Example | Explanation | Required
 `GH_BASIC_SECRET_ID`|`1234567890...abcdef1`|GitHub-issued Client Secret.| Yes
 `JWT_SECRET`|`u7apm8MrMBe8Fwrx4uMH`|The secret for the HMAC algorithm that creates the signature of the [JWT](https://tools.ietf.org/html/rfc7519).|Yes
 `NODE_ENV`|`development`|Node setting for production environment. Used by us for some SSL settings. Can be either: `production` (default) or `development`.|No
-`PORT`|`3000`|Port on which Stryker Dashboard will listen for connections.|No
+`PORT`|`1337`|Port on which Stryker Dashboard will listen for connections.|No
 
 ### Start the application
-To start the application, you can now simply run `docker run --env-file env.list -p 3000:3000 stryker/dashboard`. This will spin-up a Docker container with the image that was build earlier; provide it with your environment variables set in the `env-list` file; and open port 3000 so you can access it on your local machine.
+To start the application, you can now simply run `docker run --env-file env.list -p 1337:1337 stryker/dashboard`. This will spin-up a Docker container with the image that was build earlier; provide it with your environment variables set in the `env-list` file; and open port 1337 so you can access it on your local machine.
 
-Stryker Dashboard should now be available at [http://localhost:3000](http://localhost:3000).
+Stryker Dashboard should now be available at [http://localhost:1337](http://localhost:1337).
 
 ### (Optional) Front-end development
 Building and re-running the Docker image everytime you make a small front-end change is a bit too much work. We use a proxy config file `packages/website-frontend/proxy.config.json`, to redirect requests from the frontend running locally (served by running `npm start`) to the backend running in a Docker container.
