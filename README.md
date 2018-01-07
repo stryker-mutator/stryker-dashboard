@@ -14,7 +14,7 @@ This repository represents a work in progress.
 A Node.js application that
 
 - [X] Authenticates GitHub users using OAuth2.
-- [ ] requests a list of projects from the authenticated user and shows it.
+- [X] requests a list of projects from the authenticated user and shows it.
 - [ ] saves projects for which a badge has to be displayed.
 - [ ] generates a key for each project and shows it to the user.
 Ideally, the key will not be stored in plain text in the database.
@@ -69,6 +69,9 @@ Variable | Example | Explanation | Required
 To start the application, you can now simply run `docker run --env-file env.list -p 3000:3000 stryker/dashboard`. This will spin-up a Docker container with the image that was build earlier; provide it with your environment variables set in the `env-list` file; and open port 3000 so you can access it on your local machine.
 
 Stryker Dashboard should now be available at [http://localhost:3000](http://localhost:3000).
+
+### (Optional) Front-end development
+Building and re-running the Docker image everytime you make a small front-end change is a bit too much work. We use a proxy config file `packages/website-frontend/proxy.config.json`, to redirect requests from the frontend running locally (served by running `npm start`) to the backend running in a Docker container.
 
 ## Contributing
 Pull requests are welcome!
