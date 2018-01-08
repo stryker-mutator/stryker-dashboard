@@ -64,7 +64,7 @@ export default class GithubRepositoryService {
         const agent = new GithubAgent(auth.accessToken);
         const userPermission = await agent.getUserPermissionForRepository(owner, name, auth.username);
         if (!this.userHasEditPermissions(userPermission.permission)) {
-            throw new Unauthorized(`Permission denied. ${auth.username} only has ${userPermission.permission} access on ${owner}/${name}.`);
+            throw new Unauthorized(`Permission denied. ${auth.username} does not have enough permissions for resource ${owner}/${name} (was ${userPermission.permission}).`);
         }
     }
 
