@@ -6,7 +6,7 @@ import GithubAgent, * as githubAgentModule from '../../../src/github/GithubAgent
 import { Mock, createMock } from '../../helpers/mock';
 import GithubRepositoryService from '../../../src/services/GithubRepositoryService';
 import { expect } from 'chai';
-import { Unauthorized } from 'ts-httpexceptions';
+import { HTTPException } from 'ts-httpexceptions';
 
 describe('GithubRepositoryService', () => {
 
@@ -84,7 +84,9 @@ describe('GithubRepositoryService', () => {
                     await sut.update(githubFactory.authentication(), '', '', true);
                     expect.fail('Should have thrown');
                 } catch (err) {
-                    expect(err).instanceOf(Unauthorized);
+                    const httpError = err as HTTPException;
+                    expect(httpError.status).eq(401);
+                    expect(httpError.message).eq(`Permission denied. foobar does not have enough permissions for resource / (was ${userPermission.permission}).`);
                 }
             });
         });
