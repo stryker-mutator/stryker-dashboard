@@ -5,7 +5,7 @@
     <label class="toggle-switch-label float-right" (click)="switchClicked(checkbox, modal)"></label>
     <ng-template #modal let-c="close" let-d="dismiss">
       <div class="modal-header">
-        <h4 class="modal-title">{{ repo.slug }}</h4>
+        <h2 class="modal-title">{{ repo.name }}</h2>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -14,12 +14,13 @@
         <div *ngIf="repo.enabled; then enabledContent else disabledContent"></div>
         <ng-template #disabledContent>
           <p>
-            Here's a unique api key for this repository. You can use it to tell Stryker where to report your mutation score.
+            Here's the api key for this repository. You can use it to tell Stryker where to report the mutation score. <code>{{ apiKey }}</code>
           </p>
           <p>
             <ngb-alert [dismissible]="false">
               <strong>Warning!</strong>
-              An api key is unique and special made for each repository. You might want to encrypt it before publishing it to the world wide web. Keep it secret. Keep it safe.
+              An api key is unique and special made for each repository. You might want to encrypt it before publishing it to the world
+              wide web. Keep it secret. Keep it safe.
             </ngb-alert>
           </p>
         </ng-template>
@@ -32,10 +33,10 @@
       <div class="modal-footer">
         <div *ngIf="repo.enabled; then enabledFooter else disabledFooter"></div>
         <ng-template #enabledFooter>
-          <button type="button" class="btn btn-outline-dark" (click)="c('disable')">Disable</button>
+          <button type="button" class="btn btn-outline-danger" (click)="c('disable')">Disable</button>
         </ng-template>
         <ng-template #disabledFooter>
-          <button type="button" class="btn btn-outline-dark" (click)="c('understood')">Understood</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="c('understood')">Understood</button>
         </ng-template>
       </div>
     </ng-template>

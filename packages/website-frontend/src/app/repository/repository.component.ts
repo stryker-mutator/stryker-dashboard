@@ -12,6 +12,7 @@ export class RepositoryComponent implements OnInit {
 
   @Input() public repo: Repository;
   private modalOptions: NgbModalOptions;
+  private apiKey: String;
 
   public constructor(private modalService: NgbModal) {
     this.modalOptions = { size: 'lg' };
@@ -20,6 +21,7 @@ export class RepositoryComponent implements OnInit {
   public ngOnInit() { }
 
   public switchClicked(checkbox: HTMLInputElement, content: NgbActiveModal) {
+    this.apiKey = 'this-is-your-api-key';
     this.modalService.open(content, this.modalOptions).result.then(() => {
       this.flipSwitch(checkbox);
     }, () => {
