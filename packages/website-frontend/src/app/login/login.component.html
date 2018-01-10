@@ -1,13 +1,11 @@
-<style>
-  .container { display:flex;align-items:center;justify-content:center;height:400px;width:400px;border:0px solid black;}
-</style>
-<div *ngIf="!authenticated;then logincontent else maincontent"></div>
+<div *ngIf="!authenticated; then logincontent else maincontent"></div>
 
 <ng-template #logincontent>
     <div class="container">
       <a href="/auth/github"><img src="./assets/github-icon.svg" width="150" height="150"/></a>
     </div>
 </ng-template>
+
 <ng-template #maincontent>
     <stryker-repositories></stryker-repositories>
 </ng-template>

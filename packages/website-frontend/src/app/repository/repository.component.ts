@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Repository } from 'stryker-dashboard-website-contract';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 
 @Component({
   selector: 'stryker-repository',
@@ -8,10 +10,26 @@ import { Repository } from 'stryker-dashboard-website-contract';
 })
 export class RepositoryComponent implements OnInit {
 
-  @Input() value: Repository;
+  @Input() public repo: Repository;
+  private modalOptions: NgbModalOptions;
 
-  public constructor() { }
+  public constructor(private modalService: NgbModal) {
+    this.modalOptions = { size: 'lg' };
+  }
 
   public ngOnInit() { }
+
+  public switchClicked(checkbox: HTMLInputElement, content: NgbActiveModal) {
+    this.modalService.open(content, this.modalOptions).result.then(() => {
+      this.flipSwitch(checkbox);
+    }, () => {
+      // modal dismissed, no need to do anything
+    });
+  }
+
+  private flipSwitch(checkbox: HTMLInputElement) {
+    this.repo.enabled = !this.repo.enabled;
+    checkbox.checked = this.repo.enabled;
+  }
 
 }

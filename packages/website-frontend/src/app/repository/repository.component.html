@@ -1,1 +1,43 @@
-<div>{{ value.slug }}</div>
+<div class="row">
+  <div class="col-md-10">{{ repo.slug }}</div>
+  <div class="col-md-2">
+    <input #checkbox type="checkbox" class="toggle-switch hidden" />
+    <label class="toggle-switch-label float-right" (click)="switchClicked(checkbox, modal)"></label>
+    <ng-template #modal let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ repo.slug }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="repo.enabled; then enabledContent else disabledContent"></div>
+        <ng-template #disabledContent>
+          <p>
+            Here's a unique api key for this repository. You can use it to tell Stryker where to report your mutation score.
+          </p>
+          <p>
+            <ngb-alert [dismissible]="false">
+              <strong>Warning!</strong>
+              An api key is unique and special made for each repository. You might want to look encrypt it before publishing it to the world wide web. Keep it secret. Keep it safe.
+            </ngb-alert>
+          </p>
+        </ng-template>
+        <ng-template #enabledContent>
+          <p>
+            Here you can disable your repository's badge.
+          </p>
+        </ng-template>
+      </div>
+      <div class="modal-footer">
+        <div *ngIf="repo.enabled; then enabledFooter else disabledFooter"></div>
+        <ng-template #enabledFooter>
+          <button type="button" class="btn btn-outline-dark" (click)="c('disable')">Disable</button>
+        </ng-template>
+        <ng-template #disabledFooter>
+          <button type="button" class="btn btn-outline-dark" (click)="c('understood')">Understood</button>
+        </ng-template>
+      </div>
+    </ng-template>
+  </div>
+</div>
