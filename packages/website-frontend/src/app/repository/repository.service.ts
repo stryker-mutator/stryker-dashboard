@@ -29,6 +29,6 @@ export class RepositoryService {
    * @returns The generated api key for this repository if enabled, otherwise null.
    */
   public enableRepository(slug: string, enabled: boolean): Observable<EnableRepositoryResponse> {
-    return this.http.patch<EnableRepositoryResponse>(`api/repositories/${slug}`, enabled);
+    return this.http.patch<EnableRepositoryResponse>(`api/repositories/${slug}`, { enabled: enabled });
   }
 }

@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Repository } from 'stryker-dashboard-website-contract';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
+
+import { Repository, EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
+import { RepositoryService } from './repository.service';
 
 @Component({
   selector: 'stryker-repository',
@@ -11,27 +13,62 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 export class RepositoryComponent implements OnInit {
 
   @Input() public repo: Repository;
-  private modalOptions: NgbModalOptions;
-  private apiKey: String;
+  public apiKey: String;
+  public enabling: boolean;
 
-  public constructor(private modalService: NgbModal) {
+  private modalOptions: NgbModalOptions;
+
+  public constructor(private modalService: NgbModal, private repositoryService: RepositoryService) {
     this.modalOptions = { size: 'lg' };
+    this.apiKey = '';
+    this.enabling = false;
   }
 
   public ngOnInit() { }
 
   public switchClicked(checkbox: HTMLInputElement, content: NgbActiveModal) {
-    this.apiKey = 'this-is-your-api-key';
+    if (!this.repo.enabled) {
+      this.enableRepository(checkbox);
+    }
     this.modalService.open(content, this.modalOptions).result.then(() => {
-      this.flipSwitch(checkbox);
+      if (!this.enabling) {
+        this.disableRepository(checkbox);
+      }
+      this.modalClosed();
     }, () => {
-      // modal dismissed, no need to do anything
+      this.modalClosed();
     });
+  }
+
+  private enableRepository(checkbox: HTMLInputElement) {
+    this.enabling = true;
+    this.flipSwitch(checkbox);
+    this.repositoryService.enableRepository(this.repo.slug, true)
+      .subscribe((response: EnableRepositoryResponse) => {
+        this.apiKey = response.apiKey;
+      });
+  }
+
+  private disableRepository(checkbox: HTMLInputElement) {
+    this.flipSwitch(checkbox);
+    this.repositoryService.enableRepository(this.repo.slug, false)
+      .subscribe({
+        error: (error) => {
+          this.flipSwitch(checkbox);
+          console.error(error);
+          alert('Something went wrong while disabling this repository. Please check your internet connection');
+        }
+      });
   }
 
   private flipSwitch(checkbox: HTMLInputElement) {
     this.repo.enabled = !this.repo.enabled;
     checkbox.checked = this.repo.enabled;
+  }
+
+  private modalClosed() {
+    this.enabling = false;
+    this.apiKey = '';
   }
 
 }

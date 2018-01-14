@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-10">{{ repo.slug }}</div>
   <div class="col-md-2">
-    <input #checkbox type="checkbox" class="toggle-switch hidden" />
+    <input #checkbox type="checkbox" class="toggle-switch hidden" [checked]="repo.enabled" />
     <label class="toggle-switch-label float-right" (click)="switchClicked(checkbox, modal)"></label>
     <ng-template #modal let-c="close" let-d="dismiss">
       <div class="modal-header">
@@ -11,10 +11,16 @@
         </button>
       </div>
       <div class="modal-body">
-        <div *ngIf="repo.enabled; then enabledContent else disabledContent"></div>
-        <ng-template #disabledContent>
+        <div *ngIf="enabling; then enablingContent else disablingContent"></div>
+        <ng-template #enablingContent>
+          <p>Here's the api key for this repository. You can use it to tell Stryker where to report the mutation score.</p>
           <p>
-            Here's the api key for this repository. You can use it to tell Stryker where to report the mutation score. <code>{{ apiKey }}</code>
+            <strong>API key:</strong>
+            <span *ngIf="!(apiKey); then loading else showApiKey"></span>
+            <ng-template #loading>Retrieving api key...</ng-template>
+            <ng-template #showApiKey>
+              <code>{{ apiKey }}</code>
+            </ng-template>
           </p>
           <p>
             <ngb-alert [dismissible]="false">
@@ -24,19 +30,17 @@
             </ngb-alert>
           </p>
         </ng-template>
-        <ng-template #enabledContent>
-          <p>
-            If you are absolutely sure, you can disable Stryker for your repository now.
-          </p>
+        <ng-template #disablingContent>
+          <p>If you are absolutely sure, you can disable Stryker for your repository now.</p>
         </ng-template>
       </div>
       <div class="modal-footer">
-        <div *ngIf="repo.enabled; then enabledFooter else disabledFooter"></div>
-        <ng-template #enabledFooter>
-          <button type="button" class="btn btn-outline-danger" (click)="c('disable')">Disable</button>
+        <div *ngIf="enabling; then enablingFooter else disablingFooter"></div>
+        <ng-template #enablingFooter>
+          <button type="button" class="btn btn-outline-secondary" (click)="c('understood')">Close</button>
         </ng-template>
-        <ng-template #disabledFooter>
-          <button type="button" class="btn btn-outline-dark" (click)="c('understood')">Understood</button>
+        <ng-template #disablingFooter>
+          <button type="button" class="btn btn-outline-danger" (click)="c('disable')">Disable</button>
         </ng-template>
       </div>
     </ng-template>
