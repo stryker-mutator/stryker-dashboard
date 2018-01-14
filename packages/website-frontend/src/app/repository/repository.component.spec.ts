@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { RepositoryComponent } from './repository.component';
 
@@ -16,14 +17,15 @@ describe('RepositoryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RepositoryComponent ]
+      declarations: [ RepositoryComponent ],
+      imports: [ NgbModule.forRoot() ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RepositoryComponent);
     component = fixture.debugElement.componentInstance;
-    component.value = mockRepo;
+    component.repo = mockRepo;
     fixture.detectChanges();
     compiledComponent = fixture.debugElement.nativeElement;
   });

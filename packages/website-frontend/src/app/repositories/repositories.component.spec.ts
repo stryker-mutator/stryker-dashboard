@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/observable/of';
 
@@ -51,7 +52,8 @@ describe('RepositoriesComponent', () => {
       ],
       providers: [
         { provide: RepositoryService, useClass: RepositoryServiceStub }
-      ]
+      ],
+      imports: [ NgbModule.forRoot() ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(RepositoriesComponent);

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 
 import { LoginComponent } from './login.component';
@@ -32,7 +33,8 @@ describe('LoginComponent', () => {
       providers: [
         { provide: UserService, useClass: UserServiceStub },
         { provide: RepositoryService, useClass: RepositoryServiceStub }
-      ]
+      ],
+      imports: [ NgbModule.forRoot() ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);

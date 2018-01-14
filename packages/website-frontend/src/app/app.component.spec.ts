@@ -1,5 +1,6 @@
 import { TestBed, async } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
@@ -32,7 +33,10 @@ describe('AppComponent', () => {
         RepositoriesComponent,
         RepositoryComponent
       ],
-      imports: [ HttpClientTestingModule ],
+      imports: [ 
+        HttpClientTestingModule, 
+        NgbModule.forRoot() 
+      ],
       providers: [ 
         { provide: RepositoryService, useClass: RepositoryServiceStub },
         { provide: UserService, useClass: UserServiceStub }
