@@ -37,7 +37,7 @@
       <div class="modal-footer">
         <div *ngIf="enabling; then enablingFooter else disablingFooter"></div>
         <ng-template #enablingFooter>
-          <button type="button" class="btn btn-outline-secondary" (click)="c('understood')">Close</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="c('close')">Close</button>
         </ng-template>
         <ng-template #disablingFooter>
           <button type="button" class="btn btn-outline-danger" (click)="c('disable')">Disable</button>

@@ -30,8 +30,8 @@ export class RepositoryComponent implements OnInit {
     if (!this.repo.enabled) {
       this.enableRepository();
     }
-    this.modalService.open(content, this.modalOptions).result.then(() => {
-      if (!this.enabling) {
+    this.modalService.open(content, this.modalOptions).result.then((result) => {
+      if (result === 'disable') {
         this.disableRepository();
       }
       this.modalClosed();
