@@ -1,3 +1,5 @@
 <div class="list-group">
-  <stryker-repository *ngFor="let repo of repositories" [repo]="repo" class="list-group-item"></stryker-repository>
+  <stryker-repository class="list-group-item" *ngFor="let repo of repositories" [repo]="repo" (onRepoEnabled)="modal.repoEnabled($event)"
+    (onRepoAboutToBeDisabled)="modal.repoAboutToBeDisabled($event)"></stryker-repository>
 </div>
+<stryker-repository-modal #modal></stryker-repository-modal>

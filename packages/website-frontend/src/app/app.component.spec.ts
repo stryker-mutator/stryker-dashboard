@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RepositoriesComponent } from './repositories/repositories.component';
 import { RepositoryComponent } from './repository/repository.component';
+import { RepositoryModalComponent } from './repository/modal/modal.component';
 import { RepositoryService } from './repository/repository.service';
 import { UserService } from './user/user.service';
 import { Login } from 'stryker-dashboard-website-contract';
@@ -31,7 +32,8 @@ describe('AppComponent', () => {
         AppComponent,
         LoginComponent,
         RepositoriesComponent,
-        RepositoryComponent
+        RepositoryComponent,
+        RepositoryModalComponent
       ],
       imports: [ 
         HttpClientTestingModule, 

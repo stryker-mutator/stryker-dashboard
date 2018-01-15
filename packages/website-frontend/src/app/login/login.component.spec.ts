@@ -7,6 +7,7 @@ import { UserService } from '../user/user.service';
 import { Login, Repository } from 'stryker-dashboard-website-contract';
 import { RepositoriesComponent } from '../repositories/repositories.component';
 import { RepositoryComponent } from './../repository/repository.component';
+import { RepositoryModalComponent } from '../repository/modal/modal.component';
 import { RepositoryService } from '../repository/repository.service';
 
 describe('LoginComponent', () => {
@@ -29,7 +30,12 @@ describe('LoginComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginComponent, RepositoriesComponent, RepositoryComponent ],
+      declarations: [
+        LoginComponent,
+        RepositoriesComponent,
+        RepositoryComponent,
+        RepositoryModalComponent
+      ],
       providers: [
         { provide: UserService, useClass: UserServiceStub },
         { provide: RepositoryService, useClass: RepositoryServiceStub }

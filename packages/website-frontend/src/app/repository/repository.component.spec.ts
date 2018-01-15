@@ -51,6 +51,4 @@ describe('RepositoryComponent', () => {
     expect(div.textContent).toContain('github/stryker-mutator/stryker-badge');
   });
 
-  // TODO write test to enable/disable repositories
-
 });

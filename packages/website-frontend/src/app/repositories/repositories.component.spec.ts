@@ -5,6 +5,7 @@ import 'rxjs/add/observable/of';
 
 import { RepositoriesComponent } from './repositories.component';
 import { RepositoryComponent } from '../repository/repository.component';
+import { RepositoryModalComponent } from "../repository/modal/modal.component";
 import { RepositoryService } from '../repository/repository.service';
 import { Repository } from 'stryker-dashboard-website-contract';
 
@@ -48,7 +49,8 @@ describe('RepositoriesComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ 
         RepositoriesComponent, 
-        RepositoryComponent
+        RepositoryComponent,
+        RepositoryModalComponent
       ],
       providers: [
         { provide: RepositoryService, useClass: RepositoryServiceStub }

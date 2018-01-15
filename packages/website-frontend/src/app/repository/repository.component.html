@@ -3,46 +3,5 @@
   <div class="col-md-2">
     <input type="checkbox" class="toggle-switch hidden" [checked]="repo.enabled" />
     <label class="toggle-switch-label float-right" (click)="switchClicked(modal)"></label>
-    <ng-template #modal let-c="close" let-d="dismiss">
-      <div class="modal-header">
-        <h2 class="modal-title">{{ repo.name }}</h2>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div *ngIf="enabling; then enablingContent else disablingContent"></div>
-        <ng-template #enablingContent>
-          <p>Here's the api key for this repository. You can use it to tell Stryker where to report the mutation score.</p>
-          <p>
-            <strong>API key:</strong>
-            <span *ngIf="!(apiKey); then loading else showApiKey"></span>
-            <ng-template #loading>Retrieving api key...</ng-template>
-            <ng-template #showApiKey>
-              <code>{{ apiKey }}</code>
-            </ng-template>
-          </p>
-          <p>
-            <ngb-alert [dismissible]="false">
-              <strong>Warning!</strong>
-              An api key is unique and special made for each repository. You might want to encrypt it before publishing it to the world
-              wide web. Keep it secret. Keep it safe.
-            </ngb-alert>
-          </p>
-        </ng-template>
-        <ng-template #disablingContent>
-          <p>If you are absolutely sure, you can disable Stryker for your repository now.</p>
-        </ng-template>
-      </div>
-      <div class="modal-footer">
-        <div *ngIf="enabling; then enablingFooter else disablingFooter"></div>
-        <ng-template #enablingFooter>
-          <button type="button" class="btn btn-outline-secondary" (click)="c('close')">Close</button>
-        </ng-template>
-        <ng-template #disablingFooter>
-          <button type="button" class="btn btn-outline-danger" (click)="c('disable')">Disable</button>
-        </ng-template>
-      </div>
-    </ng-template>
   </div>
 </div>

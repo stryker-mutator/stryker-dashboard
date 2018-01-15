@@ -6,15 +6,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { RepositoriesComponent } from './repositories/repositories.component';
 import { RepositoryComponent } from './repository/repository.component';
+import { RepositoryModalComponent } from './repository/modal/modal.component';
 import { RepositoryService } from './repository/repository.service';
 import { LoginComponent } from './login/login.component';
 import { UserService } from './user/user.service';
 
 @NgModule({
+  bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
     RepositoriesComponent,
     RepositoryComponent,
+    RepositoryModalComponent,
     LoginComponent
   ],
   imports: [
@@ -25,7 +28,6 @@ import { UserService } from './user/user.service';
   providers: [
     RepositoryService,
     UserService
-  ],
-  bootstrap: [ AppComponent ]
+  ]
 })
 export class AppModule { }
