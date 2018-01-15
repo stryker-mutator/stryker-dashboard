@@ -26,13 +26,13 @@ export class RepositoryComponent implements OnInit {
 
   public ngOnInit() { }
 
-  public switchClicked(checkbox: HTMLInputElement, content: NgbActiveModal) {
+  public switchClicked(content: NgbActiveModal) {
     if (!this.repo.enabled) {
-      this.enableRepository(checkbox);
+      this.enableRepository();
     }
     this.modalService.open(content, this.modalOptions).result.then(() => {
       if (!this.enabling) {
-        this.disableRepository(checkbox);
+        this.disableRepository();
       }
       this.modalClosed();
     }, () => {
@@ -40,31 +40,30 @@ export class RepositoryComponent implements OnInit {
     });
   }
 
-  private enableRepository(checkbox: HTMLInputElement) {
+  private enableRepository() {
     this.enabling = true;
-    this.flipSwitch(checkbox);
+    this.flipSwitch();
     this.repositoryService.enableRepository(this.repo.slug, true)
       .subscribe((response: EnableRepositoryResponse) => {
         this.apiKey = response.apiKey;
       });
   }
 
-  private disableRepository(checkbox: HTMLInputElement) {
-    this.flipSwitch(checkbox);
+  private flipSwitch() {
+    this.repo.enabled = !this.repo.enabled;
+  }
+
+  private disableRepository() {
+    this.flipSwitch();
     this.repositoryService.enableRepository(this.repo.slug, false)
       .subscribe({
         error: (error) => {
-          this.flipSwitch(checkbox);
+          this.flipSwitch();
           console.error(error);
           alert('Something went wrong while disabling this repository. Please check your internet connection');
         }
       });
-  }
-
-  private flipSwitch(checkbox: HTMLInputElement) {
-    this.repo.enabled = !this.repo.enabled;
-    checkbox.checked = this.repo.enabled;
-  }
+    }
 
   private modalClosed() {
     this.enabling = false;
