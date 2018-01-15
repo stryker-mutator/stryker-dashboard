@@ -9,11 +9,11 @@ import { UserService } from './../user/user.service';
 })
 export class LoginComponent implements OnInit {
 
-  authenticated:boolean = false;
+  public authenticated: boolean = false;
 
-  constructor(private userService: UserService) { }
+  public constructor(private userService: UserService) { }
 
-  ngOnInit() { 
+  public ngOnInit() {
     this.userService.login().subscribe({ next: () => {
       this.authenticated = true;
     }, error: (res: any) => {

@@ -49,7 +49,7 @@ describe('RepositoryService', () => {
       repositoryService.getRepositories().subscribe((repositories: Repository[]) => {
         expect(repositories.length).toBe(3);
       });
-      let request = httpMock.expectOne('api/user/repositories');
+      const request = httpMock.expectOne('api/user/repositories');
       expect(request.request.method).toBe('GET');
       request.flush(mockedRepositories);
       httpMock.verify();
@@ -69,7 +69,7 @@ describe('RepositoryService', () => {
           // currently it states: expected 'null' to be null.
           // in addition, it is also not possible to flush undefined.
         });
-      let request = httpMock.expectOne('api/repositories/github/stryker-mutator/stryker-badge');
+      const request = httpMock.expectOne('api/repositories/github/stryker-mutator/stryker-badge');
       expect(request.request.method).toBe('PATCH');
       request.flush(null);
       httpMock.verify();
@@ -81,7 +81,7 @@ describe('RepositoryService', () => {
           expect(response).toBeTruthy();
           expect(response.apiKey).toBe('my-super-secret-api-key');
         });
-      let request = httpMock.expectOne('api/repositories/github/stryker-mutator/stryker-badge');
+      const request = httpMock.expectOne('api/repositories/github/stryker-mutator/stryker-badge');
       expect(request.request.method).toBe('PATCH');
       request.flush({ apiKey: 'my-super-secret-api-key' });
       httpMock.verify();

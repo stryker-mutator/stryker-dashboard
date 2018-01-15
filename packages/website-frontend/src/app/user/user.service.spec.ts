@@ -32,7 +32,7 @@ describe('RepositoryService', () => {
         expect(login).toBeTruthy();
       });
 
-      let userRequest = httpMock.expectOne('api/user');
+      const userRequest = httpMock.expectOne('api/user');
       userRequest.flush(JSON.stringify(mockedLogin));
       httpMock.verify();
     });

@@ -16,7 +16,7 @@ describe('RepositoryComponent', () => {
   }
   let component: RepositoryComponent;
   let fixture: ComponentFixture<RepositoryComponent>;
-  let compiledComponent: any;
+  let compiledComponent: HTMLElement;
 
   class RepositoryServiceStub {
     public enableRepository(): Observable<EnableRepositoryResponse> {
@@ -47,8 +47,8 @@ describe('RepositoryComponent', () => {
   });
 
   it(`should display the repository's slug`, () => {
-    expect(compiledComponent.querySelector('div').textContent)
-      .toContain('github/stryker-mutator/stryker-badge');
+    const div = <HTMLDivElement>compiledComponent.querySelector('div');
+    expect(div.textContent).toContain('github/stryker-mutator/stryker-badge');
   });
 
   // TODO write test to enable/disable repositories
