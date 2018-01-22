@@ -1,1 +1,7 @@
-<div>{{ value.slug }}</div>
+<div class="row">
+  <div class="col-md-10">{{ repo.slug }}</div>
+  <div class="col-md-2">
+    <input type="checkbox" class="toggle-switch hidden" [checked]="repo.enabled" />
+    <label class="toggle-switch-label float-right" (click)="switchClicked(modal)"></label>
+  </div>
+</div>

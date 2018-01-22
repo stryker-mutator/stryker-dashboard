@@ -18,7 +18,7 @@ export default class RepositoriesController {
         @PathParams('name') name: string,
         @BodyParams() repository: Partial<Repository>,
         @Req() request: express.Request,
-        @Res() response: express.Response): Promise<EnableRepositoryResponse | undefined> {
+        @Res() response: express.Response): Promise<EnableRepositoryResponse | null> {
 
         if (isUndefined(repository.enabled)) {
             throw new BadRequest('PATCH is only allowed for the `enabled` property');
@@ -36,7 +36,7 @@ export default class RepositoriesController {
                 await this.repoService.update(authentication, owner, name, false);
                 response.status(204);
                 response.end();
-                return undefined;
+                return null;
             }
         }
 

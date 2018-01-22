@@ -2,15 +2,38 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { RepositoryService } from './repository.service';
+import { Repository, EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
 
 describe('RepositoryService', () => {
   let repositoryService: RepositoryService;
   let httpMock: HttpTestingController;
 
+  const mockedRepositories = [
+    {
+      slug: 'github/stryker-mutator/stryker-badge',
+      origin: 'https://www.github.com',
+      owner: 'stryker-mutator',
+      name: 'stryker-badge',
+      enabled: true
+    }, {
+      slug: 'github/stryker-mutator/stryker',
+      origin: 'https://www.github.com',
+      owner: 'stryker-mutator',
+      name: 'stryker',
+      enabled: true
+    }, {
+      slug: 'github/stryker-mutator/stryker-jest-runner',
+      origin: 'https://www.github.com',
+      owner: 'stryker-mutator',
+      name: 'stryker-jest-runner',
+      enabled: false
+    }
+  ];
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
-      providers: [ RepositoryService ]
+      imports: [HttpClientTestingModule],
+      providers: [RepositoryService]
     });
     repositoryService = TestBed.get(RepositoryService);
     httpMock = TestBed.get(HttpTestingController);
@@ -22,38 +45,48 @@ describe('RepositoryService', () => {
 
   describe('getRepositories()', () => {
 
-    it('should return an Observable<Repository[]>', () => {
-      const mockedRepositories = [
-        {
-          slug: 'stryker-mutator/stryker-badge',
-          origin: 'https://www.github.com',
-          owner: 'stryker-mutator',
-          name: 'stryker-badge',
-          enabled: true
-        }, {
-          slug: 'stryker-mutator/stryker',
-          origin: 'https://www.github.com',
-          owner: 'stryker-mutator',
-          name: 'stryker',
-          enabled: true
-        }, {
-          slug: 'stryker-mutator/stryker-jest-runner',
-          origin: 'https://www.github.com',
-          owner: 'stryker-mutator',
-          name: 'stryker-jest-runner',
-          enabled: false
-        }
-      ];
-      
-      repositoryService.getRepositories().subscribe((repositories) => {
-        expect(repositories.length).toBeGreaterThan(0);
+    it('should send a GET request to /api/user/repositories and return an Observable<Repository[]>', () => {
+      repositoryService.getRepositories().subscribe((repositories: Repository[]) => {
+        expect(repositories.length).toBe(3);
       });
-
-      let repositoriesRequest = httpMock.expectOne('api/user/repositories');
-      repositoriesRequest.flush(JSON.stringify(mockedRepositories));
+      const request = httpMock.expectOne('api/user/repositories');
+      expect(request.request.method).toBe('GET');
+      request.flush(mockedRepositories);
       httpMock.verify();
     });
 
   });
-  
+
+  describe('enableRepositories()', () => {
+
+    it('should send a PATCH request with enabled = false', () => {
+      repositoryService.enableRepository(mockedRepositories[0].slug, false)
+        .subscribe((response: EnableRepositoryResponse) => {
+          // TODO: change this assert
+          expect(response).toBeTruthy();
+          // to:
+          // expect(response).toBeNull();
+          // currently it states: expected 'null' to be null.
+          // in addition, it is also not possible to flush undefined.
+        });
+      const request = httpMock.expectOne('api/repositories/github/stryker-mutator/stryker-badge');
+      expect(request.request.method).toBe('PATCH');
+      request.flush(null);
+      httpMock.verify();
+    });
+
+    it('should send a PATCH request with enabled = true', () => {
+      repositoryService.enableRepository(mockedRepositories[0].slug, true)
+        .subscribe((response: EnableRepositoryResponse) => {
+          expect(response).toBeTruthy();
+          expect(response.apiKey).toBe('my-super-secret-api-key');
+        });
+      const request = httpMock.expectOne('api/repositories/github/stryker-mutator/stryker-badge');
+      expect(request.request.method).toBe('PATCH');
+      request.flush({ apiKey: 'my-super-secret-api-key' });
+      httpMock.verify();
+    });
+
+  });
+
 });

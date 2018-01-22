@@ -1,5 +1,6 @@
 import { TestBed, async } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
@@ -7,20 +8,21 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RepositoriesComponent } from './repositories/repositories.component';
 import { RepositoryComponent } from './repository/repository.component';
+import { RepositoryModalComponent } from './repository/modal/modal.component';
 import { RepositoryService } from './repository/repository.service';
 import { UserService } from './user/user.service';
 import { Login } from 'stryker-dashboard-website-contract';
 
 describe('AppComponent', () => {
 
-  class RepositoryServiceStub {  
+  class RepositoryServiceStub {
     public getRepositories() {
       return Observable.of();
     }
   }
-  class UserServiceStub {  
+  class UserServiceStub {
     public login(): Observable<Login> {
-      return Observable.of({name: '', avatarUrl: ''});
+      return Observable.of({ name: '', avatarUrl: '' });
     }
   }
 
@@ -30,10 +32,14 @@ describe('AppComponent', () => {
         AppComponent,
         LoginComponent,
         RepositoriesComponent,
-        RepositoryComponent
+        RepositoryComponent,
+        RepositoryModalComponent
       ],
-      imports: [ HttpClientTestingModule ],
-      providers: [ 
+      imports: [
+        HttpClientTestingModule,
+        NgbModule.forRoot()
+      ],
+      providers: [
         { provide: RepositoryService, useClass: RepositoryServiceStub },
         { provide: UserService, useClass: UserServiceStub }
       ]

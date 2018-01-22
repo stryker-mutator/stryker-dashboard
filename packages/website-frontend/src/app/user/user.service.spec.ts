@@ -9,8 +9,8 @@ describe('RepositoryService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
-      providers: [ UserService ]
+      imports: [HttpClientTestingModule],
+      providers: [UserService]
     });
     userService = TestBed.get(UserService);
     httpMock = TestBed.get(HttpTestingController);
@@ -27,12 +27,12 @@ describe('RepositoryService', () => {
         name: 'stryker-mutator',
         avatarUrl: 'https://avatars0.githubusercontent.com/u/18347996'
       };
-      
+
       userService.login().subscribe((login) => {
         expect(login).toBeTruthy();
       });
 
-      let userRequest = httpMock.expectOne('api/user');
+      const userRequest = httpMock.expectOne('api/user');
       userRequest.flush(JSON.stringify(mockedLogin));
       httpMock.verify();
     });
