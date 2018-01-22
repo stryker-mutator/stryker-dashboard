@@ -5,10 +5,11 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "build": "ng build",
     "clean": "rimraf dist/",
-    "e2e": "ng e2e",
     "lint": "ng lint",
+    "prebuild": "npm run lint",
+    "build": "ng build",
+    "e2e": "ng e2e",
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.config.json",
     "test": "ng test --single-run"

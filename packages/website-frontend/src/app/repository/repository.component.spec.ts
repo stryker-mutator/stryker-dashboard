@@ -4,16 +4,10 @@ import { Observable } from 'rxjs/Observable';
 
 import { RepositoryComponent } from './repository.component';
 import { RepositoryService } from './repository.service';
-import { EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
+import { EnableRepositoryResponse, Repository } from 'stryker-dashboard-website-contract';
 
 describe('RepositoryComponent', () => {
-  const mockRepo = {
-    slug: 'github/stryker-mutator/stryker-badge',
-    origin: 'https://www.github.com',
-    owner: 'stryker-mutator',
-    name: 'stryker-badge',
-    enabled: true
-  }
+  let mockRepo: Repository;
   let component: RepositoryComponent;
   let fixture: ComponentFixture<RepositoryComponent>;
   let compiledComponent: HTMLElement;
@@ -25,9 +19,16 @@ describe('RepositoryComponent', () => {
   }
 
   beforeEach(async(() => {
+    mockRepo = {
+      slug: 'github/stryker-mutator/stryker-badge',
+      origin: 'https://www.github.com',
+      owner: 'stryker-mutator',
+      name: 'stryker-badge',
+      enabled: true
+    };
     TestBed.configureTestingModule({
-      declarations: [ RepositoryComponent ],
-      imports: [ NgbModule.forRoot() ],
+      declarations: [RepositoryComponent],
+      imports: [NgbModule.forRoot()],
       providers: [
         { provide: RepositoryService, useClass: RepositoryServiceStub }
       ]

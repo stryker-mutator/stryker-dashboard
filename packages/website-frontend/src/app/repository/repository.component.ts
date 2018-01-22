@@ -11,8 +11,8 @@ import { RepositoryService } from './repository.service';
 export class RepositoryComponent {
 
   @Input() public repo: Repository;
-  @Output() public onRepoEnabled = new EventEmitter<RepositoryComponent>();
-  @Output() public onRepoAboutToBeDisabled = new EventEmitter<RepositoryComponent>();
+  @Output() public repoEnabled = new EventEmitter<RepositoryComponent>();
+  @Output() public repoAboutToBeDisabled = new EventEmitter<RepositoryComponent>();
 
   public apiKey: string;
 
@@ -23,9 +23,9 @@ export class RepositoryComponent {
   public switchClicked() {
     if (!this.repo.enabled) {
       this.enableRepository();
-      this.onRepoEnabled.emit(this);
+      this.repoEnabled.emit(this);
     } else {
-      this.onRepoAboutToBeDisabled.emit(this);
+      this.repoAboutToBeDisabled.emit(this);
     }
   }
 
@@ -40,13 +40,13 @@ export class RepositoryComponent {
   public disableRepository() {
     this.flipSwitch();
     this.repositoryService.enableRepository(this.repo.slug, false)
-    .subscribe({
-      error: (error) => {
-        this.flipSwitch();
-        console.error(error);
-        alert('Something went wrong while disabling this repository. Please check your internet connection');
-      }
-    });
+      .subscribe({
+        error: (error) => {
+          this.flipSwitch();
+          console.error(error);
+          alert('Something went wrong while disabling this repository. Please check your internet connection');
+        }
+      });
   }
 
   private flipSwitch() {

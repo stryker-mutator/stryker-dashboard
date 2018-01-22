@@ -15,14 +15,14 @@ import { Login } from 'stryker-dashboard-website-contract';
 
 describe('AppComponent', () => {
 
-  class RepositoryServiceStub {  
+  class RepositoryServiceStub {
     public getRepositories() {
       return Observable.of();
     }
   }
-  class UserServiceStub {  
+  class UserServiceStub {
     public login(): Observable<Login> {
-      return Observable.of({name: '', avatarUrl: ''});
+      return Observable.of({ name: '', avatarUrl: '' });
     }
   }
 
@@ -35,11 +35,11 @@ describe('AppComponent', () => {
         RepositoryComponent,
         RepositoryModalComponent
       ],
-      imports: [ 
-        HttpClientTestingModule, 
-        NgbModule.forRoot() 
+      imports: [
+        HttpClientTestingModule,
+        NgbModule.forRoot()
       ],
-      providers: [ 
+      providers: [
         { provide: RepositoryService, useClass: RepositoryServiceStub },
         { provide: UserService, useClass: UserServiceStub }
       ]

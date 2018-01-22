@@ -14,7 +14,7 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
-  class UserServiceStub {  
+  class UserServiceStub {
     public login(): Observable<Login> {
       return Observable.of({
         name: 'stryker-mutator',
@@ -22,7 +22,7 @@ describe('LoginComponent', () => {
       });
     }
   }
-  class RepositoryServiceStub {  
+  class RepositoryServiceStub {
     public getRepositories(): Observable<Repository[]> {
       return Observable.of([]);
     }
@@ -40,7 +40,7 @@ describe('LoginComponent', () => {
         { provide: UserService, useClass: UserServiceStub },
         { provide: RepositoryService, useClass: RepositoryServiceStub }
       ],
-      imports: [ NgbModule.forRoot() ]
+      imports: [NgbModule.forRoot()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);

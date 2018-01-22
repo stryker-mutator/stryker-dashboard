@@ -7,10 +7,10 @@ import { Login } from 'stryker-dashboard-website-contract';
 @Injectable()
 export class UserService {
 
-  public constructor(private http: HttpClient) {}
+  public constructor(private http: HttpClient) { }
 
   public login(): Observable<Login> {
     return this.http.get<Login>('api/user');
   }
-  
+
 }

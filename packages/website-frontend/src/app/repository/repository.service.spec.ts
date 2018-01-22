@@ -32,8 +32,8 @@ describe('RepositoryService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
-      providers: [ RepositoryService ]
+      imports: [HttpClientTestingModule],
+      providers: [RepositoryService]
     });
     repositoryService = TestBed.get(RepositoryService);
     httpMock = TestBed.get(HttpTestingController);
@@ -65,7 +65,7 @@ describe('RepositoryService', () => {
           // TODO: change this assert
           expect(response).toBeTruthy();
           // to:
-          //expect(response).toBeNull();
+          // expect(response).toBeNull();
           // currently it states: expected 'null' to be null.
           // in addition, it is also not possible to flush undefined.
         });
@@ -88,5 +88,5 @@ describe('RepositoryService', () => {
     });
 
   });
-  
+
 });
