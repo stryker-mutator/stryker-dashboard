@@ -3,7 +3,7 @@ import * as passport from 'passport';
 import * as express from 'express';
 import { Request, Response, NextFunction } from 'express';
 import { createToken, passportAuthenticateGithub } from '../middleware/securityMiddleware';
-import * as utils from '../utils'
+import * as utils from '../utils';
 import Configuration from '../services/Configuration';
 
 @Controller('/github')
@@ -26,7 +26,7 @@ export default class GithubAuth {
             this.log(`Generated JWT for user ${req.user.username}`);
             res.cookie('jwt', token, {
                 httpOnly: true,
-                sameSite: true,
+                sameSite: false,
                 secure: !this.config.isDevelopment
             });
             res.redirect('/');
@@ -36,13 +36,14 @@ export default class GithubAuth {
     @Get('/logout')
     logout(req: Request, res: Response, next: NextFunction) {
         const cookies = req.cookies || {};
-        for (let cookie in cookies) {
+        for (const cookie in cookies) {
             if (!cookies.hasOwnProperty(cookie)) {
                 continue;
             }
             res.cookie(cookie, '', { expires: new Date(0) });
         }
         req.logout();
-        res.redirect('/');
+        res.statusCode = 204;
+        res.end();
     }
 }

@@ -1,0 +1,9 @@
+/* You can add global styles to this file, and also import other style files */
+$theme-colors: (
+  "primary": #B74934
+);
+@import "node_modules/bootstrap/scss/bootstrap";
+
+a {
+  cursor: pointer;
+}

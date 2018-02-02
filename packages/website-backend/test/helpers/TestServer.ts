@@ -61,7 +61,8 @@ beforeEach(() => {
     RepositoryServiceStub.update = sandbox.stub();
 });
 
-export default async function testServer<TController>(Controller: Type<TController>, user?: Authentication, ...middlewares: any[]): Promise<SuperTest<Test>> {
+export default async function testServer<TController>(Controller: Type<TController>, user?: Authentication, ...middlewares: any[])
+    : Promise<SuperTest<Test>> {
     let request: SuperTest<Test> = null as any;
     class TestServer extends ServerLoader {
         constructor() {
@@ -96,7 +97,6 @@ export default async function testServer<TController>(Controller: Type<TControll
     });
     return request;
 }
-
 
 function bootstrapAsPromised(ServerConstructor: any): Promise<any> {
     return new Promise((res) => {

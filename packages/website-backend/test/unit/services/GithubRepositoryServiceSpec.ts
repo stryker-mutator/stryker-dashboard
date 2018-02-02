@@ -30,7 +30,7 @@ describe('GithubRepositoryService', () => {
             const repos: github.Repository[] = [
                 githubFactory.repository({ name: 'project1', full_name: 'foobarOrg/project1' }),
                 githubFactory.repository({ name: 'project2', full_name: 'foobarOrg/project2' }),
-                githubFactory.repository({ name: 'project3', full_name: 'foobarOrg/project3' }),
+                githubFactory.repository({ name: 'project3', full_name: 'foobarOrg/project3' })
             ];
             const projectEntities: dal.Project[] = [
                 dalFactory.repository({ name: 'project1', enabled: false }),

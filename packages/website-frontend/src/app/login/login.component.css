@@ -1,8 +1,11 @@
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 400px;
-  width: 400px;
-  border: 0px solid black;
+.btn-lg img {
+  height: 40px;
+}
+
+.icon {
+  margin-left: 4px;
+  width: 15px;
+  height: 16px;
+  fill: none;
+  stroke: #FFF;
 }

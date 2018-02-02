@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { Repository, EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
+import { EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
 
 /**
  * Provides methods to easily make HTTP requests to `api/repositories`.
@@ -11,16 +11,6 @@ import { Repository, EnableRepositoryResponse } from 'stryker-dashboard-website-
 export class RepositoryService {
 
   public constructor(private http: HttpClient) {}
-
-  /**
-   * Retrieve all repositories of a user.
-   * @returns An array of all repositories belonging to the logged-in user.
-   */
-  // TODO: This method could be moved to the UserService,
-  // because it retrieves the Repositories of a User.
-  public getRepositories(): Observable<Repository[]> {
-    return this.http.get<Repository[]>('api/user/repositories');
-  }
 
   /**
    * Enables or disables a repository.

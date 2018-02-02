@@ -28,10 +28,10 @@ export default class RepositoriesController {
                 const apiKey = generateApiKey();
                 const apiKeyHash = generateHashValue(apiKey);
                 await this.repoService.update(authentication, owner, name, true, apiKeyHash);
-                const response: EnableRepositoryResponse = {
+                const res: EnableRepositoryResponse = {
                     apiKey
                 };
-                return response;
+                return res;
             } else {
                 await this.repoService.update(authentication, owner, name, false);
                 response.status(204);
@@ -39,7 +39,5 @@ export default class RepositoriesController {
                 return null;
             }
         }
-
     }
-
 }

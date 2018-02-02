@@ -42,8 +42,8 @@ describe('Overall Express error handling', () => {
             return response
                 // .expect(500)
                 .expect((res: any) => {
-                    console.log(`res: ${res.status} - ${res.text}`)
-                })
+                    // console.log(`res: ${res.status} - ${res.text}`)
+                });
         });
     });
 });

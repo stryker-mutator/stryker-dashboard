@@ -13,7 +13,7 @@
         <strong>API key:</strong>
         <span *ngIf="apiKey(); then showApiKey else loading"></span>
         <ng-template #showApiKey>
-          <code>{{ apiKey() }}</code>
+          <code class="font-weight-bold text-success">{{ apiKey() }}</code>
         </ng-template>
         <ng-template #loading>Retrieving api key...</ng-template>
       </p>

@@ -5,10 +5,9 @@
 
 body { font-family: "Open Sans",Arial,sans-serif; }
 
-.docs-header {
+.jumbotron {
   font-family: Carrois;
-  background-color: #B74934;
-  color: #F1C40F; 
+  background-color: inherit;
 }
 .docs-header a {
   color: #F1C40F;

@@ -5,10 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { LoginComponent } from './login.component';
 import { UserService } from '../user/user.service';
 import { Login, Repository } from 'stryker-dashboard-website-contract';
-import { RepositoriesComponent } from '../repositories/repositories.component';
-import { RepositoryComponent } from './../repository/repository.component';
-import { RepositoryModalComponent } from '../repository/modal/modal.component';
 import { RepositoryService } from '../repository/repository.service';
+import { AppModule } from '../app.module';
+import { APP_BASE_HREF } from '@angular/common';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -30,17 +29,12 @@ describe('LoginComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        LoginComponent,
-        RepositoriesComponent,
-        RepositoryComponent,
-        RepositoryModalComponent
-      ],
       providers: [
         { provide: UserService, useClass: UserServiceStub },
-        { provide: RepositoryService, useClass: RepositoryServiceStub }
+        { provide: RepositoryService, useClass: RepositoryServiceStub },
+        { provide: APP_BASE_HREF, useValue: '/' }
       ],
-      imports: [NgbModule.forRoot()]
+      imports: [NgbModule.forRoot(), AppModule ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);

@@ -4,10 +4,13 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
 import { RepositoriesComponent } from './repositories.component';
-import { RepositoryComponent } from '../repository/repository.component';
-import { RepositoryModalComponent } from '../repository/modal/modal.component';
 import { RepositoryService } from '../repository/repository.service';
 import { Repository } from 'stryker-dashboard-website-contract';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { OrganizationsService } from '../organizations/organizations.service';
+import { UserService } from '../user/user.service';
+import { AppModule } from '../app.module';
+import { APP_BASE_HREF } from '@angular/common';
 
 describe('RepositoriesComponent', () => {
   let component: RepositoriesComponent;
@@ -51,16 +54,27 @@ describe('RepositoriesComponent', () => {
   }
 
   beforeEach(() => {
+
+    const orgsStub = {
+      getRepositories() {
+        return Observable.of([]);
+      }
+    };
+    const userServiceStub = {
+      currentUser: Observable.of({}),
+      getRepositories() {
+        return Observable.of([]);
+      }
+    };
     TestBed.configureTestingModule({
-      declarations: [
-        RepositoriesComponent,
-        RepositoryComponent,
-        RepositoryModalComponent
-      ],
       providers: [
-        { provide: RepositoryService, useClass: RepositoryServiceStub }
+        { provide: RepositoryService, useClass: RepositoryServiceStub },
+        { provide: OrganizationsService, useValue: orgsStub },
+        { provide: UserService, useValue: userServiceStub },
+        { provide: APP_BASE_HREF, useValue: '/' }
       ],
-      imports: [NgbModule.forRoot()]
+      imports: [NgbModule.forRoot(), AppModule],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(RepositoriesComponent);
