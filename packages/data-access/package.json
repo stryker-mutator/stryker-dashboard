@@ -14,9 +14,11 @@
   "typings": "src/index.ts",
   "license": "ISC",
   "dependencies": {
-    "azure-storage": "^2.6.0"
+    "azure-storage": "^2.6.0",
+    "es6-promisify": "^6.0.0"
   },
   "devDependencies": {
+    "@types/es6-promisify": "^5.0.0",
     "@types/node": "^9.4.0"
   }
 }

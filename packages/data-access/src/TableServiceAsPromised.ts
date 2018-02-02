@@ -1,5 +1,6 @@
-import { promisify, isUndefined } from 'util';
+import { isUndefined } from 'util';
 import { ErrorOrResult, TableService, TableQuery, createTableService } from 'azure-storage';
+const { promisify } = require('es6-promisify');
 
 export type Entity<T> = {
     [K in keyof T]: {
@@ -39,7 +40,7 @@ export default class TableServiceAsPromised {
     private promisify<T1, TResult>(action: (arg: T1, callback: ErrorOrResult<TResult>) => void, arg: T1): Promise<TResult>
     private promisify<T1, T2, TResult>(action: (arg: T1, arg2: T2, callback: ErrorOrResult<TResult>) => void, arg: T1, arg2: T2): Promise<TResult>
     private promisify<T1, T2, T3, TResult>(action: (arg: T1, arg2: T2, arg3: T3, callback: ErrorOrResult<TResult>) => void, arg: T1, arg2: T2, arg3: T3): Promise<TResult>
-    private promisify<T1, T2, T3, TResult>(action: Function, arg: T1, arg2?: T2, arg3?: T3): Promise<TResult> {
+    private promisify<T1, T2, T3, TResult>(action: (...args: any[]) => any, arg: T1, arg2?: T2, arg3?: T3): Promise<TResult> {
         const args: (T1 | T2 | T3)[] = [arg];
         if (!isUndefined(arg2)) {
             args.push(arg2);
