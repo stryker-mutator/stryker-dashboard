@@ -30,7 +30,7 @@ describe('GitHubAuth', () => {
     });
 
     describe('GET /logout', () => {
-        it('should redirect to /', () => {
+        it('should respond with 204', () => {
             // Arrange
             const token = 'foo-bar-baz';
             createTokenStub.resolves(token)
@@ -41,8 +41,7 @@ describe('GitHubAuth', () => {
 
             // Assert
             return response
-                .expect(302)
-                .expect('location', '/');
+                .expect(204);
         });
 
         it('should delete the \'jwt\' cookie', () => {
@@ -52,7 +51,6 @@ describe('GitHubAuth', () => {
 
             // Assert
             return response
-                .expect(302)
                 .expect('set-cookie', /jwt/)
                 .expect('set-cookie', /Expires=Thu, 01 Jan 1970 00:00:00 GMT/);
         });
