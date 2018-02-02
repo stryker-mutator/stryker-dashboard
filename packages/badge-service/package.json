@@ -8,11 +8,10 @@
     "clean": "rimraf src/**/*.js.map src/**/*.js",
     "prebuild": "npm run clean",
     "build": "tsc",
-    "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"src/testHelpers/**/*.js\" \"src/**/*Spec.js\"",
+    "test": "mocha \"src/testHelpers/**/*.js\" \"src/**/*Spec.js\"",
     "pack": "funcpack pack ./src/"
   },
   "dependencies": {
-    "js-sha512": "0.7.0",
     "mz": "^2.7.0",
     "stryker-dashboard-data-access": "file:../data-access"
   },

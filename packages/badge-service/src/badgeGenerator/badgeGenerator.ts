@@ -1,9 +1,8 @@
-const sha512 = require('js-sha512');
 import { MutationScoreMapper, MutationScore } from 'stryker-dashboard-data-access';
 import * as httpHelpers from '../helpers/helpers';
 import { retrieveUnknownBadge } from '../helpers/helpers';
 
-export async function run(context: any, req: any) {
+export = async function run(context: any, req: any) {
     let statusCode = 400;
     context.res = {
         status: statusCode,
@@ -18,7 +17,8 @@ export async function run(context: any, req: any) {
             status: 200,
             headers: {
                 'Cache-Control': 'no-cache, no-store, must-revalidate',
-                'Pragma': 'no-cache'
+                'Pragma': 'no-cache',
+                'Content-Type': 'image/svg+xml'
             },
             body: badge
         }
@@ -26,14 +26,8 @@ export async function run(context: any, req: any) {
 
     const scoreRepo = new MutationScoreMapper();
 
-    let rowKey = context.bindingData.repo;
-
-    if (context.bindingData.branch) {
-        rowKey += `/${context.bindingData.branch}`;
-    }
-
     try {
-        const mutationScore = await scoreRepo.select(`${context.bindingData.provider}/${context.bindingData.owner}`, rowKey);
+        const mutationScore = await scoreRepo.select(`${context.bindingData.provider}/${context.bindingData.owner}/${context.bindingData.repo}`, context.bindingData.branch || "");
         if (mutationScore) {
             const score = Math.round(mutationScore.score * 10) / 10;
             const scoreColor = determineColor(score);

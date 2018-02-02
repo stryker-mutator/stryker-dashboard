@@ -5,8 +5,7 @@ import * as sinonchai from "sinon-chai";
 import * as dataAccessModule from "stryker-dashboard-data-access";
 import { Mock } from '../testHelpers/mock';
 import { MutationScoreMapper, MutationScore } from "stryker-dashboard-data-access";
-import { run } from "../badgeGenerator/badgeGenerator";
-import * as badgeGenerator from "../badgeGenerator/badgeGenerator";
+import run = require("../badgeGenerator/badgeGenerator");
 import * as helpers from "../helpers/helpers";
 import * as fs from 'mz/fs';
 import * as path from 'path';
@@ -31,7 +30,7 @@ describe('Generating a badge', () => {
 
         mutationScore = new MutationScore();
         mutationScore.branch = 'master';
-        mutationScore.slug = 'github/stryker-mutator/stryker';
+        mutationScore.slug = 'github.com/stryker-mutator/stryker';
         mutationScore.score = 97.8;
         getContentStub = sandbox.stub(helpers, 'getContent');
         logErrorStub = sandbox.stub(helpers, 'logError');
@@ -40,15 +39,15 @@ describe('Generating a badge', () => {
         mutationScoreNoBranch.slug = 'github/stryker-mutator/stryker';
         mutationScoreNoBranch.score = 79.01;
 
-        mutationScoreMapperMock.select.withArgs('github/stryker-mutator', 'stryker/master')
+        mutationScoreMapperMock.select.withArgs('github.com/stryker-mutator/stryker', 'master')
             .resolves(mutationScore);
-        mutationScoreMapperMock.select.withArgs('github/stryker-mutator', 'stryker')
+        mutationScoreMapperMock.select.withArgs('github.com/stryker-mutator/stryker', '')
             .resolves(mutationScoreNoBranch);
 
         context = {
             log: () => { },
             bindingData: {
-                provider: 'github',
+                provider: 'github.com',
                 owner: 'stryker-mutator',
                 repo: 'stryker',
                 branch: 'master'
@@ -151,7 +150,8 @@ describe('Generating a badge', () => {
         expect(context.res.status).to.equal(200);
         expect(context.res.headers).to.deep.equal({
             'Cache-Control': 'no-cache, no-store, must-revalidate',
-            'Pragma': 'no-cache'
+            'Pragma': 'no-cache',
+            'Content-Type': 'image/svg+xml'
         });
     });
     it('Should return a green shield with a score >= 80 (rounded to 1 precision)', async () => {
