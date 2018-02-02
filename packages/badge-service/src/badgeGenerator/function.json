@@ -6,7 +6,7 @@
    "type": "httpTrigger",
    "direction": "in",
    "name": "req",
-   "route": "{provider}/{owner}/{repo}/{branch?}"   
+   "route": "{provider}/{owner}/{repo}/{branch?}"
   },
   {
    "type": "http",
