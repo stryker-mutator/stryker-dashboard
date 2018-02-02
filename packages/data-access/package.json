@@ -17,7 +17,6 @@
     "azure-storage": "^2.6.0"
   },
   "devDependencies": {
-    "@types/mocha": "^2.2.44",
     "@types/node": "^8.0.53"
   }
 }
