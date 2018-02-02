@@ -19,7 +19,7 @@
     "js-sha512": "0.7.0",
     "passport": "0.4.0",
     "passport-github2": "0.1.10",
-    "request": "2.81.0",
+    "request": "2.83.0",
     "request-promise-native": "1.0.4",
     "sha512": "0.0.1",
     "stryker-badge-website-frontend": "file:../website-frontend",
