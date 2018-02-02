@@ -10,6 +10,6 @@ export default class OrganizationsController {
 
     @Get('/:name/repositories')
     public get( @PathParams('name') login: string, @Req() req: Express.Request): Promise<Repository[]> {
-        return this.repositoryService.getAllForOrganization(req.user, login)
+        return this.repositoryService.getAllForOrganization(req.user, login);
     }
 }

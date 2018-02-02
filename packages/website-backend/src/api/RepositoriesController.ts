@@ -12,7 +12,7 @@ export default class RepositoriesController {
 
     constructor(private repoService: GithubRepositoryService) { }
 
-    @Patch('/github/:owner/:name')
+    @Patch('/github.com/:owner/:name')
     public async update(
         @PathParams('owner') owner: string,
         @PathParams('name') name: string,

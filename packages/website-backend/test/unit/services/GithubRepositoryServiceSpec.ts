@@ -38,9 +38,9 @@ describe('GithubRepositoryService', () => {
                 dalFactory.repository({ name: 'project3', enabled: false })
             ];
             const expectedRepos: contract.Repository[] = [
-                { enabled: false, name: 'project1', origin: 'github', slug: 'github/foobarOrg/project1', owner: 'foobar_login' },
-                { enabled: true, name: 'project2', origin: 'github', slug: 'github/foobarOrg/project2', owner: 'foobar_login' },
-                { enabled: false, name: 'project3', origin: 'github', slug: 'github/foobarOrg/project3', owner: 'foobar_login' }
+                { enabled: false, name: 'project1', origin: 'github', slug: 'github.com/foobarOrg/project1', owner: 'foobar_login' },
+                { enabled: true, name: 'project2', origin: 'github', slug: 'github.com/foobarOrg/project2', owner: 'foobar_login' },
+                { enabled: false, name: 'project3', origin: 'github', slug: 'github.com/foobarOrg/project3', owner: 'foobar_login' }
             ];
             githubAgentMock.getOrganizationRepositories.resolves(repos);
             dataAccessStub.repositoryMapper.select.resolves(projectEntities);
@@ -54,7 +54,7 @@ describe('GithubRepositoryService', () => {
             dataAccessStub.repositoryMapper.select.resolves([]);
             await sut.getAllForOrganization(githubFactory.authentication({ accessToken: '213ASDcs' }), 'foobarOrg');
             expect(githubAgentMock.getOrganizationRepositories).calledWith('foobarOrg');
-            expect(dataAccessStub.repositoryMapper.select).calledWith('github/foobarOrg');
+            expect(dataAccessStub.repositoryMapper.select).calledWith('github.com/foobarOrg');
             expect(githubAgentModule.default).calledWithNew;
             expect(githubAgentModule.default).calledWith('213ASDcs');
         });
@@ -112,7 +112,7 @@ describe('GithubRepositoryService', () => {
             await sut.update(githubFactory.authentication(), 'owner', 'name', true, 'apiKeyHash');
             expect(dataAccessStub.repositoryMapper.insertOrMergeEntity).calledWith({
                 name: 'name',
-                owner: 'github/owner',
+                owner: 'github.com/owner',
                 enabled: true,
                 apiKeyHash: 'apiKeyHash'
             });

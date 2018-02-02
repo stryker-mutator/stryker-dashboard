@@ -27,7 +27,7 @@ describe('RepositoriesController', () => {
             RepositoryServiceStub.update.resolves();
             generateHashStub.returns('hashed api key');
             generateApiKeyStub.returns('foobar-api-key');
-            await request.patch('/repositories/github/foo/bar')
+            await request.patch('/repositories/github.com/foo/bar')
                 .send({ enabled: true })
                 .expect(200)
                 .expect({ apiKey: 'foobar-api-key' });
@@ -37,7 +37,7 @@ describe('RepositoriesController', () => {
 
         it('should disable the repository if enabled = false', async () => {
             RepositoryServiceStub.update.resolves();
-            await request.patch('/repositories/github/foo/bar')
+            await request.patch('/repositories/github.com/foo/bar')
                 .send({ enabled: false })
                 .expect(204);
             expect(generateApiKeyStub).not.called;
@@ -45,7 +45,7 @@ describe('RepositoriesController', () => {
         });
 
         it('should result in 400 when enabled is not present', async () => {
-            await request.patch('/repositories/github/foo/bar')
+            await request.patch('/repositories/github.com/foo/bar')
                 .send({ enabledIsMissing: true })
                 .expect(400)
                 .expect('PATCH is only allowed for the `enabled` property');

@@ -45,18 +45,20 @@ export default abstract class Mapper<T> {
             tableQuery = tableQuery.and('RowKey eq ?', this.packKey(rowKey));
         }
         return this.tableService.queryEntities<T>(this.tableName, tableQuery)
-            .then(results => results.entries.map((entity: any) => {
-                const value: any = {};
-                value[this.partitionKeyName] = this.unpackKey(entity.PartitionKey._);
-                value[this.rowKeyName] = this.unpackKey(entity.RowKey._);
-                Object.keys(entity).forEach(key => {
-                    if (key != 'PartitionKey' && key != 'RowKey' && key != '.metadata' && key != 'Timestamp') {
-                        value[key] = entity[key]._;
-                    }
+            .then(results => {
+                return results.entries.map((entity: any) => {
+                    const value: any = {};
+                    value[this.partitionKeyName] = this.unpackKey(entity.PartitionKey._);
+                    value[this.rowKeyName] = this.unpackKey(entity.RowKey._);
+                    Object.keys(entity).forEach(key => {
+                        if (key !== 'PartitionKey' && key !== 'RowKey' && key !== '.metadata' && key !== 'Timestamp') {
+                            value[key] = entity[key]._;
+                        }
+                    });
+                    return value;
                 });
-
-                return value;
-            })).then(results => {
+            }
+            ).then(results => {
                 if (isDefined(rowKey)) {
                     if (isUndefined(results[0])) {
                         return null;

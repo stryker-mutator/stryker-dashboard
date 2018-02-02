@@ -9,11 +9,11 @@ import { Unauthorized } from 'ts-httpexceptions';
 
 
 /**
- * Prefix a github login name with "github/" in order to put it in the database
+ * Prefix a github login name with "github.com/" in order to put it in the database
  * @param slug The github value to prefix
  */
 function prefixGithub(slug: string) {
-    return `github/${slug}`;
+    return `github.com/${slug}`;
 }
 
 @Service()

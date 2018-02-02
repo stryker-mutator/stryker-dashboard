@@ -1,5 +1,5 @@
 import { ServerLoader, IServerSettings, Type, OverrideService, ExpressApplication } from 'ts-express-decorators';
-import { ProjectMapper } from 'stryker-dashboard-data-access';
+import { ProjectMapper, MutationScoreMapper } from 'stryker-dashboard-data-access';
 import { bootstrap, inject } from 'ts-express-decorators/testing';
 import Configuration from '../../src/services/Configuration';
 import * as supertest from 'supertest';
@@ -9,7 +9,6 @@ import { Mock, createMock } from './mock';
 import { Request, Response, NextFunction } from 'express';
 import { Authentication } from '../../src/github/models';
 import GithubRepositoryService from '../../src/services/GithubRepositoryService';
-
 
 @OverrideService(Configuration)
 class ConfigurationStub implements Configuration {
@@ -28,8 +27,12 @@ class ConfigurationStub implements Configuration {
 @OverrideService(DataAccess)
 export class DataAccessStub implements DataAccess {
     public static repositoryMapper: Mock<ProjectMapper>;
+    public static mutationScoreMapper: Mock<MutationScoreMapper>;
     public get repositoryMapper(): ProjectMapper {
         return DataAccessStub.repositoryMapper as any;
+    }
+    public get mutationScoreMapper(): MutationScoreMapper {
+        return DataAccessStub.mutationScoreMapper as any;
     }
 }
 
@@ -56,6 +59,7 @@ beforeEach(() => {
     ConfigurationStub.baseUrl = 'base url';
     ConfigurationStub.isDevelopment = true;
     DataAccessStub.repositoryMapper = createMock(ProjectMapper);
+    DataAccessStub.mutationScoreMapper = createMock(MutationScoreMapper);
     RepositoryServiceStub.getAllForOrganization = sandbox.stub();
     RepositoryServiceStub.getAllForUser = sandbox.stub();
     RepositoryServiceStub.update = sandbox.stub();
