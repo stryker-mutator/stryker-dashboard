@@ -17,6 +17,6 @@
     "azure-storage": "^2.6.0"
   },
   "devDependencies": {
-    "@types/node": "^8.0.53"
+    "@types/node": "^9.4.0"
   }
 }
