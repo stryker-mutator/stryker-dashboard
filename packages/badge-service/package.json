@@ -8,7 +8,8 @@
     "clean": "rimraf src/**/*.js.map src/**/*.js",
     "prebuild": "npm run clean",
     "build": "tsc",
-    "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"src/testHelpers/**/*.js\" \"src/**/*Spec.js\""
+    "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"src/testHelpers/**/*.js\" \"src/**/*Spec.js\"",
+    "pack": "funcpack pack ./src/"
   },
   "dependencies": {
     "js-sha512": "0.7.0",
@@ -20,6 +21,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/mz": "0.0.32",
+    "azure-functions-pack": "^1.0.0",
     "stryker": "^0.18.1",
     "stryker-api": "^0.11.0",
     "stryker-mocha-framework": "^0.8.1",
