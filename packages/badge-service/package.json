@@ -20,7 +20,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/mz": "0.0.32",
-    "stryker": "^0.15.4",
+    "stryker": "^0.18.1",
     "stryker-api": "^0.11.0",
     "stryker-mocha-framework": "^0.8.1",
     "stryker-mocha-runner": "^0.10.1",
