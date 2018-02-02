@@ -9,15 +9,15 @@ import { spa } from './middleware/spaMiddleware';
 import errorHandler from './middleware/errorHandler';
 
 @ServerSettings({
-    rootDir: __dirname,
     acceptMimes: ['application/json'],
     mount: {
         '/api': '${rootDir}/api/**/**.js',
         '/auth': '${rootDir}/auth/**/**.js'
-    }
+    },
+    rootDir: __dirname
 })
 export default class Server extends ServerLoader {
-    private frontEndPath = path.join(__dirname, /*src*/ '..', /*dist*/ '..', 'node_modules', 'stryker-badge-website-frontend', 'dist');
+    private frontEndPath = path.join(__dirname, /*src*/ '..', /*dist*/ '..', 'node_modules', 'stryker-dashboard-website-frontend', 'dist');
 
     constructor(port: number) {
         super();

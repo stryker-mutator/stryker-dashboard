@@ -1,5 +1,5 @@
 {
-  "name": "stryker-badge-website-frontend",
+  "name": "stryker-dashboard-website-frontend",
   "version": "0.0.1",
   "description": "The package which contains the stryker badge website frontend.",
   "license": "Apache-2.0",

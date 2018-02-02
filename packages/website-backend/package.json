@@ -22,7 +22,7 @@
     "request": "2.83.0",
     "request-promise-native": "1.0.4",
     "sha512": "0.0.1",
-    "stryker-badge-website-frontend": "file:../website-frontend",
+    "stryker-dashboard-website-frontend": "file:../website-frontend",
     "stryker-dashboard-data-access": "file:../data-access",
     "stryker-dashboard-website-contract": "file:../website-contract",
     "ts-express-decorators": "^2.15.0",
