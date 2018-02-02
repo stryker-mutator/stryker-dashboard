@@ -24,6 +24,6 @@
     "stryker-api": "^0.11.0",
     "stryker-mocha-framework": "^0.7.1",
     "stryker-mocha-runner": "^0.10.1",
-    "stryker-typescript": "^0.7.1"
+    "stryker-typescript": "^0.8.3"
   }
 }
