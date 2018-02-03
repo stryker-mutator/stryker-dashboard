@@ -11,9 +11,9 @@ export = async function run(context: any, req: any) {
     async function setResult(badgePromise: Promise<string | undefined>) {
         let badge = await badgePromise;
         if (!badge) {
-            badge = await retrieveUnknownBadge();
-        }
-        context.res = {
+            badge = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="154" height="20"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="154" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path fill="#555" d="M0 0h93v20H0z"/><path fill="#9f9f9f" d="M93 0h61v20H93z"/><path fill="url(#b)" d="M0 0h154v20H0z"/></g><g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="110"><text x="475" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="830">mutation score</text><text x="475" y="140" transform="scale(.1)" textLength="830">mutation score</text><text x="1225" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="510">unknown</text><text x="1225" y="140" transform="scale(.1)" textLength="510">unknown</text></g> </svg>';        }
+        
+            context.res = {
             status: 200,
             headers: {
                 'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -32,6 +32,9 @@ export = async function run(context: any, req: any) {
             const score = Math.round(mutationScore.score * 10) / 10;
             const scoreColor = determineColor(score);
             await setResult(retrieveBadge(scoreColor, score.toFixed(1)));
+        }
+        else {
+            await setResult(retrieveUnknownBadge());
         }
     }
     catch (error) {

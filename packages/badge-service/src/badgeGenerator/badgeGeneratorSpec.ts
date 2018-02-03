@@ -59,7 +59,7 @@ describe('Generating a badge', () => {
         sandbox.restore();
     });
 
-    it('Should return a http 400 error when slug can not be found', async () => {
+    it('Should return the unknown badge when owner does not exist', async () => {
         // Arrange
         context.bindingData.owner = 'owner-does-not-exist';
 
@@ -67,9 +67,10 @@ describe('Generating a badge', () => {
         await run(context, req);
 
         // Assert
-        expect(context.res.status).to.equal(400);
+        expect(context.res.status).to.equal(200);
+        expect(context.res.body).to.equal(unknownBadge);
     });
-    it('Should return a http 400 error when the combination of slug & branch can not be found', async () => {
+    it('Should return the unknown badge when the branch does not exist', async () => {
         // Arrange
         context.bindingData.branch = 'dev';
 
@@ -77,7 +78,8 @@ describe('Generating a badge', () => {
         await run(context, req);
 
         // Assert
-        expect(context.res.status).to.equal(400);
+        expect(context.res.status).to.equal(200);
+        expect(context.res.body).to.equal(unknownBadge);
     });
     it('Should return the unknown badge when storage can not be reached', async () => {
         // Arrange
