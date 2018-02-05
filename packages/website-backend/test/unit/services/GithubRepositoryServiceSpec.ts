@@ -76,7 +76,7 @@ describe('GithubRepositoryService', () => {
         [github.Permission.none, github.Permission.read].forEach(permission => {
             it(`should not allow if user has permission "${permission}"`, async () => {
                 const userPermission: github.UserPermission = {
-                    permission: permission,
+                    permission,
                     user: githubFactory.login()
                 };
                 githubAgentMock.getUserPermissionForRepository.resolves(userPermission);
@@ -86,7 +86,8 @@ describe('GithubRepositoryService', () => {
                 } catch (err) {
                     const httpError = err as HTTPException;
                     expect(httpError.status).eq(401);
-                    expect(httpError.message).eq(`Permission denied. foobar does not have enough permissions for resource / (was ${userPermission.permission}).`);
+                    expect(httpError.message)
+                        .eq(`Permission denied. foobar does not have enough permissions for resource / (was ${userPermission.permission}).`);
                 }
             });
         });
@@ -94,7 +95,7 @@ describe('GithubRepositoryService', () => {
         [github.Permission.admin, github.Permission.write].forEach(permission => {
             it(`should allow if user has permission "${permission}"`, async () => {
                 const userPermission: github.UserPermission = {
-                    permission: permission,
+                    permission,
                     user: githubFactory.login()
                 };
                 githubAgentMock.getUserPermissionForRepository.resolves(userPermission);
@@ -111,10 +112,10 @@ describe('GithubRepositoryService', () => {
             githubAgentMock.getUserPermissionForRepository.resolves(userPermission);
             await sut.update(githubFactory.authentication(), 'owner', 'name', true, 'apiKeyHash');
             expect(dataAccessStub.repositoryMapper.insertOrMergeEntity).calledWith({
-                name: 'name',
-                owner: 'github.com/owner',
+                apiKeyHash: 'apiKeyHash',
                 enabled: true,
-                apiKeyHash: 'apiKeyHash'
+                name: 'name',
+                owner: 'github.com/owner'
             });
         });
     });

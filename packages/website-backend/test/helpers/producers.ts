@@ -7,8 +7,8 @@ function factoryMethod<T>(defaultsFactory: () => T) {
 }
 
 const githubLogin = factoryMethod<github.Login>(() => ({
-    login: 'foobar_login',
     avatar_url: 'https://github.com/foobar.jpg',
+    login: 'foobar_login',
     url: 'https://github.com/users/foobar'
 }));
 
@@ -21,34 +21,34 @@ export const githubFactory = {
     })),
     login: githubLogin,
     repository: factoryMethod<github.Repository>(() => ({
-        id: 42,
         description: 'foobar repository',
         full_name: 'Foo Bar Name',
+        id: 42,
         name: 'foobar',
         owner: githubLogin(),
         url: 'https://github.com/foo/foobar'
     }))
-}
+};
 
 export const contractFactory = {
-    repository: factoryMethod<contract.Repository>(() => ({
-        slug: 'github.com/organization/name',
-        owner: 'organization',
-        origin: 'github',
-        name: 'name',
-        enabled: true
-    })),
     login: factoryMethod<contract.Login>(() => ({
-        name: 'foobar name',
-        avatarUrl: 'foobar avatarUrl'
+        avatarUrl: 'foobar avatarUrl',
+        name: 'foobar name'
+    })),
+    repository: factoryMethod<contract.Repository>(() => ({
+        enabled: true,
+        name: 'name',
+        origin: 'github',
+        owner: 'organization',
+        slug: 'github.com/organization/name'
     }))
 };
 
 export const dalFactory = {
     repository: factoryMethod<dal.Project>(() => ({
-        owner: 'foobar owner',
         apiKeyHash: '1sad2ejW*Y2913',
         enabled: true,
-        name: 'foobar name'
+        name: 'foobar name',
+        owner: 'foobar owner'
     }))
 };

@@ -10,8 +10,6 @@ export default class GithubAgent {
     private readonly log = utils.debug(GithubAgent.name);
     private client: HttpClient;
 
-    constructor(accessToken: string)
-    constructor(client: HttpClient)
     constructor(tokenOrClient: HttpClient | string) {
         if (typeof tokenOrClient === 'string') {
             this.client = new HttpClient([new BearerCredentialHandler(tokenOrClient)]);
@@ -19,25 +17,6 @@ export default class GithubAgent {
             this.client = tokenOrClient;
         }
     }
-
-    private async get<T>(url: string): Promise<T> {
-        const response = await this.client.get<T>(url);
-
-        // Status: 200 OK
-        // Link: <https://api.github.com/resource?page=2>; rel="next",
-        //       <https://api.github.com/resource?page=5>; rel="last"
-        const link = (response.headers['link'] as string);
-        const nextLinkTest = /<(.*?)>; rel="next"/;
-        const nextLink = nextLinkTest.exec(link);
-        if (nextLink && Array.isArray(response.body)) {
-            this.log(`Retrieving next page: ${nextLink[1]}`);
-            const next = await this.get<T>(nextLink[1]);
-            return (response.body as any).concat(next);
-        } else {
-            return Promise.resolve(response.body);
-        }
-    }
-
     public getCurrentUser(): Promise<Login> {
         return this.get<Login>(`${GITHUB_BACKEND}/user`);
     }
@@ -54,7 +33,25 @@ export default class GithubAgent {
         return this.get<Repository[]>(`${GITHUB_BACKEND}/user/repos?type=owner`);
     }
 
-    public getUserPermissionForRepository(owner: string, name: string, login: string){
+    public getUserPermissionForRepository(owner: string, name: string, login: string) {
         return this.get<UserPermission>(`${GITHUB_BACKEND}/repos/${owner}/${name}/collaborators/${login}/permission`);
+    }
+
+    private async get<T>(url: string): Promise<T> {
+        const response = await this.client.get<T>(url);
+
+        // Status: 200 OK
+        // Link: <https://api.github.com/resource?page=2>; rel="next",
+        //       <https://api.github.com/resource?page=5>; rel="last"
+        const link = response.headers.link as string;
+        const nextLinkTest = /<(.*?)>; rel="next"/;
+        const nextLink = nextLinkTest.exec(link);
+        if (nextLink && Array.isArray(response.body)) {
+            this.log(`Retrieving next page: ${nextLink[1]}`);
+            const next = await this.get<T>(nextLink[1]);
+            return (response.body as any).concat(next);
+        } else {
+            return Promise.resolve(response.body);
+        }
     }
 }

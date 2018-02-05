@@ -14,8 +14,6 @@ export default class HttpClient {
     private readonly log = utils.debug(HttpClient.name);
     private client: InnerHttpClient;
 
-    constructor(handlers: IRequestHandler[])
-    constructor(client: InnerHttpClient)
     constructor(handlersOrClient: IRequestHandler[] | InnerHttpClient) {
         if (handlersOrClient instanceof InnerHttpClient) {
             this.client = handlersOrClient;

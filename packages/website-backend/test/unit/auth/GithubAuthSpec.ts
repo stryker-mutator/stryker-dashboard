@@ -33,7 +33,7 @@ describe('GitHubAuth', () => {
         it('should respond with 204', () => {
             // Arrange
             const token = 'foo-bar-baz';
-            createTokenStub.resolves(token)
+            createTokenStub.resolves(token);
 
             // Act
             const response = request.get('/github/logout')

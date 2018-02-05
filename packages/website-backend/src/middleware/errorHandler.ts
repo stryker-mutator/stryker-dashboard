@@ -4,8 +4,8 @@ import * as express from 'express';
 const log = debug('app');
 
 const errorHandler = (err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.log(`Handling ${err.name} with message "${err.message}"`);
-    if (err.name == 'UnauthorizedError') {
+    log(`Handling ${err.name} with message "${err.message}"`);
+    if (err.name === 'UnauthorizedError') {
         res.status(401).end();
     } else {
         log(`Error detected: ${err.message} - ${err.stack}`);

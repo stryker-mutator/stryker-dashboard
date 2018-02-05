@@ -6,10 +6,10 @@ import GithubRepositoryService from '../services/GithubRepositoryService';
 
 function toContract(githubLogin: github.Login): contract.Login {
     return {
-        name: githubLogin.login,
-        avatarUrl: githubLogin.avatar_url
-    }
-};
+        avatarUrl: githubLogin.avatar_url,
+        name: githubLogin.login
+    };
+}
 
 function allToContract(githubLogins: github.Login[]): contract.Login[] {
     return githubLogins.map(toContract);

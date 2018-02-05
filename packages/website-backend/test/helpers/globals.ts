@@ -4,6 +4,3 @@ namespace NodeJS {
     sandbox: sinon.SinonSandbox;
   }
 }
-
-interface Blob { }
-interface XMLHttpRequest { };

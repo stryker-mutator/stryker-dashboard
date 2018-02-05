@@ -31,13 +31,13 @@ describe('UserController', () => {
 
         it('should retrieve current user', async () => {
             const githubResult = githubFactory.login({
-                login: 'foo',
                 avatar_url: 'bar',
+                login: 'foo',
                 url: 'bazUrl'
             });
             const expectedResult = contractFactory.login({
-                name: 'foo',
-                avatarUrl: 'bar'
+                avatarUrl: 'bar',
+                name: 'foo'
             });
             githubAgentMock.getCurrentUser.resolves(githubResult);
             await request.get('/user')
@@ -69,8 +69,8 @@ describe('UserController', () => {
                 name: 'foobar.org'
             }];
             githubAgentMock.getMyOrganizations.resolves([githubFactory.login({
-                login: 'foobar.org',
-                avatar_url: 'avatar url'
+                avatar_url: 'avatar url',
+                login: 'foobar.org'
             })]);
             await request.get('/user/organizations')
                 .expect(200)

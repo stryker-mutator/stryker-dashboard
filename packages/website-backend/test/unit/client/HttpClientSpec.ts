@@ -4,7 +4,6 @@ import * as InnerHttpClientModule from 'typed-rest-client/HttpClient';
 import { Mock, createMock } from '../../helpers/mock';
 import { expect } from 'chai';
 
-
 describe('HttpClient', () => {
 
     let sut: HttpClient;
@@ -34,8 +33,8 @@ describe('HttpClient', () => {
 
         // Assert
         const expectedResponse: Response<{ foo: string }> = {
-            headers: { foo: 'baz' },
-            body: { foo: 'bar' }
+            body: { foo: 'bar' },
+            headers: { foo: 'baz' }
         };
         expect(actualFooBar).deep.eq(expectedResponse);
     });

@@ -10,7 +10,7 @@ describe('Overall Express error handling', () => {
             const app = express();
             app.use('/jwt', expressJwt({
                 // All users will be unauthorized as they never have a token that matches this secret.
-                secret: 'nothing',
+                secret: 'nothing'
             }));
             app.use('/', errorHandler);
             app.get('/jwt', (req, res, next) => res.send('OK'));

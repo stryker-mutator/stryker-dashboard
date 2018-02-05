@@ -7,7 +7,6 @@ import * as github from '../github/models';
 import { Permission } from '../github/models';
 import { Unauthorized } from 'ts-httpexceptions';
 
-
 /**
  * Prefix a github login name with "github.com/" in order to put it in the database
  * @param slug The github value to prefix
@@ -39,22 +38,6 @@ export default class GithubRepositoryService {
         return this.matchRepositories(githubRepos, repoEntities);
     }
 
-    private async matchRepositories(githubReposPromise: Promise<github.Repository[]>, repositoryEntitiesPromise: Promise<dal.Project[]>): Promise<contract.Repository[]> {
-        const githubRepos = await githubReposPromise;
-        const repositoryEntities = await repositoryEntitiesPromise;
-        return githubRepos.map(githubRepo => {
-            const projectEntity = repositoryEntities.find(dalRepo => dalRepo.name === githubRepo.name);
-            const repository: contract.Repository = {
-                enabled: !!(projectEntity && projectEntity.enabled),
-                origin: 'github',
-                name: githubRepo.name,
-                slug: prefixGithub(githubRepo.full_name),
-                owner: githubRepo.owner.login
-            };
-            return repository;
-        });
-    }
-
     public async update(auth: github.Authentication, owner: string, name: string, enabled: boolean, apiKeyHash: string = '') {
         await this.guardUserHasAccess(auth, owner, name);
         await this.repositoryMapper.insertOrMergeEntity({ apiKeyHash, name, owner: prefixGithub(owner), enabled: true });
@@ -64,8 +47,27 @@ export default class GithubRepositoryService {
         const agent = new GithubAgent(auth.accessToken);
         const userPermission = await agent.getUserPermissionForRepository(owner, name, auth.username);
         if (!this.userHasEditPermissions(userPermission.permission)) {
-            throw new Unauthorized(`Permission denied. ${auth.username} does not have enough permissions for resource ${owner}/${name} (was ${userPermission.permission}).`);
+            throw new Unauthorized(`Permission denied. ${auth.username} does not have enough permissions for resource ${
+                owner}/${name} (was ${userPermission.permission}).`);
         }
+    }
+
+    private async matchRepositories(
+        githubReposPromise: Promise<github.Repository[]>,
+        repositoryEntitiesPromise: Promise<dal.Project[]>): Promise<contract.Repository[]> {
+        const githubRepos = await githubReposPromise;
+        const repositoryEntities = await repositoryEntitiesPromise;
+        return githubRepos.map(githubRepo => {
+            const projectEntity = repositoryEntities.find(dalRepo => dalRepo.name === githubRepo.name);
+            const repository: contract.Repository = {
+                enabled: !!(projectEntity && projectEntity.enabled),
+                name: githubRepo.name,
+                origin: 'github',
+                owner: githubRepo.owner.login,
+                slug: prefixGithub(githubRepo.full_name)
+            };
+            return repository;
+        });
     }
 
     private userHasEditPermissions(permission: Permission): boolean {

@@ -1,8 +1,8 @@
 export interface Authentication {
-    accessToken: string,
-    displayName: string,
-    id: number,
-    username: string,
+    accessToken: string;
+    displayName: string;
+    id: number;
+    username: string;
 }
 
 export interface Login {

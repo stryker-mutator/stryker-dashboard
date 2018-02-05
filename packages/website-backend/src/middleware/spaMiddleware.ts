@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { NextFunction, Response, Request } from "express";
-
+import { NextFunction, Response, Request } from 'express';
 
 const blacklist = ['/api', '/auth'];
 
@@ -15,5 +14,5 @@ export function spa(frontEndPath: string) {
         } else {
             res.send(indexHtml);
         }
-    }
+    };
 }

@@ -1,6 +1,6 @@
 import debugFn = require('debug');
-import uuid = require('uuid');
-const { sha512_256 } = require('js-sha512');
+import { v4 as uuidV4 } from 'uuid';
+import { sha512_256 } from 'js-sha512';
 
 export function env(key: string) {
     return process.env[key];
@@ -23,7 +23,7 @@ export const optionalEnvVar = (name: string, defaultValue: string): string => {
 };
 
 export function generateApiKey(): string {
-    return uuid.v4();
+    return uuidV4();
 }
 
 export function generateHashValue(value: string): string {

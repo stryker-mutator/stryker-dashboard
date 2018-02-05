@@ -108,7 +108,7 @@ function bootstrapAsPromised(ServerConstructor: any): Promise<any> {
     });
 }
 
-function injectAsPromised(targets: any[], func: Function): Promise<any> {
+function injectAsPromised(targets: any[], func: (...args: any[]) => any): Promise<any> {
     return new Promise((res) => {
         inject(targets, func)(res);
     });
