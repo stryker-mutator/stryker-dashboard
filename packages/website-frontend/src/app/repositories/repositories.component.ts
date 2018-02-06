@@ -5,6 +5,7 @@ import { UserService } from '../user/user.service';
 import { Login } from '../../../../website-contract/src/Login';
 import { Router, ActivatedRoute } from '@angular/router';
 import { OrganizationsService } from '../organizations/organizations.service';
+import { DashboardTitleService } from '../services/DashboardTitleService';
 
 @Component({
   selector: 'stryker-repositories',
@@ -23,7 +24,8 @@ export class RepositoriesComponent implements OnInit {
     private organizationsService: OrganizationsService,
     private userService: UserService,
     private router: Router,
-    private activeRoute: ActivatedRoute) {
+    private activeRoute: ActivatedRoute,
+    private titleService: DashboardTitleService) {
   }
 
   public ngOnInit() {
@@ -50,6 +52,7 @@ export class RepositoriesComponent implements OnInit {
     this.userService.currentUser.subscribe(user => {
       this.activeRoute.params.subscribe(params => {
         this.repositories = null;
+        this.titleService.setTitlePrefix(params.login);
         if (user && params.login === user.name) {
           this.userService.getRepositories().subscribe(repositories => {
             this.repositories = repositories;
