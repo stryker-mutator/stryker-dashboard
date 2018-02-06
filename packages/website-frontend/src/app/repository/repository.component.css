@@ -26,10 +26,10 @@
 }
 .toggle-switch-label:active:after { transform: scale(1.15, 0.85); }
 
-.toggle-switch:checked ~ label { background: #F1C40f; }
+.toggle-switch:checked ~ label { background: #E77964; }
 .toggle-switch:checked ~ label:after {
   left: 20px;
-  background: #F1C40F;
+  background: #B74934;
 }
 .toggle-switch:disabled ~ label {
   background: #d5d5d5;

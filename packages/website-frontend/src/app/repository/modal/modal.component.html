@@ -18,11 +18,16 @@
         <ng-template #loading>Retrieving api key...</ng-template>
       </p>
       <p>
-        <ngb-alert [dismissible]="false">
-          <strong>Warning!</strong>
-          An api key is unique and special made for each repository. You might want to encrypt it before publishing it to the world
-          wide web. Keep it secret. Keep it safe.
-        </ngb-alert>
+        <strong>About your key</strong>
+        This is
+        <em>your</em> key. It is unique and special made {{repoComponent.repo.slug}}. This is the last time we'll be showing it to you (although
+        you can create new ones at any time). You might want to encrypt it before publishing it to the world wide web (for
+        example, using
+        <a href="https://docs.travis-ci.com/user/environment-variables/#Encrypting-environment-variables" target="_blank">travis encrypted environment variables</a>)
+      </p>
+      <p><strong>Usage example:</strong>
+        <br />
+        <code>$ travis encrypt STRYKER_DASHBOARD_API_KEY={{apiKey()}} --add</code>
       </p>
     </ng-template>
     <ng-template #disablingContent>

@@ -9,6 +9,12 @@
       </h2>
     </div>
   </div>
+  <p>Below we're showing your public repositories. </p>
+  <div class="row">
+    <div class="col-10 offset-1 col-md-8 offset-md-2">
+      <stryker-short-explanation class="row"></stryker-short-explanation>
+    </div>
+  </div>
   <stryker-loading class="row" [showContent]="repositories">
     <stryker-repository class="col-md-12 list-group-item" *ngFor="let repo of repositories" [repo]="repo" (repoEnabled)="modal.repoEnabled($event)"
       (repoAboutToBeDisabled)="modal.repoAboutToBeDisabled($event)"></stryker-repository>

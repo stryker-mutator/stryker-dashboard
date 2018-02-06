@@ -17,6 +17,8 @@ import { MenuComponent } from './menu/menu.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { routes } from './routes';
 import { LoadingComponent } from './loading/loading.component';
+import { DashboardTitleService } from './services/DashboardTitleService';
+import { ShortExplanationComponent } from './short-explanation/short-explanation.component';
 
 @NgModule({
   bootstrap: [ AppComponent ],
@@ -29,7 +31,8 @@ import { LoadingComponent } from './loading/loading.component';
     UserComponent,
     MenuComponent,
     WelcomeComponent,
-    LoadingComponent
+    LoadingComponent,
+    ShortExplanationComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,8 @@ import { LoadingComponent } from './loading/loading.component';
   providers: [
     RepositoryService,
     UserService,
-    OrganizationsService
+    OrganizationsService,
+    DashboardTitleService
   ]
 })
 export class AppModule { }
