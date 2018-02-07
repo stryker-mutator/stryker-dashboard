@@ -5,7 +5,8 @@ import { RepositoryComponent } from '../repository.component';
 
 @Component({
   selector: 'stryker-repository-modal',
-  templateUrl: './modal.component.html'
+  templateUrl: './modal.component.html',
+  styleUrls: ['./modal.component.css']
 })
 export class RepositoryModalComponent {
 
@@ -13,7 +14,7 @@ export class RepositoryModalComponent {
   private repoComponent: RepositoryComponent;
   public enabling: boolean;
 
-  public constructor(private modalService: NgbModal) {}
+  public constructor(private modalService: NgbModal) { }
 
   public repoEnabled(repoComponent: RepositoryComponent) {
     this.repoComponent = repoComponent;
@@ -53,6 +54,10 @@ export class RepositoryModalComponent {
 
   public apiKey(): string {
     return this.repoComponent.apiKey;
+  }
+
+  public get badgeUrl() {
+    return 'https://badge.stryker-mutator.io/' + this.repoComponent.repo.slug + '/master';
   }
 
 }

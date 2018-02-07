@@ -17,19 +17,46 @@
         </ng-template>
         <ng-template #loading>Retrieving api key...</ng-template>
       </p>
-      <p>
-        <strong>About your key</strong>
-        This is
-        <em>your</em> key. It is unique and special made {{ repoComponent.repo.slug }}. This is the last time we'll be showing
-        it to you (although you can create new ones at any time). You might want to encrypt it before publishing it to the
-        world wide web (for example, using
-        <a href="https://docs.travis-ci.com/user/environment-variables/#Encrypting-environment-variables" target="_blank">travis encrypted environment variables</a>)
-      </p>
-      <p>
-        <strong>Usage example:</strong>
-        <br />
-        <code>$ travis encrypt STRYKER_DASHBOARD_API_KEY={{ apiKey() }} --add</code>
-      </p>
+
+
+
+      <ngb-accordion #acc="ngbAccordion" activeIds="panel-about-your-api-key" closeOthers="true">
+        <ngb-panel title="About your key" id="panel-about-your-api-key">
+          <ng-template ngbPanelContent>
+            This is
+            <em>your</em> key. It is unique and special made for "{{ repoComponent.repo.slug }}". This is the last time we'll
+            be showing it to you (although you can create new ones at any time). You might want to encrypt it before publishing
+            it to the world wide web (for example, using
+            <a href="https://docs.travis-ci.com/user/environment-variables/#Encrypting-environment-variables" target="_blank">travis encrypted environment variables</a>)
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <span>Badge
+              <img [src]="badgeUrl">
+            </span>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            Behold your shiny mutation testing badge:
+            <img [src]="badgeUrl">. You can add this to your readme:
+            <br />
+            <code>[![Mutation testing badge]({{ badgeUrl }})](https://stryker-mutator.github.io)</code>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel title="Usage">
+          <ng-template ngbPanelContent>
+            <p>
+              See
+              <a href="https://github.com/stryker-mutator/stryker/tree/master/packages/stryker#reporters" target="_blank">stryker readme</a>
+              for an explanation on how you can configure this key in your the dashboard reporter.
+            </p>
+            <p>
+              <strong>Example:</strong> <br />
+              <code>$ travis encrypt STRYKER_DASHBOARD_API_KEY={{ apiKey() }} --add</code>
+            </p>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
     </ng-template>
     <ng-template #disablingContent>
       <p>If you are absolutely sure, you can disable Stryker for your repository now.</p>
