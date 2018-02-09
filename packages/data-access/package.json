@@ -19,6 +19,6 @@
   },
   "devDependencies": {
     "@types/es6-promisify": "^5.0.0",
-    "@types/node": "^9.4.0"
+    "@types/node": "^8.9.1"
   }
 }
