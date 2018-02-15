@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/mz": "0.0.32",
     "azure-functions-pack": "^1.0.0",
-    "stryker": "^0.18.1",
+    "stryker": "^0.19.3",
     "stryker-api": "^0.12.0",
     "stryker-mocha-framework": "^0.8.1",
     "stryker-mocha-runner": "^0.10.1",
