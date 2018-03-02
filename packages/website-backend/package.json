@@ -41,7 +41,7 @@
     "@types/passport": "0.4.2",
     "@types/passport-github2": "1.1.0",
     "@types/request": "2.0.2",
-    "@types/request-promise-native": "1.0.6",
+    "@types/request-promise-native": "1.0.13",
     "@types/supertest": "2.0.2",
     "@types/uuid": "^3.4.3"
   },
