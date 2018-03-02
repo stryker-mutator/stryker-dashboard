@@ -21,7 +21,7 @@
     "passport": "0.4.0",
     "passport-github2": "0.1.10",
     "request": "2.83.0",
-    "request-promise-native": "1.0.4",
+    "request-promise-native": "1.0.5",
     "sha512": "0.0.1",
     "stryker-dashboard-website-frontend": "file:../website-frontend",
     "stryker-dashboard-data-access": "file:../data-access",
