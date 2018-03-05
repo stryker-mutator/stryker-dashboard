@@ -26,7 +26,7 @@
     "stryker-dashboard-website-frontend": "file:../website-frontend",
     "stryker-dashboard-data-access": "file:../data-access",
     "stryker-dashboard-website-contract": "file:../website-contract",
-    "ts-express-decorators": "^3.10.2",
+    "ts-express-decorators": "^4.0.7",
     "ts-httpexceptions": "^3.0.0",
     "typed-rest-client": "^0.15.1",
     "uuid": "^3.1.0"
