@@ -12,7 +12,7 @@
     "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"dist/test/**/*.js\""
   },
   "dependencies": {
-    "body-parser": "1.17.2",
+    "body-parser": "1.18.2",
     "cookie-parser": "1.4.3",
     "debug": "3.0.0",
     "express": "4.16.2",
