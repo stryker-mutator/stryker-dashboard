@@ -44,7 +44,7 @@ We store our data in [Azure Storage](https://azure.microsoft.com/en-us/free/serv
 ### GitHub OAuth application
 [Register](https://github.com/settings/applications/new) a new OAuth application. This will allow users to connect to their GitHub account.
 
-> Make sure you set the `Authorization callback URL` to `http://localhost:1337` (you can also use your preferred port).
+> Make sure you set the `Authorization callback URL` to `http://localhost:1337auth/github/callback` (you can also use your preferred port).
 
 ### Build the application
 Building the application is easy. First run `npm install && npm run build`, to build the application. Followed by: `docker build -t stryker/dashboard .`, to build the Docker image.
