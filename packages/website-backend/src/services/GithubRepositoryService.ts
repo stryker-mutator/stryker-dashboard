@@ -4,7 +4,6 @@ import GithubAgent from '../github/GithubAgent';
 import * as dal from 'stryker-dashboard-data-access';
 import * as contract from 'stryker-dashboard-website-contract';
 import * as github from '../github/models';
-import { Permission } from '../github/models';
 import { Unauthorized } from 'ts-httpexceptions';
 
 /**
@@ -45,10 +44,10 @@ export default class GithubRepositoryService {
 
     private async guardUserHasAccess(auth: github.Authentication, owner: string, name: string): Promise<void> {
         const agent = new GithubAgent(auth.accessToken);
-        const userPermission = await agent.getUserPermissionForRepository(owner, name, auth.username);
-        if (!this.userHasEditPermissions(userPermission.permission)) {
+        const hasPushAccess = await agent.userHasPushAccess(owner, name, auth.username);
+        if (!hasPushAccess) {
             throw new Unauthorized(`Permission denied. ${auth.username} does not have enough permissions for resource ${
-                owner}/${name} (was ${userPermission.permission}).`);
+                owner}/${name} (was "push": false).`);
         }
     }
 
@@ -68,9 +67,5 @@ export default class GithubRepositoryService {
             };
             return repository;
         });
-    }
-
-    private userHasEditPermissions(permission: Permission): boolean {
-        return permission === Permission.admin || permission === Permission.write;
     }
 }
