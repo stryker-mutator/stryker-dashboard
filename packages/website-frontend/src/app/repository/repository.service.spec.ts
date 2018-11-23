@@ -47,14 +47,7 @@ describe('RepositoryService', () => {
 
     it('should send a PATCH request with enabled = false', () => {
       repositoryService.enableRepository(mockedRepositories[0].slug, false)
-        .subscribe((response: EnableRepositoryResponse) => {
-          // TODO: change this assert
-          expect(response).toBeTruthy();
-          // to:
-          // expect(response).toBeNull();
-          // currently it states: expected 'null' to be null.
-          // in addition, it is also not possible to flush undefined.
-        });
+        .subscribe(response => expect(response).toBeNull());
       const request = httpMock.expectOne('api/repositories/github/stryker-mutator/stryker-badge');
       expect(request.request.method).toBe('PATCH');
       request.flush(null);

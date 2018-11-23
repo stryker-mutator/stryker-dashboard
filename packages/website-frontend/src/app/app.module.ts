@@ -37,7 +37,7 @@ import { ShortExplanationComponent } from './short-explanation/short-explanation
   imports: [
     BrowserModule,
     HttpClientModule,
-    NgbModule.forRoot(),
+    NgbModule,
     RouterModule.forRoot(routes)
   ],
   providers: [
