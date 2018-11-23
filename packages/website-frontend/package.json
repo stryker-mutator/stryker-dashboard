@@ -26,7 +26,7 @@
     "bootstrap": "^4.1.3",
     "core-js": "^2.5.4",
     "rxjs": "~6.3.3",
-    "stryker-dashboard-website-contract": "file:../website-contract",
+    "stryker-dashboard-website-contract": "0.0.1",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
