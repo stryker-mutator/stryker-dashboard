@@ -34,7 +34,7 @@
         "url": "https://github.com/stryker-mutator/stryker-badge"
     },
     "scripts": {
-        "postinstall": "lerna bootstrap --concurrency 1 && link-parent-bin",
+        "postinstall": "lerna bootstrap && link-parent-bin",
         "clean": "lerna run clean",
         "prebuild": "npm run clean",
         "build": "lerna run build",
