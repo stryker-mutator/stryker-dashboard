@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Run server",
             "program": "${workspaceFolder}/dist/src/index.js",
             "env": {
                 "GH_BASIC_CLIENT_ID": "3379d559701c154648dd",

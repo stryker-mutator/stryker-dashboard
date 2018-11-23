@@ -10,7 +10,7 @@
     <ng-template #enablingContent>
       <p>Here's the api key for this repository. You can use it to tell Stryker where to report the mutation score.</p>
       <p>
-        <strong>API key:</strong>
+        <strong>API key: </strong>
         <span *ngIf="apiKey(); then showApiKey else loading"></span>
         <ng-template #showApiKey>
           <code class="font-weight-bold text-success">{{ apiKey() }}</code>
@@ -47,7 +47,7 @@
           <ng-template ngbPanelContent>
             <p>
               See
-              <a href="https://github.com/stryker-mutator/stryker/tree/master/packages/stryker#reporters" target="_blank">stryker readme</a>
+              <a href="https://github.com/stryker-mutator/stryker/tree/master/packages/stryker#reporters-string" target="_blank">stryker readme</a>
               for an explanation on how you can configure this key in your the dashboard reporter.
             </p>
             <p>

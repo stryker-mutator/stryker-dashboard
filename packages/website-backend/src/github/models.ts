@@ -18,16 +18,11 @@ export interface Repository {
     name: string;
     url: string;
     description: string;
+    permissions: RepositoryPermissions;
 }
 
-export enum Permission {
-    none = 'none',
-    admin = 'admin',
-    write = 'write',
-    read = 'read'
-}
-
-export interface UserPermission {
-    permission: Permission;
-    user: Login;
+export interface RepositoryPermissions {
+    admin: boolean;
+    push: boolean;
+    pull: boolean;
 }

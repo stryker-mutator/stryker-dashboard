@@ -1,6 +1,6 @@
 import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 import { RepositoryModalComponent } from './modal.component';
 import { RepositoryComponent } from '../repository.component';
@@ -9,7 +9,7 @@ import { EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
 
 class RepositoryServiceStub {
   public enableRepository(): Observable<EnableRepositoryResponse> {
-    return Observable.of();
+    return of();
   }
 }
 
@@ -24,7 +24,7 @@ describe('RepositoryModalComponent', () => {
         RepositoryModalComponent,
         RepositoryComponent
       ],
-      imports: [NgbModule.forRoot()],
+      imports: [NgbModule],
       providers: [
         { provide: RepositoryService, useClass: RepositoryServiceStub }
       ]

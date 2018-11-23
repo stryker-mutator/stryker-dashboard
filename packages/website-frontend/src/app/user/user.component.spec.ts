@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserComponent } from './user.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UserService } from './user.service';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 
 describe('UserComponent', () => {
   let component: UserComponent;
@@ -11,9 +11,9 @@ describe('UserComponent', () => {
 
   beforeEach(async(() => {
     const userServiceStub = {
-      currentUser: Observable.of({}),
+      currentUser: of({}),
       getRepositories() {
-        return Observable.of([]);
+        return of([]);
       }
     };
     TestBed.configureTestingModule({

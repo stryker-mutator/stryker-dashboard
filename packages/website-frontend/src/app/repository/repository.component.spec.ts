@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 import { RepositoryComponent } from './repository.component';
 import { RepositoryService } from './repository.service';
@@ -14,7 +14,7 @@ describe('RepositoryComponent', () => {
 
   class RepositoryServiceStub {
     public enableRepository(): Observable<EnableRepositoryResponse> {
-      return Observable.of();
+      return of();
     }
   }
 
@@ -28,7 +28,7 @@ describe('RepositoryComponent', () => {
     };
     TestBed.configureTestingModule({
       declarations: [RepositoryComponent],
-      imports: [NgbModule.forRoot()],
+      imports: [NgbModule],
       providers: [
         { provide: RepositoryService, useClass: RepositoryServiceStub }
       ]

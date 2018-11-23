@@ -26,6 +26,11 @@ export const githubFactory = {
         id: 42,
         name: 'foobar',
         owner: githubLogin(),
+        permissions: {
+            admin: false,
+            pull: false,
+            push: false
+        },
         url: 'https://github.com/foo/foobar'
     }))
 };
