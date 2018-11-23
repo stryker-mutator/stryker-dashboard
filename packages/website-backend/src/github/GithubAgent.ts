@@ -1,4 +1,4 @@
-import { Repository, Login, UserPermission } from './models';
+import { Repository, Login } from './models';
 import * as utils from '../utils';
 import { BearerCredentialHandler } from 'typed-rest-client/handlers/bearertoken';
 import HttpClient from '../client/HttpClient';
@@ -33,8 +33,10 @@ export default class GithubAgent {
         return this.get<Repository[]>(`${GITHUB_BACKEND}/user/repos?type=owner`);
     }
 
-    public getUserPermissionForRepository(owner: string, name: string, login: string) {
-        return this.get<UserPermission>(`${GITHUB_BACKEND}/repos/${owner}/${name}/collaborators/${login}/permission`);
+    public async userHasPushAccess(owner: string, name: string, login: string): Promise<boolean> {
+        // https://developer.github.com/v3/repos/#get
+        const repo = await this.get<Repository>(`${GITHUB_BACKEND}/repos/${owner}/${name}`);
+        return repo.permissions && repo.permissions.push;
     }
 
     private async get<T>(url: string): Promise<T> {

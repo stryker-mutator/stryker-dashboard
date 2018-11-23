@@ -73,43 +73,27 @@ describe('GithubRepositoryService', () => {
     });
 
     describe('update', () => {
-        [github.Permission.none, github.Permission.read].forEach(permission => {
-            it(`should not allow if user has permission "${permission}"`, async () => {
-                const userPermission: github.UserPermission = {
-                    permission,
-                    user: githubFactory.login()
-                };
-                githubAgentMock.getUserPermissionForRepository.resolves(userPermission);
-                try {
-                    await sut.update(githubFactory.authentication(), '', '', true);
-                    expect.fail('Should have thrown');
-                } catch (err) {
-                    const httpError = err as HTTPException;
-                    expect(httpError.status).eq(401);
-                    expect(httpError.message)
-                        .eq(`Permission denied. foobar does not have enough permissions for resource / (was ${userPermission.permission}).`);
-                }
-            });
+        it(`should not allow if user does not have "push" permission`, async () => {
+            githubAgentMock.userHasPushAccess.resolves(false);
+            try {
+                await sut.update(githubFactory.authentication(), '', '', true);
+                expect.fail('Should have thrown');
+            } catch (err) {
+                const httpError = err as HTTPException;
+                expect(httpError.status).eq(401);
+                expect(httpError.message)
+                    .eq(`Permission denied. foobar does not have enough permissions for resource / (was "push": false).`);
+            }
         });
 
-        [github.Permission.admin, github.Permission.write].forEach(permission => {
-            it(`should allow if user has permission "${permission}"`, async () => {
-                const userPermission: github.UserPermission = {
-                    permission,
-                    user: githubFactory.login()
-                };
-                githubAgentMock.getUserPermissionForRepository.resolves(userPermission);
-                await sut.update(githubFactory.authentication(), 'owner', 'name', true);
-                expect(dataAccessStub.repositoryMapper.insertOrMergeEntity).called;
-            });
+        it(`should allow if user has "push" permission`, async () => {
+            githubAgentMock.userHasPushAccess.resolves(true);
+            await sut.update(githubFactory.authentication(), 'owner', 'name', true);
+            expect(dataAccessStub.repositoryMapper.insertOrMergeEntity).called;
         });
 
         it('should update the repository entity', async () => {
-            const userPermission: github.UserPermission = {
-                permission: github.Permission.admin,
-                user: githubFactory.login()
-            };
-            githubAgentMock.getUserPermissionForRepository.resolves(userPermission);
+            githubAgentMock.userHasPushAccess.resolves(true);
             await sut.update(githubFactory.authentication(), 'owner', 'name', true, 'apiKeyHash');
             expect(dataAccessStub.repositoryMapper.insertOrMergeEntity).calledWith({
                 apiKeyHash: 'apiKeyHash',
