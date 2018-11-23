@@ -31,5 +31,13 @@ function onError(error: NodeJS.ErrnoException): void {
 
 function onListening(): void {
     const addr = server.httpServer.address();
-    debug(`Listening on port ${addr.port}`);
+    debug(`Listening on port ${printPort()}`);
+
+    function printPort() {
+        if (typeof addr === 'string') {
+            return addr;
+        } else {
+            return addr.port;
+        }
+    }
 }
