@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 import { LoginComponent } from './login.component';
 import { UserService } from '../user/user.service';
@@ -15,7 +15,7 @@ describe('LoginComponent', () => {
 
   class UserServiceStub {
     public login(): Observable<Login> {
-      return Observable.of({
+      return of({
         name: 'stryker-mutator',
         avatarUrl: 'https://avatars0.githubusercontent.com/u/18347996'
       });
@@ -23,7 +23,7 @@ describe('LoginComponent', () => {
   }
   class RepositoryServiceStub {
     public getRepositories(): Observable<Repository[]> {
-      return Observable.of([]);
+      return of([]);
     }
   }
 
@@ -34,7 +34,7 @@ describe('LoginComponent', () => {
         { provide: RepositoryService, useClass: RepositoryServiceStub },
         { provide: APP_BASE_HREF, useValue: '/' }
       ],
-      imports: [NgbModule.forRoot(), AppModule ]
+      imports: [NgbModule, AppModule ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
