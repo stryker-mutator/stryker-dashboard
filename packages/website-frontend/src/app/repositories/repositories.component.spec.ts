@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import { Observable, of } from 'rxjs';
 
 import { RepositoriesComponent } from './repositories.component';
 import { RepositoryService } from '../repository/repository.service';
@@ -11,6 +10,7 @@ import { OrganizationsService } from '../organizations/organizations.service';
 import { UserService } from '../user/user.service';
 import { AppModule } from '../app.module';
 import { APP_BASE_HREF } from '@angular/common';
+import { mock } from '../testHelpers/mock.spec';
 
 describe('RepositoriesComponent', () => {
   let component: RepositoriesComponent;
@@ -45,7 +45,7 @@ describe('RepositoriesComponent', () => {
 
   class RepositoryServiceStub {
     public getRepositories(): Observable<Repository[]> {
-      return Observable.of([
+      return of([
         mockRepo1,
         mockRepo2,
         mockRepo3
@@ -53,27 +53,25 @@ describe('RepositoriesComponent', () => {
     }
   }
 
-  beforeEach(() => {
 
-    const orgsStub = {
-      getRepositories() {
-        return Observable.of([]);
-      }
-    };
-    const userServiceStub = {
-      currentUser: Observable.of({}),
-      getRepositories() {
-        return Observable.of([]);
-      }
-    };
+  beforeEach(() => {
+    const organizationsStub = mock(OrganizationsService);
+    const userServiceStub = mock(UserService);
+    organizationsStub.getRepositories.and.returnValue(of([
+      mockRepo1,
+      mockRepo2,
+      mockRepo3
+    ]));
+    userServiceStub.currentUser = of({ name: '', avatarUrl: '' });
+    userServiceStub.getRepositories.and.returnValue(of([]));
+    userServiceStub.organizations.and.returnValue(of([]));
     TestBed.configureTestingModule({
       providers: [
-        { provide: RepositoryService, useClass: RepositoryServiceStub },
-        { provide: OrganizationsService, useValue: orgsStub },
+        { provide: OrganizationsService, useValue: organizationsStub },
         { provide: UserService, useValue: userServiceStub },
         { provide: APP_BASE_HREF, useValue: '/' }
       ],
-      imports: [NgbModule.forRoot(), AppModule],
+      imports: [NgbModule, AppModule],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
