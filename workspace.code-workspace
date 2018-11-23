@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "packages/website-frontend"
+		},
+		{
+			"path": "packages/website-contract"
 		}
 	],
 	"settings": {}
