@@ -1,14 +1,15 @@
 import Configuration from '../../../src/services/Configuration';
 import { expect } from 'chai';
 import * as utils from '../../../src/utils';
+import sinon = require('sinon');
 
 describe('Configuration', () => {
     let requiredEnvVarStub: sinon.SinonStub;
     let optionalEnvVarStub: sinon.SinonStub;
 
     beforeEach(() => {
-        requiredEnvVarStub = sandbox.stub(utils, 'requiredEnvVar');
-        optionalEnvVarStub = sandbox.stub(utils, 'optionalEnvVar');
+        requiredEnvVarStub = sinon.stub(utils, 'requiredEnvVar');
+        optionalEnvVarStub = sinon.stub(utils, 'optionalEnvVar');
     });
 
     it('should read correct environment variables on load', () => {

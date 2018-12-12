@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import { SuperTest, Test } from 'supertest';
 import * as contract from 'stryker-dashboard-website-contract';
-import { createMock } from '../../helpers/mock';
 import GithubAgent, * as githubAgentModule from '../../../src/github/GithubAgent';
 import testServer, { RepositoryServiceStub } from '../../helpers/TestServer';
 import UserController from '../../../src/api/UserController';
 import { githubFactory, contractFactory } from '../../helpers/producers';
+import sinon = require('sinon');
 
 describe('UserController', () => {
     let request: SuperTest<Test>;
@@ -14,8 +14,8 @@ describe('UserController', () => {
     const expectedAccessToken = 'foobar access token';
 
     beforeEach(async () => {
-        githubAgentMock = createMock(GithubAgent);
-        sandbox.stub(githubAgentModule, 'default').returns(githubAgentMock);
+        githubAgentMock = sinon.createStubInstance(GithubAgent);
+        sinon.stub(githubAgentModule, 'default').returns(githubAgentMock);
         request = await testServer(UserController, githubFactory.authentication({
             accessToken: expectedAccessToken,
             username: expectedUsername
