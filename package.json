@@ -1,9 +1,10 @@
 {
     "bugs": {
-        "url": "https://github.com/stryker-mutator/stryker-badge/issues"
+        "url": "https://github.com/stryker-mutator/stryker-dashboard/issues"
     },
     "contributors": [
-        "Maarten Mulders <mthmulders@users.noreply.github.com>"
+        "Maarten Mulders <mthmulders@users.noreply.github.com>",
+        "Nico Jansen <jansennico@gmail.com>"
     ],
     "devDependencies": {
         "@types/chai": "^4.0.6",
@@ -28,10 +29,10 @@
         "typescript": "~3.2.2"
     },
     "license": "Apache-2.0",
-    "name": "stryker-badge",
+    "name": "stryker-dashboard",
     "repository": {
         "type": "git",
-        "url": "https://github.com/stryker-mutator/stryker-badge"
+        "url": "https://github.com/stryker-mutator/stryker-dashboard"
     },
     "scripts": {
         "postinstall": "lerna bootstrap && link-parent-bin",
