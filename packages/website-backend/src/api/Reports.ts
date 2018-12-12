@@ -1,4 +1,4 @@
-import { Controller, Req, Post, Res } from 'ts-express-decorators';
+import { Controller, Req, Post, Res } from '@tsed/common';
 import * as express from 'express';
 import { BadRequest } from 'ts-httpexceptions';
 import { generateHashValue } from '../utils';

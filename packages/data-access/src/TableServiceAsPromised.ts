@@ -29,12 +29,12 @@ export default class TableServiceAsPromised {
         return this.promisify(this.tableService.createTableIfNotExists, name);
     }
 
-    public insertOrMergeEntity(table: string, entity: any) {
+    public insertOrMergeEntity(table: string, entity: any): Promise<TableService.EntityMetadata> {
         return this.promisify(this.tableService.insertOrMergeEntity, table, entity);
     }
 
     public queryEntities<T>(table: string, tableQuery: TableQuery): Promise<TableService.QueryEntitiesResult<Entity<T> & EntityKey>> {
-        return this.promisify(this.tableService.queryEntities, table, tableQuery, null as any);
+        return this.promisify(this.tableService.queryEntities, table, tableQuery, null as any) as any;
     }
 
     private promisify<T1, TResult>(action: (arg: T1, callback: ErrorOrResult<TResult>) => void, arg: T1): Promise<TResult>

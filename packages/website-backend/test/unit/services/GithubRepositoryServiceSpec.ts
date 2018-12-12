@@ -3,16 +3,16 @@ import * as dal from 'stryker-dashboard-data-access';
 import * as contract from 'stryker-dashboard-website-contract';
 import * as github from '../../../src/github/models';
 import GithubAgent, * as githubAgentModule from '../../../src/github/GithubAgent';
-import { Mock, createMock } from '../../helpers/mock';
+import { createMock } from '../../helpers/mock';
 import GithubRepositoryService from '../../../src/services/GithubRepositoryService';
 import { expect } from 'chai';
 import { HTTPException } from 'ts-httpexceptions';
 
 describe('GithubRepositoryService', () => {
 
-    let githubAgentMock: Mock<GithubAgent>;
-    let repositoryMapperMock: Mock<dal.ProjectMapper>;
-    let dataAccessStub: { repositoryMapper: Mock<dal.ProjectMapper> };
+    let githubAgentMock: sinon.SinonStubbedInstance<GithubAgent>;
+    let repositoryMapperMock: sinon.SinonStubbedInstance<dal.ProjectMapper>;
+    let dataAccessStub: { repositoryMapper: sinon.SinonStubbedInstance<dal.ProjectMapper> };
     let sut: GithubRepositoryService;
 
     beforeEach(() => {

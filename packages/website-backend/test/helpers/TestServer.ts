@@ -1,11 +1,12 @@
-import { ServerLoader, IServerSettings, Type, OverrideService, ExpressApplication } from 'ts-express-decorators';
+import { Type } from '@tsed/core';
+import { ServerLoader, IServerSettings, OverrideService, ExpressApplication } from '@tsed/common';
 import { ProjectMapper, MutationScoreMapper } from 'stryker-dashboard-data-access';
-import { bootstrap, inject } from 'ts-express-decorators/testing';
+import { bootstrap, inject } from '@tsed/testing';
 import Configuration from '../../src/services/Configuration';
 import * as supertest from 'supertest';
 import { SuperTest, Test } from 'supertest';
 import DataAccess from '../../src/services/DataAccess';
-import { Mock, createMock } from './mock';
+import { createMock } from './mock';
 import { Request, Response, NextFunction } from 'express';
 import { Authentication } from '../../src/github/models';
 import GithubRepositoryService from '../../src/services/GithubRepositoryService';
@@ -26,8 +27,8 @@ class ConfigurationStub implements Configuration {
 
 @OverrideService(DataAccess)
 export class DataAccessStub implements DataAccess {
-    public static repositoryMapper: Mock<ProjectMapper>;
-    public static mutationScoreMapper: Mock<MutationScoreMapper>;
+    public static repositoryMapper: sinon.SinonStubbedInstance<ProjectMapper>;
+    public static mutationScoreMapper: sinon.SinonStubbedInstance<MutationScoreMapper>;
     public get repositoryMapper(): ProjectMapper {
         return DataAccessStub.repositoryMapper as any;
     }

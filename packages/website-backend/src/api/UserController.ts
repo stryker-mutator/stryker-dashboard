@@ -1,4 +1,4 @@
-import { Controller, Get, Req } from 'ts-express-decorators';
+import { Controller, Get, Req } from '@tsed/common';
 import GithubAgent from '../github/GithubAgent';
 import * as contract from 'stryker-dashboard-website-contract';
 import * as github from '../github/models';

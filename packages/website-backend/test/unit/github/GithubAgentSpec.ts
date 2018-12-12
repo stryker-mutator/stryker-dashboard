@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import GithubAgent from '../../../src/github/GithubAgent';
 import HttpClient, { Response } from '../../../src/client/HttpClient';
-import { Mock, createMock } from '../../helpers/mock';
+import { createMock } from '../../helpers/mock';
 import * as github from '../../../src/github/models';
 import { githubFactory } from '../../helpers/producers';
 
 describe('GithubClient', () => {
-    let httpClientMock: Mock<HttpClient>;
+    let httpClientMock: sinon.SinonStubbedInstance<HttpClient>;
     let sut: GithubAgent;
 
     beforeEach(() => {

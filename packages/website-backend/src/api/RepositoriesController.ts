@@ -1,4 +1,4 @@
-import { Controller, Req, PathParams, Patch, BodyParams, Res } from 'ts-express-decorators';
+import { Controller, Req, PathParams, Patch, BodyParams, Res } from '@tsed/common';
 import { Repository, EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
 import * as express from 'express';
 import * as github from '../github/models';
