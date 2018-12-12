@@ -1,8 +1,8 @@
 import HttpClient, { Response } from '../../../src/client/HttpClient';
 import { HttpClient as InnerHttpClient, HttpClientResponse } from 'typed-rest-client/HttpClient';
 import * as InnerHttpClientModule from 'typed-rest-client/HttpClient';
-import { createMock } from '../../helpers/mock';
 import { expect } from 'chai';
+import sinon = require('sinon');
 
 describe('HttpClient', () => {
 
@@ -10,7 +10,7 @@ describe('HttpClient', () => {
     let innerHttpClientMock: sinon.SinonStubbedInstance<InnerHttpClient>;
 
     beforeEach(() => {
-        innerHttpClientMock = createMock(InnerHttpClient);
+        innerHttpClientMock = sinon.createStubInstance(InnerHttpClient);
         sut = new HttpClient(innerHttpClientMock as any);
     });
 
@@ -41,7 +41,7 @@ describe('HttpClient', () => {
 
     it('should add a User Agent header', async () => {
         // See https://developer.github.com/v3/#user-agent-required
-        sandbox.stub(InnerHttpClientModule, 'HttpClient');
+        sinon.stub(InnerHttpClientModule, 'HttpClient');
         new HttpClient([]);
         expect(InnerHttpClientModule.HttpClient).calledWith('Stryker Dashboard API');
     });

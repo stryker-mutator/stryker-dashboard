@@ -5,6 +5,7 @@ import * as supertest from 'supertest';
 import GithubAuth from '../../../src/auth/GithubAuth';
 import * as security from '../../../src/middleware/securityMiddleware';
 import testServer from '../../helpers/TestServer';
+import * as sinon from 'sinon';
 
 describe('GitHubAuth', () => {
 
@@ -15,10 +16,10 @@ describe('GitHubAuth', () => {
     let authenticateMiddleware: sinon.SinonStub;
 
     beforeEach(async () => {
-        createTokenStub = sandbox.stub(security, 'createToken');
-        authenticateStub = sandbox.stub(passport, 'authenticate');
-        authenticateMiddleware = sandbox.stub();
-        logoutStub = sandbox.stub();
+        createTokenStub = sinon.stub(security, 'createToken');
+        authenticateStub = sinon.stub(passport, 'authenticate');
+        authenticateMiddleware = sinon.stub();
+        logoutStub = sinon.stub();
         authenticateStub.returns(authenticateMiddleware);
         const passThroughMiddleware = (req: any, res: any, next: any) => {
             req.user = { username: 'dummy' };

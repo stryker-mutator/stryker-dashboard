@@ -1,11 +1,11 @@
 import { SuperTest, Test } from 'supertest';
-import { createMock } from '../../helpers/mock';
 import GithubAgent, * as githubAgentModule from '../../../src/github/GithubAgent';
 import OrganizationsController from '../../../src/api/OrganizationsController';
 import { githubFactory } from '../../helpers/producers';
 import * as github from '../../../src/github/models';
 import testServer, { RepositoryServiceStub } from '../../helpers/TestServer';
 import { expect } from 'chai';
+import sinon = require('sinon');
 
 describe('OrganizationsController', () => {
     let request: SuperTest<Test>;
@@ -14,8 +14,8 @@ describe('OrganizationsController', () => {
 
     beforeEach(async () => {
         currentAuthentication = githubFactory.authentication({ accessToken: 'foobar access token' });
-        githubAgentMock = createMock(GithubAgent);
-        sandbox.stub(githubAgentModule, 'default').returns(githubAgentMock);
+        githubAgentMock = sinon.createStubInstance(GithubAgent);
+        sinon.stub(githubAgentModule, 'default').returns(githubAgentMock);
         request = await testServer(OrganizationsController, currentAuthentication);
     });
 

@@ -3,10 +3,10 @@ import * as dal from 'stryker-dashboard-data-access';
 import * as contract from 'stryker-dashboard-website-contract';
 import * as github from '../../../src/github/models';
 import GithubAgent, * as githubAgentModule from '../../../src/github/GithubAgent';
-import { createMock } from '../../helpers/mock';
 import GithubRepositoryService from '../../../src/services/GithubRepositoryService';
 import { expect } from 'chai';
 import { HTTPException } from 'ts-httpexceptions';
+import sinon = require('sinon');
 
 describe('GithubRepositoryService', () => {
 
@@ -16,9 +16,9 @@ describe('GithubRepositoryService', () => {
     let sut: GithubRepositoryService;
 
     beforeEach(() => {
-        githubAgentMock = createMock(GithubAgent);
-        sandbox.stub(githubAgentModule, 'default').returns(githubAgentMock);
-        repositoryMapperMock = createMock(dal.ProjectMapper);
+        githubAgentMock = sinon.createStubInstance(GithubAgent);
+        sinon.stub(githubAgentModule, 'default').returns(githubAgentMock);
+        repositoryMapperMock = sinon.createStubInstance(dal.ProjectMapper);
         dataAccessStub = {
             repositoryMapper: repositoryMapperMock
         };

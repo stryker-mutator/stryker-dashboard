@@ -6,6 +6,7 @@ import { githubFactory } from '../../helpers/producers';
 import * as utils from '../../../src/utils';
 import * as github from '../../../src/github/models';
 import * as bodyParser from 'body-parser';
+import sinon = require('sinon');
 
 describe('RepositoriesController', () => {
 
@@ -16,8 +17,8 @@ describe('RepositoriesController', () => {
 
     beforeEach(async () => {
         auth = githubFactory.authentication({ accessToken: 'foobar access token', username: 'user' });
-        generateApiKeyStub = sandbox.stub(utils, 'generateApiKey');
-        generateHashStub = sandbox.stub(utils, 'generateHashValue');
+        generateApiKeyStub = sinon.stub(utils, 'generateApiKey');
+        generateHashStub = sinon.stub(utils, 'generateHashValue');
         request = await testServer(RepositoriesController, auth, bodyParser.json());
     });
 

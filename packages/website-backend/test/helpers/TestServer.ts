@@ -6,10 +6,10 @@ import Configuration from '../../src/services/Configuration';
 import * as supertest from 'supertest';
 import { SuperTest, Test } from 'supertest';
 import DataAccess from '../../src/services/DataAccess';
-import { createMock } from './mock';
 import { Request, Response, NextFunction } from 'express';
 import { Authentication } from '../../src/github/models';
 import GithubRepositoryService from '../../src/services/GithubRepositoryService';
+import sinon = require('sinon');
 
 @OverrideService(Configuration)
 class ConfigurationStub implements Configuration {
@@ -53,17 +53,21 @@ export class RepositoryServiceStub {
     }
 }
 
+// HACK: https://github.com/Romakita/ts-express-decorators/issues/481
+let staticContext = {};
+
 beforeEach(() => {
     ConfigurationStub.githubClientId = 'github client id';
     ConfigurationStub.githubSecret = 'github secret';
     ConfigurationStub.jwtSecret = 'jwt secret';
     ConfigurationStub.baseUrl = 'base url';
     ConfigurationStub.isDevelopment = true;
-    DataAccessStub.repositoryMapper = createMock(ProjectMapper);
-    DataAccessStub.mutationScoreMapper = createMock(MutationScoreMapper);
-    RepositoryServiceStub.getAllForOrganization = sandbox.stub();
-    RepositoryServiceStub.getAllForUser = sandbox.stub();
-    RepositoryServiceStub.update = sandbox.stub();
+    DataAccessStub.repositoryMapper = sinon.createStubInstance(ProjectMapper);
+    DataAccessStub.mutationScoreMapper = sinon.createStubInstance(MutationScoreMapper);
+    RepositoryServiceStub.getAllForOrganization = sinon.stub();
+    RepositoryServiceStub.getAllForUser = sinon.stub();
+    RepositoryServiceStub.update = sinon.stub();
+    staticContext = {};
 });
 
 export default async function testServer<TController>(Controller: Type<TController>, user?: Authentication, ...middlewares: any[])
@@ -105,12 +109,12 @@ export default async function testServer<TController>(Controller: Type<TControll
 
 function bootstrapAsPromised(ServerConstructor: any): Promise<any> {
     return new Promise((res) => {
-        bootstrap(ServerConstructor)(res);
+        bootstrap(ServerConstructor).bind(staticContext)(res);
     });
 }
 
 function injectAsPromised(targets: any[], func: (...args: any[]) => any): Promise<any> {
     return new Promise((res) => {
-        inject(targets, func)(res);
+        inject(targets, func).bind(staticContext)(res);
     });
 }
