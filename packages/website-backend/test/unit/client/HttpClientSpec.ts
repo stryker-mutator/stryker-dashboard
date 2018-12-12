@@ -1,13 +1,13 @@
 import HttpClient, { Response } from '../../../src/client/HttpClient';
 import { HttpClient as InnerHttpClient, HttpClientResponse } from 'typed-rest-client/HttpClient';
 import * as InnerHttpClientModule from 'typed-rest-client/HttpClient';
-import { Mock, createMock } from '../../helpers/mock';
+import { createMock } from '../../helpers/mock';
 import { expect } from 'chai';
 
 describe('HttpClient', () => {
 
     let sut: HttpClient;
-    let innerHttpClientMock: Mock<InnerHttpClient>;
+    let innerHttpClientMock: sinon.SinonStubbedInstance<InnerHttpClient>;
 
     beforeEach(() => {
         innerHttpClientMock = createMock(InnerHttpClient);

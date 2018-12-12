@@ -1,5 +1,5 @@
 import { SuperTest, Test } from 'supertest';
-import { Mock, createMock } from '../../helpers/mock';
+import { createMock } from '../../helpers/mock';
 import GithubAgent, * as githubAgentModule from '../../../src/github/GithubAgent';
 import OrganizationsController from '../../../src/api/OrganizationsController';
 import { githubFactory } from '../../helpers/producers';
@@ -9,7 +9,7 @@ import { expect } from 'chai';
 
 describe('OrganizationsController', () => {
     let request: SuperTest<Test>;
-    let githubAgentMock: Mock<GithubAgent>;
+    let githubAgentMock: sinon.SinonStubbedInstance<GithubAgent>;
     let currentAuthentication: github.Authentication;
 
     beforeEach(async () => {

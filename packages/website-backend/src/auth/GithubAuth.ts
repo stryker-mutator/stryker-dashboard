@@ -1,4 +1,4 @@
-import { Controller, Get, Use } from 'ts-express-decorators';
+import { Controller, Get, Use } from '@tsed/common';
 import * as passport from 'passport';
 import * as express from 'express';
 import { Request, Response, NextFunction } from 'express';

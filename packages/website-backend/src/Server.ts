@@ -1,4 +1,4 @@
-import { ServerLoader, ServerSettings } from 'ts-express-decorators';
+import { ServerLoader, ServerSettings } from '@tsed/common';
 import * as path from 'path';
 import * as passport from 'passport';
 import * as express from 'express';

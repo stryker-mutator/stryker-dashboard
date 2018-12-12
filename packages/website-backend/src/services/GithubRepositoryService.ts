@@ -1,4 +1,4 @@
-import { Service } from 'ts-express-decorators';
+import { Service } from '@tsed/common';
 import DataAccess from './DataAccess';
 import GithubAgent from '../github/GithubAgent';
 import * as dal from 'stryker-dashboard-data-access';
@@ -39,7 +39,7 @@ export default class GithubRepositoryService {
 
     public async update(auth: github.Authentication, owner: string, name: string, enabled: boolean, apiKeyHash: string = '') {
         await this.guardUserHasAccess(auth, owner, name);
-        await this.repositoryMapper.insertOrMergeEntity({ apiKeyHash, name, owner: prefixGithub(owner), enabled: true });
+        await this.repositoryMapper.insertOrMergeEntity({ apiKeyHash, name, owner: prefixGithub(owner), enabled });
     }
 
     private async guardUserHasAccess(auth: github.Authentication, owner: string, name: string): Promise<void> {

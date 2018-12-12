@@ -1,4 +1,4 @@
-import { Service } from 'ts-express-decorators';
+import { Service } from '@tsed/common';
 import { ProjectMapper, MutationScoreMapper } from 'stryker-dashboard-data-access';
 
 @Service()

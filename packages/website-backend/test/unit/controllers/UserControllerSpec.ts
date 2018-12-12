@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { SuperTest, Test } from 'supertest';
 import * as contract from 'stryker-dashboard-website-contract';
-import { Mock, createMock } from '../../helpers/mock';
+import { createMock } from '../../helpers/mock';
 import GithubAgent, * as githubAgentModule from '../../../src/github/GithubAgent';
 import testServer, { RepositoryServiceStub } from '../../helpers/TestServer';
 import UserController from '../../../src/api/UserController';
@@ -9,7 +9,7 @@ import { githubFactory, contractFactory } from '../../helpers/producers';
 
 describe('UserController', () => {
     let request: SuperTest<Test>;
-    let githubAgentMock: Mock<GithubAgent>;
+    let githubAgentMock: sinon.SinonStubbedInstance<GithubAgent>;
     const expectedUsername = 'foobar username';
     const expectedAccessToken = 'foobar access token';
 

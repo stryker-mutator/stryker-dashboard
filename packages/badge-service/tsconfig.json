@@ -4,6 +4,7 @@
     "module": "commonjs", 
     "sourceMap": true,  
     "lib": [ "es2015"],                    
-    "strict": true
+    "strict": true,
+    "strictPropertyInitialization": false
   }
 }

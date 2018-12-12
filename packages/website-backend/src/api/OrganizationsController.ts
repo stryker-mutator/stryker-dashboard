@@ -1,4 +1,4 @@
-import { Controller, Get, Req, PathParams } from 'ts-express-decorators';
+import { Controller, Get, Req, PathParams } from '@tsed/common';
 import { Repository } from 'stryker-dashboard-website-contract';
 import GithubRepositoryService from '../services/GithubRepositoryService';
 
