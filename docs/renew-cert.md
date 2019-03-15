@@ -37,13 +37,15 @@ az account set -s pdc_stryker_prod01
 Use this script to renew:
 
 ```
-certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/.secrets/certbot/cloudflare.ini -d dashboard.stryker-mutator.io -d badge.stryker-mutator.io
-openssl pkcs12 -export -out stryker.pfx -inkey privkey1.pem -in cert1.pem -certfile chain1.pem -password Pass123
-az webapp config ssl upload --certificate-file ./stryker.pfx --certificate-password Pass123 --name stryker-mutator-badge --resource-group stryker-mutator
-az webapp config ssl upload --certificate-file ./stryker.pfx --certificate-password Pass123 --name stryker-badge --resource-group strykermutator-badge-website
+PASSWORD=`openssl rand -base64 16`
 
-THUMBPRINT=`az webapp config ssl list --resource-group stryker-mutator |grep thumbprint |awk '{ print $2 }' | sed 's/"//g' | sed 's/,//g' | head -1`
+certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/.secrets/certbot/cloudflare.ini -d dashboard.stryker-mutator.io -d badge.stryker-mutator.io
+cd /etc/letsencrypt/archive/dashboard.stryker-mutator.io/
+openssl pkcs12 -export -out stryker.pfx -inkey privkey1.pem -in cert1.pem -certfile chain1.pem -pass pass:$PASSWORD
+az webapp config ssl upload --certificate-file ./stryker.pfx --certificate-password $PASSWORD --name stryker-mutator-badge --resource-group stryker-mutator
+az webapp config ssl upload --certificate-file ./stryker.pfx --certificate-password $PASSWORD --name stryker-badge --resource-group strykermutator-badge-website
+
+THUMBPRINT=`az webapp config ssl list --resource-group stryker-mutator --query [0].thumbprint | tr -d '"'`
 
 az webapp config ssl bind --certificate-thumbprint $THUMBPRINT --ssl-type SNI --name stryker-mutator-badge --resource-group stryker-mutator
-az webapp config ssl bind --certificate-thumbprint $THUMBPRINT --ssl-type SNI --name stryker-badge --resource-group strykermutator-badge-website
-```
+az webapp config ssl bind --certificate-thumbprint $THUMBPRINT --ssl-type SNI --name stryker-badge --resource-group strykermutator-badge-website```
