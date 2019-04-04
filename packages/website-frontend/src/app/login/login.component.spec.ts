@@ -34,7 +34,7 @@ describe('LoginComponent', () => {
         { provide: RepositoryService, useClass: RepositoryServiceStub },
         { provide: APP_BASE_HREF, useValue: '/' }
       ],
-      imports: [NgbModule, AppModule ]
+      imports: [NgbModule, AppModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);

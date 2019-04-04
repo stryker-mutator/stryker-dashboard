@@ -10,34 +10,34 @@ import { generateApiKey, generateHashValue } from '../utils';
 @Controller('/repositories')
 export default class RepositoriesController {
 
-    constructor(private repoService: GithubRepositoryService) { }
+  constructor(private repoService: GithubRepositoryService) { }
 
-    @Patch('/github.com/:owner/:name')
-    public async update(
-        @PathParams('owner') owner: string,
-        @PathParams('name') name: string,
-        @BodyParams() repository: Partial<Repository>,
-        @Req() request: express.Request,
-        @Res() response: express.Response): Promise<EnableRepositoryResponse | null> {
+  @Patch('/github.com/:owner/:name')
+  public async update(
+    @PathParams('owner') owner: string,
+    @PathParams('name') name: string,
+    @BodyParams() repository: Partial<Repository>,
+    @Req() request: express.Request,
+    @Res() response: express.Response): Promise<EnableRepositoryResponse | null> {
 
-        if (isUndefined(repository.enabled)) {
-            throw new BadRequest('PATCH is only allowed for the `enabled` property');
-        } else {
-            const authentication: github.Authentication = request.user;
-            if (repository.enabled) {
-                const apiKey = generateApiKey();
-                const apiKeyHash = generateHashValue(apiKey);
-                await this.repoService.update(authentication, owner, name, true, apiKeyHash);
-                const res: EnableRepositoryResponse = {
-                    apiKey
-                };
-                return res;
-            } else {
-                await this.repoService.update(authentication, owner, name, false);
-                response.status(204);
-                response.end();
-                return null;
-            }
-        }
+    if (isUndefined(repository.enabled)) {
+      throw new BadRequest('PATCH is only allowed for the `enabled` property');
+    } else {
+      const authentication: github.Authentication = request.user;
+      if (repository.enabled) {
+        const apiKey = generateApiKey();
+        const apiKeyHash = generateHashValue(apiKey);
+        await this.repoService.update(authentication, owner, name, true, apiKeyHash);
+        const res: EnableRepositoryResponse = {
+          apiKey
+        };
+        return res;
+      } else {
+        await this.repoService.update(authentication, owner, name, false);
+        response.status(204);
+        response.end();
+        return null;
+      }
     }
+  }
 }

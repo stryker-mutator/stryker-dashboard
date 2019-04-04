@@ -9,41 +9,41 @@ import Configuration from '../services/Configuration';
 @Controller('/github')
 export default class GithubAuth {
 
-    private readonly log = utils.debug(GithubAuth.name);
+  private readonly log = utils.debug(GithubAuth.name);
 
-    constructor(private config: Configuration) {
-    }
+  constructor(private config: Configuration) {
+  }
 
-    @Get('/')
-    get(request: express.Request, response: express.Response, next: express.NextFunction): void {
-        passport.authenticate('github', { scope: ['user:email', 'read:org', 'repo:status'] })(request, response, next);
-    }
+  @Get('/')
+  get(request: express.Request, response: express.Response, next: express.NextFunction): void {
+    passport.authenticate('github', { scope: ['user:email', 'read:org', 'repo:status'] })(request, response, next);
+  }
 
-    @Get('/callback')
-    @Use(passportAuthenticateGithub)
-    callback(req: Request, res: Response, next: NextFunction) {
-        createToken(req.user, this.config.jwtSecret).then(token => {
-            this.log(`Generated JWT for user ${req.user.username}`);
-            res.cookie('jwt', token, {
-                httpOnly: true,
-                sameSite: false,
-                secure: !this.config.isDevelopment
-            });
-            res.redirect('/');
-        });
-    }
+  @Get('/callback')
+  @Use(passportAuthenticateGithub)
+  callback(req: Request, res: Response, next: NextFunction) {
+    createToken(req.user, this.config.jwtSecret).then(token => {
+      this.log(`Generated JWT for user ${req.user.username}`);
+      res.cookie('jwt', token, {
+        httpOnly: true,
+        sameSite: false,
+        secure: !this.config.isDevelopment
+      });
+      res.redirect('/');
+    });
+  }
 
-    @Get('/logout')
-    logout(req: Request, res: Response, next: NextFunction) {
-        const cookies = req.cookies || {};
-        for (const cookie in cookies) {
-            if (!cookies.hasOwnProperty(cookie)) {
-                continue;
-            }
-            res.cookie(cookie, '', { expires: new Date(0) });
-        }
-        req.logout();
-        res.statusCode = 204;
-        res.end();
+  @Get('/logout')
+  logout(req: Request, res: Response, next: NextFunction) {
+    const cookies = req.cookies || {};
+    for (const cookie in cookies) {
+      if (!cookies.hasOwnProperty(cookie)) {
+        continue;
+      }
+      res.cookie(cookie, '', { expires: new Date(0) });
     }
+    req.logout();
+    res.statusCode = 204;
+    res.end();
+  }
 }

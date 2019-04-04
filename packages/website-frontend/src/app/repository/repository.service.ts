@@ -10,7 +10,7 @@ import { EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
 @Injectable()
 export class RepositoryService {
 
-  public constructor(private http: HttpClient) {}
+  public constructor(private http: HttpClient) { }
 
   /**
    * Enables or disables a repository.

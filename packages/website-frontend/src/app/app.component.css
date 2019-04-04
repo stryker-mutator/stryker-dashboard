@@ -1,26 +1,32 @@
-@font-face{
+@font-face {
   font-family: Carrois;
   src: url(../assets/CarroisGothic-Regular.ttf);
 }
 
-body { font-family: "Open Sans",Arial,sans-serif; }
+body {
+  font-family: "Open Sans", Arial, sans-serif;
+}
 
 .jumbotron {
   font-family: Carrois;
   background-color: inherit;
 }
+
 .docs-header a {
   color: #F1C40F;
   text-decoration: underline;
 }
-.docs-header img.stryker-img { 
-  max-width: 220px; 
+
+.docs-header img.stryker-img {
+  max-width: 220px;
 }
+
 .docs-header h1 {
   font-size: 63px;
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
 .jumbotron p {
   margin-bottom: 15px;
   font-size: 21px;

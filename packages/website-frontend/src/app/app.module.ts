@@ -21,7 +21,7 @@ import { DashboardTitleService } from './services/DashboardTitleService';
 import { ShortExplanationComponent } from './short-explanation/short-explanation.component';
 
 @NgModule({
-  bootstrap: [ AppComponent ],
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     RepositoriesComponent,
