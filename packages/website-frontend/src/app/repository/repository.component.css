@@ -1,5 +1,7 @@
 /* https://www.cssscript.com/material-style-toggle-switches-with-pure-css-css3/ */
+
 /* edited to fit our design */
+
 .toggle-switch-label {
   position: relative;
   display: block;
@@ -11,6 +13,7 @@
   transition: all 0.3s ease;
   margin-bottom: 0px;
 }
+
 .toggle-switch-label:after {
   position: absolute;
   left: -2px;
@@ -20,21 +23,33 @@
   height: 26px;
   border-radius: 100px;
   background: #fff;
-  box-shadow: 0px 2px 1px rgba(0,0,0,0.2);
+  box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2);
   content: '';
   transition: all 0.3s ease;
 }
-.toggle-switch-label:active:after { transform: scale(1.15, 0.85); }
 
-.toggle-switch:checked ~ label { background: #E77964; }
-.toggle-switch:checked ~ label:after {
+.toggle-switch-label:active:after {
+  transform: scale(1.15, 0.85);
+}
+
+.toggle-switch:checked~label {
+  background: #E77964;
+}
+
+.toggle-switch:checked~label:after {
   left: 20px;
   background: #B74934;
 }
-.toggle-switch:disabled ~ label {
+
+.toggle-switch:disabled~label {
   background: #d5d5d5;
   pointer-events: none;
 }
-.toggle-switch:disabled ~ label:after { background: #bcbdbc; }
 
-.hidden { display: none; }
+.toggle-switch:disabled~label:after {
+  background: #bcbdbc;
+}
+
+.hidden {
+  display: none;
+}

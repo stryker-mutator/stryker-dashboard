@@ -1,17 +1,17 @@
 {
-    "extends": "../tslint.json",
-    "rules": {
-        "directive-selector": [
-            true,
-            "attribute",
-            "stryker",
-            "camelCase"
-        ],
-        "component-selector": [
-            true,
-            "element",
-            "stryker",
-            "kebab-case"
-        ]
-    }
+  "extends": "../tslint.json",
+  "rules": {
+    "directive-selector": [
+      true,
+      "attribute",
+      "stryker",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "stryker",
+      "kebab-case"
+    ]
+  }
 }

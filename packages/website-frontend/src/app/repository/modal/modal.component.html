@@ -17,17 +17,17 @@
         </ng-template>
         <ng-template #loading>Retrieving api key...</ng-template>
       </p>
-
-
-
       <ngb-accordion #acc="ngbAccordion" activeIds="panel-about-your-api-key" closeOthers="true">
         <ngb-panel title="About your key" id="panel-about-your-api-key">
           <ng-template ngbPanelContent>
             This is
-            <em>your</em> key. It is unique and special made for "{{ repoComponent.repo.slug }}". This is the last time we'll
-            be showing it to you (although you can create new ones at any time). You might want to encrypt it before publishing
+            <em>your</em> key. It is unique and special made for "{{ repoComponent.repo.slug }}". This is the last time
+            we'll
+            be showing it to you (although you can create new ones at any time). You might want to encrypt it before
+            publishing
             it to the world wide web (for example, using
-            <a href="https://docs.travis-ci.com/user/environment-variables/#Encrypting-environment-variables" target="_blank">travis encrypted environment variables</a>)
+            <a href="https://docs.travis-ci.com/user/environment-variables/#Encrypting-environment-variables"
+              target="_blank">travis encrypted environment variables</a>)
           </ng-template>
         </ngb-panel>
         <ngb-panel>
@@ -47,7 +47,8 @@
           <ng-template ngbPanelContent>
             <p>
               See
-              <a href="https://github.com/stryker-mutator/stryker/tree/master/packages/stryker#reporters-string" target="_blank">stryker readme</a>
+              <a href="https://github.com/stryker-mutator/stryker/tree/master/packages/stryker#reporters-string"
+                target="_blank">stryker readme</a>
               for an explanation on how you can configure this key in your the dashboard reporter.
             </p>
             <p>

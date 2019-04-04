@@ -3,9 +3,9 @@ import { Title } from '@angular/platform-browser';
 
 @Injectable()
 export class DashboardTitleService {
-    constructor(private titleService: Title) { }
+  constructor(private titleService: Title) { }
 
-    setTitlePrefix(prefix: string) {
-        this.titleService.setTitle(`${prefix} - Stryker Dashboard`);
-    }
+  setTitlePrefix(prefix: string) {
+    this.titleService.setTitle(`${prefix} - Stryker Dashboard`);
+  }
 }

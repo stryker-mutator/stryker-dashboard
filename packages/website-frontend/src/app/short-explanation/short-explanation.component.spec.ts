@@ -8,9 +8,9 @@ describe('ShortExplanationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShortExplanationComponent ]
+      declarations: [ShortExplanationComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
