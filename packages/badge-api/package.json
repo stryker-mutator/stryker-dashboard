@@ -3,12 +3,13 @@
   "description": "",
   "version": "0.1.0",
   "scripts": {
+    "clean": "rimraf dist \"+(test|badge)/**/*+(.d.ts|.js|.map)\"",
     "build": "tsc && webpack --config webpack.config.js",
     "watch": "webpack --watch --config webpack.config.js",
     "prestart": "func extensions install",
     "start:host": "func start",
     "start": "npm run start:host",
-    "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"test/helpers/**/*.js\" \"test/unit/**/*.js\""
+    "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"test/**/*.js\""
   },
   "dependencies": {
     "stryker-dashboard-data-access": "0.1.0"
