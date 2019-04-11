@@ -87,3 +87,11 @@ appsettings.json
 # TypeScript output
 dist
 out
+
+reports
+test/**/*.js
+test/**/*.map
+test/**/*.d.ts
+badge/**/*.d.ts
+badge/**/*.js
+badge/**/*.map
