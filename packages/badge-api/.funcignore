@@ -1,0 +1,11 @@
+node_modules
+*.js.map
+*.ts
+*.js
+.git*
+.vscode
+local.settings.json
+test
+tsconfig.json
+!dist/**/*.js
+!dist/**/*.js.map
