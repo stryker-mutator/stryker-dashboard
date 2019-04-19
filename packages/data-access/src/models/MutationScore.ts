@@ -4,8 +4,8 @@
  * The identifier is in this form: label/branch
  */
 export default class MutationScore {
-  static tableName = 'MutationScore';
-  slug: string;
-  branch: string;
-  score: number;
+  public static tableName = 'MutationScore';
+  public slug: string;
+  public branch: string;
+  public score: number;
 }

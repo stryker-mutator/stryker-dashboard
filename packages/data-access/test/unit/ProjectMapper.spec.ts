@@ -43,7 +43,7 @@ describe('ProjectMapper', () => {
     const expectedQuery = new TableQuery()
       .where('PartitionKey eq ?', 'github;partKey')
       .and('RowKey eq ?', 'rowKey');
-    const results: Array<Entity<{ enabled: boolean, apiKeyHash: string }> & EntityKey> = [];
+    const results: (Entity<{ enabled: boolean, apiKeyHash: string }> & EntityKey)[] = [];
     tableServiceMock.queryEntities.resolves({ entries: results });
     const actualProjects = await sut.select('github/partKey', 'rowKey');
     expect(tableServiceMock.queryEntities).calledWith('Project', expectedQuery);
@@ -54,7 +54,7 @@ describe('ProjectMapper', () => {
     const expectedQuery = new TableQuery()
       .where('PartitionKey eq ?', 'github;partKey')
       .and('RowKey eq ?', 'rowKey');
-    const results: Array<Entity<{ enabled: boolean, apiKeyHash: string }> & EntityKey> = [{
+    const results: (Entity<{ enabled: boolean, apiKeyHash: string }> & EntityKey)[] = [{
       PartitionKey: { _: 'partKey', $: 'Edm.String' },
       RowKey: { _: 'rowKey', $: 'Edm.String' },
       apiKeyHash: { _: 'hash', $: 'string' },
@@ -74,7 +74,7 @@ describe('ProjectMapper', () => {
 
   it('should return the all entities when select is called without a row key', async () => {
     const expectedQuery = new TableQuery().where('PartitionKey eq ?', 'github;partKey');
-    const results: Array<Entity<{ enabled: boolean, apiKeyHash: string }> & EntityKey> = [{
+    const results: (Entity<{ enabled: boolean, apiKeyHash: string }> & EntityKey)[] = [{
       PartitionKey: { _: 'partKey', $: 'Edm.String' },
       RowKey: { _: 'rowKey', $: 'Edm.String' },
       apiKeyHash: { _: 'hash', $: 'string' },

@@ -1,16 +1,21 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "es5",
-      "es2015"
-    ],
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "sourceMap": true,
-    "strict": true,
-    "target": "es2015",
-    "strictPropertyInitialization": false // TODO
-  }
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/badge-service"
+    },
+    {
+      "path": "./packages/data-access"
+    },
+    {
+      "path": "./packages/badge-api"
+    },
+    // Skipping website-frontend, since it's an angular project
+    {
+      "path": "./packages/website-backend"
+    },
+    {
+      "path": "./packages/website-contract"
+    }
+  ]
 }

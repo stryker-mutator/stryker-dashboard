@@ -23,12 +23,5 @@
       "label": "npm install",
       "command": "npx lerna bootstrap"
     }
-    // {
-    //   "type": "shell",
-    //   "label": "npm prune",
-    //   "command": "npm prune --production && npx install-local ../data-access",
-    //   "dependsOn": "npm build",
-    //   "problemMatcher": []
-    // }
   ]
 }

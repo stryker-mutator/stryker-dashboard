@@ -3,8 +3,7 @@
   "description": "",
   "version": "0.1.0",
   "scripts": {
-    "clean": "rimraf dist \"+(test|badge)/**/*+(.d.ts|.js|.map)\"",
-    "build": "tsc && webpack --config webpack.config.js",
+    "build": "webpack --config webpack.config.js",
     "watch": "webpack --watch --config webpack.config.js",
     "prestart": "func extensions install",
     "start:host": "func start",

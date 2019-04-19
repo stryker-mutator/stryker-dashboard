@@ -6,8 +6,6 @@
   "typings": "src/index.ts",
   "private": true,
   "scripts": {
-    "build": "tsc",
-    "clean": "rimraf \"+(test|src)/**/*+(.d.ts|.js|.map)\" dist .nyc_output reports"
   },
   "keywords": [],
   "author": "",

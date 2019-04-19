@@ -4,15 +4,15 @@ import * as path from 'path';
 
 export function getContent(url: string): Promise<string | undefined> {
     return new Promise((resolve, reject) => {
-        let request = https.get(url, (response) => {
-            let body: string[] = [];
+        const request = https.get(url, response => {
+            const body: string[] = [];
             response.on('data', (chunk: string) => body.push(chunk));
             response.on('end', () => resolve(body.join('')));
         });
 
-        request.on('error', (err) => reject(err))
-    })
-};
+        request.on('error', err => reject(err));
+    });
+}
 
 export function logError(error: Error) {
     console.error(error);

@@ -1,0 +1,16 @@
+{
+  "extends": "../../../tsconfig.settings.json",
+  "compilerOptions": {
+    "outDir": "../dist/src",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "references": [
+    {
+      "path": "../../data-access/src"
+    },
+    {
+      "path": "../../website-contract/src"
+    }
+  ]
+}
