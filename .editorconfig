@@ -1,4 +1,4 @@
 # 2 space indentation
-[{*.ts,*.js,*.json}]
+[{*.ts,*.js,*.json,*.code-workspace}]
 indent_style = space
 indent_size = 2

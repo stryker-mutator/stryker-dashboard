@@ -1,12 +1,12 @@
-import { assert, expect } from "chai";
+import { expect } from 'chai';
 import * as sinon from 'sinon';
-import * as chai from "chai";
-import * as sinonchai from "sinon-chai";
-import * as dataAccessModule from "stryker-dashboard-data-access";
+import * as chai from 'chai';
+import * as sinonchai from 'sinon-chai';
+import * as dataAccessModule from 'stryker-dashboard-data-access';
 import { Mock } from '../testHelpers/mock';
-import { MutationScoreMapper, MutationScore } from "stryker-dashboard-data-access";
-import run = require("../badgeGenerator/badgeGenerator");
-import * as helpers from "../helpers/helpers";
+import { MutationScoreMapper, MutationScore } from 'stryker-dashboard-data-access';
+import run = require('../badgeGenerator/badgeGenerator');
+import * as helpers from '../helpers/helpers';
 import * as fs from 'mz/fs';
 import * as path from 'path';
 
@@ -16,7 +16,7 @@ describe('Generating a badge', () => {
 
   let mutationScoreMapperMock: Mock<MutationScoreMapper>;
   let context: any;
-  let req: any;
+  const req = undefined;
   let getContentStub: sinon.SinonStub;
   let mutationScore: MutationScore;
   let logErrorStub: sinon.SinonStub;
@@ -33,7 +33,7 @@ describe('Generating a badge', () => {
     getContentStub = sinon.stub(helpers, 'getContent');
     logErrorStub = sinon.stub(helpers, 'logError');
 
-    let mutationScoreNoBranch = new MutationScore();
+    const mutationScoreNoBranch = new MutationScore();
     mutationScoreNoBranch.slug = 'github/stryker-mutator/stryker';
     mutationScoreNoBranch.score = 79.01;
 
@@ -202,4 +202,4 @@ describe('Generating a badge', () => {
     expect(context.res.status).to.equal(200);
     expect(helpers.getContent).calledWith('https://img.shields.io/badge/mutation%20score-59.9-red.svg');
   });
-});    
+});

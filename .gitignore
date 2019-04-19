@@ -16,4 +16,6 @@ lerna-debug.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
+*.tsbuildinfo
+packages/*/test/**/*.d.ts
+packages/*/src/**/*.d.ts

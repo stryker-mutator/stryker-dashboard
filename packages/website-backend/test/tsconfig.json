@@ -1,0 +1,17 @@
+{
+  "extends": "../../../tsconfig.settings.json",
+  "compilerOptions": {
+    "outDir": "../dist/test",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "types": [
+      "node",
+      "mocha"
+    ]
+  },
+  "references": [
+    {
+      "path": "../src"
+    }
+  ]
+}

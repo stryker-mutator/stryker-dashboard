@@ -8,10 +8,10 @@ function isDefined<T>(val: T | undefined): val is T {
 }
 
 export default abstract class Mapper<T> {
-  constructor(private tableName: string,
-    private partitionKeyName: keyof T,
-    private rowKeyName: keyof T,
-    private tableService: TableServiceAsPromised) {
+  constructor(private readonly tableName: string,
+              private readonly partitionKeyName: keyof T,
+              private readonly rowKeyName: keyof T,
+              private readonly tableService: TableServiceAsPromised) {
   }
 
   public createTableIfNotExists(): Promise<TableService.TableResult> {
@@ -56,7 +56,6 @@ export default abstract class Mapper<T> {
       });
       return value;
     });
-
 
     if (isDefined(rowKey)) {
       if (isUndefined(entities[0])) {

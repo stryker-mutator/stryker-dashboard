@@ -1,2 +1,2 @@
 interface Blob { }
-interface XMLHttpRequest { };
+interface XMLHttpRequest { }

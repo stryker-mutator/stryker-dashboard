@@ -1,6 +1,6 @@
-import * as sinon from "sinon";
+import * as sinon from 'sinon';
 
-export function mock<T>(Constructor: { new(...args: any[]): T }): Mock<T> {
+export function mock<T>(Constructor: new(...args: any[]) => T): Mock<T> {
   return sinon.createStubInstance(Constructor) as Mock<T>;
 }
 

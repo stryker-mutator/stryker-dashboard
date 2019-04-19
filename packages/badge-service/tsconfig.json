@@ -5,6 +5,10 @@
     "sourceMap": true,  
     "lib": [ "es2015"],                    
     "strict": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "types": [
+      "node",
+      "mocha"
+    ]
   }
 }

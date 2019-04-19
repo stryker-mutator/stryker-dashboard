@@ -7,7 +7,7 @@ export type Entity<T> = {
     $: string;
     _: T[K];
   };
-}
+};
 
 export interface EntityKey {
   PartitionKey: {
@@ -22,7 +22,7 @@ export interface EntityKey {
 
 export default class TableServiceAsPromised {
 
-  constructor(private tableService = createTableService()) {
+  constructor(private readonly tableService = createTableService()) {
   }
 
   public createTableIfNotExists(name: string): Promise<TableService.TableResult> {
@@ -37,9 +37,9 @@ export default class TableServiceAsPromised {
     return this.promisify(this.tableService.queryEntities, table, tableQuery, null as any) as any;
   }
 
-  private promisify<T1, TResult>(action: (arg: T1, callback: ErrorOrResult<TResult>) => void, arg: T1): Promise<TResult>
-  private promisify<T1, T2, TResult>(action: (arg: T1, arg2: T2, callback: ErrorOrResult<TResult>) => void, arg: T1, arg2: T2): Promise<TResult>
-  private promisify<T1, T2, T3, TResult>(action: (arg: T1, arg2: T2, arg3: T3, callback: ErrorOrResult<TResult>) => void, arg: T1, arg2: T2, arg3: T3): Promise<TResult>
+  private promisify<T1, TResult>(action: (arg: T1, callback: ErrorOrResult<TResult>) => void, arg: T1): Promise<TResult>;
+  private promisify<T1, T2, TResult>(action: (arg: T1, arg2: T2, callback: ErrorOrResult<TResult>) => void, arg: T1, arg2: T2): Promise<TResult>;
+  private promisify<T1, T2, T3, TResult>(action: (arg: T1, arg2: T2, arg3: T3, callback: ErrorOrResult<TResult>) => void, arg: T1, arg2: T2, arg3: T3): Promise<TResult>;
   private promisify<T1, T2, T3, TResult>(action: (...args: any[]) => any, arg: T1, arg2?: T2, arg3?: T3): Promise<TResult> {
     const args: (T1 | T2 | T3)[] = [arg];
     if (!isUndefined(arg2)) {

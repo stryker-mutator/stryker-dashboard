@@ -3,7 +3,7 @@ import * as httpHelpers from '../helpers/helpers';
 import { retrieveUnknownBadge } from '../helpers/helpers';
 
 export = async function run(context: any, req: any) {
-    let statusCode = 400;
+    const statusCode = 400;
     context.res = {
         status: statusCode,
     };
@@ -22,13 +22,13 @@ export = async function run(context: any, req: any) {
                 'Content-Type': 'image/svg+xml'
             },
             body: badge
-        }
+        };
     }
 
     const scoreRepo = new MutationScoreMapper();
 
     try {
-        const mutationScore = await scoreRepo.select(`${context.bindingData.provider}/${context.bindingData.owner}/${context.bindingData.repo}`, context.bindingData.branch || "");
+        const mutationScore = await scoreRepo.select(`${context.bindingData.provider}/${context.bindingData.owner}/${context.bindingData.repo}`, context.bindingData.branch || '');
         if (mutationScore) {
             const score = Math.round(mutationScore.score * 10) / 10;
             const scoreColor = determineColor(score);
@@ -42,15 +42,18 @@ export = async function run(context: any, req: any) {
         httpHelpers.logError(error);
         await setResult(retrieveUnknownBadge());
     }
-}
+};
 
 function determineColor(score: number): Color {
-    if (score < 60)
+    if (score < 60) {
         return Color.Red;
-    else if (score < 80 && score >= 60)
+    }
+    else if (score < 80 && score >= 60) {
         return Color.Orange;
-    else
+ }
+    else {
         return Color.Green;
+ }
 }
 
 enum Color {

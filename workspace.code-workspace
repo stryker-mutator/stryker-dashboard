@@ -1,23 +1,44 @@
 {
-	"folders": [
-		{
-			"path": "packages/badge-service"
-		},
-		{
-			"path": "packages/data-access"
-		},
-		{
-			"path": "packages/website-backend"
-		},
-		{
-			"path": "packages/website-frontend"
-		},
-		{
-			"path": "packages/website-contract"
-		},
-		{
-			"path": "."
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": "packages/badge-service"
+    },
+    {
+      "path": "packages/data-access"
+    },
+    {
+      "path": "packages/badge-api"
+    },
+    {
+      "path": "packages/website-backend"
+    },
+    {
+      "path": "packages/website-frontend"
+    },
+    {
+      "path": "packages/website-contract"
+    },
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.tslint": true
+    },
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/*.js.map": true,
+      "**/*.js": {
+        "when": "$(basename).ts"
+      },
+      "**/src/**/*.d.ts": true,
+      "**/test/**/*.d.ts": true,
+      "*.tsbuildinfo": true
+    }
+  }
 }

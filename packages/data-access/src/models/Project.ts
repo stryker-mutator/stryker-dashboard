@@ -1,10 +1,8 @@
 
 export default class Project {
-  owner: string;
-  name: string;
-  enabled: boolean;
-  apiKeyHash: string;
-  static tableName = 'Project';
+  public owner: string;
+  public name: string;
+  public enabled: boolean;
+  public apiKeyHash: string;
+  public static tableName = 'Project';
 }
-
-

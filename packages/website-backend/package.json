@@ -5,10 +5,6 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf dist .nyc_output reports",
-    "prebuild": "npm run clean",
-    "build": "tsc",
-    "postbuild": "tslint --project .",
     "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 61 mocha \"dist/test/**/*.js\""
   },
   "dependencies": {

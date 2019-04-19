@@ -3,8 +3,6 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "clean": "rimraf dist/",
-    "prebuild": "npm run lint",
     "start": "ng serve",
     "build": "ng build --prod",
     "test": "ng test --watch false --code-coverage",

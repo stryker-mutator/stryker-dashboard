@@ -1,5 +1,4 @@
 
-
 export function slashesToSemicolons(inputWithSlashes: string) {
   return inputWithSlashes.replace(/\//g, ';');
 }
