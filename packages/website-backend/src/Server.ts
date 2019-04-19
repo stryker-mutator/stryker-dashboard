@@ -8,9 +8,6 @@ import { githubStrategy, securityMiddleware } from './middleware/securityMiddlew
 import { spa } from './middleware/spaMiddleware';
 import errorHandler from './middleware/errorHandler';
 
-const a: Blob = {};
-console.log(a);
-
 @ServerSettings({
   acceptMimes: ['application/json'],
   mount: {
