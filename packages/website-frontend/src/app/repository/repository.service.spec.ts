@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { RepositoryService } from './repository.service';
 import { EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
+import { Type } from '@angular/core';
 
 describe('RepositoryService', () => {
   let repositoryService: RepositoryService;

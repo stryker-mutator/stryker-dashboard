@@ -1,52 +1,53 @@
 {
-    "bugs": {
-        "url": "https://github.com/stryker-mutator/stryker-dashboard/issues"
-    },
-    "contributors": [
-        "Maarten Mulders <mthmulders@users.noreply.github.com>",
-        "Nico Jansen <jansennico@gmail.com>"
-    ],
-    "devDependencies": {
-        "@types/chai": "^4.1.7",
-        "@types/chai-as-promised": "^7.1.0",
-        "@types/mocha": "^5.2.6",
-        "@types/sinon": "^5.0.7",
-        "@types/sinon-chai": "^3.2.2",
-        "@types/source-map-support": "^0.5.0",
-        "chai": "^4.2.0",
-        "chai-as-promised": "^7.1.1",
-        "lerna": "^3.13.3",
-        "link-parent-bin": "^1.0.0",
-        "mocha": "^6.1.4",
-        "node-mocks-http": "^1.7.3",
-        "nyc": "^13.3.0",
-        "rimraf": "2.6.3",
-        "sinon": "^7.3.1",
-        "sinon-chai": "^3.3.0",
-        "source-map-support": "^0.5.11",
-        "supertest": "4.0.2",
-        "ts-loader": "^5.3.3",
-        "tslint": "^5.16.0",
-        "typescript": "^3.4.1",
-        "webpack": "^4.29.6",
-        "webpack-cli": "^3.3.0"
-    },
-    "license": "Apache-2.0",
-    "name": "stryker-dashboard",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/stryker-mutator/stryker-dashboard"
-    },
-    "scripts": {
-        "postinstall": "lerna bootstrap && link-parent-bin",
-        "preinstall-production": "rimraf packages/*/node_modules",
-        "install-production": "lerna bootstrap --no-ci --scope *website-backend --scope *website-contract --scope *data-access -- --production",
-        "clean": "rimraf \"packages/*/+(test|src|badge)/**/!(karma.conf)+(.d.ts|.js|.map)\" \"packages/**/*.tsbuildinfo\" \"packages/*/{.nyc_output,reports,coverage,dist}\"",
-        "lint": "tslint -p tsconfig.lint.json",
-        "lint-fix": "tslint --fix --project tsconfig.lint.json",
-        "build": "tsc -b && lerna run build",
-        "test": "lerna run test --stream"
-    },
-    "version": "0.0.1",
-    "dependencies": {}
+  "bugs": {
+    "url": "https://github.com/stryker-mutator/stryker-dashboard/issues"
+  },
+  "contributors": [
+    "Maarten Mulders <mthmulders@users.noreply.github.com>",
+    "Nico Jansen <jansennico@gmail.com>"
+  ],
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/mocha": "^5.2.6",
+    "@types/sinon": "^5.0.7",
+    "@types/sinon-chai": "^3.2.2",
+    "@types/source-map-support": "^0.5.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "lerna": "^3.13.4",
+    "link-parent-bin": "^1.0.0",
+    "mocha": "^6.1.4",
+    "node-mocks-http": "^1.7.5",
+    "nyc": "^14.1.0",
+    "rimraf": "2.6.3",
+    "sinon": "^7.3.2",
+    "sinon-chai": "^3.3.0",
+    "source-map-support": "^0.5.12",
+    "supertest": "4.0.2",
+    "ts-loader": "^5.4.5",
+    "tslint": "^5.16.0",
+    "typescript": "^3.4.5",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1"
+  },
+  "license": "Apache-2.0",
+  "name": "stryker-dashboard",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stryker-mutator/stryker-dashboard"
+  },
+  "scripts": {
+    "postinstall": "lerna bootstrap && link-parent-bin",
+    "all": "npm run lint && npm run clean && npm run build && npm run test",
+    "preinstall-production": "rimraf packages/*/node_modules",
+    "install-production": "lerna bootstrap --no-ci --scope *website-backend --scope *website-contract --scope *data-access -- --production",
+    "clean": "rimraf \"packages/*/+(test|src|badge)/**/!(karma.conf)+(.d.ts|.js|.map)\" \"packages/**/*.tsbuildinfo\" \"packages/*/{.nyc_output,reports,coverage,dist}\"",
+    "lint": "tslint -p tsconfig.lint.json",
+    "lint-fix": "tslint --fix --project tsconfig.lint.json",
+    "build": "tsc -b && lerna run build",
+    "test": "lerna run test --stream"
+  },
+  "version": "0.0.1",
+  "dependencies": {}
 }
