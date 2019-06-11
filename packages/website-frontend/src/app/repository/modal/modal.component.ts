@@ -10,7 +10,7 @@ import { RepositoryComponent } from '../repository.component';
 })
 export class RepositoryModalComponent {
 
-  @ViewChild('modal') private modal: ElementRef;
+  @ViewChild('modal', { static: false }) private modal: ElementRef;
   private repoComponent: RepositoryComponent;
   public enabling: boolean;
 
