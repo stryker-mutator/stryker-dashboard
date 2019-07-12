@@ -1,4 +1,7 @@
-name: stryker-dashboard
+name: stryker-dashboard $(Build.BuildId)
+
+variables:
+  Image.Name: 'strykermutator-dev/dashboard'
 
 trigger:
   batch: true
@@ -31,13 +34,23 @@ steps:
     customCommand: run all
 
 - task: ArchiveFiles@2
-  displayName: 'Archive Monitoring agent function'
+  displayName: 'Zip badge-api folder'
   inputs:
     rootFolderOrFile: '$(Build.SourcesDirectory)/packages/badge-api'
     includeRootFolder: false
     archiveFile: '$(Build.ArtifactStagingDirectory)/badge-api.zip'
 
 - task: PublishPipelineArtifact@1
+  displayName: 'Publish badge-api artifact'
   inputs:
     targetPath: '$(Build.ArtifactStagingDirectory)/badge-api.zip'
     artifact: 'badge-api'
+
+- task: Docker@2
+  displayName: Build and Push dashboard website docker image
+  inputs:
+    containerRegistry: 'stryker-docker'
+    repository: '$(Image.Name)'
+    Dockerfile: Dockerfile
+    tags: '$(Build.BuildId)'
+  continueOnError: true
