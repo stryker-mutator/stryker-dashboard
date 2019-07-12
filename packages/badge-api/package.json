@@ -3,8 +3,6 @@
   "description": "",
   "version": "0.1.0",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "watch": "webpack --watch --config webpack.config.js",
     "prestart": "func extensions install",
     "start:host": "func start",
     "start": "npm run start:host",
