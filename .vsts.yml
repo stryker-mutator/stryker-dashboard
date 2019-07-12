@@ -23,12 +23,12 @@ steps:
     verbose: false
     customCommand: 'install -unsafe-perm'
 
-# - task: Npm@1
-#   displayName: Test
-#   inputs:
-#     command: custom
-#     verbose: false
-#     customCommand: run all
+- task: Npm@1
+  displayName: Test
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: run all
 
 - task: ArchiveFiles@2
   displayName: 'Archive Monitoring agent function'
