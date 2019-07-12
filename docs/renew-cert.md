@@ -1,12 +1,13 @@
 # Renew certificates
 
-As of the moment of writing this we have 3 tls enabled websites.
+As of the moment of writing this we have 4 tls enabled websites.
 
 1. stryker-mutator.io
 1. dashboard.stryker-mutator.io
 1. badge.stryker-mutator.io
+1. badge-api.stryker-mutator.io
 
-All 3 are protected using [let's encrypt](https://letsencrypt.org/). 
+All 4 are protected using [let's encrypt](https://letsencrypt.org/). 
 The root domain (stryker-mutator.io) is automatically renewed. Others are hosted on azure and need our attention from time to time.
 
 ## One time setup
@@ -40,14 +41,17 @@ Use this script to renew:
 set -e
 PASSWORD=`openssl rand -base64 16`
 
-certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/.secrets/certbot/cloudflare.ini -d dashboard.stryker-mutator.io -d badge.stryker-mutator.io
+certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/.secrets/certbot/cloudflare.ini -d dashboard.stryker-mutator.io -d badge.stryker-mutator.io -d badge-api.stryker-mutator.io
 cd /etc/letsencrypt/archive/dashboard.stryker-mutator.io/
 openssl pkcs12 -export -out stryker.pfx -inkey privkey1.pem -in cert1.pem -certfile chain1.pem -password pass:$PASSWORD
 az webapp config ssl upload --certificate-file ./stryker.pfx --certificate-password $PASSWORD --name stryker-mutator-badge --resource-group stryker-mutator
 az webapp config ssl upload --certificate-file ./stryker.pfx --certificate-password $PASSWORD --name stryker-badge --resource-group strykermutator-badge-website
+az webapp config ssl upload --certificate-file ./stryker.pfx --certificate-password $PASSWORD --name stryker-mutator-badge-api --resource-group strykermutatorbadgeapi
+
 
 THUMBPRINT=`az webapp config ssl list --resource-group stryker-mutator --query [0].thumbprint | tr -d '"'`
 
 az webapp config ssl bind --certificate-thumbprint $THUMBPRINT --ssl-type SNI --name stryker-mutator-badge --resource-group stryker-mutator
 az webapp config ssl bind --certificate-thumbprint $THUMBPRINT --ssl-type SNI --name stryker-badge --resource-group strykermutator-badge-website
+az webapp config ssl bind --certificate-thumbprint $THUMBPRINT --ssl-type SNI --name stryker-mutator-badge-api --resource-group strykermutatorbadgeapi
 ```
