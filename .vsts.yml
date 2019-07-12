@@ -1,0 +1,18 @@
+pool:
+  name: Hosted Ubuntu 1604
+  demands: npm
+
+steps:
+- task: Npm@1
+  displayName: Install
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'install -unsafe-perm'
+
+- task: Npm@1
+  displayName: Test
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: all
