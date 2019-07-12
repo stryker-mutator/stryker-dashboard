@@ -28,4 +28,4 @@ steps:
   inputs:
     command: custom
     verbose: false
-    customCommand: all
+    customCommand: run all

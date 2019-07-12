@@ -47,7 +47,7 @@ describe('Data access layer', () => {
       const key = Object.freeze({ PartitionKey: 'partKey', RowKey: 'rowKey' });
       await promisify(tableService.insertOrReplaceEntity).apply(tableService, ['Project', { ...key, foo: 'bar' }]);
       const actual = await sut.select('partKey', 'rowKey');
-      expect(actual).deep.eq([{ owner: 'partKey', name: 'rowKey', foo: 'bar' }]);
+      expect(actual).deep.eq({ owner: 'partKey', name: 'rowKey', foo: 'bar' });
     });
 
     it('should retrieve multiple entities with a single partition key', async () => {

@@ -38,7 +38,7 @@ describe('TableServiceAsPromised', () => {
   describe('queryEntities', () => {
     it('should pass through the call to azure', async () => {
       const expectedQuery = new TableQuery().where('a = 3');
-      const result = sut.queryEntities('foobar', expectedQuery);
+      const result = sut.queryEntities('foobar', expectedQuery, null);
       tableServiceMock.queryEntities.callArgOn(3, sut, undefined, ['result ']);
       const actual = await result;
       expect(result).instanceof(Promise);
