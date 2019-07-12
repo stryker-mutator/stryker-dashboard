@@ -28,6 +28,6 @@ export default class TableServiceAsPromised {
   }
 
   public createTableIfNotExists: (name: string) => Promise<TableService.TableResult>;
-  public queryEntities: <T>(table: string, tableQuery: TableQuery) => Promise<TableService.QueryEntitiesResult<Entity<T> & EntityKey>>;
+  public queryEntities: <T>(table: string, tableQuery: TableQuery, cancellationToken: TableService.TableContinuationToken | null) => Promise<TableService.QueryEntitiesResult<Entity<T> & EntityKey>>;
   public insertOrMergeEntity: (table: string, entity: any) => Promise<TableService.EntityMetadata>;
 }

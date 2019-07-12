@@ -5,7 +5,8 @@
     "types": [
       "node",
       "mocha"
-    ]
+    ],
+    "outDir": "dist"
   },
   "references": [
     {

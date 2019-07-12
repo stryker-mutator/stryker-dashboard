@@ -8,13 +8,14 @@
     "prestart": "func extensions install",
     "start:host": "func start",
     "start": "npm run start:host",
-    "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"test/**/*.js\""
+    "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"dist/test/**/*.js\""
   },
   "dependencies": {
     "stryker-dashboard-data-access": "0.1.0"
   },
   "devDependencies": {
     "@azure/functions": "^1.0.1-beta2",
+    "azure-functions-core-tools": "^2.7.1373",
     "typescript": "^3.3.3"
   }
 }

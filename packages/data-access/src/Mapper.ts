@@ -44,7 +44,7 @@ export default abstract class Mapper<T> {
     if (isDefined(rowKey)) {
       tableQuery = tableQuery.and('RowKey eq ?', this.packKey(rowKey));
     }
-    const results = await this.tableService.queryEntities<T>(this.tableName, tableQuery);
+    const results = await this.tableService.queryEntities<T>(this.tableName, tableQuery, null);
     const entities = results.entries.map((entity: any) => {
       const value: any = {};
       value[this.partitionKeyName] = this.unpackKey(entity.PartitionKey._);

@@ -3,7 +3,8 @@ import TableServiceAsPromised, { Entity, EntityKey } from '../../src/TableServic
 import { Mock, mock } from '../helpers/mock';
 import ProjectMapper from '../../src/ProjectMapper';
 import Project from '../../src/models/Project';
-import { TableQuery } from 'azure-storage';
+import { TableQuery, TableService } from 'azure-storage';
+import * as sinon from 'sinon';
 
 describe('ProjectMapper', () => {
 
@@ -11,7 +12,7 @@ describe('ProjectMapper', () => {
   let tableServiceMock: Mock<TableServiceAsPromised>;
 
   beforeEach(() => {
-    tableServiceMock = mock(TableServiceAsPromised);
+    tableServiceMock = sinon.stub(new TableServiceAsPromised(mock(TableService) as any));
     sut = new ProjectMapper(tableServiceMock as any);
   });
 
