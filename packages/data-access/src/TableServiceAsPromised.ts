@@ -1,6 +1,5 @@
-import { isUndefined } from 'util';
-import { ErrorOrResult, TableService, TableQuery, createTableService } from 'azure-storage';
-const { promisify } = require('es6-promisify');
+import { promisify } from 'util';
+import { TableService, TableQuery, createTableService } from 'azure-storage';
 
 export type Entity<T> = {
   [K in keyof T]: {
@@ -23,31 +22,12 @@ export interface EntityKey {
 export default class TableServiceAsPromised {
 
   constructor(private readonly tableService = createTableService()) {
+    this.createTableIfNotExists = promisify(this.tableService.createTableIfNotExists).bind(this.tableService);
+    this.queryEntities = promisify(this.tableService.queryEntities).bind(this.tableService) as any;
+    this.insertOrMergeEntity = promisify(this.tableService.insertOrMergeEntity).bind(this.tableService);
   }
 
-  public createTableIfNotExists(name: string): Promise<TableService.TableResult> {
-    return this.promisify(this.tableService.createTableIfNotExists, name);
-  }
-
-  public insertOrMergeEntity(table: string, entity: any): Promise<TableService.EntityMetadata> {
-    return this.promisify(this.tableService.insertOrMergeEntity, table, entity);
-  }
-
-  public queryEntities<T>(table: string, tableQuery: TableQuery): Promise<TableService.QueryEntitiesResult<Entity<T> & EntityKey>> {
-    return this.promisify(this.tableService.queryEntities, table, tableQuery, null as any) as any;
-  }
-
-  private promisify<T1, TResult>(action: (arg: T1, callback: ErrorOrResult<TResult>) => void, arg: T1): Promise<TResult>;
-  private promisify<T1, T2, TResult>(action: (arg: T1, arg2: T2, callback: ErrorOrResult<TResult>) => void, arg: T1, arg2: T2): Promise<TResult>;
-  private promisify<T1, T2, T3, TResult>(action: (arg: T1, arg2: T2, arg3: T3, callback: ErrorOrResult<TResult>) => void, arg: T1, arg2: T2, arg3: T3): Promise<TResult>;
-  private promisify<T1, T2, T3, TResult>(action: (...args: any[]) => any, arg: T1, arg2?: T2, arg3?: T3): Promise<TResult> {
-    const args: (T1 | T2 | T3)[] = [arg];
-    if (!isUndefined(arg2)) {
-      args.push(arg2);
-    }
-    if (!isUndefined(arg3)) {
-      args.push(arg3);
-    }
-    return promisify(action).apply(this.tableService, args);
-  }
+  public createTableIfNotExists: (name: string) => Promise<TableService.TableResult>;
+  public queryEntities: <T>(table: string, tableQuery: TableQuery) => Promise<TableService.QueryEntitiesResult<Entity<T> & EntityKey>>;
+  public insertOrMergeEntity: (table: string, entity: any) => Promise<TableService.EntityMetadata>;
 }

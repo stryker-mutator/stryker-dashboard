@@ -39,6 +39,7 @@
       "**/src/**/*.d.ts": true,
       "**/test/**/*.d.ts": true,
       "*.tsbuildinfo": true
-    }
+    },
+    "typescript.tsdk": "stryker-dashboard\\node_modules\\typescript\\lib"
   }
 }
