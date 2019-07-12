@@ -1,3 +1,16 @@
+name: stryker-dashboard
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - refs/heads/master
+    - refs/tags/*
+
+resources:
+- repo: self
+  clean: true
+
 pool:
   name: Hosted Ubuntu 1604
   demands: npm
