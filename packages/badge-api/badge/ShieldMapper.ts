@@ -1,17 +1,18 @@
-import { MutationScoreMapper } from 'stryker-dashboard-data-access';
+import { MutationTestingReportMapper } from 'stryker-dashboard-data-access';
 import { Shield, Color } from './Shield';
 
 export class ShieldMapper {
-  constructor(private readonly scoreMapper: MutationScoreMapper) {
+  constructor(private readonly reportMapper: MutationTestingReportMapper) {
   }
 
-  public async shieldFor(provider: string, owner: string, repo: string, branch?: string): Promise<Shield> {
-    const mutationScore = await this.scoreMapper.select(
-      MutationScoreMapper.createPartitionKey(provider, owner, repo),
-      MutationScoreMapper.createRowKey(branch)
-    );
-    if (mutationScore) {
-      const score = Math.round(mutationScore.score * 10) / 10;
+  public async shieldFor(repositorySlug: string, version: string, moduleName?: string): Promise<Shield> {
+    const report = await this.reportMapper.findOne({
+      repositorySlug,
+      version,
+      moduleName
+    });
+    if (report) {
+      const score = Math.round(report.mutationScore * 10) / 10;
       const scoreColor = determineColor(score);
       return {
         color: scoreColor,

@@ -1,15 +1,15 @@
 import { expect } from 'chai';
 import { TableService, TableQuery } from 'azure-storage';
-import { Mock, mock } from '../helpers/mock';
-import TableServiceAsPromised from '../../src/TableServiceAsPromised';
+import TableServiceAsPromised from '../../src/storage/TableServiceAsPromised';
+import sinon = require('sinon');
 
-describe('TableServiceAsPromised', () => {
+describe(TableServiceAsPromised.name, () => {
 
   let sut: TableServiceAsPromised;
-  let tableServiceMock: Mock<TableService>;
+  let tableServiceMock: sinon.SinonStubbedInstance<TableService>;
 
   beforeEach(() => {
-    tableServiceMock = mock(TableService);
+    tableServiceMock = sinon.createStubInstance(TableService);
     sut = new TableServiceAsPromised(tableServiceMock as any);
   });
 
@@ -38,7 +38,7 @@ describe('TableServiceAsPromised', () => {
   describe('queryEntities', () => {
     it('should pass through the call to azure', async () => {
       const expectedQuery = new TableQuery().where('a = 3');
-      const result = sut.queryEntities('foobar', expectedQuery, null);
+      const result = sut.queryEntities('foobar', expectedQuery, undefined);
       tableServiceMock.queryEntities.callArgOn(3, sut, undefined, ['result ']);
       const actual = await result;
       expect(result).instanceof(Promise);

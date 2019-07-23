@@ -1,16 +1,18 @@
-import { Controller, Req, PathParams, Patch, BodyParams, Res } from '@tsed/common';
+import { Controller, Req, PathParams, Patch, BodyParams, Res, Use } from '@tsed/common';
 import { Repository, EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
-import * as express from 'express';
+import express from 'express';
 import * as github from '../github/models';
 import { isUndefined } from 'util';
 import { BadRequest } from 'ts-httpexceptions';
 import GithubRepositoryService from '../services/GithubRepositoryService';
 import { generateApiKey, generateHashValue } from '../utils';
+import { GithubSecurityMiddleware } from '../middleware/securityMiddleware';
 
 @Controller('/repositories')
+@Use(GithubSecurityMiddleware)
 export default class RepositoriesController {
 
-  constructor(private repoService: GithubRepositoryService) { }
+  constructor(private readonly repoService: GithubRepositoryService) { }
 
   @Patch('/github.com/:owner/:name')
   public async update(

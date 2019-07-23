@@ -26,14 +26,14 @@ export default class GithubRepositoryService {
   public async getAllForUser(auth: github.Authentication): Promise<contract.Repository[]> {
     const agent = new GithubAgent(auth.accessToken);
     const githubRepos = agent.getMyRepositories();
-    const repoEntities = this.repositoryMapper.select(prefixGithub(auth.username));
+    const repoEntities = this.repositoryMapper.findAll({ owner: prefixGithub(auth.username) });
     return this.matchRepositories(githubRepos, repoEntities);
   }
 
   public async getAllForOrganization(auth: github.Authentication, organizationLogin: string): Promise<contract.Repository[]> {
     const agent = new GithubAgent(auth.accessToken);
     const githubRepos = agent.getOrganizationRepositories(organizationLogin);
-    const repoEntities = this.repositoryMapper.select(prefixGithub(organizationLogin));
+    const repoEntities = this.repositoryMapper.findAll({ owner: prefixGithub(organizationLogin) });
     return this.matchRepositories(githubRepos, repoEntities);
   }
 

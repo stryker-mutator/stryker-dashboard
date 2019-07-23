@@ -1,6 +1,5 @@
 import { Controller, Get, Use } from '@tsed/common';
-import * as passport from 'passport';
-import * as express from 'express';
+import passport from 'passport'; import express from 'express';
 import { Request, Response, NextFunction } from 'express';
 import { createToken, passportAuthenticateGithub } from '../middleware/securityMiddleware';
 import * as utils from '../utils';
@@ -11,17 +10,17 @@ export default class GithubAuth {
 
   private readonly log = utils.debug(GithubAuth.name);
 
-  constructor(private config: Configuration) {
+  constructor(private readonly config: Configuration) {
   }
 
   @Get('/')
-  get(request: express.Request, response: express.Response, next: express.NextFunction): void {
+  public get(request: express.Request, response: express.Response, next: express.NextFunction): void {
     passport.authenticate('github', { scope: ['user:email', 'read:org', 'repo:status'] })(request, response, next);
   }
 
   @Get('/callback')
   @Use(passportAuthenticateGithub)
-  callback(req: Request, res: Response, next: NextFunction) {
+  public callback(req: Request, res: Response, next: NextFunction) {
     createToken(req.user, this.config.jwtSecret).then(token => {
       this.log(`Generated JWT for user ${req.user.username}`);
       res.cookie('jwt', token, {
@@ -34,7 +33,7 @@ export default class GithubAuth {
   }
 
   @Get('/logout')
-  logout(req: Request, res: Response, next: NextFunction) {
+  public logout(req: Request, res: Response, next: NextFunction) {
     const cookies = req.cookies || {};
     for (const cookie in cookies) {
       if (!cookies.hasOwnProperty(cookie)) {

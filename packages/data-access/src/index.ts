@@ -1,5 +1,7 @@
 
-export { default as MutationScoreMapper } from './MutationScoreMapper';
-export { default as ProjectMapper } from './ProjectMapper';
 export { default as Project } from './models/Project';
-export { default as MutationScore } from './models/MutationScore';
+export { default as MutationTestingReport } from './models/MutationTestingReport';
+export * from './mappers/contexts';
+export { Mapper } from './mappers/Mapper';
+export * from './InvalidSlugError';
+export { determineRepoSlugAndVersion } from './utils';

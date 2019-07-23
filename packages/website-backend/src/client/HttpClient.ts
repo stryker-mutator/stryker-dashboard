@@ -12,7 +12,7 @@ export interface Response<T> {
 export default class HttpClient {
 
   private readonly log = utils.debug(HttpClient.name);
-  private client: InnerHttpClient;
+  private readonly client: InnerHttpClient;
 
   constructor(handlersOrClient: IRequestHandler[] | InnerHttpClient) {
     if (handlersOrClient instanceof InnerHttpClient) {
@@ -22,7 +22,7 @@ export default class HttpClient {
     }
   }
 
-  async get<T>(fullUrl: string): Promise<Response<T>> {
+  public async get<T>(fullUrl: string): Promise<Response<T>> {
     this.log(`Performing HTTP GET "${fullUrl}"`);
     const response = await this.client.get(fullUrl);
     const statusCode = response.message.statusCode;

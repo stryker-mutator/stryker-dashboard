@@ -5,7 +5,6 @@ import { SuperTest, Test } from 'supertest';
 import { githubFactory } from '../../helpers/producers';
 import * as utils from '../../../src/utils';
 import * as github from '../../../src/github/models';
-import * as bodyParser from 'body-parser';
 import sinon = require('sinon');
 
 describe('RepositoriesController', () => {
@@ -19,7 +18,7 @@ describe('RepositoriesController', () => {
     auth = githubFactory.authentication({ accessToken: 'foobar access token', username: 'user' });
     generateApiKeyStub = sinon.stub(utils, 'generateApiKey');
     generateHashStub = sinon.stub(utils, 'generateHashValue');
-    request = await testServer(RepositoriesController, auth, bodyParser.json());
+    request = await testServer(RepositoriesController, auth);
   });
 
   describe('PATCH /github/:owner/:name', () => {
@@ -52,5 +51,4 @@ describe('RepositoriesController', () => {
         .expect('PATCH is only allowed for the `enabled` property');
     });
   });
-
 });

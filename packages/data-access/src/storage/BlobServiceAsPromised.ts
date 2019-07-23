@@ -1,5 +1,9 @@
-import { BlobService } from 'azure-storage';
+import { BlobService, createBlobService } from 'azure-storage';
 import { promisify } from 'util';
+
+export enum ErrorCodes {
+  BlobNotFound = 'BlobNotFound'
+}
 
 export class BlobServiceAsPromised {
 
@@ -7,7 +11,7 @@ export class BlobServiceAsPromised {
   public createBlockBlobFromText: (container: string, blob: string, text: string | Buffer, options: BlobService.CreateBlobRequestOptions) => Promise<BlobService.BlobResult>;
   public blobToText: (container: string, blob: string) => Promise<string>;
 
-  constructor(blobService: BlobService) {
+  constructor(blobService = createBlobService()) {
     this.createContainerIfNotExists = promisify<string, BlobService.CreateContainerOptions, BlobService.ContainerResult>(blobService.createContainerIfNotExists).bind(blobService);
     this.createBlockBlobFromText = promisify(blobService.createBlockBlobFromText).bind(blobService);
     this.blobToText = promisify(blobService.getBlobToText).bind(blobService);

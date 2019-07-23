@@ -36,9 +36,7 @@
       "**/*.js": {
         "when": "$(basename).ts"
       },
-      "**/src/**/*.d.ts": true,
-      "**/test/**/*.d.ts": true,
-      "*.tsbuildinfo": true
+      "**/{src,test}/**/*{.tsbuildinfo,.d.ts}*": true
     },
     "typescript.tsdk": "stryker-dashboard\\node_modules\\typescript\\lib"
   }
