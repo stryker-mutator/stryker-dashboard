@@ -4,6 +4,7 @@
     "outDir": "../dist/test",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
     "types": [
       "node",
       "mocha"

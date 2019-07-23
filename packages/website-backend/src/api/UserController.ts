@@ -1,8 +1,9 @@
-import { Controller, Get, Req } from '@tsed/common';
+import { Controller, Get, Req, Use } from '@tsed/common';
 import GithubAgent from '../github/GithubAgent';
 import * as contract from 'stryker-dashboard-website-contract';
 import * as github from '../github/models';
 import GithubRepositoryService from '../services/GithubRepositoryService';
+import { GithubSecurityMiddleware } from '../middleware/securityMiddleware';
 
 function toContract(githubLogin: github.Login): contract.Login {
   return {
@@ -16,9 +17,10 @@ function allToContract(githubLogins: github.Login[]): contract.Login[] {
 }
 
 @Controller('/user')
+@Use(GithubSecurityMiddleware)
 export default class UserController {
 
-  constructor(private repoService: GithubRepositoryService) {
+  constructor(private readonly repoService: GithubRepositoryService) {
   }
 
   @Get('/')

@@ -1,8 +1,9 @@
-import ProjectMapper from '../../src/ProjectMapper';
+import { createProjectMapper, Project } from '../../src';
 import azure = require('azure-storage');
 import { TableService } from 'azure-storage';
 import { promisify } from 'util';
 import { expect } from 'chai';
+import { Mapper } from '../../src';
 
 /**
  * Enable the azure storage emulator on your local computer before running these tests
@@ -17,16 +18,16 @@ describe('Data access layer', () => {
 
   describe('ProjectMapper', () => {
 
-    let sut: ProjectMapper;
+    let sut: Mapper<Project, 'owner', 'name'>;
     beforeEach(async () => {
-      sut = new ProjectMapper();
+      sut = createProjectMapper();
       await promisify(tableService.deleteTableIfExists).apply(tableService, ['Project']);
-      await sut.createTableIfNotExists();
+      await sut.createStorageIfNotExists();
     });
 
     it('should create the Project table', async () => {
       await promisify(tableService.deleteTableIfExists).apply(tableService, ['Project']);
-      await sut.createTableIfNotExists();
+      await sut.createStorageIfNotExists();
       const result: TableService.TableResult = await promisify(tableService.doesTableExist).apply(tableService, ['Project']);
       expect(result.exists).eq(true);
     });
@@ -45,9 +46,9 @@ describe('Data access layer', () => {
 
     it('should query retrieve a single entity on query', async () => {
       const key = Object.freeze({ PartitionKey: 'partKey', RowKey: 'rowKey' });
-      await promisify(tableService.insertOrReplaceEntity).apply(tableService, ['Project', { ...key, foo: 'bar' }]);
-      const actual = await sut.select('partKey', 'rowKey');
-      expect(actual).deep.eq({ owner: 'partKey', name: 'rowKey', foo: 'bar' });
+      await promisify(tableService.insertOrReplaceEntity).apply(tableService, ['Project', { ...key, enabled: true }]);
+      const actual = await sut.findOne({ name: 'rowKey', owner: 'partKey' });
+      expect(actual).deep.eq({ owner: 'partKey', name: 'rowKey', enabled: true });
     });
 
     it('should retrieve multiple entities with a single partition key', async () => {
@@ -56,7 +57,7 @@ describe('Data access layer', () => {
         ['Project', { ...key, enabled: true, RowKey: 'stryker' }]);
       await promisify(tableService.insertOrReplaceEntity).apply(tableService,
         ['Project', { ...key, enabled: false, RowKey: 'stryker-dashboard' }]);
-      const actual = await sut.select(key.PartitionKey);
+      const actual = await sut.findAll({ owner: key.PartitionKey });
       expect(actual).deep.eq([
         { owner: 'stryker-mutator', name: 'stryker', enabled: true },
         { owner: 'stryker-mutator', name: 'stryker-dashboard', enabled: false }

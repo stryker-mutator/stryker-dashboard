@@ -1,7 +1,6 @@
 import { expect } from 'chai';
-import * as passport from 'passport';
-import cookieParser = require('cookie-parser');
-import * as supertest from 'supertest';
+import passport from 'passport'; import cookieParser = require('cookie-parser');
+import supertest from 'supertest';
 import GithubAuth from '../../../src/auth/GithubAuth';
 import * as security from '../../../src/middleware/securityMiddleware';
 import testServer from '../../helpers/TestServer';

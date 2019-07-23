@@ -4,7 +4,7 @@ import { Repository } from 'stryker-dashboard-website-contract';
 import { UserService } from '../user/user.service';
 import { Login } from '../../../../website-contract/src/Login';
 import { Router, ActivatedRoute } from '@angular/router';
-import { OrganizationsService } from '../organizations/organizations.service';
+import { OrganizationsService } from '../services/organizations/organizations.service';
 import { DashboardTitleService } from '../services/DashboardTitleService';
 
 @Component({

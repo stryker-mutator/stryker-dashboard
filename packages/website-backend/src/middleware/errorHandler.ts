@@ -1,5 +1,5 @@
-import * as debug from 'debug';
-import * as express from 'express';
+import debug from 'debug';
+import express from 'express';
 
 const log = debug('app');
 

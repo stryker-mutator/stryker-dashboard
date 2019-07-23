@@ -5,7 +5,7 @@
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "route": "{provider}/{owner}/{repo}/{branch?}",
+      "route": "{*slug}",
       "methods": [
         "get"
       ]
@@ -16,5 +16,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "..\\dist\\badge\\azure-function.bundle.js"
+  "scriptFile": "..\\dist\\badge\\index.js"
 }

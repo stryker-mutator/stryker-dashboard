@@ -11,7 +11,7 @@
         "--no-timeouts",
         "--require",
         "source-map-support/register",
-        "${workspaceFolder}/test/**/*.js"
+        "${workspaceFolder}/dist/test/**/*.js"
       ],
       "internalConsoleOptions": "openOnSessionStart"
     },

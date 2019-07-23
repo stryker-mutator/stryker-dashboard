@@ -1,6 +1,6 @@
-import * as express from 'express';
-import * as expressJwt from 'express-jwt';
-import * as supertest from 'supertest';
+import express from 'express';
+import expressJwt from 'express-jwt';
+import supertest from 'supertest';
 import errorHandler from '../../../src/middleware/errorHandler';
 
 describe('Overall Express error handling', () => {

@@ -8,7 +8,7 @@ const GITHUB_BACKEND = 'https://api.github.com';
 export default class GithubAgent {
 
   private readonly log = utils.debug(GithubAgent.name);
-  private client: HttpClient;
+  private readonly client: HttpClient;
 
   constructor(tokenOrClient: HttpClient | string) {
     if (typeof tokenOrClient === 'string') {

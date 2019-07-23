@@ -12,7 +12,8 @@
   "typings": "src/index.ts",
   "license": "ISC",
   "dependencies": {
-    "azure-storage": "^2.10.2"
+    "azure-storage": "^2.10.2",
+    "mutation-testing-report-schema": "^1.1.0"
   },
   "devDependencies": {
     "@types/es6-promisify": "^6.0.0",

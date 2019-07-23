@@ -14,7 +14,7 @@ export class WelcomeComponent implements OnInit {
   ngOnInit() {
     this.userService.currentUser.subscribe(user => {
       if (user) {
-        this.router.navigate([user.name, 'repositories']);
+        this.router.navigate(['me', user.name, 'repositories']);
       }
     });
   }

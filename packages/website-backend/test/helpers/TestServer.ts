@@ -1,47 +1,48 @@
 import { Type } from '@tsed/core';
 import { ServerLoader, IServerSettings, OverrideService, ExpressApplication, ServerSettings } from '@tsed/common';
-import { ProjectMapper, MutationScoreMapper } from 'stryker-dashboard-data-access';
+import { ProjectMapper, MutationTestingReportMapper } from 'stryker-dashboard-data-access';
 import { bootstrap, inject, TestContext } from '@tsed/testing';
 import Configuration from '../../src/services/Configuration';
-import * as supertest from 'supertest';
+import supertest from 'supertest';
 import { SuperTest, Test } from 'supertest';
 import DataAccess from '../../src/services/DataAccess';
 import { Request, Response, NextFunction } from 'express';
 import { Authentication } from '../../src/github/models';
 import GithubRepositoryService from '../../src/services/GithubRepositoryService';
 import sinon = require('sinon');
+import bodyParser = require('body-parser');
 
 @OverrideService(Configuration)
 class ConfigurationStub implements Configuration {
-  static githubClientId: string;
+  public static githubClientId: string;
   get githubClientId() { return ConfigurationStub.githubClientId; }
-  static githubSecret: string;
+  public static githubSecret: string;
   get githubSecret() { return ConfigurationStub.githubSecret; }
-  static baseUrl: string;
+  public static baseUrl: string;
   get baseUrl() { return ConfigurationStub.baseUrl; }
-  static jwtSecret: string;
+  public static jwtSecret: string;
   get jwtSecret() { return ConfigurationStub.jwtSecret; }
-  static isDevelopment: boolean;
+  public static isDevelopment: boolean;
   get isDevelopment() { return ConfigurationStub.isDevelopment; }
 }
 
 @OverrideService(DataAccess)
 export class DataAccessStub implements DataAccess {
   public static repositoryMapper: sinon.SinonStubbedInstance<ProjectMapper>;
-  public static mutationScoreMapper: sinon.SinonStubbedInstance<MutationScoreMapper>;
+  public static mutationTestingReportMapper: sinon.SinonStubbedInstance<MutationTestingReportMapper>;
   public get repositoryMapper(): ProjectMapper {
     return DataAccessStub.repositoryMapper as any;
   }
-  public get mutationScoreMapper(): MutationScoreMapper {
-    return DataAccessStub.mutationScoreMapper as any;
+  public get mutationTestingReportMapper(): MutationTestingReportMapper {
+    return DataAccessStub.mutationTestingReportMapper as any;
   }
 }
 
 @OverrideService(GithubRepositoryService)
 export class RepositoryServiceStub {
-  static getAllForUser: sinon.SinonStub;
-  static getAllForOrganization: sinon.SinonStub;
-  static update: sinon.SinonStub;
+  public static getAllForUser: sinon.SinonStub;
+  public static getAllForOrganization: sinon.SinonStub;
+  public static update: sinon.SinonStub;
   public get getAllForUser() {
     return RepositoryServiceStub.getAllForUser;
   }
@@ -59,22 +60,40 @@ beforeEach(() => {
   ConfigurationStub.jwtSecret = 'jwt secret';
   ConfigurationStub.baseUrl = 'base url';
   ConfigurationStub.isDevelopment = true;
-  DataAccessStub.repositoryMapper = sinon.createStubInstance(ProjectMapper);
-  DataAccessStub.mutationScoreMapper = sinon.createStubInstance(MutationScoreMapper);
+  DataAccessStub.repositoryMapper = {
+    createStorageIfNotExists: sinon.stub(),
+    findAll: sinon.stub(),
+    insertOrMergeEntity: sinon.stub(),
+    findOne: sinon.stub()
+  };
+  DataAccessStub.mutationTestingReportMapper = {
+    createStorageIfNotExists: sinon.stub(),
+    findAll: sinon.stub(),
+    insertOrMergeEntity: sinon.stub(),
+    findOne: sinon.stub()
+  };
   RepositoryServiceStub.getAllForOrganization = sinon.stub();
   RepositoryServiceStub.getAllForUser = sinon.stub();
   RepositoryServiceStub.update = sinon.stub();
 });
 
-afterEach(TestContext.reset);
+afterEach(async () => {
+  TestContext.reset();
+  sinon.restore();
+});
 
 export default async function testServer<TController>(Controller: Type<TController>, user?: Authentication, ...middlewares: any[])
   : Promise<SuperTest<Test>> {
   let request: SuperTest<Test> = null as any;
-  @ServerSettings({})
+  @ServerSettings({
+    logger: {
+      level: 'off' as any
+    }
+  })
   class TestServer extends ServerLoader {
     constructor() {
       super();
+
       const resetSettings: IServerSettings = {
         componentsScan: [],
         mount: {}
@@ -87,7 +106,7 @@ export default async function testServer<TController>(Controller: Type<TControll
       ]);
       this.addControllers('/', [Controller]);
     }
-    $onMountingMiddlewares() {
+    public $onMountingMiddlewares() {
       if (user) {
         this.use((req: Request, res: Response, next: NextFunction) => {
           req.user = user;
@@ -97,6 +116,7 @@ export default async function testServer<TController>(Controller: Type<TControll
       if (middlewares.length) {
         this.use(...middlewares);
       }
+      this.use(bodyParser.json());
     }
   }
   await bootstrap(TestServer)();

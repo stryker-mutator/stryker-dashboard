@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, SchemaMetadata } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
@@ -9,7 +9,7 @@ import { RepositoriesComponent } from './repositories/repositories.component';
 import { RepositoryComponent } from './repository/repository.component';
 import { RepositoryModalComponent } from './repository/modal/modal.component';
 import { RepositoryService } from './repository/repository.service';
-import { OrganizationsService } from './organizations/organizations.service';
+import { OrganizationsService } from './services/organizations/organizations.service';
 import { LoginComponent } from './login/login.component';
 import { UserService } from './user/user.service';
 import { UserComponent } from './user/user.component';
@@ -19,6 +19,7 @@ import { routes } from './routes';
 import { LoadingComponent } from './loading/loading.component';
 import { DashboardTitleService } from './services/DashboardTitleService';
 import { ShortExplanationComponent } from './short-explanation/short-explanation.component';
+import { ReportComponent } from './report/report.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -32,19 +33,23 @@ import { ShortExplanationComponent } from './short-explanation/short-explanation
     MenuComponent,
     WelcomeComponent,
     LoadingComponent,
-    ShortExplanationComponent
+    ShortExplanationComponent,
+    ReportComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     NgbModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, { anchorScrolling: 'disabled', useHash: false })
   ],
   providers: [
     RepositoryService,
     UserService,
     OrganizationsService,
     DashboardTitleService
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ]
 })
 export class AppModule { }

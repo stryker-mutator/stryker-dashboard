@@ -6,7 +6,7 @@ import { RepositoriesComponent } from './repositories.component';
 import { RepositoryService } from '../repository/repository.service';
 import { Repository } from 'stryker-dashboard-website-contract';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { OrganizationsService } from '../organizations/organizations.service';
+import { OrganizationsService } from '../services/organizations/organizations.service';
 import { UserService } from '../user/user.service';
 import { AppModule } from '../app.module';
 import { APP_BASE_HREF } from '@angular/common';

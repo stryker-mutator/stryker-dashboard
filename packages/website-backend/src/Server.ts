@@ -1,10 +1,9 @@
 import { ServerLoader, ServerSettings } from '@tsed/common';
 import * as path from 'path';
-import * as passport from 'passport';
-import * as express from 'express';
+import passport from 'passport'; import express from 'express';
 import cookieParser = require('cookie-parser');
 import * as bodyParser from 'body-parser';
-import { githubStrategy, securityMiddleware } from './middleware/securityMiddleware';
+import { githubStrategy } from './middleware/securityMiddleware';
 import { spa } from './middleware/spaMiddleware';
 import errorHandler from './middleware/errorHandler';
 
@@ -17,14 +16,14 @@ import errorHandler from './middleware/errorHandler';
   rootDir: __dirname
 })
 export default class Server extends ServerLoader {
-  private frontEndPath = path.join(__dirname, /*src*/ '..', /*dist*/ '..', 'node_modules', 'stryker-dashboard-website-frontend', 'dist');
+  private readonly frontEndPath = path.join(__dirname, /*src*/ '..', /*dist*/ '..', 'node_modules', 'stryker-dashboard-website-frontend', 'dist');
 
   constructor(port: number) {
     super();
     this.settings.port = port;
   }
 
-  $onMountingMiddlewares() {
+  public $onMountingMiddlewares() {
     passport.serializeUser((user, done) => {
       return done(null, user);
     });
@@ -38,7 +37,7 @@ export default class Server extends ServerLoader {
       .use(spa(this.frontEndPath))
       .use(bodyParser.json())
       .use(cookieParser())
-      .use(securityMiddleware())
+      // .use(securityMiddleware())
       .use(passport.initialize())
       .use(passport.session())
       .use(errorHandler);

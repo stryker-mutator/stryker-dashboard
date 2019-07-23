@@ -1,12 +1,13 @@
-import * as debug from 'debug';
+import debug from 'debug';
 import expressJwt = require('express-jwt');
 import jwt = require('jsonwebtoken');
-import * as passport from 'passport';
+import passport from 'passport';
 import { Strategy } from 'passport-github2';
-import * as express from 'express';
+import express from 'express';
 
 import Configuration from '../services/Configuration';
 import { Authentication } from '../github/models';
+import { Middleware, IMiddleware, Req, Res, Next } from '@tsed/common';
 
 export const githubStrategy = (): Strategy => {
   const config = new Configuration();
@@ -15,7 +16,7 @@ export const githubStrategy = (): Strategy => {
     clientID: config.githubClientId,
     clientSecret: config.githubSecret
   };
-  const callback = (accessToken: string, refreshToken: string, profile: passport.Profile, done: (error: any, user?: any) => void) => {
+  const callback = (accessToken: string, _refreshToken: string, profile: passport.Profile, done: (error: any, user?: any) => void) => {
     debug('auth')('Processing incoming OAuth 2 tokens');
     const user = {
       accessToken,
@@ -28,17 +29,23 @@ export const githubStrategy = (): Strategy => {
   return new Strategy(options, callback);
 };
 
-// Configure JWT middleware to persist user details in browser.
-export const securityMiddleware = () => {
-  const config = new Configuration();
-  const middleware = expressJwt({
-    getToken: (request) => {
-      return request.cookies.jwt;
-    },
-    secret: config.jwtSecret
-  });
-  return middleware.unless({ path: ['/', '/auth/github', '/auth/github/callback', '/api/reports'] });
-};
+@Middleware()
+export class GithubSecurityMiddleware implements IMiddleware {
+
+  private readonly requestHandler: expressJwt.RequestHandler;
+  constructor(configuration: Configuration) {
+    this.requestHandler = expressJwt({
+      getToken(request) {
+        return request.cookies.jwt;
+      },
+      secret: configuration.jwtSecret
+    });
+  }
+
+  public use(@Req() request: express.Request, @Res() response: express.Response, @Next() next: express.NextFunction ) {
+    this.requestHandler(request, response, next);
+  }
+}
 
 const tokenOptions = { algorithm: 'HS512', audience: 'stryker', expiresIn: '30m', issuer: 'stryker' };
 export const createToken = (user: Authentication, jwtSecret: string): Promise<string> => {
