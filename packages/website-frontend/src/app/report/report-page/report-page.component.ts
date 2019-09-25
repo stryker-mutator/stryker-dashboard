@@ -14,9 +14,24 @@ import { AutoUnsubscribe } from 'src/app/utils/auto-unsubscribe';
 export class ReportPageComponent extends AutoUnsubscribe implements OnInit, OnDestroy {
 
   public src!: string;
-  private sub!: Subscription;
   public report: Report | undefined;
   public errorMessage: string | undefined;
+
+  public get reportTitle() {
+    const reportParts: string[] = [];
+    if (this.report) {
+      reportParts.push(this.report.repositorySlug.substr(this.report.repositorySlug.lastIndexOf('/') + 1));
+      reportParts.push(this.report.version);
+      if (this.report.moduleName) {
+        reportParts.push(this.report.moduleName);
+      }
+    }
+    return `${reportParts.join('/')} - Stryker Dashboard`;
+  }
+
+  public get doneLoading() {
+    return this.errorMessage || this.report;
+  }
 
   constructor(private route: ActivatedRoute, private reportService: ReportsService) {
     super();
@@ -35,14 +50,14 @@ export class ReportPageComponent extends AutoUnsubscribe implements OnInit, OnDe
     this.subscriptions.push(combineLatest(slug$, moduleName$).pipe(
       flatMap(([slug, moduleName]) => this.reportService.get(slug, moduleName))
     ).subscribe(report => {
-      if (report && report.result) {
+      if (report) {
         this.report = report;
       } else {
         this.errorMessage = 'Report does not exist';
       }
     }, error => {
-        console.error(error);
-        this.errorMessage = 'A technical error occurred.';
+      console.error(error);
+      this.errorMessage = 'A technical error occurred.';
     }));
   }
 
