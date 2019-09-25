@@ -7,6 +7,44 @@
             "type": "npm",
             "script": "build",
             "problemMatcher": []
-        }
+        },
+        {
+          "label": "ng serve",
+          "type": "npm",
+          "script": "start",
+          "group": "build",
+          "isBackground": true,
+          "presentation": {
+            "focus": true,
+            "panel": "dedicated"
+          },
+          "problemMatcher": {
+            "owner": "typescript",
+            "source": "ts",
+            "applyTo": "allDocuments",
+            "fileLocation": [
+              "relative",
+              "${cwd}"
+            ],
+            "pattern":   {
+              "regexp": "^\\s*(?:ERROR in )?([^\\s].*)[\\(:](\\d+)[,:](\\d+)(?:\\):\\s+|\\s+-\\s+)(error|warning|info)\\s+TS(\\d+)\\s*:\\s*(.*)$",
+              "file": 1,
+              "line": 2,
+              "column": 3,
+              "severity": 4,
+              "code": 5,
+              "message": 6
+            },
+            "background": {
+              "activeOnStart": true,
+              "beginsPattern": {
+                "regexp": "Compiling\\.\\.\\.$"
+              },
+              "endsPattern": {
+                "regexp": "Compiled successfully\\.$|Failed to compile"
+              }
+            }
+          }
+      }
     ]
 }

@@ -1,10 +1,10 @@
-import { Controller, Get, Req, PathParams, Use } from '@tsed/common';
+import { Controller, Get, Req, PathParams, UseBefore } from '@tsed/common';
 import { Repository } from 'stryker-dashboard-website-contract';
 import GithubRepositoryService from '../services/GithubRepositoryService';
 import { GithubSecurityMiddleware } from '../middleware/securityMiddleware';
 
 @Controller('/organizations')
-@Use(GithubSecurityMiddleware)
+@UseBefore(GithubSecurityMiddleware)
 export default class OrganizationsController {
 
   constructor(private readonly repositoryService: GithubRepositoryService) {

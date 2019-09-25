@@ -1,0 +1,4 @@
+<stryker-repository class="col-md-12 list-group-item" *ngFor="let repo of repositories" [repo]="repo"
+(repoEnabled)="modal.repoEnabled($event)" (repoAboutToBeDisabled)="modal.repoAboutToBeDisabled($event)">
+</stryker-repository>
+<stryker-repository-modal #modal></stryker-repository-modal>

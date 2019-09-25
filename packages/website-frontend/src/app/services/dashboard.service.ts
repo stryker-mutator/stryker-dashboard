@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
-@Injectable()
-export class DashboardTitleService {
+@Injectable({
+  providedIn: 'root'
+})
+export class DashboardService {
   constructor(private titleService: Title) { }
 
   setTitlePrefix(prefix: string) {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user/user.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'stryker-welcome',
@@ -9,12 +10,12 @@ import { Router } from '@angular/router';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-    this.userService.currentUser.subscribe(user => {
+    this.authService.currentUser$.subscribe(user => {
       if (user) {
-        this.router.navigate(['me', user.name, 'repositories']);
+        this.router.navigate(['repos', user.name]);
       }
     });
   }

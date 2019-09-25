@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import passport from 'passport'; import cookieParser = require('cookie-parser');
 import supertest from 'supertest';
-import GithubAuth from '../../../src/auth/GithubAuth';
-import * as security from '../../../src/middleware/securityMiddleware';
-import testServer from '../../helpers/TestServer';
+import GithubAuth from '../../../../src/api/auth/GithubAuth';
+import * as security from '../../../../src/middleware/securityMiddleware';
+import testServer from '../../../helpers/TestServer';
 import * as sinon from 'sinon';
 
 describe('GitHubAuth', () => {
@@ -20,13 +20,13 @@ describe('GitHubAuth', () => {
     authenticateMiddleware = sinon.stub();
     logoutStub = sinon.stub();
     authenticateStub.returns(authenticateMiddleware);
-    const passThroughMiddleware = (req: any, res: any, next: any) => {
+    const passThroughMiddleware = (req: any, _res: any, next: any) => {
       req.user = { username: 'dummy' };
       req.logout = logoutStub;
       next();
     };
     authenticateMiddleware.callsFake(passThroughMiddleware);
-    request = await testServer(GithubAuth, undefined, passThroughMiddleware, cookieParser());
+    request = await testServer(GithubAuth, passThroughMiddleware, cookieParser());
   });
 
   describe('GET /logout', () => {
@@ -36,7 +36,7 @@ describe('GitHubAuth', () => {
       createTokenStub.resolves(token);
 
       // Act
-      const response = request.get('/github/logout')
+      const response = request.get('/auth/github/logout')
         .set('Cookie', 'jwt=jfdskl');
 
       // Assert
@@ -46,7 +46,7 @@ describe('GitHubAuth', () => {
 
     it('should delete the \'jwt\' cookie', () => {
       // Act
-      const response = request.get('/github/logout')
+      const response = request.get('/auth/github/logout')
         .set('Cookie', 'jwt=jfdskl');
 
       // Assert
@@ -57,7 +57,7 @@ describe('GitHubAuth', () => {
 
     it('should end the session', async () => {
       // Act
-      const response = request.get('/github/logout')
+      const response = request.get('/auth/github/logout')
         .set('Cookie', 'jwt=jfdskl');
 
       // Assert
@@ -66,35 +66,18 @@ describe('GitHubAuth', () => {
     });
   });
 
-  describe('GET /auth/github/callback', () => {
+  describe('POST /auth/github', () => {
     it('should set a \'jwt\' cookie', async () => {
       // Arrange
       const token = 'foo-bar-baz';
       createTokenStub.resolves(token);
 
       // Act
-      const response = request.get('/github/callback?code=foo');
+      const onGoingRequest = request.post('/auth/github?code=foo');
 
       // Assert
-      await response
-        .expect(302)
-        .expect('set-cookie', /jwt/)
-        .expect('set-cookie', new RegExp(token));
-      expect(authenticateMiddleware).called;
-    });
-
-    it('should redirect to /', () => {
-      // Arrange
-      const token = 'foo-bar-baz';
-      createTokenStub.resolves(token);
-
-      // Act
-      const response = request.get('/github/callback?code=foo');
-
-      // Assert
-      return response
-        .expect(302)
-        .expect('location', '/');
+      const response = await onGoingRequest.expect(200);
+      expect(response.body).deep.eq({ jwt: token });
     });
   });
 });

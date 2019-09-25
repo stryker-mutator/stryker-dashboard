@@ -11,7 +11,7 @@ describe(ReportsController.name, () => {
   let errorLog: sinon.SinonStub;
 
   beforeEach(async () => {
-    request = await testServer(ReportsController, undefined);
+    request = await testServer(ReportsController);
     errorLog = sinon.stub(console, 'error');
   });
 

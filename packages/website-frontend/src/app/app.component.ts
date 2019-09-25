@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from './user/user.service';
 import { Login } from 'stryker-dashboard-website-contract';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'stryker-dashboard',
@@ -9,13 +9,13 @@ import { Login } from 'stryker-dashboard-website-contract';
 })
 export class AppComponent implements OnInit {
 
-  user: Login | null;
+  user: Login | null = null;
 
-  constructor(private userService: UserService) {
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit(): void {
-    this.userService.currentUser.subscribe(user => this.user = user);
+    this.authService.currentUser$.subscribe(user => this.user = user);
   }
 
 }

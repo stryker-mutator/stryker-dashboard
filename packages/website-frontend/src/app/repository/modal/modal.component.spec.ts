@@ -3,7 +3,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 
 import { RepositoryModalComponent } from './modal.component';
-import { RepositoryComponent } from '../repository.component';
+import { RepositorySwitchComponent } from '../repository-switch/repository-switch.component';
 import { RepositoryService } from '../repository.service';
 import { EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
 
@@ -22,7 +22,7 @@ describe('RepositoryModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         RepositoryModalComponent,
-        RepositoryComponent
+        RepositorySwitchComponent
       ],
       imports: [NgbModule],
       providers: [

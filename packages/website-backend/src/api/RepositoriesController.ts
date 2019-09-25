@@ -1,15 +1,14 @@
-import { Controller, Req, PathParams, Patch, BodyParams, Res, Use } from '@tsed/common';
+import { Controller, Req, PathParams, Patch, BodyParams, Res, UseBefore } from '@tsed/common';
 import { Repository, EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
 import express from 'express';
 import * as github from '../github/models';
-import { isUndefined } from 'util';
 import { BadRequest } from 'ts-httpexceptions';
 import GithubRepositoryService from '../services/GithubRepositoryService';
 import { generateApiKey, generateHashValue } from '../utils';
 import { GithubSecurityMiddleware } from '../middleware/securityMiddleware';
 
 @Controller('/repositories')
-@Use(GithubSecurityMiddleware)
+@UseBefore(GithubSecurityMiddleware)
 export default class RepositoriesController {
 
   constructor(private readonly repoService: GithubRepositoryService) { }
@@ -22,7 +21,7 @@ export default class RepositoriesController {
     @Req() request: express.Request,
     @Res() response: express.Response): Promise<EnableRepositoryResponse | null> {
 
-    if (isUndefined(repository.enabled)) {
+    if (repository.enabled === undefined) {
       throw new BadRequest('PATCH is only allowed for the `enabled` property');
     } else {
       const authentication: github.Authentication = request.user;

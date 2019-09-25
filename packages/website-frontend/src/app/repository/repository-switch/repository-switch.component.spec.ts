@@ -2,14 +2,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 
-import { RepositoryComponent } from './repository.component';
-import { RepositoryService } from './repository.service';
+import { RepositorySwitchComponent } from './repository-switch.component';
+import { RepositoryService } from '../repository.service';
 import { EnableRepositoryResponse, Repository } from 'stryker-dashboard-website-contract';
 
-describe('RepositoryComponent', () => {
+describe(RepositorySwitchComponent.name, () => {
   let mockRepo: Repository;
-  let component: RepositoryComponent;
-  let fixture: ComponentFixture<RepositoryComponent>;
+  let component: RepositorySwitchComponent;
+  let fixture: ComponentFixture<RepositorySwitchComponent>;
   let compiledComponent: HTMLElement;
 
   class RepositoryServiceStub {
@@ -27,7 +27,7 @@ describe('RepositoryComponent', () => {
       enabled: true
     };
     TestBed.configureTestingModule({
-      declarations: [RepositoryComponent],
+      declarations: [RepositorySwitchComponent],
       imports: [NgbModule],
       providers: [
         { provide: RepositoryService, useClass: RepositoryServiceStub }
@@ -36,7 +36,7 @@ describe('RepositoryComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RepositoryComponent);
+    fixture = TestBed.createComponent(RepositorySwitchComponent);
     component = fixture.debugElement.componentInstance;
     component.repo = mockRepo;
     fixture.detectChanges();

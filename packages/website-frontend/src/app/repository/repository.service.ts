@@ -7,7 +7,9 @@ import { EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
 /**
  * Provides methods to easily make HTTP requests to `api/repositories`.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class RepositoryService {
 
   public constructor(private http: HttpClient) { }

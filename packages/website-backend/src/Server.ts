@@ -1,7 +1,6 @@
 import { ServerLoader, ServerSettings } from '@tsed/common';
 import * as path from 'path';
 import passport from 'passport'; import express from 'express';
-import cookieParser = require('cookie-parser');
 import * as bodyParser from 'body-parser';
 import { githubStrategy } from './middleware/securityMiddleware';
 import { spa } from './middleware/spaMiddleware';
@@ -10,8 +9,7 @@ import errorHandler from './middleware/errorHandler';
 @ServerSettings({
   acceptMimes: ['application/json'],
   mount: {
-    '/api': '${rootDir}/api/**/**.js',
-    '/auth': '${rootDir}/auth/**/**.js'
+    '/api': '${rootDir}/api/**/**.js'
   },
   rootDir: __dirname
 })
@@ -35,9 +33,7 @@ export default class Server extends ServerLoader {
     this
       .use(express.static(this.frontEndPath))
       .use(spa(this.frontEndPath))
-      .use(bodyParser.json())
-      .use(cookieParser())
-      // .use(securityMiddleware())
+      .use(bodyParser.json({ limit: '20mb' }))
       .use(passport.initialize())
       .use(passport.session())
       .use(errorHandler);

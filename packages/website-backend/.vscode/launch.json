@@ -9,6 +9,7 @@
       "request": "launch",
       "name": "Run server",
       "program": "${workspaceFolder}/dist/src/index.js",
+      "outputCapture": "std",
       "env": {
         "GH_BASIC_CLIENT_ID": "3379d559701c154648dd",
         "GH_BASIC_SECRET_ID": "836840de4e4ba34eb90743c2d92ba5a6af325fe8",

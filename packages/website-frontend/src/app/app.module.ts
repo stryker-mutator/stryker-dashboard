@@ -1,55 +1,42 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, SchemaMetadata } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { RepositoriesComponent } from './repositories/repositories.component';
-import { RepositoryComponent } from './repository/repository.component';
-import { RepositoryModalComponent } from './repository/modal/modal.component';
-import { RepositoryService } from './repository/repository.service';
-import { OrganizationsService } from './services/organizations/organizations.service';
 import { LoginComponent } from './login/login.component';
-import { UserService } from './user/user.service';
 import { UserComponent } from './user/user.component';
 import { MenuComponent } from './menu/menu.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { routes } from './routes';
-import { LoadingComponent } from './loading/loading.component';
-import { DashboardTitleService } from './services/DashboardTitleService';
-import { ShortExplanationComponent } from './short-explanation/short-explanation.component';
-import { ReportComponent } from './report/report.component';
+import { AuthComponent } from './auth/auth.component';
+import { AuthHeaderInterceptor } from './auth/AuthHeaderInterceptor';
+import { RepositoryModule } from './repository/repository.module';
+import { SharedModule } from './shared/shared.module';
+import { ReportModule } from './report/report.module';
 
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [
     AppComponent,
-    RepositoriesComponent,
-    RepositoryComponent,
-    RepositoryModalComponent,
     LoginComponent,
     UserComponent,
     MenuComponent,
     WelcomeComponent,
-    LoadingComponent,
-    ShortExplanationComponent,
-    ReportComponent
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     NgbModule,
-    RouterModule.forRoot(routes, { anchorScrolling: 'disabled', useHash: false })
+    RouterModule.forRoot(routes, { anchorScrolling: 'disabled', useHash: false }),
+    RepositoryModule,
+    ReportModule,
+    SharedModule
   ],
   providers: [
-    RepositoryService,
-    UserService,
-    OrganizationsService,
-    DashboardTitleService
-  ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true }
   ]
 })
 export class AppModule { }

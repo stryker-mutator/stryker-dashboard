@@ -1,0 +1,5 @@
+<select (change)="selectedOwnerChanged($event)" class="form-control align-bottom" id="reposelect" *ngIf="user">
+  <option [selected]="user.name === selectedLogin" [value]="user.name">{{ user.name }}</option>
+  <option *ngFor="let org of organizations" [selected]="org.name === selectedLogin" [value]="org.name">
+    {{ org.name }}</option>
+</select>

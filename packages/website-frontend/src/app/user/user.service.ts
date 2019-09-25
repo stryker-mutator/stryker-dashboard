@@ -1,32 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, share } from 'rxjs/operators';
+import { catchError, shareReplay } from 'rxjs/operators';
 
 import { Login, Repository } from 'stryker-dashboard-website-contract';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../auth/auth.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class UserService {
 
   public constructor(private http: HttpClient) { }
-
-  public currentUser: Observable<Login | null> = this.http
-    .get<Login>('api/user')
-    .pipe(
-      catchError((httpErr: HttpErrorResponse) => {
-        if (httpErr.status === 401) {
-          return of(null);
-        } else {
-          return throwError(httpErr);
-        }
-      }),
-      share()
-    );
-
-  public logout() {
-    return this.http.get('auth/github/logout');
-  }
 
   public organizations(): Observable<Login[]> {
     return this.http
