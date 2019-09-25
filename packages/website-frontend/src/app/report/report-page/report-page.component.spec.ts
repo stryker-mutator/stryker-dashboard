@@ -112,7 +112,7 @@ describe(ReportPageComponent.name, () => {
       // Arrange
       url$.next([createUrlSegment({ path: 'someRepo' })]);
       queryParam$.next({ module: null });
-      http.expectOne('/api/reports/someRepo').flush(createReport({ result: null }));
+      http.expectOne('/api/reports/someRepo').flush(null, { statusText: 'Not found', status: 404 });
 
       // Act
       fixture.detectChanges();
@@ -124,6 +124,25 @@ describe(ReportPageComponent.name, () => {
       expect(loading.showContent).toBeTruthy();
       expect(alert).toBeTruthy();
       expect(alert.textContent).toEqual('Report does not exist');
+    });
+
+    it('should show an alternative report if the html report result was empty', async () => {
+      // Arrange
+      url$.next([createUrlSegment({ path: 'someRepo' })]);
+      queryParam$.next({ module: null });
+      http.expectOne('/api/reports/someRepo').flush(createReport({ result: null, mutationScore: 83 }));
+
+      // Act
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Assert
+      const loading = element.querySelector('stryker-loading') as HTMLElement & { showContent: boolean };
+      const alert = loading.querySelector('.alert');
+      expect(loading.showContent).toBeTruthy();
+      expect(alert).toBeTruthy();
+      expect(alert.textContent).toEqual('No html report stored for github/stryker-mutator/stryker/1/core');
+      expect(element.textContent).toContain('Mutation score: 83');
     });
 
     it('should show a technical error if the report retrieval resulted in a technical error', async () => {
@@ -143,4 +162,9 @@ describe(ReportPageComponent.name, () => {
     });
   });
 
+  describe('reportTitle', () => {
+    it('should ', () => {
+
+    });
+  });
 });
