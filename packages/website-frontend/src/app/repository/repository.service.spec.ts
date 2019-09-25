@@ -36,8 +36,8 @@ describe('RepositoryService', () => {
       imports: [HttpClientTestingModule],
       providers: [RepositoryService]
     });
-    repositoryService = TestBed.get(RepositoryService);
-    httpMock = TestBed.get(HttpTestingController);
+    repositoryService = TestBed.get(RepositoryService as Type<RepositoryService>);
+    httpMock = TestBed.get(HttpTestingController as Type<HttpTestingController>);
   });
 
   it('should be created', () => {

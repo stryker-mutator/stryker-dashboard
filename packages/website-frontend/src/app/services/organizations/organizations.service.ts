@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Repository } from 'stryker-dashboard-website-contract';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class OrganizationsService {
 
   constructor(private http: HttpClient) { }

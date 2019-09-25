@@ -2,30 +2,36 @@ import { expect } from 'chai';
 import { SuperTest, Test } from 'supertest';
 import * as contract from 'stryker-dashboard-website-contract';
 import GithubAgent, * as githubAgentModule from '../../../src/github/GithubAgent';
-import testServer, { RepositoryServiceStub } from '../../helpers/TestServer';
+import testServer, { RepositoryServiceStub, createAuthToken } from '../../helpers/TestServer';
 import UserController from '../../../src/api/UserController';
 import { githubFactory, contractFactory } from '../../helpers/producers';
 import sinon = require('sinon');
+import { Authentication } from '../../../dist/src/github/models';
 
 describe('UserController', () => {
   let request: SuperTest<Test>;
   let githubAgentMock: sinon.SinonStubbedInstance<GithubAgent>;
   const expectedUsername = 'foobar username';
   const expectedAccessToken = 'foobar access token';
-
+  let auth: Authentication;
+  let authToken: string;
   beforeEach(async () => {
     githubAgentMock = sinon.createStubInstance(GithubAgent);
     sinon.stub(githubAgentModule, 'default').returns(githubAgentMock);
-    request = await testServer(UserController, githubFactory.authentication({
+    request = await testServer(UserController);
+    auth = githubFactory.authentication({
       accessToken: expectedAccessToken,
       username: expectedUsername
-    }));
+    });
+    authToken = await createAuthToken(auth);
   });
 
   describe('HTTP GET /user', () => {
 
     it('should construct the github agent with the correct access token', async () => {
-      await request.get('/user').expect(500);
+      await request.get('/user')
+        .set('Authorization', authToken)
+        .expect(500);
       expect(githubAgentModule.default).calledWith(expectedAccessToken);
     });
 
@@ -41,6 +47,7 @@ describe('UserController', () => {
       });
       githubAgentMock.getCurrentUser.resolves(githubResult);
       await request.get('/user')
+        .set('Authorization', authToken)
         .expect(200)
         .expect(expectedResult);
 
@@ -56,6 +63,7 @@ describe('UserController', () => {
       })];
       RepositoryServiceStub.getAllForUser.resolves(expectedRepositories);
       await request.get('/user/repositories')
+        .set('Authorization', authToken)
         .expect(200)
         .expect(expectedRepositories);
     });
@@ -73,6 +81,7 @@ describe('UserController', () => {
         login: 'foobar.org'
       })]);
       await request.get('/user/organizations')
+        .set('Authorization', authToken)
         .expect(200)
         .expect(expectedOrganizations);
     });

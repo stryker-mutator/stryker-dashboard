@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
 export class LoginComponent {
 
   @Input()
-  kind: 'big' | 'small';
+  kind!: 'big' | 'small';
 
+  loginUrl = '/api/auth/github';
 }

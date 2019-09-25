@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { NextFunction, Response, Request } from 'express';
 
-const blacklist = ['/api', '/auth'];
+const blacklist = ['/api'];
 
 export function spa(frontEndPath: string) {
   const indexHtml = fs.readFileSync(path.join(frontEndPath, 'index.html'), 'utf8');

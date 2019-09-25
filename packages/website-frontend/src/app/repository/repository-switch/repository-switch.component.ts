@@ -1,18 +1,18 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Repository, EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
-import { RepositoryService } from './repository.service';
+import { RepositoryService } from '../repository.service';
 
 @Component({
   selector: 'stryker-repository',
-  templateUrl: './repository.component.html',
-  styleUrls: ['./repository.component.css']
+  templateUrl: './repository-switch.component.html',
+  styleUrls: ['./repository-switch.component.css']
 })
-export class RepositoryComponent {
+export class RepositorySwitchComponent {
 
-  @Input() public repo: Repository;
-  @Output() public repoEnabled = new EventEmitter<RepositoryComponent>();
-  @Output() public repoAboutToBeDisabled = new EventEmitter<RepositoryComponent>();
+  @Input() public repo!: Repository;
+  @Output() public repoEnabled = new EventEmitter<RepositorySwitchComponent>();
+  @Output() public repoAboutToBeDisabled = new EventEmitter<RepositorySwitchComponent>();
 
   public apiKey: string;
 

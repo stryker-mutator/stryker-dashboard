@@ -2,23 +2,12 @@ import { Controller, Get, Put, BodyParams, QueryParams, HeaderParams, Req } from
 import { BadRequest, NotFound, Unauthorized, InternalServerError } from 'ts-httpexceptions';
 import { MutationTestingReportMapper, MutationTestingReport, determineRepoSlugAndVersion, InvalidSlugError } from 'stryker-dashboard-data-access';
 import DataAccess from '../services/DataAccess';
-import { MutationTestResult } from 'mutation-testing-report-schema';
 import { ReportValidator } from '../services/SchemaValidator';
 import { calculateMetrics } from 'mutation-testing-metrics';
 import Configuration from '../services/Configuration';
 import { ApiKeyValidator } from '../services/ApiKeyValidator';
 import { Request } from 'express';
-
-/**
- * Represents the 'new' style of report, containing the actual result data that adheres to the mutation testing schema
- */
-interface ReportModel {
-  repositorySlug: string;
-  moduleName: string | undefined;
-  version: string;
-  result: MutationTestResult | undefined;
-  mutationScore: number | undefined;
-}
+import { Report } from 'stryker-dashboard-website-contract';
 
 interface PutReportResponse {
   href: string;
@@ -41,7 +30,7 @@ export default class ReportsController {
   @Put('/*')
   public async update(
     @Req() req: Request,
-    @BodyParams() reportData: Omit<ReportModel, 'repositorySlug' | 'version' | 'module'>,
+    @BodyParams() reportData: Omit<Report, 'repositorySlug' | 'version' | 'module'>,
     @QueryParams('module') moduleName: string | undefined,
     @HeaderParams(API_KEY_HEADER) authorizationHeader: string | undefined,
   ): Promise<PutReportResponse> {
@@ -73,7 +62,7 @@ export default class ReportsController {
   public async get(
     @Req() req: Request,
     @QueryParams('module') moduleName: string | undefined
-  ): Promise<ReportModel> {
+  ): Promise<Report> {
     const slug = req.path;
     const { repositorySlug, version } = this.determineRepoSlugAndVersion(slug);
     const result = await this.repo.findOne({
@@ -88,7 +77,7 @@ export default class ReportsController {
     }
   }
 
-  public static toDto(dataObject: MutationTestingReport): ReportModel {
+  public static toDto(dataObject: MutationTestingReport): Report {
     return {
       moduleName: dataObject.moduleName,
       repositorySlug: dataObject.repositorySlug,
@@ -110,7 +99,7 @@ export default class ReportsController {
     }
   }
 
-  private async saveReport(report: ReportModel) {
+  private async saveReport(report: Report) {
     const mutationScore = this.calculateMutationScore(report);
     await this.repo.insertOrMergeEntity({
       version: report.version,
@@ -120,7 +109,7 @@ export default class ReportsController {
       mutationScore
     });
   }
-  private calculateMutationScore(report: ReportModel) {
+  private calculateMutationScore(report: Report) {
     if (report.result) {
       return calculateMetrics(report.result.files).metrics.mutationScore;
     } else {

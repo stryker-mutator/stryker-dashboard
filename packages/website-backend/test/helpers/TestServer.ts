@@ -6,11 +6,11 @@ import Configuration from '../../src/services/Configuration';
 import supertest from 'supertest';
 import { SuperTest, Test } from 'supertest';
 import DataAccess from '../../src/services/DataAccess';
-import { Request, Response, NextFunction } from 'express';
-import { Authentication } from '../../src/github/models';
 import GithubRepositoryService from '../../src/services/GithubRepositoryService';
 import sinon = require('sinon');
 import bodyParser = require('body-parser');
+import { Authentication } from '../../src/github/models';
+import { createToken } from '../../src/middleware/securityMiddleware';
 
 @OverrideService(Configuration)
 class ConfigurationStub implements Configuration {
@@ -36,6 +36,11 @@ export class DataAccessStub implements DataAccess {
   public get mutationTestingReportMapper(): MutationTestingReportMapper {
     return DataAccessStub.mutationTestingReportMapper as any;
   }
+}
+
+export async function createAuthToken(user: Authentication) {
+  const token = await createToken(user, ConfigurationStub.jwtSecret);
+  return `Bearer ${token}`;
 }
 
 @OverrideService(GithubRepositoryService)
@@ -82,7 +87,7 @@ afterEach(async () => {
   sinon.restore();
 });
 
-export default async function testServer<TController>(Controller: Type<TController>, user?: Authentication, ...middlewares: any[])
+export default async function testServer<TController>(Controller: Type<TController>, ...middlewares: import('express').RequestHandler[])
   : Promise<SuperTest<Test>> {
   let request: SuperTest<Test> = null as any;
   @ServerSettings({
@@ -107,12 +112,6 @@ export default async function testServer<TController>(Controller: Type<TControll
       this.addControllers('/', [Controller]);
     }
     public $onMountingMiddlewares() {
-      if (user) {
-        this.use((req: Request, res: Response, next: NextFunction) => {
-          req.user = user;
-          next();
-        });
-      }
       if (middlewares.length) {
         this.use(...middlewares);
       }

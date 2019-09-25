@@ -2,8 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { UserService } from './user.service';
 import { Repository } from 'stryker-dashboard-website-contract';
+import { Type } from '@angular/core';
 
-describe('RepositoryService', () => {
+describe(UserService.name, () => {
   let userService: UserService;
   let httpMock: HttpTestingController;
 
@@ -33,32 +34,14 @@ describe('RepositoryService', () => {
       imports: [HttpClientTestingModule],
       providers: [UserService]
     });
-    userService = TestBed.get(UserService);
-    httpMock = TestBed.get(HttpTestingController);
+    userService = TestBed.get(UserService as Type<UserService>);
+    httpMock = TestBed.get(HttpTestingController as Type<HttpTestingController>);
   });
 
   it('should be created', () => {
     expect(userService).toBeTruthy();
   });
 
-  describe('login()', () => {
-
-    it('should return an Observable<Login>', () => {
-      const mockedLogin = {
-        name: 'stryker-mutator',
-        avatarUrl: 'https://avatars0.githubusercontent.com/u/18347996'
-      };
-
-      userService.currentUser.subscribe((login) => {
-        expect(login).toBeTruthy();
-      });
-
-      const userRequest = httpMock.expectOne('api/user');
-      userRequest.flush(JSON.stringify(mockedLogin));
-      httpMock.verify();
-    });
-
-  });
 
   describe('getRepositories()', () => {
 

@@ -1,9 +1,4 @@
 {
-    "/auth/*": {
-        "target": "http://localhost:1337",
-        "secure": false,
-        "loglevel": "debug"
-    },
     "/api/*": {
         "target": "http://localhost:1337",
         "secure": false,

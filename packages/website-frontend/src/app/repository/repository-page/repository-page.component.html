@@ -1,0 +1,21 @@
+<div class="list-group col-sm-10 offset-sm-1">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="display-4">Repositories
+        <stryker-owner-selector (ownerSelected)="changeSelectedOwner($event)" [user]="user"
+          [organizations]="organizations"></stryker-owner-selector>
+      </h2>
+    </div>
+  </div>
+  <p>Below we're showing your public repositories. </p>
+  <div class="row">
+    <div class="col-10 offset-1 col-md-8 offset-md-2">
+      <stryker-short-explanation class="row"></stryker-short-explanation>
+    </div>
+  </div>
+  <stryker-loading class="row" [showContent]="repositories">
+    <div class="col-12">
+      <stryker-repository-list class="row" [repositories]="repositories"></stryker-repository-list>
+    </div>
+  </stryker-loading>
+</div>

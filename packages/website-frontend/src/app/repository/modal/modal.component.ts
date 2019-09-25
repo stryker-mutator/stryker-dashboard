@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
-import { RepositoryComponent } from '../repository.component';
+import { RepositorySwitchComponent } from '../repository-switch/repository-switch.component';
 
 @Component({
   selector: 'stryker-repository-modal',
@@ -10,13 +10,13 @@ import { RepositoryComponent } from '../repository.component';
 })
 export class RepositoryModalComponent {
 
-  @ViewChild('modal', { static: false }) private modal: ElementRef;
-  private repoComponent: RepositoryComponent;
-  public enabling: boolean;
+  @ViewChild('modal', { static: false }) private modal!: ElementRef;
+  private repoComponent!: RepositorySwitchComponent;
+  public enabling = false;
 
   public constructor(private modalService: NgbModal) { }
 
-  public repoEnabled(repoComponent: RepositoryComponent) {
+  public repoEnabled(repoComponent: RepositorySwitchComponent) {
     this.repoComponent = repoComponent;
     this.enabling = true;
     this.open().result.then(() => {
@@ -26,7 +26,7 @@ export class RepositoryModalComponent {
     });
   }
 
-  public repoAboutToBeDisabled(repoComponent: RepositoryComponent) {
+  public repoAboutToBeDisabled(repoComponent: RepositorySwitchComponent) {
     this.repoComponent = repoComponent;
     this.enabling = false;
     this.open().result.then((result: string) => {

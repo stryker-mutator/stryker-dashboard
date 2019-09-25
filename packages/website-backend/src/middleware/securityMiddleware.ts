@@ -35,14 +35,21 @@ export class GithubSecurityMiddleware implements IMiddleware {
   private readonly requestHandler: expressJwt.RequestHandler;
   constructor(configuration: Configuration) {
     this.requestHandler = expressJwt({
-      getToken(request) {
-        return request.cookies.jwt;
+      getToken(req) {
+        const authHeader = req.header('authorization');
+        if (authHeader) {
+          const [scheme, value] = authHeader.split(' ');
+          if (scheme === 'Bearer') {
+            return value;
+          }
+        }
+        return null;
       },
       secret: configuration.jwtSecret
     });
   }
 
-  public use(@Req() request: express.Request, @Res() response: express.Response, @Next() next: express.NextFunction ) {
+  public use(@Req() request: express.Request, @Res() response: express.Response, @Next() next: express.NextFunction) {
     this.requestHandler(request, response, next);
   }
 }

@@ -19,3 +19,4 @@ yarn-error.log*
 *.tsbuildinfo
 packages/*/test/**/*.d.ts
 packages/*/src/**/*.d.ts
+*.map

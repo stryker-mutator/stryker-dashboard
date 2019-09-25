@@ -1,0 +1,4 @@
+<stryker-loading class="row" [showContent]="report || errorMessage">
+  <mutation-test-report-app class="col-md-12" *ngIf="report" [report]="report.result" title-postfix="Stryker Dashboard"></mutation-test-report-app>
+  <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+</stryker-loading>
