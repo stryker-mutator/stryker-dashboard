@@ -9,7 +9,7 @@ const AUTH_TOKEN_KEY = 'authToken';
 describe(AuthService.name, () => {
 
   let httpMock: JasmineMock<HttpClient>;
-  let sessionMock: SessionStorage;
+  let sessionMock: JasmineMock<SessionStorage>;
   let sut: AuthService;
 
   beforeEach(() => {
@@ -60,6 +60,18 @@ describe(AuthService.name, () => {
 
       // Assert
       expect(actualUser).toBe(null);
+    });
+
+    it('should clear session stored token when the server responds with a 401', async () => {
+      // Arrange
+      sessionMock.setItem(AUTH_TOKEN_KEY, 'jwt');
+      httpMock.get.and.callFake(() => { throw new HttpErrorResponse({ status: 401 }); });
+
+      // Act
+      await sut.currentUser$.pipe(first()).toPromise();
+
+      // Assert
+      expect(sessionMock.removeItem).toHaveBeenCalledWith(AUTH_TOKEN_KEY);
     });
   });
 

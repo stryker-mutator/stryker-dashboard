@@ -48,6 +48,7 @@ export class AuthService {
       }
     } catch (httpErr) {
       if ((httpErr as HttpErrorResponse).status === 401) {
+        this.session.removeItem(AUTH_TOKEN_SESSION_KEY);
         return null;
       } else {
         throw httpErr;
