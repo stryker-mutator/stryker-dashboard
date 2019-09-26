@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import passport from 'passport'; import cookieParser = require('cookie-parser');
+import passport from 'passport';
 import supertest from 'supertest';
 import GithubAuth from '../../../../src/api/auth/GithubAuth';
 import * as security from '../../../../src/middleware/securityMiddleware';
@@ -26,7 +26,7 @@ describe('GitHubAuth', () => {
       next();
     };
     authenticateMiddleware.callsFake(passThroughMiddleware);
-    request = await testServer(GithubAuth, passThroughMiddleware, cookieParser());
+    request = await testServer(GithubAuth, passThroughMiddleware);
   });
 
   describe('GET /logout', () => {
@@ -44,21 +44,9 @@ describe('GitHubAuth', () => {
         .expect(204);
     });
 
-    it('should delete the \'jwt\' cookie', () => {
-      // Act
-      const response = request.get('/auth/github/logout')
-        .set('Cookie', 'jwt=jfdskl');
-
-      // Assert
-      return response
-        .expect('set-cookie', /jwt/)
-        .expect('set-cookie', /Expires=Thu, 01 Jan 1970 00:00:00 GMT/);
-    });
-
     it('should end the session', async () => {
       // Act
-      const response = request.get('/auth/github/logout')
-        .set('Cookie', 'jwt=jfdskl');
+      const response = request.get('/auth/github/logout');
 
       // Assert
       await response;
@@ -67,7 +55,7 @@ describe('GitHubAuth', () => {
   });
 
   describe('POST /auth/github', () => {
-    it('should set a \'jwt\' cookie', async () => {
+    it('should respond with the \'jwt\' token', async () => {
       // Arrange
       const token = 'foo-bar-baz';
       createTokenStub.resolves(token);

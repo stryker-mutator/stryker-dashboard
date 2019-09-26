@@ -99,7 +99,7 @@ export default async function testServer<TController>(Controller: Type<TControll
     constructor() {
       super();
 
-      const resetSettings: IServerSettings = {
+      const resetSettings: Partial<IServerSettings> = {
         componentsScan: [],
         mount: {}
       };
@@ -111,7 +111,7 @@ export default async function testServer<TController>(Controller: Type<TControll
       ]);
       this.addControllers('/', [Controller]);
     }
-    public $onMountingMiddlewares() {
+    public $beforeRoutesInit() {
       if (middlewares.length) {
         this.use(...middlewares);
       }

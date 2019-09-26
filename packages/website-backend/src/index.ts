@@ -24,8 +24,10 @@ async function startServer() {
     const addr = server.httpServer.address();
     if (typeof addr === 'string') {
       return addr;
-    } else {
+    } else if (addr) {
       return addr.port;
+    } else {
+      return 'unknown';
     }
   }
 }
