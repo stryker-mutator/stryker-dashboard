@@ -21,7 +21,7 @@ export default class Server extends ServerLoader {
     this.settings.port = port;
   }
 
-  public $onMountingMiddlewares() {
+  public $beforeRoutesInit() {
     passport.serializeUser((user, done) => {
       return done(null, user);
     });
