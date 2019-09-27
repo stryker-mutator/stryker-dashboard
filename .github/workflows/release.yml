@@ -21,4 +21,13 @@ jobs:
       run: npm run build
     - name: Lerna publish
       run: npx lerna publish from-git --yes
-      
+
+  create-image:
+    needs: publish
+    steps:
+    - uses: actions/checkout@v1
+    - name: Docker build & Tag
+      run: |
+        cd docker
+        NPM_PACKAGE_VERSION=${GITHUB_REF:1}
+        docker build -t strykermutator/dashboard:latest --build-arg version=${NPM_PACKAGE_VERSION} .
