@@ -11,11 +11,12 @@
   },
   "dependencies": {
     "@stryker-mutator/dashboard-data-access": "^0.1.11",
+    "source-map-support": "^0.5.13",
     "ts-httpexceptions": "^4.1.0"
   },
   "devDependencies": {
-    "@azure/functions": "^1.0.1-beta2",
-    "azure-functions-core-tools": "^2.7.1373",
-    "typescript": "^3.3.3"
+    "@azure/functions": "^1.0.3",
+    "azure-functions-core-tools": "^2.7.1633",
+    "typescript": "^3.6.3"
   }
 }
