@@ -1,3 +1,4 @@
 **/*
-!dist
+!/dist/src/**/*.js
 !README.md
+!bin
