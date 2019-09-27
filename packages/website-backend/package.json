@@ -3,6 +3,9 @@
   "version": "0.1.1",
   "description": "The package which contains the stryker dashboard website backend.",
   "main": "index.js",
+  "bin": {
+    "dashboard-backend": "bin/dashboard-backend"
+  },
   "scripts": {
     "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 61 mocha \"dist/test/**/*.js\""
   },
