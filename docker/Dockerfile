@@ -17,4 +17,4 @@ COPY --from=builder /build .
 WORKDIR /app
 
 EXPOSE 1337
-ENTRYPOINT [ "node", "node_modules/\@stryker-mutator/dashboard-backend/dist/src/index.js" ]
+ENTRYPOINT [ "npx", "dashboard-backend" ]
