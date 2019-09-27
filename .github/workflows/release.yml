@@ -30,5 +30,34 @@ jobs:
     - name: Docker build & Tag
       run: |
         cd docker
-        NPM_PACKAGE_VERSION=${GITHUB_REF:11}
+        NPM_PACKAGE_VERSION=${GITHUB_REF:11} # Strip the "refs-..." prefix from it.
         docker build -t strykermutator/dashboard:latest --build-arg version=${NPM_PACKAGE_VERSION} .
+
+  deploy-function-app:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@v1
+    - name: 'Login via Azure CLI'
+      uses: Azure/actions/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Node 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - name: 'Run npm'
+      shell: bash
+      run: |
+        # If your function app project is not located in your repository's root
+        # Please change your directory for npm in pushd
+        pushd .
+        npm ci
+        npm run build
+        popd
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: stryker-mutator-badge-api
+        package: 'packages/badge-api'
