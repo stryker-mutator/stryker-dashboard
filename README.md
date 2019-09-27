@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/stryker-mutator/stryker-dashboard.svg?branch=master)](https://travis-ci.org/stryker-mutator/stryker-dashboard)
+[![Build Status](https://github.com/stryker-mutator/stryker-dashboard/workflows/CI/badge.svg)](https://github.com/stryker-mutator/stryker-dashboard/actions?workflow=CI)
 [![Gitter](https://badges.gitter.im/stryker-mutator/stryker.svg)](https://gitter.im/stryker-mutator/stryker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Dependency Status](https://img.shields.io/david/stryker-mutator/stryker-badge.svg)](https://david-dm.org/stryker-mutator/stryker-badge)
 [![devDependency Status](https://img.shields.io/david/dev/stryker-mutator/stryker-badge.svg)](https://david-dm.org/stryker-mutator/stryker-badge#info=devDependencies)
