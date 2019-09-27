@@ -1,5 +1,5 @@
 import { Controller, Req, PathParams, Patch, BodyParams, Res, UseBefore } from '@tsed/common';
-import { Repository, EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
+import { Repository, EnableRepositoryResponse } from '@stryker-mutator/dashboard-contract';
 import express from 'express';
 import * as github from '../github/models';
 import { BadRequest } from 'ts-httpexceptions';

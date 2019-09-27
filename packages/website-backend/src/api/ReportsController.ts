@@ -1,13 +1,13 @@
 import { Controller, Get, Put, BodyParams, QueryParams, HeaderParams, Req } from '@tsed/common';
 import { BadRequest, NotFound, Unauthorized, InternalServerError } from 'ts-httpexceptions';
-import { MutationTestingReportMapper, MutationTestingReport, determineRepoSlugAndVersion, InvalidSlugError } from 'stryker-dashboard-data-access';
+import { MutationTestingReportMapper, MutationTestingReport, determineRepoSlugAndVersion, InvalidSlugError } from '@stryker-mutator/dashboard-data-access';
 import DataAccess from '../services/DataAccess';
 import { ReportValidator } from '../services/SchemaValidator';
 import { calculateMetrics } from 'mutation-testing-metrics';
 import Configuration from '../services/Configuration';
 import { ApiKeyValidator } from '../services/ApiKeyValidator';
 import { Request } from 'express';
-import { Report } from 'stryker-dashboard-website-contract';
+import { Report } from '@stryker-mutator/dashboard-contract';
 
 interface PutReportResponse {
   href: string;

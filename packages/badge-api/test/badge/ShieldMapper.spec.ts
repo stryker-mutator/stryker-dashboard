@@ -1,6 +1,6 @@
 import { ShieldMapper } from '../../badge/ShieldMapper';
 import * as sinon from 'sinon';
-import { MutationTestingReport, MutationTestingReportMapper } from 'stryker-dashboard-data-access';
+import { MutationTestingReport, MutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
 import { expect } from 'chai';
 import { Shield, Color } from '../../badge/Shield';
 

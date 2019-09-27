@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 
 import { RepositorySwitchComponent } from './repository-switch.component';
 import { RepositoryService } from '../repository.service';
-import { EnableRepositoryResponse, Repository } from 'stryker-dashboard-website-contract';
+import { EnableRepositoryResponse, Repository } from '@stryker-mutator/dashboard-contract';
 
 describe(RepositorySwitchComponent.name, () => {
   let mockRepo: Repository;

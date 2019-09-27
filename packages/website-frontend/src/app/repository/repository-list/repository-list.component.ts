@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Repository } from 'stryker-dashboard-website-contract';
+import { Repository } from '@stryker-mutator/dashboard-contract';
 
 @Component({
   selector: 'stryker-repository-list',

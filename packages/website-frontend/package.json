@@ -1,6 +1,8 @@
 {
-  "name": "stryker-dashboard-website-frontend",
-  "version": "0.0.1",
+  "name": "@stryker-mutator/dashboard-frontend",
+  "version": "0.0.0",
+  "main": "main.js",
+  "typings": "main.d.ts",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,7 +11,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@angular/animations": "~8.0.0",
     "@angular/common": "~8.0.0",
@@ -23,7 +27,7 @@
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
     "rxjs": "~6.4.0",
-    "stryker-dashboard-website-contract": "0.0.1",
+    "@stryker-mutator/dashboard-contract": "0.0.1",
     "zone.js": "~0.9.0"
   },
   "devDependencies": {

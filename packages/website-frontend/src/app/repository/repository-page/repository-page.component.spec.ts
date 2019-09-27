@@ -8,7 +8,7 @@ import { DashboardService } from 'src/app/services/dashboard.service';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Login, Repository } from 'stryker-dashboard-website-contract';
+import { Login, Repository } from '@stryker-mutator/dashboard-contract';
 import { ActivatedRoute, Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
 

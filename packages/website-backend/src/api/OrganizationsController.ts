@@ -1,5 +1,5 @@
 import { Controller, Get, Req, PathParams, UseBefore } from '@tsed/common';
-import { Repository } from 'stryker-dashboard-website-contract';
+import { Repository } from '@stryker-mutator/dashboard-contract';
 import GithubRepositoryService from '../services/GithubRepositoryService';
 import { GithubSecurityMiddleware } from '../middleware/securityMiddleware';
 

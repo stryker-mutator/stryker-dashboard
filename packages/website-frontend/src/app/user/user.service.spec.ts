@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { UserService } from './user.service';
-import { Repository } from 'stryker-dashboard-website-contract';
+import { Repository } from '@stryker-mutator/dashboard-contract';
 import { Type } from '@angular/core';
 
 describe(UserService.name, () => {

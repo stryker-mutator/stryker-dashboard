@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 import { createToken, passportAuthenticateGithub } from '../../middleware/securityMiddleware';
 import * as utils from '../../utils';
 import Configuration from '../../services/Configuration';
-import { AuthenticateResponse } from 'stryker-dashboard-website-contract';
+import { AuthenticateResponse } from '@stryker-mutator/dashboard-contract';
 
 @Controller('/auth/github')
 export default class GithubAuth {

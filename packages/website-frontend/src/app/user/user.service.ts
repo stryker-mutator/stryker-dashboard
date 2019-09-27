@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, shareReplay } from 'rxjs/operators';
 
-import { Login, Repository } from 'stryker-dashboard-website-contract';
+import { Login, Repository } from '@stryker-mutator/dashboard-contract';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
 

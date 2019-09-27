@@ -1,4 +1,4 @@
-import { createMutationTestingReportMapperWithoutReportJson } from 'stryker-dashboard-data-access';
+import { createMutationTestingReportMapperWithoutReportJson } from '@stryker-mutator/dashboard-data-access';
 import * as httpHelpers from '../helpers/helpers';
 import { retrieveUnknownBadge } from '../helpers/helpers';
 

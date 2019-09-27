@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { Login } from 'stryker-dashboard-website-contract';
+import { Login } from '@stryker-mutator/dashboard-contract';
 import { Router } from '@angular/router';
 
 @Component({

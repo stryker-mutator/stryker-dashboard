@@ -1,10 +1,10 @@
 import { ServerLoader, ServerSettings } from '@tsed/common';
-import * as path from 'path';
 import passport from 'passport'; import express from 'express';
 import * as bodyParser from 'body-parser';
 import { githubStrategy } from './middleware/securityMiddleware';
 import { spa } from './middleware/spaMiddleware';
 import errorHandler from './middleware/errorHandler';
+import { dist } from '@stryker-mutator/dashboard-frontend';
 
 @ServerSettings({
   acceptMimes: ['application/json'],
@@ -14,7 +14,6 @@ import errorHandler from './middleware/errorHandler';
   rootDir: __dirname
 })
 export default class Server extends ServerLoader {
-  private readonly frontEndPath = path.join(__dirname, /*src*/ '..', /*dist*/ '..', 'node_modules', 'stryker-dashboard-website-frontend', 'dist');
 
   constructor(port: number) {
     super();
@@ -31,9 +30,9 @@ export default class Server extends ServerLoader {
     passport.use(githubStrategy());
 
     this
-      .use(express.static(this.frontEndPath))
-      .use(spa(this.frontEndPath))
-      .use(bodyParser.json({ limit: '20mb' }))
+      .use(express.static(dist))
+      .use(spa(dist))
+      .use(bodyParser.json({ limit: '100mb' }))
       .use(passport.initialize())
       .use(passport.session())
       .use(errorHandler);

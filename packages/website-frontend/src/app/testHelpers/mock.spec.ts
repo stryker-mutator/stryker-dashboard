@@ -1,4 +1,4 @@
-import { Repository } from 'stryker-dashboard-website-contract';
+import { Repository } from '@stryker-mutator/dashboard-contract';
 
 interface Constructor<T extends Object> {
   prototype: T;

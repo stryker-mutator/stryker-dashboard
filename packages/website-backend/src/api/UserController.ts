@@ -1,6 +1,6 @@
 import { Controller, Get, Req, UseBefore } from '@tsed/common';
 import GithubAgent from '../github/GithubAgent';
-import * as contract from 'stryker-dashboard-website-contract';
+import * as contract from '@stryker-mutator/dashboard-contract';
 import * as github from '../github/models';
 import GithubRepositoryService from '../services/GithubRepositoryService';
 import { GithubSecurityMiddleware } from '../middleware/securityMiddleware';

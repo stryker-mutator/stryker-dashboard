@@ -2,7 +2,7 @@ import { generateHashValue } from '../utils';
 import { BadRequest, Unauthorized } from 'ts-httpexceptions';
 import DataAccess from './DataAccess';
 import { Service } from '@tsed/di';
-import { ProjectMapper } from 'stryker-dashboard-data-access';
+import { ProjectMapper } from '@stryker-mutator/dashboard-data-access';
 
 @Service()
 export class ApiKeyValidator {

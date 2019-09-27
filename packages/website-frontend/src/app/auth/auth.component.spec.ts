@@ -6,7 +6,7 @@ import { ParamMap, Params, ActivatedRoute, Router, convertToParamMap } from '@an
 import { JasmineMock, mock } from '../testHelpers/mock.spec';
 import { AuthService } from './auth.service';
 import { SharedModule } from '../shared/shared.module';
-import { Login } from 'stryker-dashboard-website-contract';
+import { Login } from '@stryker-mutator/dashboard-contract';
 
 describe(AuthComponent.name, () => {
   let fixture: ComponentFixture<AuthComponent>;

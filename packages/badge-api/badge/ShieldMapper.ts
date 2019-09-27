@@ -1,4 +1,4 @@
-import { MutationTestingReportMapper } from 'stryker-dashboard-data-access';
+import { MutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
 import { Shield, Color } from './Shield';
 
 export class ShieldMapper {

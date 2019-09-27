@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { RepositoryModalComponent } from './modal.component';
 import { RepositorySwitchComponent } from '../repository-switch/repository-switch.component';
 import { RepositoryService } from '../repository.service';
-import { EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
+import { EnableRepositoryResponse } from '@stryker-mutator/dashboard-contract';
 
 class RepositoryServiceStub {
   public enableRepository(): Observable<EnableRepositoryResponse> {

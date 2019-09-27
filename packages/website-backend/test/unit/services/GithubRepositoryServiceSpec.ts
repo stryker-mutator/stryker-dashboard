@@ -1,6 +1,6 @@
 import { dalFactory, githubFactory } from '../../helpers/producers';
-import * as dal from 'stryker-dashboard-data-access';
-import * as contract from 'stryker-dashboard-website-contract';
+import * as dal from '@stryker-mutator/dashboard-data-access';
+import * as contract from '@stryker-mutator/dashboard-contract';
 import * as github from '../../../src/github/models';
 import GithubAgent, * as githubAgentModule from '../../../src/github/GithubAgent';
 import GithubRepositoryService from '../../../src/services/GithubRepositoryService';

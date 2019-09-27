@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map, flatMap } from 'rxjs/operators';
 import { Subscription, combineLatest } from 'rxjs';
 import { ReportsService } from '../ReportsService';
-import { Report } from 'stryker-dashboard-website-contract';
+import { Report } from '@stryker-mutator/dashboard-contract';
 import { AutoUnsubscribe } from 'src/app/utils/auto-unsubscribe';
 
 @Component({
