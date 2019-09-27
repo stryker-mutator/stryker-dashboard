@@ -23,6 +23,7 @@ jobs:
       run: npx lerna publish from-git --yes
 
   create-image:
+    runs-on: ubuntu-latest
     needs: publish
     steps:
     - uses: actions/checkout@v1
