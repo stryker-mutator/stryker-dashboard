@@ -40,7 +40,6 @@
   "scripts": {
     "postinstall": "lerna bootstrap && link-parent-bin",
     "all": "npm run lint && npm run clean && npm run build && npm run test",
-    "install-production": "lerna bootstrap --no-ci -- --production",
     "clean": "rimraf \"packages/*/+(test|src|badge)/**/!(karma.conf)+(.d.ts|.js|.map)\" \"packages/**/*.tsbuildinfo\" \"packages/*/{.nyc_output,reports,coverage,dist}\"",
     "lint": "tslint -p tsconfig.lint.json",
     "lint-fix": "tslint --fix --project tsconfig.lint.json",

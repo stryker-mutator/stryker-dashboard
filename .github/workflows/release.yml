@@ -1,8 +1,8 @@
-name: CI
+name: Publish
 
 on:
   release:
-    types: [published]
+    types: [created]
 
 jobs:
   publish:
@@ -21,4 +21,4 @@ jobs:
       run: npm run build
     - name: Lerna publish
       run: npx lerna publish from-git --yes
-
+      
