@@ -1,7 +1,7 @@
 {
   "name": "badge-service",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "The service for reporting and retrieving badges",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,8 @@
     "pack": "funcpack pack ./src/"
   },
   "dependencies": {
-    "mz": "^2.7.0",
-    "@stryker-mutator/dashboard-data-access": "0.1.0"
+    "@stryker-mutator/dashboard-data-access": "0.1.0",
+    "mz": "^2.7.0"
   },
   "keywords": [],
   "author": "",
