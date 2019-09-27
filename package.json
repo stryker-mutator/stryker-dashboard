@@ -44,7 +44,8 @@
     "lint": "tslint -p tsconfig.lint.json",
     "lint-fix": "tslint --fix --project tsconfig.lint.json",
     "build": "tsc -b && lerna run build",
-    "test": "lerna run test --stream"
+    "test": "lerna run test --stream",
+    "version": "lerna clean --yes && lerna bootstrap --ignore-scripts -- --package-lock-only --no-audit && git add packages/*/package-lock.json"
   },
   "version": "0.0.1",
   "dependencies": {}
