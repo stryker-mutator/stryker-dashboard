@@ -2,8 +2,8 @@
 // import * as sinon from 'sinon';
 // import * as chai from 'chai';
 // import * as sinonchai from 'sinon-chai';
-// import * as dataAccessModule from 'stryker-dashboard-data-access';
-// import { MutationTestingReportMapper, MutationTestingReport } from 'stryker-dashboard-data-access';
+// import * as dataAccessModule from '@stryker-mutator/dashboard-data-access';
+// import { MutationTestingReportMapper, MutationTestingReport } from '@stryker-mutator/dashboard-data-access';
 // import run = require('../badgeGenerator/badgeGenerator');
 // import * as helpers from '../helpers/helpers';
 // import * as fs from 'mz/fs';

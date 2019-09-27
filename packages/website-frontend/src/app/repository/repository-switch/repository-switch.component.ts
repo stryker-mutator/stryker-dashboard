@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Repository, EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
+import { Repository, EnableRepositoryResponse } from '@stryker-mutator/dashboard-contract';
 import { RepositoryService } from '../repository.service';
 
 @Component({

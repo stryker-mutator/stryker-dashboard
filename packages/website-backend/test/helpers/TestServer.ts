@@ -1,6 +1,6 @@
 import { Type } from '@tsed/core';
 import { ServerLoader, IServerSettings, OverrideService, ExpressApplication, ServerSettings } from '@tsed/common';
-import { ProjectMapper, MutationTestingReportMapper } from 'stryker-dashboard-data-access';
+import { ProjectMapper, MutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
 import { bootstrap, inject, TestContext } from '@tsed/testing';
 import Configuration from '../../src/services/Configuration';
 import supertest from 'supertest';

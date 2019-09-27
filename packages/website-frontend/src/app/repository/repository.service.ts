@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
+import { EnableRepositoryResponse } from '@stryker-mutator/dashboard-contract';
 
 /**
  * Provides methods to easily make HTTP requests to `api/repositories`.

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Login, Repository } from 'stryker-dashboard-website-contract';
+import { Login, Repository } from '@stryker-mutator/dashboard-contract';
 import { OrganizationsService } from 'src/app/services/organizations/organizations.service';
 import { UserService } from 'src/app/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';

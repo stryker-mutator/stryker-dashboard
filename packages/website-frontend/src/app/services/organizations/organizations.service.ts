@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Repository } from 'stryker-dashboard-website-contract';
+import { Repository } from '@stryker-mutator/dashboard-contract';
 
 @Injectable({
   providedIn: 'root'

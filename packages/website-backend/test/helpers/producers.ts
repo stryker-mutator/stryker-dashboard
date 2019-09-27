@@ -1,6 +1,6 @@
 import * as github from '../../src/github/models';
-import * as dal from 'stryker-dashboard-data-access';
-import * as contract from 'stryker-dashboard-website-contract';
+import * as dal from '@stryker-mutator/dashboard-data-access';
+import * as contract from '@stryker-mutator/dashboard-contract';
 
 function factoryMethod<T>(defaultsFactory: () => T) {
   return (overrides?: Partial<T>) => Object.assign({}, defaultsFactory(), overrides);

@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 
 import { LoginComponent } from './login.component';
 import { UserService } from '../user/user.service';
-import { Login, Repository } from 'stryker-dashboard-website-contract';
+import { Login, Repository } from '@stryker-mutator/dashboard-contract';
 import { RepositoryService } from '../repository/repository.service';
 import { AppModule } from '../app.module';
 import { APP_BASE_HREF } from '@angular/common';

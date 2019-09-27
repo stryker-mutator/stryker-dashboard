@@ -1,6 +1,6 @@
 import { Context, AzureFunction } from '@azure/functions';
 import { ShieldMapper } from './ShieldMapper';
-import { determineRepoSlugAndVersion, InvalidSlugError } from 'stryker-dashboard-data-access';
+import { determineRepoSlugAndVersion, InvalidSlugError } from '@stryker-mutator/dashboard-data-access';
 
 export function handler(mapper: ShieldMapper): AzureFunction {
   return async (context: Context): Promise<void> => {

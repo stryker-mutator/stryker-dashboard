@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { RepositoryService } from './repository.service';
-import { EnableRepositoryResponse } from 'stryker-dashboard-website-contract';
+import { EnableRepositoryResponse } from '@stryker-mutator/dashboard-contract';
 import { Type } from '@angular/core';
 
 describe('RepositoryService', () => {

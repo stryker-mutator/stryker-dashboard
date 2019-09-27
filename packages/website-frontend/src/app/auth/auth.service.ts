@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { AuthenticateResponse, Login } from 'stryker-dashboard-website-contract';
+import { AuthenticateResponse, Login } from '@stryker-mutator/dashboard-contract';
 import { Subject, Observable, merge } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 import { SessionStorage } from '../shared/services/session-storage.service';

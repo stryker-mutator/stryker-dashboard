@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { SuperTest, Test } from 'supertest';
-import * as contract from 'stryker-dashboard-website-contract';
+import * as contract from '@stryker-mutator/dashboard-contract';
 import GithubAgent, * as githubAgentModule from '../../../src/github/GithubAgent';
 import testServer, { RepositoryServiceStub, createAuthToken } from '../../helpers/TestServer';
 import UserController from '../../../src/api/UserController';

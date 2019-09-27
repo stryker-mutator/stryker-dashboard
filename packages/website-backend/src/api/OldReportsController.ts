@@ -1,7 +1,7 @@
 import { Controller, BodyParams, Status, Post } from '@tsed/common';
 import { ApiKeyValidator } from '../services/ApiKeyValidator';
 import DataAccess from '../services/DataAccess';
-import { MutationTestingReportMapper } from 'stryker-dashboard-data-access';
+import { MutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
 import { BadRequest } from 'ts-httpexceptions';
 /**
  * Represents the 'old' style of report, containing the mutation score calculated at client side

@@ -1,8 +1,8 @@
 import { Service } from '@tsed/common';
 import DataAccess from './DataAccess';
 import GithubAgent from '../github/GithubAgent';
-import * as dal from 'stryker-dashboard-data-access';
-import * as contract from 'stryker-dashboard-website-contract';
+import * as dal from '@stryker-mutator/dashboard-data-access';
+import * as contract from '@stryker-mutator/dashboard-contract';
 import * as github from '../github/models';
 import { Unauthorized } from 'ts-httpexceptions';
 

@@ -1,7 +1,7 @@
 import ReportsController from '../../../src/api/ReportsController';
 import supertest = require('supertest');
 import testServer, { DataAccessStub } from '../../helpers/TestServer';
-import { MutationTestingReport, Project } from 'stryker-dashboard-data-access';
+import { MutationTestingReport, Project } from '@stryker-mutator/dashboard-data-access';
 import { expect } from 'chai';
 import { generateHashValue } from '../../../src/utils';
 import sinon = require('sinon');

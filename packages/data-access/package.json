@@ -1,10 +1,12 @@
 {
-  "name": "stryker-dashboard-data-access",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@stryker-mutator/dashboard-data-access",
+  "version": "0.0.0",
   "description": "This package contains the data access layer of the stryker dashboard application.",
   "scripts": {
     "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"test/helpers/**/*.js\" \"test/unit/**/*.js\""
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "keywords": [],
   "author": "",
