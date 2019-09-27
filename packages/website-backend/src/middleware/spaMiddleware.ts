@@ -7,9 +7,10 @@ const blacklist = ['/api'];
 export function spa(frontEndPath: string) {
   const indexHtml = fs.readFileSync(path.join(frontEndPath, 'index.html'), 'utf8');
   return (req: Request, res: Response, next: NextFunction) => {
+    const file = req.url.substr(req.url.lastIndexOf('/'));
     if (req.method !== 'GET' ||
       blacklist.some(item => req.url.startsWith(item)) ||
-      req.url.indexOf('.') >= 0) {
+      file.indexOf('.') >= 0) {
       next();
     } else {
       res.send(indexHtml);
