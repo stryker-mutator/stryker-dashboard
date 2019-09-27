@@ -30,9 +30,11 @@ jobs:
     - name: Docker build & Tag
       run: |
         cd docker
-        NPM_PACKAGE_VERSION=${GITHUB_REF:11} # Strip the "refs-..." prefix from it.
-        docker build -t strykermutator/dashboard:latest --build-arg version=${NPM_PACKAGE_VERSION} .
-
+        NPM_PACKAGE_VERSION=${GITHUB_REF:11}
+        docker build -t strykermutator/dashboard:${NPM_PACKAGE_VERSION} -t strykermutator/dashboard:latest --build-arg version=${NPM_PACKAGE_VERSION} .
+        docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
+        docker push strykermutator/dashboard:${NPM_PACKAGE_VERSION}
+        docker push strykermutator/dashboard:latest
   deploy-function-app:
     runs-on: ubuntu-latest
     steps:
