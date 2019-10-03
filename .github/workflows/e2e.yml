@@ -23,12 +23,12 @@ jobs:
         npx lerna publish --dist-tag canary --canary --no-push --yes --no-git-tag-version prerelease
     - name: Docker build & Push
       run: |
-        export NPM_PACKAGE_VERSION=$(node -p "require('./packages/website-backend/package.json').version")
+        export NPM_PACKAGE_VERSION=$(node tasks/next-canary-version.js)
         echo "Docker build $NPM_PACKAGE_VERSION"
+        cd docker
         docker build -t strykermutator/dashboard:${NPM_PACKAGE_VERSION}  --build-arg version=${NPM_PACKAGE_VERSION} .
         docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
         push strykermutator/dashboard:${NPM_PACKAGE_VERSION} 
-      
     - uses: azure/actions/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_ACCEPTANCE }}
