@@ -31,13 +31,15 @@ jobs:
         docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
         docker push strykermutator/dashboard:${NPM_PACKAGE_VERSION} 
     - uses: azure/actions/login@v1
+      name: Azure login
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_ACCEPTANCE }}
     - uses: azure/appservice-actions/webapp-container@57f0636
+      name: Deploy dashboard
       with:
         app-name: 'stryker-dashboard-acceptance'
         images: 'strykermutator/dashboard:${NPM_PACKAGE_VERSION}'
-    - name: 'Run Azure Functions Action'
+    - name: 'Deploy badge-api'
       uses: Azure/functions-action@v1
       id: fa
       with:
