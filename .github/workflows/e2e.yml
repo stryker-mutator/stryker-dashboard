@@ -20,7 +20,7 @@ jobs:
       run: npm run build
     - name: Lerna publish canary version
       run: | 
-        npx lerna publish --dist-tag canary --canary --no-push --no-git-tag-version prerelease
+        npx lerna publish --dist-tag canary --canary --no-push --yes --no-git-tag-version prerelease
     - name: Docker build & Push
       run: |
         export NPM_PACKAGE_VERSION=$(node -p "require('./lerna.json').version")
