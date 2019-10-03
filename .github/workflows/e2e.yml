@@ -31,8 +31,8 @@ jobs:
       
     - uses: azure/actions/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_ACC }}
-    - uses: azure/appservice-actions/webapp-container@v1
+        creds: ${{ secrets.AZURE_CREDENTIALS_ACCEPTANCE }}
+    - uses: azure/appservice-actions/webapp-container@57f0636
       with:
         app-name: 'stryker-dashboard-acceptance'
         images: 'strykermutator/dashboard:${NPM_PACKAGE_VERSION}'
