@@ -1,6 +1,6 @@
 on: [push]
 
-name: Node.js
+name: e2e
 
 jobs:
   build-and-deploy:
@@ -20,7 +20,7 @@ jobs:
       run: npm run build
     - name: Lerna publish canary version
       run: | 
-        npx lerna publish --dist-tag canary --canary --no-push --no-git-tag-version prerelease
+        npx lerna publish --dist-tag canary --canary --no-push --no-git-tag-version --yes prerelease
         export NPM_PACKAGE_VERSION=$(node -p "require('./lerna.json').version")
     - name: Docker build & Push
       run: |
@@ -31,7 +31,7 @@ jobs:
       
     - uses: azure/actions/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_ACC }}
+        creds: ${{ secrets.AZURE_CREDENTIALS_ACCEPTANCE }}
     - uses: azure/appservice-actions/webapp-container@master
       with:
         app-name: 'stryker-dashboard-acceptance'
