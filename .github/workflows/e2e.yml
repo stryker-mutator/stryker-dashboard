@@ -21,9 +21,10 @@ jobs:
     - name: Lerna publish canary version
       run: | 
         npx lerna publish --dist-tag canary --canary --no-push --yes --no-git-tag-version prerelease
+        node tasks/set-npm-canary-version.js
+     
     - name: Docker build & Push
       run: |
-        export NPM_PACKAGE_VERSION=$(node tasks/next-canary-version.js)
         echo "Docker build $NPM_PACKAGE_VERSION"
         cd docker
         docker build -t strykermutator/dashboard:${NPM_PACKAGE_VERSION}  --build-arg version=${NPM_PACKAGE_VERSION} .
