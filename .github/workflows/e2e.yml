@@ -1,0 +1,38 @@
+on: [push]
+
+name: Node.js
+
+jobs:
+  build-and-deploy:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set NPM Env
+      run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+    - name: Use Node.js 10
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10
+    - name: Install dependencies
+      run: npm ci
+    - name: Build
+      run: npm run build
+    - name: Lerna publish canary version
+      run: | 
+        npx lerna publish --dist-tag canary --canary --no-push --no-git-tag-version prerelease
+        export NPM_PACKAGE_VERSION=$(node -p "require('./lerna.json').version")
+    - name: Docker build & Push
+      run: |
+        echo "Docker build $NPM_PACKAGE_VERSION"
+        docker build -t strykermutator/dashboard:${NPM_PACKAGE_VERSION}  --build-arg version=${NPM_PACKAGE_VERSION} .
+        docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
+        push strykermutator/dashboard:${NPM_PACKAGE_VERSION} 
+      
+    - uses: azure/actions/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS_ACC }}
+    - uses: azure/appservice-actions/webapp-container@master
+      with:
+        app-name: 'stryker-dashboard-acceptance'
+        images: 'strykermutator/dashboard:${NPM_PACKAGE_VERSION}'
