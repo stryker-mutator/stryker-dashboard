@@ -45,3 +45,9 @@ jobs:
       with:
         app-name: stryker-mutator-badge-api-acceptance
         package: 'packages/badge-api'
+
+    - name: 'Verify deployment'
+      run: |
+        node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version ${NPM_PACKGE_VERSION}
+        node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api ${NPM_PACKGE_VERSION}
+      
