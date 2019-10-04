@@ -16,5 +16,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "..\\dist\\badge\\index.js"
+  "scriptFile": "../dist/badge/index.js"
 }
