@@ -1,3 +1,8 @@
+
+/**
+ * This task checks if the version of the badge-api or dashboard is correct according to the expectation.
+ */
+
 const path = require('path');
 const { expect, config } = require('chai');
 config.truncateThreshold = 0;
