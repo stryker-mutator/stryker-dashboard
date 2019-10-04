@@ -18,41 +18,43 @@ jobs:
       run: npm ci
     - name: Build
       run: npm run build
-    - name: Lerna publish canary version
-      run: | 
-        npx lerna publish --dist-tag canary --canary --no-push --yes --no-git-tag-version prerelease
-        node tasks/set-npm-canary-version.js
+    # - name: Lerna publish canary version
+    #   run: | 
+    #     npx lerna publish --dist-tag canary --canary --no-push --yes --no-git-tag-version prerelease
+    #     node tasks/set-npm-canary-version.js
      
-    - name: Docker build & Push
-      run: |
-        echo "Docker build $NPM_PACKAGE_VERSION"
-        cd docker
-        docker build -t strykermutator/dashboard:${{ github.sha }}  --build-arg version=${NPM_PACKAGE_VERSION} .
-        docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
-        docker push strykermutator/dashboard:${{ github.sha }} 
-    - uses: azure/actions/login@v1
-      name: Azure login
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_ACCEPTANCE }}
-    - name: 'Deploy stryker-dashboard-acceptance.azurewebsites.net'
-      uses: azure/webapps-container-deploy@v1
-      with:
-        app-name: 'stryker-dashboard-acceptance'
-        images: 'strykermutator/dashboard:${{ github.sha }}'
-    - name: 'Deploy stryker-mutator-badge-api-acceptance.azurewebsites.net'
-      uses: Azure/functions-action@v1
-      id: fa
-      with:
-        app-name: stryker-mutator-badge-api-acceptance
-        package: 'packages/badge-api'
+    # - name: Docker build & Push
+    #   run: |
+    #     echo "Docker build $NPM_PACKAGE_VERSION"
+    #     cd docker
+    #     docker build -t strykermutator/dashboard:${{ github.sha }}  --build-arg version=${NPM_PACKAGE_VERSION} .
+    #     docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
+    #     docker push strykermutator/dashboard:${{ github.sha }} 
+    # - uses: azure/actions/login@v1
+    #   name: Azure login
+    #   with:
+    #     creds: ${{ secrets.AZURE_CREDENTIALS_ACCEPTANCE }}
+    # - name: 'Deploy stryker-dashboard-acceptance.azurewebsites.net'
+    #   uses: azure/webapps-container-deploy@v1
+    #   with:
+    #     app-name: 'stryker-dashboard-acceptance'
+    #     images: 'strykermutator/dashboard:${{ github.sha }}'
+    # - name: 'Deploy stryker-mutator-badge-api-acceptance.azurewebsites.net'
+    #   uses: Azure/functions-action@v1
+    #   id: fa
+    #   with:
+    #     app-name: stryker-mutator-badge-api-acceptance
+    #     package: 'packages/badge-api'
 
-    - name: 'Verify deployment'
-      run: |
-        node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version $NPM_PACKAGE_VERSION
-        node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api $(node -p "require('./packages/badge-api/package.json').version")
+    # - name: 'Verify deployment'
+    #   run: |
+    #     node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version $NPM_PACKAGE_VERSION
+    #     node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api $(node -p "require('./packages/badge-api/package.json').version")
 
     - name: Run e2e tests
       run: |
         cd packages/e2e
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb 
+        sudo dpkg -i google-chrome-stable_current_amd64.deb
         BASE_URL=https://stryker-dashboard-acceptance.azurewebsites.net npm run test
       
