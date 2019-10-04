@@ -35,7 +35,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_ACCEPTANCE }}
     - name: 'Deploy stryker-dashboard-acceptance.azurewebsites.net'
-      uses: azure/appservice-actions/webapp-container@57f0636
+      uses: azure/webapps-container-deploy@v1
       with:
         app-name: 'stryker-dashboard-acceptance'
         images: 'strykermutator/dashboard:${{ github.sha }}'
@@ -48,6 +48,6 @@ jobs:
 
     - name: 'Verify deployment'
       run: |
-        node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version ${NPM_PACKGE_VERSION}
-        node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api ${NPM_PACKGE_VERSION}
+        node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version $NPM_PACKAGE_VERSION
+        node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api $(node -p "require('./packages/badge-api/package.json').version")
       
