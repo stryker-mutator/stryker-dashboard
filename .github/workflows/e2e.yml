@@ -34,12 +34,12 @@ jobs:
       name: Azure login
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_ACCEPTANCE }}
-    - uses: azure/appservice-actions/webapp-container@57f0636
-      name: Deploy dashboard
+    - name: 'Deploy stryker-dashboard-acceptance.azurewebsites.net'
+      uses: azure/appservice-actions/webapp-container@57f0636
       with:
         app-name: 'stryker-dashboard-acceptance'
         images: 'strykermutator/dashboard:${{ github.sha }}'
-    - name: 'Deploy badge-api'
+    - name: 'Deploy stryker-mutator-badge-api-acceptance.azurewebsites.net'
       uses: Azure/functions-action@v1
       id: fa
       with:
