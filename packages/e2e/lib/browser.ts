@@ -5,8 +5,8 @@ let browser: WebDriver | null = null;
 export async function init() {
   const headlessCapabilities = Capabilities.chrome();
   if (process.env.GITHUB_WORKFLOW) {
-    // Use headless chrome on the build server
-    headlessCapabilities.set('chromeOptions', { args: ['--headless'] });
+    console.log('Detecting buildserver. Using headless chrome');
+    headlessCapabilities.set('chromeOptions', { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage'] });
   }
   browser = await new Builder()
     .forBrowser('chrome')
