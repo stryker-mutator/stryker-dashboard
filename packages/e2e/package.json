@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "e2e",
+  "version": "0.0.0",
+  "description": "The end to end tests for the Stryker Dasboard",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -r source-map-support/register -r chromedriver --timeout 20000 --file dist/setup/browser.js dist/spec/**/*.js"
+  },
+  "keywords": [],
+  "author": "Nico Jansen",
+  "devDependencies": {
+    "@types/selenium-webdriver": "^4.0.3",
+    "selenium-webdriver": "^4.0.0-alpha.5"
+  }
+}
