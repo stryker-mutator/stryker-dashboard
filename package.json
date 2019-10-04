@@ -16,7 +16,7 @@
     "@types/source-map-support": "^0.5.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "chromedriver": "^77.0.0",
+    "chromedriver": "^76.0.1",
     "lerna": "^3.16.1",
     "link-parent-bin": "^1.0.2",
     "mocha": "^6.2.0",
@@ -46,7 +46,7 @@
     "lint": "tslint -p tsconfig.lint.json",
     "lint-fix": "tslint --fix --project tsconfig.lint.json",
     "build": "tsc -b && lerna run build",
-    "test": "lerna run test --stream",
+    "test": "lerna run --ignore e2e test --stream",
     "version": "lerna clean --yes && lerna bootstrap --ignore-scripts -- --package-lock-only --no-audit && git add packages/*/package-lock.json"
   },
   "version": "0.0.1",

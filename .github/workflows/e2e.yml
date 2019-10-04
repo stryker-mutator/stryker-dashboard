@@ -54,7 +54,5 @@ jobs:
     - name: Run e2e tests
       run: |
         cd packages/e2e
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb 
-        sudo dpkg -i google-chrome-stable_current_amd64.deb
         BASE_URL=https://stryker-dashboard-acceptance.azurewebsites.net npm run test
       
