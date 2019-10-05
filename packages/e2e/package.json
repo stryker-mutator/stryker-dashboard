@@ -5,7 +5,7 @@
   "description": "The end to end tests for the Stryker Dasboard",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -r source-map-support/register -r chromedriver --timeout 20000 --file dist/setup/browser.js dist/spec/**/*.js"
+    "test": "mocha -r source-map-support/register --timeout 20000 --file dist/setup/browser.js dist/spec/**/*.js"
   },
   "keywords": [],
   "author": "Nico Jansen",
