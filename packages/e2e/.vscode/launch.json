@@ -24,7 +24,7 @@
       "args": [
         "${workspaceFolder}/dist/protractor.conf.js",
         "--baseUrl",
-        "http://localhost:1337"
+        "http://localhost:4200"
       ],
       "internalConsoleOptions": "openOnSessionStart"
     }
