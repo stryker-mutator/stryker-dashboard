@@ -22,7 +22,8 @@
         "${workspaceFolder}/dist/spec/**/*.js"
       ],
       "env": {
-        "BASE_URL": "http://localhost:1337"
+        // "BASE_URL": "http://localhost:1337"
+        "BASE_URL": "https://stryker-dashboard-acceptance.azurewebsites.net"
       },
       "internalConsoleOptions": "openOnSessionStart"
     }
