@@ -7,24 +7,25 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "E2E tests",
-      "program": "${workspaceFolder}/../../node_modules/mocha/bin/_mocha",
+      "name": "E2E tests (acceptance)",
+      "program": "${workspaceFolder}/../../node_modules/protractor/bin/protractor",
       "cwd": "${workspaceFolder}",
       "args": [
-        "-r",
-        "source-map-support/register",
-        "-r",
-        "chromedriver",
-        "--no-timeout",
-        "--colors",
-        "--file",
-        "${workspaceFolder}/dist/setup/browser.js",
-        "${workspaceFolder}/dist/spec/**/*.js"
+        "${workspaceFolder}/dist/protractor.conf.js"
       ],
-      "env": {
-        // "BASE_URL": "http://localhost:1337"
-        "BASE_URL": "https://stryker-dashboard-acceptance.azurewebsites.net"
-      },
+      "internalConsoleOptions": "openOnSessionStart"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "E2E tests (local)",
+      "program": "${workspaceFolder}/../../node_modules/protractor/bin/protractor",
+      "cwd": "${workspaceFolder}",
+      "args": [
+        "${workspaceFolder}/dist/protractor.conf.js",
+        "--baseUrl",
+        "http://localhost:1337"
+      ],
       "internalConsoleOptions": "openOnSessionStart"
     }
   ]

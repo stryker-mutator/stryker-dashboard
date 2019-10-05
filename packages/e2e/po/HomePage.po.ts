@@ -1,21 +1,16 @@
-import { ElementSelector } from '../lib/ElementSelector';
-import { WebDriver } from 'selenium-webdriver';
+import { $, browser } from 'protractor';
 
-export class HomePage extends ElementSelector {
-
-  constructor(private readonly browser: WebDriver) {
-    super(browser);
-  }
+export class HomePage {
 
   get slogan() {
-    return this.$('h1').getText();
+    return $('h1').getText();
   }
 
   public async navigate() {
-    return this.browser.get(`${process.env.BASE_URL}/`);
+    return browser.get('/');
   }
 
   get title() {
-    return this.browser.getTitle();
+    return browser.getTitle();
   }
 }
