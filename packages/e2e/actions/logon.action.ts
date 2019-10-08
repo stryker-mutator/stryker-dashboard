@@ -7,7 +7,7 @@ export async function logOn() {
     if (!authToken) {
       const tokenOptions = { algorithm: 'HS512', audience: 'stryker', expiresIn: '30m', issuer: 'stryker' };
       authToken = jwt.sign({
-        accessToken: '104e9502f6aa8344cb7a5a5a656c38e09c8be28c',
+        accessToken: 'ab5a9155d852b302842a7295a4c2eeaa4d27fa2f',
         displayName: null,
         id: 56148018,
         username: 'strykermutator-test-account',
