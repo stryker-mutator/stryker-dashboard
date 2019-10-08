@@ -1,4 +1,4 @@
-import { PageObject } from './PageObject';
+import { PageObject } from './page-object';
 import { promise } from 'protractor';
 import { AccordionPageObject } from './accordion.po';
 
