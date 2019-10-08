@@ -5,7 +5,7 @@ import { expect } from 'chai';
 // Example: 0527de29-6436-4564-9c5f-34f417ec68c0
 const API_KEY_REGEX = /^[0-9a-z]{8}-(?:[0-9a-z]{4}-){3}[0-9a-z]{12}$/;
 
-describe.only('Repositories page', () => {
+describe('Repositories page', () => {
   let page: RepositoriesPage;
 
   before(async () => {
