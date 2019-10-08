@@ -1,6 +1,6 @@
 import { $, browser } from 'protractor';
 
-export class HomePage {
+export class Homepage {
 
   get slogan() {
     return $('h1').getText();

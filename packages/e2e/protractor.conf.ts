@@ -16,6 +16,9 @@ export let config: Config = {
     browserName: 'chrome',
     chromeOptions
   },
+  mochaOpts: {
+    timeout: 99999999
+  },
   specs: ['spec/**/*.js'],
   directConnect: true,
   baseUrl: 'https://stryker-dashboard-acceptance.azurewebsites.net'

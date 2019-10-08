@@ -10,7 +10,10 @@
   "keywords": [],
   "author": "Nico Jansen",
   "devDependencies": {
-    "@types/selenium-webdriver": "^4.0.3",
-    "selenium-webdriver": "^4.0.0-alpha.5"
+    "@types/jsonwebtoken": "^8.3.4"
+  },
+  "dependencies": {
+    "azure-storage": "^2.10.3",
+    "jsonwebtoken": "^8.5.1"
   }
 }

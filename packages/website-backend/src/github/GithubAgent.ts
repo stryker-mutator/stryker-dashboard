@@ -21,8 +21,14 @@ export default class GithubAgent {
     return this.get<Login>(`${GITHUB_BACKEND}/user`);
   }
 
-  public getMyOrganizations(): Promise<Login[]> {
-    return this.get<Login[]>(`${GITHUB_BACKEND}/user/orgs`);
+  public async getMyOrganizations(): Promise<Login[]> {
+    const logins = await this.get<Login[]>(`${GITHUB_BACKEND}/user/orgs`);
+    return logins;
+  }
+
+  public async getOrganizations(loginName: string): Promise<Login[]> {
+    const logins = await this.get<Login[]>(`${GITHUB_BACKEND}/users/${loginName}/orgs`);
+    return logins;
   }
 
   public getOrganizationRepositories(organizationLogin: string): Promise<Repository[]> {

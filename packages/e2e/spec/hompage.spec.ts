@@ -1,12 +1,12 @@
-import { HomePage } from '../po/HomePage.po';
+import { Homepage } from '../po/homepage.po';
 import { expect } from 'chai';
 
 describe('Homepage', () => {
 
-  let page: HomePage;
+  let page: Homepage;
 
   beforeEach(async () => {
-    page = new HomePage();
+    page = new Homepage();
     await page.navigate();
   });
 
