@@ -54,5 +54,8 @@ jobs:
     - name: Run e2e tests
       run: |
         cd packages/e2e
-        BASE_URL=https://stryker-dashboard-acceptance.azurewebsites.net npm run test
-      
+        npm run test
+      env:
+        BASE_URL: https://stryker-dashboard-acceptance.azurewebsites.net
+        E2E_AZURE_STORAGE_CONNECTION_STRING: ${{ secrets. E2E_AZURE_STORAGE_CONNECTION_STRING }}
+        E2E_JWT_SECRET: ${{ secrets.E2E_JWT_SECRET }}
