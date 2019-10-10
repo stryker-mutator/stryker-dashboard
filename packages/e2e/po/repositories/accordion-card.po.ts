@@ -1,4 +1,4 @@
-import { PageObject } from './page-object';
+import { PageObject } from '../shared/page-object';
 import { promise } from 'protractor';
 
 export class AccordionCardPageObject extends PageObject {

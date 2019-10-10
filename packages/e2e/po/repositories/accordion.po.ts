@@ -1,4 +1,4 @@
-import { PageObject } from './page-object';
+import { PageObject } from '../shared/page-object';
 import { ElementFinder } from 'protractor';
 import { AccordionCardPageObject } from './accordion-card.po';
 

@@ -1,4 +1,4 @@
-import { Homepage } from '../po/homepage.po';
+import { Homepage } from '../po/home/homepage.po';
 import { expect } from 'chai';
 
 describe('Homepage', () => {

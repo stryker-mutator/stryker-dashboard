@@ -1,4 +1,4 @@
-import { RepositoriesPage } from '../po/respositories-page.po';
+import { RepositoriesPage } from '../po/repositories/respositories-page.po';
 import { logOn, logOff } from '../actions/logon.action';
 import { expect } from 'chai';
 
