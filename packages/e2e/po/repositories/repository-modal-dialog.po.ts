@@ -4,6 +4,10 @@ import { AccordionPageObject } from './accordion.po';
 
 export class RepositoryModalDialogPageObject extends PageObject {
 
+  private get closeButton() {
+    return this.host.$('button.close');
+  }
+
   public title(): promise.Promise<string> {
     return this.host.$('h2').getText();
   }
@@ -19,6 +23,10 @@ export class RepositoryModalDialogPageObject extends PageObject {
     } else {
       return isPresent;
     }
+  }
+
+  public close(): promise.Promise<void> {
+    return this.closeButton.click();
   }
 
   public apiKey(): promise.Promise<string> {

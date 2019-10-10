@@ -1,5 +1,5 @@
 import { RepositoriesPage } from '../po/repositories/respositories-page.po';
-import { logOn, logOff } from '../actions/logon.action';
+import { logOn, logOff } from '../actions/auth.action';
 import { expect } from 'chai';
 
 // Example: 0527de29-6436-4564-9c5f-34f417ec68c0
@@ -19,8 +19,7 @@ describe('Repositories page', () => {
   });
 
   it('should list all my repos', async () => {
-    const repos = await page.repositoryList.all();
-    const repoNames = await Promise.all(repos.map(repo => repo.name()));
+    const repoNames = await page.repositoryList.allRepositoryNames();
     expect(repoNames).deep.eq([
       'github.com/strykermutator-test-account/hello-test',
       'github.com/strykermutator-test-account/hello-world'
@@ -37,10 +36,42 @@ describe('Repositories page', () => {
     expect(await page.modalDialog.isVisible()).false;
   });
 
-  describe('when I enable a first repository', () => {
+  describe('owner selector', () => {
+    it('should show the username and organization', async () => {
+      expect(await page.ownerSelector.optionValues()).deep.eq([
+        'strykermutator-test-account',
+        'stryker-mutator-test-organization'
+      ]);
+    });
+
+    describe('when selecting an organization', () => {
+      before(async () => {
+        await page.ownerSelector.select('stryker-mutator-test-organization');
+      });
+
+      after(async () => {
+        await page.ownerSelector.select('strykermutator-test-account');
+      });
+
+      it('should show the repo\'s belonging to that organization', async () => {
+        const repoNames = await page.repositoryList.allRepositoryNames();
+        expect(repoNames).deep.eq([
+          'github.com/stryker-mutator-test-organization/hello-org'
+        ]);
+      });
+    });
+  });
+
+  describe('when enabling a repository', () => {
     before(async () => {
       const repos = await page.repositoryList.all();
       await repos[0].flipSwitch();
+    });
+
+    after(async () => {
+      if (await page.modalDialog.isVisible()) {
+        await page.modalDialog.close();
+      }
     });
 
     it('should show the modal dialog', async () => {
