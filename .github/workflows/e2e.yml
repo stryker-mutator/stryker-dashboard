@@ -58,8 +58,18 @@ jobs:
         node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api $(node -p "require('./packages/badge-api/package.json').version")
   run-e2e-tests:
     name: Run e2e tests
+    needs: build-and-deploy
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js 10
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10
+    - name: Install dependencies
+      run: npm ci
+    - name: Build
+      run: npx tsc -b
     - name: Run e2e tests
       run: |
         cd packages/e2e
