@@ -1,10 +1,16 @@
-on: [push]
+on: 
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - 'docs/**'
+      - '**/README.md'
 
 name: e2e
 
 jobs:
   build-and-deploy:
-    name: Build
+    name: Build and Deploy to Acceptance
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -50,7 +56,10 @@ jobs:
       run: |
         node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version $NPM_PACKAGE_VERSION
         node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api $(node -p "require('./packages/badge-api/package.json').version")
-
+  run-e2e-tests:
+    name: Run e2e tests
+    runs-on: ubuntu-latest
+    steps:
     - name: Run e2e tests
       run: |
         cd packages/e2e
