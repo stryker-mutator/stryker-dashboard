@@ -60,3 +60,4 @@ jobs:
         E2E_AZURE_STORAGE_CONNECTION_STRING: ${{ secrets. E2E_AZURE_STORAGE_CONNECTION_STRING }}
         E2E_JWT_SECRET: ${{ secrets.E2E_JWT_SECRET }}
         E2E_ACCESS_TOKEN: ${{ secrets.E2E_ACCESS_TOKEN }}
+        E2E_BADGE_API_BASE_URL: https://stryker-mutator-badge-api-acceptance.azurewebsites.net

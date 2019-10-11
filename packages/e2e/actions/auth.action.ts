@@ -1,14 +1,7 @@
 import { browser } from 'protractor';
 import jwt = require('jsonwebtoken');
+import { getEnvVariable } from './helpers.action';
 
-function getEnvVariable(variableName: string): string {
-  const value = process.env[variableName];
-  if (value) {
-    return value;
-  } else {
-    throw new Error(`Missing ${variableName} env variable. Cannot simulate login.`);
-  }
-}
 function getJwtSecret() {
   return getEnvVariable('E2E_JWT_SECRET');
 }
