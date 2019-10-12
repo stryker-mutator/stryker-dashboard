@@ -8,29 +8,36 @@ jobs:
     name: Build and Release
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 10
-    - name: Set NPM Env
-      run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-    - name: Install dependencies
-      run: npm ci
-    - name: Build
-      run: npm run build
-    - name: Lerna publish canary version
-      run: | 
-        npx lerna publish --dist-tag canary --canary --no-push --yes --no-git-tag-version prerelease
-        node tasks/set-npm-canary-version.js
-    - name: Docker build & Push
-      run: |
-        echo "Docker build $NPM_PACKAGE_VERSION"
-        cd docker
-        docker build -t strykermutator/dashboard:${{ github.sha }}  --build-arg version=${NPM_PACKAGE_VERSION} .
-        docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
-        docker push strykermutator/dashboard:${{ github.sha }} 
+    # - uses: actions/checkout@v1
+    # - uses: actions/setup-node@v1
+    #   with:
+    #     node-version: 10
+    # - name: Set NPM Env
+    #   run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+    # - name: Install dependencies
+    #   run: npm ci
+    # - name: Build
+    #   run: npm run build
+    # - name: Lerna publish canary version
+    #   run: | 
+    #     npx lerna publish --dist-tag canary --canary --no-push --yes --no-git-tag-version prerelease
+    #     node tasks/set-npm-canary-version.js
+    # - name: Docker build & Push
+    #   run: |
+    #     echo "Docker build $NPM_PACKAGE_VERSION"
+    #     cd docker
+    #     docker build -t strykermutator/dashboard:${{ github.sha }}  --build-arg version=${NPM_PACKAGE_VERSION} .
+    #     docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
+    #     docker push strykermutator/dashboard:${{ github.sha }} 
+    # - name: Write version number
+    #   run: echo $NPM_PACKAGE_VERSION > version.txt
+    # - name: 'Upload artifact: version'
+    #   uses: actions/upload-artifact@v1
+    #   with: 
+    #     name: version
+    #     path: version.txt
     - name: Write version number
-      run: echo $NPM_PACKAGE_VERSION > version.txt
+      run: echo 0.1.15-alpha.57 > version.txt
     - name: 'Upload artifact: version'
       uses: actions/upload-artifact@v1
       with: 
@@ -50,8 +57,8 @@ jobs:
         name: version
     - name: Download & install badge-api package
       run: 
-        wget $(npm view @stryker-mutator/dashboard-badge-api@$(cat version.txt) dist.tarball)
-        tar -xzf dashboard-badge-api-$(cat version.txt).tgz
+        wget $(npm view @stryker-mutator/dashboard-badge-api@$(cat version/version.txt) dist.tarball)
+        tar -xzf dashboard-badge-api-$(cat version/version.txt).tgz
         cd package
         npm install --production
     - uses: azure/actions/login@v1
@@ -73,8 +80,8 @@ jobs:
     - name: 'Verify deployment'
       run: |
         node tasks/set-npm-canary-version.js
-        node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version $(cat version.txt)
-        node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api $(cat version.txt)
+        node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version $(cat version/version.txt)
+        node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api $(cat version/version.txt)
   run-e2e-tests:
     name: Run e2e tests
     needs: deploy
