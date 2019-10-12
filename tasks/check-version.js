@@ -23,7 +23,7 @@ if (url && expectedVersion && type === 'dashboard' || type === 'badge-api') {
   process.exitCode = 1;
 }
 
-function tryCheckVersion(attemptsLeft = 5) {
+function tryCheckVersion(attemptsLeft = 20) {
   httpClient()(url, res => {
     checkResponse(res).catch(err => {
       if (attemptsLeft === 0) {
