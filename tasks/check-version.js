@@ -41,12 +41,20 @@ async function checkResponse(resp) {
   if (type === 'dashboard') {
     await verifyDashboardVersion(resp);
   } else {
-    const actual = resp.headers['x-badge-api-version'];
-    if(actual !== expectedVersion) {
-      throw new Error(`Expected ${actual} to equal ${expectedVersion}`);
-    }
+    verifyBadgeApiVersion(resp);
   }
   console.log(`✅  ${expectedVersion} installed at ${url} ^-^`)
+}
+
+function verifyBadgeApiVersion(resp) {
+  const actual = trimGitShaPostFix(resp.headers['x-badge-api-version']);
+  if (actual !== expectedVersion) {
+    throw new Error(`Expected ${actual} to equal ${expectedVersion}`);
+  }
+}
+
+function trimGitShaPostFix(rawVersion){
+  return rawVersion.split('+')[0];
 }
 
 function verifyDashboardVersion(resp) {
@@ -60,7 +68,7 @@ function verifyDashboardVersion(resp) {
         frontend: expectedVersion
       };
       try {
-        if(actual.dashboard !== expected.dashboard || actual.frontend !== expected.frontend) {
+        if (actual.dashboard !== expected.dashboard || actual.frontend !== expected.frontend) {
           throw new Error(`Expected ${JSON.stringify(actual)} to equal ${JSON.stringify(expected)}`);
         }
         res();
