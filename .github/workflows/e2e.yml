@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Set NPM Env
-      run: echo "//registry.npmjs.org/:_authToken=${{ secretsd.NPM_TOKEN }}" > ~/.npmrc
+      run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
     - name: Use Node.js 10
       uses: actions/setup-node@v1
       with:
