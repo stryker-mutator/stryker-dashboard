@@ -80,7 +80,6 @@ jobs:
 
     - name: 'Verify deployment'
       run: |
-        node tasks/set-npm-canary-version.js
         node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version $(cat version/version.txt)
         node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api $(cat version/version.txt)
   run-e2e-tests:
