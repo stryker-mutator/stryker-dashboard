@@ -2,10 +2,6 @@ on: ['push']
 
 name: e2e
 
-strategy:
-  matrix:
-    node: [10]
-
 jobs:
 
   build-and-release:
@@ -13,12 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 10
     - name: Set NPM Env
       run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-    - name: Use Node.js ${{ matrix.node }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node }}
     - name: Install dependencies
       run: npm ci
     - name: Build
@@ -40,10 +35,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node }}
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node }}
+        node-version: 10
     - name: Download & install badge-api package
       run: 
         node tasks/set-npm-canary-version.js
@@ -78,10 +72,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node }}
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node }}
+        node-version: 10
     - name: Install dependencies
       run: npm ci
     - name: Build
