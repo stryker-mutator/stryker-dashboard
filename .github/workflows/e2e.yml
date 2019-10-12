@@ -8,36 +8,29 @@ jobs:
     name: Build and Release
     runs-on: ubuntu-latest
     steps:
-    # - uses: actions/checkout@v1
-    # - uses: actions/setup-node@v1
-    #   with:
-    #     node-version: 10
-    # - name: Set NPM Env
-    #   run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-    # - name: Install dependencies
-    #   run: npm ci
-    # - name: Build
-    #   run: npm run build
-    # - name: Lerna publish canary version
-    #   run: | 
-    #     npx lerna publish --dist-tag canary --canary --no-push --yes --no-git-tag-version prerelease
-    #     node tasks/set-npm-canary-version.js
-    # - name: Docker build & Push
-    #   run: |
-    #     echo "Docker build $NPM_PACKAGE_VERSION"
-    #     cd docker
-    #     docker build -t strykermutator/dashboard:${{ github.sha }}  --build-arg version=${NPM_PACKAGE_VERSION} .
-    #     docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
-    #     docker push strykermutator/dashboard:${{ github.sha }} 
-    # - name: Write version number
-    #   run: echo $NPM_PACKAGE_VERSION > version.txt
-    # - name: 'Upload artifact: version'
-    #   uses: actions/upload-artifact@v1
-    #   with: 
-    #     name: version
-    #     path: version.txt
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 10
+    - name: Set NPM Env
+      run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+    - name: Install dependencies
+      run: npm ci
+    - name: Build
+      run: npm run build
+    - name: Lerna publish canary version
+      run: | 
+        npx lerna publish --dist-tag canary --canary --no-push --yes --no-git-tag-version prerelease
+        node tasks/set-npm-canary-version.js
+    - name: Docker build & Push
+      run: |
+        echo "Docker build $NPM_PACKAGE_VERSION"
+        cd docker
+        docker build -t strykermutator/dashboard:${{ github.sha }}  --build-arg version=${NPM_PACKAGE_VERSION} .
+        docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
+        docker push strykermutator/dashboard:${{ github.sha }} 
     - name: Write version number
-      run: echo 0.1.15-alpha.57 > version.txt
+      run: echo $NPM_PACKAGE_VERSION > version.txt
     - name: 'Upload artifact: version'
       uses: actions/upload-artifact@v1
       with: 
