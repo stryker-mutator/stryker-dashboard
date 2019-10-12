@@ -4,8 +4,6 @@
  */
 
 const path = require('path');
-const { expect, config } = require('chai');
-config.truncateThreshold = 0;
 
 function httpClient() {
   if (url.startsWith('https://')) {
@@ -43,7 +41,10 @@ async function checkResponse(resp) {
   if (type === 'dashboard') {
     await verifyDashboardVersion(resp);
   } else {
-    expect(resp.headers['x-badge-api-version'], 'Validating x-badge-api-version').eq(expectedVersion);
+    const actual = resp.headers['x-badge-api-version'];
+    if(actual !== expectedVersion) {
+      throw new Error(`Expected ${actual} to equal ${expectedVersion}`);
+    }
   }
   console.log(`✅  ${expectedVersion} installed at ${url} ^-^`)
 }
@@ -53,12 +54,15 @@ function verifyDashboardVersion(resp) {
     let data = '';
     resp.on('data', chunk => data += chunk);
     resp.on('end', () => {
-      const versionInfo = JSON.parse(data);
+      const actual = JSON.parse(data);
+      const expected = {
+        dashboard: expectedVersion,
+        frontend: expectedVersion
+      };
       try {
-        expect(versionInfo).deep.eq({
-          dashboard: expectedVersion,
-          frontend: expectedVersion
-        });
+        if(actual.dashboard !== expected.dashboard || actual.frontend !== expected.frontend) {
+          throw new Error(`Expected ${JSON.stringify(actual)} to equal ${JSON.stringify(expected)}`);
+        }
         res();
       } catch (err) {
         rej(err);
