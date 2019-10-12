@@ -48,15 +48,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
-    - name: 'Run npm'
+    - name: 'Build function app'
       shell: bash
       run: |
-        # If your function app project is not located in your repository's root
-        # Please change your directory for npm in pushd
-        pushd .
         npm ci
         npm run build
-        popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
       id: fa
