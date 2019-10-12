@@ -1,8 +1,10 @@
 {
-  "name": "badge-api",
-  "description": "",
+  "name": "@stryker-mutator/dashboard-badge-api",
+  "description": "The stryker dashboard badge-api serverless app",
   "version": "0.1.14",
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "prestart": "func extensions install",
     "start:host": "func start",

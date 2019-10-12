@@ -1,0 +1,7 @@
+**/*
+!/badge/function.json
+!/dist/badge/**/*.js
+!README.md
+!host.json
+!proxies.json
+!bin
