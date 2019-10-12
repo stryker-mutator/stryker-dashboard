@@ -55,7 +55,7 @@ jobs:
       run: |
         npx rimraf packages/badge-api/node_modules
         npx lerna bootstrap -- --production     
-     - name: 'Deploy stryker-dashboard-acceptance.azurewebsites.net'
+    - name: 'Deploy stryker-dashboard-acceptance.azurewebsites.net'
       uses: azure/webapps-container-deploy@v1
       with:
         app-name: 'stryker-dashboard-acceptance'
