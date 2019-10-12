@@ -54,6 +54,7 @@ jobs:
     - name: Prune azure function
       run: |
         npx rimraf packages/badge-api/node_modules
+        npx rimraf packages/data-access/node_modules
         npx lerna bootstrap -- --production     
     - name: 'Deploy stryker-dashboard-acceptance.azurewebsites.net'
       uses: azure/webapps-container-deploy@v1
