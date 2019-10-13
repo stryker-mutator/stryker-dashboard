@@ -34,7 +34,7 @@ function determineRef() {
   // Ref will be in the form "refs/pull/:prNumber/merge" or "refs/heads/feat/branch-1"
   const [, type, ...name] = rawRef.split('/');
   if (type === 'pull') {
-    return `PR-${name[0]}`
+    return `pr-${name[0]}`
   } else {
     return name.join('/');
   }
