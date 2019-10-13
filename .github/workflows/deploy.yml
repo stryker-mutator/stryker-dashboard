@@ -71,6 +71,6 @@ jobs:
       id: fa
       with:
         app-name: stryker-mutator-badge-api
-        package: 'packages/badge-api'
+        package: 'package'
     - name: 'Verify deployment'
       run: node tasks/check-version badge-api https://badge-api.stryker-mutator.io/api/ ${GITHUB_REF:11}
