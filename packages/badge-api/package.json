@@ -1,7 +1,7 @@
 {
   "name": "@stryker-mutator/dashboard-badge-api",
   "description": "The stryker dashboard badge-api serverless app",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "publishConfig": {
     "access": "public"
   },
@@ -12,7 +12,7 @@
     "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"dist/test/**/*.js\""
   },
   "dependencies": {
-    "@stryker-mutator/dashboard-data-access": "^0.1.17",
+    "@stryker-mutator/dashboard-data-access": "^0.1.18",
     "source-map-support": "^0.5.13",
     "ts-httpexceptions": "^4.1.0"
   },
