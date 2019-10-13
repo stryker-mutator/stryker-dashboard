@@ -1,8 +1,6 @@
-on:
-  pull_request:
-    types: [assigned, opened, synchronize, reopened]
+on: ['pull_request']
 
-    name: e2e
+name: e2e
 
 jobs:
 
@@ -20,10 +18,10 @@ jobs:
       run: npm ci
     - name: Build
       run: npm run build
+    - name: Choose version
+      run: 'node tasks/set-npm-canary-version.js'
     - name: Lerna publish canary version
-      run: | 
-        node tasks/set-npm-canary-version.js
-        npx lerna publish --dist-tag canary --no-push --yes --no-git-tag-version ${NPM_PACKAGE_VERSION}
+      run: 'npx lerna publish --dist-tag canary --no-push --yes --no-git-tag-version ${NPM_PACKAGE_VERSION}'
     - name: Docker build & Push
       run: |
         echo "Docker build $NPM_PACKAGE_VERSION"
