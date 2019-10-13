@@ -1,0 +1,39 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "E2E tests (acceptance)",
+      "program": "${workspaceFolder}/../../node_modules/protractor/bin/protractor",
+      "cwd": "${workspaceFolder}",
+      "args": [
+        "${workspaceFolder}/dist/protractor.conf.js"
+      ],
+      "envFile": "${workspaceFolder}/acc.env",
+      "internalConsoleOptions": "openOnSessionStart"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "E2E tests (local)",
+      "program": "${workspaceFolder}/../../node_modules/protractor/bin/protractor",
+      "cwd": "${workspaceFolder}",
+      "args": [
+        "${workspaceFolder}/dist/protractor.conf.js",
+        "--baseUrl",
+        "http://localhost:4200",
+      ],
+      "envFile": "${workspaceFolder}/local.env",
+      "env": {
+        "E2E_AZURE_STORAGE_CONNECTION_STRING": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;;",
+        "E2E_JWT_SECRET": "123",
+        "E2E_BADGE_API_BASE_URL": "http://localhost:7071"
+      },
+      "internalConsoleOptions": "openOnSessionStart"
+    }
+  ]
+}

@@ -1,6 +1,9 @@
 import { Context, AzureFunction } from '@azure/functions';
 import { ShieldMapper } from './ShieldMapper';
 import { determineRepoSlugAndVersion, InvalidSlugError } from '@stryker-mutator/dashboard-data-access';
+const headers = {
+  ['X-Badge-Api-Version']: require('../../package.json').version
+};
 
 export function handler(mapper: ShieldMapper): AzureFunction {
   return async (context: Context): Promise<void> => {
@@ -12,6 +15,7 @@ export function handler(mapper: ShieldMapper): AzureFunction {
       const { repositorySlug, version } = determineRepoSlugAndVersion(slug);
 
       context.res = {
+        headers,
         body: await mapper.shieldFor(repositorySlug, version, moduleName)
       };
     } catch (error) {
@@ -19,12 +23,14 @@ export function handler(mapper: ShieldMapper): AzureFunction {
         context.log.info('Handling invalid request: ', error);
         context.res = {
           status: 400,
+          headers,
           body: error.message
         };
       } else {
         context.log.error('Internal server error', error);
         context.res = {
           status: 500,
+          headers,
           body: 'Internal server error.'
         };
       }

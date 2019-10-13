@@ -6,6 +6,8 @@ import { Color, Shield } from '../../badge/Shield';
 import { expect } from 'chai';
 import { InvalidSlugError } from '@stryker-mutator/dashboard-data-access';
 
+const headers = { ['X-Badge-Api-Version']: require('../../../package.json').version };
+
 describe(handler.name, () => {
   let shieldMapperStub: sinon.SinonStubbedInstance<ShieldMapper>;
   let sut: AzureFunction;
@@ -31,7 +33,8 @@ describe(handler.name, () => {
 
     // Assert
     expect(context.res).deep.eq({
-      body: expectedShield
+      body: expectedShield,
+      headers
     });
   });
 
@@ -58,6 +61,7 @@ describe(handler.name, () => {
     await sut(context);
     expect(context.res).deep.eq({
       status: 400,
+      headers,
       body: 'Missing repositorySlug'
     });
   });
@@ -69,10 +73,11 @@ describe(handler.name, () => {
   });
 
   it('should return BadRequest when version is missing', async () => {
-    const context = createContext({ bindingData: { slug: 'foo/'} });
+    const context = createContext({ bindingData: { slug: 'foo/' } });
     await sut(context);
     expect(context.res).deep.eq({
       status: 400,
+      headers,
       body: 'Missing version for slug "foo"'
     });
   });

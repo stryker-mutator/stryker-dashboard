@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "name": "e2e",
+  "version": "0.0.0",
+  "description": "The end to end tests for the Stryker Dashboard",
+  "main": "index.js",
+  "scripts": {
+    "test": "protractor dist/protractor.conf.js"
+  },
+  "keywords": [],
+  "author": "Nico Jansen",
+  "devDependencies": {
+    "@stryker-mutator/dashboard-contract": "^0.1.14",
+    "@types/jsonwebtoken": "^8.3.4"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "azure-storage": "^2.10.3",
+    "jsonwebtoken": "^8.5.1",
+    "mutation-testing-report-schema": "^1.1.1"
+  }
+}

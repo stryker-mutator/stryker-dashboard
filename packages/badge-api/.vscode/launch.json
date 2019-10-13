@@ -16,7 +16,7 @@
       "internalConsoleOptions": "openOnSessionStart"
     },
     {
-      "name": "Attach to Node Functions",
+      "name": "Run Badge-API",
       "type": "node",
       "request": "attach",
       "port": 9229,

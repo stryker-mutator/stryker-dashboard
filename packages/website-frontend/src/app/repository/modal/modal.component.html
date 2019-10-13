@@ -11,11 +11,13 @@
       <p>Here's the api key for this repository. You can use it to tell Stryker where to report the mutation score.</p>
       <p>
         <strong>API key: </strong>
-        <span *ngIf="apiKey(); then showApiKey else loading"></span>
-        <ng-template #showApiKey>
-          <code class="font-weight-bold text-success">{{ apiKey() }}</code>
-        </ng-template>
-        <ng-template #loading>Retrieving api key...</ng-template>
+        <span data-test="api-key">
+          <span *ngIf="apiKey(); then showApiKey else loading"></span>
+          <ng-template #showApiKey>
+            <code class="font-weight-bold text-success">{{ apiKey() }}</code>
+          </ng-template>
+          <ng-template #loading>Retrieving api key...</ng-template>
+        </span>
       </p>
       <ngb-accordion #acc="ngbAccordion" activeIds="panel-about-your-api-key" closeOthers="true">
         <ngb-panel title="About your key" id="panel-about-your-api-key">

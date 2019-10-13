@@ -16,6 +16,9 @@
     },
     {
       "path": "./packages/website-contract"
+    },
+    {
+      "path": "./packages/e2e"
     }
   ]
 }
