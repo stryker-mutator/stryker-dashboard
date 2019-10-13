@@ -51,11 +51,7 @@ jobs:
       with:
         name: version
     - name: Download & install badge-api package
-      run: |
-        wget $(npm view @stryker-mutator/dashboard-badge-api@$(cat version/version.txt) dist.tarball)
-        tar -xzf dashboard-badge-api-$(cat version/version.txt).tgz
-        cd package
-        npm install --production
+      run: ./tasks/download-badge-api-package.sh $(cat version/version.txt)
     - uses: azure/actions/login@v1
       name: Azure login
       with:

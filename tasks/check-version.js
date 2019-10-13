@@ -31,7 +31,7 @@ function tryCheckVersion(attemptsLeft = 20) {
         process.exitCode = 1;
       } else {
         console.log(`Failed, ${err} trying ${attemptsLeft} more time(s)`);
-        setTimeout(() => tryCheckVersion(attemptsLeft - 1), 5000);
+        setTimeout(() => tryCheckVersion(attemptsLeft - 1), 10000);
       }
     });
   });
