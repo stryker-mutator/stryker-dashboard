@@ -1,4 +1,4 @@
-name: Publish
+name: 'Deploy to Production'
 
 on:
   release:
@@ -44,7 +44,7 @@ jobs:
     - name: 'Deploy dashboard.stryker-mutator.io'
       uses: azure/webapps-container-deploy@v1
       with:
-        app-name: 'stryker-dashboard-acceptance'
+        app-name: 'stryker-badge'
         images: 'strykermutator/dashboard:latest'
     - name: 'Verify deployment'
       run: node tasks/check-version dashboard https://dashboard.stryker-mutator.io/api/version ${GITHUB_REF:11}
