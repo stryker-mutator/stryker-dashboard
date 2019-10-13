@@ -13,9 +13,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@stryker-mutator/dashboard-contract": "^0.1.19",
-    "@stryker-mutator/dashboard-data-access": "^0.1.19",
-    "@stryker-mutator/dashboard-frontend": "^0.1.19",
+    "@stryker-mutator/dashboard-contract": "0.1.19",
+    "@stryker-mutator/dashboard-data-access": "0.1.19",
+    "@stryker-mutator/dashboard-frontend": "0.1.19",
     "@tsed/common": "^5.6.0",
     "@tsed/core": "^5.6.0",
     "@tsed/di": "^5.6.0",
