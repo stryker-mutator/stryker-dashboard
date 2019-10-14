@@ -161,10 +161,4 @@ describe(ReportPageComponent.name, () => {
       expect(alert.textContent).toEqual('A technical error occurred.');
     });
   });
-
-  describe('reportTitle', () => {
-    it('should ', () => {
-
-    });
-  });
 });

@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OwnerSelectorComponent } from './owner-selector/owner-selector.component';
 import { ShortExplanationComponent } from './short-explanation/short-explanation.component';
 import { SharedModule } from '../shared/shared.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     NgbModule,
-    SharedModule
+    SharedModule,
+    FormsModule
   ],
   exports: [
     RepositoryPageComponent
