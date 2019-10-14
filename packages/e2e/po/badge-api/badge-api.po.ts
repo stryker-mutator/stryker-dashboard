@@ -12,7 +12,7 @@ export class BadgeApiClient {
   }
 
   public badgeFor(repositorySlug: string, version: string): Promise<AxiosResponse<Shield>> {
-    return this.httpClient.get<Shield>(`/api/${repositorySlug}/${version}`);
+    return this.httpClient.get<Shield>(`/${repositorySlug}/${version}`);
   }
 }
 

@@ -3,6 +3,7 @@ import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstr
 
 import { RepositorySwitchComponent } from '../repository-switch/repository-switch.component';
 
+
 @Component({
   selector: 'stryker-repository-modal',
   templateUrl: './modal.component.html',
@@ -10,11 +11,24 @@ import { RepositorySwitchComponent } from '../repository-switch/repository-switc
 })
 export class RepositoryModalComponent {
 
+  public constructor(private modalService: NgbModal) { }
+
+  public get badgeUrl() {
+    const badgeApiUrl = `https://badge-api.stryker-mutator.io/api/${this.repoComponent.repo.slug}/master`;
+    return `https://img.shields.io/endpoint?style=${this.badgeStyle}&url=${encodeURIComponent(badgeApiUrl)}`;
+  }
+
   @ViewChild('modal', { static: false }) private modal!: ElementRef;
   private repoComponent!: RepositorySwitchComponent;
   public enabling = false;
 
-  public constructor(private modalService: NgbModal) { }
+  public badgeStyle = 'flat';
+  public badgeStyles = ['flat', 'flat-square', 'plastic', 'for-the-badge'];
+  private currentModal: NgbModalRef | undefined;
+
+  public formatExampleBadgeUrl(color: string, score: number) {
+    return `https://img.shields.io/badge/mutation%20score-${score}%25-${color}?style=${this.badgeStyle}`;
+  }
 
   public repoEnabled(repoComponent: RepositorySwitchComponent) {
     this.repoComponent = repoComponent;
@@ -41,7 +55,8 @@ export class RepositoryModalComponent {
 
   private open(): NgbModalRef {
     const modalOptions: NgbModalOptions = { size: 'lg' };
-    return this.modalService.open(this.modal, modalOptions);
+    this.currentModal = this.modalService.open(this.modal, modalOptions);
+    return this.currentModal;
   }
 
   private modalClosed() {
@@ -56,8 +71,10 @@ export class RepositoryModalComponent {
     return this.repoComponent.apiKey;
   }
 
-  public get badgeUrl() {
-    return 'https://badge.stryker-mutator.io/' + this.repoComponent.repo.slug + '/master';
+  public close() {
+    if (this.currentModal) {
+      this.currentModal.close();
+    }
   }
 
 }

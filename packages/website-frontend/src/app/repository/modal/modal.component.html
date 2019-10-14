@@ -39,10 +39,23 @@
             </span>
           </ng-template>
           <ng-template ngbPanelContent>
-            Behold your shiny mutation testing badge:
-            <img [src]="badgeUrl">. You can add this to your readme:
-            <br />
-            <code>[![Mutation testing badge]({{ badgeUrl }})](https://stryker-mutator.github.io)</code>
+            <div>
+              This mutation score badge is tailor made for you.
+            </div>
+            <div class="form-inline">
+              <div class="form-group">
+                <label for="styleSelector">Pick a shiny style:</label>
+                <select id="styleSelector" [(ngModel)]="badgeStyle" class="ml-2 my-1 form-control">
+                  <option *ngFor="let style of badgeStyles" [ngValue]="style">{{style}}</option>
+                </select>
+              </div>
+              <div>Examples: <img class="ml-1" [src]="formatExampleBadgeUrl('green', 82.8)"><img class="ml-1" [src]="formatExampleBadgeUrl('orange', 65.1)"><img class="ml-1" [src]="formatExampleBadgeUrl('red', 45.6)"></div>
+              <div>
+               When you're ready, add this to your readme:
+                <br />
+                <code>[![Mutation testing badge]({{ badgeUrl }})](https://stryker-mutator.github.io)</code>
+              </div>
+            </div>
           </ng-template>
         </ngb-panel>
         <ngb-panel title="Usage">
