@@ -43,7 +43,7 @@ export default class ReportsController {
     this.verifyRequiredPutReportProperties(reportData);
     const report = {
       ...reportData,
-      repositorySlug: projectName,
+      projectName,
       version,
       moduleName
     };
