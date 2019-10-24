@@ -4,4 +4,4 @@ export { default as MutationTestingReport } from './models/MutationTestingReport
 export * from './mappers/contexts';
 export { Mapper } from './mappers/Mapper';
 export * from './InvalidSlugError';
-export { determineRepoSlugAndVersion } from './utils';
+export { determineProjectAndVersion } from './utils';

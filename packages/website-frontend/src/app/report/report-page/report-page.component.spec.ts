@@ -21,7 +21,7 @@ function createReport(overrides?: Partial<Report>): Report {
   return {
     moduleName: 'core',
     mutationScore: 42,
-    repositorySlug: 'github/stryker-mutator/stryker',
+    projectName: 'github/stryker-mutator/stryker',
     version: '1',
     result: {
       files: {},

@@ -1,6 +1,6 @@
 import { Context, AzureFunction } from '@azure/functions';
 import { ShieldMapper } from './ShieldMapper';
-import { determineRepoSlugAndVersion, InvalidSlugError } from '@stryker-mutator/dashboard-data-access';
+import { determineProjectAndVersion, InvalidSlugError } from '@stryker-mutator/dashboard-data-access';
 const headers = {
   ['X-Badge-Api-Version']: require('../../package.json').version
 };
@@ -12,11 +12,11 @@ export function handler(mapper: ShieldMapper): AzureFunction {
       module: moduleName
     } = context.bindingData;
     try {
-      const { repositorySlug, version } = determineRepoSlugAndVersion(slug);
+      const { projectName, version } = determineProjectAndVersion(slug);
 
       context.res = {
         headers,
-        body: await mapper.shieldFor(repositorySlug, version, moduleName)
+        body: await mapper.shieldFor(projectName, version, moduleName)
       };
     } catch (error) {
       if (error instanceof InvalidSlugError) {

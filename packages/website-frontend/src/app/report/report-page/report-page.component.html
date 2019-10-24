@@ -4,7 +4,7 @@
     </mutation-test-report-app>
     <ng-template #textReport>
       <h1 class="display-4">{{reportTitle}}</h1>
-      <div class="alert alert-warning">No html report stored for {{report.repositorySlug}}/{{report.version}}{{report.moduleName ? '/' + report.moduleName : ''}}</div>
+      <div class="alert alert-warning">No html report stored for {{report.projectName}}/{{report.version}}{{report.moduleName ? '/' + report.moduleName : ''}}</div>
       Mutation score: {{report.mutationScore}}
     </ng-template>
   </div>

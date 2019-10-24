@@ -80,7 +80,7 @@ describe(ReportsController.name, () => {
         result: body.result,
         mutationScore: 100, // 0 files, so a score of 100%
         moduleName: 'core',
-        repositorySlug: 'github.com/test'
+        projectName: 'github.com/test'
       };
       expect(DataAccessStub.mutationTestingReportMapper.insertOrMergeEntity).calledWith(expectedMutationTestingReport);
     });
@@ -136,7 +136,7 @@ describe(ReportsController.name, () => {
     return {
       moduleName: 'moduleName',
       mutationScore: 89,
-      repositorySlug: 'github.com/example/org',
+      projectName: 'github.com/example/org',
       result: {
         files: {},
         schemaVersion: '1',

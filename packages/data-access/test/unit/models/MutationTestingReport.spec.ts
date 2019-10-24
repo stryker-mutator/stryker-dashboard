@@ -11,7 +11,7 @@ describe(MutationTestingReport.name, () => {
   it('should retrieve the `repositorySlug`/`version` when `createPartitionKey` is called', () => {
     expect(MutationTestingReport.createPartitionKey({
       version: 'fooVersion',
-      repositorySlug: 'barSlug'
+      projectName: 'barSlug'
     })).eq('barSlug/fooVersion');
   });
 
@@ -19,7 +19,7 @@ describe(MutationTestingReport.name, () => {
     const entity: Partial<MutationTestingReport> = {};
     MutationTestingReport.identify(entity, 'foo/partition/key', 'moduleBar');
     expect(entity.moduleName).eq('moduleBar');
-    expect(entity.repositorySlug).eq('foo/partition');
+    expect(entity.projectName).eq('foo/partition');
     expect(entity.version).eq('key');
   });
 

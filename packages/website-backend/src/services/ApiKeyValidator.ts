@@ -12,15 +12,15 @@ export class ApiKeyValidator {
     this.repositoryMapper = repositoryMapper;
   }
 
-  public async validateApiKey(apiKey: string, repositorySlug: string): Promise<void> {
-    const lastDelimiter = repositorySlug.lastIndexOf('/');
+  public async validateApiKey(apiKey: string, projectName: string): Promise<void> {
+    const lastDelimiter = projectName.lastIndexOf('/');
     const hash = generateHashValue(apiKey);
     if (lastDelimiter === -1) {
-      throw new BadRequest(`Repository "${repositorySlug}" is invalid`);
+      throw new BadRequest(`Repository "${projectName}" is invalid`);
     } else {
       const projectPromise = this.repositoryMapper.findOne({
-        owner: repositorySlug.substr(0, lastDelimiter),
-        name: repositorySlug.substr(lastDelimiter + 1)
+        owner: projectName.substr(0, lastDelimiter),
+        name: projectName.substr(lastDelimiter + 1)
       });
       const repo = await projectPromise;
       if (repo === null || repo.apiKeyHash !== hash) {

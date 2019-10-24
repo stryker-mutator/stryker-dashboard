@@ -24,7 +24,7 @@ export class MutationTestingReportBlobMapper {
       JSON.stringify(report.result), { contentSettings: { contentType: 'application/json', contentEncoding: 'utf8' } });
   }
 
-  public async findOne(identifier:  Pick<MutationTestingReport, 'repositorySlug' | 'version' | 'moduleName'>): Promise<schema.MutationTestResult | null> {
+  public async findOne(identifier:  Pick<MutationTestingReport, 'projectName' | 'version' | 'moduleName'>): Promise<schema.MutationTestResult | null> {
     const blobName = this.toBlobName(identifier);
     try {
       const result: schema.MutationTestResult = JSON.parse(await this.blobService.blobToText(MutationTestingReportBlobMapper.CONTAINER_NAME, blobName));
@@ -43,8 +43,8 @@ export class MutationTestingReportBlobMapper {
     return maybeStorageError instanceof Error && (maybeStorageError as StorageError).name === 'StorageError';
   }
 
-  private toBlobName({ repositorySlug, version, moduleName }:  Pick<MutationTestingReport, 'repositorySlug' | 'version' | 'moduleName'>) {
-    const slug = [repositorySlug, version, moduleName].filter(Boolean).join('/');
+  private toBlobName({ projectName, version, moduleName }:  Pick<MutationTestingReport, 'projectName' | 'version' | 'moduleName'>) {
+    const slug = [projectName, version, moduleName].filter(Boolean).join('/');
     return encodeKey(slug);
   }
 }

@@ -3,7 +3,7 @@ import { MutationTestingReport, Project } from '..';
 import { Mapper } from './Mapper';
 import { MutationTestingReportMapperProxy } from './MutationTestingReportMapperProxy';
 
-export interface MutationTestingReportMapper extends Mapper<MutationTestingReport, 'repositorySlug' | 'version', 'moduleName'> { }
+export interface MutationTestingReportMapper extends Mapper<MutationTestingReport, 'projectName' | 'version', 'moduleName'> { }
 
 export interface ProjectMapper extends Mapper<Project, 'owner', 'name'> { }
 
