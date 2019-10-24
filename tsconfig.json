@@ -2,9 +2,6 @@
   "files": [],
   "references": [
     {
-      "path": "./packages/badge-service"
-    },
-    {
       "path": "./packages/data-access"
     },
     {

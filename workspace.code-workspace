@@ -1,9 +1,6 @@
 {
   "folders": [
     {
-      "path": "packages/badge-service"
-    },
-    {
       "path": "packages/data-access"
     },
     {
