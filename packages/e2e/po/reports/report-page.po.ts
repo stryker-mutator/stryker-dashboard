@@ -10,6 +10,14 @@ export class ReportPage {
     return $('.alert-danger').getText();
   }
 
+  public warningMessage(): promise.Promise<string> {
+    return $('.alert-warning').getText();
+  }
+
+  public mutationScoreText(): promise.Promise<string> {
+    return $('.stryker-mutation-score').getText();
+  }
+
   public get mutationTestReportApp() {
     return new MutationTestingReportAppPageObject($('mutation-test-report-app'));
   }

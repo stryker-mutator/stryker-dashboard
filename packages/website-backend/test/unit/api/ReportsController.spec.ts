@@ -64,6 +64,31 @@ describe(ReportsController.name, () => {
       DataAccessStub.repositoryMapper.findOne.resolves(project);
     });
 
+    it('should support a score-only-report', async () => {
+      // Arrange
+      const expectedMutationScore = 81;
+      const body = createMutationTestingReport({
+        result: null,
+        mutationScore: expectedMutationScore
+      });
+
+      // Act
+      await request
+        .put('/reports/github.com/test/feat%2Fdashboard?module=core')
+        .set('X-Api-Key', apiKey)
+        .send(body);
+
+      // Assert
+      const expectedMutationTestingReport: MutationTestingReport = {
+        version: 'feat%2Fdashboard',
+        result: null,
+        mutationScore: expectedMutationScore, // 0 files, so a score of 100%
+        moduleName: 'core',
+        projectName: 'github.com/test'
+      };
+      expect(DataAccessStub.mutationTestingReportMapper.insertOrMergeEntity).calledWith(expectedMutationTestingReport);
+    });
+
     it('should update the expected report using the score from metrics', async () => {
       // Arrange
       const body = createMutationTestingReport();
