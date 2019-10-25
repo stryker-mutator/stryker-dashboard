@@ -20,7 +20,7 @@ export class ReportPageComponent extends AutoUnsubscribe implements OnInit, OnDe
   public get reportTitle() {
     const reportParts: string[] = [];
     if (this.report) {
-      reportParts.push(this.report.repositorySlug.substr(this.report.repositorySlug.lastIndexOf('/') + 1));
+      reportParts.push(this.report.projectName.substr(this.report.projectName.lastIndexOf('/') + 1));
       reportParts.push(this.report.version);
       if (this.report.moduleName) {
         reportParts.push(this.report.moduleName);

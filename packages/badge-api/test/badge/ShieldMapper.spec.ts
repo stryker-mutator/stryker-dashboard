@@ -21,11 +21,12 @@ describe(ShieldMapper.name, () => {
 
   it('should find the correct mutation testing report', async () => {
     await sut.shieldFor('fooRepoSlug', 'barVersion', 'bazModule');
-    expect(mutationTestingReportStub.findOne).calledWith({
-      repositorySlug: 'fooRepoSlug',
+    const expected: Omit<MutationTestingReport, 'result' | 'mutationScore'> = {
+      projectName: 'fooRepoSlug',
       version: 'barVersion',
       moduleName: 'bazModule'
-    });
+    };
+    expect(mutationTestingReportStub.findOne).calledWith(expected);
   });
 
   it('should map to an "unknown" shield if mutation score is not found', async () => {
@@ -73,7 +74,7 @@ describe(ShieldMapper.name, () => {
 
   function arrangeMutationScore(overrides?: Partial<MutationTestingReport>) {
     const defaults: MutationTestingReport = {
-      repositorySlug: 'foo/bar/baz',
+      projectName: 'foo/bar/baz',
       version: 'qux',
       mutationScore: 0,
       moduleName: undefined,

@@ -8,7 +8,7 @@ export function decodeKey(inputWithSemiColons: string) {
   return inputWithSemiColons.replace(/;/g, '/');
 }
 
-export function determineRepoSlugAndVersion(slug: string | undefined) {
+export function determineProjectAndVersion(slug: string | undefined): { projectName: string; version: string; } {
   if (slug) {
     while (slug.endsWith('/')) {
       slug = slug.substr(0, slug.length - 1);
@@ -21,7 +21,7 @@ export function determineRepoSlugAndVersion(slug: string | undefined) {
       throw new InvalidSlugError(`Missing version for slug "${slug}"`);
     } else {
       return {
-        repositorySlug: slug.substr(0, split),
+        projectName: slug.substr(0, split),
         version: slug.substr(split + 1)
       };
     }

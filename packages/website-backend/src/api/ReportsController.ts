@@ -1,6 +1,6 @@
 import { Controller, Get, Put, BodyParams, QueryParams, HeaderParams, Req } from '@tsed/common';
 import { BadRequest, NotFound, Unauthorized, InternalServerError } from 'ts-httpexceptions';
-import { MutationTestingReportMapper, MutationTestingReport, determineRepoSlugAndVersion, InvalidSlugError } from '@stryker-mutator/dashboard-data-access';
+import { MutationTestingReportMapper, MutationTestingReport, determineProjectAndVersion, InvalidSlugError } from '@stryker-mutator/dashboard-data-access';
 import DataAccess from '../services/DataAccess';
 import { ReportValidator } from '../services/SchemaValidator';
 import { calculateMetrics } from 'mutation-testing-metrics';
@@ -38,19 +38,19 @@ export default class ReportsController {
       throw new Unauthorized(`Provide an "${API_KEY_HEADER}" header`);
     }
     const slug = req.path;
-    const { repositorySlug, version } = this.determineRepoSlugAndVersion(slug);
-    await this.apiKeyValidator.validateApiKey(authorizationHeader, repositorySlug);
+    const { projectName, version } = this.determineProjectAndVersion(slug);
+    await this.apiKeyValidator.validateApiKey(authorizationHeader, projectName);
     this.verifyRequiredPutReportProperties(reportData);
     const report = {
       ...reportData,
-      repositorySlug,
+      projectName,
       version,
       moduleName
     };
     try {
       await this.saveReport(report);
       return {
-        href: `${this.config.baseUrl}/reports/${repositorySlug}/${version}${moduleName ? `?module=${moduleName}` : ''}`
+        href: `${this.config.baseUrl}/reports/${projectName}/${version}${moduleName ? `?module=${moduleName}` : ''}`
       };
     } catch (err) {
       console.error('Error while trying to save report', report, err);
@@ -64,32 +64,32 @@ export default class ReportsController {
     @QueryParams('module') moduleName: string | undefined
   ): Promise<Report> {
     const slug = req.path;
-    const { repositorySlug, version } = this.determineRepoSlugAndVersion(slug);
+    const { projectName, version } = this.determineProjectAndVersion(slug);
     const result = await this.repo.findOne({
-      repositorySlug,
+      projectName,
       moduleName,
       version
     });
     if (result) {
       return ReportsController.toDto(result);
     } else {
-      throw new NotFound(`Report "${repositorySlug}/${version}" does not exist`);
+      throw new NotFound(`Report "${projectName}/${version}" does not exist`);
     }
   }
 
   public static toDto(dataObject: MutationTestingReport): Report {
     return {
       moduleName: dataObject.moduleName,
-      repositorySlug: dataObject.repositorySlug,
+      projectName: dataObject.projectName,
       result: dataObject.result || undefined,
       version: dataObject.version,
       mutationScore: dataObject.mutationScore
     };
   }
 
-  private determineRepoSlugAndVersion(slug: string) {
+  private determineProjectAndVersion(slug: string) {
     try {
-      return determineRepoSlugAndVersion(slug);
+      return determineProjectAndVersion(slug);
     } catch (error) {
       if (error instanceof InvalidSlugError) {
         throw new NotFound(`Invalid slug "${slug}"`);
@@ -105,7 +105,7 @@ export default class ReportsController {
       version: report.version,
       result: report.result || null,
       moduleName: report.moduleName,
-      repositorySlug: report.repositorySlug,
+      projectName: report.projectName,
       mutationScore
     });
   }

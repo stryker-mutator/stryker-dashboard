@@ -9,7 +9,7 @@ import { MutationTestingReportMapper } from './contexts';
 export class MutationTestingReportMapperProxy implements MutationTestingReportMapper {
 
   constructor(private readonly blobMapper = new MutationTestingReportBlobMapper(),
-              private readonly tableMapper = new TableStorageMapper<MutationTestingReport, 'repositorySlug' | 'version', 'moduleName'>(MutationTestingReport)) { }
+              private readonly tableMapper = new TableStorageMapper<MutationTestingReport, 'projectName' | 'version', 'moduleName'>(MutationTestingReport)) { }
 
   public async insertOrMergeEntity(report: MutationTestingReport): Promise<void> {
     await Promise.all([this.blobMapper.insertOrMergeEntity(report), this.tableMapper.insertOrMergeEntity(report)]);
@@ -19,7 +19,7 @@ export class MutationTestingReportMapperProxy implements MutationTestingReportMa
     await Promise.all([this.blobMapper.createStorageIfNotExists(), this.tableMapper.createStorageIfNotExists()]);
   }
 
-  public async findOne(identifier: Pick<MutationTestingReport, 'repositorySlug' | 'version' | 'moduleName'>): Promise<MutationTestingReport | null> {
+  public async findOne(identifier: Pick<MutationTestingReport, 'projectName' | 'version' | 'moduleName'>): Promise<MutationTestingReport | null> {
     const [reportEntity, reportBlob] = await Promise.all([this.tableMapper.findOne(identifier), this.blobMapper.findOne(identifier)]);
     if (reportEntity) {
       return {
@@ -31,7 +31,7 @@ export class MutationTestingReportMapperProxy implements MutationTestingReportMa
     }
   }
 
-  public async findAll(identifier: Pick<MutationTestingReport, 'repositorySlug' | 'version'>): Promise<MutationTestingReport[]> {
+  public async findAll(identifier: Pick<MutationTestingReport, 'projectName' | 'version'>): Promise<MutationTestingReport[]> {
     const reports = await this.tableMapper.findAll(identifier);
     await Promise.all(reports.map(async report => {
       report.result = await this.blobMapper.findOne(report);

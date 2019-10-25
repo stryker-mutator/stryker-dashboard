@@ -5,9 +5,9 @@ export class ShieldMapper {
   constructor(private readonly reportMapper: MutationTestingReportMapper) {
   }
 
-  public async shieldFor(repositorySlug: string, version: string, moduleName?: string): Promise<Shield> {
+  public async shieldFor(projectName: string, version: string, moduleName?: string): Promise<Shield> {
     const report = await this.reportMapper.findOne({
-      repositorySlug,
+      projectName,
       version,
       moduleName
     });

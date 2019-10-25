@@ -29,7 +29,7 @@ export class OldReportsController {
     await this.reportMapper.insertOrMergeEntity({
       mutationScore: report.mutationScore,
       version: report.branch,
-      repositorySlug: report.repositorySlug,
+      projectName: report.repositorySlug,
       result: null
     });
     return '';

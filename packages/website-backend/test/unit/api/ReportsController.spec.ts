@@ -32,7 +32,7 @@ describe(ReportsController.name, () => {
     it('should call dissect the correct repositorySlug, version and module', async () => {
       await request.get('/reports/github.com/test/name/feat%2Fdashboard?module=core');
       expect(DataAccessStub.mutationTestingReportMapper.findOne).calledWith({
-        repositorySlug: 'github.com/test/name',
+        projectName: 'github.com/test/name',
         version: 'feat%2Fdashboard',
         moduleName: 'core'
       });
@@ -80,7 +80,7 @@ describe(ReportsController.name, () => {
         result: body.result,
         mutationScore: 100, // 0 files, so a score of 100%
         moduleName: 'core',
-        repositorySlug: 'github.com/test'
+        projectName: 'github.com/test'
       };
       expect(DataAccessStub.mutationTestingReportMapper.insertOrMergeEntity).calledWith(expectedMutationTestingReport);
     });
@@ -132,17 +132,18 @@ describe(ReportsController.name, () => {
     });
   });
 
-  function createMutationTestingReport(): MutationTestingReport {
+  function createMutationTestingReport(overrides?: Partial<MutationTestingReport>): MutationTestingReport {
     return {
       moduleName: 'moduleName',
       mutationScore: 89,
-      repositorySlug: 'github.com/example/org',
+      projectName: 'github.com/example/org',
       result: {
         files: {},
         schemaVersion: '1',
         thresholds: { high: 80, low: 60 }
       },
-      version: 'master'
+      version: 'master',
+      ...overrides
     };
   }
 });
