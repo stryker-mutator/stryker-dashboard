@@ -23,4 +23,13 @@ export class MutationTestingReportAppPageObject extends PageObject {
     const percentage = await totals.findElement(by.css('tbody th')).getText();
     return Number.parseFloat(percentage);
   }
+
+  public async isVisible() {
+    const present = await this.host.isPresent();
+    if (present) {
+      return this.host.isDisplayed();
+    } else {
+      return present;
+    }
+  }
 }

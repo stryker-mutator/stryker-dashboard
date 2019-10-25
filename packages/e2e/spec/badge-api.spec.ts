@@ -7,7 +7,7 @@ describe('badge-api', () => {
 
   before(async () => {
     client = new BadgeApiClient();
-    await uploadReport('github.com/stryker-mutator-test-organization/hello-org', 'master', simpleReport());
+    await uploadReport(simpleReport('github.com/stryker-mutator-test-organization/hello-org', 'master'));
   });
 
   it('should show "unknown" if the badge doesn\'t exist', async () => {

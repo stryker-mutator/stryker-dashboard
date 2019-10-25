@@ -6,6 +6,6 @@ export interface Report {
   projectName: string;
   moduleName: string | undefined;
   version: string;
-  result: MutationTestResult | undefined;
-  mutationScore: number | undefined;
+  result?: MutationTestResult;
+  mutationScore?: number;
 }

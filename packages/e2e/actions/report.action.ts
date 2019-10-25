@@ -1,4 +1,4 @@
-import { MutationTestResult, MutantStatus } from 'mutation-testing-report-schema';
+import { MutantStatus } from 'mutation-testing-report-schema';
 import { generateAuthToken } from './auth.action';
 import { EnableRepositoryResponse, Repository, Report } from '@stryker-mutator/dashboard-contract';
 import axios from 'axios';
@@ -17,79 +17,90 @@ async function enableRepository(repositorySlug: string): Promise<string> {
   return response.data.apiKey;
 }
 
-export async function uploadReport(repositorySlug: string, version: string, result: MutationTestResult) {
-  const apiKey = await enableRepository(repositorySlug);
-  const putBody: Pick<Report, 'result'> = {
-    result
-  };
-  await httpClient.put(`/api/reports/${repositorySlug}/${version}`, putBody, {
+export async function uploadReport(result: Report) {
+  const apiKey = await enableRepository(result.projectName);
+  await httpClient.put(`/api/reports/${result.projectName}/${result.version}`, result, {
     headers: {
       ['X-Api-Key']: apiKey
     }
   });
 }
 
-export function simpleReport(): MutationTestResult {
+export function scoreOnlyReport(projectName: string, version: string, mutationScore: number): Report {
   return {
-    schemaVersion: '1.1',
-    thresholds: {
-      high: 80,
-      low: 60
-    },
-    files: {
-      'test.js': {
-        language: 'javascript',
-        source: '"use strict";\nfunction add(a, b) {\n  return a + b;\n}',
-        mutants: [
-          {
-            id: '3',
-            location: {
-              start: {
-                column: 1,
-                line: 1
+    mutationScore,
+    moduleName: undefined,
+    projectName,
+    version
+  };
+}
+
+export function simpleReport(projectName: string, version: string): Report {
+  return {
+    projectName,
+    version,
+    moduleName: undefined,
+    result: {
+      schemaVersion: '1.1',
+      thresholds: {
+        high: 80,
+        low: 60
+      },
+      files: {
+        'test.js': {
+          language: 'javascript',
+          source: '"use strict";\nfunction add(a, b) {\n  return a + b;\n}',
+          mutants: [
+            {
+              id: '3',
+              location: {
+                start: {
+                  column: 1,
+                  line: 1
+                },
+                end: {
+                  column: 13,
+                  line: 1
+                }
               },
-              end: {
-                column: 13,
-                line: 1
-              }
+              replacement: '""',
+              mutatorName: 'String Literal',
+              status: MutantStatus.Survived
             },
-            replacement: '""',
-            mutatorName: 'String Literal',
-            status: MutantStatus.Survived
-          },
-          {
-            id: '1',
-            mutatorName: 'Arithmetic Operator',
-            replacement: '-',
-            location: {
-              start: {
-                line: 3,
-                column: 12
+            {
+              id: '1',
+              mutatorName: 'Arithmetic Operator',
+              replacement: '-',
+              location: {
+                start: {
+                  line: 3,
+                  column: 12
+                },
+                end: {
+                  line: 3,
+                  column: 13
+                }
               },
-              end: {
-                line: 3,
-                column: 13
-              }
+              status: MutantStatus.Survived
             },
-            status: MutantStatus.Survived
-          },
-          {
-            id: '2',
-            mutatorName: 'Block Statement',
-            replacement: '{}',
-            location: {
-              start: {
-                line: 2,
-                column: 20
+            {
+              id: '2',
+              mutatorName: 'Block Statement',
+              replacement: '{}',
+              location: {
+                start: {
+                  line: 2,
+                  column: 20
+                },
+                end: {
+                  line: 4,
+                  column: 1
+                }
               },
-              end: {
-                line: 4,
-                column: 1
-              }
-            },
-            status: MutantStatus.Killed
-          }
-        ]
+              status: MutantStatus.Killed
+            }
+          ]
+        }
       }
     }
   };
