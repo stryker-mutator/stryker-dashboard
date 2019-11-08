@@ -87,7 +87,7 @@ describe(RepositoryModalComponent.name, () => {
 
       it('it should show the url in the readme description', () => {
         // tslint:disable-next-line: max-line-length
-        const expectedUrl = 'https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fapi%2Fgithub.com%2FfooOrg%2FbarRepo%2Fmaster';
+        const expectedUrl = 'https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FfooOrg%2FbarRepo%2Fmaster';
         expect(modal.querySelector('code').textContent)
         .toContain(expectedUrl);
       });
