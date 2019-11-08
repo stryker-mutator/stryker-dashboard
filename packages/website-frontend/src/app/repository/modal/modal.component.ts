@@ -14,7 +14,7 @@ export class RepositoryModalComponent {
   public constructor(private modalService: NgbModal) { }
 
   public get badgeUrl() {
-    const badgeApiUrl = `https://badge-api.stryker-mutator.io/api/${this.repoComponent.repo.slug}/master`;
+    const badgeApiUrl = `https://badge-api.stryker-mutator.io/${this.repoComponent.repo.slug}/master`;
     return `https://img.shields.io/endpoint?style=${this.badgeStyle}&url=${encodeURIComponent(badgeApiUrl)}`;
   }
 
