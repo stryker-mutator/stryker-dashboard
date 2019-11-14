@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@stryker-mutator/dashboard-common": "^0.2.1",
     "@stryker-mutator/dashboard-contract": "^0.2.1",
     "@stryker-mutator/dashboard-data-access": "^0.2.1",
     "@stryker-mutator/dashboard-frontend": "^0.2.1",

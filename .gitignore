@@ -12,6 +12,7 @@ lerna-debug.log
 .env.test.local
 .env.production.local
 .local.settings.json
+reports
 
 npm-debug.log*
 yarn-debug.log*

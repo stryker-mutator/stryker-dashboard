@@ -11,6 +11,9 @@
   "references": [
     {
       "path": "../data-access/src"
-    }
+    },
+    {
+      "path": "../common/src"
+    },
   ]
 }
