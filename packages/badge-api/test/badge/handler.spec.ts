@@ -62,7 +62,7 @@ describe(handler.name, () => {
     expect(context.res).deep.eq({
       status: 400,
       headers,
-      body: 'Missing repositorySlug'
+      body: 'Missing slug'
     });
   });
 
@@ -78,7 +78,7 @@ describe(handler.name, () => {
     expect(context.res).deep.eq({
       status: 400,
       headers,
-      body: 'Missing version for slug "foo"'
+      body: 'Missing version in "foo"'
     });
   });
 
