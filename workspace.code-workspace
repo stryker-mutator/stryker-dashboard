@@ -1,6 +1,9 @@
 {
   "folders": [
     {
+      "path": "packages/common"
+    },
+    {
       "path": "packages/data-access"
     },
     {
@@ -41,6 +44,10 @@
     "typescript.tsdk": "stryker-dashboard\\node_modules\\typescript\\lib",
     "cSpell.words": [
       "fdescribe"
-    ]
+    ],
+    "grunt.autoDetect": "off",
+    "gulp.autoDetect": "off",
+    "jake.autoDetect": "off",
+    "task.autoDetect": "off"
   }
 }

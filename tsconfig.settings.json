@@ -13,6 +13,7 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "declarationMap": true,
+    "declaration": true,
     "sourceMap": true,
     "strict": true,
     "target": "es2017",

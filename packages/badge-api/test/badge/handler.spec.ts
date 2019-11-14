@@ -4,7 +4,7 @@ import * as sinon from 'sinon';
 import { AzureFunction, Context } from '@azure/functions';
 import { Color, Shield } from '../../badge/Shield';
 import { expect } from 'chai';
-import { InvalidSlugError } from '@stryker-mutator/dashboard-data-access';
+import { InvalidSlugError } from '@stryker-mutator/dashboard-common';
 
 const headers = { ['X-Badge-Api-Version']: require('../../../package.json').version };
 

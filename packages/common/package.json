@@ -1,0 +1,23 @@
+{
+  "name": "@stryker-mutator/dashboard-common",
+  "version": "0.2.1",
+  "description": "This package contains common utilities to be shared between the different dashboard components.",
+  "scripts": {
+    "test": "nyc --exclude 'dist/test/**/*.js' --exclude-after-remap false --check-coverage --reporter=html --report-dir=reports/coverage --lines 100 --functions 100 --branches 100 mocha \"dist/test/helpers/**/*.js\" \"dist/test/unit/**/*.js\""
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [],
+  "author": "",
+  "main": "dist/src/index.js",
+  "license": "ISC",
+  "dependencies": {
+    "azure-storage": "^2.10.2",
+    "mutation-testing-report-schema": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/es6-promisify": "^6.0.0",
+    "@types/node": "^11.13.0"
+  }
+}
