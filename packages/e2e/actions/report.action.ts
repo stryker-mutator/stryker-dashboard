@@ -45,6 +45,7 @@ export function simpleReport(projectName: string, version: string): Report {
       high: 80,
       low: 60
     },
+    mutationScore: 33.33,
     files: {
       'test.js': {
         language: 'javascript',
