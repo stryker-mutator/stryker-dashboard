@@ -3,8 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { map, flatMap } from 'rxjs/operators';
 import { Subscription, combineLatest } from 'rxjs';
 import { ReportsService } from '../ReportsService';
-import { Report } from '@stryker-mutator/dashboard-contract';
+import { MutationScoreOnlyResult, Report, ReportIdentifier, isMutationTestResult } from '@stryker-mutator/dashboard-contract';
 import { AutoUnsubscribe } from 'src/app/utils/auto-unsubscribe';
+import { MutationTestResult } from 'mutation-testing-report-schema';
 
 @Component({
   selector: 'stryker-report',
@@ -14,23 +15,25 @@ import { AutoUnsubscribe } from 'src/app/utils/auto-unsubscribe';
 export class ReportPageComponent extends AutoUnsubscribe implements OnInit, OnDestroy {
 
   public src!: string;
-  public report: Report | undefined;
+  public id: ReportIdentifier | undefined;
+  public mutationTestResult: MutationTestResult | undefined;
+  public mutationScoreOnlyResult: MutationScoreOnlyResult | undefined;;
   public errorMessage: string | undefined;
 
   public get reportTitle() {
     const reportParts: string[] = [];
-    if (this.report) {
-      reportParts.push(this.report.projectName.substr(this.report.projectName.lastIndexOf('/') + 1));
-      reportParts.push(this.report.version);
-      if (this.report.moduleName) {
-        reportParts.push(this.report.moduleName);
+    if (this.id) {
+      reportParts.push(this.id.projectName.substr(this.id.projectName.lastIndexOf('/') + 1));
+      reportParts.push(this.id.version);
+      if (this.id.moduleName) {
+        reportParts.push(this.id.moduleName);
       }
     }
     return `${reportParts.join('/')} - Stryker Dashboard`;
   }
 
   public get doneLoading() {
-    return this.errorMessage || this.report;
+    return this.errorMessage || this.id;
   }
 
   constructor(private route: ActivatedRoute, private reportService: ReportsService) {
@@ -51,7 +54,12 @@ export class ReportPageComponent extends AutoUnsubscribe implements OnInit, OnDe
       flatMap(([slug, moduleName]) => this.reportService.get(slug, moduleName))
     ).subscribe(report => {
       if (report) {
-        this.report = report;
+        this.id = report;
+        if (isMutationTestResult(report)) {
+          this.mutationTestResult = report;
+        } else {
+          this.mutationScoreOnlyResult = report;
+        }
       } else {
         this.errorMessage = 'Report does not exist';
       }

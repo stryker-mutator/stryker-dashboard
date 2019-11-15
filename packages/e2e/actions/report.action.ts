@@ -40,67 +40,65 @@ export function simpleReport(projectName: string, version: string): Report {
     projectName,
     version,
     moduleName: undefined,
-    result: {
-      schemaVersion: '1.1',
-      thresholds: {
-        high: 80,
-        low: 60
-      },
-      files: {
-        'test.js': {
-          language: 'javascript',
-          source: '"use strict";\nfunction add(a, b) {\n  return a + b;\n}',
-          mutants: [
-            {
-              id: '3',
-              location: {
-                start: {
-                  column: 1,
-                  line: 1
-                },
-                end: {
-                  column: 13,
-                  line: 1
-                }
+    schemaVersion: '1.1',
+    thresholds: {
+      high: 80,
+      low: 60
+    },
+    files: {
+      'test.js': {
+        language: 'javascript',
+        source: '"use strict";\nfunction add(a, b) {\n  return a + b;\n}',
+        mutants: [
+          {
+            id: '3',
+            location: {
+              start: {
+                column: 1,
+                line: 1
               },
-              replacement: '""',
-              mutatorName: 'String Literal',
-              status: MutantStatus.Survived
+              end: {
+                column: 13,
+                line: 1
+              }
             },
-            {
-              id: '1',
-              mutatorName: 'Arithmetic Operator',
-              replacement: '-',
-              location: {
-                start: {
-                  line: 3,
-                  column: 12
-                },
-                end: {
-                  line: 3,
-                  column: 13
-                }
+            replacement: '""',
+            mutatorName: 'String Literal',
+            status: MutantStatus.Survived
+          },
+          {
+            id: '1',
+            mutatorName: 'Arithmetic Operator',
+            replacement: '-',
+            location: {
+              start: {
+                line: 3,
+                column: 12
               },
-              status: MutantStatus.Survived
+              end: {
+                line: 3,
+                column: 13
+              }
             },
-            {
-              id: '2',
-              mutatorName: 'Block Statement',
-              replacement: '{}',
-              location: {
-                start: {
-                  line: 2,
-                  column: 20
-                },
-                end: {
-                  line: 4,
-                  column: 1
-                }
+            status: MutantStatus.Survived
+          },
+          {
+            id: '2',
+            mutatorName: 'Block Statement',
+            replacement: '{}',
+            location: {
+              start: {
+                line: 2,
+                column: 20
               },
-              status: MutantStatus.Killed
-            }
-          ]
-        }
+              end: {
+                line: 4,
+                column: 1
+              }
+            },
+            status: MutantStatus.Killed
+          }
+        ]
       }
     }
   };

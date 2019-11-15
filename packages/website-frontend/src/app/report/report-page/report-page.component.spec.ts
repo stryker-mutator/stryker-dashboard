@@ -17,18 +17,24 @@ function createUrlSegment(overrides: Partial<UrlSegment>): UrlSegment {
   };
 }
 
-function createReport(overrides?: Partial<Report>): Report {
+function createFullReport(overrides?: Partial<Report>): Report {
   return {
     moduleName: 'core',
     mutationScore: 42,
     projectName: 'github/stryker-mutator/stryker',
     version: '1',
-    result: {
-      files: {},
-      schemaVersion: '1',
-      thresholds: { high: 80, low: 60 }
-    },
+    files: {},
+    schemaVersion: '1',
+    thresholds: { high: 80, low: 60 },
     ...overrides
+  };
+}
+function createMutationScoreOnlyReport(mutationScore = 42): Report {
+  return {
+    moduleName: 'core',
+    mutationScore,
+    projectName: 'github/stryker-mutator/stryker',
+    version: '1'
   };
 }
 
@@ -74,7 +80,7 @@ describe(ReportPageComponent.name, () => {
       // Arrange
       url$.next([createUrlSegment({ path: 'someRepo' })]);
       queryParam$.next({ module: null });
-      http.expectOne('/api/reports/someRepo').flush(createReport());
+      http.expectOne('/api/reports/someRepo').flush(createFullReport());
 
       // Act
       fixture.detectChanges();
@@ -88,7 +94,7 @@ describe(ReportPageComponent.name, () => {
 
     it('should retrieve the correct report and bind it on the correct component', async () => {
       // Arrange
-      const expectedReport = createReport();
+      const expectedReport = createFullReport();
       url$.next([
         createUrlSegment({ path: 'github' }),
         createUrlSegment({ path: 'stryker-mutator' }),
@@ -104,8 +110,8 @@ describe(ReportPageComponent.name, () => {
 
       // Assert
       const mutationTestingReportApp = element.querySelector('mutation-test-report-app') as
-        HTMLElement & { report: typeof expectedReport.result };
-      expect(mutationTestingReportApp.report).toBe(expectedReport.result);
+        HTMLElement & { report: typeof expectedReport };
+      expect(mutationTestingReportApp.report).toBe(expectedReport);
     });
 
     it('should show an error message if the report does not exist', async () => {
@@ -130,7 +136,7 @@ describe(ReportPageComponent.name, () => {
       // Arrange
       url$.next([createUrlSegment({ path: 'someRepo' })]);
       queryParam$.next({ module: null });
-      http.expectOne('/api/reports/someRepo').flush(createReport({ result: null, mutationScore: 83 }));
+      http.expectOne('/api/reports/someRepo').flush(createMutationScoreOnlyReport(83));
 
       // Act
       fixture.detectChanges();

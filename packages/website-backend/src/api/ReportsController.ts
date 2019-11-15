@@ -9,6 +9,8 @@ import Configuration from '../services/Configuration';
 import { ApiKeyValidator } from '../services/ApiKeyValidator';
 import { Request } from 'express';
 import { Report } from '@stryker-mutator/dashboard-contract';
+import { isMutationTestResult, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-contract';
+import { MutationTestResult } from '@stryker-mutator/dashboard-data-access/node_modules/mutation-testing-report-schema';
 
 interface PutReportResponse {
   href: string;
@@ -31,7 +33,7 @@ export default class ReportsController {
   @Put('/*')
   public async update(
     @Req() req: Request,
-    @BodyParams() reportData: Omit<Report, 'repositorySlug' | 'version' | 'module'>,
+    @BodyParams() result: MutationScoreOnlyResult | MutationTestResult,
     @QueryParams('module') moduleName: string | undefined,
     @HeaderParams(API_KEY_HEADER) authorizationHeader: string | undefined,
   ): Promise<PutReportResponse> {
@@ -41,20 +43,14 @@ export default class ReportsController {
     const slug = req.path;
     const { project, version } = this.parseSlug(slug);
     await this.apiKeyValidator.validateApiKey(authorizationHeader, project);
-    this.verifyRequiredPutReportProperties(reportData);
-    const report = {
-      ...reportData,
-      projectName: project,
-      version,
-      moduleName
-    };
+    this.verifyRequiredPutReportProperties(result);
     try {
-      await this.saveReport(report);
+      await this.saveReport(project, version, moduleName, result);
       return {
         href: `${this.config.baseUrl}/reports/${project}/${version}${moduleName ? `?module=${moduleName}` : ''}`
       };
     } catch (err) {
-      console.error('Error while trying to save report', report, err);
+      console.error(`Error while trying to save report ${JSON.stringify({ project, version, moduleName })}`, err);
       throw new InternalServerError('Internal server error');
     }
   }
@@ -82,9 +78,9 @@ export default class ReportsController {
     return {
       moduleName: dataObject.moduleName,
       projectName: dataObject.projectName,
-      result: dataObject.result || undefined,
       version: dataObject.version,
-      mutationScore: dataObject.mutationScore
+      mutationScore: dataObject.mutationScore,
+      ...dataObject.result
     };
   }
 
@@ -100,32 +96,32 @@ export default class ReportsController {
     }
   }
 
-  private async saveReport(report: Report) {
-    const mutationScore = this.calculateMutationScore(report);
+  private async saveReport(projectName: string, version: string, moduleName: string | undefined, result: MutationScoreOnlyResult | MutationTestResult) {
+    const mutationScore = this.calculateMutationScore(result);
     await this.repo.insertOrMergeEntity({
-      version: report.version,
-      result: report.result || null,
-      moduleName: report.moduleName,
-      projectName: report.projectName,
+      version,
+      result: isMutationTestResult(result) ? result : null,
+      moduleName,
+      projectName,
       mutationScore
     });
   }
-  private calculateMutationScore(report: Report) {
-    if (report.result) {
-      return calculateMetrics(report.result.files).metrics.mutationScore;
+  private calculateMutationScore(result: MutationScoreOnlyResult | MutationTestResult) {
+    if (isMutationTestResult(result)) {
+      return calculateMetrics(result.files).metrics.mutationScore;
     } else {
-      return report.mutationScore || 0;
+      return result.mutationScore || 0;
     }
   }
 
-  private verifyRequiredPutReportProperties(body: any) {
-    if (body.result === undefined && body.mutationScore === undefined) {
-      throw new BadRequest(`Missing required property "result" or "mutationScore"`);
-    }
-    if (body.result) {
-      const errors = this.reportValidator.findErrors(body.result);
-      if (errors) {
-        throw new BadRequest(`Property "result" not valid. ${errors}`);
+  private verifyRequiredPutReportProperties(body: MutationScoreOnlyResult | MutationTestResult) {
+    const errors = this.reportValidator.findErrors(body);
+    if (errors) {
+      const mutationScoreOnlyResult = body as MutationScoreOnlyResult;
+      if (typeof mutationScoreOnlyResult.mutationScore !== 'number' 
+        || mutationScoreOnlyResult.mutationScore < 0 
+        || mutationScoreOnlyResult.mutationScore > 100) {
+        throw new BadRequest(`Invalid report. ${errors}`);
       }
     }
   }

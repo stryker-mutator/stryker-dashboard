@@ -2,9 +2,11 @@ import ReportsController from '../../../src/api/ReportsController';
 import supertest = require('supertest');
 import testServer, { DataAccessStub } from '../../helpers/TestServer';
 import { MutationTestingReport, Project } from '@stryker-mutator/dashboard-data-access';
+import { MutationTestResult, MutantStatus } from 'mutation-testing-report-schema';
 import { expect } from 'chai';
 import { generateHashValue } from '../../../src/utils';
 import sinon = require('sinon');
+import { Report } from '@stryker-mutator/dashboard-contract';
 
 describe(ReportsController.name, () => {
   let request: supertest.SuperTest<supertest.Test>;
@@ -18,8 +20,15 @@ describe(ReportsController.name, () => {
   describe('HTTP GET /:slug', () => {
     it('should retrieve the expected report', async () => {
       // Arrange
-      const expected = createMutationTestingReport();
-      DataAccessStub.mutationTestingReportMapper.findOne.resolves(expected);
+      const report = createMutationTestingReport();
+      DataAccessStub.mutationTestingReportMapper.findOne.resolves(report);
+      const expected: Report = {
+        ...report.result!,
+        moduleName: report.moduleName,
+        projectName: report.projectName,
+        version: report.version,
+        mutationScore: report.mutationScore
+      };
 
       // Act
       const response = await request.get('/reports/github.com/test/name');
@@ -29,7 +38,7 @@ describe(ReportsController.name, () => {
       expect(response.body).deep.eq(expected);
     });
 
-    it('should call dissect the correct repositorySlug, version and module', async () => {
+    it('should call dissect the correct slug, version and module', async () => {
       await request.get('/reports/github.com/test/name/feat%2Fdashboard?module=core');
       expect(DataAccessStub.mutationTestingReportMapper.findOne).calledWith({
         projectName: 'github.com/test/name',
@@ -91,7 +100,7 @@ describe(ReportsController.name, () => {
 
     it('should update the expected report using the score from metrics', async () => {
       // Arrange
-      const body = createMutationTestingReport();
+      const body = createMutationTestResult([MutantStatus.Killed, MutantStatus.Survived]);
 
       // Act
       await request
@@ -102,8 +111,8 @@ describe(ReportsController.name, () => {
       // Assert
       const expectedMutationTestingReport: MutationTestingReport = {
         version: 'feat%2Fdashboard',
-        result: body.result,
-        mutationScore: 100, // 0 files, so a score of 100%
+        result: body,
+        mutationScore: 50, // 1 Survived, 1 Killed
         moduleName: 'core',
         projectName: 'github.com/test'
       };
@@ -115,7 +124,7 @@ describe(ReportsController.name, () => {
       const response = await request
         .put('/reports/github.com/test/feat%2Fdashboard?module=core')
         .set('X-Api-Key', apiKey)
-        .send(createMutationTestingReport());
+        .send(createMutationTestResult());
 
       // Assert
       expect(response.status).eq(200);
@@ -133,12 +142,12 @@ describe(ReportsController.name, () => {
       const response = await request
         .put('/reports/github.com/test/feat%2Fdashboard?module=core')
         .set('X-Api-Key', apiKey)
-        .send(createMutationTestingReport());
+        .send(createMutationTestResult());
 
       // Assert
       expect(response.status).eq(500);
       expect(response.text).eq('Internal server error');
-      expect(errorLog).calledWith('Error while trying to save report', sinon.match.object, expectedError);
+      expect(errorLog).calledWith('Error while trying to save report {"project":"github.com/test","version":"feat%2Fdashboard","moduleName":"core"}', expectedError);
     });
 
     it('should respond with 401 when X-Api-Key header is missing', async () => {
@@ -156,6 +165,29 @@ describe(ReportsController.name, () => {
       expect(response.error.text).include('Invalid API key');
     });
   });
+
+  function createMutationTestResult(mutantStates = [MutantStatus.Killed, MutantStatus.Killed, MutantStatus.Survived]): MutationTestResult {
+    return {
+      files: {
+        'a.js': {
+          language: 'javascript',
+          source: '+',
+          mutants: mutantStates.map((status, index) => ({
+            id: index.toString(),
+            location: { start: { line: 1, column: 1}, end: { line: 1, column: 2 }},
+            mutatorName: 'BinaryMutator',
+            replacement: '-',
+            status
+          }))
+        }
+      },
+      schemaVersion: '1',
+      thresholds: {
+        high: 80,
+        low: 70
+      }
+    };
+  }
 
   function createMutationTestingReport(overrides?: Partial<MutationTestingReport>): MutationTestingReport {
     return {

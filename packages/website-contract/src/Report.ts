@@ -1,12 +1,21 @@
 import { MutationTestResult } from 'mutation-testing-report-schema';
 
-/**
- * Represents the 'new' style of report, containing the actual result data that adheres to the mutation testing schema
- */
-export interface Report {
+export interface MutationScoreOnlyResult {
+  mutationScore: number;
+}
+
+export interface ReportIdentifier {
   projectName: string;
   moduleName: string | undefined;
   version: string;
-  result?: MutationTestResult;
-  mutationScore?: number;
+}
+
+/**
+ * Represents the report
+ */
+export type Report = (ReportIdentifier & MutationScoreOnlyResult) | (ReportIdentifier & MutationScoreOnlyResult & MutationTestResult);
+
+export function isMutationTestResult(report: MutationScoreOnlyResult | MutationTestResult)
+  : report is MutationTestResult {
+  return !!((report as MutationTestResult).files);
 }
