@@ -1,12 +1,12 @@
 <stryker-loading class="row" [showContent]="doneLoading">
-  <div class="col-md-12" *ngIf="report">
-    <mutation-test-report-app *ngIf="report.result; else textReport" [report]="report.result" [titlePostfix]="reportTitle">
+  <div class="col-md-12" *ngIf="id">
+    <mutation-test-report-app *ngIf="mutationTestResult" [report]="mutationTestResult" [titlePostfix]="reportTitle">
     </mutation-test-report-app>
-    <ng-template #textReport>
+    <div *ngIf="mutationScoreOnlyResult">
       <h1 class="display-4">{{reportTitle}}</h1>
-      <div class="alert alert-warning">No html report stored for {{report.projectName}}/{{report.version}}{{report.moduleName ? '/' + report.moduleName : ''}}</div>
-      <p class="stryker-mutation-score">Mutation score: {{report.mutationScore}}</p>
-    </ng-template>
+      <div class="alert alert-warning">No html report stored for {{id.projectName}}/{{id.version}}{{id.moduleName ? '/' + id.moduleName : ''}}</div>
+      <p class="stryker-mutation-score">Mutation score: {{mutationScoreOnlyResult.mutationScore}}</p>
+    </div>
   </div>
   <div class="col-md-12" *ngIf="errorMessage">
     <div class="alert alert-danger">{{errorMessage}}</div>

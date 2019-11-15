@@ -10,6 +10,9 @@
   },
   "references": [
     {
+      "path": "../website-contract/src"
+    },
+    {
       "path": "../data-access/src"
     }
   ]

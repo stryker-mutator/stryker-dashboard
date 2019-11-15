@@ -1,5 +1,5 @@
-export { EnableRepositoryResponse } from './EnableRepositoryResponse';
-export { Login } from './Login';
-export { Repository } from './Repository';
-export { Report } from './Report';
-export { AuthenticateResponse } from './AuthenticateResponse';
+export * from './EnableRepositoryResponse';
+export * from './Login';
+export * from './Repository';
+export * from './Report';
+export * from './AuthenticateResponse';
