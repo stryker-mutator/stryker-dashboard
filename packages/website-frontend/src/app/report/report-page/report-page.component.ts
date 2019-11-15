@@ -17,7 +17,7 @@ export class ReportPageComponent extends AutoUnsubscribe implements OnInit, OnDe
   public src!: string;
   public id: ReportIdentifier | undefined;
   public mutationTestResult: MutationTestResult | undefined;
-  public mutationScoreOnlyResult: MutationScoreOnlyResult | undefined;;
+  public mutationScoreOnlyResult: MutationScoreOnlyResult | undefined;
   public errorMessage: string | undefined;
 
   public get reportTitle() {

@@ -118,8 +118,8 @@ export default class ReportsController {
     const errors = this.reportValidator.findErrors(body);
     if (errors) {
       const mutationScoreOnlyResult = body as MutationScoreOnlyResult;
-      if (typeof mutationScoreOnlyResult.mutationScore !== 'number' 
-        || mutationScoreOnlyResult.mutationScore < 0 
+      if (typeof mutationScoreOnlyResult.mutationScore !== 'number'
+        || mutationScoreOnlyResult.mutationScore < 0
         || mutationScoreOnlyResult.mutationScore > 100) {
         throw new BadRequest(`Invalid report. ${errors}`);
       }
