@@ -1,0 +1,3 @@
+**/*
+!dist/src/**/*.+(js|d.ts)
+!README.md
