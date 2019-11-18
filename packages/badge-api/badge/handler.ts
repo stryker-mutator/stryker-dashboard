@@ -10,7 +10,10 @@ export function handler(mapper: ShieldMapper): AzureFunction {
     const {
       slug,
       module: moduleName
-    } = context.bindingData;
+    } = context.bindingData as {
+      slug: string | undefined;
+      module: string | undefined;
+    };
     try {
       const { project, version } = Slug.parse(slug);
 

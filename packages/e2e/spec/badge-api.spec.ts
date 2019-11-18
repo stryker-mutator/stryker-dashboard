@@ -17,7 +17,7 @@ describe('badge-api', () => {
       message: 'unknown',
       schemaVersion: 1
     };
-    const response = await client.badgeFor('a/b/c', 'master');
+    const response = await client.badgeFor('a/b/c/master');
     expect(response.data).deep.eq(expected);
   });
 
@@ -28,7 +28,19 @@ describe('badge-api', () => {
       message: '33.3%',
       schemaVersion: 1
     };
-    const response = await client.badgeFor('github.com/stryker-mutator-test-organization/hello-org', 'master');
+    const response = await client.badgeFor('github.com/stryker-mutator-test-organization/hello-org/master');
+    expect(response.data).deep.eq(expected);
+  });
+
+  it('should allow slashes in version name', async () => {
+    const expected: Shield = {
+      color: Color.Red,
+      label: 'Mutation score',
+      message: '33.3%',
+      schemaVersion: 1
+    };
+    await uploadReport(simpleReport('github.com/stryker-mutator-test-organization/hello-org', 'feat/test'));
+    const response = await client.badgeFor('github.com/stryker-mutator-test-organization/hello-org/feat/test');
     expect(response.data).deep.eq(expected);
   });
 });

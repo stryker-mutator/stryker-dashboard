@@ -31,7 +31,7 @@ describe(ReportsController.name, () => {
       };
 
       // Act
-      const response = await request.get('/reports/github.com/test/name');
+      const response = await request.get('/reports/github.com/owner/name/version');
 
       // Assert
       expect(response.status).eq(200);
@@ -39,24 +39,24 @@ describe(ReportsController.name, () => {
     });
 
     it('should call dissect the correct slug, version and module', async () => {
-      await request.get('/reports/github.com/test/name/feat%2Fdashboard?module=core');
+      await request.get('/reports/github.com/test/name/feat/dashboard?module=core');
       expect(DataAccessStub.mutationTestingReportMapper.findOne).calledWith({
         projectName: 'github.com/test/name',
-        version: 'feat%2Fdashboard',
+        version: 'feat/dashboard',
         moduleName: 'core'
       });
     });
 
     it('should respond with 404 if the report could not be found', async () => {
-      const response = await request.get('/reports/github.com/test/');
+      const response = await request.get('/reports/github.com/owner/name/version');
       expect(response.status).eq(404);
-      expect(response.error.text).include('Report "github.com/test" does not exist');
+      expect(response.error.text).include('Version "version" does not exist for "github.com/owner/name".');
     });
 
     it('should respond with 404 if slug is invalid', async () => {
       const response = await request.get('/reports/slugwithoutslash');
       expect(response.status).eq(404);
-      expect(response.error.text).include('Invalid slug "/slugwithoutslash"');
+      expect(response.error.text).include('Report "/slugwithoutslash" does not exist');
     });
   });
 
@@ -83,17 +83,17 @@ describe(ReportsController.name, () => {
 
       // Act
       await request
-        .put('/reports/github.com/test/feat%2Fdashboard?module=core')
+        .put('/reports/github.com/testOrg/testName/feat/dashboard?module=core')
         .set('X-Api-Key', apiKey)
         .send(body);
 
       // Assert
       const expectedMutationTestingReport: MutationTestingReport = {
-        version: 'feat%2Fdashboard',
+        version: 'feat/dashboard',
         result: null,
         mutationScore: expectedMutationScore, // 0 files, so a score of 100%
         moduleName: 'core',
-        projectName: 'github.com/test'
+        projectName: 'github.com/testOrg/testName'
       };
       expect(DataAccessStub.mutationTestingReportMapper.insertOrMergeEntity).calledWith(expectedMutationTestingReport);
     });
@@ -104,17 +104,17 @@ describe(ReportsController.name, () => {
 
       // Act
       await request
-        .put('/reports/github.com/test/feat%2Fdashboard?module=core')
+        .put('/reports/github.com/testOrg/testName/feat/dashboard?module=core')
         .set('X-Api-Key', apiKey)
         .send(body);
 
       // Assert
       const expectedMutationTestingReport: MutationTestingReport = {
-        version: 'feat%2Fdashboard',
+        version: 'feat/dashboard',
         result: body,
         mutationScore: 50, // 1 Survived, 1 Killed
         moduleName: 'core',
-        projectName: 'github.com/test'
+        projectName: 'github.com/testOrg/testName'
       };
       expect(DataAccessStub.mutationTestingReportMapper.insertOrMergeEntity).calledWith(expectedMutationTestingReport);
     });
@@ -122,14 +122,14 @@ describe(ReportsController.name, () => {
     it('should respond with the href link to the report', async () => {
       // Act
       const response = await request
-        .put('/reports/github.com/test/feat%2Fdashboard?module=core')
+        .put('/reports/github.com/testOrg/testName/feat/dashboard?module=core')
         .set('X-Api-Key', apiKey)
         .send(createMutationTestResult());
 
       // Assert
       expect(response.status).eq(200);
       expect(response.body).deep.eq({
-        href: 'base url/reports/github.com/test/feat%2Fdashboard?module=core'
+        href: 'base url/reports/github.com/testOrg/testName/feat/dashboard?module=core'
       });
     });
 
@@ -140,26 +140,26 @@ describe(ReportsController.name, () => {
 
       // Act
       const response = await request
-        .put('/reports/github.com/test/feat%2Fdashboard?module=core')
+        .put('/reports/github.com/testOrg/testName/feat/dashboard?module=core')
         .set('X-Api-Key', apiKey)
         .send(createMutationTestResult());
 
       // Assert
       expect(response.status).eq(500);
       expect(response.text).eq('Internal server error');
-      expect(errorLog).calledWith('Error while trying to save report {"project":"github.com/test","version":"feat%2Fdashboard","moduleName":"core"}', expectedError);
+      expect(errorLog).calledWith('Error while trying to save report {"project":"github.com/testOrg/testName","version":"feat/dashboard","moduleName":"core"}', expectedError);
     });
 
     it('should respond with 401 when X-Api-Key header is missing', async () => {
       const response = await request
-        .put('/reports/github.com/test/feat%2Fdashboard?module=core');
+        .put('/reports/github.com/testOrg/testName/feat/dashboard');
       expect(response.status).eq(401);
       expect(response.error.text).include('Provide an "X-Api-Key" header');
     });
 
     it('should respond with 401 when the api key doesn\'t match', async () => {
       const response = await request
-        .put('/reports/github.com/test/feat%2Fdashboard?module=core')
+        .put('/reports/github.com/testOrg/testName/feat/dashboard?module=core')
         .set('X-Api-Key', 'wrong key');
       expect(response.status).eq(401);
       expect(response.error.text).include('Invalid API key');
