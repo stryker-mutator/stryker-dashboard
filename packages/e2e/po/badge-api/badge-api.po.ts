@@ -11,8 +11,8 @@ export class BadgeApiClient {
     });
   }
 
-  public badgeFor(repositorySlug: string, version: string): Promise<AxiosResponse<Shield>> {
-    return this.httpClient.get<Shield>(`/${repositorySlug}/${version}`);
+  public badgeFor(slug: string): Promise<AxiosResponse<Shield>> {
+    return this.httpClient.get<Shield>(`/${slug}`);
   }
 }
 

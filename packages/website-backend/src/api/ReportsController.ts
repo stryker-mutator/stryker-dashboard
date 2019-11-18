@@ -70,7 +70,7 @@ export default class ReportsController {
     if (result) {
       return ReportsController.toDto(result);
     } else {
-      throw new NotFound(`Report "${project}/${version}" does not exist`);
+      throw new NotFound(`Version "${version}" does not exist for "${project}".`);
     }
   }
 
@@ -89,7 +89,7 @@ export default class ReportsController {
       return Slug.parse(slug);
     } catch (error) {
       if (error instanceof InvalidSlugError) {
-        throw new NotFound(`Invalid slug "${slug}"`);
+        throw new NotFound(`Report "${slug}" does not exist`);
       } else {
         throw error;
       }

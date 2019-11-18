@@ -43,7 +43,8 @@
     },
     "typescript.tsdk": "stryker-dashboard\\node_modules\\typescript\\lib",
     "cSpell.words": [
-      "fdescribe"
+      "fdescribe",
+      "gitlab"
     ],
     "grunt.autoDetect": "off",
     "gulp.autoDetect": "off",
