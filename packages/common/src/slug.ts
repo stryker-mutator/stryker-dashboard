@@ -20,7 +20,7 @@ export class Slug {
    * the database to see what the actual name is.
    * @param rawSlug the project name and version concatenated with a slash
    */
-  public static parse(rawSlug: string) {
+  public static parse(rawSlug: string | undefined) {
     rawSlug = sanitize(rawSlug);
     if (rawSlug) {
       const parts = rawSlug.split('/');
@@ -35,12 +35,16 @@ export class Slug {
   }
 }
 
-function sanitize(rawSlug: string) {
-  while (rawSlug.endsWith('/')) {
-    rawSlug = rawSlug.substr(0, rawSlug.length - 1);
+function sanitize(rawSlug: string | undefined) {
+  if (rawSlug === undefined) {
+    return undefined;
+  } else {
+    while (rawSlug.endsWith('/')) {
+      rawSlug = rawSlug.substr(0, rawSlug.length - 1);
+    }
+    while (rawSlug.startsWith('/')) {
+      rawSlug = rawSlug.substr(1);
+    }
+    return rawSlug;
   }
-  while (rawSlug.startsWith('/')) {
-    rawSlug = rawSlug.substr(1);
-  }
-  return rawSlug;
 }
