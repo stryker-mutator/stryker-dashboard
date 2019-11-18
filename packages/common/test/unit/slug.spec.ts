@@ -28,5 +28,11 @@ describe(Slug.name, () => {
         .throws(InvalidSlugError)
         .property('message', 'Missing slug');
     });
+
+    it('should throw an error if the slug is undefined', () => {
+      expect(() => Slug.parse(undefined))
+        .throws(InvalidSlugError)
+        .property('message', 'Missing slug');
+    });
   });
 });
