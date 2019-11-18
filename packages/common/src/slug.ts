@@ -44,4 +44,3 @@ function sanitize(rawSlug: string) {
   }
   return rawSlug;
 }
-
