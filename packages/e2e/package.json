@@ -16,6 +16,6 @@
   "dependencies": {
     "azure-storage": "^2.10.3",
     "jsonwebtoken": "^8.5.1",
-    "mutation-testing-report-schema": "^1.1.1"
+    "mutation-testing-report-schema": "^1.2.0"
   }
 }
