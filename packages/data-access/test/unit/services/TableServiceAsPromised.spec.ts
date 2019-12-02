@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { TableService, TableQuery } from 'azure-storage';
-import TableServiceAsPromised from '../../src/storage/TableServiceAsPromised';
+import TableServiceAsPromised from '../../../src/services/TableServiceAsPromised';
 import sinon = require('sinon');
 
 describe(TableServiceAsPromised.name, () => {

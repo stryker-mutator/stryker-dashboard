@@ -1,24 +1,21 @@
 import { Controller, BodyParams, Status, Post } from '@tsed/common';
 import { ApiKeyValidator } from '../services/ApiKeyValidator';
-import DataAccess from '../services/DataAccess';
-import { MutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
+import { MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
 import { BadRequest } from 'ts-httpexceptions';
+import { MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
 /**
  * Represents the 'old' style of report, containing the mutation score calculated at client side
  */
-interface ScoreReport {
+interface ScoreReport extends MutationScoreOnlyResult {
   apiKey: string;
   repositorySlug: string;
   branch: string;
-  mutationScore: number;
 }
 
 @Controller('')
 export class OldReportsController {
 
-  private readonly reportMapper: MutationTestingReportMapper;
-  constructor(private readonly apiKeyValidator: ApiKeyValidator, dataAccess: DataAccess) {
-    this.reportMapper = dataAccess.mutationTestingReportMapper;
+  constructor(private readonly apiKeyValidator: ApiKeyValidator, private readonly reportService: MutationTestingReportService) {
   }
 
   @Post('/reports')
@@ -26,12 +23,7 @@ export class OldReportsController {
   public async addNew(@BodyParams() report: ScoreReport) {
     this.verifyRequiredPostScoreReportProperties(report);
     await this.apiKeyValidator.validateApiKey(report.apiKey, report.repositorySlug);
-    await this.reportMapper.insertOrMergeEntity({
-      mutationScore: report.mutationScore,
-      version: report.branch,
-      projectName: report.repositorySlug,
-      result: null
-    });
+    await this.reportService.saveReport({ moduleName: undefined, projectName: report.repositorySlug, version: report.branch }, report);
     return '';
   }
 

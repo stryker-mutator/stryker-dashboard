@@ -1,14 +1,14 @@
 import { Service } from '@tsed/common';
-import { ProjectMapper, MutationTestingReportMapper, createMutationTestingReportMapper, createProjectMapper } from '@stryker-mutator/dashboard-data-access';
+import { ProjectMapper, createProjectMapper, MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
 
 @Service()
 export default class DataAccess {
 
   public readonly repositoryMapper: ProjectMapper;
-  public readonly mutationTestingReportMapper: MutationTestingReportMapper;
+  public readonly mutationTestingReportService: MutationTestingReportService;
 
   constructor() {
     this.repositoryMapper = createProjectMapper();
-    this.mutationTestingReportMapper = createMutationTestingReportMapper();
+    this.mutationTestingReportService = new MutationTestingReportService();
   }
 }

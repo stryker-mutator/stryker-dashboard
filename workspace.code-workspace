@@ -43,6 +43,7 @@
     },
     "typescript.tsdk": "stryker-dashboard\\node_modules\\typescript\\lib",
     "cSpell.words": [
+      "etag",
       "fdescribe",
       "gitlab"
     ],

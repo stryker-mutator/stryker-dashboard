@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { BlobService } from 'azure-storage';
-import { BlobServiceAsPromised } from '../../../src/storage/BlobServiceAsPromised';
+import { BlobServiceAsPromised } from '../../../src/services/BlobServiceAsPromised';
 import sinon = require('sinon');
 
 describe(BlobServiceAsPromised.name, () => {

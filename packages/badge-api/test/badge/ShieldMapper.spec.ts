@@ -77,9 +77,8 @@ describe(ShieldMapper.name, () => {
       projectName: 'foo/bar/baz',
       version: 'qux',
       mutationScore: 0,
-      moduleName: undefined,
-      result: null
+      moduleName: undefined
     };
-    mutationTestingReportStub.findOne.resolves({ ...defaults, ...overrides });
+    mutationTestingReportStub.findOne.resolves({ entity: { ...defaults, ...overrides }, etag: 'test' });
   }
 });

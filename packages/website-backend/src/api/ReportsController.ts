@@ -1,16 +1,13 @@
 import { Controller, Get, Put, BodyParams, QueryParams, HeaderParams, Req } from '@tsed/common';
 import { BadRequest, NotFound, Unauthorized, InternalServerError } from 'ts-httpexceptions';
-import { MutationTestingReportMapper, MutationTestingReport } from '@stryker-mutator/dashboard-data-access';
-import { Slug, InvalidSlugError } from '@stryker-mutator/dashboard-common';
-import DataAccess from '../services/DataAccess';
+import { MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
+import { Slug, InvalidSlugError, Report, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
 import { ReportValidator } from '../services/SchemaValidator';
-import { calculateMetrics } from 'mutation-testing-metrics';
 import Configuration from '../services/Configuration';
 import { ApiKeyValidator } from '../services/ApiKeyValidator';
 import { Request } from 'express';
-import { Report } from '@stryker-mutator/dashboard-contract';
-import { isMutationTestResult, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-contract';
-import { MutationTestResult } from '@stryker-mutator/dashboard-data-access/node_modules/mutation-testing-report-schema';
+import { MutationTestResult } from 'mutation-testing-report-schema';
+import DataAccess from '../services/DataAccess';
 
 interface PutReportResponse {
   href: string;
@@ -21,13 +18,12 @@ const API_KEY_HEADER = 'X-Api-Key';
 @Controller('/reports')
 export default class ReportsController {
 
-  private readonly repo: MutationTestingReportMapper;
-
+  private readonly reportService: MutationTestingReportService;
   constructor(dataAccess: DataAccess,
               private readonly reportValidator: ReportValidator,
               private readonly config: Configuration,
               private readonly apiKeyValidator: ApiKeyValidator) {
-    this.repo = dataAccess.mutationTestingReportMapper;
+    this.reportService = dataAccess.mutationTestingReportService;
   }
 
   @Put('/*')
@@ -45,7 +41,7 @@ export default class ReportsController {
     await this.apiKeyValidator.validateApiKey(authorizationHeader, project);
     this.verifyRequiredPutReportProperties(result);
     try {
-      await this.saveReport(project, version, moduleName, result);
+      await this.reportService.saveReport({ projectName: project, version, moduleName }, result);
       return {
         href: `${this.config.baseUrl}/reports/${project}/${version}${moduleName ? `?module=${moduleName}` : ''}`
       };
@@ -62,26 +58,16 @@ export default class ReportsController {
   ): Promise<Report> {
     const slug = req.path;
     const { project, version } = this.parseSlug(slug);
-    const result = await this.repo.findOne({
+    const report = await this.reportService.findOne({
       projectName: project,
       moduleName,
       version
     });
-    if (result) {
-      return ReportsController.toDto(result);
+    if (report) {
+      return report;
     } else {
       throw new NotFound(`Version "${version}" does not exist for "${project}".`);
     }
-  }
-
-  public static toDto(dataObject: MutationTestingReport): Report {
-    return {
-      moduleName: dataObject.moduleName,
-      projectName: dataObject.projectName,
-      version: dataObject.version,
-      mutationScore: dataObject.mutationScore,
-      ...dataObject.result
-    };
   }
 
   private parseSlug(slug: string) {
@@ -93,24 +79,6 @@ export default class ReportsController {
       } else {
         throw error;
       }
-    }
-  }
-
-  private async saveReport(projectName: string, version: string, moduleName: string | undefined, result: MutationScoreOnlyResult | MutationTestResult) {
-    const mutationScore = this.calculateMutationScore(result);
-    await this.repo.insertOrMergeEntity({
-      version,
-      result: isMutationTestResult(result) ? result : null,
-      moduleName,
-      projectName,
-      mutationScore
-    });
-  }
-  private calculateMutationScore(result: MutationScoreOnlyResult | MutationTestResult) {
-    if (isMutationTestResult(result)) {
-      return calculateMetrics(result.files).metrics.mutationScore;
-    } else {
-      return result.mutationScore || 0;
     }
   }
 

@@ -12,7 +12,7 @@ export class ShieldMapper {
       moduleName
     });
     if (report) {
-      const score = Math.round(report.mutationScore * 10) / 10;
+      const score = Math.round(report.entity.mutationScore * 10) / 10;
       const scoreColor = determineColor(score);
       return {
         color: scoreColor,
