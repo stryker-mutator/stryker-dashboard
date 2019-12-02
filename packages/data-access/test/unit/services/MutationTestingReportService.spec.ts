@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { MutantStatus, MutationTestResult } from 'mutation-testing-report-schema';
 import sinon = require('sinon');
-import MutationTestingReport from '../../../src/models/MutationTestingReport';
+import { MutationTestingReport } from '../../../src/models';
 import { MutationTestingReportMapper } from '../../../src/';
 import { MutationTestingResultMapper } from '../../../src/mappers/MutationTestingResultMapper';
 import { MutationTestingReportService } from '../../../src/services/MutationTestingReportService';

@@ -37,10 +37,10 @@ describe('GithubRepositoryService', () => {
         githubFactory.repository({ name: 'project2', full_name: 'foobarOrg/project2' }),
         githubFactory.repository({ name: 'project3', full_name: 'foobarOrg/project3' })
       ];
-      const projectEntities: dal.Project[] = [
-        dalFactory.repository({ name: 'project1', enabled: false }),
-        dalFactory.repository({ name: 'project2', enabled: true }),
-        dalFactory.repository({ name: 'project3', enabled: false })
+      const projectEntities: dal.Result<dal.Project>[] = [
+        { entity: dalFactory.repository({ name: 'project1', enabled: false }), etag: 'etag' },
+        { entity: dalFactory.repository({ name: 'project2', enabled: true }), etag: 'etag' },
+        { entity: dalFactory.repository({ name: 'project3', enabled: false }), etag: 'etag' }
       ];
       const expectedRepos: contract.Repository[] = [
         { enabled: false, name: 'project1', origin: 'github', slug: 'github.com/foobarOrg/project1', owner: 'foobar_login' },

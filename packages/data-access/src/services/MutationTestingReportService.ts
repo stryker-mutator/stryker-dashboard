@@ -4,7 +4,7 @@ import { calculateMetrics } from 'mutation-testing-metrics';
 import { MutationTestingResultMapper } from '../mappers/MutationTestingResultMapper';
 import { MutationTestingReportMapper, createMutationTestingReportMapper } from '../mappers';
 import { MutationScoreOnlyResult, isMutationTestResult, ReportIdentifier, Report } from '@stryker-mutator/dashboard-common';
-import MutationTestingReport from '../models/MutationTestingReport';
+import { MutationTestingReport } from '../models';
 
 export class MutationTestingReportService {
 

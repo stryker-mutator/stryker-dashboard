@@ -1,5 +1,5 @@
 
-export default class Project {
+export class Project {
   public owner: string;
   public name: string;
   public enabled: boolean;

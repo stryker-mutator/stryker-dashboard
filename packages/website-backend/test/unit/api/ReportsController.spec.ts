@@ -1,7 +1,7 @@
 import ReportsController from '../../../src/api/ReportsController';
 import supertest = require('supertest');
 import testServer, { DataAccessStub } from '../../helpers/TestServer';
-import { MutationTestingReport, Project } from '@stryker-mutator/dashboard-data-access';
+import { Project } from '@stryker-mutator/dashboard-data-access';
 import { MutationTestResult, MutantStatus } from 'mutation-testing-report-schema';
 import { expect } from 'chai';
 import { generateHashValue } from '../../../src/utils';
@@ -20,15 +20,14 @@ describe(ReportsController.name, () => {
   describe('HTTP GET /:slug', () => {
     it('should retrieve the expected report', async () => {
       // Arrange
-      const report = createMutationTestingReport();
-      DataAccessStub.mutationTestingReportService.findOne.resolves(report);
       const expected: Report = {
         ...createMutationTestingResult(),
-        moduleName: report.moduleName,
-        projectName: report.projectName,
-        version: report.version,
-        mutationScore: report.mutationScore
+        moduleName: 'core',
+        projectName: 'github.com/fooOrg/fooName',
+        version: 'master',
+        mutationScore: 89
       };
+      DataAccessStub.mutationTestingReportService.findOne.resolves(expected);
 
       // Act
       const response = await request.get('/reports/github.com/owner/name/version');
@@ -70,12 +69,13 @@ describe(ReportsController.name, () => {
       project.name = 'stryker';
       project.owner = 'github.com/stryker-mutator';
       project.apiKeyHash = generateHashValue(apiKey);
-      DataAccessStub.repositoryMapper.findOne.resolves(project);
+      DataAccessStub.repositoryMapper.findOne.resolves({ entity: project, etag: 'etag' });
     });
 
     it('should save the expected report', async () => {
       // Arrange
       const body = createMutationTestResult([MutantStatus.Killed, MutantStatus.Survived]);
+      const expectedId = { projectName: 'github.com/testOrg/testName', version: 'feat/dashboard', moduleName: 'core' };
 
       // Act
       await request
@@ -84,7 +84,7 @@ describe(ReportsController.name, () => {
         .send(body);
 
       // Assert
-      expect(DataAccessStub.mutationTestingReportService.saveReport).calledWith(body);
+      expect(DataAccessStub.mutationTestingReportService.saveReport).calledWith(expectedId, body);
     });
 
     it('should respond with the href link to the report', async () => {
@@ -154,16 +154,6 @@ describe(ReportsController.name, () => {
         high: 80,
         low: 70
       }
-    };
-  }
-
-  function createMutationTestingReport(overrides?: Partial<MutationTestingReport>): MutationTestingReport {
-    return {
-      moduleName: 'moduleName',
-      mutationScore: 89,
-      projectName: 'github.com/example/org',
-      version: 'master',
-      ...overrides
     };
   }
 

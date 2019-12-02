@@ -53,13 +53,13 @@ export default class GithubRepositoryService {
 
   private async matchRepositories(
     githubReposPromise: Promise<github.Repository[]>,
-    repositoryEntitiesPromise: Promise<dal.Project[]>): Promise<contract.Repository[]> {
+    repositoryEntitiesPromise: Promise<dal.Result<dal.Project>[]>): Promise<contract.Repository[]> {
     const githubRepos = await githubReposPromise;
     const repositoryEntities = await repositoryEntitiesPromise;
     return githubRepos.map(githubRepo => {
-      const projectEntity = repositoryEntities.find(dalRepo => dalRepo.name === githubRepo.name);
+      const projectEntity = repositoryEntities.find(dalRepo => dalRepo.entity.name === githubRepo.name);
       const repository: contract.Repository = {
-        enabled: !!(projectEntity && projectEntity.enabled),
+        enabled: !!(projectEntity && projectEntity.entity.enabled),
         name: githubRepo.name,
         origin: 'github',
         owner: githubRepo.owner.login,
