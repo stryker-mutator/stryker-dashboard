@@ -12,6 +12,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stryker-mutator/stryker-dashboard",
+    "directory": "packages/website-backend"
+  },
   "dependencies": {
     "@stryker-mutator/dashboard-common": "^0.3.1",
     "@stryker-mutator/dashboard-contract": "^0.3.1",

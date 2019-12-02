@@ -5,6 +5,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stryker-mutator/stryker-dashboard",
+    "directory": "packages/badge-api"
+  },
   "scripts": {
     "prestart": "func extensions install",
     "start:host": "func start",
