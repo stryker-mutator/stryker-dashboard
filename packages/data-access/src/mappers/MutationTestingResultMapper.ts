@@ -1,6 +1,6 @@
 import { BlobServiceAsPromised } from '../services/BlobServiceAsPromised';
 import { BlobService, Constants } from 'azure-storage';
-import MutationTestingReport from '../models/MutationTestingReport';
+import { MutationTestingReport } from '../models';
 import { encodeKey, isStorageError } from '../utils';
 import * as schema from 'mutation-testing-report-schema';
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';

@@ -7,9 +7,9 @@ import { ProjectMapper } from '@stryker-mutator/dashboard-data-access';
 @Service()
 export class ApiKeyValidator {
 
-  private readonly repositoryMapper: ProjectMapper;
+  private readonly projectMapper: ProjectMapper;
   constructor({ repositoryMapper }: DataAccess) {
-    this.repositoryMapper = repositoryMapper;
+    this.projectMapper = repositoryMapper;
   }
 
   public async validateApiKey(apiKey: string, projectName: string): Promise<void> {
@@ -18,12 +18,12 @@ export class ApiKeyValidator {
     if (lastDelimiter === -1) {
       throw new BadRequest(`Repository "${projectName}" is invalid`);
     } else {
-      const projectPromise = this.repositoryMapper.findOne({
+      const projectPromise = this.projectMapper.findOne({
         owner: projectName.substr(0, lastDelimiter),
         name: projectName.substr(lastDelimiter + 1)
       });
       const repo = await projectPromise;
-      if (repo === null || repo.apiKeyHash !== hash) {
+      if (repo === null || repo.entity.apiKeyHash !== hash) {
         throw new Unauthorized('Invalid API key');
       }
     }

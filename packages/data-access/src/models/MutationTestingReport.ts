@@ -1,6 +1,6 @@
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 
-export default class MutationTestingReport implements ReportIdentifier {
+export class MutationTestingReport implements ReportIdentifier {
   /**
    * The repo slug. /:provider/:owner/:name (could also have more components in the future, for example gitlab supports this)
    * @example /github.com/stryker-mutator/mutation-testing-elements
