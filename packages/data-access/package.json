@@ -8,13 +8,20 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stryker-mutator/stryker-dashboard",
+    "directory": "packages/data-access"
+  },
   "keywords": [],
   "author": "",
   "main": "src/index.js",
   "typings": "src/index.ts",
   "license": "ISC",
   "dependencies": {
+    "@stryker-mutator/dashboard-common": "^0.3.1",
     "azure-storage": "^2.10.2",
+    "mutation-testing-metrics": "^1.2.1",
     "mutation-testing-report-schema": "^1.2.0"
   },
   "devDependencies": {

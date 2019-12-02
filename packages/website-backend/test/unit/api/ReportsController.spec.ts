@@ -6,7 +6,7 @@ import { MutationTestResult, MutantStatus } from 'mutation-testing-report-schema
 import { expect } from 'chai';
 import { generateHashValue } from '../../../src/utils';
 import sinon = require('sinon');
-import { Report } from '@stryker-mutator/dashboard-contract';
+import { Report } from '@stryker-mutator/dashboard-common';
 
 describe(ReportsController.name, () => {
   let request: supertest.SuperTest<supertest.Test>;
@@ -21,9 +21,9 @@ describe(ReportsController.name, () => {
     it('should retrieve the expected report', async () => {
       // Arrange
       const report = createMutationTestingReport();
-      DataAccessStub.mutationTestingReportMapper.findOne.resolves(report);
+      DataAccessStub.mutationTestingReportService.findOne.resolves(report);
       const expected: Report = {
-        ...report.result!,
+        ...createMutationTestingResult(),
         moduleName: report.moduleName,
         projectName: report.projectName,
         version: report.version,
@@ -40,7 +40,7 @@ describe(ReportsController.name, () => {
 
     it('should call dissect the correct slug, version and module', async () => {
       await request.get('/reports/github.com/test/name/feat/dashboard?module=core');
-      expect(DataAccessStub.mutationTestingReportMapper.findOne).calledWith({
+      expect(DataAccessStub.mutationTestingReportService.findOne).calledWith({
         projectName: 'github.com/test/name',
         version: 'feat/dashboard',
         moduleName: 'core'
@@ -73,32 +73,7 @@ describe(ReportsController.name, () => {
       DataAccessStub.repositoryMapper.findOne.resolves(project);
     });
 
-    it('should support a score-only-report', async () => {
-      // Arrange
-      const expectedMutationScore = 81;
-      const body = createMutationTestingReport({
-        result: null,
-        mutationScore: expectedMutationScore
-      });
-
-      // Act
-      await request
-        .put('/reports/github.com/testOrg/testName/feat/dashboard?module=core')
-        .set('X-Api-Key', apiKey)
-        .send(body);
-
-      // Assert
-      const expectedMutationTestingReport: MutationTestingReport = {
-        version: 'feat/dashboard',
-        result: null,
-        mutationScore: expectedMutationScore, // 0 files, so a score of 100%
-        moduleName: 'core',
-        projectName: 'github.com/testOrg/testName'
-      };
-      expect(DataAccessStub.mutationTestingReportMapper.insertOrMergeEntity).calledWith(expectedMutationTestingReport);
-    });
-
-    it('should update the expected report using the score from metrics', async () => {
+    it('should save the expected report', async () => {
       // Arrange
       const body = createMutationTestResult([MutantStatus.Killed, MutantStatus.Survived]);
 
@@ -109,14 +84,7 @@ describe(ReportsController.name, () => {
         .send(body);
 
       // Assert
-      const expectedMutationTestingReport: MutationTestingReport = {
-        version: 'feat/dashboard',
-        result: body,
-        mutationScore: 50, // 1 Survived, 1 Killed
-        moduleName: 'core',
-        projectName: 'github.com/testOrg/testName'
-      };
-      expect(DataAccessStub.mutationTestingReportMapper.insertOrMergeEntity).calledWith(expectedMutationTestingReport);
+      expect(DataAccessStub.mutationTestingReportService.saveReport).calledWith(body);
     });
 
     it('should respond with the href link to the report', async () => {
@@ -136,7 +104,7 @@ describe(ReportsController.name, () => {
     it('should respond with 500 internal server error when update rejects', async () => {
       // Arrange
       const expectedError = new Error('Connection error');
-      DataAccessStub.mutationTestingReportMapper.insertOrMergeEntity.rejects(expectedError);
+      DataAccessStub.mutationTestingReportService.saveReport.rejects(expectedError);
 
       // Act
       const response = await request
@@ -194,13 +162,16 @@ describe(ReportsController.name, () => {
       moduleName: 'moduleName',
       mutationScore: 89,
       projectName: 'github.com/example/org',
-      result: {
-        files: {},
-        schemaVersion: '1',
-        thresholds: { high: 80, low: 60 }
-      },
       version: 'master',
       ...overrides
+    };
+  }
+
+  function createMutationTestingResult(): MutationTestResult {
+    return {
+      files: {},
+      schemaVersion: '1',
+      thresholds: { high: 80, low: 60 }
     };
   }
 });

@@ -1,6 +1,7 @@
 import { MutantStatus } from 'mutation-testing-report-schema';
 import { generateAuthToken } from './auth.action';
-import { EnableRepositoryResponse, Repository, Report } from '@stryker-mutator/dashboard-contract';
+import { EnableRepositoryResponse, Repository } from '@stryker-mutator/dashboard-contract';
+import { Report } from '@stryker-mutator/dashboard-common';
 import axios from 'axios';
 import { browser } from 'protractor';
 

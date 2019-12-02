@@ -1,8 +1,9 @@
 import TableStorageMapper from '../../../src/mappers/TableStorageMapper';
-import TableServiceAsPromised, { Entity, EntityKey } from '../../../src/storage/TableServiceAsPromised';
+import TableServiceAsPromised, { Entity } from '../../../src/services/TableServiceAsPromised';
 import * as sinon from 'sinon';
 import { expect } from 'chai';
-import { TableQuery } from 'azure-storage';
+import { TableQuery, Constants } from 'azure-storage';
+import { StorageError } from '../../helpers/StorageError';
 
 describe(TableStorageMapper.name, () => {
 
@@ -21,7 +22,7 @@ describe(TableStorageMapper.name, () => {
       entity.partitionId = partitionKeyValue;
       entity.rowId = rowKeyValue;
     }
-    public static readonly persistedFields: readonly (keyof FooEntity)[] = ['bar'];
+    public static readonly persistedFields = ['bar'] as const;
     public static readonly tableName = 'FooTable';
   }
 
@@ -29,7 +30,8 @@ describe(TableStorageMapper.name, () => {
     public tableServiceAsPromisedMock: sinon.SinonStubbedInstance<TableServiceAsPromised> = {
       createTableIfNotExists: sinon.stub(),
       insertOrMergeEntity: sinon.stub(),
-      queryEntities: sinon.stub()
+      queryEntities: sinon.stub(),
+      retrieveEntity: sinon.stub()
     };
     public sut = new TableStorageMapper(FooEntity, this.tableServiceAsPromisedMock as any);
   }
@@ -66,31 +68,25 @@ describe(TableStorageMapper.name, () => {
   });
 
   describe('findOne', () => {
-    it('should query the underlying storage', async () => {
-      const expectedQuery = new TableQuery()
-        .where('PartitionKey eq ?', 'github;partKey')
-        .and('RowKey eq ?', 'rowKey');
-      helper.tableServiceAsPromisedMock.queryEntities.resolves({ entries: [] });
+    it('should retrieve the entity from storage', async () => {
+      const result = createEntity();
+      helper.tableServiceAsPromisedMock.retrieveEntity.resolves(result);
       await helper.sut.findOne({ partitionId: 'github/partKey', rowId: 'rowKey' });
-      expect(helper.tableServiceAsPromisedMock.queryEntities).calledWith('FooTable', expectedQuery);
+      expect(helper.tableServiceAsPromisedMock.retrieveEntity).calledWith('FooTable', 'github/partKey', 'rowKey');
     });
 
-    it('should return null if the result was empty', async () => {
-      helper.tableServiceAsPromisedMock.queryEntities.resolves({ entries: [] });
-      const actualProjects = await helper.sut.findOne({ partitionId: 'github/partKey', rowId: 'rowKey' });
-      expect(actualProjects).null;
+    it('should return null if it resulted in a 404', async () => {
+      const error = new StorageError(Constants.StorageErrorCodeStrings.RESOURCE_NOT_FOUND);
+      helper.tableServiceAsPromisedMock.retrieveEntity.rejects(error);
+      const actualProject = await helper.sut.findOne({ partitionId: 'github/partKey', rowId: 'rowKey' });
+      expect(actualProject).null;
     });
 
-    it('should return the first entity when select is called with a row key', async () => {
-      const results: (Entity<Pick<FooEntity, 'bar'>> & EntityKey)[] = [{
-        PartitionKey: { _: 'partKey', $: 'Edm.String' },
-        RowKey: { _: 'rowKey', $: 'Edm.String' },
-        bar: { _: 42, $: 'Edm.Int32' }
-      }];
+    it('should return the entity', async () => {
       const expected: FooEntity = { rowId: 'rowKey', partitionId: 'partKey', bar: 42 };
-      helper.tableServiceAsPromisedMock.queryEntities.resolves({ entries: results });
+      helper.tableServiceAsPromisedMock.retrieveEntity.resolves(createEntity(expected, 'etagValue'));
       const actualProjects = await helper.sut.findOne({ partitionId: 'github/partKey', rowId: 'rowKey' });
-      expect(actualProjects).deep.eq(expected);
+      expect(actualProjects).deep.eq({ entity: expected, etag: 'etagValue' });
     });
   });
 
@@ -98,28 +94,36 @@ describe(TableStorageMapper.name, () => {
     it('should query the underlying storage', async () => {
       const expectedQuery = new TableQuery().where('PartitionKey eq ?', 'github;partKey');
       helper.tableServiceAsPromisedMock.queryEntities.resolves({ entries: [] });
-      await helper.sut.findAll( { partitionId: 'github/partKey' });
+      await helper.sut.findAll({ partitionId: 'github/partKey' });
       expect(helper.tableServiceAsPromisedMock.queryEntities).calledWith('FooTable', expectedQuery);
     });
 
     it('should return the all entities', async () => {
-      const results: (Entity<Pick<FooEntity, 'bar'>> & EntityKey)[] = [{
-        PartitionKey: { _: 'partKey', $: 'Edm.String' },
-        RowKey: { _: 'rowKey', $: 'Edm.String' },
-        bar: { _: 142, $: 'Edm.Int32' }
-      }, {
-        PartitionKey: { _: 'partKey2', $: 'Edm.String' },
-        RowKey: { _: 'rowKey2', $: 'Edm.String' },
-        bar: { _: 25, $: 'Edm.Int32' }
-      }];
-      const expected: FooEntity[] = [
+      const expectedEntities: FooEntity[] = [
         { rowId: 'rowKey', partitionId: 'partKey', bar: 142 },
         { rowId: 'rowKey2', partitionId: 'partKey2', bar: 25 }
       ];
-      helper.tableServiceAsPromisedMock.queryEntities.resolves({ entries: results });
-      const actualProjects = await helper.sut.findAll( { partitionId: 'github/partKey' });
-      expect(actualProjects).deep.eq(expected);
+      helper.tableServiceAsPromisedMock.queryEntities.resolves({ entries: expectedEntities.map(entity => createEntity(entity)) });
+      const actualProjects = await helper.sut.findAll({ partitionId: 'github/partKey' });
+      expect(actualProjects).deep.eq(expectedEntities.map(entity => ({ entity, etag: 'foo-etag' })));
     });
   });
+
+  function createEntity(overrides?: Partial<FooEntity>, etag = 'foo-etag'): Entity<FooEntity, 'partitionId' | 'rowId'> {
+    const foo: FooEntity = {
+      bar: 42,
+      partitionId: 'partKey',
+      rowId: 'rowKey',
+      ...overrides
+    };
+    return {
+      PartitionKey: { _: foo.partitionId, $: 'Edm.String' },
+      RowKey: { _: foo.rowId, $: 'Edm.String' },
+      bar: { _: foo.bar, $: 'Edm.Int32' },
+      ['.metadata']: {
+        etag
+      }
+    };
+  }
 
 });

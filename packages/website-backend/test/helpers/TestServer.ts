@@ -1,6 +1,6 @@
 import { Type } from '@tsed/core';
 import { ServerLoader, IServerSettings, OverrideService, ExpressApplication, ServerSettings } from '@tsed/common';
-import { ProjectMapper, MutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
+import { ProjectMapper, MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
 import { bootstrap, inject, TestContext } from '@tsed/testing';
 import Configuration from '../../src/services/Configuration';
 import supertest from 'supertest';
@@ -29,12 +29,12 @@ class ConfigurationStub implements Configuration {
 @OverrideService(DataAccess)
 export class DataAccessStub implements DataAccess {
   public static repositoryMapper: sinon.SinonStubbedInstance<ProjectMapper>;
-  public static mutationTestingReportMapper: sinon.SinonStubbedInstance<MutationTestingReportMapper>;
+  public static mutationTestingReportService: sinon.SinonStubbedInstance<MutationTestingReportService>;
   public get repositoryMapper(): ProjectMapper {
     return DataAccessStub.repositoryMapper as any;
   }
-  public get mutationTestingReportMapper(): MutationTestingReportMapper {
-    return DataAccessStub.mutationTestingReportMapper as any;
+  public get mutationTestingReportService(): MutationTestingReportService {
+    return DataAccessStub.mutationTestingReportService as any;
   }
 }
 
@@ -71,11 +71,9 @@ beforeEach(() => {
     insertOrMergeEntity: sinon.stub(),
     findOne: sinon.stub()
   };
-  DataAccessStub.mutationTestingReportMapper = {
-    createStorageIfNotExists: sinon.stub(),
-    findAll: sinon.stub(),
-    insertOrMergeEntity: sinon.stub(),
-    findOne: sinon.stub()
+  DataAccessStub.mutationTestingReportService = {
+    saveReport: sinon.stub(),
+    findOne: sinon.stub(),
   };
   RepositoryServiceStub.getAllForOrganization = sinon.stub();
   RepositoryServiceStub.getAllForUser = sinon.stub();

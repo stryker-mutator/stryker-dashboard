@@ -5,7 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, Type } from '@angular/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ActivatedRoute, Params, UrlSegment, convertToParamMap } from '@angular/router';
 import { Subject } from 'rxjs';
-import { Report } from '@stryker-mutator/dashboard-contract';
+import { Report } from '@stryker-mutator/dashboard-common';
 
 function createUrlSegment(overrides: Partial<UrlSegment>): UrlSegment {
   return {

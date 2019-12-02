@@ -1,5 +1,6 @@
-import { MutationTestResult } from 'mutation-testing-report-schema';
-export default class MutationTestingReport {
+import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
+
+export default class MutationTestingReport implements ReportIdentifier {
   /**
    * The repo slug. /:provider/:owner/:name (could also have more components in the future, for example gitlab supports this)
    * @example /github.com/stryker-mutator/mutation-testing-elements
@@ -14,8 +15,7 @@ export default class MutationTestingReport {
    * Optional: the module
    * For example 'schema'
    */
-  public moduleName?: string;
-  public result: MutationTestResult | null;
+  public moduleName: string | undefined;
   public mutationScore: number;
 
   public static createRowKey(identifier: Pick<MutationTestingReport, 'moduleName'>) {

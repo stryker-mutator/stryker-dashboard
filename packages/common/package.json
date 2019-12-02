@@ -8,16 +8,16 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stryker-mutator/stryker-dashboard",
+    "directory": "packages/common"
+  },
   "keywords": [],
   "author": "",
   "main": "dist/src/index.js",
   "license": "ISC",
   "dependencies": {
-    "azure-storage": "^2.10.2",
     "mutation-testing-report-schema": "^1.2.0"
-  },
-  "devDependencies": {
-    "@types/es6-promisify": "^6.0.0",
-    "@types/node": "^11.13.0"
   }
 }

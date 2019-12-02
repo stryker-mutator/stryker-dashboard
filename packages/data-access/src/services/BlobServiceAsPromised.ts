@@ -1,10 +1,6 @@
 import { BlobService, createBlobService } from 'azure-storage';
 import { promisify } from 'util';
 
-export enum ErrorCodes {
-  BlobNotFound = 'BlobNotFound'
-}
-
 export class BlobServiceAsPromised {
 
   public createContainerIfNotExists: (container: string, options: BlobService.CreateContainerOptions) => Promise<BlobService.ContainerResult>;

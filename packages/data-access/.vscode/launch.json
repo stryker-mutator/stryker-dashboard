@@ -1,42 +1,49 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Unit tests",
-            "program": "${workspaceFolder}/../../node_modules/mocha/bin/_mocha",
-            "args": [
-                "-u",
-                "bdd",
-                "--timeout",
-                "999999",
-                "--colors",
-                "${workspaceFolder}/test/helpers/**/*.js",
-                "${workspaceFolder}/test/unit/**/*.js"
-            ],
-            "internalConsoleOptions": "openOnSessionStart"
-        },{
-            "type": "node",
-            "request": "launch",
-            "name": "Integration tests",
-            "program": "${workspaceFolder}/../../node_modules/mocha/bin/_mocha",
-            "args": [
-                "-u",
-                "bdd",
-                "--timeout",
-                "999999",
-                "--colors",
-                "${workspaceFolder}/test/helpers/**/*.js",
-                "${workspaceFolder}/test/integration/**/*.js"
-            ],
-            "env": {
-                "AZURE_STORAGE_CONNECTION_STRING": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;;"
-            },
-            "internalConsoleOptions": "openOnSessionStart"
-        }
-    ]
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Unit tests",
+      "program": "${workspaceFolder}/../../node_modules/mocha/bin/_mocha",
+      "args": [
+        "-u",
+        "bdd",
+        "--timeout",
+        "999999",
+        "--colors",
+        "${workspaceFolder}/test/helpers/**/*.js",
+        "${workspaceFolder}/test/unit/**/*.js"
+      ],
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Integration tests",
+      "program": "${workspaceFolder}/../../node_modules/mocha/bin/_mocha",
+      "args": [
+        "-u",
+        "bdd",
+        "--timeout",
+        "999999",
+        "--colors",
+        "${workspaceFolder}/test/helpers/**/*.js",
+        "${workspaceFolder}/test/integration/**/*.js"
+      ],
+      "env": {
+        "AZURE_STORAGE_CONNECTION_STRING": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;;"
+      },
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    }
+  ]
 }
