@@ -1,8 +1,10 @@
 export interface Result<T> { etag: string; entity: T; }
 
-export interface Mapper<TEntity, TPartitionKeyFields extends keyof TEntity, TRowKeyFields extends keyof TEntity> {
+export interface Mapper<TModel, TPartitionKeyFields extends keyof TModel, TRowKeyFields extends keyof TModel> {
   createStorageIfNotExists(): Promise<void>;
-  insertOrMergeEntity(entity: TEntity): Promise<void>;
-  findOne(identifier: Pick<TEntity, TPartitionKeyFields | TRowKeyFields>): Promise<Result<TEntity> | null>;
-  findAll(identifier: Pick<TEntity, TPartitionKeyFields>): Promise<Result<TEntity>[]>;
+  insertOrMerge(model: TModel): Promise<void>;
+  insert(model: TModel): Promise<Result<TModel>>;
+  replace(model: TModel, etag: string): Promise<Result<TModel>>;
+  findOne(identifier: Pick<TModel, TPartitionKeyFields | TRowKeyFields>): Promise<Result<TModel> | null>;
+  findAll(identifier: Pick<TModel, TPartitionKeyFields>): Promise<Result<TModel>[]>;
 }

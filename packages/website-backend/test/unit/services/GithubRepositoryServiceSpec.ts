@@ -22,7 +22,9 @@ describe('GithubRepositoryService', () => {
       createStorageIfNotExists: sinon.stub(),
       findAll: sinon.stub(),
       findOne: sinon.stub(),
-      insertOrMergeEntity: sinon.stub()
+      insertOrMerge: sinon.stub(),
+      insert: sinon.stub(),
+      replace: sinon.stub()
     };
     dataAccessStub = {
       repositoryMapper: repositoryMapperMock
@@ -94,13 +96,13 @@ describe('GithubRepositoryService', () => {
     it(`should allow if user has "push" permission`, async () => {
       githubAgentMock.userHasPushAccess.resolves(true);
       await sut.update(githubFactory.authentication(), 'owner', 'name', true);
-      expect(dataAccessStub.repositoryMapper.insertOrMergeEntity).called;
+      expect(dataAccessStub.repositoryMapper.insertOrMerge).called;
     });
 
     it('should update the repository entity', async () => {
       githubAgentMock.userHasPushAccess.resolves(true);
       await sut.update(githubFactory.authentication(), 'owner', 'name', true, 'apiKeyHash');
-      expect(dataAccessStub.repositoryMapper.insertOrMergeEntity).calledWith({
+      expect(dataAccessStub.repositoryMapper.insertOrMerge).calledWith({
         apiKeyHash: 'apiKeyHash',
         enabled: true,
         name: 'name',

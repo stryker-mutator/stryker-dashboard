@@ -1,24 +1,25 @@
-import TableStorageMapper from '../../../src/mappers/TableStorageMapper';
+import TModel from '../../../src/mappers/TableStorageMapper';
 import TableServiceAsPromised, { Entity } from '../../../src/services/TableServiceAsPromised';
 import * as sinon from 'sinon';
 import { expect } from 'chai';
 import { TableQuery, Constants } from 'azure-storage';
 import { StorageError } from '../../helpers/StorageError';
+import { Result, OptimisticConcurrencyError } from '../../../src';
 
-describe(TableStorageMapper.name, () => {
+describe(TModel.name, () => {
 
-  class FooEntity {
+  class FooModel {
     public partitionId: string;
     public rowId: string;
     public bar: number;
 
-    public static createPartitionKey(entity: Pick<FooEntity, 'partitionId'>): string {
+    public static createPartitionKey(entity: Pick<FooModel, 'partitionId'>): string {
       return entity.partitionId;
     }
-    public static createRowKey(entity: Pick<FooEntity, 'rowId'>): string | undefined {
+    public static createRowKey(entity: Pick<FooModel, 'rowId'>): string | undefined {
       return entity.rowId;
     }
-    public static identify(entity: FooEntity, partitionKeyValue: string, rowKeyValue: string): void {
+    public static identify(entity: FooModel, partitionKeyValue: string, rowKeyValue: string): void {
       entity.partitionId = partitionKeyValue;
       entity.rowId = rowKeyValue;
     }
@@ -31,9 +32,11 @@ describe(TableStorageMapper.name, () => {
       createTableIfNotExists: sinon.stub(),
       insertOrMergeEntity: sinon.stub(),
       queryEntities: sinon.stub(),
-      retrieveEntity: sinon.stub()
+      retrieveEntity: sinon.stub(),
+      insertEntity: sinon.stub(),
+      replaceEntity: sinon.stub()
     };
-    public sut = new TableStorageMapper(FooEntity, this.tableServiceAsPromisedMock as any);
+    public sut = new TModel(FooModel, this.tableServiceAsPromisedMock as any);
   }
   let helper: TestHelper;
 
@@ -49,19 +52,20 @@ describe(TableStorageMapper.name, () => {
     });
   });
 
-  describe('insertOrMergeEntity', () => {
-    it('should insert the given entity', async () => {
-      const expected: FooEntity = {
+  describe('insertOrMerge', () => {
+    it('should insert the given model', async () => {
+      const expected: FooModel = {
         partitionId: 'github/owner',
         rowId: 'name',
         bar: 42
       };
       helper.tableServiceAsPromisedMock.insertOrMergeEntity.resolves();
-      await helper.sut.insertOrMergeEntity(expected);
+      await helper.sut.insertOrMerge(expected);
       expect(helper.tableServiceAsPromisedMock.insertOrMergeEntity).calledWith('FooTable', {
         PartitionKey: 'github;owner',
         RowKey: 'name',
-        bar: 42
+        bar: 42,
+        ['.metadata']: {}
       });
       expect(expected.bar).eq(42);
     });
@@ -83,7 +87,7 @@ describe(TableStorageMapper.name, () => {
     });
 
     it('should return the entity', async () => {
-      const expected: FooEntity = { rowId: 'rowKey', partitionId: 'partKey', bar: 42 };
+      const expected: FooModel = { rowId: 'rowKey', partitionId: 'partKey', bar: 42 };
       helper.tableServiceAsPromisedMock.retrieveEntity.resolves(createEntity(expected, 'etagValue'));
       const actualProjects = await helper.sut.findOne({ partitionId: 'github/partKey', rowId: 'rowKey' });
       expect(actualProjects).deep.eq({ entity: expected, etag: 'etagValue' });
@@ -99,7 +103,7 @@ describe(TableStorageMapper.name, () => {
     });
 
     it('should return the all entities', async () => {
-      const expectedEntities: FooEntity[] = [
+      const expectedEntities: FooModel[] = [
         { rowId: 'rowKey', partitionId: 'partKey', bar: 142 },
         { rowId: 'rowKey2', partitionId: 'partKey2', bar: 25 }
       ];
@@ -109,8 +113,65 @@ describe(TableStorageMapper.name, () => {
     });
   });
 
-  function createEntity(overrides?: Partial<FooEntity>, etag = 'foo-etag'): Entity<FooEntity, 'partitionId' | 'rowId'> {
-    const foo: FooEntity = {
+  describe('replace', () => {
+    it('should replace entity with given etag', async () => {
+      helper.tableServiceAsPromisedMock.replaceEntity.resolves({ ['.metadata']: { etag: 'next-etag' } });
+      const expected: FooModel = { bar: 42, partitionId: 'partId', rowId: 'rowId' };
+      const expectedResult: Result<FooModel> = { entity: expected, etag: 'next-etag' };
+      const result = await helper.sut.replace(expected, 'prev-etag');
+      expect(result).deep.eq(expectedResult);
+      const expectedEntity = createRawEntity(expected, 'prev-etag');
+      expect(helper.tableServiceAsPromisedMock.replaceEntity).calledWith(FooModel.tableName, expectedEntity, {});
+    });
+
+    it('should throw a OptimisticConcurrencyError if the UPDATE_CONDITION_NOT_SATISFIED is thrown', async () => {
+      helper.tableServiceAsPromisedMock.replaceEntity.rejects(new StorageError(Constants.StorageErrorCodeStrings.UPDATE_CONDITION_NOT_SATISFIED));
+      await expect(helper.sut.replace({ bar: 24, partitionId: 'part', rowId: 'row' }, 'prev-etag')).rejectedWith(OptimisticConcurrencyError);
+    });
+  });
+
+  describe('insert', () => {
+    it('should insert entity', async () => {
+      helper.tableServiceAsPromisedMock.insertEntity.resolves({ ['.metadata']: { etag: 'next-etag' } });
+      const expected: FooModel = { bar: 42, partitionId: 'partId', rowId: 'rowId' };
+      const expectedResult: Result<FooModel> = { entity: expected, etag: 'next-etag' };
+      const result = await helper.sut.insert(expected);
+      expect(result).deep.eq(expectedResult);
+      expect(helper.tableServiceAsPromisedMock.insertEntity).calledWith(FooModel.tableName, createRawEntity(expected), {});
+    });
+
+    it('should throw an OptimisticConcurrencyError if the entity already exists', async () => {
+      helper.tableServiceAsPromisedMock.insertEntity.rejects(new StorageError(Constants.TableErrorCodeStrings.ENTITY_ALREADY_EXISTS));
+      await expect(helper.sut.insert({ bar: 24, partitionId: 'part', rowId: 'row' })).rejectedWith(OptimisticConcurrencyError);
+    });
+  });
+
+  function createRawEntity(overrides?: Partial<FooModel>, etag?: string) {
+    const foo: FooModel = {
+      bar: 42,
+      partitionId: 'partKey',
+      rowId: 'rowKey',
+      ...overrides
+    };
+    function metadata() {
+      if (etag) {
+        return {
+          etag
+        };
+      } else {
+        return {};
+      }
+    }
+    return {
+      PartitionKey: foo.partitionId,
+      RowKey: foo.rowId,
+      bar: foo.bar,
+      ['.metadata']: metadata()
+    };
+  }
+
+  function createEntity(overrides?: Partial<FooModel>, etag = 'foo-etag'): Entity<FooModel, 'partitionId' | 'rowId'> {
+    const foo: FooModel = {
       bar: 42,
       partitionId: 'partKey',
       rowId: 'rowKey',

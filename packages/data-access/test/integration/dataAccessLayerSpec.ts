@@ -34,7 +34,7 @@ describe('Data access layer', () => {
 
     it('should insert a project', async () => {
       const key = Object.freeze({ PartitionKey: 'partKey', RowKey: 'rowKey' });
-      await sut.insertOrMergeEntity({ name: 'rowKey', owner: 'partKey', enabled: true, apiKeyHash: 'someApiHash' });
+      await sut.insertOrMerge({ name: 'rowKey', owner: 'partKey', enabled: true, apiKeyHash: 'someApiHash' });
       const actual = await promisify(tableService.retrieveEntity).apply(tableService, ['Project', key.PartitionKey, key.RowKey]);
       expect(actual).deep.include({
         PartitionKey: { $: 'Edm.String', _: 'partKey' },
