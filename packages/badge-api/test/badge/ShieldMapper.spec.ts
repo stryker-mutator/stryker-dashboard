@@ -14,7 +14,9 @@ describe(ShieldMapper.name, () => {
       createStorageIfNotExists: sinon.stub(),
       findAll: sinon.stub(),
       findOne: sinon.stub(),
-      insertOrMergeEntity: sinon.stub()
+      insertOrMerge: sinon.stub(),
+      replace: sinon.stub(),
+      insert: sinon.stub()
     };
     sut = new ShieldMapper(mutationTestingReportStub as any);
   });

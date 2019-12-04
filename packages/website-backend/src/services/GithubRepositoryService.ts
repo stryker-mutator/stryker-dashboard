@@ -39,7 +39,7 @@ export default class GithubRepositoryService {
 
   public async update(auth: github.Authentication, owner: string, name: string, enabled: boolean, apiKeyHash: string = '') {
     await this.guardUserHasAccess(auth, owner, name);
-    await this.repositoryMapper.insertOrMergeEntity({ apiKeyHash, name, owner: prefixGithub(owner), enabled });
+    await this.repositoryMapper.insertOrMerge({ apiKeyHash, name, owner: prefixGithub(owner), enabled });
   }
 
   private async guardUserHasAccess(auth: github.Authentication, owner: string, name: string): Promise<void> {

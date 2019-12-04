@@ -1,6 +1,5 @@
 import { BlobServiceAsPromised } from '../services/BlobServiceAsPromised';
 import { BlobService, Constants } from 'azure-storage';
-import { MutationTestingReport } from '../models';
 import { encodeKey, isStorageError } from '../utils';
 import * as schema from 'mutation-testing-report-schema';
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
@@ -19,7 +18,7 @@ export class MutationTestingResultMapper {
     return this.blobService.createContainerIfNotExists(MutationTestingResultMapper.CONTAINER_NAME, {});
   }
 
-  public insertOrMergeEntity(id: ReportIdentifier, result: schema.MutationTestResult | null) {
+  public insertOrMerge(id: ReportIdentifier, result: schema.MutationTestResult | null) {
     return this.blobService.createBlockBlobFromText('mutation-testing-report',
       this.toBlobName(id),
       JSON.stringify(result), { contentSettings: { contentType: 'application/json', contentEncoding: 'utf8' } });
@@ -40,7 +39,7 @@ export class MutationTestingResultMapper {
     }
   }
 
-  private toBlobName({ projectName, version, moduleName }:  Pick<MutationTestingReport, 'projectName' | 'version' | 'moduleName'>) {
+  private toBlobName({ projectName, version, moduleName }:  ReportIdentifier) {
     const slug = [projectName, version, moduleName].filter(Boolean).join('/');
     return encodeKey(slug);
   }

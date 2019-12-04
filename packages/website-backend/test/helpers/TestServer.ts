@@ -68,8 +68,10 @@ beforeEach(() => {
   DataAccessStub.repositoryMapper = {
     createStorageIfNotExists: sinon.stub(),
     findAll: sinon.stub(),
-    insertOrMergeEntity: sinon.stub(),
-    findOne: sinon.stub()
+    insertOrMerge: sinon.stub(),
+    findOne: sinon.stub(),
+    insert: sinon.stub(),
+    replace: sinon.stub()
   };
   DataAccessStub.mutationTestingReportService = {
     saveReport: sinon.stub(),
