@@ -85,12 +85,16 @@ export class MutationTestingReportService {
 
   public async findOne(id: ReportIdentifier): Promise<Report | null> {
     const [reportEntity, result] = await Promise.all([this.mutationScoreMapper.findOne(id), this.resultMapper.findOne(id)]);
-    if (result && reportEntity) {
-      return {
-        ...id,
-        mutationScore: reportEntity.entity.mutationScore,
-        ...result
-      };
+    if (reportEntity) {
+      if (result) {
+        return {
+          ...id,
+          mutationScore: reportEntity.entity.mutationScore,
+          ...result
+        };
+      } else {
+        return { ...id, mutationScore: reportEntity.entity.mutationScore };
+      }
     } else {
       return null;
     }
