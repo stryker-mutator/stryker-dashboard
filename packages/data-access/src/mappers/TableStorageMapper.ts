@@ -33,8 +33,8 @@ export default class TableStorageMapper<TModel extends object, TPartitionKeyFiel
     try {
       const result = await this.tableService.retrieveEntity<Entity<TModel, TPartitionKeyFields | TRowKeyFields>>(
         this.ModelClass.tableName,
-        this.ModelClass.createPartitionKey(identity),
-        this.ModelClass.createRowKey(identity) || '');
+        encodeKey(this.ModelClass.createPartitionKey(identity)),
+        encodeKey(this.ModelClass.createRowKey(identity) || ''));
       return this.toModel(result);
     } catch (err) {
       if (isStorageError(err) && err.code === Constants.StorageErrorCodeStrings.RESOURCE_NOT_FOUND) {
