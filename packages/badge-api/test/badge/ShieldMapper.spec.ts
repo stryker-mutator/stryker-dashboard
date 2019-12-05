@@ -81,6 +81,6 @@ describe(ShieldMapper.name, () => {
       mutationScore: 0,
       moduleName: undefined
     };
-    mutationTestingReportStub.findOne.resolves({ entity: { ...defaults, ...overrides }, etag: 'test' });
+    mutationTestingReportStub.findOne.resolves({ model: { ...defaults, ...overrides }, etag: 'test' });
   }
 });

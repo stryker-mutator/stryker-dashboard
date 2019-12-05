@@ -57,9 +57,9 @@ export default class GithubRepositoryService {
     const githubRepos = await githubReposPromise;
     const repositoryEntities = await repositoryEntitiesPromise;
     return githubRepos.map(githubRepo => {
-      const projectEntity = repositoryEntities.find(dalRepo => dalRepo.entity.name === githubRepo.name);
+      const projectEntity = repositoryEntities.find(dalRepo => dalRepo.model.name === githubRepo.name);
       const repository: contract.Repository = {
-        enabled: !!(projectEntity && projectEntity.entity.enabled),
+        enabled: !!(projectEntity && projectEntity.model.enabled),
         name: githubRepo.name,
         origin: 'github',
         owner: githubRepo.owner.login,

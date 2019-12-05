@@ -90,7 +90,7 @@ describe(TModel.name, () => {
       const expected: FooModel = { rowId: 'rowKey', partitionId: 'partKey', bar: 42 };
       helper.tableServiceAsPromisedMock.retrieveEntity.resolves(createEntity(expected, 'etagValue'));
       const actualProjects = await helper.sut.findOne({ partitionId: 'github/partKey', rowId: 'rowKey' });
-      expect(actualProjects).deep.eq({ entity: expected, etag: 'etagValue' });
+      expect(actualProjects).deep.eq({ model: expected, etag: 'etagValue' });
     });
   });
 
@@ -109,7 +109,7 @@ describe(TModel.name, () => {
       ];
       helper.tableServiceAsPromisedMock.queryEntities.resolves({ entries: expectedEntities.map(entity => createEntity(entity)) });
       const actualProjects = await helper.sut.findAll({ partitionId: 'github/partKey' });
-      expect(actualProjects).deep.eq(expectedEntities.map(entity => ({ entity, etag: 'foo-etag' })));
+      expect(actualProjects).deep.eq(expectedEntities.map(model => ({ model, etag: 'foo-etag' })));
     });
   });
 
@@ -117,7 +117,7 @@ describe(TModel.name, () => {
     it('should replace entity with given etag', async () => {
       helper.tableServiceAsPromisedMock.replaceEntity.resolves({ ['.metadata']: { etag: 'next-etag' } });
       const expected: FooModel = { bar: 42, partitionId: 'partId', rowId: 'rowId' };
-      const expectedResult: Result<FooModel> = { entity: expected, etag: 'next-etag' };
+      const expectedResult: Result<FooModel> = { model: expected, etag: 'next-etag' };
       const result = await helper.sut.replace(expected, 'prev-etag');
       expect(result).deep.eq(expectedResult);
       const expectedEntity = createRawEntity(expected, 'prev-etag');
@@ -134,7 +134,7 @@ describe(TModel.name, () => {
     it('should insert entity', async () => {
       helper.tableServiceAsPromisedMock.insertEntity.resolves({ ['.metadata']: { etag: 'next-etag' } });
       const expected: FooModel = { bar: 42, partitionId: 'partId', rowId: 'rowId' };
-      const expectedResult: Result<FooModel> = { entity: expected, etag: 'next-etag' };
+      const expectedResult: Result<FooModel> = { model: expected, etag: 'next-etag' };
       const result = await helper.sut.insert(expected);
       expect(result).deep.eq(expectedResult);
       expect(helper.tableServiceAsPromisedMock.insertEntity).calledWith(FooModel.tableName, createRawEntity(expected), {});
