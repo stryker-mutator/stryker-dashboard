@@ -6,7 +6,7 @@ import { MutationTestingReportMapper, OptimisticConcurrencyError } from '../../.
 import { MutationTestingResultMapper } from '../../../src/mappers/MutationTestingResultMapper';
 import { MutationTestingReportService } from '../../../src/services/MutationTestingReportService';
 import { createTableMapperMock } from '../../helpers/mock';
-import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
+import { ReportIdentifier, Report } from '@stryker-mutator/dashboard-common';
 
 describe(MutationTestingReportService.name, () => {
 
@@ -143,6 +143,55 @@ describe(MutationTestingReportService.name, () => {
         expect(reportMapperMock.replace).calledTwice;
         expect(reportMapperMock.replace).calledWith(expectedMutationTestingReport, 'new-project-etag');
       });
+    });
+  });
+
+  describe('findOne', () => {
+
+    it('should be able to retrieve a full report', async () => {
+      // Arrange
+      const id: ReportIdentifier = { moduleName: 'm', projectName: 'p', version: 'v' };
+      const result = createMutationTestResult();
+      const report = { ...id, mutationScore: 43 };
+      resultMapperMock.findOne.resolves(result);
+      reportMapperMock.findOne.resolves({ entity: report, etag: 'not-used' });
+
+      // Act
+      const actual = await sut.findOne(id);
+
+      // Assert
+      expect(reportMapperMock.findOne).calledWith(id);
+      expect(resultMapperMock.findOne).calledWith(id);
+      const expected: Report = { ...report, ...result };
+      expect(actual).deep.eq(expected);
+    });
+
+    it('should be able to retrieve a mutation-score-only report', async () => {
+      // Arrange
+      const id: ReportIdentifier = { moduleName: 'm', projectName: 'p', version: 'v' };
+      const report = { ...id, mutationScore: 43 };
+      resultMapperMock.findOne.resolves(null);
+      reportMapperMock.findOne.resolves({ entity: report, etag: 'not-used' });
+
+      // Act
+      const actual = await sut.findOne(id);
+
+      // Assert
+      const expected: Report = report;
+      expect(actual).deep.eq(expected);
+    });
+
+    it('should resolve null when no report found', async () => {
+      // Arrange
+      const id: ReportIdentifier = { moduleName: 'm', projectName: 'p', version: 'v' };
+      resultMapperMock.findOne.resolves(null);
+      reportMapperMock.findOne.resolves(null);
+
+      // Act
+      const actual = await sut.findOne(id);
+
+      // Assert
+      expect(actual).null;
     });
   });
 
