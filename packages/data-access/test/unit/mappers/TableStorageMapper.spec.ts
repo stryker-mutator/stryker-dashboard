@@ -75,8 +75,8 @@ describe(TModel.name, () => {
     it('should retrieve the entity from storage', async () => {
       const result = createEntity();
       helper.tableServiceAsPromisedMock.retrieveEntity.resolves(result);
-      await helper.sut.findOne({ partitionId: 'github/partKey', rowId: 'rowKey' });
-      expect(helper.tableServiceAsPromisedMock.retrieveEntity).calledWith('FooTable', 'github/partKey', 'rowKey');
+      await helper.sut.findOne({ partitionId: 'github/partKey', rowId: 'row/key' });
+      expect(helper.tableServiceAsPromisedMock.retrieveEntity).calledWith('FooTable', 'github;partKey', 'row;key');
     });
 
     it('should return null if it resulted in a 404', async () => {
