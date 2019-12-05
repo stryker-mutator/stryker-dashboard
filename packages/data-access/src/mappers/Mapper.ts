@@ -1,4 +1,4 @@
-export interface Result<T> { etag: string; entity: T; }
+export interface Result<TModel> { etag: string; model: TModel; }
 
 export interface Mapper<TModel, TPartitionKeyFields extends keyof TModel, TRowKeyFields extends keyof TModel> {
   createStorageIfNotExists(): Promise<void>;

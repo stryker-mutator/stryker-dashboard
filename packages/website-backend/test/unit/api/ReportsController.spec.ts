@@ -69,7 +69,7 @@ describe(ReportsController.name, () => {
       project.name = 'stryker';
       project.owner = 'github.com/stryker-mutator';
       project.apiKeyHash = generateHashValue(apiKey);
-      DataAccessStub.repositoryMapper.findOne.resolves({ entity: project, etag: 'etag' });
+      DataAccessStub.repositoryMapper.findOne.resolves({ model: project, etag: 'etag' });
     });
 
     it('should save the expected report', async () => {

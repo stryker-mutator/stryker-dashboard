@@ -45,7 +45,7 @@ export class MutationTestingReportService {
       const projectMutationScoreModel = await this.mutationScoreMapper.findOne(id);
       const moduleScoreResults = await this.mutationScoreMapper.findAll(id);
       const scoreResultWithResult = (await Promise.all(moduleScoreResults
-        .map(async score => [score, await this.resultMapper.findOne(score.entity)] as const))
+        .map(async score => [score, await this.resultMapper.findOne(score.model)] as const))
       ).filter(moduleHasResult);
 
       if (scoreResultWithResult.length) {
@@ -75,7 +75,7 @@ export class MutationTestingReportService {
 
   private mergeResults(scoreResultWithResult: [Result<MutationTestingReport>, MutationTestResult][]) {
     const projectResult = this.createEmptyResult(scoreResultWithResult[0][1].thresholds);
-    scoreResultWithResult.forEach(([{ entity: { moduleName } }, { files }]) => {
+    scoreResultWithResult.forEach(([{ model: { moduleName } }, { files }]) => {
       Object.entries(files).forEach(([fileName, fileResult]) => {
         projectResult.files[`${moduleName}/${fileName}`] = fileResult;
       });
@@ -89,11 +89,11 @@ export class MutationTestingReportService {
       if (result) {
         return {
           ...id,
-          mutationScore: reportEntity.entity.mutationScore,
+          mutationScore: reportEntity.model.mutationScore,
           ...result
         };
       } else {
-        return { ...id, mutationScore: reportEntity.entity.mutationScore };
+        return { ...id, mutationScore: reportEntity.model.mutationScore };
       }
     } else {
       return null;

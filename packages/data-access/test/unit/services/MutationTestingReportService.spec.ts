@@ -92,8 +92,8 @@ describe(MutationTestingReportService.name, () => {
         const module2Result = createMutationTestResult({ 'a/b': fileResultModule2 });
         const module1Report: MutationTestingReport = { moduleName: 'core', mutationScore: 80, projectName, version };
         const module2Report: MutationTestingReport = { moduleName: 'api', mutationScore: 80, projectName, version };
-        reportMapperMock.findAll.resolves([{ entity: module1Report, etag: '' }, { entity: module2Report, etag: '' }]);
-        reportMapperMock.findOne.resolves({ etag: 'old-project-etag', entity: module1Report /* not used */ });
+        reportMapperMock.findAll.resolves([{ model: module1Report, etag: '' }, { model: module2Report, etag: '' }]);
+        reportMapperMock.findOne.resolves({ etag: 'old-project-etag', model: module1Report /* not used */ });
         const module1Identifier = { version, moduleName: 'core', projectName };
         resultMapperMock.findOne
           .withArgs(module1Report).resolves(module1Result)
@@ -120,10 +120,10 @@ describe(MutationTestingReportService.name, () => {
         const fileResultModule = createFileResult([MutantStatus.Killed]);
         const moduleResult = createMutationTestResult({ 'a/b': fileResultModule });
         const moduleReport: MutationTestingReport = { moduleName: 'core', mutationScore: 80, projectName, version };
-        reportMapperMock.findAll.resolves([{ entity: moduleReport, etag: '' }]);
+        reportMapperMock.findAll.resolves([{ model: moduleReport, etag: '' }]);
         reportMapperMock.findOne
-          .onFirstCall().resolves({ etag: 'old-project-etag', entity: moduleReport /* not used */ })
-          .onSecondCall().resolves({ etag: 'new-project-etag', entity: moduleReport /* not used */ });
+          .onFirstCall().resolves({ etag: 'old-project-etag', model: moduleReport /* not used */ })
+          .onSecondCall().resolves({ etag: 'new-project-etag', model: moduleReport /* not used */ });
         const moduleIdentifier = { version, moduleName: 'core', projectName };
         resultMapperMock.findOne.withArgs(moduleReport).resolves(moduleResult);
         reportMapperMock.replace
@@ -154,7 +154,7 @@ describe(MutationTestingReportService.name, () => {
       const result = createMutationTestResult();
       const report = { ...id, mutationScore: 43 };
       resultMapperMock.findOne.resolves(result);
-      reportMapperMock.findOne.resolves({ entity: report, etag: 'not-used' });
+      reportMapperMock.findOne.resolves({ model: report, etag: 'not-used' });
 
       // Act
       const actual = await sut.findOne(id);
@@ -171,7 +171,7 @@ describe(MutationTestingReportService.name, () => {
       const id: ReportIdentifier = { moduleName: 'm', projectName: 'p', version: 'v' };
       const report = { ...id, mutationScore: 43 };
       resultMapperMock.findOne.resolves(null);
-      reportMapperMock.findOne.resolves({ entity: report, etag: 'not-used' });
+      reportMapperMock.findOne.resolves({ model: report, etag: 'not-used' });
 
       // Act
       const actual = await sut.findOne(id);

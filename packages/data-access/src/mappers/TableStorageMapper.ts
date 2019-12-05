@@ -64,7 +64,7 @@ export default class TableStorageMapper<TModel extends object, TPartitionKeyFiel
     entity['.metadata'].etag = etag;
     try {
       const result = await this.tableService.replaceEntity(this.ModelClass.tableName, entity, {});
-      return { entity: model, etag: result['.metadata'].etag };
+      return { model, etag: result['.metadata'].etag };
     } catch (err) {
       if (isStorageError(err) && err.code === Constants.StorageErrorCodeStrings.UPDATE_CONDITION_NOT_SATISFIED) {
         throw new OptimisticConcurrencyError(`Replace entity with etag ${etag} resulted in ${Constants.StorageErrorCodeStrings.UPDATE_CONDITION_NOT_SATISFIED}`);
@@ -78,7 +78,7 @@ export default class TableStorageMapper<TModel extends object, TPartitionKeyFiel
     const entity = this.toEntity(model);
     try {
       const result = await this.tableService.insertEntity(this.ModelClass.tableName, entity, {});
-      return { entity: model, etag: result['.metadata'].etag };
+      return { model, etag: result['.metadata'].etag };
     } catch (err) {
       if (isStorageError(err) && err.code === Constants.TableErrorCodeStrings.ENTITY_ALREADY_EXISTS) {
         throw new OptimisticConcurrencyError(`Trying to insert "${entity.PartitionKey}" "${entity.RowKey}" which already exists (${Constants.TableErrorCodeStrings.ENTITY_ALREADY_EXISTS})`);
@@ -94,7 +94,7 @@ export default class TableStorageMapper<TModel extends object, TPartitionKeyFiel
     this.ModelClass.persistedFields.forEach(field => (value[field] as any) = (entity as any)[field]._);
     return {
       etag: entity['.metadata'].etag,
-      entity: value
+      model: value
     };
   }
 
