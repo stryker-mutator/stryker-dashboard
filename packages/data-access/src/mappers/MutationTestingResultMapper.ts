@@ -3,6 +3,11 @@ import { BlobService, Constants } from 'azure-storage';
 import { encodeKey, isStorageError } from '../utils';
 import * as schema from 'mutation-testing-report-schema';
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
+import { OptimisticConcurrencyError } from '../errors';
+
+const additionalErrorCodes = Object.freeze({
+  BLOB_HAS_BEEN_MODIFIED: 'BlobHasBeenModified'
+});
 
 /**
  * The report json part of a mutation testing report is stored in blob storage
@@ -18,10 +23,19 @@ export class MutationTestingResultMapper {
     return this.blobService.createContainerIfNotExists(MutationTestingResultMapper.CONTAINER_NAME, {});
   }
 
-  public insertOrMerge(id: ReportIdentifier, result: schema.MutationTestResult | null) {
-    return this.blobService.createBlockBlobFromText('mutation-testing-report',
-      this.toBlobName(id),
-      JSON.stringify(result), { contentSettings: { contentType: 'application/json', contentEncoding: 'utf8' } });
+  public async insertOrReplace(id: ReportIdentifier, result: schema.MutationTestResult | null) {
+    try {
+      await this.blobService.createBlockBlobFromText(MutationTestingResultMapper.CONTAINER_NAME,
+        this.toBlobName(id),
+        JSON.stringify(result), { contentSettings: { contentType: 'application/json', contentEncoding: 'utf8' } });
+    } catch (err) {
+      if (isStorageError(err) && err.code === additionalErrorCodes.BLOB_HAS_BEEN_MODIFIED) {
+        throw new OptimisticConcurrencyError(`Blob "${JSON.stringify(id)}" was modified by another process`);
+      }
+      else {
+        throw err; // Oops
+      }
+    }
   }
 
   public async findOne(identifier: ReportIdentifier): Promise<schema.MutationTestResult | null> {
@@ -39,7 +53,7 @@ export class MutationTestingResultMapper {
     }
   }
 
-  private toBlobName({ projectName, version, moduleName }:  ReportIdentifier) {
+  private toBlobName({ projectName, version, moduleName }: ReportIdentifier) {
     const slug = [projectName, version, moduleName].filter(Boolean).join('/');
     return encodeKey(slug);
   }
