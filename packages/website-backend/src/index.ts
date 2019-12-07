@@ -1,7 +1,7 @@
 import debug from 'debug';
 import Server from './Server';
 import { optionalEnvVar } from './utils';
-import { createProjectMapper, createMutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
+import { createProjectMapper, MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
 
 const log = debug('app');
 log('Starting Stryker Mutator dashboard');
@@ -9,10 +9,10 @@ const port = parseInt(optionalEnvVar('PORT', '1337'), 10);
 
 async function ensureDatabaseExists() {
   const repositoryMapper = createProjectMapper();
-  const mutationTestingReportMapper = createMutationTestingReportMapper();
+  const mutationTestingReportService = new MutationTestingReportService();
 
   await repositoryMapper.createStorageIfNotExists();
-  await mutationTestingReportMapper.createStorageIfNotExists();
+  await mutationTestingReportService.createStorageIfNotExists();
 }
 
 async function startServer() {
