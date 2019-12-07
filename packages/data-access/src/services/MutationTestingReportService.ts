@@ -3,7 +3,7 @@ import { normalizeFileNames } from 'mutation-testing-metrics';
 import { calculateMetrics } from 'mutation-testing-metrics';
 import { MutationTestingResultMapper } from '../mappers/MutationTestingResultMapper';
 import { MutationTestingReportMapper, createMutationTestingReportMapper, Result } from '../mappers';
-import { MutationScoreOnlyResult, isMutationTestResult, ReportIdentifier, Report } from '@stryker-mutator/dashboard-common';
+import { MutationScoreOnlyResult, isMutationTestResult, ReportIdentifier, Report, Logger } from '@stryker-mutator/dashboard-common';
 import { MutationTestingReport } from '../models';
 import { OptimisticConcurrencyError } from '../errors';
 
@@ -20,7 +20,12 @@ export class MutationTestingReportService {
     private readonly mutationScoreMapper: MutationTestingReportMapper = createMutationTestingReportMapper()) {
   }
 
-  public async saveReport(id: ReportIdentifier, result: MutationScoreOnlyResult | MutationTestResult) {
+  public async createStorageIfNotExists() {
+    await this.resultMapper.createStorageIfNotExists();
+    await this.mutationScoreMapper.createStorageIfNotExists();
+  }
+
+  public async saveReport(id: ReportIdentifier, result: MutationScoreOnlyResult | MutationTestResult, logger: Logger) {
     const mutationScore = this.calculateMutationScore(result);
 
     await this.insertOrMergeReport(id, {
@@ -28,49 +33,52 @@ export class MutationTestingReportService {
       mutationScore
     }, isMutationTestResult(result) ? this.normalizeResult(result) : null);
     if (isMutationTestResult(result) && id.moduleName) {
-      await this.aggregateProjectReport(id.projectName, id.version);
+      await this.aggregateProjectReport(id.projectName, id.version, logger);
     }
   }
 
-  private async aggregateProjectReport(projectName: string, version: string) {
+  private async aggregateProjectReport(projectName: string, version: string, logger: Logger) {
     const id: ReportIdentifier = {
       projectName,
       version,
       moduleName: undefined
     };
 
-    let resultSaved = false;
+    while (!await this.tryAggregateProjectReport(id)) {
+      logger.info({ message: `Optimistic concurrency exception occurred while trying to aggregate the report ${JSON.stringify(id)}, retrying...` });
+    }
+  }
 
-    while (!resultSaved) {
-      const projectMutationScoreModel = await this.mutationScoreMapper.findOne(id);
-      const moduleScoreResults = await this.mutationScoreMapper.findAll(id);
-      const scoreResultWithResult = (await Promise.all(moduleScoreResults
-        .map(async score => [score, await this.resultMapper.findOne(score.model)] as const))
-      ).filter(moduleHasResult);
-
-      if (scoreResultWithResult.length) {
-        const projectResult = this.mergeResults(scoreResultWithResult);
-        const projectReport: MutationTestingReport = {
-          ...id,
-          mutationScore: this.calculateMutationScore(projectResult)
-        };
-        await this.resultMapper.insertOrMerge(id, projectResult);
-        try {
-          if (projectMutationScoreModel) {
-            await this.mutationScoreMapper.replace(projectReport, projectMutationScoreModel.etag);
-          } else {
-            await this.mutationScoreMapper.insert(projectReport);
-          }
-          resultSaved = true;
-        } catch (err) {
-          if (err instanceof OptimisticConcurrencyError) {
-            resultSaved = false;
-          } else {
-            throw err;
-          }
+  private async tryAggregateProjectReport(id: ReportIdentifier) {
+    const projectMutationScoreModel = await this.mutationScoreMapper.findOne(id);
+    const moduleScoreResults = await this.mutationScoreMapper.findAll(id);
+    const scoreResultWithResult = (await Promise.all(moduleScoreResults
+      .map(async score => [score, await this.resultMapper.findOne(score.model)] as const))).filter(moduleHasResult);
+    if (scoreResultWithResult.length) {
+      const projectResult = this.mergeResults(scoreResultWithResult);
+      const projectReport: MutationTestingReport = {
+        ...id,
+        mutationScore: this.calculateMutationScore(projectResult)
+      };
+      try {
+        await this.resultMapper.insertOrReplace(id, projectResult);
+        if (projectMutationScoreModel) {
+          await this.mutationScoreMapper.replace(projectReport, projectMutationScoreModel.etag);
+        }
+        else {
+          await this.mutationScoreMapper.insert(projectReport);
+        }
+      }
+      catch (err) {
+        if (err instanceof OptimisticConcurrencyError) {
+          return false;
+        }
+        else {
+          throw err;
         }
       }
     }
+    return true;
   }
 
   private mergeResults(scoreResultWithResult: [Result<MutationTestingReport>, MutationTestResult][]) {
@@ -102,7 +110,7 @@ export class MutationTestingReportService {
 
   private async insertOrMergeReport(id: ReportIdentifier, report: MutationTestingReport, result: MutationTestResult | null) {
     await Promise.all([
-      this.resultMapper.insertOrMerge(id, result),
+      this.resultMapper.insertOrReplace(id, result),
       this.mutationScoreMapper.insertOrMerge(report)
     ]);
   }

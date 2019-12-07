@@ -1,5 +1,6 @@
 import sinon = require('sinon');
 import { Mapper } from '../../src';
+import { MutantStatus, FileResultDictionary, MutationTestResult, FileResult } from '@stryker-mutator/dashboard-common/node_modules/mutation-testing-report-schema';
 
 export function createTableMapperMock<A, B extends keyof A, C extends keyof A>(): sinon.SinonStubbedInstance<Mapper<A, B, C>> {
   return {
@@ -9,5 +10,36 @@ export function createTableMapperMock<A, B extends keyof A, C extends keyof A>()
     findAll: sinon.stub(),
     replace: sinon.stub(),
     insert: sinon.stub()
+  };
+}
+
+export function createMutationTestResult(files: FileResultDictionary = createFileResultDictionary(createFileResult())): MutationTestResult {
+  return {
+    files,
+    schemaVersion: '1',
+    thresholds: {
+      high: 80,
+      low: 70
+    }
+  };
+}
+
+export function createFileResult(mutantStates = [MutantStatus.Killed, MutantStatus.Survived]): FileResult {
+  return {
+    language: 'javascript',
+    source: '+',
+    mutants: mutantStates.map((status, index) => ({
+      id: index.toString(),
+      location: { start: { line: 1, column: 1 }, end: { line: 1, column: 2 } },
+      mutatorName: 'BinaryMutator',
+      replacement: '-',
+      status
+    }))
+  };
+}
+
+export function createFileResultDictionary(fileResult: FileResult) {
+  return {
+    'a.js': fileResult
   };
 }

@@ -41,7 +41,7 @@ export default class ReportsController {
     await this.apiKeyValidator.validateApiKey(authorizationHeader, project);
     this.verifyRequiredPutReportProperties(result);
     try {
-      await this.reportService.saveReport({ projectName: project, version, moduleName }, result);
+      await this.reportService.saveReport({ projectName: project, version, moduleName }, result, req.log);
       return {
         href: `${this.config.baseUrl}/reports/${project}/${version}${moduleName ? `?module=${moduleName}` : ''}`
       };
@@ -56,6 +56,9 @@ export default class ReportsController {
     @Req() req: Request,
     @QueryParams('module') moduleName: string | undefined
   ): Promise<Report> {
+    if (req.log) {
+      req.log.info({test: 'Test this one'});
+    }
     const slug = req.path;
     const { project, version } = this.parseSlug(slug);
     const report = await this.reportService.findOne({

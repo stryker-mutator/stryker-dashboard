@@ -1,4 +1,4 @@
-import { Controller, BodyParams, Status, Post } from '@tsed/common';
+import { Controller, BodyParams, Status, Post, RequestLogger } from '@tsed/common';
 import { ApiKeyValidator } from '../services/ApiKeyValidator';
 import { MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
 import { BadRequest } from 'ts-httpexceptions';
@@ -20,10 +20,10 @@ export class OldReportsController {
 
   @Post('/reports')
   @Status(201)
-  public async addNew(@BodyParams() report: ScoreReport) {
+  public async addNew(@BodyParams() report: ScoreReport, log: RequestLogger) {
     this.verifyRequiredPostScoreReportProperties(report);
     await this.apiKeyValidator.validateApiKey(report.apiKey, report.repositorySlug);
-    await this.reportService.saveReport({ moduleName: undefined, projectName: report.repositorySlug, version: report.branch }, report);
+    await this.reportService.saveReport({ moduleName: undefined, projectName: report.repositorySlug, version: report.branch }, report, log);
     return '';
   }
 
