@@ -1,23 +1,38 @@
 import { expect } from 'chai';
-import { MutantStatus, MutationTestResult, FileResult, FileResultDictionary } from 'mutation-testing-report-schema';
+import { MutantStatus } from 'mutation-testing-report-schema';
 import sinon = require('sinon');
 import { MutationTestingReport } from '../../../src/models';
 import { MutationTestingReportMapper, OptimisticConcurrencyError } from '../../../src/';
 import { MutationTestingResultMapper } from '../../../src/mappers/MutationTestingResultMapper';
 import { MutationTestingReportService } from '../../../src/services/MutationTestingReportService';
-import { createTableMapperMock } from '../../helpers/mock';
-import { ReportIdentifier, Report } from '@stryker-mutator/dashboard-common';
+import { createTableMapperMock, createMutationTestResult, createFileResult, createFileResultDictionary } from '../../helpers/mock';
+import { ReportIdentifier, Report, Logger } from '@stryker-mutator/dashboard-common';
 
 describe(MutationTestingReportService.name, () => {
 
   let sut: MutationTestingReportService;
   let reportMapperMock: sinon.SinonStubbedInstance<MutationTestingReportMapper>;
   let resultMapperMock: sinon.SinonStubbedInstance<MutationTestingResultMapper>;
+  let logger: sinon.SinonStubbedInstance<Logger>;
 
   beforeEach(() => {
+    logger = {
+      debug: sinon.stub(),
+      info: sinon.stub(),
+      warn: sinon.stub(),
+      error: sinon.stub(),
+    };
     reportMapperMock = createTableMapperMock();
     resultMapperMock = sinon.createStubInstance(MutationTestingResultMapper);
     sut = new MutationTestingReportService(resultMapperMock as unknown as MutationTestingResultMapper, reportMapperMock);
+  });
+
+  describe('createStorageIfNotExists', () => {
+    it('should create storage for underlying mappers', async () => {
+      await sut.createStorageIfNotExists();
+      expect(reportMapperMock.createStorageIfNotExists).called;
+      expect(resultMapperMock.createStorageIfNotExists).called;
+    });
   });
 
   describe('saveReport', () => {
@@ -32,11 +47,11 @@ describe(MutationTestingReportService.name, () => {
       };
 
       // Act
-      await sut.saveReport(reportIdentifier, expectedResult);
+      await sut.saveReport(reportIdentifier, expectedResult, logger);
 
       // Assert
       expect(reportMapperMock.insertOrMerge).calledWith(expectedMutationTestingReport);
-      expect(resultMapperMock.insertOrMerge).calledWith(reportIdentifier, expectedResult);
+      expect(resultMapperMock.insertOrReplace).calledWith(reportIdentifier, expectedResult);
     });
 
     it('should normalize file names in the report', async () => {
@@ -52,10 +67,10 @@ describe(MutationTestingReportService.name, () => {
       const reportIdentifier = { version: 'feat/dashboard', moduleName: undefined, projectName: 'github.com/testOrg/testName' };
 
       // Act
-      await sut.saveReport(reportIdentifier, rawResult);
+      await sut.saveReport(reportIdentifier, rawResult, logger);
 
       // Assert
-      expect(resultMapperMock.insertOrMerge).calledWith(reportIdentifier, expectedResult);
+      expect(resultMapperMock.insertOrReplace).calledWith(reportIdentifier, expectedResult);
     });
 
     it('should support a score-only-report', async () => {
@@ -67,7 +82,7 @@ describe(MutationTestingReportService.name, () => {
       const reportIdentifier = { version: 'feat/dashboard', moduleName: 'core', projectName: 'github.com/testOrg/testName' };
 
       // Act
-      await sut.saveReport(reportIdentifier, expectedResult);
+      await sut.saveReport(reportIdentifier, expectedResult, logger);
 
       // Assert
       const expectedMutationTestingReport: MutationTestingReport = {
@@ -77,7 +92,7 @@ describe(MutationTestingReportService.name, () => {
         projectName: 'github.com/testOrg/testName'
       };
       expect(reportMapperMock.insertOrMerge).calledWith(expectedMutationTestingReport);
-      expect(resultMapperMock.insertOrMerge).calledWith(reportIdentifier, null);
+      expect(resultMapperMock.insertOrReplace).calledWith(reportIdentifier, null);
     });
 
     describe('for a module in a project', () => {
@@ -100,7 +115,7 @@ describe(MutationTestingReportService.name, () => {
           .withArgs(module2Report).resolves(module2Result);
 
         // Act
-        await sut.saveReport(module1Identifier, module1Result);
+        await sut.saveReport(module1Identifier, module1Result, logger);
 
         // Act
         const expectedProjectResult = createMutationTestResult({
@@ -109,7 +124,7 @@ describe(MutationTestingReportService.name, () => {
         });
         const expectedProjectId: ReportIdentifier = { projectName, version, moduleName: undefined };
         const expectedMutationTestingReport: MutationTestingReport = { ...expectedProjectId, mutationScore: 50 }; // one killed and one noCoverage
-        expect(resultMapperMock.insertOrMerge).calledWith(expectedProjectId, expectedProjectResult);
+        expect(resultMapperMock.insertOrReplace).calledWith(expectedProjectId, expectedProjectResult);
         expect(reportMapperMock.replace).calledWith(expectedMutationTestingReport, 'old-project-etag');
       });
 
@@ -131,7 +146,7 @@ describe(MutationTestingReportService.name, () => {
           .onSecondCall().resolves();
 
         // Act
-        await sut.saveReport(moduleIdentifier, moduleResult);
+        await sut.saveReport(moduleIdentifier, moduleResult, logger);
 
         // Act
         const expectedProjectResult = createMutationTestResult({
@@ -139,9 +154,43 @@ describe(MutationTestingReportService.name, () => {
         });
         const expectedProjectId: ReportIdentifier = { projectName, version, moduleName: undefined };
         const expectedMutationTestingReport: MutationTestingReport = { ...expectedProjectId, mutationScore: 100 };
-        expect(resultMapperMock.insertOrMerge).calledWith(expectedProjectId, expectedProjectResult);
+        expect(resultMapperMock.insertOrReplace).calledWith(expectedProjectId, expectedProjectResult);
         expect(reportMapperMock.replace).calledTwice;
         expect(reportMapperMock.replace).calledWith(expectedMutationTestingReport, 'new-project-etag');
+        expect(logger.info).calledWith({ message: `Optimistic concurrency exception occurred while trying to aggregate the report ${JSON.stringify(expectedProjectId)}, retrying...` });
+      });
+
+      it('should retry the projects report when an OptimisticConcurrencyError occurs on storing the result', async () => {
+        // Arrange
+        const projectName = 'github.com/testOrg/testName';
+        const version = 'feat/something';
+        const fileResultModule = createFileResult([MutantStatus.Killed]);
+        const moduleResult = createMutationTestResult({ 'a/b': fileResultModule });
+        const moduleReport: MutationTestingReport = { moduleName: 'core', mutationScore: 80, projectName, version };
+        reportMapperMock.findAll.resolves([{ model: moduleReport, etag: '' }]);
+        reportMapperMock.findOne.resolves({ etag: 'project-etag', model: moduleReport /* not used */ });
+        const moduleIdentifier = { version, moduleName: 'core', projectName };
+        const expectedProjectId: ReportIdentifier = { projectName, version, moduleName: undefined };
+        resultMapperMock.findOne.resolves(moduleResult);
+        resultMapperMock.insertOrReplace
+          .withArgs(moduleIdentifier, sinon.match.object).resolves()
+          .withArgs(expectedProjectId, sinon.match.object)
+            .onFirstCall().rejects(new OptimisticConcurrencyError())
+            .onSecondCall().resolves();
+        reportMapperMock.replace.resolves();
+
+        // Act
+        await sut.saveReport(moduleIdentifier, moduleResult, logger);
+
+        // Act
+        const expectedProjectResult = createMutationTestResult({
+          'core/a/b': fileResultModule
+        });
+        const expectedMutationTestingReport: MutationTestingReport = { ...expectedProjectId, mutationScore: 100 };
+        expect(resultMapperMock.insertOrReplace).calledThrice;
+        expect(resultMapperMock.insertOrReplace).calledWith(expectedProjectId, expectedProjectResult);
+        expect(reportMapperMock.replace).calledOnce;
+        expect(reportMapperMock.replace).calledWith(expectedMutationTestingReport, 'project-etag');
       });
     });
   });
@@ -195,33 +244,4 @@ describe(MutationTestingReportService.name, () => {
     });
   });
 
-  function createMutationTestResult(files: FileResultDictionary = createFileResultDictionary(createFileResult())): MutationTestResult {
-    return {
-      files,
-      schemaVersion: '1',
-      thresholds: {
-        high: 80,
-        low: 70
-      }
-    };
-  }
-
-  function createFileResult(mutantStates = [MutantStatus.Killed, MutantStatus.Survived]): FileResult {
-    return {
-      language: 'javascript',
-      source: '+',
-      mutants: mutantStates.map((status, index) => ({
-        id: index.toString(),
-        location: { start: { line: 1, column: 1 }, end: { line: 1, column: 2 } },
-        mutatorName: 'BinaryMutator',
-        replacement: '-',
-        status
-      }))
-    };
-  }
-  function createFileResultDictionary(fileResult: FileResult) {
-    return {
-      'a.js': fileResult
-    };
-  }
 });

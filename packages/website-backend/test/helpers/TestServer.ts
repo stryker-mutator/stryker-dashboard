@@ -74,6 +74,7 @@ beforeEach(() => {
     replace: sinon.stub()
   };
   DataAccessStub.mutationTestingReportService = {
+    createStorageIfNotExists: sinon.stub(),
     saveReport: sinon.stub(),
     findOne: sinon.stub(),
   };
