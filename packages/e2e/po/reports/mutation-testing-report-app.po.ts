@@ -12,16 +12,26 @@ export class MutationTestingReportAppPageObject extends PageObject {
     return findShadowRoot(this.host);
   }
 
+  private async totalsShadowRoot(): Promise<WebElement> {
+    const shadowRoot = await this.shadowRoot();
+    return findShadowRoot(shadowRoot.findElement(by.css('mutation-test-report-totals')));
+  }
+
   public async title(): Promise<string> {
     const shadowRoot = await this.shadowRoot();
     return shadowRoot.findElement(by.css('h1')).getText();
   }
 
   public async mutationScore(): Promise<number> {
-    const shadowRoot = await this.shadowRoot();
-    const totals = await findShadowRoot(shadowRoot.findElement(by.css('mutation-test-report-totals')));
+    const totals = await this.totalsShadowRoot();
     const percentage = await totals.findElement(by.css('tbody th')).getText();
     return Number.parseFloat(percentage);
+  }
+
+  public async fileNames(): Promise<string[]> {
+    const totals = await this.totalsShadowRoot();
+    const files = await totals.findElements(by.css('tbody td a'));
+    return Promise.all(files.map(a => a.getText()));
   }
 
   public async isVisible() {

@@ -7,20 +7,29 @@ import { browser } from 'protractor';
 
 const httpClient = axios.create({ baseURL: browser.baseUrl });
 
-async function enableRepository(repositorySlug: string): Promise<string> {
-  const patchBody: Partial<Repository> = { enabled: true };
-  const authToken = generateAuthToken();
-  const response = await httpClient.patch<EnableRepositoryResponse>(`/api/repositories/${repositorySlug}`, patchBody, {
-    headers: {
-      Authorization: `Bearer ${authToken}`
-    }
-  });
-  return response.data.apiKey;
+const projectApiKeys = new Map<string, Promise<string>>();
+
+async function enableRepository(projectName: string): Promise<string> {
+  if (projectApiKeys.has(projectName)) {
+    return projectApiKeys.get(projectName)!;
+  } else {
+    projectApiKeys.set(projectName, Promise.resolve().then(async () => {
+      const patchBody: Partial<Repository> = { enabled: true };
+      const authToken = generateAuthToken();
+      const response = await httpClient.patch<EnableRepositoryResponse>(`/api/repositories/${projectName}`, patchBody, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      });
+      return response.data.apiKey;
+    }));
+    return projectApiKeys.get(projectName)!;
+  }
 }
 
 export async function uploadReport(result: Report) {
   const apiKey = await enableRepository(result.projectName);
-  await httpClient.put(`/api/reports/${result.projectName}/${result.version}`, result, {
+  await httpClient.put(`/api/reports/${result.projectName}/${result.version}${result.moduleName ? `?module=${result.moduleName}` : ''}`, result, {
     headers: {
       ['X-Api-Key']: apiKey
     }
@@ -36,11 +45,11 @@ export function scoreOnlyReport(projectName: string, version: string, mutationSc
   };
 }
 
-export function simpleReport(projectName: string, version: string): Report {
+export function simpleReport(projectName: string, version: string, moduleName?: string, states = [MutantStatus.Survived, MutantStatus.Survived, MutantStatus.Killed]): Report {
   return {
     projectName,
     version,
-    moduleName: undefined,
+    moduleName,
     schemaVersion: '1.1',
     thresholds: {
       high: 80,
@@ -66,7 +75,7 @@ export function simpleReport(projectName: string, version: string): Report {
             },
             replacement: '""',
             mutatorName: 'String Literal',
-            status: MutantStatus.Survived
+            status: states[0]
           },
           {
             id: '1',
@@ -82,7 +91,7 @@ export function simpleReport(projectName: string, version: string): Report {
                 column: 13
               }
             },
-            status: MutantStatus.Survived
+            status: states[1]
           },
           {
             id: '2',
@@ -98,7 +107,7 @@ export function simpleReport(projectName: string, version: string): Report {
                 column: 1
               }
             },
-            status: MutantStatus.Killed
+            status: states[2]
           }
         ]
       }

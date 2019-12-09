@@ -1,6 +1,7 @@
 import { ReportPage } from '../po/reports/report-page.po';
 import { expect } from 'chai';
 import { uploadReport, simpleReport, scoreOnlyReport } from '../actions/report.action';
+import { MutantStatus } from 'mutation-testing-report-schema';
 
 describe('Report page', () => {
   let page: ReportPage;
@@ -44,5 +45,26 @@ describe('Report page', () => {
         expect(await page.mutationScoreText()).eq('Mutation score: 42');
       });
     });
+  });
+
+  describe('when multiple reports with module names are updated for one project', () => {
+    before(async () => {
+      await Promise.all([
+        uploadReport(simpleReport('github.com/stryker-mutator-test-organization/hello-org', 'feat/modules', 'one', [MutantStatus.Killed, MutantStatus.Killed, MutantStatus.Killed])),
+        uploadReport(simpleReport('github.com/stryker-mutator-test-organization/hello-org', 'feat/modules', 'two', [MutantStatus.Survived, MutantStatus.Survived, MutantStatus.Survived])),
+        uploadReport(simpleReport('github.com/stryker-mutator-test-organization/hello-org', 'feat/modules', 'three', [MutantStatus.Killed, MutantStatus.Timeout, MutantStatus.NoCoverage])),
+      ]);
+      await page.navigate('github.com/stryker-mutator-test-organization/hello-org', 'feat/modules');
+    });
+
+    it('should show the aggregated report for the project', async () => {
+      const actualTitle = await page.mutationTestReportApp.title();
+      const mutationScore = await page.mutationTestReportApp.mutationScore();
+      const fileNames = await page.mutationTestReportApp.fileNames();
+      expect(actualTitle).eq('All files - hello-org/feat/modules - Stryker Dashboard');
+      expect(mutationScore).eq(55.56);
+      expect(fileNames).deep.eq(['one/test.js', 'three/test.js', 'two/test.js']);
+    });
+
   });
 });
