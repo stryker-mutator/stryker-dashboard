@@ -34,7 +34,7 @@ export default class GithubRepositoryService {
   public async getAllForOrganization(auth: github.Authentication, organizationLogin: string): Promise<contract.Repository[]> {
     const agent = new GithubAgent(auth.accessToken);
     const githubRepos = agent.getOrganizationRepositories(organizationLogin);
-    const repoEntities = this.repositoryMapper.findAll(DashboardQuery.create(Project).wherePartitionKeyEquals({ owner: prefixGithub(auth.username) }));
+    const repoEntities = this.repositoryMapper.findAll(DashboardQuery.create(Project).wherePartitionKeyEquals({ owner: prefixGithub(organizationLogin) }));
     return this.matchRepositories(githubRepos, repoEntities);
   }
 

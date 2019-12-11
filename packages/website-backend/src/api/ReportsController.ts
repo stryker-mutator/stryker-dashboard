@@ -1,7 +1,7 @@
 import { Controller, Get, Put, BodyParams, QueryParams, HeaderParams, Req } from '@tsed/common';
 import { BadRequest, NotFound, Unauthorized, InternalServerError } from 'ts-httpexceptions';
 import { MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
-import { Slug, InvalidSlugError, Report, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
+import { Slug, InvalidSlugError, Report, MutationScoreOnlyResult, isMutationTestResult } from '@stryker-mutator/dashboard-common';
 import { ReportValidator } from '../services/SchemaValidator';
 import Configuration from '../services/Configuration';
 import { ApiKeyValidator } from '../services/ApiKeyValidator';
@@ -11,6 +11,7 @@ import DataAccess from '../services/DataAccess';
 
 interface PutReportResponse {
   href: string;
+  projectHref?: string;
 }
 
 const API_KEY_HEADER = 'X-Api-Key';
@@ -42,9 +43,16 @@ export default class ReportsController {
     this.verifyRequiredPutReportProperties(result);
     try {
       await this.reportService.saveReport({ projectName: project, version, moduleName }, result, req.log);
-      return {
-        href: `${this.config.baseUrl}/reports/${project}/${version}${moduleName ? `?module=${moduleName}` : ''}`
-      };
+      if (moduleName && isMutationTestResult(result)) {
+        return {
+          href: `${this.config.baseUrl}/reports/${project}/${version}?module=${moduleName}`,
+          projectHref: `${this.config.baseUrl}/reports/${project}/${version}`
+        };
+      } else {
+        return {
+          href: `${this.config.baseUrl}/reports/${project}/${version}${moduleName ? `?module=${moduleName}` : ''}`
+        };
+      }
     } catch (error) {
       req.log.error({ message: `Error while trying to save report ${JSON.stringify({ project, version, moduleName })}`, error });
       throw new InternalServerError('Internal server error');
