@@ -5,30 +5,7 @@
 
 ![Stryker](https://github.com/stryker-mutator/stryker/raw/master/stryker-80x80.png)
 
-# The app for the Stryker mutation score badge
-
-## Work in progress!
-
-This repository represents a work in progress.
-
-A Node.js application that
-
-- [X] Authenticates GitHub users using OAuth2.
-- [X] requests a list of projects from the authenticated user and shows it.
-- [ ] saves projects for which a badge has to be displayed.
-- [ ] generates a key for each project and shows it to the user.
-Ideally, the key will not be stored in plain text in the database.
-- [ ] accepts mutation score per user / repo.
-The coverage data should uploaded using the above key.
-If the correct key is used, store mutation score in database.
-- [ ] retrieves the most recent score for a given user / repo, returned as a Shields.IO badge.
-- [ ] some kind of database to store projects, keys and scores.
-Let's start with PostgreSQL and see how things go.
-- [ ] a nice front end app (written in Angular 5 and Bootstrap 4) for selecting projects, re-generating keys and stuff.
-
-Other points
-- [X] Should also works with lerna-style monorepos (with a sub-package name/label to identify the package).
-- [ ] Make app generic so it could be used for other scores.
+# The Dashboard
 
 ## Getting started
 
