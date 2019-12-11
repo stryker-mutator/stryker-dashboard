@@ -2,7 +2,7 @@ import { MutationTestResult, Thresholds } from 'mutation-testing-report-schema';
 import { normalizeFileNames } from 'mutation-testing-metrics';
 import { calculateMetrics } from 'mutation-testing-metrics';
 import { MutationTestingResultMapper } from '../mappers/MutationTestingResultMapper';
-import { MutationTestingReportMapper, createMutationTestingReportMapper, Result } from '../mappers';
+import { MutationTestingReportMapper, createMutationTestingReportMapper, Result, DashboardQuery } from '../mappers';
 import { MutationScoreOnlyResult, isMutationTestResult, ReportIdentifier, Report, Logger } from '@stryker-mutator/dashboard-common';
 import { MutationTestingReport } from '../models';
 import { OptimisticConcurrencyError } from '../errors';
@@ -51,7 +51,10 @@ export class MutationTestingReportService {
 
   private async tryAggregateProjectReport(id: ReportIdentifier) {
     const projectMutationScoreModel = await this.mutationScoreMapper.findOne(id);
-    const moduleScoreResults = await this.mutationScoreMapper.findAll(id);
+    const moduleScoreResults = await this.mutationScoreMapper.findAll(DashboardQuery.create(MutationTestingReport)
+      .wherePartitionKeyEquals(id)
+      .whereRowKeyNotEquals({ moduleName: undefined })
+    );
     const scoreResultWithResult = (await Promise.all(moduleScoreResults
       .map(async score => [score, await this.resultMapper.findOne(score.model)] as const))).filter(moduleHasResult);
     if (scoreResultWithResult.length) {

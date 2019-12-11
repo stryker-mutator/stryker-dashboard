@@ -5,6 +5,7 @@ import * as dal from '@stryker-mutator/dashboard-data-access';
 import * as contract from '@stryker-mutator/dashboard-contract';
 import * as github from '../github/models';
 import { Unauthorized } from 'ts-httpexceptions';
+import { DashboardQuery, Project } from '@stryker-mutator/dashboard-data-access';
 
 /**
  * Prefix a github login name with "github.com/" in order to put it in the database
@@ -26,14 +27,14 @@ export default class GithubRepositoryService {
   public async getAllForUser(auth: github.Authentication): Promise<contract.Repository[]> {
     const agent = new GithubAgent(auth.accessToken);
     const githubRepos = agent.getMyRepositories();
-    const repoEntities = this.repositoryMapper.findAll({ owner: prefixGithub(auth.username) });
+    const repoEntities = this.repositoryMapper.findAll(DashboardQuery.create(Project).wherePartitionKeyEquals({ owner: prefixGithub(auth.username) }));
     return this.matchRepositories(githubRepos, repoEntities);
   }
 
   public async getAllForOrganization(auth: github.Authentication, organizationLogin: string): Promise<contract.Repository[]> {
     const agent = new GithubAgent(auth.accessToken);
     const githubRepos = agent.getOrganizationRepositories(organizationLogin);
-    const repoEntities = this.repositoryMapper.findAll({ owner: prefixGithub(organizationLogin) });
+    const repoEntities = this.repositoryMapper.findAll(DashboardQuery.create(Project).wherePartitionKeyEquals({ owner: prefixGithub(auth.username) }));
     return this.matchRepositories(githubRepos, repoEntities);
   }
 

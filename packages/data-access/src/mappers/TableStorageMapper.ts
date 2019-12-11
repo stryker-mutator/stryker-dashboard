@@ -1,17 +1,10 @@
-import { TableQuery, Constants } from 'azure-storage';
+import { Constants } from 'azure-storage';
 import TableServiceAsPromised, { Entity } from '../services/TableServiceAsPromised';
 import { encodeKey, decodeKey, isStorageError } from '../utils';
 import { Mapper, Result } from './Mapper';
 import { OptimisticConcurrencyError } from '../errors';
-
-interface ModelClass<TModel, TPartitionKeyFields extends keyof TModel, TRowKeyFields extends keyof TModel> {
-  new(): TModel;
-  createPartitionKey(entity: Pick<TModel, TPartitionKeyFields>): string;
-  createRowKey(entity: Pick<TModel, TRowKeyFields>): string | undefined;
-  identify(entity: Partial<TModel>, partitionKeyValue: string, rowKeyValue: string): void;
-  readonly persistedFields: ReadonlyArray<Exclude<keyof TModel, TRowKeyFields>>;
-  readonly tableName: string;
-}
+import { ModelClass } from './ModelClass';
+import { DashboardQuery } from './DashboardQuery';
 
 export default class TableStorageMapper<TModel extends object, TPartitionKeyFields extends keyof TModel, TRowKeyFields extends keyof TModel>
   implements Mapper<TModel, TPartitionKeyFields, TRowKeyFields> {
@@ -47,8 +40,8 @@ export default class TableStorageMapper<TModel extends object, TPartitionKeyFiel
     }
   }
 
-  public async findAll(identity: Pick<TModel, TPartitionKeyFields>): Promise<Result<TModel>[]> {
-    const tableQuery = this.createSelectByPartitionKeyQuery(identity);
+  public async findAll(query: DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> = DashboardQuery.create(this.ModelClass)): Promise<Result<TModel>[]> {
+    const tableQuery = query.build();
     const results = await this.tableService.queryEntities<TModel, TPartitionKeyFields | TRowKeyFields>(this.ModelClass.tableName, tableQuery, undefined);
     return results.entries.map(entity => this.toModel(entity));
   }
@@ -106,9 +99,5 @@ export default class TableStorageMapper<TModel extends object, TPartitionKeyFiel
     this.ModelClass.persistedFields.forEach(field => data[field] = entity[field]);
     data['.metadata'] = {};
     return data;
-  }
-
-  private createSelectByPartitionKeyQuery(identity: Pick<TModel, TPartitionKeyFields>) {
-    return new TableQuery().where('PartitionKey eq ?', encodeKey(this.ModelClass.createPartitionKey(identity)));
   }
 }
