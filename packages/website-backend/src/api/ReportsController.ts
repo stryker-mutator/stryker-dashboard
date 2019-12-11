@@ -45,8 +45,8 @@ export default class ReportsController {
       return {
         href: `${this.config.baseUrl}/reports/${project}/${version}${moduleName ? `?module=${moduleName}` : ''}`
       };
-    } catch (err) {
-      console.error(`Error while trying to save report ${JSON.stringify({ project, version, moduleName })}`, err);
+    } catch (error) {
+      req.log.error({ message: `Error while trying to save report ${JSON.stringify({ project, version, moduleName })}`, error });
       throw new InternalServerError('Internal server error');
     }
   }
@@ -57,7 +57,7 @@ export default class ReportsController {
     @QueryParams('module') moduleName: string | undefined
   ): Promise<Report> {
     if (req.log) {
-      req.log.info({test: 'Test this one'});
+      req.log.info({ test: 'Test this one' });
     }
     const slug = req.path;
     const { project, version } = this.parseSlug(slug);

@@ -1,4 +1,4 @@
-import { createProjectMapper, Project } from '../../src';
+import { createProjectMapper, Project, DashboardQuery } from '../../src';
 import azure = require('azure-storage');
 import { TableService } from 'azure-storage';
 import { promisify } from 'util';
@@ -57,7 +57,7 @@ describe('Data access layer', () => {
         ['Project', { ...key, enabled: true, RowKey: 'stryker' }]);
       await promisify(tableService.insertOrReplaceEntity).apply(tableService,
         ['Project', { ...key, enabled: false, RowKey: 'stryker-dashboard' }]);
-      const actual = await sut.findAll({ owner: key.PartitionKey });
+      const actual = await sut.findAll(DashboardQuery.create(Project).wherePartitionKeyEquals({ owner: key.PartitionKey }));
       expect(actual).deep.eq([
         { owner: 'stryker-mutator', name: 'stryker', enabled: true },
         { owner: 'stryker-mutator', name: 'stryker-dashboard', enabled: false }

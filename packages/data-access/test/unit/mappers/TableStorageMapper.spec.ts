@@ -4,28 +4,28 @@ import * as sinon from 'sinon';
 import { expect } from 'chai';
 import { TableQuery, Constants } from 'azure-storage';
 import { StorageError } from '../../helpers/StorageError';
-import { Result, OptimisticConcurrencyError } from '../../../src';
+import { Result, OptimisticConcurrencyError, DashboardQuery } from '../../../src';
+
+export class FooModel {
+  public partitionId: string;
+  public rowId: string;
+  public bar: number;
+
+  public static createPartitionKey(entity: Pick<FooModel, 'partitionId'>): string {
+    return entity.partitionId;
+  }
+  public static createRowKey(entity: Pick<FooModel, 'rowId'>): string | undefined {
+    return entity.rowId;
+  }
+  public static identify(entity: FooModel, partitionKeyValue: string, rowKeyValue: string): void {
+    entity.partitionId = partitionKeyValue;
+    entity.rowId = rowKeyValue;
+  }
+  public static readonly persistedFields = ['bar'] as const;
+  public static readonly tableName = 'FooTable';
+}
 
 describe(TModel.name, () => {
-
-  class FooModel {
-    public partitionId: string;
-    public rowId: string;
-    public bar: number;
-
-    public static createPartitionKey(entity: Pick<FooModel, 'partitionId'>): string {
-      return entity.partitionId;
-    }
-    public static createRowKey(entity: Pick<FooModel, 'rowId'>): string | undefined {
-      return entity.rowId;
-    }
-    public static identify(entity: FooModel, partitionKeyValue: string, rowKeyValue: string): void {
-      entity.partitionId = partitionKeyValue;
-      entity.rowId = rowKeyValue;
-    }
-    public static readonly persistedFields = ['bar'] as const;
-    public static readonly tableName = 'FooTable';
-  }
 
   class TestHelper {
     public tableServiceAsPromisedMock: sinon.SinonStubbedInstance<TableServiceAsPromised> = {
@@ -98,7 +98,9 @@ describe(TModel.name, () => {
     it('should query the underlying storage', async () => {
       const expectedQuery = new TableQuery().where('PartitionKey eq ?', 'github;partKey');
       helper.tableServiceAsPromisedMock.queryEntities.resolves({ entries: [] });
-      await helper.sut.findAll({ partitionId: 'github/partKey' });
+      await helper.sut.findAll(DashboardQuery.create(FooModel)
+        .wherePartitionKeyEquals({ partitionId: 'github/partKey' })
+      );
       expect(helper.tableServiceAsPromisedMock.queryEntities).calledWith('FooTable', expectedQuery);
     });
 
@@ -108,7 +110,9 @@ describe(TModel.name, () => {
         { rowId: 'rowKey2', partitionId: 'partKey2', bar: 25 }
       ];
       helper.tableServiceAsPromisedMock.queryEntities.resolves({ entries: expectedEntities.map(entity => createEntity(entity)) });
-      const actualProjects = await helper.sut.findAll({ partitionId: 'github/partKey' });
+      const actualProjects = await helper.sut.findAll(DashboardQuery.create(FooModel)
+        .wherePartitionKeyEquals({ partitionId: 'github/partKey' })
+      );
       expect(actualProjects).deep.eq(expectedEntities.map(model => ({ model, etag: 'foo-etag' })));
     });
   });

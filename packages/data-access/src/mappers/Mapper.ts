@@ -1,3 +1,5 @@
+import { DashboardQuery } from './DashboardQuery';
+
 export interface Result<TModel> { etag: string; model: TModel; }
 
 export interface Mapper<TModel, TPartitionKeyFields extends keyof TModel, TRowKeyFields extends keyof TModel> {
@@ -6,5 +8,5 @@ export interface Mapper<TModel, TPartitionKeyFields extends keyof TModel, TRowKe
   insert(model: TModel): Promise<Result<TModel>>;
   replace(model: TModel, etag: string): Promise<Result<TModel>>;
   findOne(identifier: Pick<TModel, TPartitionKeyFields | TRowKeyFields>): Promise<Result<TModel> | null>;
-  findAll(identifier: Pick<TModel, TPartitionKeyFields>): Promise<Result<TModel>[]>;
+  findAll(query: DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields>): Promise<Result<TModel>[]>;
 }
