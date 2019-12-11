@@ -1,6 +1,6 @@
 {
   "name": "@stryker-mutator/dashboard-data-access",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "This package contains the data access layer of the stryker dashboard application.",
   "scripts": {
     "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"test/helpers/**/*.js\" \"test/unit/**/*.js\""
@@ -19,7 +19,7 @@
   "typings": "src/index.ts",
   "license": "ISC",
   "dependencies": {
-    "@stryker-mutator/dashboard-common": "^0.3.1",
+    "@stryker-mutator/dashboard-common": "^0.4.0",
     "azure-storage": "^2.10.2",
     "mutation-testing-metrics": "^1.2.2",
     "mutation-testing-report-schema": "^1.2.0"
