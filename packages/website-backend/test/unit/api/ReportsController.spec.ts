@@ -5,16 +5,13 @@ import { Project } from '@stryker-mutator/dashboard-data-access';
 import { MutationTestResult, MutantStatus } from 'mutation-testing-report-schema';
 import { expect } from 'chai';
 import { generateHashValue } from '../../../src/utils';
-import sinon = require('sinon');
 import { Report } from '@stryker-mutator/dashboard-common';
 
 describe(ReportsController.name, () => {
   let request: supertest.SuperTest<supertest.Test>;
-  let errorLog: sinon.SinonStub;
 
   beforeEach(async () => {
     request = await testServer(ReportsController);
-    errorLog = sinon.stub(console, 'error');
   });
 
   describe('HTTP GET /:slug', () => {
@@ -90,14 +87,43 @@ describe(ReportsController.name, () => {
     it('should respond with the href link to the report', async () => {
       // Act
       const response = await request
-        .put('/reports/github.com/testOrg/testName/feat/dashboard?module=core')
+        .put('/reports/github.com/testOrg/testName/feat/dashboard')
         .set('X-Api-Key', apiKey)
         .send(createMutationTestResult());
 
       // Assert
       expect(response.status).eq(200);
       expect(response.body).deep.eq({
-        href: 'base url/reports/github.com/testOrg/testName/feat/dashboard?module=core'
+        href: 'base url/reports/github.com/testOrg/testName/feat/dashboard'
+      });
+    });
+
+    it('should respond with the href to the project\'s report when uploading a report with a result for a specific module', async () => {
+      // Act
+      const response = await request
+        .put('/reports/github.com/testOrg/testName/myWebsite?module=logging')
+        .set('X-Api-Key', apiKey)
+        .send(createMutationTestResult());
+
+      // Assert
+      expect(response.status).eq(200);
+      expect(response.body).deep.eq({
+        href: 'base url/reports/github.com/testOrg/testName/myWebsite?module=logging',
+        projectHref: 'base url/reports/github.com/testOrg/testName/myWebsite'
+      });
+    });
+
+    it('should not add the project href to the response when the uploaded report is a mutation score only report', async () => {
+      // Act
+      const response = await request
+        .put('/reports/github.com/testOrg/testName/myWebsite?module=logging')
+        .set('X-Api-Key', apiKey)
+        .send({ mutationScore: 25 });
+
+      // Assert
+      expect(response.status).eq(200);
+      expect(response.body).deep.eq({
+        href: 'base url/reports/github.com/testOrg/testName/myWebsite?module=logging'
       });
     });
 
@@ -115,7 +141,6 @@ describe(ReportsController.name, () => {
       // Assert
       expect(response.status).eq(500);
       expect(response.text).eq('Internal server error');
-      expect(errorLog).calledWith('Error while trying to save report {"project":"github.com/testOrg/testName","version":"feat/dashboard","moduleName":"core"}', expectedError);
     });
 
     it('should respond with 401 when X-Api-Key header is missing', async () => {

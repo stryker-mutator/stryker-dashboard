@@ -7,6 +7,7 @@ import GithubRepositoryService from '../../../src/services/GithubRepositoryServi
 import { expect } from 'chai';
 import { HTTPException } from 'ts-httpexceptions';
 import sinon = require('sinon');
+import { DashboardQuery, Project } from '@stryker-mutator/dashboard-data-access';
 
 describe('GithubRepositoryService', () => {
 
@@ -61,7 +62,7 @@ describe('GithubRepositoryService', () => {
       dataAccessStub.repositoryMapper.findAll.resolves([]);
       await sut.getAllForOrganization(githubFactory.authentication({ accessToken: '213ASDcs' }), 'foobarOrg');
       expect(githubAgentMock.getOrganizationRepositories).calledWith('foobarOrg');
-      expect(dataAccessStub.repositoryMapper.findAll).calledWith({ owner: 'github.com/foobarOrg' });
+      expect(dataAccessStub.repositoryMapper.findAll).calledWith(DashboardQuery.create(Project).wherePartitionKeyEquals({ owner: 'github.com/foobarOrg' }));
       expect(githubAgentModule.default).calledWithNew;
       expect(githubAgentModule.default).calledWith('213ASDcs');
     });
