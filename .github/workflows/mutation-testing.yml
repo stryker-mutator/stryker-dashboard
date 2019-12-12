@@ -1,7 +1,7 @@
 name: Mutation testing
 
 on:
-  push: ~
+  push: [master]
 
 jobs:
   website-frontend:
