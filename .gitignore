@@ -21,3 +21,4 @@ yarn-error.log*
 packages/*/test/**/*.d.ts
 packages/*/src/**/*.d.ts
 *.map
+.stryker-tmp

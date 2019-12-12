@@ -14,7 +14,8 @@
     "prestart": "func extensions install",
     "start:host": "func start",
     "start": "npm run start:host",
-    "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"dist/test/**/*.js\""
+    "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"dist/test/**/*.js\"",
+    "stryker": "stryker run"
   },
   "dependencies": {
     "@stryker-mutator/dashboard-common": "^0.4.0",

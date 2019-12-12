@@ -4,7 +4,7 @@ import * as utils from '../../../src/utils';
 import sinon = require('sinon');
 
 describe('Configuration', () => {
-  let requiredEnvVarStub: sinon.SinonStub;
+  let requiredEnvVarStub: sinon.SinonStub<[string], string>;
 
   beforeEach(() => {
     requiredEnvVarStub = sinon.stub(utils, 'requiredEnvVar');

@@ -1,17 +1,18 @@
 import { expect } from 'chai';
-import passport from 'passport';
+import passport, { AuthenticateOptions } from 'passport';
 import supertest from 'supertest';
 import GithubAuth from '../../../../src/api/auth/GithubAuth';
 import * as security from '../../../../src/middleware/securityMiddleware';
 import testServer from '../../../helpers/TestServer';
 import * as sinon from 'sinon';
+import { Authentication } from '../../../../src/github/models';
 
 describe('GitHubAuth', () => {
 
-  let createTokenStub: sinon.SinonStub;
+  let createTokenStub: sinon.SinonStub<[Authentication, string], Promise<string>>;
   let request: supertest.SuperTest<supertest.Test>;
   let logoutStub: sinon.SinonStub;
-  let authenticateStub: sinon.SinonStub;
+  let authenticateStub: sinon.SinonStub<[string | string[], AuthenticateOptions, (((...args: any[]) => any) | undefined)?], any>;
   let authenticateMiddleware: sinon.SinonStub;
 
   beforeEach(async () => {

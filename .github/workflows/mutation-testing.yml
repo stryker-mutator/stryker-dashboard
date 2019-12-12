@@ -1,0 +1,28 @@
+name: Mutation testing
+
+on:
+  push: 
+    branches: [master]
+
+jobs:
+  website-frontend:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - run: npm ci
+    - run: npm run build
+    - name: Mutation testing
+      run: npx lerna run --stream --concurrency 1 --scope @stryker-mutator/dashboard-frontend stryker
+      env:
+        STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
+
+  non-frontend: 
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - run: npm ci
+    - run: npm run build
+    - name: Mutation testing
+      run: npx lerna run --stream --concurrency 1 --ignore @stryker-mutator/dashboard-frontend stryker
+      env:
+        STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
