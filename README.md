@@ -1,3 +1,4 @@
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fstryker-mutator%2Fstryker-dashboard%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/stryker-mutator/stryker-dashboard/master)
 [![Build Status](https://github.com/stryker-mutator/stryker-dashboard/workflows/CI/badge.svg)](https://github.com/stryker-mutator/stryker-dashboard/actions?workflow=CI)
 [![Gitter](https://badges.gitter.im/stryker-mutator/stryker.svg)](https://gitter.im/stryker-mutator/stryker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Dependency Status](https://img.shields.io/david/stryker-mutator/stryker-badge.svg)](https://david-dm.org/stryker-mutator/stryker-badge)
@@ -5,11 +6,12 @@
 
 ![Stryker](https://github.com/stryker-mutator/stryker/raw/master/stryker-80x80.png)
 
-# The Dashboard
+# The Stryker dashboard
 
-## Getting started
+## Local development
 
 ### Requirements
+
 First things first, there's always something before you can start.
 
 To make our life easier, we use [NPM](https://www.npmjs.com/) a lot. Make sure you have it installed.
@@ -24,11 +26,13 @@ We store our data in [Azure Storage](https://azure.microsoft.com/en-us/free/serv
 > Make sure you set the `Authorization callback URL` to `http://localhost:1337/auth/github/callback` (you can also use your preferred port).
 
 ### Build the application
-Building the application is easy. First run `npm install && npm run build`, to build the application. Followed by: `docker build -t stryker/dashboard .`, to build the Docker image.
+
+Building the application is easy. First run `npm install && npm run build`, to build the application.
 
 > If you run into problems with building using npm, this is likely caused by our use of `lerna` combined with some of the latest `node` features. A solution is to only use the npm install and build command in the `packages/website-frontend` directory.
 
 ### Configuration
+
 Next, you need to define the following environment variables in a Docker [enviroment variables file](https://docs.docker.com/engine/reference/commandline/run/#set-environment-variables--e-env-env-file):
 
 > You can also enter these in the commandline, but we recommend using a separate file because it contains sensitive information.
