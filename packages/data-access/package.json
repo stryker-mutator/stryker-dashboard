@@ -3,7 +3,7 @@
   "version": "0.4.0",
   "description": "This package contains the data access layer of the stryker dashboard application.",
   "scripts": {
-    "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"test/helpers/**/*.js\" \"test/unit/**/*.js\"",
+    "test": "nyc --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha \"dist/test/helpers/**/*.js\" \"dist/test/unit/**/*.js\"",
     "stryker": "stryker run"
   },
   "publishConfig": {
