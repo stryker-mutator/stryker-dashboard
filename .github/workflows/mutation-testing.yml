@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Install dependencies
-      run: npm ci
+    - run: npm ci
+    - run: npm run build
     - name: Mutation testing
       run: |
         cd packages/website-frontend
@@ -21,12 +21,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Install dependencies
-      run: npm ci
+    - run: npm ci
     - run: npm run build
     - name: Mutation testing
       run: |
-        cd packages/website-frontend
+        cd packages/website-backend
+        npm run stryker
+        cd ../common
+        npm run stryker
+        cd ../data-access
+        npm run stryker
+        cd ../badge-api
         npm run stryker
       env:
         STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
