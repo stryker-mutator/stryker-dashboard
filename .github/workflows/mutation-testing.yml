@@ -11,9 +11,7 @@ jobs:
     - run: npm ci
     - run: npm run build
     - name: Mutation testing
-      run: |
-        cd packages/website-frontend
-        npm run stryker
+      run: npx lerna run --stream --concurrency 1 --scope @stryker-mutator/dashboard-frontend stryker
       env:
         STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
@@ -24,14 +22,6 @@ jobs:
     - run: npm ci
     - run: npm run build
     - name: Mutation testing
-      run: |
-        cd packages/website-backend
-        npm run stryker
-        cd ../common
-        npm run stryker
-        cd ../data-access
-        npm run stryker
-        cd ../badge-api
-        npm run stryker
+      run: npx lerna run --stream --concurrency 1 --ignore @stryker-mutator/dashboard-frontend stryker
       env:
         STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
