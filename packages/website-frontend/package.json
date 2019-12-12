@@ -9,7 +9,8 @@
     "build": "ng build --prod",
     "test": "ng test --watch false --code-coverage",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "stryker": "stryker run"
   },
   "publishConfig": {
     "access": "public"
@@ -35,6 +36,7 @@
     "@ng-bootstrap/ng-bootstrap": "~5.1.4",
     "@stryker-mutator/dashboard-common": "^0.4.0",
     "@stryker-mutator/dashboard-contract": "^0.4.0",
+    "@stryker-mutator/karma-runner": "^2.4.0",
     "@types/jasmine": "~3.3.12",
     "@types/jasminewd2": "~2.0.6",
     "@types/node": "~11.13.0",
