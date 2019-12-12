@@ -10,8 +10,8 @@ import sinon = require('sinon');
 describe('RepositoriesController', () => {
 
   let request: SuperTest<Test>;
-  let generateHashStub: sinon.SinonStub;
-  let generateApiKeyStub: sinon.SinonStub;
+  let generateHashStub: sinon.SinonStub<[string], string>;
+  let generateApiKeyStub: sinon.SinonStub<[], string>;
   let auth: github.Authentication;
   let authToken: string;
 
