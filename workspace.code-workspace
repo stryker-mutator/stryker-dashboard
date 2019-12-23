@@ -29,20 +29,9 @@
     "editor.codeActionsOnSave": {
       "source.fixAll.tslint": true
     },
-    "files.exclude": {
-      "**/.git": true,
-      "**/.svn": true,
-      "**/.hg": true,
-      "**/CVS": true,
-      "**/.DS_Store": true,
-      "**/*.js.map": true,
-      "**/*.js": {
-        "when": "$(basename).ts"
-      },
-      "**/{src,test}/**/*{.tsbuildinfo,.d.ts}*": true
-    },
     "typescript.tsdk": "stryker-dashboard\\node_modules\\typescript\\lib",
     "cSpell.words": [
+      "clippy",
       "etag",
       "fdescribe",
       "gitlab"
