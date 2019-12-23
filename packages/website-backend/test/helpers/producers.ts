@@ -31,7 +31,8 @@ export const githubFactory = {
       pull: false,
       push: false
     },
-    url: 'https://github.com/foo/foobar'
+    url: 'https://github.com/foo/foobar',
+    default_branch: 'master'
   }))
 };
 
@@ -45,7 +46,8 @@ export const contractFactory = {
     name: 'name',
     origin: 'github',
     owner: 'organization',
-    slug: 'github.com/organization/name'
+    slug: 'github.com/organization/name',
+    defaultBranch: 'master'
   }))
 };
 

@@ -19,6 +19,7 @@ export interface Repository {
   url: string;
   description: string;
   permissions: RepositoryPermissions;
+  default_branch: string;
 }
 
 export interface RepositoryPermissions {
