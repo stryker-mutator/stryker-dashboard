@@ -1,10 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 
 import { RepositorySwitchComponent } from './repository-switch.component';
 import { RepositoryService } from '../repository.service';
 import { EnableRepositoryResponse, Repository } from '@stryker-mutator/dashboard-contract';
+import { MutationScoreBadgeComponent } from '../mutation-score-badge/mutation-score-badge.component';
 
 describe(RepositorySwitchComponent.name, () => {
   let mockRepo: Repository;
@@ -24,11 +26,12 @@ describe(RepositorySwitchComponent.name, () => {
       origin: 'https://www.github.com',
       owner: 'stryker-mutator',
       name: 'stryker-badge',
-      enabled: true
+      enabled: true,
+      defaultBranch: 'master'
     };
     TestBed.configureTestingModule({
-      declarations: [RepositorySwitchComponent],
-      imports: [NgbModule],
+      declarations: [RepositorySwitchComponent, MutationScoreBadgeComponent],
+      imports: [NgbModule, RouterTestingModule],
       providers: [
         { provide: RepositoryService, useClass: RepositoryServiceStub }
       ]

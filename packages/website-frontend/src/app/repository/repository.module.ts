@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RepositoryListComponent } from './repository-list/repository-list.component';
-import { RepositoryModalComponent } from './modal/modal.component';
+import { RepositoryModalComponent } from './repository-modal/repository-modal.component';
 import { RepositoryPageComponent } from './repository-page/repository-page.component';
 import { RepositorySwitchComponent } from './repository-switch/repository-switch.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -9,6 +9,8 @@ import { OwnerSelectorComponent } from './owner-selector/owner-selector.componen
 import { ShortExplanationComponent } from './short-explanation/short-explanation.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import { MutationScoreBadgeComponent } from './mutation-score-badge/mutation-score-badge.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -17,10 +19,12 @@ import { FormsModule } from '@angular/forms';
     RepositoryPageComponent,
     RepositorySwitchComponent,
     OwnerSelectorComponent,
-    ShortExplanationComponent
+    ShortExplanationComponent,
+    MutationScoreBadgeComponent
   ],
   imports: [
     CommonModule,
+    RouterModule,
     NgbModule,
     SharedModule,
     FormsModule

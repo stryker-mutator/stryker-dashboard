@@ -9,12 +9,12 @@ import { LoginComponent } from './login/login.component';
 import { UserComponent } from './user/user.component';
 import { MenuComponent } from './menu/menu.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { routes } from './routes';
 import { AuthComponent } from './auth/auth.component';
 import { AuthHeaderInterceptor } from './auth/AuthHeaderInterceptor';
 import { RepositoryModule } from './repository/repository.module';
 import { SharedModule } from './shared/shared.module';
 import { ReportModule } from './report/report.module';
+import { AppRouterModule } from './app-router.module';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -30,7 +30,7 @@ import { ReportModule } from './report/report.module';
     BrowserModule,
     HttpClientModule,
     NgbModule,
-    RouterModule.forRoot(routes, { anchorScrolling: 'disabled', useHash: false }),
+    AppRouterModule,
     RepositoryModule,
     ReportModule,
     SharedModule
