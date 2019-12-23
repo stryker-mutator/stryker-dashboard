@@ -26,6 +26,7 @@ export function createRepository(overrides?: Partial<Repository>): Repository {
     origin: 'http://github.com/repo1',
     owner: 'owner1',
     slug: 'owner1/repo1',
+    defaultBranch: 'master',
     ...overrides
   };
 }

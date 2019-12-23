@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Repository, EnableRepositoryResponse } from '@stryker-mutator/dashboard-contract';
-import { RepositoryService } from '../repository.service';
+import { Repository } from '@stryker-mutator/dashboard-contract';
 
 @Component({
   selector: 'stryker-repository',
@@ -11,45 +10,28 @@ import { RepositoryService } from '../repository.service';
 export class RepositorySwitchComponent {
 
   @Input() public repo!: Repository;
-  @Output() public repoEnabled = new EventEmitter<RepositorySwitchComponent>();
-  @Output() public repoAboutToBeDisabled = new EventEmitter<RepositorySwitchComponent>();
+  @Output() public display = new EventEmitter<RepositorySwitchComponent>();
+  @Output() public enable = new EventEmitter<RepositorySwitchComponent>();
+  @Output() public disable = new EventEmitter<RepositorySwitchComponent>();
 
-  public apiKey: string;
 
-  public constructor(private repositoryService: RepositoryService) {
-    this.apiKey = '';
+  public constructor() {
+  }
+
+  public displayClicked() {
+    this.display.emit(this);
   }
 
   public switchClicked() {
-    if (!this.repo.enabled) {
-      this.enableRepository();
-      this.repoEnabled.emit(this);
+    this.flipSwitch();
+    if (this.repo.enabled) {
+      this.enable.emit(this);
     } else {
-      this.repoAboutToBeDisabled.emit(this);
+      this.disable.emit(this);
     }
   }
 
-  private enableRepository() {
-    this.flipSwitch();
-    this.repositoryService.enableRepository(this.repo.slug, true)
-      .subscribe((response: EnableRepositoryResponse) => {
-        this.apiKey = response.apiKey;
-      });
-  }
-
-  public disableRepository() {
-    this.flipSwitch();
-    this.repositoryService.enableRepository(this.repo.slug, false)
-      .subscribe({
-        error: (error) => {
-          this.flipSwitch();
-          console.error(error);
-          alert('Something went wrong while disabling this repository. Please check your internet connection');
-        }
-      });
-  }
-
-  private flipSwitch() {
+  public flipSwitch() {
     this.repo.enabled = !this.repo.enabled;
   }
 
