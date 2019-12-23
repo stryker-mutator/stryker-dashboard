@@ -27,4 +27,9 @@ export interface Repository {
    * Checked when stryker-badge is enabled for this repository.
    */
   enabled: boolean;
+
+  /**
+   * The default branch of the repository
+   */
+  defaultBranch: string;
 }

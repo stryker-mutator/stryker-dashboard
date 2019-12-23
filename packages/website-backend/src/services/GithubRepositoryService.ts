@@ -18,29 +18,29 @@ function prefixGithub(slug: string) {
 @Service()
 export default class GithubRepositoryService {
 
-  private readonly repositoryMapper: dal.ProjectMapper;
+  private readonly projectMapper: dal.ProjectMapper;
 
   constructor(dataAccess: DataAccess) {
-    this.repositoryMapper = dataAccess.repositoryMapper;
+    this.projectMapper = dataAccess.repositoryMapper;
   }
 
   public async getAllForUser(auth: github.Authentication): Promise<contract.Repository[]> {
     const agent = new GithubAgent(auth.accessToken);
     const githubRepos = agent.getMyRepositories();
-    const repoEntities = this.repositoryMapper.findAll(DashboardQuery.create(Project).wherePartitionKeyEquals({ owner: prefixGithub(auth.username) }));
+    const repoEntities = this.projectMapper.findAll(DashboardQuery.create(Project).wherePartitionKeyEquals({ owner: prefixGithub(auth.username) }));
     return this.matchRepositories(githubRepos, repoEntities);
   }
 
   public async getAllForOrganization(auth: github.Authentication, organizationLogin: string): Promise<contract.Repository[]> {
     const agent = new GithubAgent(auth.accessToken);
     const githubRepos = agent.getOrganizationRepositories(organizationLogin);
-    const repoEntities = this.repositoryMapper.findAll(DashboardQuery.create(Project).wherePartitionKeyEquals({ owner: prefixGithub(organizationLogin) }));
+    const repoEntities = this.projectMapper.findAll(DashboardQuery.create(Project).wherePartitionKeyEquals({ owner: prefixGithub(organizationLogin) }));
     return this.matchRepositories(githubRepos, repoEntities);
   }
 
   public async update(auth: github.Authentication, owner: string, name: string, enabled: boolean, apiKeyHash: string = '') {
     await this.guardUserHasAccess(auth, owner, name);
-    await this.repositoryMapper.insertOrMerge({ apiKeyHash, name, owner: prefixGithub(owner), enabled });
+    await this.projectMapper.insertOrMerge({ apiKeyHash, name, owner: prefixGithub(owner), enabled });
   }
 
   private async guardUserHasAccess(auth: github.Authentication, owner: string, name: string): Promise<void> {
@@ -64,7 +64,8 @@ export default class GithubRepositoryService {
         name: githubRepo.name,
         origin: 'github',
         owner: githubRepo.owner.login,
-        slug: prefixGithub(githubRepo.full_name)
+        slug: prefixGithub(githubRepo.full_name),
+        defaultBranch: githubRepo.default_branch
       };
       return repository;
     });

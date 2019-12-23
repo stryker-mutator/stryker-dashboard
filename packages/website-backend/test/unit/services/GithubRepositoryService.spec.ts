@@ -46,9 +46,9 @@ describe('GithubRepositoryService', () => {
         { model: dalFactory.repository({ name: 'project3', enabled: false }), etag: 'etag' }
       ];
       const expectedRepos: contract.Repository[] = [
-        { enabled: false, name: 'project1', origin: 'github', slug: 'github.com/foobarOrg/project1', owner: 'foobar_login' },
-        { enabled: true, name: 'project2', origin: 'github', slug: 'github.com/foobarOrg/project2', owner: 'foobar_login' },
-        { enabled: false, name: 'project3', origin: 'github', slug: 'github.com/foobarOrg/project3', owner: 'foobar_login' }
+        { enabled: false, name: 'project1', origin: 'github', slug: 'github.com/foobarOrg/project1', owner: 'foobar_login', defaultBranch: 'master' },
+        { enabled: true, name: 'project2', origin: 'github', slug: 'github.com/foobarOrg/project2', owner: 'foobar_login', defaultBranch: 'master' },
+        { enabled: false, name: 'project3', origin: 'github', slug: 'github.com/foobarOrg/project3', owner: 'foobar_login', defaultBranch: 'master' }
       ];
       githubAgentMock.getOrganizationRepositories.resolves(repos);
       dataAccessStub.repositoryMapper.findAll.resolves(projectEntities);
