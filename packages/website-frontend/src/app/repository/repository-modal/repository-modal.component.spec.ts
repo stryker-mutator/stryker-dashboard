@@ -2,13 +2,16 @@ import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 
-import { RepositoryModalComponent } from './modal.component';
+import { RepositoryModalComponent } from './repository-modal.component';
 import { RepositorySwitchComponent } from '../repository-switch/repository-switch.component';
 import { RepositoryService } from '../repository.service';
-import { EnableRepositoryResponse } from '@stryker-mutator/dashboard-contract';
+import { EnableRepositoryResponse, Repository } from '@stryker-mutator/dashboard-contract';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { mock } from 'src/app/testHelpers/mock.spec';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ClipboardCopyComponent } from 'src/app/shared/clipboard-copy/clipboard-copy.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { JasmineMock, mock, createRepository } from 'src/app/testHelpers/mock.spec';
 
 class RepositoryServiceStub {
   public enableRepository(): Observable<EnableRepositoryResponse> {
@@ -21,20 +24,27 @@ describe(RepositoryModalComponent.name, () => {
   let fixture: ComponentFixture<RepositoryModalComponent>;
   let sut: RepositoryModalComponent;
   let element: HTMLElement;
+  let repositoryServiceStub: JasmineMock<RepositoryService>;
 
   beforeEach(async(() => {
+    repositoryServiceStub = mock(RepositoryService);
     TestBed.configureTestingModule({
       declarations: [
         RepositoryModalComponent,
-        RepositorySwitchComponent
+        RepositorySwitchComponent,
+        ClipboardCopyComponent
       ],
       imports: [
         CommonModule,
         NgbModule,
-        FormsModule
+        FormsModule,
+        RouterTestingModule
       ],
       providers: [
-        { provide: RepositoryService, useClass: RepositoryServiceStub }
+        { provide: RepositoryService, useValue: repositoryServiceStub }
+      ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
       ]
     }).compileComponents();
     fixture = TestBed.createComponent(RepositoryModalComponent);
@@ -51,21 +61,19 @@ describe(RepositoryModalComponent.name, () => {
     expect(findModal()).toBe(null);
   });
 
-  describe(RepositoryModalComponent.prototype.repoEnabled.name, () => {
+  describe(RepositoryModalComponent.prototype.openToEnableRepository.name, () => {
 
     let modal: HTMLElement;
-    let repository: RepositorySwitchComponent;
+    let repository: Repository;
 
     beforeEach(async () => {
-      repository = mock(RepositorySwitchComponent);
-      repository.repo = {
+      repository = createRepository({
         name: 'barRepo',
-        enabled: true,
-        origin: 'github.com',
-        owner: 'fooOrg',
-        slug: 'github.com/fooOrg/barRepo'
-      };
-      sut.repoEnabled(repository);
+        slug: 'github.com/fooOrg/barRepo',
+      });
+      const response: EnableRepositoryResponse = { apiKey: 'apiKey' };
+      repositoryServiceStub.enableRepository.and.returnValue(of(response));
+      sut.openToEnableRepository(repository);
       fixture.detectChanges();
       await fixture.whenStable();
       modal = findModal();
@@ -89,7 +97,7 @@ describe(RepositoryModalComponent.name, () => {
         // tslint:disable-next-line: max-line-length
         const expectedUrl = 'https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FfooOrg%2FbarRepo%2Fmaster';
         expect(modal.querySelector('code').textContent)
-        .toContain(expectedUrl);
+          .toContain(expectedUrl);
       });
     });
   });
