@@ -1,6 +1,6 @@
 import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import { RepositoryModalComponent } from './repository-modal.component';
 import { RepositorySwitchComponent } from '../repository-switch/repository-switch.component';
@@ -10,14 +10,9 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ClipboardCopyComponent } from 'src/app/shared/clipboard-copy/clipboard-copy.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { JasmineMock, mock, createRepository } from 'src/app/testHelpers/mock.spec';
-
-class RepositoryServiceStub {
-  public enableRepository(): Observable<EnableRepositoryResponse> {
-    return of();
-  }
-}
+import { ApiKeyDisplayMode } from '../api-key-generator/api-key-generator.component';
 
 describe(RepositoryModalComponent.name, () => {
 
@@ -44,7 +39,7 @@ describe(RepositoryModalComponent.name, () => {
         { provide: RepositoryService, useValue: repositoryServiceStub }
       ],
       schemas: [
-        CUSTOM_ELEMENTS_SCHEMA
+        NO_ERRORS_SCHEMA
       ]
     }).compileComponents();
     fixture = TestBed.createComponent(RepositoryModalComponent);
@@ -83,6 +78,19 @@ describe(RepositoryModalComponent.name, () => {
       expect(modal.hidden).toBe(false);
     });
 
+    describe('api section', () => {
+      it('should generate an api key', () => {
+        expect(repositoryServiceStub.enableRepository).toHaveBeenCalledWith(repository.slug, true);
+      });
+
+      it('should show the generated api key', async () => {
+        fixture.detectChanges();
+        await fixture.whenStable();
+        const mode = retrieveApiKeyDisplayMode(modal);
+        expect(mode).toBe('show');
+      });
+    });
+
     describe('badge section', () => {
 
       beforeEach(async () => {
@@ -102,6 +110,39 @@ describe(RepositoryModalComponent.name, () => {
     });
   });
 
+  describe(RepositoryModalComponent.prototype.openToDisplayRepository.name, () => {
+
+    let modal: HTMLElement;
+    let repository: Repository;
+
+    beforeEach(async () => {
+      repository = createRepository({
+        name: 'barRepo',
+        slug: 'github.com/fooOrg/barRepo',
+      });
+      const response: EnableRepositoryResponse = { apiKey: 'foo-api-key' };
+      repositoryServiceStub.enableRepository.and.returnValue(of(response));
+      sut.openToDisplayRepository(repository);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      modal = findModal();
+    });
+
+    it('should hide the api key', () => {
+      const mode = retrieveApiKeyDisplayMode(modal);
+      expect(mode).toBe('hide');
+    });
+
+    it('should generate a new API key and show it when "generate" is raised', async () => {
+      const event = new CustomEvent('generate', { bubbles: true });
+      modal.querySelector('stryker-api-key-generator').dispatchEvent(event);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(repositoryServiceStub.enableRepository).toHaveBeenCalledWith(repository.slug, true);
+      expect(retrieveApiKeyDisplayMode(modal)).toBe('show');
+      expect(retrieveApiKey(modal)).toBe('foo-api-key');
+    });
+  });
   function findModal() {
     let next = element;
     let modal: HTMLElement = null;
@@ -113,4 +154,11 @@ describe(RepositoryModalComponent.name, () => {
     }
     return modal;
   }
+  function retrieveApiKeyDisplayMode(modal: HTMLElement): ApiKeyDisplayMode {
+    return (modal.querySelector('stryker-api-key-generator') as any).mode;
+  }
+  function retrieveApiKey(modal: HTMLElement): string {
+    return (modal.querySelector('stryker-api-key-generator') as any).apiKey;
+  }
 });
+
