@@ -1,6 +1,7 @@
 import { PageObject } from '../shared/page-object';
 import { promise } from 'protractor';
 import { AccordionPageObject } from './accordion.po';
+import { ApiKeyGeneratorPageObject } from './api-key-generator.po';
 
 export class RepositoryModalDialogPageObject extends PageObject {
 
@@ -29,8 +30,8 @@ export class RepositoryModalDialogPageObject extends PageObject {
     return this.closeButton.click();
   }
 
-  public apiKey(): promise.Promise<string> {
-    return this.host.$('[data-test="api-key"]').getText();
+  public get apiKeyGenerator() {
+    return new ApiKeyGeneratorPageObject(this.host.$('stryker-api-key-generator'));
   }
 
 }

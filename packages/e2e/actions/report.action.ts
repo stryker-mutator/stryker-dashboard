@@ -9,22 +9,28 @@ const httpClient = axios.create({ baseURL: browser.baseUrl });
 
 const projectApiKeys = new Map<string, Promise<string>>();
 
-async function enableRepository(projectName: string): Promise<string> {
-  if (projectApiKeys.has(projectName)) {
-    return projectApiKeys.get(projectName)!;
+export async function enableRepository(slug: string): Promise<string> {
+  if (projectApiKeys.has(slug)) {
+    return projectApiKeys.get(slug)!;
   } else {
-    projectApiKeys.set(projectName, Promise.resolve().then(async () => {
+    projectApiKeys.set(slug, Promise.resolve().then(async () => {
       const patchBody: Partial<Repository> = { enabled: true };
       const authToken = generateAuthToken();
-      const response = await httpClient.patch<EnableRepositoryResponse>(`/api/repositories/${projectName}`, patchBody, {
+      const response = await httpClient.patch<EnableRepositoryResponse>(`/api/repositories/${slug}`, patchBody, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
       });
       return response.data.apiKey;
     }));
-    return projectApiKeys.get(projectName)!;
+    return projectApiKeys.get(slug)!;
   }
+}
+
+export async function getUserRepositories(): Promise<Repository[]> {
+  const auth = generateAuthToken();
+  const response = await httpClient.get<Repository[]>('api/user/repositories', { headers: { Authorization: `Bearer ${auth}` } });
+  return response.data;
 }
 
 export async function uploadReport(result: Report) {

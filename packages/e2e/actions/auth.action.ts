@@ -10,7 +10,7 @@ function getAccessToken() {
   return getEnvVariable('E2E_ACCESS_TOKEN');
 }
 
-export function generateAuthToken() {
+export function generateAuthToken(): string {
   const tokenOptions = { algorithm: 'HS512', audience: 'stryker', expiresIn: '30m', issuer: 'stryker' };
   const authToken = jwt.sign({
     accessToken: getAccessToken(),
