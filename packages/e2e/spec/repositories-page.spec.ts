@@ -1,6 +1,9 @@
-import { RepositoriesPage } from '../po/repositories/respositories-page.po';
+import { RepositoriesPage } from '../po/repositories/repositories-page.po';
 import { logOn, logOff } from '../actions/auth.action';
+import { enableRepository, getUserRepositories } from '../actions/report.action';
 import { expect } from 'chai';
+import { RepositorySwitchPageObject } from '../po/repositories/repository-switch.po';
+import { Repository } from '@stryker-mutator/dashboard-contract/src';
 
 // Example: 0527de29-6436-4564-9c5f-34f417ec68c0
 const API_KEY_REGEX = /^[0-9a-z]{8}-(?:[0-9a-z]{4}-){3}[0-9a-z]{12}$/;
@@ -80,7 +83,7 @@ describe('Repositories page', () => {
     });
 
     it('should show the api key', async () => {
-      const apiKey = await page.modalDialog.apiKey();
+      const apiKey = await page.modalDialog.apiKeyGenerator.apiKey();
       expect(apiKey).matches(API_KEY_REGEX);
     });
 
@@ -94,5 +97,37 @@ describe('Repositories page', () => {
       expect(await card.isBodyVisible()).false;
     });
 
+  });
+
+  describe('when a repository is enabled', () => {
+    let repositoryPageObject: RepositorySwitchPageObject;
+    let repository: Repository;
+    before(async () => {
+      const allRepositories = await getUserRepositories();
+      repository = allRepositories[1];
+      await enableRepository(repository.slug);
+      await page.navigate();
+      repositoryPageObject = (await page.repositoryList.all())[1];
+    });
+
+    it('should show the mutation score badge for that repo', async () => {
+      expect(await repositoryPageObject.mutationScoreBadge.hasLink()).true;
+      expect(await repositoryPageObject.mutationScoreBadge.imgSrc()).contains(encodeURIComponent(repository.slug));
+      expect(await repositoryPageObject.mutationScoreBadge.linkHref()).contains(`reports/${repository.slug}`);
+    });
+
+    describe('and displayed', () => {
+      before(async () => {
+        await repositoryPageObject.display();
+      });
+      it('should hide the API key', async () => {
+        expect(await page.modalDialog.apiKeyGenerator.apiKey()).contains('•••••••••••••••••••');
+      });
+
+      it('should generate a new api key if "Generate new" is clicked', async () => {
+        await page.modalDialog.apiKeyGenerator.generateNew();
+        expect(await page.modalDialog.apiKeyGenerator.apiKey()).match(API_KEY_REGEX);
+      });
+    });
   });
 });
