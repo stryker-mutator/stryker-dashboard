@@ -11,33 +11,7 @@
       <ngb-accordion #acc="ngbAccordion" activeIds="panel-about-your-api-key" closeOthers="true">
         <ngb-panel title="About your key" id="panel-about-your-api-key">
           <ng-template ngbPanelContent>
-            <div class="d-flex justify-content-between">
-              <div>
-                <span>API Key</span>
-              </div>
-              <div>
-                <code id="apiKeyInput" data-test="api-key">{{apiKeyToDisplay}}</code>
-                <stryker-clipboard-copy *ngIf="apiKeyMode === 'show'" for="apiKeyInput">
-                </stryker-clipboard-copy>
-              </div>
-              <div>
-                <button *ngIf="apiKeyMode === 'hide'" (click)="generateApiKeyClicked()" class="btn btn-outline-primary"
-                  type="button">
-                  Generate new
-                </button>
-              </div>
-            </div>
-            <div>
-              <div *ngIf="apiKeyMode === 'show'">
-                This is
-                <em>your</em> key. It is unique and special made for "{{ repository.slug }}". This is the last
-                time
-                we'll be showing it to you (although you can create new ones at any time).
-              </div>
-              <div *ngIf="apiKeyMode === 'hide'">
-                Your key is hidden and safely stored. Please generate a new key if you need it.
-              </div>
-            </div>
+            <stryker-api-key-generator [mode]="apiKeyMode" [apiKey]="apiKey" (generate)="enableRepository()" [slug]="repository.slug"></stryker-api-key-generator>
           </ng-template>
         </ngb-panel>
         <ngb-panel>

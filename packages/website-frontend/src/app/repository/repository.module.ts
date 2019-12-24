@@ -11,6 +11,7 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { MutationScoreBadgeComponent } from './mutation-score-badge/mutation-score-badge.component';
 import { RouterModule } from '@angular/router';
+import { ApiKeyGeneratorComponent } from './api-key-generator/api-key-generator.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { RouterModule } from '@angular/router';
     RepositorySwitchComponent,
     OwnerSelectorComponent,
     ShortExplanationComponent,
-    MutationScoreBadgeComponent
+    MutationScoreBadgeComponent,
+    ApiKeyGeneratorComponent
   ],
   imports: [
     CommonModule,

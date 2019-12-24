@@ -1,58 +1,104 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, of } from 'rxjs';
 
 import { RepositorySwitchComponent } from './repository-switch.component';
-import { RepositoryService } from '../repository.service';
-import { EnableRepositoryResponse, Repository } from '@stryker-mutator/dashboard-contract';
+import { Repository } from '@stryker-mutator/dashboard-contract';
 import { MutationScoreBadgeComponent } from '../mutation-score-badge/mutation-score-badge.component';
+import { createRepository } from '../../testHelpers/mock.spec';
+import { first } from 'rxjs/operators';
+import { badgeSrc } from '../util';
 
 describe(RepositorySwitchComponent.name, () => {
-  let mockRepo: Repository;
-  let component: RepositorySwitchComponent;
+  let repository: Repository;
+  let sut: RepositorySwitchComponent;
   let fixture: ComponentFixture<RepositorySwitchComponent>;
-  let compiledComponent: HTMLElement;
+  let el: HTMLElement;
 
-  class RepositoryServiceStub {
-    public enableRepository(): Observable<EnableRepositoryResponse> {
-      return of();
-    }
-  }
-
-  beforeEach(async(() => {
-    mockRepo = {
+  beforeEach(async () => {
+    repository = createRepository({
       slug: 'github/stryker-mutator/stryker-badge',
-      origin: 'https://www.github.com',
-      owner: 'stryker-mutator',
-      name: 'stryker-badge',
       enabled: true,
       defaultBranch: 'master'
-    };
+    });
     TestBed.configureTestingModule({
       declarations: [RepositorySwitchComponent, MutationScoreBadgeComponent],
       imports: [NgbModule, RouterTestingModule],
-      providers: [
-        { provide: RepositoryService, useClass: RepositoryServiceStub }
-      ]
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(RepositorySwitchComponent);
-    component = fixture.debugElement.componentInstance;
-    component.repo = mockRepo;
+    sut = fixture.debugElement.componentInstance;
+    sut.repo = repository;
     fixture.detectChanges();
-    compiledComponent = fixture.debugElement.nativeElement;
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    el = fixture.debugElement.nativeElement;
   });
 
   it(`should display the repository's slug`, () => {
-    const div = <HTMLDivElement>compiledComponent.querySelector('div');
+    const div = el.querySelector('div');
     expect(div.textContent).toContain('github/stryker-mutator/stryker-badge');
   });
 
+  describe('when enabled', () => {
+    it('should show a link when enabled', () => {
+      const button = el.querySelector('button');
+      expect(button).not.toBeNull();
+      expect(button.textContent).toBe('github/stryker-mutator/stryker-badge');
+    });
+
+    it('should raise a "display" event when repository is clicked', async () => {
+      const event$ = sut.display.pipe(first()).toPromise();
+      const button = el.querySelector('button');
+      button.click();
+      const event = await event$;
+      expect(event).not.toBeNull();
+      expect(event).toBe(sut);
+    });
+
+    it('should raise a "disable" event when switch is turned off', async () => {
+      const event$ = sut.disable.pipe(first()).toPromise();
+      const checkbox = el.querySelector('label');
+      checkbox.click();
+      const event = await event$;
+      expect(event).not.toBeNull();
+      expect(event).toBe(sut);
+    });
+
+    it('should show the mutation-score-badge', () => {
+      const badge: HTMLImageElement = el.querySelector('stryker-mutation-score-badge img');
+      console.log(fixture.debugElement.children);
+      expect(badge).not.toBeNull();
+      expect(badge.src).toEqual(badgeSrc(repository));
+    });
+  });
+
+  describe('when disabled', () => {
+
+    beforeEach(async () => {
+      repository.enabled = false;
+      fixture.detectChanges();
+      await fixture.whenStable();
+    });
+
+    it('should raise an "enable" event when switch is turned on', async () => {
+      // Arrange
+      const event$ = sut.enable.pipe(first()).toPromise();
+      const checkbox = el.querySelector('label');
+
+      // Act
+      checkbox.click();
+      const event = await event$;
+
+      // Assert
+      expect(event).not.toBeNull();
+      expect(event).toBe(sut);
+    });
+
+    it('should not show the mutation-score-badge', () => {
+      expect(el.querySelector('stryker-mutation-score-badge')).toBeNull();
+    });
+
+    it('should not show a link to display', () => {
+      expect(el.querySelector('button')).toBeNull();
+    });
+  });
 });

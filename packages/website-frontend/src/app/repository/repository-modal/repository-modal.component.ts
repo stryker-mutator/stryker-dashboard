@@ -4,6 +4,7 @@ import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstr
 import { badgeExampleSrc, BadgeStyle, allBadgeStyles, badgeSrc, reportUrl } from '../util';
 import { RepositoryService } from '../repository.service';
 import { Repository } from '@stryker-mutator/dashboard-contract';
+import { ApiKeyDisplayMode } from '../api-key-generator/api-key-generator.component';
 
 
 @Component({
@@ -14,21 +15,10 @@ import { Repository } from '@stryker-mutator/dashboard-contract';
 export class RepositoryModalComponent {
 
   public apiKey = '';
-  public apiKeyMode: 'show' | 'hide' | 'loading' = 'hide';
+  public apiKeyMode: ApiKeyDisplayMode = 'hide';
   private repository!: Repository;
 
   public constructor(private modalService: NgbModal, private repositoryService: RepositoryService) { }
-
-  public get apiKeyToDisplay() {
-    switch (this.apiKeyMode) {
-      case 'hide':
-        return '••••••••••••••••••••••••••••••••••••';
-      case 'loading':
-        return 'Retrieving...';
-      default:
-        return this.apiKey;
-    }
-  }
 
   public get name() {
     return this.repository.name;
@@ -96,10 +86,6 @@ export class RepositoryModalComponent {
 
   private disableRepository() {
     return this.repositoryService.enableRepository(this.repository.slug, false);
-  }
-
-  public generateApiKeyClicked() {
-    this.enableRepository();
   }
 
   private open(): NgbModalRef {
