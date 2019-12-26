@@ -1,6 +1,7 @@
 import { Controller, Get, Put, BodyParams, QueryParams, HeaderParams, Req } from '@tsed/common';
 import { BadRequest, NotFound, Unauthorized, InternalServerError } from 'ts-httpexceptions';
 import { MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
+import { PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import { Slug, InvalidSlugError, Report, MutationScoreOnlyResult, isMutationTestResult } from '@stryker-mutator/dashboard-common';
 import { ReportValidator } from '../services/SchemaValidator';
 import Configuration from '../services/Configuration';
@@ -8,11 +9,6 @@ import { ApiKeyValidator } from '../services/ApiKeyValidator';
 import { Request } from 'express';
 import { MutationTestResult } from 'mutation-testing-report-schema';
 import DataAccess from '../services/DataAccess';
-
-interface PutReportResponse {
-  href: string;
-  projectHref?: string;
-}
 
 const API_KEY_HEADER = 'X-Api-Key';
 
