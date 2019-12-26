@@ -1,6 +1,6 @@
 import { MutantStatus } from 'mutation-testing-report-schema';
 import { generateAuthToken } from './auth.action';
-import { EnableRepositoryResponse, Repository } from '@stryker-mutator/dashboard-contract';
+import { EnableRepositoryResponse, Repository, PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import { Report } from '@stryker-mutator/dashboard-common';
 import axios from 'axios';
 import { browser } from 'protractor';
@@ -33,13 +33,14 @@ export async function getUserRepositories(): Promise<Repository[]> {
   return response.data;
 }
 
-export async function uploadReport(result: Report) {
+export async function uploadReport(result: Report): Promise<PutReportResponse> {
   const apiKey = await enableRepository(result.projectName);
-  await httpClient.put(`/api/reports/${result.projectName}/${result.version}${result.moduleName ? `?module=${result.moduleName}` : ''}`, result, {
+  const response = await httpClient.put<PutReportResponse>(`/api/reports/${result.projectName}/${result.version}${result.moduleName ? `?module=${result.moduleName}` : ''}`, result, {
     headers: {
       ['X-Api-Key']: apiKey
     }
   });
+  return response.data;
 }
 
 export function scoreOnlyReport(projectName: string, version: string, mutationScore: number): Report {
