@@ -40,6 +40,7 @@ Use this script to renew:
 ```
 set -e
 PASSWORD=`openssl rand -base64 16`
+echo "Using password ${PASSWORD}"
 
 certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/.secrets/certbot/cloudflare.ini -d dashboard.stryker-mutator.io -d badge.stryker-mutator.io -d badge-api.stryker-mutator.io
 cd /etc/letsencrypt/archive/dashboard.stryker-mutator.io/
