@@ -43,8 +43,8 @@ PASSWORD=`openssl rand -base64 16`
 echo "Using password ${PASSWORD}"
 
 certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/.secrets/certbot/cloudflare.ini -d dashboard.stryker-mutator.io -d badge.stryker-mutator.io -d badge-api.stryker-mutator.io
-cd /etc/letsencrypt/archive/dashboard.stryker-mutator.io/
-openssl pkcs12 -export -out stryker.pfx -inkey privkey1.pem -in cert1.pem -certfile chain1.pem -password pass:$PASSWORD
+cd /etc/letsencrypt/live/dashboard.stryker-mutator.io/
+openssl pkcs12 -export -out stryker.pfx -inkey privkey.pem -in cert.pem -certfile chain.pem -password pass:$PASSWORD
 az webapp config ssl upload --certificate-file ./stryker.pfx --certificate-password $PASSWORD --name stryker-mutator-badge --resource-group stryker-mutator-badge
 az webapp config ssl upload --certificate-file ./stryker.pfx --certificate-password $PASSWORD --name stryker-badge --resource-group strykermutator-badge-website
 az webapp config ssl upload --certificate-file ./stryker.pfx --certificate-password $PASSWORD --name stryker-mutator-badge-api --resource-group stryker-dashboard-production
@@ -55,4 +55,6 @@ THUMBPRINT=`az webapp config ssl list --resource-group stryker-mutator-badge --q
 az webapp config ssl bind --certificate-thumbprint $THUMBPRINT --ssl-type SNI --name stryker-mutator-badge --resource-group stryker-mutator-badge
 az webapp config ssl bind --certificate-thumbprint $THUMBPRINT --ssl-type SNI --name stryker-badge --resource-group strykermutator-badge-website
 az webapp config ssl bind --certificate-thumbprint $THUMBPRINT --ssl-type SNI --name stryker-mutator-badge-api --resource-group stryker-dashboard-production
+
+rm /etc/letsencrypt/live/dashboard.stryker-mutator.io/stryker.pfx
 ```
