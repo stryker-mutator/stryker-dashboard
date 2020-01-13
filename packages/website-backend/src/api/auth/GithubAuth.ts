@@ -16,7 +16,7 @@ export default class GithubAuth {
 
   @Get('/')
   public get(request: express.Request, response: express.Response, next: express.NextFunction): void {
-    passport.authenticate('github', { scope: ['user:email', 'read:org', 'repo:status'] })(request, response, next);
+    passport.authenticate('github', { scope: ['user:email', 'read:org'] })(request, response, next);
   }
 
   @Post('/')
