@@ -23,6 +23,7 @@
     | mutationScore: number             |
     |-----------------------------------|
 
+    projectName = `${owner};${name}`
 
     Legend:
     PK = Partition key
