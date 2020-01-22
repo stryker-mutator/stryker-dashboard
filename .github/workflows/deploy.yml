@@ -70,7 +70,7 @@ jobs:
       uses: Azure/functions-action@v1
       id: fa
       with:
-        app-name: badge-api
+        app-name: stryker-mutator-badge-api
         package: 'package'
     - name: 'Verify deployment'
       run: node tasks/check-version badge-api https://badge-api.stryker-mutator.io/api/ ${GITHUB_REF:11}
