@@ -24,7 +24,7 @@ export class MutationTestingReportAppPageObject extends PageObject {
 
   public async mutationScore(): Promise<number> {
     const totals = await this.totalsShadowRoot();
-    const percentage = await totals.findElement(by.css('tbody th')).getText();
+    const percentage = await totals.findElement(by.css('tbody td:nth-child(4)')).getText();
     return Number.parseFloat(percentage);
   }
 
