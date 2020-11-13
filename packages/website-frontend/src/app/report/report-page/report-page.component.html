@@ -11,4 +11,12 @@
   <div class="col-md-12" *ngIf="errorMessage">
     <div class="alert alert-danger">{{errorMessage}}</div>
   </div>
+  <script>
+    const app = document.getElementsByTagName('mutation-test-report-app').item(0)
+    function updateTheme() {
+      app.parentElement.style.backgroundColor = app.theme === 'dark' ? '#222' : '#fff';
+    }
+    app.addEventListener('theme-changed', updateTheme);
+    updateTheme();
+  </script>
 </stryker-loading>
