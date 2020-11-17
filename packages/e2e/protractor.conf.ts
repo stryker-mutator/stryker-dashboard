@@ -21,6 +21,6 @@ export let config: Config = {
   },
   specs: ['spec/**/*.js'],
   directConnect: true,
-  chromeDriver: process.env.ChromeWebDriver,
+  chromeDriver: process.env.CHROMEWEBDRIVER,
   baseUrl: 'https://stryker-dashboard-acceptance.azurewebsites.net'
 };
