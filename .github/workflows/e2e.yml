@@ -52,7 +52,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_ACCEPTANCE }}
     - name: 'Deploy stryker-dashboard-acceptance.azurewebsites.net'
-      uses: azure/webapps-container-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: 'stryker-dashboard-acceptance'
         images: 'strykermutator/dashboard:${{ github.sha }}'
