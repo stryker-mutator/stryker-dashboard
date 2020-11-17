@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "e2e",
-  "version": "0.6.1",
+  "version": "0.6.3",
   "description": "The end to end tests for the Stryker Dashboard",
   "main": "index.js",
   "scripts": {
@@ -10,8 +10,8 @@
   "keywords": [],
   "author": "Nico Jansen",
   "devDependencies": {
-    "@stryker-mutator/dashboard-common": "^0.6.1",
-    "@stryker-mutator/dashboard-contract": "^0.6.1",
+    "@stryker-mutator/dashboard-common": "^0.6.3",
+    "@stryker-mutator/dashboard-contract": "^0.6.3",
     "@types/jsonwebtoken": "^8.3.4"
   },
   "dependencies": {
