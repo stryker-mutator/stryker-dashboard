@@ -51,18 +51,17 @@ jobs:
       name: Azure login
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_ACCEPTANCE }}
-    - name: 'Deploy stryker-dashboard-acceptance.azurewebsites.net'
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'stryker-dashboard-acceptance'
-        images: 'strykermutator/dashboard:${{ github.sha }}'
     - name: 'Deploy stryker-mutator-badge-api-acceptance.azurewebsites.net'
       uses: Azure/functions-action@v1
       id: fa
       with:
         app-name: stryker-mutator-badge-api-acceptance
         package: 'package'
-
+    - name: 'Deploy stryker-dashboard-acceptance.azurewebsites.net'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'stryker-dashboard-acceptance'
+        images: 'strykermutator/dashboard:${{ github.sha }}'
     - name: 'Verify deployment'
       run: |
         node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version $(cat version/version.txt)
