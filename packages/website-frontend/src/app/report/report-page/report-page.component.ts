@@ -7,7 +7,7 @@ import { MutationScoreOnlyResult, Report, ReportIdentifier, isMutationTestResult
 import { AutoUnsubscribe } from 'src/app/utils/auto-unsubscribe';
 import { MutationTestResult } from 'mutation-testing-report-schema';
 
-class ThemeDetail {
+interface ThemeDetail {
   theme: string;
   themeBackgroundColor: string;
 }
