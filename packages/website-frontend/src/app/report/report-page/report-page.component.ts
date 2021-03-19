@@ -7,6 +7,11 @@ import { MutationScoreOnlyResult, Report, ReportIdentifier, isMutationTestResult
 import { AutoUnsubscribe } from 'src/app/utils/auto-unsubscribe';
 import { MutationTestResult } from 'mutation-testing-report-schema';
 
+interface ThemeDetail {
+  theme: string;
+  themeBackgroundColor: string;
+}
+
 @Component({
   selector: 'stryker-report',
   templateUrl: './report-page.component.html',
@@ -19,6 +24,8 @@ export class ReportPageComponent extends AutoUnsubscribe implements OnInit, OnDe
   public mutationTestResult: MutationTestResult | undefined;
   public mutationScoreOnlyResult: MutationScoreOnlyResult | undefined;
   public errorMessage: string | undefined;
+
+  public backgroundColor: string | undefined;
 
   public get reportTitle() {
     const reportParts: string[] = [];
@@ -67,6 +74,10 @@ export class ReportPageComponent extends AutoUnsubscribe implements OnInit, OnDe
       console.error(error);
       this.errorMessage = 'A technical error occurred.';
     }));
+  }
+
+  public themeChanged = (event: CustomEvent<ThemeDetail>) => {
+    this.backgroundColor = event.detail.themeBackgroundColor;
   }
 
 }

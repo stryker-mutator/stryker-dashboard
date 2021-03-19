@@ -6,7 +6,8 @@
   "version": "0.6.3",
   "command": {
     "version": {
-      "forcePublish": true
+      "forcePublish": true,
+      "exact": true
     }
   }
 }

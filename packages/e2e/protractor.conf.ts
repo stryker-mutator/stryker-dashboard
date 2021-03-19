@@ -5,7 +5,7 @@ const chromeOptions = {
   args: ['--window-size=800x600']
 };
 
-if (process.env.GITHUB_WORKFLOW) {
+if (process.env.CI) {
   console.log('Running on the build server, Enabling headless mode.');
   chromeOptions.args.push('--headless', '--disable-gpu');
 }
@@ -21,6 +21,6 @@ export let config: Config = {
   },
   specs: ['spec/**/*.js'],
   directConnect: true,
-  chromeDriver: process.env.ChromeWebDriver,
+  chromeDriver: process.env.CHROMEWEBDRIVER ? `${process.env.CHROMEWEBDRIVER}/chromedriver` : undefined,
   baseUrl: 'https://stryker-dashboard-acceptance.azurewebsites.net'
 };
