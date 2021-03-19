@@ -1,4 +1,4 @@
-<stryker-loading class="row" [ngClass]="{'dark-report': isDark()}" [showContent]="doneLoading">
+<stryker-loading class="row" [ngStyle]="{'background': backgroundColor}" [showContent]="doneLoading">
   <div class="col-md-12" *ngIf="id">
     <mutation-test-report-app (theme-changed)="themeChanged($event)" *ngIf="mutationTestResult" [report]="mutationTestResult" [titlePostfix]="reportTitle">
     </mutation-test-report-app>

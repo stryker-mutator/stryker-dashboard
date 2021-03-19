@@ -8,7 +8,8 @@ import { AutoUnsubscribe } from 'src/app/utils/auto-unsubscribe';
 import { MutationTestResult } from 'mutation-testing-report-schema';
 
 class ThemeDetail {
-  theme: string | undefined;
+  theme: string;
+  themeBackgroundColor: string;
 }
 
 @Component({
@@ -23,7 +24,8 @@ export class ReportPageComponent extends AutoUnsubscribe implements OnInit, OnDe
   public mutationTestResult: MutationTestResult | undefined;
   public mutationScoreOnlyResult: MutationScoreOnlyResult | undefined;
   public errorMessage: string | undefined;
-  public theme: string | undefined;
+
+  public backgroundColor: string | undefined;
 
   public get reportTitle() {
     const reportParts: string[] = [];
@@ -75,11 +77,7 @@ export class ReportPageComponent extends AutoUnsubscribe implements OnInit, OnDe
   }
 
   public themeChanged = (event: CustomEvent<ThemeDetail>) => {
-    this.theme = event.detail.theme;
-  }
-
-  public isDark(): boolean {
-    return this.theme === 'dark';
+    this.backgroundColor = event.detail.themeBackgroundColor;
   }
 
 }
