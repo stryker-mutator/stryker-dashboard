@@ -10,8 +10,8 @@
   "keywords": [],
   "author": "Nico Jansen",
   "devDependencies": {
-    "@stryker-mutator/dashboard-common": "^0.6.3",
-    "@stryker-mutator/dashboard-contract": "^0.6.3",
+    "@stryker-mutator/dashboard-common": "0.6.3",
+    "@stryker-mutator/dashboard-contract": "0.6.3",
     "@types/jsonwebtoken": "^8.3.4"
   },
   "dependencies": {
