@@ -8,7 +8,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mutation-testing-report-schema": "1.6.0"
+    "mutation-testing-report-schema": "1.7.1"
   },
   "publishConfig": {
     "access": "public"
