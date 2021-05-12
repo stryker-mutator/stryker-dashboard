@@ -14,7 +14,8 @@ export class MutationTestingReportAppPageObject extends PageObject {
 
   private async totalsShadowRoot(): Promise<WebElement> {
     const shadowRoot = await this.shadowRoot();
-    return findShadowRoot(shadowRoot.findElement(by.css('mutation-test-report-totals')));
+    const mutantViewRoot = await findShadowRoot(shadowRoot.findElement(by.css('mte-mutant-view')));
+    return findShadowRoot(mutantViewRoot.findElement(by.css('mte-metrics-table')));
   }
 
   public async title(): Promise<string> {
