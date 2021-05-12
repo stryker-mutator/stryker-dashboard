@@ -7,7 +7,9 @@
   "command": {
     "version": {
       "forcePublish": true,
-      "exact": true
+      "exact": true,
+      "createRelease": "github",
+      "conventionalCommits": true
     }
   }
 }
