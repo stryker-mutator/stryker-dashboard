@@ -26,14 +26,14 @@ dns_cloudflare_email = cloudflare@example.com
 dns_cloudflare_api_key = 0123456789abcdef0123456789abcdef01234567
 ```
 
-Run: 
+## Renew
+
+Login to azure: 
 
 ```
-az login
+az login --tenant fcd9bd9d-b04d-4d4f-993d-b6a6ec4a3b57
 az account set -s pdc_stryker_prod01
 ```
-
-## Renew
 
 Use this script to renew:
 
