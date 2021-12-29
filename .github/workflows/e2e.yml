@@ -13,10 +13,11 @@ jobs:
       run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
     - name: Install dependencies
       run: npm ci
-    - name: Build
-      run: npm run build
     - name: Choose version
       run: 'node tasks/set-npm-canary-version.js'
+    - run: 'echo ${NPM_PACKAGE_VERSION}'
+    - name: Build
+      run: npm run build
     - name: Lerna publish canary version
       run: 'npx lerna publish --dist-tag canary --no-push --yes --no-git-tag-version ${NPM_PACKAGE_VERSION}'
     - name: Docker build & Push
