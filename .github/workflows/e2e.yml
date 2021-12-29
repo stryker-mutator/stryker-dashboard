@@ -9,8 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.headhead }}
     - name: Set NPM Env
       run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
     - name: Install dependencies
@@ -21,8 +19,8 @@ jobs:
       run: npm run build
     - name: Lerna publish canary version
       run: |
-        npx lerna version ${NPM_PACKAGE_VERSION} --no-git-tag-version --no-push --exact --force-publish --yes
-        npx lerna publish from-package --yes
+        npx lerna version ${NPM_PACKAGE_VERSION} --no-git-tag-version --no-push --exact --force-publish --yes --no-conventional-commits
+        npx lerna publish from-package --dist-tag canary --yes
     - name: Docker build & Push
       run: |
         echo "Docker build $NPM_PACKAGE_VERSION"
