@@ -51,14 +51,18 @@ function sanitize(ref) {
 
 function determineRef() {
   const rawRef = process.env.GITHUB_REF;
+  console.log(`GH ref: "${rawRef}"`);
   if(!rawRef){
     throw new Error('Env variable GITHUB_REF was not set!');
   }
   // rawRef will be in the form "refs/pull/:prNumber/merge" or "refs/heads/feat/branch-1"
   const [, type, ...name] = rawRef.split('/');
+  console.log(`type: "${type}"`);
   if (type === 'pull') {
+    console.log(`return: "${`pr-${name[0]}`}"`);
     return `pr-${name[0]}`
   } else {
+    console.log(`return: ${ name.join('/')}`);
     return name.join('/');
   }
 }
