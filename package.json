@@ -22,7 +22,7 @@
     "axios": "^0.21.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "lerna": "^3.22.1",
+    "lerna": "^4.0.0",
     "link-parent-bin": "^1.0.2",
     "mocha": "^8.2.1",
     "node-mocks-http": "^1.7.6",
@@ -55,6 +55,5 @@
     "test": "lerna run --ignore e2e test --concurrency 4 --stream",
     "version": "lerna clean --yes && lerna bootstrap --ignore-scripts -- --package-lock-only --no-audit && git add packages/*/package-lock.json"
   },
-  "version": "0.0.1",
-  "dependencies": {}
+  "version": "0.0.1"
 }
