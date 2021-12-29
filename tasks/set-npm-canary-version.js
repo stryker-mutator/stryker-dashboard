@@ -8,7 +8,6 @@
 const core = require("@actions/core");
 const axios = require("axios").default;
 const semver = require("semver");
-const { describeRef } = require("@lerna/describe-ref");
 const { version: currentVersion } = require("../lerna.json");
 
 determineNextCanaryVersion().catch((err) => {
@@ -19,7 +18,7 @@ determineNextCanaryVersion().catch((err) => {
 async function determineNextCanaryVersion() {
   const ref = determineRef();
   const preId = sanitize(ref);
-  const nextPatchVersion = await determineNextPatchVersion();
+  const nextPatchVersion = semver.inc(currentVersion, "patch");
   const { versions } = (
     await axios("https://registry.npmjs.org/@stryker-mutator/dashboard-backend")
   ).data;
@@ -36,10 +35,6 @@ async function determineNextCanaryVersion() {
  */
 function formatVersion(version, preId, revision) {
   return `${version}-${preId}.${revision}`;
-}
-
-async function determineNextPatchVersion() {
-  return semver.inc(currentVersion, "patch");
 }
 
 /**
