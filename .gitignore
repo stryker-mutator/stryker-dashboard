@@ -8,6 +8,7 @@ lerna-debug.log
 # misc
 .DS_Store
 .env.local
+acc.env
 .env.development.local
 .env.test.local
 .env.production.local
