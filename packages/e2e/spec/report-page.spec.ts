@@ -26,7 +26,8 @@ describe('Report page', () => {
       await page.navigate('github.com/stryker-mutator-test-organization/hello-org', 'master');
     });
 
-    it('should show the mutation-test-report-app with bound data', async () => {
+    // Skip, because protractor doesn't allow shadow dom https://github.com/angular/protractor/pull/4786
+    it.skip('should show the mutation-test-report-app with bound data', async () => {
       const actualTitle = await page.mutationTestReportApp.title();
       const mutationScore = await page.mutationTestReportApp.mutationScore();
       expect(actualTitle).eq('All files - hello-org/master - Stryker Dashboard');
@@ -57,7 +58,8 @@ describe('Report page', () => {
       await page.navigate('github.com/stryker-mutator-test-organization/hello-org', 'feat/modules');
     });
 
-    it('should show the aggregated report for the project', async () => {
+    // Skip, because protractor doesn't allow shadow dom https://github.com/angular/protractor/pull/4786
+    it.skip('should show the aggregated report for the project', async () => {
       const actualTitle = await page.mutationTestReportApp.title();
       const mutationScore = await page.mutationTestReportApp.mutationScore();
       const fileNames = await page.mutationTestReportApp.fileNames();

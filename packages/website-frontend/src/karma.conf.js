@@ -4,6 +4,10 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
+    // https://stackoverflow.com/questions/64752689/karma-server-typeerror-cannot-read-property-range-of-undefined-angular-u
+    proxies: {
+      '/assets/': '/base/src/assets/'
+    },
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
