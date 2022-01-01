@@ -1,21 +1,24 @@
 import { test } from "@playwright/test";
-import { simpleReport, uploadReport } from "../actions/report.action";
+import { simpleReport } from "../actions/report.action";
 import { expect } from "chai";
 import { URL } from "url";
 import { PutReportResponse } from "@stryker-mutator/dashboard-contract/src";
+import { ReportClient } from "../po/reports/report-client.po";
 
 test.describe("Report api", () => {
+  let client: ReportClient;
+
+  test.beforeEach(({ request }) => {
+    client = new ReportClient(request);
+  });
+
   test.describe("HTTP put", () => {
-    test("should respond with the correct href", async ({
-      request,
-      baseURL,
-    }) => {
-      const response = await uploadReport(
+    test("should respond with the correct href", async ({ baseURL }) => {
+      const response = await client.uploadReport(
         simpleReport(
           "github.com/stryker-mutator-test-organization/hello-org",
           "feat/report"
-        ),
-        request
+        )
       );
 
       const expectedResponse: PutReportResponse = {
@@ -28,16 +31,14 @@ test.describe("Report api", () => {
     });
 
     test("should respond the correct href and project href when uploading for a module", async ({
-      request,
       baseURL,
     }) => {
-      const response = await uploadReport(
+      const response = await client.uploadReport(
         simpleReport(
           "github.com/stryker-mutator-test-organization/hello-org",
           "feat/report",
           "fooModule"
-        ),
-        request
+        )
       );
 
       const expectedResponse: PutReportResponse = {

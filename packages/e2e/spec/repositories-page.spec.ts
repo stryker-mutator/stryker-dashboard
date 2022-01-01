@@ -1,24 +1,24 @@
 import { test } from "@playwright/test";
 import { RepositoriesPage } from "../po/repositories/repositories-page.po";
-import {
-  enableRepository,
-  getUserRepositories,
-} from "../actions/report.action";
 import { expect } from "chai";
 import { RepositorySwitchPageObject } from "../po/repositories/repository-switch.po";
 import { Repository } from "@stryker-mutator/dashboard-contract/src";
 import { RepositoryModalDialogPageObject } from "../po/repositories/repository-modal-dialog.po";
 import { ApiKeyGeneratorPageObject } from "../po/repositories/api-key-generator.po";
 import { OwnerSelectorPageObject } from "../po/repositories/owner-selector.po";
+import { ReportClient } from "../po/reports/report-client.po";
 
 // Example: 0527de29-6436-4564-9c5f-34f417ec68c0
 const API_KEY_REGEX = /^[0-9a-z]{8}-(?:[0-9a-z]{4}-){3}[0-9a-z]{12}$/;
 
 test.describe.serial("Repositories page", () => {
   let page: RepositoriesPage;
+  let client: ReportClient;
 
   test.beforeAll(async ({ browser }) => {
-    page = new RepositoriesPage(await browser.newPage());
+    const context = await browser.newContext();
+    client = new ReportClient(context.request);
+    page = new RepositoriesPage(await context.newPage());
     await page.logOn();
     await page.navigate();
   });
@@ -127,10 +127,10 @@ test.describe.serial("Repositories page", () => {
   test.describe("when a repository is enabled", () => {
     let repositoryPageObject: RepositorySwitchPageObject;
     let repository: Repository;
-    test.beforeAll(async ({ request }) => {
-      const allRepositories = await getUserRepositories(request);
+    test.beforeAll(async () => {
+      const allRepositories = await client.getUserRepositories();
       repository = allRepositories[1];
-      await enableRepository(repository.slug, request);
+      await client.enableRepository(repository.slug);
       await page.navigate();
       const repositoryList = await page.repositoryList();
       repositoryPageObject = (await repositoryList.all())[1];

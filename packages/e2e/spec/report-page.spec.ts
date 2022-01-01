@@ -1,18 +1,17 @@
 import { test } from "@playwright/test";
 import { ReportPage } from "../po/reports/report-page.po";
 import { expect } from "chai";
-import {
-  uploadReport,
-  simpleReport,
-  scoreOnlyReport,
-} from "../actions/report.action";
+import { simpleReport, scoreOnlyReport } from "../actions/report.action";
 import { MutantStatus } from "mutation-testing-report-schema";
+import { ReportClient } from "../po/reports/report-client.po";
 
 test.describe("Report page", () => {
   let page: ReportPage;
+  let client: ReportClient;
 
-  test.beforeEach(({ page: p }) => {
+  test.beforeEach(({ page: p, request }) => {
     page = new ReportPage(p);
+    client = new ReportClient(request);
   });
 
   test.describe("when report does not exist", () => {
@@ -26,13 +25,12 @@ test.describe("Report page", () => {
   });
 
   test.describe("when a full report exists", async () => {
-    test.beforeEach(async ({ request }) => {
-      await uploadReport(
+    test.beforeEach(async () => {
+      await client.uploadReport(
         simpleReport(
           "github.com/stryker-mutator-test-organization/hello-org",
           "master"
-        ),
-        request
+        )
       );
       await page.navigate(
         "github.com/stryker-mutator-test-organization/hello-org",
@@ -41,7 +39,6 @@ test.describe("Report page", () => {
     });
 
     test("should show the mutation-test-report-app with bound data", async () => {
-      
       const app = (await page.mutationTestReportApp())!;
       const actualTitle = await app.title();
       const mutationScore = await app.mutationScore();
@@ -54,14 +51,13 @@ test.describe("Report page", () => {
     test.describe(
       "and afterwards it is overridden with a score-only report",
       async () => {
-        test.beforeEach(async ({ request }) => {
-          await uploadReport(
+        test.beforeEach(async () => {
+          await client.uploadReport(
             scoreOnlyReport(
               "github.com/stryker-mutator-test-organization/hello-org",
               "master",
               42
-            ),
-            request
+            )
           );
           await page.navigate(
             "github.com/stryker-mutator-test-organization/hello-org",
@@ -81,61 +77,65 @@ test.describe("Report page", () => {
     );
   });
 
-  test.describe("when multiple reports with module names are updated for one project", () => {
-    test.beforeEach(async ({ request }) => {
-      await Promise.all([
-        uploadReport(
-          simpleReport(
-            "github.com/stryker-mutator-test-organization/hello-org",
-            "feat/modules",
-            "one",
-            [MutantStatus.Killed, MutantStatus.Killed, MutantStatus.Killed]
+  test.describe(
+    "when multiple reports with module names are updated for one project",
+    () => {
+      test.beforeEach(async () => {
+        await Promise.all([
+          client.uploadReport(
+            simpleReport(
+              "github.com/stryker-mutator-test-organization/hello-org",
+              "feat/modules",
+              "one",
+              [MutantStatus.Killed, MutantStatus.Killed, MutantStatus.Killed]
+            )
           ),
-          request
-        ),
-        uploadReport(
-          simpleReport(
-            "github.com/stryker-mutator-test-organization/hello-org",
-            "feat/modules",
-            "two",
-            [
-              MutantStatus.Survived,
-              MutantStatus.Survived,
-              MutantStatus.Survived,
-            ]
+          client.uploadReport(
+            simpleReport(
+              "github.com/stryker-mutator-test-organization/hello-org",
+              "feat/modules",
+              "two",
+              [
+                MutantStatus.Survived,
+                MutantStatus.Survived,
+                MutantStatus.Survived,
+              ]
+            )
           ),
-          request
-        ),
-        uploadReport(
-          simpleReport(
-            "github.com/stryker-mutator-test-organization/hello-org",
-            "feat/modules",
-            "three",
-            [MutantStatus.Killed, MutantStatus.Timeout, MutantStatus.NoCoverage]
+          client.uploadReport(
+            simpleReport(
+              "github.com/stryker-mutator-test-organization/hello-org",
+              "feat/modules",
+              "three",
+              [
+                MutantStatus.Killed,
+                MutantStatus.Timeout,
+                MutantStatus.NoCoverage,
+              ]
+            )
           ),
-          request
-        ),
-      ]);
-      await page.navigate(
-        "github.com/stryker-mutator-test-organization/hello-org",
-        "feat/modules"
-      );
-    });
+        ]);
+        await page.navigate(
+          "github.com/stryker-mutator-test-organization/hello-org",
+          "feat/modules"
+        );
+      });
 
-    test("should show the aggregated report for the project", async () => {
-      const app = (await page.mutationTestReportApp())!;
-      const actualTitle = await app.title();
-      const mutationScore = await app.mutationScore();
-      const fileNames = await app.fileNames();
-      expect(actualTitle).eq(
-        "All files - hello-org/feat/modules - Stryker Dashboard"
-      );
-      expect(mutationScore).eq(55.56);
-      expect(fileNames).deep.eq([
-        "one/test.js",
-        "three/test.js",
-        "two/test.js",
-      ]);
-    });
-  });
+      test("should show the aggregated report for the project", async () => {
+        const app = (await page.mutationTestReportApp())!;
+        const actualTitle = await app.title();
+        const mutationScore = await app.mutationScore();
+        const fileNames = await app.fileNames();
+        expect(actualTitle).eq(
+          "All files - hello-org/feat/modules - Stryker Dashboard"
+        );
+        expect(mutationScore).eq(55.56);
+        expect(fileNames).deep.eq([
+          "one/test.js",
+          "three/test.js",
+          "two/test.js",
+        ]);
+      });
+    }
+  );
 });
