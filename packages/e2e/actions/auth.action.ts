@@ -1,4 +1,4 @@
-import { browser } from 'protractor';
+import { Page } from '@playwright/test';
 import jwt = require('jsonwebtoken');
 import { getEnvVariable } from './helpers.action';
 
@@ -21,13 +21,12 @@ export function generateAuthToken(): string {
   return authToken;
 }
 
-export async function logOn() {
+export async function logOn(page: Page) {
   const authToken = generateAuthToken();
-  await browser.get('/');
-  await browser.executeScript(`window.sessionStorage.setItem('authToken', '${authToken}');`);
-  // await browser.get('/');
+  await page.goto('/');
+  await page.evaluate(`window.sessionStorage.setItem('authToken', '${authToken}');`);
 }
 
-export async function logOff() {
-  await browser.executeScript('window.sessionStorage.removeItem("authToken")');
+export async function logOff(page: Page) {
+  await page.evaluate('window.sessionStorage.removeItem("authToken")');
 }

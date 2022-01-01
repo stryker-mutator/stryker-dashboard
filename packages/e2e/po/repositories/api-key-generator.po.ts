@@ -1,13 +1,12 @@
 import { PageObject } from '../shared/page-object';
-import { promise } from 'protractor';
 
 export class ApiKeyGeneratorPageObject extends PageObject {
 
-  public apiKey(): promise.Promise<string> {
-    return this.host.$('[data-test="api-key"]').getText();
+  public async apiKey(): Promise<string> {
+    return (await this.host.$('[data-test="api-key"]'))!.innerText();
   }
 
-  public generateNew(): promise.Promise<void> {
-    return this.host.$('#generateNewButton').click();
+  public async generateNew(): Promise<void> {
+    return (await this.host.$('#generateNewButton'))!.click();
   }
 }
