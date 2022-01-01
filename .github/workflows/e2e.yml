@@ -99,4 +99,4 @@ jobs:
       if: failure()
       with:
         name: playwright-videos
-        path: packages/e2e/test-results/
+        path: packages/e2e/test-results/**/*
