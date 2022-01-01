@@ -1,8 +1,9 @@
 import { PageObject } from "../shared/page-object";
 
 export class MutationScoreBadgePageObject extends PageObject {
-  public async hasLink(): Promise<boolean> {
-    return (await this.host.$("a"))!.isVisible();
+  public async waitForLink(): Promise<void> {
+    const anchor = await this.host.$("a");
+    await anchor!.waitForElementState('visible')
   }
 
   public async linkHref(): Promise<string | null> {

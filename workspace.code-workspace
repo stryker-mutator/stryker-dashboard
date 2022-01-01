@@ -34,7 +34,8 @@
       "clippy",
       "etag",
       "fdescribe",
-      "gitlab"
+      "gitlab",
+      "Testabilities"
     ],
     "grunt.autoDetect": "off",
     "gulp.autoDetect": "off",

@@ -75,7 +75,7 @@ test.describe("Report page", () => {
             "No html report stored for github.com/stryker-mutator-test-organization/hello-org/master"
           );
           expect(await page.mutationTestReportApp()).eq(null);
-          expect(await page.mutationScoreText()).eq("Mutation score: 43");
+          expect(await page.mutationScoreText()).eq("Mutation score: 42");
         });
       }
     );

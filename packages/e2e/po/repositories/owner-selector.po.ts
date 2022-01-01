@@ -12,8 +12,7 @@ export class OwnerSelectorPageObject extends PageObject {
   }
 
   public async select(optionValue: string): Promise<void> {
-    await this.host.click();
-    const option = await this.host.$(`option[value=${optionValue}]`);
-    await option!.click();
+    const select = await this.host.$('select');
+    await select!.selectOption(optionValue);
   }
 }

@@ -5,7 +5,8 @@ import { DashboardPage } from "../shared/dashboard-page.po";
 
 export class RepositoriesPage extends DashboardPage {
   public async navigate() {
-    return this.page.goto("/repos");
+    await this.page.goto("/repos");
+    await this.waitForAngular();
   }
 
   public async repositoryList() {
@@ -15,9 +16,12 @@ export class RepositoriesPage extends DashboardPage {
   }
 
   public async modalDialog() {
-    return new RepositoryModalDialogPageObject(
-      await this.page.$("ngb-modal-window")
-    );
+    const modalElement = await this.page.$("ngb-modal-window");
+    if (modalElement) {
+      return new RepositoryModalDialogPageObject(modalElement);
+    } else {
+      return null;
+    }
   }
 
   public async ownerSelector() {
