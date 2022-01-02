@@ -11,7 +11,7 @@ export type JasmineMock<T> = {
 
 export function mock<T extends Object>(Clazz: Constructor<T>): JasmineMock<T> {
   const methods = Object.getOwnPropertyNames(Clazz.prototype).filter(
-    (method) => method !== 'constructor'
+    method => method !== 'constructor'
   );
   return jasmine.createSpyObj(Clazz.name, methods);
 }
