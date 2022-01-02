@@ -32,7 +32,7 @@ jobs:
         command: |
           echo "Docker build $NPM_PACKAGE_VERSION"
           cd docker
-          docker build -t strykermutator/dashboard:${{ github.sha }}  --build-arg version=${NPM_PACKAGE_VERSION} . ||  docker build -t strykermutator/dashboard:${{ github.sha }}  --build-arg version=${NPM_PACKAGE_VERSION} .
+          docker build -t strykermutator/dashboard:${{ github.sha }}  --build-arg version=${NPM_PACKAGE_VERSION} .
           docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
           docker push strykermutator/dashboard:${{ github.sha }} 
     - name: Write version number
