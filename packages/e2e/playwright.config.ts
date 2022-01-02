@@ -5,6 +5,7 @@ const config: PlaywrightTestConfig = {
   globalSetup: require.resolve("./spec/global-setup"),
   use: {
     video: "retain-on-failure",
+    trace: "retain-on-failure",
   },
   projects: [
     {
