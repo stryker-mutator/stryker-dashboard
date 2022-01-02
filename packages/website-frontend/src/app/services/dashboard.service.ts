@@ -5,9 +5,9 @@ import { Title } from '@angular/platform-browser';
   providedIn: 'root'
 })
 export class DashboardService {
-  constructor(private titleService: Title) { }
+  constructor(private readonly titleService: Title) { }
 
-  setTitlePrefix(prefix: string) {
+  public setTitlePrefix(prefix: string) {
     this.titleService.setTitle(`${prefix} - Stryker Dashboard`);
   }
 }

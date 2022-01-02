@@ -71,7 +71,7 @@ describe(RepositoryModalComponent.name, () => {
       sut.openToEnableRepository(repository);
       fixture.detectChanges();
       await fixture.whenStable();
-      modal = findModal();
+      modal = findModal()!;
     });
 
     it('should show the modal', () => {
@@ -95,7 +95,7 @@ describe(RepositoryModalComponent.name, () => {
 
       beforeEach(async () => {
         const buttons = Array.from(modal.querySelectorAll('.card-header button'));
-        const badgeButton = buttons.find(button => button.textContent.trim() === 'Badge') as HTMLButtonElement;
+        const badgeButton = buttons.find(button => button.textContent!.trim() === 'Badge') as HTMLButtonElement;
         badgeButton.click();
         fixture.detectChanges();
         await fixture.whenStable();
@@ -104,7 +104,7 @@ describe(RepositoryModalComponent.name, () => {
       it('it should show the url in the readme description', () => {
         // tslint:disable-next-line: max-line-length
         const expectedUrl = 'https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FfooOrg%2FbarRepo%2Fmaster';
-        expect(modal.querySelector('code').textContent)
+        expect(modal.querySelector('code')!.textContent)
           .toContain(expectedUrl);
       });
     });
@@ -125,7 +125,7 @@ describe(RepositoryModalComponent.name, () => {
       sut.openToDisplayRepository(repository);
       fixture.detectChanges();
       await fixture.whenStable();
-      modal = findModal();
+      modal = findModal()!;
     });
 
     it('should hide the api key', () => {
@@ -135,7 +135,7 @@ describe(RepositoryModalComponent.name, () => {
 
     it('should generate a new API key and show it when "generate" is raised', async () => {
       const event = new CustomEvent('generate', { bubbles: true });
-      modal.querySelector('stryker-api-key-generator').dispatchEvent(event);
+      modal.querySelector('stryker-api-key-generator')!.dispatchEvent(event);
       fixture.detectChanges();
       await fixture.whenStable();
       expect(repositoryServiceStub.enableRepository).toHaveBeenCalledWith(repository.slug, true);
@@ -145,7 +145,7 @@ describe(RepositoryModalComponent.name, () => {
   });
   function findModal() {
     let next = element;
-    let modal: HTMLElement = null;
+    let modal: HTMLElement | null = null;
     while (!modal && next) {
       next = next.nextSibling as HTMLElement;
       if (next && next.tagName.toLowerCase() === 'ngb-modal-window') {
@@ -161,4 +161,3 @@ describe(RepositoryModalComponent.name, () => {
     return (modal.querySelector('stryker-api-key-generator') as any).apiKey;
   }
 });
-

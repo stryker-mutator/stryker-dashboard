@@ -9,7 +9,7 @@ export class ShortExplanationComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
 }

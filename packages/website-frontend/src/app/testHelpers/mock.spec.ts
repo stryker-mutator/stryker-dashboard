@@ -9,7 +9,7 @@ export type JasmineMock<T> = {
   [K in keyof T]: T[K] extends Function ? T[K] & jasmine.Spy : T[K];
 } & T;
 
-export function mock<T>(constructor: Constructor<T>): JasmineMock<T> {
+export function mock<T extends Object>(constructor: Constructor<T>): JasmineMock<T> {
   const methodNames: string[] = [];
   for (const key in constructor.prototype) {
     if (constructor.prototype.hasOwnProperty(key)) {

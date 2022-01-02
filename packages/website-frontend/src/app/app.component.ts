@@ -9,12 +9,12 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent implements OnInit {
 
-  user: Login | null = null;
+  public user: Login | null = null;
 
-  constructor(private authService: AuthService) {
+  constructor(private readonly authService: AuthService) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.authService.currentUser$.subscribe(user => this.user = user);
   }
 }

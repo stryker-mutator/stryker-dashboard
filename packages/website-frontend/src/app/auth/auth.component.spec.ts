@@ -73,6 +73,6 @@ describe(AuthComponent.name, () => {
     // Assert
     const alert = element.querySelector('.alert');
     expect(alert).toBeTruthy();
-    expect(alert.textContent).toBe('An error occurred during logon. Please try again.');
+    expect(alert!.textContent).toBe('An error occurred during logon. Please try again.');
   });
 });

@@ -10,9 +10,9 @@ import { AuthService } from '../auth/auth.service';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private readonly authService: AuthService, private readonly router: Router) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.authService.currentUser$.subscribe(user => {
       if (user) {
         this.router.navigate(['repos', user.name]);

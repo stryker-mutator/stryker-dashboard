@@ -16,8 +16,8 @@ describe(ClipboardCopyComponent.name, () => {
     });
     await TestBed.compileComponents();
     const fixture = TestBed.createComponent(CopyHostComponent);
-    await fixture.detectChanges();
-    el = (fixture.nativeElement as HTMLElement).querySelector('stryker-clipboard-copy');
+    fixture.detectChanges();
+    el = (fixture.nativeElement as HTMLElement).querySelector('stryker-clipboard-copy')!;
   });
 
   it('should show a clipboard svg', () => {
@@ -26,10 +26,8 @@ describe(ClipboardCopyComponent.name, () => {
 
   it('should copy related code to clipboard when clicked', async () => {
     const writeToClipboardSpy = spyOn(navigator.clipboard, 'writeText');
-    const clickEvent = document.createEvent('HTMLEvents');
-    clickEvent.initEvent('click', true, true);
     const svg = el.querySelector('svg');
-    svg.dispatchEvent(clickEvent);
+    svg!.dispatchEvent(new Event('click', { bubbles: true, cancelable: true  }));
     expect(writeToClipboardSpy).toHaveBeenCalledWith('foo-bar-code');
   });
 });

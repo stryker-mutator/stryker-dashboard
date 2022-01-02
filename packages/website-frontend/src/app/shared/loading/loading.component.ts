@@ -8,6 +8,6 @@ import { Component, Input } from '@angular/core';
 export class LoadingComponent {
 
   @Input()
-  showContent: any;
+  public showContent: any;
 
 }

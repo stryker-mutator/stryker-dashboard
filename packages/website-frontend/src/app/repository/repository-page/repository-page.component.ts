@@ -23,12 +23,12 @@ export class RepositoryPageComponent extends AutoUnsubscribe implements OnInit {
   public repositories: Repository[] | null = null;
 
   public constructor(
-    private organizationsService: OrganizationsService,
-    private userService: UserService,
-    private authService: AuthService,
-    private router: Router,
-    private activeRoute: ActivatedRoute,
-    private dashboardService: DashboardService
+    private readonly organizationsService: OrganizationsService,
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly activeRoute: ActivatedRoute,
+    private readonly dashboardService: DashboardService
   ) {
     super();
   }
@@ -43,13 +43,13 @@ export class RepositoryPageComponent extends AutoUnsubscribe implements OnInit {
     this.subscriptions.push(
       this.userService
         .organizations()
-        .subscribe((organizations) => (this.organizations = organizations))
+        .subscribe(organizations => (this.organizations = organizations))
     );
   }
 
   private loadUser() {
     this.subscriptions.push(
-      this.authService.currentUser$.subscribe((user) => (this.user = user))
+      this.authService.currentUser$.subscribe(user => (this.user = user))
     );
   }
 
@@ -59,7 +59,7 @@ export class RepositoryPageComponent extends AutoUnsubscribe implements OnInit {
 
   public loadRepositories() {
     const selectedOwner$: Observable<string> = this.activeRoute.params.pipe(
-      map((params) => params.owner),
+      map(params => params.owner),
       filter(notEmpty)
     );
     const currentUser$ = this.authService.currentUser$.pipe(filter(notEmpty));
@@ -77,7 +77,7 @@ export class RepositoryPageComponent extends AutoUnsubscribe implements OnInit {
           }
         })
       )
-      .subscribe((repositories) => (this.repositories = repositories));
+      .subscribe(repositories => (this.repositories = repositories));
     this.subscriptions.push(repositorySubscription);
   }
 }

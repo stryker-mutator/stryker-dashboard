@@ -18,7 +18,6 @@ export class OwnerSelectorComponent {
   @Output()
   public ownerSelected = new EventEmitter<string>();
 
-
   public selectedOwnerChanged(event: Event) {
     const val = (event.target as HTMLSelectElement).value;
     this.ownerSelected.emit(val);

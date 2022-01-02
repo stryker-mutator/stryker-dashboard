@@ -14,7 +14,6 @@ export class RepositorySwitchComponent {
   @Output() public enable = new EventEmitter<RepositorySwitchComponent>();
   @Output() public disable = new EventEmitter<RepositorySwitchComponent>();
 
-
   public constructor() {
   }
 

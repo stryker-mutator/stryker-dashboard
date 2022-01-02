@@ -12,7 +12,7 @@ import { AuthService } from '../auth/auth.service';
 })
 export class UserService {
 
-  public constructor(private http: HttpClient) { }
+  public constructor(private readonly http: HttpClient) { }
 
   public organizations(): Observable<Login[]> {
     return this.http

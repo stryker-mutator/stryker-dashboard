@@ -37,7 +37,7 @@ describe(RepositoryPageComponent.name, () => {
     currentUser$ = new Subject();
     repo$ = new Subject();
     organization$ = new Subject();
-    authServiceMock = { currentUser$: currentUser$ };
+    authServiceMock = { currentUser$ };
     dashboardServiceMock = mock(DashboardService);
     organizationServiceMock.getRepositories.and.returnValue(repo$);
     userServiceMock.getRepositories.and.returnValue(repo$);

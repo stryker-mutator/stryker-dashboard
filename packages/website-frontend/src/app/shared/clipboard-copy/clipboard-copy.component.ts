@@ -15,9 +15,9 @@ export class ClipboardCopyComponent implements OnInit {
   @Input()
   public for: string | undefined;
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(private readonly elementRef: ElementRef) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const el: HTMLElement = this.elementRef.nativeElement;
     el.querySelector('clipboard-copy')!.innerHTML = clippy.toSVG();
   }

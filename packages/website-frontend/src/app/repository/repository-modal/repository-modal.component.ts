@@ -28,8 +28,8 @@ export class RepositoryModalComponent {
   public repository!: Repository;
 
   public constructor(
-    private modalService: NgbModal,
-    private repositoryService: RepositoryService
+    private readonly modalService: NgbModal,
+    private readonly repositoryService: RepositoryService
   ) {}
 
   public get name() {
@@ -41,7 +41,7 @@ export class RepositoryModalComponent {
   }
 
   @ViewChild('modal', { static: false })
-  private modal!: ElementRef;
+  private readonly modal!: ElementRef;
   public enabled = false;
 
   public badgeStyle: BadgeStyle = 'flat';
@@ -71,7 +71,7 @@ export class RepositoryModalComponent {
     this.repository = repo;
     this.enabled = true;
     const result = this.open().result;
-    await this.enableRepository().catch((err) => {
+    await this.enableRepository().catch(err => {
       this.close();
       throw err;
     });

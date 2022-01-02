@@ -12,7 +12,7 @@ const AUTH_TOKEN_SESSION_KEY = 'authToken';
 })
 export class AuthService {
 
-  constructor(private http: HttpClient, private session: SessionStorage) {
+  constructor(private readonly http: HttpClient, private readonly session: SessionStorage) {
   }
 
   public get currentBearerToken(): string | null {
@@ -30,7 +30,7 @@ export class AuthService {
     }
     return this._currentUser;
   }
-  private currentUserSubject$ = new Subject<Login | null>();
+  private readonly currentUserSubject$ = new Subject<Login | null>();
 
   private _currentUser: Observable<Login | null> | undefined;
 
