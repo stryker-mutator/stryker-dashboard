@@ -38,7 +38,14 @@
       "source.fixAll.tslint": true
     },
     "typescript.tsdk": "stryker-dashboard\\node_modules\\typescript\\lib",
-    "cSpell.words": ["clippy", "etag", "fdescribe", "gitlab", "Testabilities"],
+    "cSpell.words": [
+      "Clazz",
+      "clippy",
+      "etag",
+      "fdescribe",
+      "gitlab",
+      "Testabilities"
+    ],
     "task.autoDetect": "off",
     "azurite.location": "root/.azurite"
   }
