@@ -13,11 +13,10 @@ import { AuthService } from 'src/app/auth/auth.service';
 @Component({
   selector: 'stryker-repository-page',
   templateUrl: './repository-page.component.html',
-  styleUrls: ['./repository-page.component.scss']
+  styleUrls: ['./repository-page.component.scss'],
 })
 export class RepositoryPageComponent extends AutoUnsubscribe implements OnInit {
-
-  public organizations: Login[] | undefined;
+  public organizations: Login[] = [];
   public user: Login | null = null;
   public selectedLogin: string | undefined;
 
@@ -29,7 +28,8 @@ export class RepositoryPageComponent extends AutoUnsubscribe implements OnInit {
     private authService: AuthService,
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private dashboardService: DashboardService) {
+    private dashboardService: DashboardService
+  ) {
     super();
   }
 
@@ -40,12 +40,17 @@ export class RepositoryPageComponent extends AutoUnsubscribe implements OnInit {
   }
 
   private loadOrganizations() {
-    this.subscriptions.push(this.userService.organizations()
-      .subscribe(organizations => this.organizations = organizations));
+    this.subscriptions.push(
+      this.userService
+        .organizations()
+        .subscribe((organizations) => (this.organizations = organizations))
+    );
   }
 
   private loadUser() {
-    this.subscriptions.push(this.authService.currentUser$.subscribe(user => this.user = user));
+    this.subscriptions.push(
+      this.authService.currentUser$.subscribe((user) => (this.user = user))
+    );
   }
 
   public changeSelectedOwner(owner: string) {
@@ -54,14 +59,16 @@ export class RepositoryPageComponent extends AutoUnsubscribe implements OnInit {
 
   public loadRepositories() {
     const selectedOwner$: Observable<string> = this.activeRoute.params.pipe(
-      map(params => params.owner),
-      filter(notEmpty),
+      map((params) => params.owner),
+      filter(notEmpty)
     );
     const currentUser$ = this.authService.currentUser$.pipe(filter(notEmpty));
     const repositorySubscription = combineLatest(currentUser$, selectedOwner$)
       .pipe(
-        tap(() => this.repositories = null),
-        tap(([, selectedOwner]) => this.dashboardService.setTitlePrefix(selectedOwner)),
+        tap(() => (this.repositories = null)),
+        tap(([, selectedOwner]) =>
+          this.dashboardService.setTitlePrefix(selectedOwner)
+        ),
         flatMap(([user, selectedOwner]) => {
           if (selectedOwner === user.name) {
             return this.userService.getRepositories();
@@ -69,8 +76,8 @@ export class RepositoryPageComponent extends AutoUnsubscribe implements OnInit {
             return this.organizationsService.getRepositories(selectedOwner);
           }
         })
-      ).subscribe(repositories => this.repositories = repositories);
+      )
+      .subscribe((repositories) => (this.repositories = repositories));
     this.subscriptions.push(repositorySubscription);
   }
-
 }

@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Build typescript",
+      "label": "🏗 tsc -b -w",
       "type": "typescript",
       "tsconfig": "tsconfig.json",
       "option": "watch",
@@ -12,6 +12,13 @@
         "$tsc-watch"
       ],
       "group": "build"
-    }
+    },    
+    {
+      "label": "🟣 Launch Azurite storage emulator",
+      "type": "npm",
+      "group": "build",
+      "isBackground": true,
+      "script": "start:azurite"
+    },    
   ]
 }

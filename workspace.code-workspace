@@ -22,24 +22,24 @@
       "path": "packages/e2e"
     },
     {
-      "path": "."
+      "path": ".",
+      "name": "root"
     }
   ],
+  "extensions": {
+    "recommendations": [
+      "angular.ng-template",
+      // https://marketplace.visualstudio.com/items?itemName=Azurite.azurite
+      "Azurite.azurite"
+    ]
+  },
   "settings": {
     "editor.codeActionsOnSave": {
       "source.fixAll.tslint": true
     },
     "typescript.tsdk": "stryker-dashboard\\node_modules\\typescript\\lib",
-    "cSpell.words": [
-      "clippy",
-      "etag",
-      "fdescribe",
-      "gitlab",
-      "Testabilities"
-    ],
-    "grunt.autoDetect": "off",
-    "gulp.autoDetect": "off",
-    "jake.autoDetect": "off",
-    "task.autoDetect": "off"
+    "cSpell.words": ["clippy", "etag", "fdescribe", "gitlab", "Testabilities"],
+    "task.autoDetect": "off",
+    "azurite.location": "root/.azurite"
   }
 }

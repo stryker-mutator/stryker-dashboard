@@ -76,8 +76,9 @@ export class ReportPageComponent extends AutoUnsubscribe implements OnInit, OnDe
     }));
   }
 
-  public themeChanged = (event: CustomEvent<ThemeDetail>) => {
-    this.backgroundColor = event.detail.themeBackgroundColor;
+  public themeChanged = (event: Event) => {
+    const themeChangedEvent = event as CustomEvent<ThemeDetail>;
+    this.backgroundColor = themeChangedEvent.detail.themeBackgroundColor;
   }
 
 }

@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import * as path from 'path';
 import { ServerLoader, ServerSettings } from '@tsed/common';
 import passport from 'passport'; import express from 'express';
@@ -30,11 +29,9 @@ export default class Server extends ServerLoader {
       return done(null, user);
     });
     passport.use(githubStrategy());
-    const indexHtml = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
-
     this
       .use(express.static(dist))
-      .use(spa(indexHtml))
+      .use(spa(path.join(dist, 'index.html')))
       .use(bodyParser.json({ limit: '100mb' }))
       .use(passport.initialize())
       .use(passport.session())

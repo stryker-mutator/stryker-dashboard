@@ -4,7 +4,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Unit Tests",
+      "name": "📛 Unit Tests",
       "program": "${workspaceFolder}/../../node_modules/mocha/bin/_mocha",
       "args": [
         "--colors",
@@ -16,7 +16,7 @@
       "internalConsoleOptions": "openOnSessionStart"
     },
     {
-      "name": "Run Badge-API",
+      "name": "📛 Run Badge-API",
       "type": "node",
       "request": "attach",
       "port": 9229,

@@ -1,24 +1,36 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModal,
+  NgbModalOptions,
+  NgbModalRef,
+} from '@ng-bootstrap/ng-bootstrap';
 
-import { badgeExampleSrc, BadgeStyle, allBadgeStyles, badgeSrc, reportUrl } from '../util';
+import {
+  badgeExampleSrc,
+  BadgeStyle,
+  allBadgeStyles,
+  badgeSrc,
+  reportUrl,
+} from '../util';
 import { RepositoryService } from '../repository.service';
 import { Repository } from '@stryker-mutator/dashboard-contract';
 import { ApiKeyDisplayMode } from '../api-key-generator/api-key-generator.component';
-
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'stryker-repository-modal',
   templateUrl: './repository-modal.component.html',
-  styleUrls: ['./repository-modal.component.css']
+  styleUrls: ['./repository-modal.component.css'],
 })
 export class RepositoryModalComponent {
-
   public apiKey = '';
   public apiKeyMode: ApiKeyDisplayMode = 'hide';
-  private repository!: Repository;
+  public repository!: Repository;
 
-  public constructor(private modalService: NgbModal, private repositoryService: RepositoryService) { }
+  public constructor(
+    private modalService: NgbModal,
+    private repositoryService: RepositoryService
+  ) {}
 
   public get name() {
     return this.repository.name;
@@ -35,7 +47,6 @@ export class RepositoryModalComponent {
   public badgeStyle: BadgeStyle = 'flat';
   public badgeStyles = allBadgeStyles;
   private currentModal: NgbModalRef | undefined;
-
 
   public formatExampleBadgeUrl(color: string, score: number) {
     return badgeExampleSrc(score, color, this.badgeStyle);
@@ -60,11 +71,10 @@ export class RepositoryModalComponent {
     this.repository = repo;
     this.enabled = true;
     const result = this.open().result;
-    await this.enableRepository()
-      .catch(err => {
-        this.close();
-        throw err;
-      });
+    await this.enableRepository().catch((err) => {
+      this.close();
+      throw err;
+    });
     await result;
   }
 
@@ -77,18 +87,20 @@ export class RepositoryModalComponent {
     }
   }
 
-  private async enableRepository() {
+  public async enableRepository() {
     this.apiKeyMode = 'loading';
-    const response = await this.repositoryService.enableRepository(this.repository.slug, true).toPromise();
+    const response = await lastValueFrom(
+      this.repositoryService.enableRepository(this.repository.slug, true)
+    );
     this.apiKey = response.apiKey;
     this.apiKeyMode = 'show';
   }
 
-  private disableRepository() {
+  public disableRepository() {
     return this.repositoryService.enableRepository(this.repository.slug, false);
   }
 
-  private open(): NgbModalRef {
+  public open(): NgbModalRef {
     const modalOptions: NgbModalOptions = { size: 'lg' };
     this.currentModal = this.modalService.open(this.modal, modalOptions);
     return this.currentModal;
@@ -99,5 +111,4 @@ export class RepositoryModalComponent {
       this.currentModal.close();
     }
   }
-
 }

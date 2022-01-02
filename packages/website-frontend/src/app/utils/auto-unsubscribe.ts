@@ -1,6 +1,6 @@
-import { OnDestroy } from '@angular/core';
+import { Directive, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-
+@Directive()
 export class AutoUnsubscribe implements OnDestroy {
 
   protected subscriptions: Subscription[] = [];

@@ -8,7 +8,7 @@
   <div class="modal-body">
     <div *ngIf="enabled; then enablingContent else disablingContent"></div>
     <ng-template #enablingContent>
-      <ngb-accordion #acc="ngbAccordion" activeIds="panel-about-your-api-key" closeOthers="true">
+      <ngb-accordion #acc="ngbAccordion" activeIds="panel-about-your-api-key" [closeOthers]="true">
         <ngb-panel title="About your key" id="panel-about-your-api-key">
           <ng-template ngbPanelContent>
             <stryker-api-key-generator [mode]="apiKeyMode" [apiKey]="apiKey" (generate)="enableRepository()" [slug]="repository.slug"></stryker-api-key-generator>

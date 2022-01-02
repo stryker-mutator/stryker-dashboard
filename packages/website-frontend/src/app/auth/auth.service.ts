@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthenticateResponse, Login } from '@stryker-mutator/dashboard-contract';
-import { Subject, Observable, merge } from 'rxjs';
+import { Subject, Observable, merge, lastValueFrom } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 import { SessionStorage } from '../shared/services/session-storage.service';
 
@@ -42,7 +42,7 @@ export class AuthService {
   private async getUser(): Promise<Login | null> {
     try {
       if (this.currentBearerToken) {
-        return await this.http.get<Login>('api/user').toPromise();
+        return await lastValueFrom(this.http.get<Login>('api/user'));
       } else {
         return null;
       }
@@ -57,7 +57,7 @@ export class AuthService {
   }
 
   public async authenticate(provider: string, code: string): Promise<Login> {
-    const response = await this.http.post<AuthenticateResponse>(`/api/auth/${provider}?code=${code}`, undefined).toPromise();
+    const response = await lastValueFrom(this.http.post<AuthenticateResponse>(`/api/auth/${provider}?code=${code}`, undefined));
     this.session.setItem(AUTH_TOKEN_SESSION_KEY, response.jwt);
     const user = await this.getUser();
     this.currentUserSubject$.next(user);
