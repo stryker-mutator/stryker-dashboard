@@ -13,7 +13,7 @@ acc.env
 .env.test.local
 .env.production.local
 .local.settings.json
-reports
+/reports
 
 npm-debug.log*
 yarn-debug.log*

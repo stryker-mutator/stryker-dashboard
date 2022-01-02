@@ -1,22 +1,32 @@
-import { browser, $ } from 'protractor';
-import { RepositoriesListPageObject } from './repositories-list.po';
-import { RepositoryModalDialogPageObject } from './repository-modal-dialog.po';
-import { OwnerSelectorPageObject } from './owner-selector.po';
+import { RepositoriesListPageObject } from "./repositories-list.po";
+import { RepositoryModalDialogPageObject } from "./repository-modal-dialog.po";
+import { OwnerSelectorPageObject } from "./owner-selector.po";
+import { DashboardPage } from "../shared/dashboard-page.po";
 
-export class RepositoriesPage {
+export class RepositoriesPage extends DashboardPage {
   public async navigate() {
-    return browser.get('/repos');
+    await this.page.goto("/repos");
+    await this.waitForAngular();
   }
 
-  public get repositoryList() {
-    return new RepositoriesListPageObject($('stryker-repository-list'));
+  public async repositoryList() {
+    return new RepositoriesListPageObject(
+      await this.page.$("stryker-repository-list")
+    );
   }
 
-  public get modalDialog() {
-    return new RepositoryModalDialogPageObject($('ngb-modal-window'));
+  public async modalDialog() {
+    const modalElement = await this.page.$("ngb-modal-window");
+    if (modalElement) {
+      return new RepositoryModalDialogPageObject(modalElement);
+    } else {
+      return null;
+    }
   }
 
-  public get ownerSelector() {
-    return new OwnerSelectorPageObject($('stryker-owner-selector'));
+  public async ownerSelector() {
+    return new OwnerSelectorPageObject(
+      await this.page.$("stryker-owner-selector")
+    );
   }
 }

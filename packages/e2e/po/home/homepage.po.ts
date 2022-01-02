@@ -1,16 +1,17 @@
-import { $, browser } from 'protractor';
+import { DashboardPage } from '../shared/dashboard-page.po';
 
-export class Homepage {
+export class Homepage extends DashboardPage {
 
-  get slogan() {
-    return $('h1').getText();
+  async slogan() {
+    const header = await this.page.$('h1');
+    return header!.innerText();
   }
 
   public async navigate() {
-    return browser.get('/');
+    return this.page.goto('/');
   }
 
-  get title() {
-    return browser.getTitle();
+  public async title() {
+    return this.page.title();
   }
 }

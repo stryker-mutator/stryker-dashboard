@@ -1,32 +1,32 @@
 import { PageObject } from '../shared/page-object';
-import { promise } from 'protractor';
 
 export class AccordionCardPageObject extends PageObject {
 
-  public activate(): promise.Promise<void> {
-    return this.host.$('.card-header button').click();
+  public async activate(): Promise<void> {
+    const card = await this.host.$('.card-header button');
+    return card!.click();
   }
 
-  private get body() {
+  private async body() {
     return this.host.$('.card-body');
   }
 
-  public get headerText() {
-    return this.header.getText();
+  public async headerText() {
+    return (await this.header())!.innerText();
   }
 
-  public get bodyText() {
-    return this.body.getText();
+  public async bodyText() {
+    return (await this.body())!.innerText();
   }
 
-  private get header() {
+  private header() {
     return this.host.$('.card-header');
   }
 
   public async isBodyVisible(): Promise<boolean> {
-    const isPresent = await this.body.isPresent();
-    if (isPresent) {
-      return this.body.isDisplayed();
+    const body = await this.body();
+    if (body) {
+      return body.isVisible();
     } else {
       return false;
     }

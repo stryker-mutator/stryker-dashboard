@@ -1,20 +1,21 @@
+import { test } from '@playwright/test';
 import { Homepage } from '../po/home/homepage.po';
 import { expect } from 'chai';
 
-describe('Homepage', () => {
+test.describe('Homepage', () => {
 
   let page: Homepage;
 
-  beforeEach(async () => {
-    page = new Homepage();
+  test.beforeEach(async ({ page: p }) => {
+    page = new Homepage(p);
     await page.navigate();
   });
 
-  it('should have title "Stryker Dashboard"', async () => {
-    expect(await page.title).eq('Stryker Dashboard');
+  test('should have title "Stryker Dashboard"', async () => {
+    expect(await page.title()).eq('Stryker Dashboard');
   });
 
-  it('should show slogan', async () => {
-    expect(await page.slogan).eq('Measure test effectiveness');
+  test('should show slogan', async () => {
+    expect(await page.slogan()).eq('Measure test effectiveness');
   });
 });

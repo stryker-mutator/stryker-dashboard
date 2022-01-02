@@ -1,9 +1,16 @@
-import { ElementFinder, promise } from 'protractor';
+import { ElementHandle } from "@playwright/test";
 
 export abstract class PageObject {
-  constructor(protected host: ElementFinder) { }
+  protected host: ElementHandle;
 
-  public isDisplayed(): promise.Promise<boolean> {
-    return this.host.isDisplayed();
+  constructor(host: ElementHandle | null | undefined) {
+    if (!host) {
+      throw new Error("Element doesn't exist");
+    }
+    this.host = host;
+  }
+
+  public async isVisible(): Promise<boolean> {
+    return this.host.isVisible();
   }
 }

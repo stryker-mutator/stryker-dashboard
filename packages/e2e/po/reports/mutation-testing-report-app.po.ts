@@ -1,46 +1,29 @@
+import { ElementHandle } from '@playwright/test';
 import { PageObject } from '../shared/page-object';
-import { browser, WebElement, by, ElementFinder, WebElementPromise } from 'protractor';
-
-async function findShadowRoot(element: WebElementPromise | ElementFinder) {
-  const host = await element;
-  return browser.executeScript<WebElement>('return arguments[0].shadowRoot', host);
-}
 
 export class MutationTestingReportAppPageObject extends PageObject {
 
-  private shadowRoot(): Promise<WebElement> {
-    return findShadowRoot(this.host);
-  }
 
-  private async totalsShadowRoot(): Promise<WebElement> {
-    const shadowRoot = await this.shadowRoot();
-    const mutantViewRoot = await findShadowRoot(shadowRoot.findElement(by.css('mte-mutant-view')));
-    return findShadowRoot(mutantViewRoot.findElement(by.css('mte-metrics-table')));
+  private async totals(): Promise<ElementHandle> {
+    const totals = await this.host.$('mte-mutant-view >> mte-metrics-table');
+    return totals!;
   }
 
   public async title(): Promise<string> {
-    const shadowRoot = await this.shadowRoot();
-    return shadowRoot.findElement(by.css('h1')).getText();
+    const header = await this.host.$('h1');
+    return header!.innerText();
   }
 
   public async mutationScore(): Promise<number> {
-    const totals = await this.totalsShadowRoot();
-    const percentage = await totals.findElement(by.css('tbody td:nth-child(4)')).getText();
+    const totals = await this.totals();
+    const percentageData = await totals.$('tbody td:nth-child(4)');
+    const percentage = await percentageData!.innerText();
     return Number.parseFloat(percentage);
   }
 
   public async fileNames(): Promise<string[]> {
-    const totals = await this.totalsShadowRoot();
-    const files = await totals.findElements(by.css('tbody td a'));
-    return Promise.all(files.map(a => a.getText()));
-  }
-
-  public async isVisible() {
-    const present = await this.host.isPresent();
-    if (present) {
-      return this.host.isDisplayed();
-    } else {
-      return present;
-    }
+    const totals = await this.totals();
+    const files = await totals.$$('tbody td a');
+    return Promise.all(files.map(a => a.innerText()));
   }
 }

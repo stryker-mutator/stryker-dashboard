@@ -25,12 +25,16 @@ jobs:
         git commit -am "temp-commit"
         npx lerna publish from-package --dist-tag canary --no-git-reset --yes
     - name: Docker build & Push
-      run: |
-        echo "Docker build $NPM_PACKAGE_VERSION"
-        cd docker
-        docker build -t strykermutator/dashboard:${{ github.sha }}  --build-arg version=${NPM_PACKAGE_VERSION} .
-        docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
-        docker push strykermutator/dashboard:${{ github.sha }} 
+      uses: nick-invision/retry@v2.4.0
+      with: 
+        timeout_minutes: 1
+        max_attempts: 3
+        command: |
+          echo "Docker build $NPM_PACKAGE_VERSION"
+          cd docker
+          docker build -t strykermutator/dashboard:${{ github.sha }}  --build-arg version=${NPM_PACKAGE_VERSION} .
+          docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
+          docker push strykermutator/dashboard:${{ github.sha }} 
     - name: Write version number
       run: echo $NPM_PACKAGE_VERSION > version.txt
     - name: 'Upload artifact: version'
@@ -80,6 +84,10 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: npm ci
+    - name: Install browsers
+      run: |
+        cd packages/e2e
+        npx playwright install
     - name: Build
       run: |
         cd packages/e2e
@@ -95,3 +103,8 @@ jobs:
         E2E_JWT_SECRET: ${{ secrets.E2E_JWT_SECRET }}
         E2E_ACCESS_TOKEN: ${{ secrets.E2E_ACCESS_TOKEN }}
         E2E_BADGE_API_BASE_URL: https://stryker-mutator-badge-api-acceptance.azurewebsites.net
+    - uses: actions/upload-artifact@v2
+      if: failure()
+      with:
+        name: playwright-videos
+        path: packages/e2e/test-results/

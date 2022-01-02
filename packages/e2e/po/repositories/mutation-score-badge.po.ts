@@ -1,17 +1,16 @@
-import { PageObject } from '../shared/page-object';
-import { promise } from 'protractor';
+import { PageObject } from "../shared/page-object";
 
 export class MutationScoreBadgePageObject extends PageObject {
-
-  public hasLink(): promise.Promise<boolean> {
-    return this.host.$('a').isPresent();
+  public async waitForLink(): Promise<void> {
+    const anchor = await this.host.$("a");
+    await anchor!.waitForElementState('visible')
   }
 
-  public linkHref(): promise.Promise<string> {
-    return this.host.$('a').getAttribute('href');
+  public async linkHref(): Promise<string | null> {
+    return (await this.host.$("a"))!.getAttribute("href");
   }
 
-  public imgSrc(): promise.Promise<string> {
-    return this.host.$('img').getAttribute('src');
+  public async imgSrc(): Promise<string | null> {
+    return (await this.host.$("img"))!.getAttribute("src");
   }
 }

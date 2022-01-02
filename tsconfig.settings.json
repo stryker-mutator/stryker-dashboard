@@ -12,6 +12,7 @@
     ],
     "noImplicitReturns": true,
     "noUnusedLocals": true,
+    "skipLibCheck": true,
     "declarationMap": true,
     "declaration": true,
     "sourceMap": true,

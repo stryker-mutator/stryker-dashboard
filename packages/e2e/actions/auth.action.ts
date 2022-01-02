@@ -1,4 +1,3 @@
-import { browser } from 'protractor';
 import jwt = require('jsonwebtoken');
 import { getEnvVariable } from './helpers.action';
 
@@ -21,13 +20,3 @@ export function generateAuthToken(): string {
   return authToken;
 }
 
-export async function logOn() {
-  const authToken = generateAuthToken();
-  await browser.get('/');
-  await browser.executeScript(`window.sessionStorage.setItem('authToken', '${authToken}');`);
-  // await browser.get('/');
-}
-
-export async function logOff() {
-  await browser.executeScript('window.sessionStorage.removeItem("authToken")');
-}

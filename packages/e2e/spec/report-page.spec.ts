@@ -1,72 +1,141 @@
-import { ReportPage } from '../po/reports/report-page.po';
-import { expect } from 'chai';
-import { uploadReport, simpleReport, scoreOnlyReport } from '../actions/report.action';
-import { MutantStatus } from 'mutation-testing-report-schema';
+import { test } from "@playwright/test";
+import { ReportPage } from "../po/reports/report-page.po";
+import { expect } from "chai";
+import { simpleReport, scoreOnlyReport } from "../actions/report.action";
+import { MutantStatus } from "mutation-testing-report-schema";
+import { ReportClient } from "../po/reports/report-client.po";
 
-describe('Report page', () => {
+test.describe("Report page", () => {
   let page: ReportPage;
+  let client: ReportClient;
 
-  before(() => {
-    page = new ReportPage();
+  test.beforeEach(({ page: p, request }) => {
+    page = new ReportPage(p);
+    client = new ReportClient(request);
   });
 
-  describe('when report does not exist', () => {
-    before(async () => {
-      await page.navigate('a/b/c', 'd');
+  test.describe("when report does not exist", () => {
+    test.beforeEach(async () => {
+      await page.navigate("a/b/c", "d");
     });
 
-    it('should show an error message', async () => {
-      expect(await page.errorMessage()).eq('Report does not exist');
+    test("should show an error message", async () => {
+      expect(await page.errorMessage()).eq("Report does not exist");
     });
   });
 
-  describe('when a full report exists', async () => {
-    before(async () => {
-      await uploadReport(simpleReport('github.com/stryker-mutator-test-organization/hello-org', 'master'));
-      await page.navigate('github.com/stryker-mutator-test-organization/hello-org', 'master');
+  test.describe("when a full report exists", async () => {
+    test.beforeEach(async () => {
+      await client.uploadReport(
+        simpleReport(
+          "github.com/stryker-mutator-test-organization/hello-org",
+          "master"
+        )
+      );
+      await page.navigate(
+        "github.com/stryker-mutator-test-organization/hello-org",
+        "master"
+      );
     });
 
-    // Skip, because protractor doesn't allow shadow dom https://github.com/angular/protractor/pull/4786
-    it.skip('should show the mutation-test-report-app with bound data', async () => {
-      const actualTitle = await page.mutationTestReportApp.title();
-      const mutationScore = await page.mutationTestReportApp.mutationScore();
-      expect(actualTitle).eq('All files - hello-org/master - Stryker Dashboard');
+    test("should show the mutation-test-report-app with bound data", async () => {
+      const app = (await page.mutationTestReportApp())!;
+      const actualTitle = await app.title();
+      const mutationScore = await app.mutationScore();
+      expect(actualTitle).eq(
+        "All files - hello-org/master - Stryker Dashboard"
+      );
       expect(mutationScore).eq(33.33);
     });
 
-    describe('and afterwards it is overridden with a score-only report', async () => {
-      before(async () => {
-        await uploadReport(scoreOnlyReport('github.com/stryker-mutator-test-organization/hello-org', 'master', 42));
-        await page.navigate('github.com/stryker-mutator-test-organization/hello-org', 'master');
-      });
+    test.describe(
+      "and afterwards it is overridden with a score-only report",
+      async () => {
+        test.beforeEach(async () => {
+          await client.uploadReport(
+            scoreOnlyReport(
+              "github.com/stryker-mutator-test-organization/hello-org",
+              "master",
+              42
+            )
+          );
+          await page.navigate(
+            "github.com/stryker-mutator-test-organization/hello-org",
+            "master"
+          );
+        });
 
-      it('should show the mutation score only', async () => {
-        expect(await page.warningMessage()).eq('No html report stored for github.com/stryker-mutator-test-organization/hello-org/master');
-        expect(await page.mutationTestReportApp.isVisible()).false;
-        expect(await page.mutationScoreText()).eq('Mutation score: 42');
-      });
-    });
+        test("should show the mutation score only", async () => {
+          await page.waitForAngular();
+          expect(await page.warningMessage()).eq(
+            "No html report stored for github.com/stryker-mutator-test-organization/hello-org/master"
+          );
+          expect(await page.mutationTestReportApp()).eq(null);
+          expect(await page.mutationScoreText()).eq("Mutation score: 42");
+        });
+      }
+    );
   });
 
-  describe('when multiple reports with module names are updated for one project', () => {
-    before(async () => {
-      await Promise.all([
-        uploadReport(simpleReport('github.com/stryker-mutator-test-organization/hello-org', 'feat/modules', 'one', [MutantStatus.Killed, MutantStatus.Killed, MutantStatus.Killed])),
-        uploadReport(simpleReport('github.com/stryker-mutator-test-organization/hello-org', 'feat/modules', 'two', [MutantStatus.Survived, MutantStatus.Survived, MutantStatus.Survived])),
-        uploadReport(simpleReport('github.com/stryker-mutator-test-organization/hello-org', 'feat/modules', 'three', [MutantStatus.Killed, MutantStatus.Timeout, MutantStatus.NoCoverage])),
-      ]);
-      await page.navigate('github.com/stryker-mutator-test-organization/hello-org', 'feat/modules');
-    });
+  test.describe(
+    "when multiple reports with module names are updated for one project",
+    () => {
+      test.beforeEach(async () => {
+        await Promise.all([
+          client.uploadReport(
+            simpleReport(
+              "github.com/stryker-mutator-test-organization/hello-org",
+              "feat/modules",
+              "one",
+              [MutantStatus.Killed, MutantStatus.Killed, MutantStatus.Killed]
+            )
+          ),
+          client.uploadReport(
+            simpleReport(
+              "github.com/stryker-mutator-test-organization/hello-org",
+              "feat/modules",
+              "two",
+              [
+                MutantStatus.Survived,
+                MutantStatus.Survived,
+                MutantStatus.Survived,
+              ]
+            )
+          ),
+          client.uploadReport(
+            simpleReport(
+              "github.com/stryker-mutator-test-organization/hello-org",
+              "feat/modules",
+              "three",
+              [
+                MutantStatus.Killed,
+                MutantStatus.Timeout,
+                MutantStatus.NoCoverage,
+              ]
+            )
+          ),
+        ]);
+        await page.navigate(
+          "github.com/stryker-mutator-test-organization/hello-org",
+          "feat/modules"
+        );
+      });
 
-    // Skip, because protractor doesn't allow shadow dom https://github.com/angular/protractor/pull/4786
-    it.skip('should show the aggregated report for the project', async () => {
-      const actualTitle = await page.mutationTestReportApp.title();
-      const mutationScore = await page.mutationTestReportApp.mutationScore();
-      const fileNames = await page.mutationTestReportApp.fileNames();
-      expect(actualTitle).eq('All files - hello-org/feat/modules - Stryker Dashboard');
-      expect(mutationScore).eq(55.56);
-      expect(fileNames).deep.eq(['one/test.js', 'three/test.js', 'two/test.js']);
-    });
-
-  });
+      test("should show the aggregated report for the project", async () => {
+        const app = (await page.mutationTestReportApp())!;
+        const actualTitle = await app.title();
+        const mutationScore = await app.mutationScore();
+        const fileNames = await app.fileNames();
+        expect(actualTitle).eq(
+          "All files - hello-org/feat/modules - Stryker Dashboard"
+        );
+        expect(mutationScore).eq(55.56);
+        expect(fileNames).deep.eq([
+          "one/test.js",
+          "three/test.js",
+          "two/test.js",
+        ]);
+      });
+    }
+  );
 });

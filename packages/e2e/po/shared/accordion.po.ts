@@ -1,11 +1,10 @@
 import { PageObject } from './page-object';
-import { ElementFinder } from 'protractor';
 import { AccordionCardPageObject } from '../repositories/accordion-card.po';
 
 export class AccordionPageObject extends PageObject {
 
   public async cards(): Promise<AccordionCardPageObject[]> {
-    const cards: ElementFinder[] = await this.host.$$('.card');
+    const cards = await this.host.$$('.card');
     return Promise.all(cards.map(el => new AccordionCardPageObject(el)));
   }
 
@@ -17,7 +16,7 @@ export class AccordionPageObject extends PageObject {
 
   public async getCard(cardHeader: string): Promise<AccordionCardPageObject> {
     const cards = await this.cards();
-    const cardHeaders = await Promise.all(cards.map(card => card.headerText));
+    const cardHeaders = await Promise.all(cards.map(card => card.headerText()));
     const index = cardHeaders.indexOf(cardHeader);
     if (index < 0) {
       throw new Error(`Cannot find "${cardHeader}" in ${JSON.stringify(cardHeaders)}`);

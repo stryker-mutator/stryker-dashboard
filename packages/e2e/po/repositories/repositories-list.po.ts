@@ -1,8 +1,7 @@
-import { ElementFinder } from 'protractor';
+import { PageObject } from '../shared/page-object';
 import { RepositorySwitchPageObject } from './repository-switch.po';
 
-export class RepositoriesListPageObject {
-  constructor(private readonly host: ElementFinder) { }
+export class RepositoriesListPageObject extends PageObject{
 
   public async allRepositoryNames(): Promise<string[]> {
     const repos = await this.all();
@@ -10,7 +9,7 @@ export class RepositoriesListPageObject {
   }
 
   public async all(): Promise<RepositorySwitchPageObject[]> {
-    const elements = await this.host.$$('stryker-repository') as ElementFinder[];
+    const elements = await this.host.$$('stryker-repository');
     return elements.map(el => new RepositorySwitchPageObject(el));
   }
 }

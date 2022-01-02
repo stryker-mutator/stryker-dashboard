@@ -8,24 +8,31 @@
       "type": "node",
       "request": "launch",
       "name": "E2E tests (acceptance)",
-      "program": "${workspaceFolder}/../../node_modules/protractor/bin/protractor",
+      "program": "${workspaceFolder}/node_modules/playwright-core/cli.js",
       "cwd": "${workspaceFolder}",
       "args": [
-        "${workspaceFolder}/dist/protractor.conf.js"
+        "test",
+        "-c",
+        "${workspaceFolder}/dist/playwright.config.js",
+        "--project",
+        "acceptance"
       ],
       "envFile": "${workspaceFolder}/acc.env",
-      "internalConsoleOptions": "openOnSessionStart"
+      "internalConsoleOptions": "openOnSessionStart",
+      "outputCapture": "std"
     },
     {
       "type": "node",
       "request": "launch",
       "name": "E2E tests (local)",
-      "program": "${workspaceFolder}/../../node_modules/protractor/bin/protractor",
+      "program": "${workspaceFolder}/node_modules/playwright-core/cli.js",
       "cwd": "${workspaceFolder}",
       "args": [
-        "${workspaceFolder}/dist/protractor.conf.js",
-        "--baseUrl",
-        "http://localhost:4200",
+        "test",
+        "-c",
+        "${workspaceFolder}/dist/playwright.config.js",
+        "--project",
+        "local"
       ],
       "envFile": "${workspaceFolder}/local.env",
       "env": {
@@ -33,7 +40,8 @@
         "E2E_JWT_SECRET": "123",
         "E2E_BADGE_API_BASE_URL": "http://localhost:7071"
       },
-      "internalConsoleOptions": "openOnSessionStart"
+      "internalConsoleOptions": "openOnSessionStart",
+      "outputCapture": "std"
     }
   ]
 }
