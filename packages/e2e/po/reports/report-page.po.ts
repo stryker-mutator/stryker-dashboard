@@ -7,29 +7,11 @@ export class ReportPage extends DashboardPage {
     version: string
   ): Promise<void> {
     await this.page.goto(`/reports/${repositorySlug}/${version}`);
-    await this.waitForAngular();
   }
 
-  public async errorMessage(): Promise<string> {
-    const alert = await this.page.$(".alert-danger");
-    return alert!.innerText();
-  }
+  public errorAlert = this.page.locator('.alert-danger');
+  public warningAlert = this.page.locator('.alert-warning');
+  public mutationTestReportApp = new MutationTestingReportAppPageObject(this.page.locator("mutation-test-report-app"));
+  public mutationScore = this.page.locator(".stryker-mutation-score");
 
-  public async warningMessage(): Promise<string> {
-    const alert = await this.page.$(".alert-warning");
-    return alert!.innerText();
-  }
-
-  public async mutationScoreText(): Promise<string> {
-    return (await this.page.$(".stryker-mutation-score"))!.innerText();
-  }
-
-  public async mutationTestReportApp() {
-    const mteElement = await this.page.$("mutation-test-report-app");
-    if (mteElement) {
-      return new MutationTestingReportAppPageObject(mteElement);
-    } else {
-      return null;
-    }
-  }
 }

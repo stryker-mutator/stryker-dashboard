@@ -1,6 +1,5 @@
-import { test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { simpleReport } from "../actions/report.action";
-import { expect } from "chai";
 import { URL } from "url";
 import { PutReportResponse } from "@stryker-mutator/dashboard-contract/src";
 import { ReportClient } from "../po/reports/report-client.po";
@@ -27,7 +26,7 @@ test.describe("Report api", () => {
           baseURL
         ).toString(),
       };
-      expect(response).deep.eq(expectedResponse);
+      expect(response).toEqual(expectedResponse);
     });
 
     test("should respond the correct href and project href when uploading for a module", async ({
@@ -51,7 +50,7 @@ test.describe("Report api", () => {
           baseURL
         ).toString(),
       };
-      expect(response).deep.eq(expectedResponse);
+      expect(response).toEqual(expectedResponse);
     });
   });
 });

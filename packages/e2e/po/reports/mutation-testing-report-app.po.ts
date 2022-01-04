@@ -1,29 +1,18 @@
-import { ElementHandle } from '@playwright/test';
-import { PageObject } from '../shared/page-object';
+import { PageObject } from "../shared/page-object";
 
 export class MutationTestingReportAppPageObject extends PageObject {
+  private totals = this.host.locator("mte-mutant-view >> mte-metrics-table");
 
-
-  private async totals(): Promise<ElementHandle> {
-    const totals = await this.host.$('mte-mutant-view >> mte-metrics-table');
-    return totals!;
-  }
-
-  public async title(): Promise<string> {
-    const header = await this.host.$('h1');
-    return header!.innerText();
-  }
+  public title = this.host.locator("h1");
 
   public async mutationScore(): Promise<number> {
-    const totals = await this.totals();
-    const percentageData = await totals.$('tbody td:nth-child(4)');
-    const percentage = await percentageData!.innerText();
+    const percentageData = this.totals.locator("tbody tr:nth-child(1) td:nth-child(4)");
+    const percentage = await percentageData.innerText();
     return Number.parseFloat(percentage);
   }
 
   public async fileNames(): Promise<string[]> {
-    const totals = await this.totals();
-    const files = await totals.$$('tbody td a');
-    return Promise.all(files.map(a => a.innerText()));
+    const files = await this.totals.locator("tbody td a").elementHandles();
+    return Promise.all(files.map((a) => a.innerText()));
   }
 }
