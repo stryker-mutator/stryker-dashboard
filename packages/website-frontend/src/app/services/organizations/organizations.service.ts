@@ -7,7 +7,7 @@ import { Repository } from '@stryker-mutator/dashboard-contract';
 })
 export class OrganizationsService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   public getRepositories(organizationName: string) {
     return this.http.get<Repository[]>(`/api/organizations/${organizationName}/repositories`);

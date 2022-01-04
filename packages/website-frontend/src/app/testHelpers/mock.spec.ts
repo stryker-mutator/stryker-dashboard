@@ -9,14 +9,11 @@ export type JasmineMock<T> = {
   [K in keyof T]: T[K] extends Function ? T[K] & jasmine.Spy : T[K];
 } & T;
 
-export function mock<T>(constructor: Constructor<T>): JasmineMock<T> {
-  const methodNames: string[] = [];
-  for (const key in constructor.prototype) {
-    if (constructor.prototype.hasOwnProperty(key)) {
-      methodNames.push(key);
-    }
-  }
-  return jasmine.createSpyObj(constructor.name, methodNames);
+export function mock<T extends Object>(Clazz: Constructor<T>): JasmineMock<T> {
+  const methods = Object.getOwnPropertyNames(Clazz.prototype).filter(
+    method => method !== 'constructor'
+  );
+  return jasmine.createSpyObj(Clazz.name, methods);
 }
 
 export function createRepository(overrides?: Partial<Repository>): Repository {
@@ -27,6 +24,6 @@ export function createRepository(overrides?: Partial<Repository>): Repository {
     owner: 'owner1',
     slug: 'owner1/repo1',
     defaultBranch: 'master',
-    ...overrides
+    ...overrides,
   };
 }

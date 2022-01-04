@@ -3,5 +3,5 @@ declare module '@primer/octicons' {
     toSVG(): string;
   }
 
-  export const clippy: Octicon;
+  export const copy: Octicon;
 }

@@ -33,7 +33,7 @@ describe('MutationScoreBadgeComponent', () => {
     // Act
     fixture.detectChanges();
     await fixture.whenStable();
-    const img = el.querySelector('img');
+    const img = el.querySelector('img')!;
 
     // Assert
     expect(img).not.toBeNull();
@@ -49,7 +49,7 @@ describe('MutationScoreBadgeComponent', () => {
     // Act
     fixture.detectChanges();
     await fixture.whenStable();
-    const img = el.querySelector('img');
+    const img = el.querySelector('img')!;
 
     // Assert
     const url = new URL(img.src);
@@ -80,6 +80,6 @@ describe('MutationScoreBadgeComponent', () => {
 
     // Assert
     expect(anchor).not.toBeNull();
-    expect(anchor.href.endsWith('reports/fooOwner/fooRepo/dev')).toBeTruthy('Not end with reports/fooOwner/fooRepo/dev');
+    expect(anchor!.href.endsWith('reports/fooOwner/fooRepo/dev')).toBeTruthy('Not end with reports/fooOwner/fooRepo/dev');
   });
 });

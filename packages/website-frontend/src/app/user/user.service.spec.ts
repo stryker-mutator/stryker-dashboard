@@ -42,7 +42,6 @@ describe(UserService.name, () => {
     expect(userService).toBeTruthy();
   });
 
-
   describe('getRepositories()', () => {
 
     it('should send a GET request to /api/user/repositories and return an Observable<Repository[]>', () => {

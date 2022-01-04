@@ -8,6 +8,7 @@ import { MutationScoreBadgeComponent } from '../mutation-score-badge/mutation-sc
 import { createRepository } from '../../testHelpers/mock.spec';
 import { first } from 'rxjs/operators';
 import { badgeSrc } from '../util';
+import { firstValueFrom } from 'rxjs';
 
 describe(RepositorySwitchComponent.name, () => {
   let repository: Repository;
@@ -35,19 +36,19 @@ describe(RepositorySwitchComponent.name, () => {
 
   it(`should display the repository's slug`, () => {
     const div = el.querySelector('div');
-    expect(div.textContent).toContain('github/stryker-mutator/stryker-badge');
+    expect(div!.textContent).toContain('github/stryker-mutator/stryker-badge');
   });
 
   describe('when enabled', () => {
     it('should show a link when enabled', () => {
       const button = el.querySelector('button');
       expect(button).not.toBeNull();
-      expect(button.textContent).toBe('github/stryker-mutator/stryker-badge');
+      expect(button!.textContent).toBe('github/stryker-mutator/stryker-badge');
     });
 
     it('should raise a "display" event when repository is clicked', async () => {
-      const event$ = sut.display.pipe(first()).toPromise();
-      const button = el.querySelector('button');
+      const event$ = firstValueFrom(sut.display);
+      const button = el.querySelector('button')!;
       button.click();
       const event = await event$;
       expect(event).not.toBeNull();
@@ -56,7 +57,7 @@ describe(RepositorySwitchComponent.name, () => {
 
     it('should raise a "disable" event when switch is turned off', async () => {
       const event$ = sut.disable.pipe(first()).toPromise();
-      const checkbox = el.querySelector('label');
+      const checkbox = el.querySelector('label')!;
       checkbox.click();
       const event = await event$;
       expect(event).not.toBeNull();
@@ -64,7 +65,7 @@ describe(RepositorySwitchComponent.name, () => {
     });
 
     it('should show the mutation-score-badge', () => {
-      const badge: HTMLImageElement = el.querySelector('stryker-mutation-score-badge img');
+      const badge = el.querySelector('stryker-mutation-score-badge img') as HTMLImageElement;
       console.log(fixture.debugElement.children);
       expect(badge).not.toBeNull();
       expect(badge.src).toEqual(badgeSrc(repository));
@@ -81,8 +82,8 @@ describe(RepositorySwitchComponent.name, () => {
 
     it('should raise an "enable" event when switch is turned on', async () => {
       // Arrange
-      const event$ = sut.enable.pipe(first()).toPromise();
-      const checkbox = el.querySelector('label');
+      const event$ = firstValueFrom(sut.enable);
+      const checkbox = el.querySelector('label')!;
 
       // Act
       checkbox.click();

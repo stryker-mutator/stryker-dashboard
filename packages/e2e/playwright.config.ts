@@ -1,4 +1,8 @@
-import { PlaywrightTestConfig } from "@playwright/test";
+import { expect, PlaywrightTestConfig } from "@playwright/test";
+
+import { matchers } from "./helpers/custom-matchers";
+expect.extend(matchers);
+
 const config: PlaywrightTestConfig = {
   testDir: "spec",
   workers: 1,

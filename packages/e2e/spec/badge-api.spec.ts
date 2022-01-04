@@ -1,7 +1,6 @@
-import { test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { BadgeApiClient, Shield, Color } from "../po/badge-api/badge-api.po";
 import { simpleReport } from "../actions/report.action";
-import { expect } from "chai";
 import { ReportClient } from "../po/reports/report-client.po";
 
 test.describe("badge-api", () => {
@@ -27,7 +26,7 @@ test.describe("badge-api", () => {
       schemaVersion: 1,
     };
     const response = await client.badgeFor("a/b/c/master");
-    expect(response.data).deep.eq(expected);
+    expect(response.data).toEqual(expected);
   });
 
   test("should show the correct score and color for an existing report", async () => {
@@ -40,7 +39,7 @@ test.describe("badge-api", () => {
     const response = await client.badgeFor(
       "github.com/stryker-mutator-test-organization/hello-org/master"
     );
-    expect(response.data).deep.eq(expected);
+    expect(response.data).toEqual(expected);
   });
 
   test("should allow slashes in version name", async ({ request }) => {
@@ -59,6 +58,6 @@ test.describe("badge-api", () => {
     const response = await client.badgeFor(
       "github.com/stryker-mutator-test-organization/hello-org/feat/test"
     );
-    expect(response.data).deep.eq(expected);
+    expect(response.data).toEqual(expected);
   });
 });

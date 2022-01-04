@@ -2,34 +2,22 @@ import { PageObject } from "../shared/page-object";
 import { MutationScoreBadgePageObject } from "./mutation-score-badge.po";
 
 export class RepositorySwitchPageObject extends PageObject {
+  public readonly checkbox = this.host.locator("input[type=checkbox]");
+  private readonly switch = this.host.locator("label");
+  public readonly mutationScoreBadge = new MutationScoreBadgePageObject(
+    this.host.locator("stryker-mutation-score-badge")
+  );
+
   public async name(): Promise<string> {
-    const slug = await this.host.$(".repo-slug");
+    const slug = this.host.locator(".repo-slug");
     return slug!.innerText();
   }
 
-  public async mutationScoreBadge() {
-    return new MutationScoreBadgePageObject(
-      await this.host.$("stryker-mutation-score-badge")
-    );
-  }
-
-  private async checkbox() {
-    return this.host.$("input[type=checkbox]");
-  }
-
-  private async switch() {
-    return this.host.$("label");
-  }
-
-  public async display(): Promise<void> {
-    return (await this.host.$("button.btn-link"))!.click();
-  }
-
-  public async isChecked(): Promise<boolean> {
-    return (await this.checkbox())!.isChecked();
+  public async display() {
+    await this.host.locator("button.btn-link").click();
   }
 
   public async flipSwitch() {
-    await (await this.switch())!.click();
+    await this.switch.click();
   }
 }

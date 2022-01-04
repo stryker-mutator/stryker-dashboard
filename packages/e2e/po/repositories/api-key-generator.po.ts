@@ -1,12 +1,9 @@
-import { PageObject } from '../shared/page-object';
+import { PageObject } from "../shared/page-object";
 
 export class ApiKeyGeneratorPageObject extends PageObject {
-
-  public async apiKey(): Promise<string> {
-    return (await this.host.$('[data-test="api-key"]'))!.innerText();
-  }
+  public readonly apiKey = this.host.locator('[data-test="api-key"]');
 
   public async generateNew(): Promise<void> {
-    return (await this.host.$('#generateNewButton'))!.click();
+    await this.host.locator("#generateNewButton").click();
   }
 }

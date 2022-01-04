@@ -1,21 +1,20 @@
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { Homepage } from '../po/home/homepage.po';
-import { expect } from 'chai';
 
 test.describe('Homepage', () => {
 
-  let page: Homepage;
+  let sut: Homepage;
 
   test.beforeEach(async ({ page: p }) => {
-    page = new Homepage(p);
-    await page.navigate();
+    sut = new Homepage(p);
+    await sut.navigate();
   });
 
   test('should have title "Stryker Dashboard"', async () => {
-    expect(await page.title()).eq('Stryker Dashboard');
+    await expect(sut.page).toHaveTitle('Stryker Dashboard');
   });
 
   test('should show slogan', async () => {
-    expect(await page.slogan()).eq('Measure test effectiveness');
+    await expect(sut.h1).toHaveText('Measure test effectiveness');
   });
 });

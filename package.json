@@ -19,6 +19,7 @@
     "@types/sinon-chai": "^3.2.2",
     "@types/source-map-support": "^0.5.0",
     "axios": "^0.21.1",
+    "azurite": "^3.15.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "lerna": "^4.0.0",
@@ -44,12 +45,13 @@
     "url": "https://github.com/stryker-mutator/stryker-dashboard"
   },
   "scripts": {
-    "postinstall": "lerna bootstrap && link-parent-bin && node tasks/webdriver-manager-update.js",
+    "postinstall": "lerna bootstrap && link-parent-bin",
     "all": "npm run lint && npm run clean && npm run build && npm run test",
     "clean": "rimraf \"packages/*/{.nyc_output,reports,coverage,dist}\"",
     "lint": "tslint -p tsconfig.lint.json",
     "lint-fix": "tslint --fix --project tsconfig.lint.json",
     "build": "tsc -b && lerna run build",
+    "start:azurite": "rimraf .azurite && mkdir -p .azurite && azurite -l .azurite",
     "test": "lerna run --ignore e2e test --concurrency 4 --stream"
   },
   "version": "0.0.1"

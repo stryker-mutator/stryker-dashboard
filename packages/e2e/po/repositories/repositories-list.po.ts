@@ -3,13 +3,15 @@ import { RepositorySwitchPageObject } from './repository-switch.po';
 
 export class RepositoriesListPageObject extends PageObject{
 
-  public async allRepositoryNames(): Promise<string[]> {
-    const repos = await this.all();
-    return Promise.all(repos.map(repo => repo.name()));
+  private repositoriesLocator = this.host.locator('stryker-repository');
+  public repositoryNamesLocator = this.repositoriesLocator.locator('.repo-slug');
+
+  public repository(name: string): RepositorySwitchPageObject {
+    const host = this.repositoriesLocator.locator(`:has(.repo-slug:has-text("${name}"))`);
+    return new RepositorySwitchPageObject(host);
   }
 
-  public async all(): Promise<RepositorySwitchPageObject[]> {
-    const elements = await this.host.$$('stryker-repository');
-    return elements.map(el => new RepositorySwitchPageObject(el));
+  public all(expectedCount: number): Promise<RepositorySwitchPageObject[]> {
+    return PageObject.selectAll(this.repositoriesLocator, RepositorySwitchPageObject, expectedCount);
   }
 }

@@ -4,12 +4,11 @@ import { Report } from '@stryker-mutator/dashboard-common';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class ReportsService {
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   public get(slug: string, moduleName?: string): Observable<Report | null> {
     return this.http.get<Report>(`/api/reports/${slug}${moduleName ? `?module=${moduleName}` : ''}`).pipe(catchError(err => {

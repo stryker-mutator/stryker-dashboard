@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class AuthHeaderInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthService) { }
+  constructor(private readonly authService: AuthService) { }
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (this.authService.currentBearerToken) {

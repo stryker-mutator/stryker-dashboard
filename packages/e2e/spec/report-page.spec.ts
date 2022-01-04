@@ -1,6 +1,5 @@
-import { test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { ReportPage } from "../po/reports/report-page.po";
-import { expect } from "chai";
 import { simpleReport, scoreOnlyReport } from "../actions/report.action";
 import { MutantStatus } from "mutation-testing-report-schema";
 import { ReportClient } from "../po/reports/report-client.po";
@@ -20,7 +19,7 @@ test.describe("Report page", () => {
     });
 
     test("should show an error message", async () => {
-      expect(await page.errorMessage()).eq("Report does not exist");
+      await expect(page.errorAlert).toContainText("Report does not exist");
     });
   });
 
@@ -39,13 +38,11 @@ test.describe("Report page", () => {
     });
 
     test("should show the mutation-test-report-app with bound data", async () => {
-      const app = (await page.mutationTestReportApp())!;
-      const actualTitle = await app.title();
-      const mutationScore = await app.mutationScore();
-      expect(actualTitle).eq(
+      const app = page.mutationTestReportApp;
+      await expect(app.title).toContainText(
         "All files - hello-org/master - Stryker Dashboard"
       );
-      expect(mutationScore).eq(33.33);
+      expect(await app.mutationScore()).toBe(33.33);
     });
 
     test.describe(
@@ -66,12 +63,11 @@ test.describe("Report page", () => {
         });
 
         test("should show the mutation score only", async () => {
-          await page.waitForAngular();
-          expect(await page.warningMessage()).eq(
+          await expect(page.warningAlert).toContainText(
             "No html report stored for github.com/stryker-mutator-test-organization/hello-org/master"
           );
-          expect(await page.mutationTestReportApp()).eq(null);
-          expect(await page.mutationScoreText()).eq("Mutation score: 42");
+          await expect(page.mutationTestReportApp.host).not.toExist()
+          await expect(page.mutationScore).toContainText("Mutation score: 42");
         });
       }
     );
@@ -122,15 +118,11 @@ test.describe("Report page", () => {
       });
 
       test("should show the aggregated report for the project", async () => {
-        const app = (await page.mutationTestReportApp())!;
-        const actualTitle = await app.title();
-        const mutationScore = await app.mutationScore();
-        const fileNames = await app.fileNames();
-        expect(actualTitle).eq(
+        await expect(page.mutationTestReportApp.title).toContainText(
           "All files - hello-org/feat/modules - Stryker Dashboard"
         );
-        expect(mutationScore).eq(55.56);
-        expect(fileNames).deep.eq([
+        expect(await page.mutationTestReportApp.mutationScore()).toBe(55.56);
+        expect(await page.mutationTestReportApp.fileNames()).toEqual([
           "one/test.js",
           "three/test.js",
           "two/test.js",

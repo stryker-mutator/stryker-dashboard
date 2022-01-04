@@ -1,16 +1,27 @@
-import { ElementHandle } from "@playwright/test";
+import { expect, Locator } from "@playwright/test";
 
 export abstract class PageObject {
-  protected host: ElementHandle;
+  constructor(public readonly host: Locator) {}
 
-  constructor(host: ElementHandle | null | undefined) {
-    if (!host) {
-      throw new Error("Element doesn't exist");
-    }
-    this.host = host;
+  public async isPresent(): Promise<boolean> {
+    const element = await this.host.elementHandle();
+    return !!element;
   }
 
   public async isVisible(): Promise<boolean> {
     return this.host.isVisible();
+  }
+
+  static async selectAll<T extends PageObject>(
+    host: Locator,
+    PageObject: { new (locator: Locator): T },
+    expectedCount: number
+  ) {
+    await expect(host).toHaveCount(expectedCount);
+    const objects: T[] = [];
+    for (let i = 0; i < expectedCount; i++) {
+      objects.push(new PageObject(host.nth(i)));
+    }
+    return objects;
   }
 }

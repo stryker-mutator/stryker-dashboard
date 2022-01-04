@@ -7,7 +7,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "E2E tests (acceptance)",
+      "name": "🎭 E2E tests (acceptance)",
       "program": "${workspaceFolder}/node_modules/playwright-core/cli.js",
       "cwd": "${workspaceFolder}",
       "args": [
@@ -24,7 +24,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "E2E tests (local)",
+      "name": "🎭 E2E tests (local)",
       "program": "${workspaceFolder}/node_modules/playwright-core/cli.js",
       "cwd": "${workspaceFolder}",
       "args": [
@@ -38,6 +38,7 @@
       "env": {
         "E2E_AZURE_STORAGE_CONNECTION_STRING": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;;",
         "E2E_JWT_SECRET": "123",
+        "E2E_ACCESS_TOKEN ": "",
         "E2E_BADGE_API_BASE_URL": "http://localhost:7071"
       },
       "internalConsoleOptions": "openOnSessionStart",

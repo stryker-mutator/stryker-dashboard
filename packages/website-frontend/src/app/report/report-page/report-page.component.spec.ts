@@ -129,7 +129,7 @@ describe(ReportPageComponent.name, () => {
       const alert = loading.querySelector('.alert');
       expect(loading.showContent).toBeTruthy();
       expect(alert).toBeTruthy();
-      expect(alert.textContent).toEqual('Report does not exist');
+      expect(alert!.textContent).toEqual('Report does not exist');
     });
 
     it('should show an alternative report if the html report result was empty', async () => {
@@ -147,7 +147,7 @@ describe(ReportPageComponent.name, () => {
       const alert = loading.querySelector('.alert');
       expect(loading.showContent).toBeTruthy();
       expect(alert).toBeTruthy();
-      expect(alert.textContent).toEqual('No html report stored for github/stryker-mutator/stryker/1/core');
+      expect(alert!.textContent).toEqual('No html report stored for github/stryker-mutator/stryker/1/core');
       expect(element.textContent).toContain('Mutation score: 83');
     });
 
@@ -164,7 +164,7 @@ describe(ReportPageComponent.name, () => {
       // Assert
       const alert = element.querySelector('.alert');
       expect(alert).toBeTruthy();
-      expect(alert.textContent).toEqual('A technical error occurred.');
+      expect(alert!.textContent).toEqual('A technical error occurred.');
     });
   });
 });

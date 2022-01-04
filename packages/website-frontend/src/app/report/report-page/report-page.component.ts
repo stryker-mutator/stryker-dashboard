@@ -43,11 +43,11 @@ export class ReportPageComponent extends AutoUnsubscribe implements OnInit, OnDe
     return this.errorMessage || this.id;
   }
 
-  constructor(private route: ActivatedRoute, private reportService: ReportsService) {
+  constructor(private readonly route: ActivatedRoute, private readonly reportService: ReportsService) {
     super();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
 
     const moduleName$ = this.route.queryParams.pipe(
       map(queryParams => queryParams.module as string | undefined)
@@ -76,8 +76,9 @@ export class ReportPageComponent extends AutoUnsubscribe implements OnInit, OnDe
     }));
   }
 
-  public themeChanged = (event: CustomEvent<ThemeDetail>) => {
-    this.backgroundColor = event.detail.themeBackgroundColor;
+  public themeChanged = (event: Event) => {
+    const themeChangedEvent = event as CustomEvent<ThemeDetail>;
+    this.backgroundColor = themeChangedEvent.detail.themeBackgroundColor;
   }
 
 }

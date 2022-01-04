@@ -15,7 +15,7 @@ export class AuthComponent extends AutoUnsubscribe implements OnInit {
 
   public errorMessage: string | undefined;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private authService: AuthService) {
+  constructor(private readonly activatedRoute: ActivatedRoute, private readonly router: Router, private readonly authService: AuthService) {
     super();
   }
 

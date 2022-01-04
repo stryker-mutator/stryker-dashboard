@@ -12,7 +12,7 @@ import { EnableRepositoryResponse } from '@stryker-mutator/dashboard-contract';
 })
 export class RepositoryService {
 
-  public constructor(private http: HttpClient) { }
+  public constructor(private readonly http: HttpClient) { }
 
   /**
    * Enables or disables a repository.
@@ -21,6 +21,6 @@ export class RepositoryService {
    * @returns The generated api key for this repository if enabled, otherwise null.
    */
   public enableRepository(slug: string, enabled: boolean): Observable<EnableRepositoryResponse> {
-    return this.http.patch<EnableRepositoryResponse>(`api/repositories/${slug}`, { enabled: enabled });
+    return this.http.patch<EnableRepositoryResponse>(`api/repositories/${slug}`, { enabled });
   }
 }

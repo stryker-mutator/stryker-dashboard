@@ -8,9 +8,9 @@ import { AuthService } from './auth.service';
 })
 export class AuthenticatedGuard implements CanActivate {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private readonly authService: AuthService, private readonly router: Router) { }
 
-  async canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Promise<boolean> {
+  public async canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Promise<boolean> {
     const signedIn = !!await this.authService.currentUser$.pipe(first()).toPromise();
     if (!signedIn) {
       this.router.navigate(['/']);

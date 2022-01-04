@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class OwnerSelectorComponent {
 
   @Input()
-  public user: Login | undefined;
+  public user: Login | null = null;
 
   @Input()
   public organizations: Login[] = [];
@@ -18,8 +18,7 @@ export class OwnerSelectorComponent {
   @Output()
   public ownerSelected = new EventEmitter<string>();
 
-
-  public selectedOwnerChanged(event: UIEvent) {
+  public selectedOwnerChanged(event: Event) {
     const val = (event.target as HTMLSelectElement).value;
     this.ownerSelected.emit(val);
   }
