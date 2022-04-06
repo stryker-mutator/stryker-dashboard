@@ -38,6 +38,8 @@ az account set -s pdc_stryker_prod01
 Use this script to renew:
 
 ```
+sudo su
+# Enter root pw
 set -e
 PASSWORD=`openssl rand -base64 16`
 echo "Using password ${PASSWORD}"
