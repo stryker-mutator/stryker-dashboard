@@ -17,7 +17,7 @@ jobs:
     - name: Build
       run: npm run build
     - name: Lerna publish
-      run: npx lerna publish from-git --yes
+      run: npx lerna publish from-git --yes --no-verify-access
     - name: Docker build & Tag
       run: | # Add a sleep to give npmjs.com the time to get the versions consistent 
         sleep 30s
