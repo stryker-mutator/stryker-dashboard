@@ -1,4 +1,4 @@
-import { Expect, Locator } from "@playwright/test";
+import { Expect, Locator } from '@playwright/test';
 
 export const matchers = {
   toExist,
@@ -15,7 +15,9 @@ type MatchParameters<T extends (...args: any) => any> = Parameters<T> extends [
   ? R
   : never;
 
-type AsyncMatcherFn<T extends (...args: any) => any, R> = (...args: MatchParameters<T>) => Promise<R>;
+type AsyncMatcherFn<T extends (...args: any) => any, R> = (
+  ...args: MatchParameters<T>
+) => Promise<R>;
 
 export interface PlaywrightMatchers<R> {
   /**
@@ -28,30 +30,30 @@ function assertIsLocator(
   maybeLocator: unknown
 ): asserts maybeLocator is Locator {
   const isLocator =
-    typeof maybeLocator === "object" &&
+    typeof maybeLocator === 'object' &&
     maybeLocator &&
-    "elementHandles" in maybeLocator &&
-    "waitFor" in maybeLocator;
+    'elementHandles' in maybeLocator &&
+    'waitFor' in maybeLocator;
   if (!isLocator) {
     throw new Error(`${maybeLocator} does not appear to be a locator`);
   }
 }
 
 async function toExist(
-  this: ReturnType<Expect["getState"]>,
+  this: ReturnType<Expect['getState']>,
   locator: unknown,
   options?: { timeout?: number }
 ) {
   assertIsLocator(locator);
   const timeout = options?.timeout ?? 5000;
-  let before = new Date();
+  const before = new Date();
   let pass: boolean;
   do {
     const elements = await locator.elementHandles();
-    if(elements.length > 1){
+    if (elements.length > 1) {
       throw new Error(`Found ${elements.length} elements matching ${locator}`);
     }
-    pass = elements.length === 1 != this.isNot
+    pass = (elements.length === 1) != this.isNot;
     if (!pass) {
       const n = 100;
       await sleep(n);
@@ -64,19 +66,21 @@ async function toExist(
   return {
     pass: pass != this.isNot,
     message: () => {
-      const not = this.isNot ? " not" : "";
-      const hint = this.utils.matcherHint("toExist", undefined, undefined, {
+      const not = this.isNot ? ' not' : '';
+      const hint = this.utils.matcherHint('toExist', undefined, undefined, {
         isNot: this.isNot,
         promise: this.promise,
       });
 
-      return hint + "\n\n" + `Expected locator to${not} exist: ${locator}`;
+      return hint + '\n\n' + `Expected locator to${not} exist: ${locator}`;
     },
   };
 }
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace PlaywrightTest {
+    // eslint-disable-next-line @typescript-eslint/no-empty-interface
     interface Matchers<R> extends PlaywrightMatchers<R> {}
   }
 }

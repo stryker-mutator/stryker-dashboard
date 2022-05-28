@@ -17,7 +17,7 @@ describe('LoginComponent', () => {
     public login(): Observable<Login> {
       return of({
         name: 'stryker-mutator',
-        avatarUrl: 'https://avatars0.githubusercontent.com/u/18347996'
+        avatarUrl: 'https://avatars0.githubusercontent.com/u/18347996',
       });
     }
   }
@@ -32,9 +32,9 @@ describe('LoginComponent', () => {
       providers: [
         { provide: UserService, useClass: UserServiceStub },
         { provide: RepositoryService, useClass: RepositoryServiceStub },
-        { provide: APP_BASE_HREF, useValue: '/' }
+        { provide: APP_BASE_HREF, useValue: '/' },
       ],
-      imports: [NgbModule, AppModule]
+      imports: [NgbModule, AppModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);

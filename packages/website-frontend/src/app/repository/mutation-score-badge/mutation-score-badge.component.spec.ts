@@ -13,7 +13,7 @@ describe('MutationScoreBadgeComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [MutationScoreBadgeComponent],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MutationScoreBadgeComponent);
@@ -26,7 +26,7 @@ describe('MutationScoreBadgeComponent', () => {
     const repo = createRepository({
       slug: 'github.com/fooOrg/barName',
       defaultBranch: 'dev',
-      name: 'barName'
+      name: 'barName',
     });
     component.repo = repo;
 
@@ -70,7 +70,10 @@ describe('MutationScoreBadgeComponent', () => {
 
   it('should show a link when linkEnabled is true', async () => {
     // Arrange
-    component.repo = createRepository({ slug: 'fooOwner/fooRepo', defaultBranch: 'dev' });
+    component.repo = createRepository({
+      slug: 'fooOwner/fooRepo',
+      defaultBranch: 'dev',
+    });
     component.enableLink = true;
 
     // Act
@@ -80,6 +83,8 @@ describe('MutationScoreBadgeComponent', () => {
 
     // Assert
     expect(anchor).not.toBeNull();
-    expect(anchor!.href.endsWith('reports/fooOwner/fooRepo/dev')).toBeTruthy('Not end with reports/fooOwner/fooRepo/dev');
+    expect(anchor!.href.endsWith('reports/fooOwner/fooRepo/dev')).toBeTruthy(
+      'Not end with reports/fooOwner/fooRepo/dev'
+    );
   });
 });

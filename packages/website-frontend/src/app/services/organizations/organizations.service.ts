@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Repository } from '@stryker-mutator/dashboard-contract';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OrganizationsService {
-
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   public getRepositories(organizationName: string) {
-    return this.http.get<Repository[]>(`/api/organizations/${organizationName}/repositories`);
+    return this.http.get<Repository[]>(
+      `/api/organizations/${organizationName}/repositories`
+    );
   }
 }

@@ -1,31 +1,33 @@
-import debugFn = require('debug');
 import { v4 as uuidV4 } from 'uuid';
 import { sha512_256 } from 'js-sha512';
+import fetch from 'node-fetch';
 
-export function env(key: string) {
-  return process.env[key];
-}
+export default {
+  env(key: string) {
+    return process.env[key];
+  },
 
-export const debug = debugFn;
+  requiredEnvVar(name: string): string {
+    const value = this.env(name);
+    if (!value) {
+      throw new Error(`Environment variable ${name} not set.`);
+    } else {
+      return value;
+    }
+  },
 
-export const requiredEnvVar = (name: string): string => {
-  const value = env(name);
-  if (!value) {
-    throw new Error(`Environment variable ${name} not set.`);
-  } else {
-    return value;
-  }
+  optionalEnvVar(name: string, defaultValue: string): string {
+    const value = this.env(name);
+    return !value ? defaultValue : value;
+  },
+
+  generateApiKey(): string {
+    return uuidV4();
+  },
+
+  generateHashValue(value: string): string {
+    return sha512_256(value);
+  },
+
+  fetch,
 };
-
-export const optionalEnvVar = (name: string, defaultValue: string): string => {
-  const value = env(name);
-  return !value ? defaultValue : value;
-};
-
-export function generateApiKey(): string {
-  return uuidV4();
-}
-
-export function generateHashValue(value: string): string {
-  return sha512_256(value);
-}

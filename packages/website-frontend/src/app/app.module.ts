@@ -33,10 +33,14 @@ import { AppRouterModule } from './app-router.module';
     AppRouterModule,
     RepositoryModule,
     ReportModule,
-    SharedModule
+    SharedModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true }
-  ]
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthHeaderInterceptor,
+      multi: true,
+    },
+  ],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,8 +1,10 @@
 import 'source-map-support/register';
 import { AzureFunction } from '@azure/functions';
-import { ShieldMapper } from './ShieldMapper';
+import { ShieldMapper } from './ShieldMapper.js';
 import { createMutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
-import { handler } from './handler';
+import { handler } from './handler.js';
 
-const httpTrigger: AzureFunction = handler(new ShieldMapper(createMutationTestingReportMapper()));
+const httpTrigger: AzureFunction = handler(
+  new ShieldMapper(createMutationTestingReportMapper())
+);
 export default httpTrigger;

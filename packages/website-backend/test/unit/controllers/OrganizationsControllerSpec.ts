@@ -1,31 +1,49 @@
-import { SuperTest, Test } from 'supertest';
-import GithubAgent, * as githubAgentModule from '../../../src/github/GithubAgent';
-import OrganizationsController from '../../../src/api/OrganizationsController';
-import { githubFactory } from '../../helpers/producers';
-import testServer, { RepositoryServiceStub, createAuthToken } from '../../helpers/TestServer';
+import supertest, { SuperTest, Test } from 'supertest';
+import { contractFactory, githubFactory } from '../../helpers/producers.js';
 import { expect } from 'chai';
-import sinon = require('sinon');
+import sinon from 'sinon';
+import { PlatformTest } from '@tsed/common';
+import Server from '../../../src/Server.js';
+import { createAuthorizationHeader } from '../../helpers/TestServer.js';
+import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
 
 describe('OrganizationsController', () => {
   let request: SuperTest<Test>;
-  let githubAgentMock: sinon.SinonStubbedInstance<GithubAgent>;
 
   beforeEach(async () => {
-    githubAgentMock = sinon.createStubInstance(GithubAgent);
-    sinon.stub(githubAgentModule, 'default').returns(githubAgentMock);
-    request = await testServer(OrganizationsController);
+    await PlatformTest.bootstrap(Server)();
+    request = supertest(PlatformTest.callback());
   });
 
   describe('HTTP GET /organizations/:name/repositories', () => {
     it('should retrieve the organizations', async () => {
-      const expectedUser = githubFactory.authentication({ accessToken: 'foobar access token' });
-      const authorizeToken = await createAuthToken(expectedUser);
-      RepositoryServiceStub.getAllForOrganization.resolves(['some repo']);
-      await request.get('/organizations/foobarOrg/repositories')
+      // Arrange
+      const expectedUser = githubFactory.authentication({
+        accessToken: 'foobar access token',
+      });
+      const authorizeToken = await createAuthorizationHeader(expectedUser);
+      const service = PlatformTest.get<GithubRepositoryService>(
+        GithubRepositoryService
+      );
+      const getAllForOrganizationStub = sinon.stub(
+        service,
+        'getAllForOrganization'
+      );
+      const expectedRepos = [contractFactory.repository({ slug: 'some repo' })];
+      getAllForOrganizationStub.resolves(expectedRepos);
+
+      // Act
+      await request
+        .get('/api/organizations/foobarOrg/repositories')
         .set('Authorization', authorizeToken)
+        // Assert
         .expect(200)
-        .expect(['some repo']);
-      expect(RepositoryServiceStub.getAllForOrganization).calledWithMatch(expectedUser, 'foobarOrg');
+        .expect(expectedRepos);
+
+      expect(getAllForOrganizationStub).calledWithMatch(
+        expectedUser,
+        'foobarOrg'
+      );
     });
   });
 });

@@ -4,10 +4,9 @@ export type ApiKeyDisplayMode = 'show' | 'hide' | 'loading';
 
 @Component({
   selector: 'stryker-api-key-generator',
-  templateUrl: './api-key-generator.component.html'
+  templateUrl: './api-key-generator.component.html',
 })
 export class ApiKeyGeneratorComponent {
-
   @Input()
   public apiKey: string | undefined;
 
@@ -20,7 +19,7 @@ export class ApiKeyGeneratorComponent {
   @Output()
   public generate = new EventEmitter<void>();
 
-  constructor() { }
+  constructor() {}
 
   public get displayKey() {
     switch (this.mode) {

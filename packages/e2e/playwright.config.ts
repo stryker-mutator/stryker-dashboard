@@ -1,27 +1,27 @@
-import { expect, PlaywrightTestConfig } from "@playwright/test";
+import { expect, PlaywrightTestConfig } from '@playwright/test';
 
-import { matchers } from "./helpers/custom-matchers";
+import { matchers } from './helpers/custom-matchers.js';
 expect.extend(matchers);
 
 const config: PlaywrightTestConfig = {
-  testDir: "spec",
+  testDir: 'spec',
   workers: 1,
-  globalSetup: require.resolve("./spec/global-setup"),
+  globalSetup: require.resolve('./spec/global-setup'),
   use: {
-    video: "retain-on-failure",
-    trace: "retain-on-failure",
+    video: 'retain-on-failure',
+    trace: 'retain-on-failure',
   },
   projects: [
     {
-      name: "acceptance",
+      name: 'acceptance',
       use: {
-        baseURL: "https://stryker-dashboard-acceptance.azurewebsites.net",
+        baseURL: 'https://stryker-dashboard-acceptance.azurewebsites.net',
       },
     },
     {
-      name: "local",
+      name: 'local',
       use: {
-        baseURL: "http://localhost:4200",
+        baseURL: 'http://localhost:4200',
       },
     },
   ],

@@ -13,10 +13,12 @@ export interface ReportIdentifier {
 /**
  * Represents the report
  */
-export type Report = (ReportIdentifier & MutationScoreOnlyResult)
+export type Report =
+  | (ReportIdentifier & MutationScoreOnlyResult)
   | (ReportIdentifier & MutationScoreOnlyResult & MutationTestResult);
 
-export function isMutationTestResult(report: MutationScoreOnlyResult | MutationTestResult)
-  : report is MutationTestResult {
-  return !!((report as MutationTestResult).files);
+export function isMutationTestResult(
+  report: MutationScoreOnlyResult | MutationTestResult
+): report is MutationTestResult {
+  return !!(report as MutationTestResult).files;
 }

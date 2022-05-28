@@ -1,3 +1,3 @@
-export * from './slug';
-export * from './Report';
-export * from './Logger';
+export * from './slug.js';
+export * from './Report.js';
+export * from './Logger.js';

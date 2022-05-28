@@ -1,5 +1,5 @@
-import jwt = require('jsonwebtoken');
-import { getEnvVariable } from './helpers.action';
+import jwt from 'jsonwebtoken';
+import { getEnvVariable } from './helpers.action.js';
 
 function getJwtSecret() {
   return getEnvVariable('E2E_JWT_SECRET');
@@ -10,13 +10,21 @@ function getAccessToken() {
 }
 
 export function generateAuthToken(): string {
-  const tokenOptions = { algorithm: 'HS512', audience: 'stryker', expiresIn: '30m', issuer: 'stryker' };
-  const authToken = jwt.sign({
-    accessToken: getAccessToken(),
-    displayName: null,
-    id: 56148018,
-    username: 'strykermutator-test-account',
-  }, getJwtSecret(), tokenOptions);
+  const tokenOptions: jwt.SignOptions = {
+    algorithm: 'HS512',
+    audience: 'stryker',
+    expiresIn: '30m',
+    issuer: 'stryker',
+  };
+  const authToken = jwt.sign(
+    {
+      accessToken: getAccessToken(),
+      displayName: null,
+      id: 56148018,
+      username: 'strykermutator-test-account',
+    },
+    getJwtSecret(),
+    tokenOptions
+  );
   return authToken;
 }
-

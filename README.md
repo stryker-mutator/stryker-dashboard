@@ -21,6 +21,7 @@ Our application runs in [Docker](https://www.docker.com/). If you don't already 
 We store our data in [Azure Storage](https://azure.microsoft.com/en-us/free/services/storage/), so you need to be able to do so as well. On Windows, you can use the [Azure Storage Emulator](https://docs.microsoft.com/en-gb/azure/storage/common/storage-use-emulator). For Mac users, we recommend creating a free [Azure account](https://azure.microsoft.com/en-us/free/services/storage/).
 
 ### GitHub OAuth application
+
 [Register](https://github.com/settings/applications/new) a new OAuth application. This will allow users to connect to their GitHub account.
 
 > Make sure you set the `Authorization callback URL` to `http://localhost:1337/auth/github/callback` (you can also use your preferred port).
@@ -37,24 +38,27 @@ Next, you need to define the following environment variables in a Docker [enviro
 
 > You can also enter these in the commandline, but we recommend using a separate file because it contains sensitive information.
 
-Variable | Example | Explanation | Required
--------- | ------- | ----------- | --------
-`AZURE_STORAGE_CONNECTION_STRING`|`DefaultEndpointsProtocol...`|Azure-issued String to connect to your Azure Storage.| Yes
-`GH_BASIC_CLIENT_ID`|`1234567890abcdef1234`|GitHub-issued Client ID.| Yes
-`GH_BASIC_SECRET_ID`|`1234567890...abcdef1`|GitHub-issued Client Secret.| Yes
-`JWT_SECRET`|`u7apm8MrMBe8Fwrx4uMH`|The secret for the HMAC algorithm that creates the signature of the [JWT](https://tools.ietf.org/html/rfc7519).|Yes
-`NODE_ENV`|`development`|Node setting for production environment. Used by us for some SSL settings. Can be either: `production` (default) or `development`.|No
-`PORT`|`1337`|Port on which Stryker Dashboard will listen for connections.|No
+| Variable                          | Example                       | Explanation                                                                                                                        | Required |
+| --------------------------------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `AZURE_STORAGE_CONNECTION_STRING` | `DefaultEndpointsProtocol...` | Azure-issued String to connect to your Azure Storage.                                                                              | Yes      |
+| `GH_BASIC_CLIENT_ID`              | `1234567890abcdef1234`        | GitHub-issued Client ID.                                                                                                           | Yes      |
+| `GH_BASIC_SECRET_ID`              | `1234567890...abcdef1`        | GitHub-issued Client Secret.                                                                                                       | Yes      |
+| `JWT_SECRET`                      | `u7apm8MrMBe8Fwrx4uMH`        | The secret for the HMAC algorithm that creates the signature of the [JWT](https://tools.ietf.org/html/rfc7519).                    | Yes      |
+| `NODE_ENV`                        | `development`                 | Node setting for production environment. Used by us for some SSL settings. Can be either: `production` (default) or `development`. | No       |
+| `PORT`                            | `1337`                        | Port on which Stryker Dashboard will listen for connections.                                                                       | No       |
 
 ### Start the application
+
 To start the application, you can now simply run `docker run --env-file env.list -p 1337:1337 stryker/dashboard`. This will spin-up a Docker container with the image that was build earlier; provide it with your environment variables set in the `env-list` file; and open port 1337 so you can access it on your local machine.
 
 Stryker Dashboard should now be available at [http://localhost:1337](http://localhost:1337).
 
 ### (Optional) Front-end development
+
 Building and re-running the Docker image everytime you make a small front-end change is a bit too much work. We use a proxy config file `packages/website-frontend/proxy.config.json`, to redirect requests from the frontend running locally (served by running `npm start`) to the backend running in a Docker container.
 
 ## Contributing
+
 Pull requests are welcome!
 See the [list of open issues](https://github.com/stryker-mutator/stryker-badge/issues) to get an idea of what you could work on.
 Or, if you have an awesome idea, please [create a new issue](https://github.com/stryker-mutator/stryker-badge/issues/new) or [discuss it on Gitter](https://gitter.im/stryker-mutator/stryker).

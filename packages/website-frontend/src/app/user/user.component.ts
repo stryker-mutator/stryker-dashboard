@@ -7,20 +7,25 @@ import { AutoUnsubscribe } from '../utils/auto-unsubscribe';
 @Component({
   selector: 'stryker-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  styleUrls: ['./user.component.css'],
 })
 export class UserComponent extends AutoUnsubscribe implements OnInit {
   public user: Login | null = null;
   public expanded = false;
 
-  constructor(private readonly authService: AuthService, private readonly router: Router) {
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {
     super();
   }
 
   public ngOnInit() {
-    this.subscriptions.push(this.authService.currentUser$.subscribe(user => {
-      this.user = user;
-    }));
+    this.subscriptions.push(
+      this.authService.currentUser$.subscribe((user) => {
+        this.user = user;
+      })
+    );
   }
 
   public logOut() {

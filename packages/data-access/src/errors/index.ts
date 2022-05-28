@@ -1,1 +1,1 @@
-export * from './OptimisticConcurrencyError';
+export * from './OptimisticConcurrencyError.js';

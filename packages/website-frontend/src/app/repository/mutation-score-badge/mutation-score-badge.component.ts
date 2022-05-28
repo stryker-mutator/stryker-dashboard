@@ -5,10 +5,9 @@ import { badgeSrc, BadgeStyle } from '../util';
 @Component({
   selector: 'stryker-mutation-score-badge',
   templateUrl: './mutation-score-badge.component.html',
-  styleUrls: ['./mutation-score-badge.component.scss']
+  styleUrls: ['./mutation-score-badge.component.scss'],
 })
 export class MutationScoreBadgeComponent {
-
   @Input()
   public repo!: Repository;
 

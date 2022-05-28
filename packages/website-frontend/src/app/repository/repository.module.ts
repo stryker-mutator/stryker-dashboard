@@ -22,17 +22,9 @@ import { ApiKeyGeneratorComponent } from './api-key-generator/api-key-generator.
     OwnerSelectorComponent,
     ShortExplanationComponent,
     MutationScoreBadgeComponent,
-    ApiKeyGeneratorComponent
+    ApiKeyGeneratorComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    NgbModule,
-    SharedModule,
-    FormsModule
-  ],
-  exports: [
-    RepositoryPageComponent
-  ]
+  imports: [CommonModule, RouterModule, NgbModule, SharedModule, FormsModule],
+  exports: [RepositoryPageComponent],
 })
-export class RepositoryModule { }
+export class RepositoryModule {}

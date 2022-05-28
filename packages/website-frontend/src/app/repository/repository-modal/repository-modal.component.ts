@@ -71,7 +71,7 @@ export class RepositoryModalComponent {
     this.repository = repo;
     this.enabled = true;
     const result = this.open().result;
-    await this.enableRepository().catch(err => {
+    await this.enableRepository().catch((err) => {
       this.close();
       throw err;
     });

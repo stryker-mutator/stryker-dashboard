@@ -1,4 +1,4 @@
-import { expect, Locator } from "@playwright/test";
+import { expect, Locator } from '@playwright/test';
 
 export abstract class PageObject {
   constructor(public readonly host: Locator) {}
