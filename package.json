@@ -2,6 +2,7 @@
   "bugs": {
     "url": "https://github.com/stryker-mutator/stryker-dashboard/issues"
   },
+  "type": "module",
   "contributors": [
     "Maarten Mulders <mthmulders@users.noreply.github.com>",
     "Nico Jansen <jansennico@gmail.com>"
