@@ -13,7 +13,6 @@ import {
 } from '@stryker-mutator/dashboard-data-access';
 import { DataAccessMock } from '../../helpers/TestServer.js';
 
-
 describe('GithubRepositoryService.js', () => {
   let githubAgentMock: sinon.SinonStubbedInstance<GithubAgent>;
   let dataAccessMock: DataAccessMock;

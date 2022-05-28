@@ -9,7 +9,7 @@ function sleep(n: number) {
 }
 
 type MatchParameters<T extends (...args: any) => any> = Parameters<T> extends [
-  infer _,
+  any,
   ...infer R
 ]
   ? R

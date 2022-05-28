@@ -42,7 +42,7 @@ test.describe('badge-api', () => {
     expect(response.data).toEqual(expected);
   });
 
-  test('should allow slashes in version name', async ({ request }) => {
+  test('should allow slashes in version name', async () => {
     const expected: Shield = {
       color: Color.Red,
       label: 'Mutation score',
