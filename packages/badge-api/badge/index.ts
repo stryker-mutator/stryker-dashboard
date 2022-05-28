@@ -1,4 +1,4 @@
-import 'source-map-support/register';
+import 'source-map-support/register.js';
 import { AzureFunction } from '@azure/functions';
 import { ShieldMapper } from './ShieldMapper.js';
 import { createMutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
