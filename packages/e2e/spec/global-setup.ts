@@ -3,8 +3,8 @@ import {
   createTableService,
   TableService,
   TableQuery,
-  common,
-  BlobService,
+  type common,
+  type BlobService,
 } from 'azure-storage';
 import { promisify } from 'util';
 

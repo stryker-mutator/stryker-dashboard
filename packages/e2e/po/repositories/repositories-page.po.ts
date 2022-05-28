@@ -1,7 +1,7 @@
-import { RepositoriesListPageObject } from './repositories-list.po';
-import { RepositoryModalDialogPageObject } from './repository-modal-dialog.po';
-import { SelectPageObject } from '../shared/select.po';
-import { DashboardPage } from '../shared/dashboard-page.po';
+import { RepositoriesListPageObject } from './repositories-list.po.js';
+import { RepositoryModalDialogPageObject } from './repository-modal-dialog.po.js';
+import { SelectPageObject } from '../shared/select.po.js';
+import { DashboardPage } from '../shared/dashboard-page.po.js';
 
 export class RepositoriesPage extends DashboardPage {
   public readonly repositoryList = new RepositoriesListPageObject(

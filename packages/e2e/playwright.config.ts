@@ -1,14 +1,13 @@
-import { expect, PlaywrightTestConfig } from '@playwright/test';
-
+import { expect, type PlaywrightTestConfig } from '@playwright/test';
 import { matchers } from './helpers/custom-matchers.js';
 expect.extend(matchers);
 
 const config: PlaywrightTestConfig = {
   testDir: 'spec',
   workers: 1,
-  globalSetup: require.resolve('./spec/global-setup'),
+  globalSetup: './spec/global-setup.ts',
   use: {
-    video: 'retain-on-failure',
+    video: 'on',
     trace: 'retain-on-failure',
   },
   projects: [

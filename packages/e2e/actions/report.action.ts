@@ -1,5 +1,5 @@
 import { MutantStatus } from 'mutation-testing-report-schema';
-import { Report } from '@stryker-mutator/dashboard-common';
+import type { Report } from '@stryker-mutator/dashboard-common';
 
 export function scoreOnlyReport(
   projectName: string,

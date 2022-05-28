@@ -1,5 +1,5 @@
-import { DashboardPage } from '../shared/dashboard-page.po';
-import { MutationTestingReportAppPageObject } from './mutation-testing-report-app.po';
+import { DashboardPage } from '../shared/dashboard-page.po.js';
+import { MutationTestingReportAppPageObject } from './mutation-testing-report-app.po.js';
 
 export class ReportPage extends DashboardPage {
   public async navigate(

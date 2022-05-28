@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { ReportPage } from '../po/reports/report-page.po';
-import { simpleReport, scoreOnlyReport } from '../actions/report.action';
 import { MutantStatus } from 'mutation-testing-report-schema';
-import { ReportClient } from '../po/reports/report-client.po';
+import { ReportPage } from '../po/reports/report-page.po.js';
+import { simpleReport, scoreOnlyReport } from '../actions/report.action.js';
+import { ReportClient } from '../po/reports/report-client.po.js';
 
 test.describe('Report page', () => {
   let page: ReportPage;

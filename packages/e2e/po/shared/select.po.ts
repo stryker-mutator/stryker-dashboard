@@ -1,4 +1,4 @@
-import { Locator } from '@playwright/test';
+import type { Locator } from '@playwright/test';
 import { PageObject } from './page-object.js';
 
 export class SelectPageObject extends PageObject {

@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { RepositoriesPage } from '../po/repositories/repositories-page.po';
-import { RepositorySwitchPageObject } from '../po/repositories/repository-switch.po';
-import { Repository } from '@stryker-mutator/dashboard-contract/src';
-import { ReportClient } from '../po/reports/report-client.po';
-import { createContainsRegExp } from '../po/helpers';
+import { RepositoriesPage } from '../po/repositories/repositories-page.po.js';
+import type { RepositorySwitchPageObject } from '../po/repositories/repository-switch.po.js';
+import type { Repository } from '@stryker-mutator/dashboard-contract';
+import { ReportClient } from '../po/reports/report-client.po.js';
+import { createContainsRegExp } from '../po/helpers.js';
 
 // Example: 0527de29-6436-4564-9c5f-34f417ec68c0
 const API_KEY_REGEX = /^[0-9a-z]{8}-(?:[0-9a-z]{4}-){3}[0-9a-z]{12}$/;

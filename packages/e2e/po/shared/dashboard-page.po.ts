@@ -1,5 +1,5 @@
-import { Page } from '@playwright/test';
-import { generateAuthToken } from '../../actions/auth.action';
+import type { Page } from '@playwright/test';
+import { generateAuthToken } from '../../actions/auth.action.js';
 
 export abstract class DashboardPage {
   constructor(public readonly page: Page) {}

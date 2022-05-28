@@ -12,8 +12,6 @@
       "cwd": "${workspaceFolder}",
       "args": [
         "test",
-        "-c",
-        "${workspaceFolder}/dist/playwright.config.js",
         "--project",
         "acceptance"
       ],
@@ -29,8 +27,6 @@
       "cwd": "${workspaceFolder}",
       "args": [
         "test",
-        "-c",
-        "${workspaceFolder}/dist/playwright.config.js",
         "--project",
         "local"
       ],

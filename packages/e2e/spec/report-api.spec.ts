@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { simpleReport } from '../actions/report.action';
 import { URL } from 'url';
-import { PutReportResponse } from '@stryker-mutator/dashboard-contract/src';
-import { ReportClient } from '../po/reports/report-client.po';
+import type { PutReportResponse } from '@stryker-mutator/dashboard-contract';
+import { simpleReport } from '../actions/report.action.js';
+import { ReportClient } from '../po/reports/report-client.po.js';
 
 test.describe('Report api', () => {
   let client: ReportClient;

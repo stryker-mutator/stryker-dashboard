@@ -1,5 +1,5 @@
 import { getEnvVariable } from '../../actions/helpers.action.js';
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 
 export class BadgeApiClient {
   private readonly httpClient: AxiosInstance;

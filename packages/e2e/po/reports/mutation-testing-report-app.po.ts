@@ -1,4 +1,4 @@
-import { PageObject } from '../shared/page-object';
+import { PageObject } from '../shared/page-object.js';
 
 export class MutationTestingReportAppPageObject extends PageObject {
   private totals = this.host.locator('mte-mutant-view >> mte-metrics-table');

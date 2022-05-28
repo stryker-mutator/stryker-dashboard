@@ -1,4 +1,4 @@
-import { Expect, Locator } from '@playwright/test';
+import type { Expect, Locator } from '@playwright/test';
 
 export const matchers = {
   toExist,

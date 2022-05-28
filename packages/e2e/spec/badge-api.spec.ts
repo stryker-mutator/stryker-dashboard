@@ -1,7 +1,11 @@
 import { test, expect } from '@playwright/test';
-import { BadgeApiClient, Shield, Color } from '../po/badge-api/badge-api.po';
-import { simpleReport } from '../actions/report.action';
-import { ReportClient } from '../po/reports/report-client.po';
+import {
+  BadgeApiClient,
+  type Shield,
+  Color,
+} from '../po/badge-api/badge-api.po.js';
+import { simpleReport } from '../actions/report.action.js';
+import { ReportClient } from '../po/reports/report-client.po.js';
 
 test.describe('badge-api', () => {
   let client: BadgeApiClient;

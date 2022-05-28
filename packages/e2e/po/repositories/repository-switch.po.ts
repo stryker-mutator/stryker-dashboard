@@ -1,5 +1,5 @@
-import { PageObject } from '../shared/page-object';
-import { MutationScoreBadgePageObject } from './mutation-score-badge.po';
+import { PageObject } from '../shared/page-object.js';
+import { MutationScoreBadgePageObject } from './mutation-score-badge.po.js';
 
 export class RepositorySwitchPageObject extends PageObject {
   public readonly checkbox = this.host.locator('input[type=checkbox]');
