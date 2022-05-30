@@ -1,4 +1,0 @@
-#!/usr/bin/env node
-'use strict';
-process.title = 'dashboard';
-require('../dist/src/index.js');

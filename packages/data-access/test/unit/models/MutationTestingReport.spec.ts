@@ -1,18 +1,22 @@
-import { MutationTestingReport } from '../../../src';
+import { MutationTestingReport } from '../../../src/index.js';
 import { expect } from 'chai';
 
 describe(MutationTestingReport.name, () => {
   it('should retrieve the `moduleName` when `createRowKey` is called', () => {
-    expect(MutationTestingReport.createRowKey({
-      moduleName: 'fooModule'
-    })).eq('fooModule');
+    expect(
+      MutationTestingReport.createRowKey({
+        moduleName: 'fooModule',
+      })
+    ).eq('fooModule');
   });
 
   it('should retrieve the `repositorySlug`/`version` when `createPartitionKey` is called', () => {
-    expect(MutationTestingReport.createPartitionKey({
-      version: 'fooVersion',
-      projectName: 'barSlug'
-    })).eq('barSlug/fooVersion');
+    expect(
+      MutationTestingReport.createPartitionKey({
+        version: 'fooVersion',
+        projectName: 'barSlug',
+      })
+    ).eq('barSlug/fooVersion');
   });
 
   it('should set the repositorySlug, version and module when `identify` is called', () => {

@@ -1,5 +1,5 @@
-import { MutantStatus } from "mutation-testing-report-schema";
-import { Report } from "@stryker-mutator/dashboard-common";
+import { MutantStatus } from 'mutation-testing-report-schema';
+import type { Report } from '@stryker-mutator/dashboard-common';
 
 export function scoreOnlyReport(
   projectName: string,
@@ -24,19 +24,19 @@ export function simpleReport(
     projectName,
     version,
     moduleName,
-    schemaVersion: "1.1",
+    schemaVersion: '1.1',
     thresholds: {
       high: 80,
       low: 60,
     },
     mutationScore: 33.33,
     files: {
-      "test.js": {
-        language: "javascript",
+      'test.js': {
+        language: 'javascript',
         source: '"use strict";\nfunction add(a, b) {\n  return a + b;\n}',
         mutants: [
           {
-            id: "3",
+            id: '3',
             location: {
               start: {
                 column: 1,
@@ -48,13 +48,13 @@ export function simpleReport(
               },
             },
             replacement: '""',
-            mutatorName: "String Literal",
+            mutatorName: 'String Literal',
             status: states[0],
           },
           {
-            id: "1",
-            mutatorName: "Arithmetic Operator",
-            replacement: "-",
+            id: '1',
+            mutatorName: 'Arithmetic Operator',
+            replacement: '-',
             location: {
               start: {
                 line: 3,
@@ -68,9 +68,9 @@ export function simpleReport(
             status: states[1],
           },
           {
-            id: "2",
-            mutatorName: "Block Statement",
-            replacement: "{}",
+            id: '2',
+            mutatorName: 'Block Statement',
+            replacement: '{}',
             location: {
               start: {
                 line: 2,

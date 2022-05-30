@@ -1,62 +1,83 @@
-import { Repository, Login } from './models';
-import * as utils from '../utils';
-import { BearerCredentialHandler } from 'typed-rest-client/handlers/bearertoken';
-import HttpClient from '../client/HttpClient';
+import debug from 'debug';
+import { Repository, Login } from './models.js';
+import HttpClient from '../client/HttpClient.js';
+import { Injectable } from '@tsed/di';
+import * as github from '../github/models.js';
 
 const GITHUB_BACKEND = 'https://api.github.com';
 
+@Injectable()
 export default class GithubAgent {
+  private readonly log = debug(GithubAgent.name);
 
-  private readonly log = utils.debug(GithubAgent.name);
-  private readonly client: HttpClient;
+  constructor(private readonly client: HttpClient) {}
 
-  constructor(tokenOrClient: HttpClient | string) {
-    if (typeof tokenOrClient === 'string') {
-      this.client = new HttpClient([new BearerCredentialHandler(tokenOrClient)]);
-    } else {
-      this.client = tokenOrClient;
-    }
-  }
-  public getCurrentUser(): Promise<Login> {
-    return this.get<Login>(`${GITHUB_BACKEND}/user`);
+  public getCurrentUser(user: github.Authentication): Promise<Login> {
+    return this.get<Login>(user, `${GITHUB_BACKEND}/user`);
   }
 
-  public async getMyOrganizations(): Promise<Login[]> {
-    const logins = await this.get<Login[]>(`${GITHUB_BACKEND}/user/orgs`);
+  public async getMyOrganizations(
+    user: github.Authentication
+  ): Promise<Login[]> {
+    const logins = await this.get<Login[]>(user, `${GITHUB_BACKEND}/user/orgs`);
     return logins;
   }
 
-  public async getOrganizations(loginName: string): Promise<Login[]> {
-    const logins = await this.get<Login[]>(`${GITHUB_BACKEND}/users/${loginName}/orgs`);
+  public async getOrganizations(
+    user: github.Authentication,
+    loginName: string
+  ): Promise<Login[]> {
+    const logins = await this.get<Login[]>(
+      user,
+      `${GITHUB_BACKEND}/users/${loginName}/orgs`
+    );
     return logins;
   }
 
-  public getOrganizationRepositories(organizationLogin: string): Promise<Repository[]> {
-    return this.get<Repository[]>(`${GITHUB_BACKEND}/orgs/${organizationLogin}/repos?type=member`);
+  public getOrganizationRepositories(
+    user: github.Authentication,
+    organizationLogin: string
+  ): Promise<Repository[]> {
+    return this.get<Repository[]>(
+      user,
+      `${GITHUB_BACKEND}/orgs/${organizationLogin}/repos?type=member`
+    );
   }
 
-  public getMyRepositories(): Promise<Repository[]> {
-    return this.get<Repository[]>(`${GITHUB_BACKEND}/user/repos?type=owner`);
+  public getMyRepositories(user: github.Authentication): Promise<Repository[]> {
+    return this.get<Repository[]>(
+      user,
+      `${GITHUB_BACKEND}/user/repos?type=owner`
+    );
   }
 
-  public async userHasPushAccess(owner: string, name: string, login: string): Promise<boolean> {
+  public async userHasPushAccess(
+    user: github.Authentication,
+    owner: string,
+    name: string
+  ): Promise<boolean> {
     // https://developer.github.com/v3/repos/#get
-    const repo = await this.get<Repository>(`${GITHUB_BACKEND}/repos/${owner}/${name}`);
+    const repo = await this.get<Repository>(
+      user,
+      `${GITHUB_BACKEND}/repos/${owner}/${name}`
+    );
     return repo.permissions && repo.permissions.push;
   }
 
-  private async get<T>(url: string): Promise<T> {
-    const response = await this.client.get<T>(url);
+  private async get<T>(user: github.Authentication, url: string): Promise<T> {
+    const response = await this.client.fetchJson<T>(url, {
+      headers: { Authorization: `Bearer ${user.accessToken}` },
+    });
 
     // Status: 200 OK
     // Link: <https://api.github.com/resource?page=2>; rel="next",
     //       <https://api.github.com/resource?page=5>; rel="last"
-    const link = response.headers.link as string;
+    const link = response.headers.get('link') as string;
     const nextLinkTest = /<(.*?)>; rel="next"/;
     const nextLink = nextLinkTest.exec(link);
     if (nextLink && Array.isArray(response.body)) {
       this.log(`Retrieving next page: ${nextLink[1]}`);
-      const next = await this.get<T>(nextLink[1]);
+      const next = await this.get<T>(user, nextLink[1]);
       return (response.body as any).concat(next);
     } else {
       return Promise.resolve(response.body);

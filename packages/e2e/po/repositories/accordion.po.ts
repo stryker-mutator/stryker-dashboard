@@ -1,10 +1,10 @@
-import { PageObject } from "../shared/page-object";
-import { AccordionCardPageObject } from "../repositories/accordion-card.po";
+import { PageObject } from '../shared/page-object.js';
+import { AccordionCardPageObject } from '../repositories/accordion-card.po.js';
 
 export class AccordionPageObject extends PageObject {
   public getCard(cardHeader: string): AccordionCardPageObject {
     const cardHost = this.host.locator(
-      `:has(.card-header:has-text("${cardHeader}"))`
+      `:has(.accordion-header:has-text("${cardHeader}"))`
     );
     return new AccordionCardPageObject(cardHost);
   }

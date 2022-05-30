@@ -9,40 +9,50 @@ import { AutoUnsubscribe } from '../utils/auto-unsubscribe';
 @Component({
   selector: 'stryker-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss']
+  styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent extends AutoUnsubscribe implements OnInit {
-
   public errorMessage: string | undefined;
 
-  constructor(private readonly activatedRoute: ActivatedRoute, private readonly router: Router, private readonly authService: AuthService) {
+  constructor(
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly authService: AuthService
+  ) {
     super();
   }
 
   get provider$() {
     return this.activatedRoute.params.pipe(
-      map(params => params.provider as string | undefined),
+      map((params) => params.provider as string | undefined),
       filter(notEmpty)
     );
   }
 
   get code$() {
     return this.activatedRoute.queryParamMap.pipe(
-      map(queryParams => queryParams.get('code')),
+      map((queryParams) => queryParams.get('code')),
       filter(notEmpty)
     );
   }
 
   public ngOnInit() {
-    const sub = zip(this.provider$, this.code$).pipe(
-      flatMap(([provider, code]) => this.authService.authenticate(provider, code))
-    ).subscribe(user => {
-      this.router.navigate(['repos', user.name]);
-    }, error => {
-      console.error('An error occurred during authentication', error);
-      this.errorMessage = 'An error occurred during logon. Please try again.';
-    });
+    const sub = zip(this.provider$, this.code$)
+      .pipe(
+        flatMap(([provider, code]) =>
+          this.authService.authenticate(provider, code)
+        )
+      )
+      .subscribe(
+        (user) => {
+          this.router.navigate(['repos', user.name]);
+        },
+        (error) => {
+          console.error('An error occurred during authentication', error);
+          this.errorMessage =
+            'An error occurred during logon. Please try again.';
+        }
+      );
     this.subscriptions.push(sub);
   }
-
 }

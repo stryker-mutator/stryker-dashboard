@@ -1,52 +1,52 @@
-import { test, expect } from "@playwright/test";
-import { simpleReport } from "../actions/report.action";
-import { URL } from "url";
-import { PutReportResponse } from "@stryker-mutator/dashboard-contract/src";
-import { ReportClient } from "../po/reports/report-client.po";
+import { test, expect } from '@playwright/test';
+import { URL } from 'url';
+import type { PutReportResponse } from '@stryker-mutator/dashboard-contract';
+import { simpleReport } from '../actions/report.action.js';
+import { ReportClient } from '../po/reports/report-client.po.js';
 
-test.describe("Report api", () => {
+test.describe('Report api', () => {
   let client: ReportClient;
 
   test.beforeEach(({ request }) => {
     client = new ReportClient(request);
   });
 
-  test.describe("HTTP put", () => {
-    test("should respond with the correct href", async ({ baseURL }) => {
+  test.describe('HTTP put', () => {
+    test('should respond with the correct href', async ({ baseURL }) => {
       const response = await client.uploadReport(
         simpleReport(
-          "github.com/stryker-mutator-test-organization/hello-org",
-          "feat/report"
+          'github.com/stryker-mutator-test-organization/hello-org',
+          'feat/report'
         )
       );
 
       const expectedResponse: PutReportResponse = {
         href: new URL(
-          "/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report",
+          '/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report',
           baseURL
         ).toString(),
       };
       expect(response).toEqual(expectedResponse);
     });
 
-    test("should respond the correct href and project href when uploading for a module", async ({
+    test('should respond the correct href and project href when uploading for a module', async ({
       baseURL,
     }) => {
       const response = await client.uploadReport(
         simpleReport(
-          "github.com/stryker-mutator-test-organization/hello-org",
-          "feat/report",
-          "fooModule"
+          'github.com/stryker-mutator-test-organization/hello-org',
+          'feat/report',
+          'fooModule'
         )
       );
 
       const expectedResponse: PutReportResponse = {
         href: new URL(
-          "/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report?module=fooModule",
+          '/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report?module=fooModule',
           baseURL
         ).toString(),
         projectHref: new URL(
-          "/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report",
+          '/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report',
           baseURL
         ).toString(),
       };

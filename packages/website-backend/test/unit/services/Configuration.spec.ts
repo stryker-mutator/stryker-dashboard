@@ -1,7 +1,7 @@
-import Configuration from '../../../src/services/Configuration';
+import Configuration from '../../../src/services/Configuration.js';
 import { expect } from 'chai';
-import * as utils from '../../../src/utils';
-import sinon = require('sinon');
+import utils from '../../../src/utils.js';
+import sinon from 'sinon';
 
 describe('Configuration', () => {
   let requiredEnvVarStub: sinon.SinonStub<[string], string>;
@@ -13,7 +13,9 @@ describe('Configuration', () => {
   it('should read correct environment variables on load', () => {
     requiredEnvVarStub.withArgs('GH_BASIC_CLIENT_ID').returns('gh client id');
     requiredEnvVarStub.withArgs('GH_BASIC_SECRET_ID').returns('gh secret');
-    requiredEnvVarStub.withArgs('STRYKER_DASHBOARD_BASE_URL').returns('stryker-dashboard base url');
+    requiredEnvVarStub
+      .withArgs('STRYKER_DASHBOARD_BASE_URL')
+      .returns('stryker-dashboard base url');
     requiredEnvVarStub.withArgs('JWT_SECRET').returns('jwt secret');
     const sut = new Configuration();
 

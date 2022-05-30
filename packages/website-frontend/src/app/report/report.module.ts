@@ -5,19 +5,9 @@ import { SharedModule } from '../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [
-    ReportPageComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    HttpClientModule
-  ],
-  exports: [
-    ReportPageComponent
-  ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ]
+  declarations: [ReportPageComponent],
+  imports: [CommonModule, SharedModule, HttpClientModule],
+  exports: [ReportPageComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class ReportModule { }
+export class ReportModule {}

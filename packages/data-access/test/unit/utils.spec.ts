@@ -1,8 +1,7 @@
 import { expect } from 'chai';
-import { encodeKey, decodeKey } from '../../src/utils';
+import { encodeKey, decodeKey } from '../../src/utils.js';
 
 describe('utils', () => {
-
   describe(encodeKey.name, () => {
     it('should return input if not contains a slash', () => {
       expect(encodeKey('input;output')).eq('input;output');

@@ -1,10 +1,14 @@
-import { Mapper } from './Mapper';
-import { MutationTestingReport, Project } from '../models';
-import TableStorageMapper from './TableStorageMapper';
+import { Mapper } from './Mapper.js';
+import { MutationTestingReport, Project } from '../models/index.js';
+import TableStorageMapper from './TableStorageMapper.js';
 
-export interface MutationTestingReportMapper extends Mapper<MutationTestingReport, 'projectName' | 'version', 'moduleName'> { }
+export type MutationTestingReportMapper = Mapper<
+  MutationTestingReport,
+  'projectName' | 'version',
+  'moduleName'
+>;
 
-export interface ProjectMapper extends Mapper<Project, 'owner', 'name'> { }
+export type ProjectMapper = Mapper<Project, 'owner', 'name'>;
 
 export function createMutationTestingReportMapper(): MutationTestingReportMapper {
   return new TableStorageMapper(MutationTestingReport);

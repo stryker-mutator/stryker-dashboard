@@ -1,4 +1,4 @@
-import { spa } from '../../../src/middleware/spaMiddleware';
+import { spa } from '../../../src/middleware/spaMiddleware.js';
 import { Request, Response, NextFunction } from 'express';
 import * as sinon from 'sinon';
 import { expect } from 'chai';
@@ -71,7 +71,7 @@ describe('spa middleware', () => {
     );
   });
 
-  it('should report error if index.html file doesn\'t exist', () => {
+  it("should report error if index.html file doesn't exist", () => {
     // Arrange
     const expectedError = new Error('Expected file not exist error');
     readFileStub.callsArgWith(2, expectedError);

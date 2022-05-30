@@ -2,26 +2,27 @@
   "private": true,
   "name": "e2e",
   "version": "0.9.0",
+  "type": "module",
   "description": "The end to end tests for the Stryker Dashboard",
   "main": "index.js",
   "scripts": {
     "test": "npm run test:acceptance",
     "test:local": "npm run playwright -- --project local",
     "test:acceptance": "npm run playwright -- --project acceptance",
-    "playwright": "playwright test -c dist/playwright.config.js"    
+    "playwright": "playwright test"
   },
   "keywords": [],
   "author": "Nico Jansen",
   "devDependencies": {
-    "@playwright/test": "^1.17.1",
+    "@playwright/test": "^1.22.2",
     "@stryker-mutator/dashboard-common": "0.9.0",
     "@stryker-mutator/dashboard-contract": "0.9.0",
-    "@types/jsonwebtoken": "^8.3.4"
+    "@types/jsonwebtoken": "^8.5.8"
   },
   "dependencies": {
     "azure-storage": "^2.10.3",
     "jsonwebtoken": "^8.5.1",
-    "mutation-testing-report-schema": "1.7.1"
+    "mutation-testing-report-schema": "1.7.10"
   },
   "repository": {
     "type": "git",

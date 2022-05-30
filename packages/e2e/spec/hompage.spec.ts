@@ -1,8 +1,7 @@
 import { expect, test } from '@playwright/test';
-import { Homepage } from '../po/home/homepage.po';
+import { Homepage } from '../po/home/homepage.po.js';
 
 test.describe('Homepage', () => {
-
   let sut: Homepage;
 
   test.beforeEach(async ({ page: p }) => {

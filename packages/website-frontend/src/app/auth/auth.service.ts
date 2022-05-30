@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { AuthenticateResponse, Login } from '@stryker-mutator/dashboard-contract';
+import {
+  AuthenticateResponse,
+  Login,
+} from '@stryker-mutator/dashboard-contract';
 import { Subject, Observable, merge, lastValueFrom } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 import { SessionStorage } from '../shared/services/session-storage.service';
@@ -8,12 +11,13 @@ import { SessionStorage } from '../shared/services/session-storage.service';
 const AUTH_TOKEN_SESSION_KEY = 'authToken';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
-  constructor(private readonly http: HttpClient, private readonly session: SessionStorage) {
-  }
+  constructor(
+    private readonly http: HttpClient,
+    private readonly session: SessionStorage
+  ) {}
 
   public get currentBearerToken(): string | null {
     return this.session.getItem(AUTH_TOKEN_SESSION_KEY);
@@ -21,11 +25,8 @@ export class AuthService {
 
   public get currentUser$(): Observable<Login | null> {
     if (!this._currentUser) {
-      this._currentUser = merge(
-        this.getUser(),
-        this.currentUserSubject$
-      ).pipe(
-        shareReplay(1),
+      this._currentUser = merge(this.getUser(), this.currentUserSubject$).pipe(
+        shareReplay(1)
       );
     }
     return this._currentUser;
@@ -57,7 +58,12 @@ export class AuthService {
   }
 
   public async authenticate(provider: string, code: string): Promise<Login> {
-    const response = await lastValueFrom(this.http.post<AuthenticateResponse>(`/api/auth/${provider}?code=${code}`, undefined));
+    const response = await lastValueFrom(
+      this.http.post<AuthenticateResponse>(
+        `/api/auth/${provider}?code=${code}`,
+        undefined
+      )
+    );
     this.session.setItem(AUTH_TOKEN_SESSION_KEY, response.jwt);
     const user = await this.getUser();
     this.currentUserSubject$.next(user);
@@ -67,5 +73,4 @@ export class AuthService {
       throw new Error('User could not be retrieved after authentication');
     }
   }
-
 }
