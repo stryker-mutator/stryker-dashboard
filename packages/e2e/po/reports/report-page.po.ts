@@ -1,24 +1,18 @@
-import { promise, browser, $ } from 'protractor';
-import { MutationTestingReportAppPageObject } from './mutation-testing-report-app.po';
+import { DashboardPage } from '../shared/dashboard-page.po.js';
+import { MutationTestingReportAppPageObject } from './mutation-testing-report-app.po.js';
 
-export class ReportPage {
-  public navigate(repositorySlug: string, version: string): promise.Promise<void> {
-    return browser.get(`/reports/${repositorySlug}/${version}`);
+export class ReportPage extends DashboardPage {
+  public async navigate(
+    repositorySlug: string,
+    version: string
+  ): Promise<void> {
+    await this.page.goto(`/reports/${repositorySlug}/${version}`);
   }
 
-  public errorMessage(): promise.Promise<string> {
-    return $('.alert-danger').getText();
-  }
-
-  public warningMessage(): promise.Promise<string> {
-    return $('.alert-warning').getText();
-  }
-
-  public mutationScoreText(): promise.Promise<string> {
-    return $('.stryker-mutation-score').getText();
-  }
-
-  public get mutationTestReportApp() {
-    return new MutationTestingReportAppPageObject($('mutation-test-report-app'));
-  }
+  public errorAlert = this.page.locator('.alert-danger');
+  public warningAlert = this.page.locator('.alert-warning');
+  public mutationTestReportApp = new MutationTestingReportAppPageObject(
+    this.page.locator('mutation-test-report-app')
+  );
+  public mutationScore = this.page.locator('.stryker-mutation-score');
 }

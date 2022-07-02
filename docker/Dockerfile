@@ -1,4 +1,4 @@
-FROM node:10 as builder
+FROM node:14
 ARG version=latest
 
 RUN mkdir /app

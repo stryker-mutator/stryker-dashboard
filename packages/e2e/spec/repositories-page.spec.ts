@@ -1,132 +1,152 @@
-import { RepositoriesPage } from '../po/repositories/repositories-page.po';
-import { logOn, logOff } from '../actions/auth.action';
-import { enableRepository, getUserRepositories } from '../actions/report.action';
-import { expect } from 'chai';
-import { RepositorySwitchPageObject } from '../po/repositories/repository-switch.po';
-import { Repository } from '@stryker-mutator/dashboard-contract/src';
+import { test, expect } from '@playwright/test';
+import { RepositoriesPage } from '../po/repositories/repositories-page.po.js';
+import type { RepositorySwitchPageObject } from '../po/repositories/repository-switch.po.js';
+import type { Repository } from '@stryker-mutator/dashboard-contract';
+import { ReportClient } from '../po/reports/report-client.po.js';
+import { createContainsRegExp } from '../po/helpers.js';
 
 // Example: 0527de29-6436-4564-9c5f-34f417ec68c0
 const API_KEY_REGEX = /^[0-9a-z]{8}-(?:[0-9a-z]{4}-){3}[0-9a-z]{12}$/;
 
-describe('Repositories page', () => {
+test.describe.serial('Repositories page', () => {
   let page: RepositoriesPage;
+  let client: ReportClient;
 
-  before(async () => {
-    await logOn();
-    page = new RepositoriesPage();
+  test.beforeAll(async ({ browser }) => {
+    const context = await browser.newContext();
+    client = new ReportClient(context.request);
+    page = new RepositoriesPage(await context.newPage());
+    await page.logOn();
     await page.navigate();
   });
 
-  after(async () => {
-    await logOff();
+  test.afterAll(async () => {
+    await page.logOff();
+    await page.close();
   });
 
-  it('should list all my repos', async () => {
-    const repoNames = await page.repositoryList.allRepositoryNames();
-    expect(repoNames).deep.eq([
+  test('should list all my repos', async () => {
+    await expect(page.repositoryList.repositoryNamesLocator).toHaveText([
       'github.com/strykermutator-test-account/hello-test',
-      'github.com/strykermutator-test-account/hello-world'
+      'github.com/strykermutator-test-account/hello-world',
     ]);
   });
 
-  it('should all be disabled', async () => {
-    const repos = await page.repositoryList.all();
-    const areEnabled = await Promise.all(repos.map(repo => repo.isEnabled()));
-    expect(areEnabled).deep.eq([false, false]);
+  test('should all be unchecked', async () => {
+    const repos = await page.repositoryList.all(2);
+    for (const repo of repos) {
+      await expect(repo.checkbox).not.toBeChecked();
+    }
   });
 
-  it('should not show the modal dialog', async () => {
-    expect(await page.modalDialog.isVisible()).false;
+  test('should not show the modal dialog', async () => {
+    await expect(page.modalDialog.host).not.toExist();
   });
 
-  describe('owner selector', () => {
-    it('should show the username and organization', async () => {
-      expect(await page.ownerSelector.optionValues()).deep.eq([
-        'strykermutator-test-account',
+  test.describe('owner selector', () => {
+    test('should show the username and organization', async () => {
+      await expect(page.ownerSelector.options()).toHaveCount(2);
+      await expect(page.ownerSelector.options().nth(0)).toHaveAttribute(
+        'value',
+        'strykermutator-test-account'
+      );
+      await expect(page.ownerSelector.options().nth(1)).toHaveAttribute(
+        'value',
         'stryker-mutator-test-organization'
-      ]);
+      );
     });
 
-    describe('when selecting an organization', () => {
-      before(async () => {
+    test.describe('when selecting an organization', () => {
+      test.beforeAll(async () => {
         await page.ownerSelector.select('stryker-mutator-test-organization');
       });
 
-      after(async () => {
+      test.afterAll(async () => {
         await page.ownerSelector.select('strykermutator-test-account');
       });
 
-      it('should show the repo\'s belonging to that organization', async () => {
-        const repoNames = await page.repositoryList.allRepositoryNames();
-        expect(repoNames).deep.eq([
+      test("should show the repo's belonging to that organization", async () => {
+        await expect(page.repositoryList.repositoryNamesLocator).toContainText(
           'github.com/stryker-mutator-test-organization/hello-org'
-        ]);
+        );
       });
     });
   });
 
-  describe('when enabling a repository', () => {
-    before(async () => {
-      const repos = await page.repositoryList.all();
+  test.describe('when enabling a repository', () => {
+    test.beforeAll(async () => {
+      const repos = await page.repositoryList.all(2);
       await repos[0].flipSwitch();
     });
 
-    after(async () => {
+    test.afterAll(async () => {
       if (await page.modalDialog.isVisible()) {
         await page.modalDialog.close();
       }
     });
 
-    it('should show the modal dialog', async () => {
-      expect(await page.modalDialog.isVisible()).true;
-      expect(await page.modalDialog.title()).eq('hello-test');
+    test('should show the modal dialog', async () => {
+      await expect(page.modalDialog.host).toBeVisible();
+      await expect(page.modalDialog.title).toHaveText('hello-test');
     });
 
-    it('should show the api key', async () => {
-      const apiKey = await page.modalDialog.apiKeyGenerator.apiKey();
-      expect(apiKey).matches(API_KEY_REGEX);
+    test('should show the api key', async () => {
+      await expect(page.modalDialog.apiKeyGenerator.apiKey).toHaveText(
+        API_KEY_REGEX
+      );
     });
 
-    it('should show an explanation "About your key"', async () => {
-      const card = await page.modalDialog.accordion.getCard('About your key');
-      expect(await card.isBodyVisible()).true;
+    test('should show an explanation "About your key"', async () => {
+      const card = page.modalDialog.accordion.getCard('About your key');
+      await expect(card.body).toBeVisible();
     });
 
-    it('should hide "About your key" explanation when activated again', async () => {
-      const card = await page.modalDialog.accordion.activateCard('About your key');
-      expect(await card.isBodyVisible()).false;
+    test('should hide "About your key" explanation when activated again', async () => {
+      const card = page.modalDialog.accordion.getCard('About your key');
+      await card.activate();
+      await expect(card.body).not.toBeVisible();
     });
-
   });
 
-  describe('when a repository is enabled', () => {
+  test.describe('when a repository is enabled', () => {
     let repositoryPageObject: RepositorySwitchPageObject;
     let repository: Repository;
-    before(async () => {
-      const allRepositories = await getUserRepositories();
+    test.beforeAll(async () => {
+      const allRepositories = await client.getUserRepositories();
       repository = allRepositories[1];
-      await enableRepository(repository.slug);
+      await client.enableRepository(repository.slug);
       await page.navigate();
-      repositoryPageObject = (await page.repositoryList.all())[1];
+      repositoryPageObject = page.repositoryList.repository(repository.name);
     });
 
-    it('should show the mutation score badge for that repo', async () => {
-      expect(await repositoryPageObject.mutationScoreBadge.hasLink()).true;
-      expect(await repositoryPageObject.mutationScoreBadge.imgSrc()).contains(encodeURIComponent(repository.slug));
-      expect(await repositoryPageObject.mutationScoreBadge.linkHref()).contains(`reports/${repository.slug}`);
+    test('should show the mutation score badge for that repo', async () => {
+      await expect(repositoryPageObject.mutationScoreBadge.img).toHaveAttribute(
+        'src',
+        createContainsRegExp(encodeURIComponent(repository.slug))
+      );
+      await expect(
+        repositoryPageObject.mutationScoreBadge.link
+      ).toHaveAttribute(
+        'href',
+        createContainsRegExp(`reports/${repository.slug}`)
+      );
     });
 
-    describe('and displayed', () => {
-      before(async () => {
+    test.describe('and displayed', () => {
+      test.beforeAll(async () => {
         await repositoryPageObject.display();
       });
-      it('should hide the API key', async () => {
-        expect(await page.modalDialog.apiKeyGenerator.apiKey()).contains('•••••••••••••••••••');
+      test('should hide the API key', async () => {
+        await expect(page.modalDialog.apiKeyGenerator.apiKey).toContainText(
+          '•••••••••••••••••••'
+        );
       });
 
-      it('should generate a new api key if "Generate new" is clicked', async () => {
+      test('should generate a new api key if "Generate new" is clicked', async () => {
         await page.modalDialog.apiKeyGenerator.generateNew();
-        expect(await page.modalDialog.apiKeyGenerator.apiKey()).match(API_KEY_REGEX);
+        await expect(page.modalDialog.apiKeyGenerator.apiKey).toHaveText(
+          API_KEY_REGEX
+        );
       });
     });
   });

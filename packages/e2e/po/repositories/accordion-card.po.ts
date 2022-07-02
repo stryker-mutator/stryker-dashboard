@@ -1,35 +1,10 @@
-import { PageObject } from '../shared/page-object';
-import { promise } from 'protractor';
+import { PageObject } from '../shared/page-object.js';
 
 export class AccordionCardPageObject extends PageObject {
+  public readonly body = this.host.locator('.accordion-body');
+  public readonly header = this.host.locator('.accordion-header');
 
-  public activate(): promise.Promise<void> {
-    return this.host.$('.card-header button').click();
+  public async activate(): Promise<void> {
+    await this.host.locator('.accordion-header button').click();
   }
-
-  private get body() {
-    return this.host.$('.card-body');
-  }
-
-  public get headerText() {
-    return this.header.getText();
-  }
-
-  public get bodyText() {
-    return this.body.getText();
-  }
-
-  private get header() {
-    return this.host.$('.card-header');
-  }
-
-  public async isBodyVisible(): Promise<boolean> {
-    const isPresent = await this.body.isPresent();
-    if (isPresent) {
-      return this.body.isDisplayed();
-    } else {
-      return false;
-    }
-  }
-
 }

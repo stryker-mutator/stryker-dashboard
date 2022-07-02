@@ -8,28 +8,37 @@ jobs:
     name: Build and Release
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set NPM Env
       run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
     - name: Install dependencies
       run: npm ci
-    - name: Build
-      run: npm run build
     - name: Choose version
       run: 'node tasks/set-npm-canary-version.js'
+    - name: Build
+      run: npm run build
     - name: Lerna publish canary version
-      run: 'npx lerna publish --dist-tag canary --no-push --yes --no-git-tag-version ${NPM_PACKAGE_VERSION}'
-    - name: Docker build & Push
       run: |
-        echo "Docker build $NPM_PACKAGE_VERSION"
-        cd docker
-        docker build -t strykermutator/dashboard:${{ github.sha }}  --build-arg version=${NPM_PACKAGE_VERSION} .
-        docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
-        docker push strykermutator/dashboard:${{ github.sha }} 
+        git config --global user.name github-actions
+        git config --global user.email "github-actions@github.com"
+        npx lerna version ${NPM_PACKAGE_VERSION} --no-git-tag-version --no-push --exact --force-publish --yes --no-conventional-commits
+        git commit -am "temp-commit"
+        npx lerna publish from-package --dist-tag canary --no-git-reset --yes --no-verify-access
+    - name: Docker build & Push
+      uses: nick-invision/retry@v2.4.0
+      with: 
+        timeout_minutes: 1
+        max_attempts: 3
+        command: |
+          echo "Docker build $NPM_PACKAGE_VERSION"
+          cd docker
+          docker build -t strykermutator/dashboard:${{ github.sha }}  --build-arg version=${NPM_PACKAGE_VERSION} .
+          docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
+          docker push strykermutator/dashboard:${{ github.sha }} 
     - name: Write version number
       run: echo $NPM_PACKAGE_VERSION > version.txt
     - name: 'Upload artifact: version'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with: 
         name: version
         path: version.txt
@@ -39,29 +48,29 @@ jobs:
     needs: build-and-release
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: 'Download artifact: version'
-      uses: actions/download-artifact@master
+      uses: actions/download-artifact@v2
       with:
         name: version
+        path: 'version'
     - name: Download & install badge-api package
       run: ./tasks/download-badge-api-package.sh $(cat version/version.txt)
     - uses: azure/actions/login@v1
       name: Azure login
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_ACCEPTANCE }}
-    - name: 'Deploy stryker-dashboard-acceptance.azurewebsites.net'
-      uses: azure/webapps-container-deploy@v1
-      with:
-        app-name: 'stryker-dashboard-acceptance'
-        images: 'strykermutator/dashboard:${{ github.sha }}'
     - name: 'Deploy stryker-mutator-badge-api-acceptance.azurewebsites.net'
-      uses: Azure/functions-action@v1
+      uses: Azure/functions-action@v1.1.6
       id: fa
       with:
         app-name: stryker-mutator-badge-api-acceptance
         package: 'package'
-
+    - name: 'Deploy stryker-dashboard-acceptance.azurewebsites.net'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'stryker-dashboard-acceptance'
+        images: 'strykermutator/dashboard:${{ github.sha }}'
     - name: 'Verify deployment'
       run: |
         node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version $(cat version/version.txt)
@@ -72,9 +81,13 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Install dependencies
       run: npm ci
+    - name: Install browsers
+      run: |
+        cd packages/e2e
+        npx playwright install
     - name: Build
       run: |
         cd packages/e2e
@@ -90,3 +103,8 @@ jobs:
         E2E_JWT_SECRET: ${{ secrets.E2E_JWT_SECRET }}
         E2E_ACCESS_TOKEN: ${{ secrets.E2E_ACCESS_TOKEN }}
         E2E_BADGE_API_BASE_URL: https://stryker-mutator-badge-api-acceptance.azurewebsites.net
+    - uses: actions/upload-artifact@v2
+      if: failure()
+      with:
+        name: playwright-videos
+        path: packages/e2e/test-results/

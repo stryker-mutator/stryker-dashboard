@@ -1,32 +1,20 @@
-import { ElementFinder, promise } from 'protractor';
-import { MutationScoreBadgePageObject } from './mutation-score-badge.po';
+import { PageObject } from '../shared/page-object.js';
+import { MutationScoreBadgePageObject } from './mutation-score-badge.po.js';
 
-export class RepositorySwitchPageObject {
-  constructor(private readonly host: ElementFinder) { }
+export class RepositorySwitchPageObject extends PageObject {
+  public readonly checkbox = this.host.locator('input[type=checkbox]');
+  private readonly switch = this.host.locator('label');
+  public readonly mutationScoreBadge = new MutationScoreBadgePageObject(
+    this.host.locator('stryker-mutation-score-badge')
+  );
 
   public async name(): Promise<string> {
-    return this.host.$('.repo-slug').getText();
+    const slug = this.host.locator('.repo-slug');
+    return slug!.innerText();
   }
 
-  public get mutationScoreBadge() {
-    return new MutationScoreBadgePageObject(this.host.$('stryker-mutation-score-badge'));
-  }
-
-  private get checkbox() {
-    return this.host.$('input[type=checkbox]');
-  }
-
-  private get switch() {
-    return this.host.$('label');
-  }
-
-  public display(): promise.Promise<void> {
-    return this.host.$('button.btn-link').click();
-  }
-
-  public async isEnabled(): Promise<boolean> {
-    const checked = await this.checkbox.getAttribute('checked');
-    return !!checked;
+  public async display() {
+    await this.host.locator('button.btn-link').click();
   }
 
   public async flipSwitch() {

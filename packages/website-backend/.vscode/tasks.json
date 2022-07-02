@@ -1,0 +1,23 @@
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🐱‍👤 run server with nodemon",
+      "type": "npm",
+      "script": "start",
+      "isBackground": true,
+      "group": "build",
+      "options": {
+        "env": {
+          "GH_BASIC_CLIENT_ID": "3379d559701c154648dd",
+          "GH_BASIC_SECRET_ID": "836840de4e4ba34eb90743c2d92ba5a6af325fe8",
+          "JWT_SECRET": "123",  
+          "PORT": "1337",
+          "STRYKER_DASHBOARD_BASE_URL": "http://localhost:4200",
+          "AZURE_STORAGE_CONNECTION_STRING": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;"
+        }
+      }
+    }
+  ]
+}

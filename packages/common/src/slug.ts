@@ -1,5 +1,4 @@
-export class InvalidSlugError extends Error {
-}
+export class InvalidSlugError extends Error {}
 
 const NR_OF_PROJECT_NAME_PARTS = 3;
 
@@ -9,9 +8,10 @@ const NR_OF_PROJECT_NAME_PARTS = 3;
  * Or "github.com/stryker-mutator/stryker/feat/allow/slashes"
  */
 export class Slug {
-
-  constructor(public readonly project: string, public readonly version: string) {
-  }
+  constructor(
+    public readonly project: string,
+    public readonly version: string
+  ) {}
 
   /**
    * Parses a raw slug into project and version.
@@ -24,10 +24,13 @@ export class Slug {
     rawSlug = sanitize(rawSlug);
     if (rawSlug) {
       const parts = rawSlug.split('/');
-      if (parts.length < (NR_OF_PROJECT_NAME_PARTS + 1)) {
+      if (parts.length < NR_OF_PROJECT_NAME_PARTS + 1) {
         throw new InvalidSlugError(`Missing version in "${rawSlug}"`);
       } else {
-        return new Slug(parts.slice(0, NR_OF_PROJECT_NAME_PARTS).join('/'), parts.slice(NR_OF_PROJECT_NAME_PARTS).join('/'));
+        return new Slug(
+          parts.slice(0, NR_OF_PROJECT_NAME_PARTS).join('/'),
+          parts.slice(NR_OF_PROJECT_NAME_PARTS).join('/')
+        );
       }
     } else {
       throw new InvalidSlugError(`Missing slug`);

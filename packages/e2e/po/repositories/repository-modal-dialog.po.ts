@@ -1,37 +1,19 @@
-import { PageObject } from '../shared/page-object';
-import { promise } from 'protractor';
-import { AccordionPageObject } from './accordion.po';
-import { ApiKeyGeneratorPageObject } from './api-key-generator.po';
+import type { Locator } from '@playwright/test';
+import { PageObject } from '../shared/page-object.js';
+import { AccordionPageObject } from './accordion.po.js';
+import { ApiKeyGeneratorPageObject } from './api-key-generator.po.js';
 
 export class RepositoryModalDialogPageObject extends PageObject {
+  private readonly closeButton = this.host.locator('button.btn-close');
+  public readonly title: Locator = this.host.locator('h2');
+  public readonly accordion = new AccordionPageObject(
+    this.host.locator('ngb-accordion')
+  );
+  public readonly apiKeyGenerator = new ApiKeyGeneratorPageObject(
+    this.host.locator('stryker-api-key-generator')
+  );
 
-  private get closeButton() {
-    return this.host.$('button.close');
-  }
-
-  public title(): promise.Promise<string> {
-    return this.host.$('h2').getText();
-  }
-
-  public get accordion() {
-    return new AccordionPageObject(this.host.$('ngb-accordion'));
-  }
-
-  public async isVisible(): Promise<boolean> {
-    const isPresent = await this.host.isPresent();
-    if (isPresent) {
-      return this.host.isDisplayed();
-    } else {
-      return isPresent;
-    }
-  }
-
-  public close(): promise.Promise<void> {
+  public close(): Promise<void> {
     return this.closeButton.click();
   }
-
-  public get apiKeyGenerator() {
-    return new ApiKeyGeneratorPageObject(this.host.$('stryker-api-key-generator'));
-  }
-
 }

@@ -1,19 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { AuthenticateResponse, Login } from '@stryker-mutator/dashboard-contract';
-import { Subject, Observable, merge } from 'rxjs';
+import {
+  AuthenticateResponse,
+  Login,
+} from '@stryker-mutator/dashboard-contract';
+import { Subject, Observable, merge, lastValueFrom } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 import { SessionStorage } from '../shared/services/session-storage.service';
 
 const AUTH_TOKEN_SESSION_KEY = 'authToken';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
-  constructor(private http: HttpClient, private session: SessionStorage) {
-  }
+  constructor(
+    private readonly http: HttpClient,
+    private readonly session: SessionStorage
+  ) {}
 
   public get currentBearerToken(): string | null {
     return this.session.getItem(AUTH_TOKEN_SESSION_KEY);
@@ -21,16 +25,13 @@ export class AuthService {
 
   public get currentUser$(): Observable<Login | null> {
     if (!this._currentUser) {
-      this._currentUser = merge(
-        this.getUser(),
-        this.currentUserSubject$
-      ).pipe(
-        shareReplay(1),
+      this._currentUser = merge(this.getUser(), this.currentUserSubject$).pipe(
+        shareReplay(1)
       );
     }
     return this._currentUser;
   }
-  private currentUserSubject$ = new Subject<Login | null>();
+  private readonly currentUserSubject$ = new Subject<Login | null>();
 
   private _currentUser: Observable<Login | null> | undefined;
 
@@ -42,7 +43,7 @@ export class AuthService {
   private async getUser(): Promise<Login | null> {
     try {
       if (this.currentBearerToken) {
-        return await this.http.get<Login>('api/user').toPromise();
+        return await lastValueFrom(this.http.get<Login>('api/user'));
       } else {
         return null;
       }
@@ -57,7 +58,12 @@ export class AuthService {
   }
 
   public async authenticate(provider: string, code: string): Promise<Login> {
-    const response = await this.http.post<AuthenticateResponse>(`/api/auth/${provider}?code=${code}`, undefined).toPromise();
+    const response = await lastValueFrom(
+      this.http.post<AuthenticateResponse>(
+        `/api/auth/${provider}?code=${code}`,
+        undefined
+      )
+    );
     this.session.setItem(AUTH_TOKEN_SESSION_KEY, response.jwt);
     const user = await this.getUser();
     this.currentUserSubject$.next(user);
@@ -67,5 +73,4 @@ export class AuthService {
       throw new Error('User could not be retrieved after authentication');
     }
   }
-
 }

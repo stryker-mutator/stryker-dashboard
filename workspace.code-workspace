@@ -22,23 +22,38 @@
       "path": "packages/e2e"
     },
     {
-      "path": "."
+      "path": ".",
+      "name": "root"
     }
   ],
+  "extensions": {
+    "recommendations": [
+      "angular.ng-template",
+      // https://marketplace.visualstudio.com/items?itemName=Azurite.azurite
+      "Azurite.azurite"
+    ]
+  },
   "settings": {
     "editor.codeActionsOnSave": {
       "source.fixAll.tslint": true
     },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/bower_components": true,
+      "**/*.code-search": true,
+      "**/dist": true
+    },
     "typescript.tsdk": "stryker-dashboard\\node_modules\\typescript\\lib",
     "cSpell.words": [
+      "Clazz",
       "clippy",
       "etag",
       "fdescribe",
-      "gitlab"
+      "gitlab",
+      "Testabilities"
     ],
-    "grunt.autoDetect": "off",
-    "gulp.autoDetect": "off",
-    "jake.autoDetect": "off",
-    "task.autoDetect": "off"
+    "task.autoDetect": "off",
+    "azurite.location": "root/.azurite",
+    "azureFunctions.showExtensionsCsprojWarning": false
   }
 }

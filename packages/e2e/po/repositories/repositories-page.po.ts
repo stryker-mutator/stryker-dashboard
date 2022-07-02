@@ -1,22 +1,20 @@
-import { browser, $ } from 'protractor';
-import { RepositoriesListPageObject } from './repositories-list.po';
-import { RepositoryModalDialogPageObject } from './repository-modal-dialog.po';
-import { OwnerSelectorPageObject } from './owner-selector.po';
+import { RepositoriesListPageObject } from './repositories-list.po.js';
+import { RepositoryModalDialogPageObject } from './repository-modal-dialog.po.js';
+import { SelectPageObject } from '../shared/select.po.js';
+import { DashboardPage } from '../shared/dashboard-page.po.js';
 
-export class RepositoriesPage {
+export class RepositoriesPage extends DashboardPage {
+  public readonly repositoryList = new RepositoriesListPageObject(
+    this.page.locator('stryker-repository-list')
+  );
+  public readonly modalDialog = new RepositoryModalDialogPageObject(
+    this.page.locator('ngb-modal-window')
+  );
+  public readonly ownerSelector = new SelectPageObject(
+    this.page.locator('stryker-owner-selector')
+  );
+
   public async navigate() {
-    return browser.get('/repos');
-  }
-
-  public get repositoryList() {
-    return new RepositoriesListPageObject($('stryker-repository-list'));
-  }
-
-  public get modalDialog() {
-    return new RepositoryModalDialogPageObject($('ngb-modal-window'));
-  }
-
-  public get ownerSelector() {
-    return new OwnerSelectorPageObject($('stryker-owner-selector'));
+    await this.page.goto('/repos');
   }
 }

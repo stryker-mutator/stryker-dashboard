@@ -2,7 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthComponent } from './auth.component';
 import { Subject } from 'rxjs';
-import { ParamMap, Params, ActivatedRoute, Router, convertToParamMap } from '@angular/router';
+import {
+  ParamMap,
+  Params,
+  ActivatedRoute,
+  Router,
+  convertToParamMap,
+} from '@angular/router';
 import { JasmineMock, mock } from '../testHelpers/mock.spec';
 import { AuthService } from './auth.service';
 import { SharedModule } from '../shared/shared.module';
@@ -25,11 +31,14 @@ describe(AuthComponent.name, () => {
     await TestBed.configureTestingModule({
       declarations: [AuthComponent],
       providers: [
-        { provide: ActivatedRoute, useValue: { params: param$, queryParamMap: queryParamMap$ } },
+        {
+          provide: ActivatedRoute,
+          useValue: { params: param$, queryParamMap: queryParamMap$ },
+        },
         { provide: Router, useValue: routerMock },
         { provide: AuthService, useValue: authServiceMock },
       ],
-      imports: [SharedModule]
+      imports: [SharedModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AuthComponent);
@@ -42,7 +51,7 @@ describe(AuthComponent.name, () => {
     // Arrange
     const expectedUser: Login = {
       avatarUrl: 'baz-user',
-      name: 'baz-user'
+      name: 'baz-user',
     };
     authServiceMock.authenticate.and.returnValue(Promise.resolve(expectedUser));
     param$.next({ provider: 'foo-hub' });
@@ -53,8 +62,14 @@ describe(AuthComponent.name, () => {
     await fixture.whenStable();
 
     // Assert
-    expect(routerMock.navigate).toHaveBeenCalledWith(['repos', expectedUser.name]);
-    expect(authServiceMock.authenticate).toHaveBeenCalledWith('foo-hub', 'bar-code');
+    expect(routerMock.navigate).toHaveBeenCalledWith([
+      'repos',
+      expectedUser.name,
+    ]);
+    expect(authServiceMock.authenticate).toHaveBeenCalledWith(
+      'foo-hub',
+      'bar-code'
+    );
   });
 
   it('should set an error message when authentication was not successful', async () => {
@@ -73,6 +88,8 @@ describe(AuthComponent.name, () => {
     // Assert
     const alert = element.querySelector('.alert');
     expect(alert).toBeTruthy();
-    expect(alert.textContent).toBe('An error occurred during logon. Please try again.');
+    expect(alert!.textContent).toBe(
+      'An error occurred during logon. Please try again.'
+    );
   });
 });

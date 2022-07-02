@@ -1,4 +1,6 @@
-const path = require('path');
-const settings = require('../../stryker.parent.conf');
-settings.dashboard.module = __dirname.split(path.sep).pop();
-module.exports = settings;
+import settings from '../../stryker.parent.conf';
+settings.dashboard.module = import.meta.url.split('/').slice(-2)[0];
+/**
+ * @type {import('@stryker-mutator/api/core').PartialStrykerOptions}
+ */
+export default settings;

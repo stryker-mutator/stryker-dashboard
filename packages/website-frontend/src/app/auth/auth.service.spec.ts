@@ -7,7 +7,6 @@ import { first, take, toArray } from 'rxjs/operators';
 
 const AUTH_TOKEN_KEY = 'authToken';
 describe(AuthService.name, () => {
-
   let httpMock: JasmineMock<HttpClient>;
   let sessionMock: JasmineMock<SessionStorage>;
   let sut: AuthService;
@@ -17,14 +16,17 @@ describe(AuthService.name, () => {
     const store: { [key: string]: string | null } = {};
     sessionMock = {
       getItem: jasmine.createSpy().and.callFake((item: string) => store[item]),
-      setItem: jasmine.createSpy().and.callFake((item: string, value: string) => store[item] = value),
-      removeItem: jasmine.createSpy().and.callFake((item: string) => store[item] = null),
+      setItem: jasmine
+        .createSpy()
+        .and.callFake((item: string, value: string) => (store[item] = value)),
+      removeItem: jasmine
+        .createSpy()
+        .and.callFake((item: string) => (store[item] = null)),
     };
     sut = new AuthService(httpMock, sessionMock);
   });
 
   describe('currentUser$', () => {
-
     it('should return null if there is no bearer token in session storage', async () => {
       // Act
       const actualUser = await sut.currentUser$.pipe(first()).toPromise();
@@ -37,9 +39,11 @@ describe(AuthService.name, () => {
     it('should be shared across multiple consumers', async () => {
       // Arrange
       sessionMock.setItem(AUTH_TOKEN_KEY, 'jwt');
-      httpMock.get.and.returnValue(of({
-        name: 'stryker-mutator'
-      }));
+      httpMock.get.and.returnValue(
+        of({
+          name: 'stryker-mutator',
+        })
+      );
 
       // Act
       const actualUser = await sut.currentUser$.pipe(first()).toPromise();
@@ -53,7 +57,9 @@ describe(AuthService.name, () => {
     it('should provide `null` when the server responds with a 401', async () => {
       // Arrange
       sessionMock.setItem(AUTH_TOKEN_KEY, 'jwt');
-      httpMock.get.and.callFake(() => { throw new HttpErrorResponse({ status: 401 }); });
+      httpMock.get.and.callFake(() => {
+        throw new HttpErrorResponse({ status: 401 });
+      });
 
       // Act
       const actualUser = await sut.currentUser$.pipe(first()).toPromise();
@@ -65,7 +71,9 @@ describe(AuthService.name, () => {
     it('should clear session stored token when the server responds with a 401', async () => {
       // Arrange
       sessionMock.setItem(AUTH_TOKEN_KEY, 'jwt');
-      httpMock.get.and.callFake(() => { throw new HttpErrorResponse({ status: 401 }); });
+      httpMock.get.and.callFake(() => {
+        throw new HttpErrorResponse({ status: 401 });
+      });
 
       // Act
       await sut.currentUser$.pipe(first()).toPromise();
@@ -78,7 +86,7 @@ describe(AuthService.name, () => {
   describe(AuthService.prototype.authenticate.name, () => {
     const expectedLogin = Object.freeze({
       name: 'stryker-mutator',
-      avatarUrl: 'https://avatars0.githubusercontent.com/u/18347996'
+      avatarUrl: 'https://avatars0.githubusercontent.com/u/18347996',
     });
     const expectedJwt = 'expectedJwtValue';
 
@@ -92,7 +100,10 @@ describe(AuthService.name, () => {
       await sut.authenticate('fooProvider', 'barCode');
 
       // Assert
-      expect(httpMock.post).toHaveBeenCalledWith('/api/auth/fooProvider?code=barCode', undefined);
+      expect(httpMock.post).toHaveBeenCalledWith(
+        '/api/auth/fooProvider?code=barCode',
+        undefined
+      );
     });
 
     it('should set the jwt in session storage', async () => {
@@ -100,7 +111,10 @@ describe(AuthService.name, () => {
       await sut.authenticate('fooProvider', 'barCode');
 
       // Assert
-      expect(sessionMock.setItem).toHaveBeenCalledWith(AUTH_TOKEN_KEY, expectedJwt);
+      expect(sessionMock.setItem).toHaveBeenCalledWith(
+        AUTH_TOKEN_KEY,
+        expectedJwt
+      );
     });
 
     it('should retrieve the login', async () => {
@@ -116,7 +130,9 @@ describe(AuthService.name, () => {
   describe(AuthService.prototype.logOut.name, () => {
     it('should clear session and provide a `null` as currentUser', async () => {
       // Arrange
-      const actualUsersAsPromised = sut.currentUser$.pipe(take(2), toArray()).toPromise();
+      const actualUsersAsPromised = sut.currentUser$
+        .pipe(take(2), toArray())
+        .toPromise();
 
       // Act
       sut.logOut();
@@ -128,4 +144,3 @@ describe(AuthService.name, () => {
     });
   });
 });
-

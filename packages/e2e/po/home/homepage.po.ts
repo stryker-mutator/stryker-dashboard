@@ -1,16 +1,13 @@
-import { $, browser } from 'protractor';
+import { DashboardPage } from '../shared/dashboard-page.po.js';
 
-export class Homepage {
-
-  get slogan() {
-    return $('h1').getText();
-  }
+export class Homepage extends DashboardPage {
+  public readonly h1 = this.page.locator('h1');
 
   public async navigate() {
-    return browser.get('/');
+    return this.page.goto('/');
   }
 
-  get title() {
-    return browser.getTitle();
+  public async title() {
+    return this.page.title();
   }
 }

@@ -5,16 +5,14 @@ import { AuthService } from './auth/auth.service';
 @Component({
   selector: 'stryker-dashboard',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
+  public user: Login | null = null;
 
-  user: Login | null = null;
+  constructor(private readonly authService: AuthService) {}
 
-  constructor(private authService: AuthService) {
-  }
-
-  ngOnInit(): void {
-    this.authService.currentUser$.subscribe(user => this.user = user);
+  public ngOnInit(): void {
+    this.authService.currentUser$.subscribe((user) => (this.user = user));
   }
 }

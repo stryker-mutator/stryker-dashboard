@@ -1,20 +1,19 @@
-import { Homepage } from '../po/home/homepage.po';
-import { expect } from 'chai';
+import { expect, test } from '@playwright/test';
+import { Homepage } from '../po/home/homepage.po.js';
 
-describe('Homepage', () => {
+test.describe('Homepage', () => {
+  let sut: Homepage;
 
-  let page: Homepage;
-
-  beforeEach(async () => {
-    page = new Homepage();
-    await page.navigate();
+  test.beforeEach(async ({ page: p }) => {
+    sut = new Homepage(p);
+    await sut.navigate();
   });
 
-  it('should have title "Stryker Dashboard"', async () => {
-    expect(await page.title).eq('Stryker Dashboard');
+  test('should have title "Stryker Dashboard"', async () => {
+    await expect(sut.page).toHaveTitle('Stryker Dashboard');
   });
 
-  it('should show slogan', async () => {
-    expect(await page.slogan).eq('Measure test effectiveness');
+  test('should show slogan', async () => {
+    await expect(sut.h1).toHaveText('Measure test effectiveness');
   });
 });

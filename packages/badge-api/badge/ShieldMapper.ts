@@ -1,15 +1,18 @@
 import { MutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
-import { Shield, Color } from './Shield';
+import { Shield, Color } from './Shield.js';
 
 export class ShieldMapper {
-  constructor(private readonly reportMapper: MutationTestingReportMapper) {
-  }
+  constructor(private readonly reportMapper: MutationTestingReportMapper) {}
 
-  public async shieldFor(projectName: string, version: string, moduleName?: string): Promise<Shield> {
+  public async shieldFor(
+    projectName: string,
+    version: string,
+    moduleName?: string
+  ): Promise<Shield> {
     const report = await this.reportMapper.findOne({
       projectName,
       version,
-      moduleName
+      moduleName,
     });
     if (report) {
       const score = Math.round(report.model.mutationScore * 10) / 10;
@@ -18,14 +21,14 @@ export class ShieldMapper {
         color: scoreColor,
         label: 'Mutation score',
         message: `${score}%`,
-        schemaVersion: 1
+        schemaVersion: 1,
       };
     } else {
       return {
         color: Color.Grey,
         label: 'Mutation score',
         message: 'unknown',
-        schemaVersion: 1
+        schemaVersion: 1,
       };
     }
   }
@@ -34,9 +37,11 @@ export class ShieldMapper {
 function determineColor(score: number): Color {
   if (score < 60) {
     return Color.Red;
-  } else if (score < 80 && score >= 60) {
+  } else if (score < 80) {
     return Color.Orange;
-  } else {
+  } else if (score < 100) {
     return Color.Green;
+  } else {
+    return Color.BrightGreen;
   }
 }

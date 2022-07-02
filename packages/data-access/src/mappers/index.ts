@@ -1,3 +1,3 @@
-export * from './factories';
-export * from './Mapper';
-export * from './DashboardQuery';
+export * from './factories.js';
+export * from './Mapper.js';
+export * from './DashboardQuery.js';

@@ -8,15 +8,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
-  public constructor(private http: HttpClient) { }
+  public constructor(private readonly http: HttpClient) {}
 
   public organizations(): Observable<Login[]> {
-    return this.http
-      .get<Login[]>('api/user/organizations');
+    return this.http.get<Login[]>('api/user/organizations');
   }
 
   public getRepositories(): Observable<Repository[]> {

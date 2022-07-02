@@ -1,11 +1,13 @@
+import fs from 'fs';
 import { Get, Controller } from '@tsed/common';
 import { version } from '@stryker-mutator/dashboard-frontend';
 
-const dashboardVersion = require('../../../package.json').version;
+const dashboardVersion = JSON.parse(
+  fs.readFileSync(new URL('../../../package.json', import.meta.url), 'utf-8')
+).version;
 
 @Controller('/version')
 export default class VersionController {
-
   /**
    * Gets the current version of the dashboard
    */
@@ -13,8 +15,7 @@ export default class VersionController {
   public get() {
     return {
       dashboard: dashboardVersion,
-      frontend: version
+      frontend: version,
     };
   }
-
 }

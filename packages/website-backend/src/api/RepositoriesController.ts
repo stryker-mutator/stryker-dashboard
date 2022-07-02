@@ -1,17 +1,27 @@
-import { Controller, Req, PathParams, Patch, BodyParams, Res, UseBefore } from '@tsed/common';
-import { Repository, EnableRepositoryResponse } from '@stryker-mutator/dashboard-contract';
+import {
+  Controller,
+  Req,
+  PathParams,
+  Patch,
+  BodyParams,
+  Res,
+  UseBefore,
+} from '@tsed/common';
+import {
+  Repository,
+  EnableRepositoryResponse,
+} from '@stryker-mutator/dashboard-contract';
 import express from 'express';
-import * as github from '../github/models';
+import * as github from '../github/models.js';
 import { BadRequest } from 'ts-httpexceptions';
-import GithubRepositoryService from '../services/GithubRepositoryService';
-import { generateApiKey, generateHashValue } from '../utils';
-import { GithubSecurityMiddleware } from '../middleware/securityMiddleware';
+import GithubRepositoryService from '../services/GithubRepositoryService.js';
+import util from '../utils.js';
+import { GithubSecurityMiddleware } from '../middleware/securityMiddleware.js';
 
 @Controller('/repositories')
 @UseBefore(GithubSecurityMiddleware)
 export default class RepositoriesController {
-
-  constructor(private readonly repoService: GithubRepositoryService) { }
+  constructor(private readonly repoService: GithubRepositoryService) {}
 
   @Patch('/github.com/:owner/:name')
   public async update(
@@ -19,18 +29,24 @@ export default class RepositoriesController {
     @PathParams('name') name: string,
     @BodyParams() repository: Partial<Repository>,
     @Req() request: express.Request,
-    @Res() response: express.Response): Promise<EnableRepositoryResponse | null> {
-
+    @Res() response: express.Response
+  ): Promise<EnableRepositoryResponse | null> {
     if (repository.enabled === undefined) {
       throw new BadRequest('PATCH is only allowed for the `enabled` property');
     } else {
-      const authentication: github.Authentication = request.user;
+      const authentication: github.Authentication = request.user!;
       if (repository.enabled) {
-        const apiKey = generateApiKey();
-        const apiKeyHash = generateHashValue(apiKey);
-        await this.repoService.update(authentication, owner, name, true, apiKeyHash);
+        const apiKey = util.generateApiKey();
+        const apiKeyHash = util.generateHashValue(apiKey);
+        await this.repoService.update(
+          authentication,
+          owner,
+          name,
+          true,
+          apiKeyHash
+        );
         const res: EnableRepositoryResponse = {
-          apiKey
+          apiKey,
         };
         return res;
       } else {

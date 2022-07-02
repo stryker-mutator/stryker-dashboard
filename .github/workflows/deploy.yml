@@ -9,21 +9,18 @@ jobs:
     name: 'Build and Release'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set NPM Env
       run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-    - name: Use Node.js 10
-      uses: actions/setup-node@v1
-      with:
-        node-version: 10
     - name: Install dependencies
       run: npm ci
     - name: Build
       run: npm run build
     - name: Lerna publish
-      run: npx lerna publish from-git --yes
+      run: npx lerna publish from-git --yes --no-verify-access
     - name: Docker build & Tag
-      run: |
+      run: | # Add a sleep to give npmjs.com the time to get the versions consistent 
+        sleep 30s
         cd docker
         NPM_PACKAGE_VERSION=${GITHUB_REF:11}
         docker build -t strykermutator/dashboard:${NPM_PACKAGE_VERSION} -t strykermutator/dashboard:latest --build-arg version=${NPM_PACKAGE_VERSION} .
@@ -42,7 +39,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_DASHBOARD_PRODUCTION }}
     - name: 'Deploy dashboard.stryker-mutator.io'
-      uses: azure/webapps-container-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: 'stryker-badge'
         images: 'strykermutator/dashboard:latest'
@@ -60,14 +57,10 @@ jobs:
       uses: Azure/actions/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_PRODUCTION }}
-    - name: Setup Node 10.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
     - name: 'Download & prepare badge-api package'
       run: ./tasks/download-badge-api-package.sh ${GITHUB_REF:11}
     - name: 'Deploy badge-api.stryker-mutator.io'
-      uses: Azure/functions-action@v1
+      uses: Azure/functions-action@v1.1.6
       id: fa
       with:
         app-name: stryker-mutator-badge-api

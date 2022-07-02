@@ -15,7 +15,7 @@ The root domain (stryker-mutator.io) is automatically renewed. Others are hosted
 *Note: these instructions only work on linux or mac. For windows users, you can use the [Windows subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 
 Install the `certbot`(https://certbot.eff.org/).
-Install the `certbot-cloudflare-plugin` (https://certbot-dns-cloudflare.readthedocs.io/en/stable/)
+Install the `certbot-cloudflare-plugin` (https://certbot-dns-cloudflare.readthedocs.io/en/stable/ and https://www.eigenmagic.com/2018/03/14/howto-use-certbot-with-lets-encrypt-wildcard-certificates/)
 Install the azure-cli tooling: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest
 
 Create your `~/.secrets/certbot/cloudflare.ini` file:
@@ -26,18 +26,20 @@ dns_cloudflare_email = cloudflare@example.com
 dns_cloudflare_api_key = 0123456789abcdef0123456789abcdef01234567
 ```
 
-Run: 
+## Renew
+
+Login to azure: 
 
 ```
-az login
+az login --tenant fcd9bd9d-b04d-4d4f-993d-b6a6ec4a3b57
 az account set -s pdc_stryker_prod01
 ```
-
-## Renew
 
 Use this script to renew:
 
 ```
+sudo su
+# Enter root pw
 set -e
 PASSWORD=`openssl rand -base64 16`
 echo "Using password ${PASSWORD}"

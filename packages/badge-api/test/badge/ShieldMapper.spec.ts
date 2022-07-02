@@ -1,11 +1,13 @@
-import { ShieldMapper } from '../../badge/ShieldMapper';
+import { ShieldMapper } from '../../badge/ShieldMapper.js';
 import * as sinon from 'sinon';
-import { MutationTestingReport, MutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
+import {
+  MutationTestingReport,
+  MutationTestingReportMapper,
+} from '@stryker-mutator/dashboard-data-access';
 import { expect } from 'chai';
-import { Shield, Color } from '../../badge/Shield';
+import { Shield, Color } from '../../badge/Shield.js';
 
 describe(ShieldMapper.name, () => {
-
   let sut: ShieldMapper;
   let mutationTestingReportStub: sinon.SinonStubbedInstance<MutationTestingReportMapper>;
 
@@ -16,7 +18,7 @@ describe(ShieldMapper.name, () => {
       findOne: sinon.stub(),
       insertOrMerge: sinon.stub(),
       replace: sinon.stub(),
-      insert: sinon.stub()
+      insert: sinon.stub(),
     };
     sut = new ShieldMapper(mutationTestingReportStub as any);
   });
@@ -26,7 +28,7 @@ describe(ShieldMapper.name, () => {
     const expected: Omit<MutationTestingReport, 'result' | 'mutationScore'> = {
       projectName: 'fooRepoSlug',
       version: 'barVersion',
-      moduleName: 'bazModule'
+      moduleName: 'bazModule',
     };
     expect(mutationTestingReportStub.findOne).calledWith(expected);
   });
@@ -38,7 +40,7 @@ describe(ShieldMapper.name, () => {
       schemaVersion: 1,
       color: Color.Grey,
       label: 'Mutation score',
-      message: 'unknown'
+      message: 'unknown',
     };
     expect(actualShield).deep.eq(expectedShield);
   });
@@ -48,6 +50,12 @@ describe(ShieldMapper.name, () => {
     const actualShield = await sut.shieldFor('foo', 'bar', 'baz');
     expect(actualShield.message).eq('85.2%');
     expect(actualShield.label).eq('Mutation score');
+  });
+
+  it('should show 100% as bright green', async () => {
+    arrangeMutationScore({ mutationScore: 100 });
+    const actualShield = await sut.shieldFor('foo', 'bar', 'baz');
+    expect(actualShield.color).eq(Color.BrightGreen);
   });
 
   it('should show 80% as green', async () => {
@@ -79,8 +87,11 @@ describe(ShieldMapper.name, () => {
       projectName: 'foo/bar/baz',
       version: 'qux',
       mutationScore: 0,
-      moduleName: undefined
+      moduleName: undefined,
     };
-    mutationTestingReportStub.findOne.resolves({ model: { ...defaults, ...overrides }, etag: 'test' });
+    mutationTestingReportStub.findOne.resolves({
+      model: { ...defaults, ...overrides },
+      etag: 'test',
+    });
   }
 });

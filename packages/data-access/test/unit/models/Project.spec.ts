@@ -1,17 +1,21 @@
-import { Project } from '../../../src';
+import { Project } from '../../../src/index.js';
 import { expect } from 'chai';
 
 describe(Project.name, () => {
   it('should retrieve the `name` when `createRowKey` is called', () => {
-    expect(Project.createRowKey({
-      name: 'fooName'
-    })).eq('fooName');
+    expect(
+      Project.createRowKey({
+        name: 'fooName',
+      })
+    ).eq('fooName');
   });
 
   it('should retrieve the `owner` when `createPartitionKey` is called', () => {
-    expect(Project.createPartitionKey({
-      owner: 'ownerBar'
-    })).eq('ownerBar');
+    expect(
+      Project.createPartitionKey({
+        owner: 'ownerBar',
+      })
+    ).eq('ownerBar');
   });
 
   it('should set the name and owner when `identify` is called', () => {

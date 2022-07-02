@@ -1,16 +1,23 @@
-import { ElementFinder } from 'protractor';
-import { RepositorySwitchPageObject } from './repository-switch.po';
+import { PageObject } from '../shared/page-object.js';
+import { RepositorySwitchPageObject } from './repository-switch.po.js';
 
-export class RepositoriesListPageObject {
-  constructor(private readonly host: ElementFinder) { }
+export class RepositoriesListPageObject extends PageObject {
+  private repositoriesLocator = this.host.locator('stryker-repository');
+  public repositoryNamesLocator =
+    this.repositoriesLocator.locator('.repo-slug');
 
-  public async allRepositoryNames(): Promise<string[]> {
-    const repos = await this.all();
-    return Promise.all(repos.map(repo => repo.name()));
+  public repository(name: string): RepositorySwitchPageObject {
+    const host = this.repositoriesLocator.locator(
+      `:has(.repo-slug:has-text("${name}"))`
+    );
+    return new RepositorySwitchPageObject(host);
   }
 
-  public async all(): Promise<RepositorySwitchPageObject[]> {
-    const elements = await this.host.$$('stryker-repository') as ElementFinder[];
-    return elements.map(el => new RepositorySwitchPageObject(el));
+  public all(expectedCount: number): Promise<RepositorySwitchPageObject[]> {
+    return PageObject.selectAll(
+      this.repositoriesLocator,
+      RepositorySwitchPageObject,
+      expectedCount
+    );
   }
 }

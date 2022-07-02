@@ -3,10 +3,13 @@
   "packages": [
     "packages/*"
   ],
-  "version": "0.6.1",
+  "version": "0.10.0",
   "command": {
     "version": {
-      "forcePublish": true
+      "forcePublish": true,
+      "exact": true,
+      "createRelease": "github",
+      "conventionalCommits": true
     }
   }
 }

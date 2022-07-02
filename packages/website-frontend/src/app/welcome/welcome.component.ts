@@ -6,14 +6,16 @@ import { AuthService } from '../auth/auth.service';
 @Component({
   selector: 'stryker-welcome',
   templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.css']
+  styleUrls: ['./welcome.component.css'],
 })
 export class WelcomeComponent implements OnInit {
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {}
 
-  constructor(private authService: AuthService, private router: Router) { }
-
-  ngOnInit() {
-    this.authService.currentUser$.subscribe(user => {
+  public ngOnInit() {
+    this.authService.currentUser$.subscribe((user) => {
       if (user) {
         this.router.navigate(['repos', user.name]);
       }

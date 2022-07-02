@@ -1,84 +1,112 @@
 import { expect } from 'chai';
-import GithubAgent from '../../../src/github/GithubAgent';
-import HttpClient, { Response } from '../../../src/client/HttpClient';
-import * as github from '../../../src/github/models';
-import { githubFactory } from '../../helpers/producers';
-import sinon = require('sinon');
+import { Headers } from 'node-fetch';
+import GithubAgent from '../../../src/github/GithubAgent.js';
+import HttpClient, { Response } from '../../../src/client/HttpClient.js';
+import * as github from '../../../src/github/models.js';
+import { githubFactory } from '../../helpers/producers.js';
+import sinon from 'sinon';
 
 describe('GithubClient', () => {
   let httpClientMock: sinon.SinonStubbedInstance<HttpClient>;
   let sut: GithubAgent;
+  let user: github.Authentication;
+  let expectedHeaders: Record<string, string>;
 
   beforeEach(() => {
     httpClientMock = sinon.createStubInstance(HttpClient);
     sut = new GithubAgent(httpClientMock as any);
+    user = githubFactory.authentication({ accessToken: '1234' });
+    expectedHeaders = { Authorization: 'Bearer 1234' };
   });
 
   describe('getOrganizationRepositories', () => {
-
     it('should GET `/orgs/foobar/repos` and return a plain response', async () => {
       // Arrange
-      const expectedResponse: Response<string[]> = { body: ['repo1', 'repo2'], headers: {} };
-      httpClientMock.get.resolves(expectedResponse);
+      const expectedResponse: Response<string[]> = {
+        body: ['repo1', 'repo2'],
+        headers: new Headers({}),
+      };
+      httpClientMock.fetchJson.resolves(expectedResponse);
 
       // Act
-      const actualRepos = await sut.getOrganizationRepositories('foobar');
+      const actualRepos = await sut.getOrganizationRepositories(user, 'foobar');
 
       // Assert
       expect(actualRepos).eq(expectedResponse.body);
-      expect(httpClientMock.get).calledWith('https://api.github.com/orgs/foobar/repos?type=member');
+      expect(httpClientMock.fetchJson).calledWith(
+        'https://api.github.com/orgs/foobar/repos?type=member',
+        { headers: expectedHeaders }
+      );
     });
 
     it('should call multiple times if there is a next link', async () => {
       // Arrange
       const response1: Response<string[]> = {
         body: ['repo1', 'repo2'],
-        headers: {
-          link: `<https://api.github.com/resource?page=2>; rel="next", <https://api.github.com/resource?page=4>; rel="last"`
-        }
+        headers: new Headers({
+          link: `<https://api.github.com/resource?page=2>; rel="next", <https://api.github.com/resource?page=4>; rel="last"`,
+        }),
       };
       const response2: Response<string[]> = {
-        body: ['repo3', 'repo4'], headers: {
-          link: ` <https://api.github.com/resource?page=3>; rel="next", <https://api.github.com/resource?page=3>; rel="last"`
-        }
+        body: ['repo3', 'repo4'],
+        headers: new Headers({
+          link: ` <https://api.github.com/resource?page=3>; rel="next", <https://api.github.com/resource?page=3>; rel="last"`,
+        }),
       };
       const response3: Response<string[]> = {
-        body: ['repo5'], headers: {
-          link: `<https://api.github.com/resource?page=3>; rel="last"`
-        }
+        body: ['repo5'],
+        headers: new Headers({
+          link: `<https://api.github.com/resource?page=3>; rel="last"`,
+        }),
       };
-      httpClientMock.get.withArgs('https://api.github.com/orgs/foobar/repos?type=member').resolves(response1);
-      httpClientMock.get.withArgs('https://api.github.com/resource?page=2').resolves(response2);
-      httpClientMock.get.withArgs('https://api.github.com/resource?page=3').resolves(response3);
+      httpClientMock.fetchJson
+        .withArgs('https://api.github.com/orgs/foobar/repos?type=member')
+        .resolves(response1);
+      httpClientMock.fetchJson
+        .withArgs('https://api.github.com/resource?page=2')
+        .resolves(response2);
+      httpClientMock.fetchJson
+        .withArgs('https://api.github.com/resource?page=3')
+        .resolves(response3);
 
       // Act
-      const actualRepos = await sut.getOrganizationRepositories('foobar');
+      const actualRepos = await sut.getOrganizationRepositories(user, 'foobar');
 
       // Assert
-      expect(actualRepos).deep.eq(['repo1', 'repo2', 'repo3', 'repo4', 'repo5']);
-      expect(httpClientMock.get).callCount(3);
+      expect(actualRepos).deep.eq([
+        'repo1',
+        'repo2',
+        'repo3',
+        'repo4',
+        'repo5',
+      ]);
+      expect(httpClientMock.fetchJson).callCount(3);
     });
 
     it('should throw an error if http client rejected', () => {
       // Arrange
       const message = 'Oh noes, an error!';
-      httpClientMock.get.rejects(new Error(message));
+      httpClientMock.fetchJson.rejects(new Error(message));
 
-      return expect(sut.getOrganizationRepositories('something')).rejectedWith(message);
+      return expect(
+        sut.getOrganizationRepositories(user, 'something')
+      ).rejectedWith(message);
     });
   });
 
   describe('getCurrentUser', () => {
-
     it('should HTTP GET `/user` and forward the response', async () => {
       const response: Response<github.Login> = {
         body: githubFactory.login({ login: 'foobar' }),
-        headers: {}
+        headers: new Headers({}),
       };
-      httpClientMock.get.resolves(response);
-      const actual = await sut.getCurrentUser();
+      httpClientMock.fetchJson.resolves(response);
+      const actual = await sut.getCurrentUser(user);
       expect(actual).eq(response.body);
-      expect(httpClientMock.get).calledWith('https://api.github.com/user');
+      expect(httpClientMock.fetchJson).calledWith(
+        'https://api.github.com/user',
+        { headers: expectedHeaders }
+      );
     });
   });
 
@@ -86,12 +114,15 @@ describe('GithubClient', () => {
     it('should HTTP GET `/user/orgs` and forward the response', async () => {
       const response: Response<github.Login[]> = {
         body: [githubFactory.login({ login: 'foobar.org' })],
-        headers: {}
+        headers: new Headers({}),
       };
-      httpClientMock.get.resolves(response);
-      const actual = await sut.getMyOrganizations();
+      httpClientMock.fetchJson.resolves(response);
+      const actual = await sut.getMyOrganizations(user);
       expect(actual).eq(response.body);
-      expect(httpClientMock.get).calledWith('https://api.github.com/user/orgs');
+      expect(httpClientMock.fetchJson).calledWith(
+        'https://api.github.com/user/orgs',
+        { headers: expectedHeaders }
+      );
     });
   });
 
@@ -99,12 +130,15 @@ describe('GithubClient', () => {
     it('should HTTP GET `/orgs/:org/repos?type=member` and forward the response', async () => {
       const response: Response<github.Repository[]> = {
         body: [githubFactory.repository()],
-        headers: {}
+        headers: new Headers({}),
       };
-      httpClientMock.get.resolves(response);
-      const actual = await sut.getOrganizationRepositories('foobar.org');
+      httpClientMock.fetchJson.resolves(response);
+      const actual = await sut.getOrganizationRepositories(user, 'foobar.org');
       expect(actual).eq(response.body);
-      expect(httpClientMock.get).calledWith('https://api.github.com/orgs/foobar.org/repos?type=member');
+      expect(httpClientMock.fetchJson).calledWith(
+        'https://api.github.com/orgs/foobar.org/repos?type=member',
+        { headers: expectedHeaders }
+      );
     });
   });
 
@@ -112,13 +146,15 @@ describe('GithubClient', () => {
     it('should HTTP GET `/user/repos?type=owner` and forward the response', async () => {
       const response: Response<github.Repository[]> = {
         body: [githubFactory.repository()],
-        headers: {}
+        headers: new Headers({}),
       };
-      httpClientMock.get.resolves(response);
-      const actual = await sut.getMyRepositories();
+      httpClientMock.fetchJson.resolves(response);
+      const actual = await sut.getMyRepositories(user);
       expect(actual).eq(response.body);
-      expect(httpClientMock.get).calledWith('https://api.github.com/user/repos?type=owner');
+      expect(httpClientMock.fetchJson).calledWith(
+        'https://api.github.com/user/repos?type=owner',
+        { headers: expectedHeaders }
+      );
     });
   });
-
 });

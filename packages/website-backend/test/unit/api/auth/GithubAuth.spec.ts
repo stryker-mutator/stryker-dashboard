@@ -1,68 +1,43 @@
 import { expect } from 'chai';
-import passport, { AuthenticateOptions } from 'passport';
+import passport from 'passport';
 import supertest from 'supertest';
-import GithubAuth from '../../../../src/api/auth/GithubAuth';
-import * as security from '../../../../src/middleware/securityMiddleware';
-import testServer from '../../../helpers/TestServer';
 import * as sinon from 'sinon';
-import { Authentication } from '../../../../src/github/models';
+import { PlatformTest } from '@tsed/common';
+import Server from '../../../../src/Server.js';
+import { createToken } from '../../../helpers/TestServer.js';
+import { githubFactory } from '../../../helpers/producers.js';
+import * as github from '../../../../src/github/models.js';
 
 describe('GitHubAuth', () => {
-
-  let createTokenStub: sinon.SinonStub<[Authentication, string], Promise<string>>;
   let request: supertest.SuperTest<supertest.Test>;
   let logoutStub: sinon.SinonStub;
-  let authenticateStub: sinon.SinonStub<[string | string[], AuthenticateOptions, (((...args: any[]) => any) | undefined)?], any>;
+  let authenticateStub: sinon.SinonStubbedMember<typeof passport.authenticate>;
   let authenticateMiddleware: sinon.SinonStub;
+  let user: github.Authentication;
 
   beforeEach(async () => {
-    createTokenStub = sinon.stub(security, 'createToken');
     authenticateStub = sinon.stub(passport, 'authenticate');
     authenticateMiddleware = sinon.stub();
     logoutStub = sinon.stub();
     authenticateStub.returns(authenticateMiddleware);
+    user = githubFactory.authentication({ username: 'dummy' });
     const passThroughMiddleware = (req: any, _res: any, next: any) => {
-      req.user = { username: 'dummy' };
+      req.user = user;
       req.logout = logoutStub;
       next();
     };
     authenticateMiddleware.callsFake(passThroughMiddleware);
-    request = await testServer(GithubAuth, passThroughMiddleware);
-  });
-
-  describe('GET /logout', () => {
-    it('should respond with 204', () => {
-      // Arrange
-      const token = 'foo-bar-baz';
-      createTokenStub.resolves(token);
-
-      // Act
-      const response = request.get('/auth/github/logout')
-        .set('Cookie', 'jwt=jfdskl');
-
-      // Assert
-      return response
-        .expect(204);
-    });
-
-    it('should end the session', async () => {
-      // Act
-      const response = request.get('/auth/github/logout');
-
-      // Assert
-      await response;
-      expect(logoutStub).called;
-    });
+    await PlatformTest.bootstrap(Server)();
+    request = supertest(PlatformTest.callback());
   });
 
   describe('POST /auth/github', () => {
-    it('should respond with the \'jwt\' token', async () => {
+    it("should respond with the 'jwt' token", async () => {
       // Arrange
-      const token = 'foo-bar-baz';
-      createTokenStub.resolves(token);
+      const token = await createToken(user);
 
       // Act
-      const onGoingRequest = request.post('/auth/github?code=foo');
+      const onGoingRequest = request.post('/api/auth/github?code=foo');
 
       // Assert
       const response = await onGoingRequest.expect(200);

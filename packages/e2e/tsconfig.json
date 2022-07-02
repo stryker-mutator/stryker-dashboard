@@ -2,11 +2,12 @@
   "extends": "../../tsconfig.settings.json",
   "compilerOptions": {
     "target": "es2017",
+    "noEmit": true,
     "types": [
-      "node",
-      "mocha"
+      "node"
     ],
-    "outDir": "dist"
+    "outDir": "dist",
+    "importsNotUsedAsValues": "error"
   },
   "references": [
     {

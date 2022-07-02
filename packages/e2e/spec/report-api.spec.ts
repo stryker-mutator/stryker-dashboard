@@ -1,30 +1,56 @@
-import { simpleReport, uploadReport } from '../actions/report.action';
-import { expect } from 'chai';
+import { test, expect } from '@playwright/test';
 import { URL } from 'url';
-import { browser } from 'protractor';
-import { PutReportResponse } from '@stryker-mutator/dashboard-contract/src';
+import type { PutReportResponse } from '@stryker-mutator/dashboard-contract';
+import { simpleReport } from '../actions/report.action.js';
+import { ReportClient } from '../po/reports/report-client.po.js';
 
-const baseUrl = browser.baseUrl;
+test.describe('Report api', () => {
+  let client: ReportClient;
 
-describe('Report api', () => {
-  describe('HTTP put', () => {
-    it('should respond with the correct href', async () => {
-      const response = await uploadReport(simpleReport('github.com/stryker-mutator-test-organization/hello-org', 'feat/report'));
+  test.beforeEach(({ request }) => {
+    client = new ReportClient(request);
+  });
+
+  test.describe('HTTP put', () => {
+    test('should respond with the correct href', async ({ baseURL }) => {
+      const response = await client.uploadReport(
+        simpleReport(
+          'github.com/stryker-mutator-test-organization/hello-org',
+          'feat/report'
+        )
+      );
 
       const expectedResponse: PutReportResponse = {
-        href: new URL('/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report', baseUrl).toString()
+        href: new URL(
+          '/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report',
+          baseURL
+        ).toString(),
       };
-      expect(response).deep.eq(expectedResponse);
+      expect(response).toEqual(expectedResponse);
     });
 
-    it('should respond the correct href and project href when uploading for a module', async () => {
-      const response = await uploadReport(simpleReport('github.com/stryker-mutator-test-organization/hello-org', 'feat/report', 'fooModule'));
+    test('should respond the correct href and project href when uploading for a module', async ({
+      baseURL,
+    }) => {
+      const response = await client.uploadReport(
+        simpleReport(
+          'github.com/stryker-mutator-test-organization/hello-org',
+          'feat/report',
+          'fooModule'
+        )
+      );
 
       const expectedResponse: PutReportResponse = {
-        href: new URL('/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report?module=fooModule', baseUrl).toString(),
-        projectHref: new URL('/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report', baseUrl).toString()
+        href: new URL(
+          '/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report?module=fooModule',
+          baseURL
+        ).toString(),
+        projectHref: new URL(
+          '/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report',
+          baseURL
+        ).toString(),
       };
-      expect(response).deep.eq(expectedResponse);
+      expect(response).toEqual(expectedResponse);
     });
   });
 });
