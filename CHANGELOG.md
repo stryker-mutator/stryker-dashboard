@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.10.0...v0.11.0) (2022-07-02)
+
+
+### Bug Fixes
+
+* **wording:** consistent wording on welcome screen ([#166](https://github.com/stryker-mutator/stryker-dashboard/issues/166)) ([dd7e9e7](https://github.com/stryker-mutator/stryker-dashboard/commit/dd7e9e739b5fd71ab509ac11441687d4590fc291))
+
+
+### Features
+
+* **aggregate:** also aggregate test files ([#235](https://github.com/stryker-mutator/stryker-dashboard/issues/235)) ([66104f9](https://github.com/stryker-mutator/stryker-dashboard/commit/66104f9f211a0b25face4330362a66c0b3691265))
+* **badge:** show 100% coverage as bright green ([#202](https://github.com/stryker-mutator/stryker-dashboard/issues/202)) ([318d01a](https://github.com/stryker-mutator/stryker-dashboard/commit/318d01ac0ee430a6f8a8cdb4df1b4042845162b5))
+
+
+
+
+
 # [0.10.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.9.0...v0.10.0) (2022-05-30)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.10.0...v0.11.0) (2022-07-02)
+
+
+### Features
+
+* **badge:** show 100% coverage as bright green ([#202](https://github.com/stryker-mutator/stryker-dashboard/issues/202)) ([318d01a](https://github.com/stryker-mutator/stryker-dashboard/commit/318d01ac0ee430a6f8a8cdb4df1b4042845162b5))
+
+
+
+
+
 # [0.10.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.9.0...v0.10.0) (2022-05-30)
 
 
