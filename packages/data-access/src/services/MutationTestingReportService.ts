@@ -1,11 +1,12 @@
-import { MutationTestResult, Thresholds } from 'mutation-testing-report-schema';
-import { normalizeFileNames } from 'mutation-testing-metrics';
-import { calculateMetrics } from 'mutation-testing-metrics';
+import { MutationTestResult } from 'mutation-testing-report-schema';
+import {
+  aggregateResultsByModule,
+  calculateMetrics,
+} from 'mutation-testing-metrics';
 import { MutationTestingResultMapper } from '../mappers/MutationTestingResultMapper.js';
 import {
   MutationTestingReportMapper,
   createMutationTestingReportMapper,
-  Result,
   DashboardQuery,
 } from '../mappers/index.js';
 import {
@@ -18,11 +19,9 @@ import {
 import { MutationTestingReport } from '../models/index.js';
 import { OptimisticConcurrencyError } from '../errors/index.js';
 
-const SCHEMA_VERSION = '1';
-
 function moduleHasResult(
-  tuple: readonly [Result<MutationTestingReport>, MutationTestResult | null]
-): tuple is [Result<MutationTestingReport>, MutationTestResult] {
+  tuple: readonly [string, MutationTestResult | null]
+): tuple is [string, MutationTestResult] {
   return !!tuple[1];
 }
 
@@ -50,7 +49,7 @@ export class MutationTestingReportService {
         ...id,
         mutationScore,
       },
-      isMutationTestResult(result) ? this.normalizeResult(result) : null
+      isMutationTestResult(result) ? result : null
     );
     if (isMutationTestResult(result) && id.moduleName) {
       await this.aggregateProjectReport(id.projectName, id.version, logger);
@@ -86,16 +85,21 @@ export class MutationTestingReportService {
         .wherePartitionKeyEquals(id)
         .whereRowKeyNotEquals({ moduleName: undefined })
     );
-    const scoreResultWithResult = (
-      await Promise.all(
-        moduleScoreResults.map(
-          async (score) =>
-            [score, await this.resultMapper.findOne(score.model)] as const
+    const resultsByModule = Object.fromEntries(
+      (
+        await Promise.all(
+          moduleScoreResults.map(
+            async (score) =>
+              [
+                score.model.moduleName!,
+                await this.resultMapper.findOne(score.model),
+              ] as const
+          )
         )
-      )
-    ).filter(moduleHasResult);
-    if (scoreResultWithResult.length) {
-      const projectResult = this.mergeResults(scoreResultWithResult);
+      ).filter(moduleHasResult)
+    );
+    if (Object.keys(resultsByModule).length) {
+      const projectResult = aggregateResultsByModule(resultsByModule);
       const projectReport: MutationTestingReport = {
         ...id,
         mutationScore: this.calculateMutationScore(projectResult),
@@ -119,27 +123,6 @@ export class MutationTestingReportService {
       }
     }
     return true;
-  }
-
-  private mergeResults(
-    scoreResultWithResult: [Result<MutationTestingReport>, MutationTestResult][]
-  ) {
-    const projectResult = this.createEmptyResult(
-      scoreResultWithResult[0][1].thresholds
-    );
-    scoreResultWithResult.forEach(
-      ([
-        {
-          model: { moduleName },
-        },
-        { files },
-      ]) => {
-        Object.entries(files).forEach(([fileName, fileResult]) => {
-          projectResult.files[`${moduleName}/${fileName}`] = fileResult;
-        });
-      }
-    );
-    return projectResult;
   }
 
   public async findOne(id: ReportIdentifier): Promise<Report | null> {
@@ -181,19 +164,5 @@ export class MutationTestingReportService {
     } else {
       return result.mutationScore || 0;
     }
-  }
-
-  private normalizeResult(result: MutationTestResult): MutationTestResult {
-    return {
-      ...result,
-      files: normalizeFileNames(result.files),
-    };
-  }
-  private createEmptyResult(thresholds: Thresholds): MutationTestResult {
-    return {
-      files: {},
-      schemaVersion: SCHEMA_VERSION,
-      thresholds,
-    };
   }
 }
