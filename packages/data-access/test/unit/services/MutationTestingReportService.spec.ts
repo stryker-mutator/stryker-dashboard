@@ -19,6 +19,7 @@ import {
   Report,
   Logger,
 } from '@stryker-mutator/dashboard-common';
+import { aggregateResultsByModule } from 'mutation-testing-metrics';
 
 describe(MutationTestingReportService.name, () => {
   let sut: MutationTestingReportService;
@@ -80,16 +81,14 @@ describe(MutationTestingReportService.name, () => {
       );
     });
 
-    it('should normalize file names in the report', async () => {
+    it('should not normalize file names in the report', async () => {
       // Arrange
-      const rawResult = createMutationTestResult({
-        ['a/b/c/d']: createFileResult(),
-        ['a/b/e/f']: createFileResult(),
-      });
-      const expectedResult = createMutationTestResult({
-        ['c/d']: createFileResult(),
-        ['e/f']: createFileResult(),
-      });
+      const rawResult = Object.freeze(
+        createMutationTestResult({
+          ['a/b/c/d']: createFileResult(),
+          ['a/b/e/f']: createFileResult(),
+        })
+      );
       const reportIdentifier = {
         version: 'feat/dashboard',
         moduleName: undefined,
@@ -102,7 +101,7 @@ describe(MutationTestingReportService.name, () => {
       // Assert
       expect(resultMapperMock.insertOrReplace).calledWith(
         reportIdentifier,
-        expectedResult
+        rawResult
       );
     });
 
@@ -142,48 +141,46 @@ describe(MutationTestingReportService.name, () => {
         // Arrange
         const projectName = 'github.com/testOrg/testName';
         const version = 'feat/something';
-        const fileResultModule1 = createFileResult([MutantStatus.Killed]);
-        const fileResultModule2 = createFileResult([MutantStatus.NoCoverage]);
-        const module1Result = createMutationTestResult({
-          'a/b': fileResultModule1,
+        const coreResult = createMutationTestResult({
+          'a/b': createFileResult([MutantStatus.Killed]),
         });
-        const module2Result = createMutationTestResult({
-          'a/b': fileResultModule2,
+        const apiResult = createMutationTestResult({
+          'a/b': createFileResult([MutantStatus.NoCoverage]),
         });
-        const module1Report: MutationTestingReport = {
+        const coreReport: MutationTestingReport = {
           moduleName: 'core',
           mutationScore: 80,
           projectName,
           version,
         };
-        const module2Report: MutationTestingReport = {
+        const apiReport: MutationTestingReport = {
           moduleName: 'api',
           mutationScore: 80,
           projectName,
           version,
         };
         reportMapperMock.findAll.resolves([
-          { model: module1Report, etag: '' },
-          { model: module2Report, etag: '' },
+          { model: coreReport, etag: '' },
+          { model: apiReport, etag: '' },
         ]);
         reportMapperMock.findOne.resolves({
           etag: 'old-project-etag',
-          model: module1Report /* not used */,
+          model: coreReport /* not used */,
         });
         const module1Identifier = { version, moduleName: 'core', projectName };
         resultMapperMock.findOne
-          .withArgs(module1Report)
-          .resolves(module1Result)
-          .withArgs(module2Report)
-          .resolves(module2Result);
+          .withArgs(coreReport)
+          .resolves(coreResult)
+          .withArgs(apiReport)
+          .resolves(apiResult);
 
         // Act
-        await sut.saveReport(module1Identifier, module1Result, logger);
+        await sut.saveReport(module1Identifier, coreResult, logger);
 
         // Act
-        const expectedProjectResult = createMutationTestResult({
-          'core/a/b': fileResultModule1,
-          'api/a/b': fileResultModule2,
+        const expectedProjectResult = aggregateResultsByModule({
+          core: coreResult,
+          api: apiResult,
         });
         const expectedProjectId: ReportIdentifier = {
           projectName,
@@ -208,9 +205,8 @@ describe(MutationTestingReportService.name, () => {
         // Arrange
         const projectName = 'github.com/testOrg/testName';
         const version = 'feat/something';
-        const fileResultModule = createFileResult([MutantStatus.Killed]);
         const moduleResult = createMutationTestResult({
-          'a/b': fileResultModule,
+          'a/b': createFileResult([MutantStatus.Killed]),
         });
         const moduleReport: MutationTestingReport = {
           moduleName: 'core',
@@ -246,8 +242,8 @@ describe(MutationTestingReportService.name, () => {
         await sut.saveReport(moduleIdentifier, moduleResult, logger);
 
         // Act
-        const expectedProjectResult = createMutationTestResult({
-          'core/a/b': fileResultModule,
+        const expectedProjectResult = aggregateResultsByModule({
+          core: moduleResult,
         });
         const expectedProjectId: ReportIdentifier = {
           projectName,
@@ -278,9 +274,8 @@ describe(MutationTestingReportService.name, () => {
         // Arrange
         const projectName = 'github.com/testOrg/testName';
         const version = 'feat/something';
-        const fileResultModule = createFileResult([MutantStatus.Killed]);
         const moduleResult = createMutationTestResult({
-          'a/b': fileResultModule,
+          'a/b': createFileResult([MutantStatus.Killed]),
         });
         const moduleReport: MutationTestingReport = {
           moduleName: 'core',
@@ -314,8 +309,8 @@ describe(MutationTestingReportService.name, () => {
         await sut.saveReport(moduleIdentifier, moduleResult, logger);
 
         // Act
-        const expectedProjectResult = createMutationTestResult({
-          'core/a/b': fileResultModule,
+        const expectedProjectResult = aggregateResultsByModule({
+          core: moduleResult,
         });
         const expectedMutationTestingReport: MutationTestingReport = {
           ...expectedProjectId,
