@@ -20,7 +20,7 @@ describe(RepositorySwitchComponent.name, () => {
     repository = createRepository({
       slug: 'github/stryker-mutator/stryker-badge',
       enabled: true,
-      defaultBranch: 'master'
+      defaultBranch: 'master',
     });
     TestBed.configureTestingModule({
       declarations: [RepositorySwitchComponent, MutationScoreBadgeComponent],
@@ -65,7 +65,9 @@ describe(RepositorySwitchComponent.name, () => {
     });
 
     it('should show the mutation-score-badge', () => {
-      const badge = el.querySelector('stryker-mutation-score-badge img') as HTMLImageElement;
+      const badge = el.querySelector(
+        'stryker-mutation-score-badge img'
+      ) as HTMLImageElement;
       console.log(fixture.debugElement.children);
       expect(badge).not.toBeNull();
       expect(badge.src).toEqual(badgeSrc(repository));
@@ -73,7 +75,6 @@ describe(RepositorySwitchComponent.name, () => {
   });
 
   describe('when disabled', () => {
-
     beforeEach(async () => {
       repository.enabled = false;
       fixture.detectChanges();

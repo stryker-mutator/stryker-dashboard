@@ -1,6 +1,9 @@
-
 import { RepositoryPageComponent } from './repository-page.component';
-import { JasmineMock, mock, createRepository } from 'src/app/testHelpers/mock.spec';
+import {
+  JasmineMock,
+  mock,
+  createRepository,
+} from 'src/app/testHelpers/mock.spec';
 import { OrganizationsService } from 'src/app/services/organizations/organizations.service';
 import { UserService } from 'src/app/user/user.service';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -13,7 +16,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
 
 describe(RepositoryPageComponent.name, () => {
-
   let sut: RepositoryPageComponent;
   let element: HTMLElement;
   let fixture: ComponentFixture<RepositoryPageComponent>;
@@ -52,7 +54,7 @@ describe(RepositoryPageComponent.name, () => {
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: Router, useValue: routerMock },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     });
     TestBed.compileComponents();
     fixture = TestBed.createComponent(RepositoryPageComponent);
@@ -76,7 +78,10 @@ describe(RepositoryPageComponent.name, () => {
 
     it('should load organizations', async () => {
       // Arrange
-      const expectedOrgs = [{ avatarUrl: 'org1', name: 'org1' }, { avatarUrl: 'org2', name: 'org2' }];
+      const expectedOrgs = [
+        { avatarUrl: 'org1', name: 'org1' },
+        { avatarUrl: 'org2', name: 'org2' },
+      ];
 
       // Act
       sut.ngOnInit();
@@ -89,7 +94,10 @@ describe(RepositoryPageComponent.name, () => {
 
     it('should load repositories for current user if that owner is provided in the path', async () => {
       // Arrange
-      const expectedOrganization: Login = { name: 'fooOrg', avatarUrl: 'fooOrg' };
+      const expectedOrganization: Login = {
+        name: 'fooOrg',
+        avatarUrl: 'fooOrg',
+      };
       const expectedRepos = [createRepository()];
 
       // Act
@@ -108,7 +116,10 @@ describe(RepositoryPageComponent.name, () => {
 
     it('should load repositories for organization if that owner is provided in the path', async () => {
       // Arrange
-      const expectedOrganization: Login = { name: 'fooOrg', avatarUrl: 'fooOrg' };
+      const expectedOrganization: Login = {
+        name: 'fooOrg',
+        avatarUrl: 'fooOrg',
+      };
       const expectedRepos = [createRepository()];
 
       // Act
@@ -121,7 +132,9 @@ describe(RepositoryPageComponent.name, () => {
 
       // Assert
       expect(sut.repositories).toEqual(expectedRepos);
-      expect(organizationServiceMock.getRepositories).toHaveBeenCalledWith('fooOrg');
+      expect(organizationServiceMock.getRepositories).toHaveBeenCalledWith(
+        'fooOrg'
+      );
     });
 
     it('should set the titlePrefix', async () => {
@@ -132,17 +145,21 @@ describe(RepositoryPageComponent.name, () => {
       await fixture.whenStable();
 
       // Assert
-      expect(dashboardServiceMock.setTitlePrefix).toHaveBeenCalledWith('bazOwner');
+      expect(dashboardServiceMock.setTitlePrefix).toHaveBeenCalledWith(
+        'bazOwner'
+      );
     });
   });
 
   describe('after initialized', () => {
-
     beforeEach(async () => {
       sut.ngOnInit();
       routeParam$.next({ owner: 'fooOrg' });
       currentUser$.next({ name: 'bar', avatarUrl: 'bar' });
-      organization$.next([{ name: 'fooOrg', avatarUrl: 'fooOrg' }, { name: 'barOrg', avatarUrl: 'barOrg' }]);
+      organization$.next([
+        { name: 'fooOrg', avatarUrl: 'fooOrg' },
+        { name: 'barOrg', avatarUrl: 'barOrg' },
+      ]);
       repo$.next([createRepository()]);
       await fixture.whenStable();
     });
@@ -150,19 +167,25 @@ describe(RepositoryPageComponent.name, () => {
     it('should change the repos if the owner in the routeParams changed', async () => {
       // Act
       routeParam$.next({ owner: 'barOrg' });
-      const expectedRepositories = [createRepository({ name: 'expectedRepository' })];
+      const expectedRepositories = [
+        createRepository({ name: 'expectedRepository' }),
+      ];
       repo$.next(expectedRepositories);
       await fixture.whenStable();
 
       // Assert
-      expect(organizationServiceMock.getRepositories).toHaveBeenCalledWith('barOrg');
+      expect(organizationServiceMock.getRepositories).toHaveBeenCalledWith(
+        'barOrg'
+      );
       expect(sut.repositories).toBe(expectedRepositories);
     });
 
     it('should change the routeParams if owner changed in the selector', async () => {
       // Arrange
-      const ownerSelector = fixture.debugElement.query(By.css('stryker-owner-selector'));
-      ownerSelector.triggerEventHandler('ownerSelected', 'quxOwner' );
+      const ownerSelector = fixture.debugElement.query(
+        By.css('stryker-owner-selector')
+      );
+      ownerSelector.triggerEventHandler('ownerSelected', 'quxOwner');
 
       // Act
       await fixture.whenStable();

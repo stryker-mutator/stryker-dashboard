@@ -1,17 +1,42 @@
-import ReportsController from '../../../src/api/ReportsController';
-import supertest = require('supertest');
-import testServer, { DataAccessStub } from '../../helpers/TestServer';
-import { Project } from '@stryker-mutator/dashboard-data-access';
-import { MutationTestResult, MutantStatus } from 'mutation-testing-report-schema';
+import ReportsController from '../../../src/api/ReportsController.js';
+import supertest from 'supertest';
+import { HTTPError } from 'superagent';
+import {
+  MutationTestingReportService,
+  Project,
+  ProjectMapper,
+} from '@stryker-mutator/dashboard-data-access';
+import {
+  MutationTestResult,
+  MutantStatus,
+} from 'mutation-testing-report-schema';
 import { expect } from 'chai';
-import { generateHashValue } from '../../../src/utils';
+import utils from '../../../src/utils.js';
 import { Report } from '@stryker-mutator/dashboard-common';
+import { PlatformTest } from '@tsed/common';
+import Server from '../../../src/Server.js';
+import DataAccess from '../../../src/services/DataAccess.js';
+import sinon from 'sinon';
+import { DataAccessMock } from '../../helpers/TestServer.js';
 
 describe(ReportsController.name, () => {
   let request: supertest.SuperTest<supertest.Test>;
+  let findReportStub: sinon.SinonStubbedMember<
+    MutationTestingReportService['findOne']
+  >;
+  let saveReportStub: sinon.SinonStubbedMember<
+    MutationTestingReportService['saveReport']
+  >;
+  let findProjectStub: sinon.SinonStubbedMember<ProjectMapper['findOne']>;
 
   beforeEach(async () => {
-    request = await testServer(ReportsController);
+    await PlatformTest.bootstrap(Server)();
+    request = supertest(PlatformTest.callback());
+
+    const dataAccess = PlatformTest.get<DataAccessMock>(DataAccess);
+    findReportStub = dataAccess.mutationTestingReportService.findOne;
+    saveReportStub = dataAccess.mutationTestingReportService.saveReport;
+    findProjectStub = dataAccess.repositoryMapper.findOne;
   });
 
   describe('HTTP GET /:slug', () => {
@@ -22,12 +47,14 @@ describe(ReportsController.name, () => {
         moduleName: 'core',
         projectName: 'github.com/fooOrg/fooName',
         version: 'master',
-        mutationScore: 89
+        mutationScore: 89,
       };
-      DataAccessStub.mutationTestingReportService.findOne.resolves(expected);
+      findReportStub.resolves(expected);
 
       // Act
-      const response = await request.get('/reports/github.com/owner/name/version');
+      const response = await request.get(
+        '/api/reports/github.com/owner/name/version'
+      );
 
       // Assert
       expect(response.status).eq(200);
@@ -35,29 +62,36 @@ describe(ReportsController.name, () => {
     });
 
     it('should call dissect the correct slug, version and module', async () => {
-      await request.get('/reports/github.com/test/name/feat/dashboard?module=core');
-      expect(DataAccessStub.mutationTestingReportService.findOne).calledWith({
+      await request.get(
+        '/api/reports/github.com/test/name/feat/dashboard?module=core'
+      );
+      expect(findReportStub).calledWith({
         projectName: 'github.com/test/name',
         version: 'feat/dashboard',
-        moduleName: 'core'
+        moduleName: 'core',
       });
     });
 
     it('should respond with 404 if the report could not be found', async () => {
-      const response = await request.get('/reports/github.com/owner/name/version');
+      const response = await request.get(
+        '/api/reports/github.com/owner/name/version'
+      );
       expect(response.status).eq(404);
-      expect(response.error.text).include('Version "version" does not exist for "github.com/owner/name".');
+      expect(JSON.parse((response.error as HTTPError).text).message).includes(
+        'Version "version" does not exist for "github.com/owner/name".'
+      );
     });
 
     it('should respond with 404 if slug is invalid', async () => {
-      const response = await request.get('/reports/slugwithoutslash');
+      const response = await request.get('/api/reports/slugwithoutslash');
       expect(response.status).eq(404);
-      expect(response.error.text).include('Report "/slugwithoutslash" does not exist');
+      expect(JSON.parse((response.error as HTTPError).text).message).include(
+        'Report "/slugwithoutslash" does not exist'
+      );
     });
   });
 
   describe('HTTP PUT /:slug', () => {
-
     const apiKey = '1346';
     let project: Project;
     beforeEach(() => {
@@ -65,101 +99,133 @@ describe(ReportsController.name, () => {
       project.enabled = true;
       project.name = 'stryker';
       project.owner = 'github.com/stryker-mutator';
-      project.apiKeyHash = generateHashValue(apiKey);
-      DataAccessStub.repositoryMapper.findOne.resolves({ model: project, etag: 'etag' });
+      project.apiKeyHash = utils.generateHashValue(apiKey);
+      findProjectStub.resolves({
+        model: project,
+        etag: 'etag',
+      });
     });
 
     it('should save the expected report', async () => {
       // Arrange
-      const body = createMutationTestResult([MutantStatus.Killed, MutantStatus.Survived]);
-      const expectedId = { projectName: 'github.com/testOrg/testName', version: 'feat/dashboard', moduleName: 'core' };
+      const body = createMutationTestResult([
+        MutantStatus.Killed,
+        MutantStatus.Survived,
+      ]);
+      const expectedId = {
+        projectName: 'github.com/testOrg/testName',
+        version: 'feat/dashboard',
+        moduleName: 'core',
+      };
 
       // Act
       await request
-        .put('/reports/github.com/testOrg/testName/feat/dashboard?module=core')
+        .put(
+          '/api/reports/github.com/testOrg/testName/feat/dashboard?module=core'
+        )
         .set('X-Api-Key', apiKey)
-        .send(body);
+        .send(body)
+        .expect(200);
 
       // Assert
-      expect(DataAccessStub.mutationTestingReportService.saveReport).calledWith(expectedId, body);
+      expect(saveReportStub).calledWith(expectedId, body);
     });
 
     it('should respond with the href link to the report', async () => {
       // Act
       const response = await request
-        .put('/reports/github.com/testOrg/testName/feat/dashboard')
+        .put('/api/reports/github.com/testOrg/testName/feat/dashboard')
         .set('X-Api-Key', apiKey)
         .send(createMutationTestResult());
 
       // Assert
       expect(response.status).eq(200);
       expect(response.body).deep.eq({
-        href: 'base url/reports/github.com/testOrg/testName/feat/dashboard'
+        href: 'baseUrl/reports/github.com/testOrg/testName/feat/dashboard',
       });
     });
 
-    it('should respond with the href to the project\'s report when uploading a report with a result for a specific module', async () => {
+    it("should respond with the href to the project's report when uploading a report with a result for a specific module", async () => {
       // Act
       const response = await request
-        .put('/reports/github.com/testOrg/testName/myWebsite?module=logging')
+        .put(
+          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging'
+        )
         .set('X-Api-Key', apiKey)
         .send(createMutationTestResult());
 
       // Assert
       expect(response.status).eq(200);
       expect(response.body).deep.eq({
-        href: 'base url/reports/github.com/testOrg/testName/myWebsite?module=logging',
-        projectHref: 'base url/reports/github.com/testOrg/testName/myWebsite'
+        href: 'baseUrl/reports/github.com/testOrg/testName/myWebsite?module=logging',
+        projectHref: 'baseUrl/reports/github.com/testOrg/testName/myWebsite',
       });
     });
 
     it('should not add the project href to the response when the uploaded report is a mutation score only report', async () => {
       // Act
       const response = await request
-        .put('/reports/github.com/testOrg/testName/myWebsite?module=logging')
+        .put(
+          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging'
+        )
         .set('X-Api-Key', apiKey)
         .send({ mutationScore: 25 });
 
       // Assert
       expect(response.status).eq(200);
       expect(response.body).deep.eq({
-        href: 'base url/reports/github.com/testOrg/testName/myWebsite?module=logging'
+        href: 'baseUrl/reports/github.com/testOrg/testName/myWebsite?module=logging',
       });
     });
 
     it('should respond with 500 internal server error when update rejects', async () => {
       // Arrange
       const expectedError = new Error('Connection error');
-      DataAccessStub.mutationTestingReportService.saveReport.rejects(expectedError);
+      saveReportStub.rejects(expectedError);
 
       // Act
       const response = await request
-        .put('/reports/github.com/testOrg/testName/feat/dashboard?module=core')
+        .put(
+          '/api/reports/github.com/testOrg/testName/feat/dashboard?module=core'
+        )
         .set('X-Api-Key', apiKey)
         .send(createMutationTestResult());
 
       // Assert
       expect(response.status).eq(500);
-      expect(response.text).eq('Internal server error');
+      expect(response.text).includes('Internal server error');
     });
 
     it('should respond with 401 when X-Api-Key header is missing', async () => {
-      const response = await request
-        .put('/reports/github.com/testOrg/testName/feat/dashboard');
+      const response = await request.put(
+        '/api/reports/github.com/testOrg/testName/feat/dashboard'
+      );
       expect(response.status).eq(401);
-      expect(response.error.text).include('Provide an "X-Api-Key" header');
+      expect(JSON.parse((response.error as HTTPError).text).message).include(
+        'Provide an "X-Api-Key" header'
+      );
     });
 
-    it('should respond with 401 when the api key doesn\'t match', async () => {
+    it("should respond with 401 when the api key doesn't match", async () => {
       const response = await request
-        .put('/reports/github.com/testOrg/testName/feat/dashboard?module=core')
+        .put(
+          '/api/reports/github.com/testOrg/testName/feat/dashboard?module=core'
+        )
         .set('X-Api-Key', 'wrong key');
       expect(response.status).eq(401);
-      expect(response.error.text).include('Invalid API key');
+      expect(JSON.parse((response.error as HTTPError).text).message).include(
+        'Invalid API key'
+      );
     });
   });
 
-  function createMutationTestResult(mutantStates = [MutantStatus.Killed, MutantStatus.Killed, MutantStatus.Survived]): MutationTestResult {
+  function createMutationTestResult(
+    mutantStates = [
+      MutantStatus.Killed,
+      MutantStatus.Killed,
+      MutantStatus.Survived,
+    ]
+  ): MutationTestResult {
     return {
       files: {
         'a.js': {
@@ -167,18 +233,21 @@ describe(ReportsController.name, () => {
           source: '+',
           mutants: mutantStates.map((status, index) => ({
             id: index.toString(),
-            location: { start: { line: 1, column: 1}, end: { line: 1, column: 2 }},
+            location: {
+              start: { line: 1, column: 1 },
+              end: { line: 1, column: 2 },
+            },
             mutatorName: 'BinaryMutator',
             replacement: '-',
-            status
-          }))
-        }
+            status,
+          })),
+        },
       },
       schemaVersion: '1',
       thresholds: {
         high: 80,
-        low: 70
-      }
+        low: 70,
+      },
     };
   }
 
@@ -186,7 +255,7 @@ describe(ReportsController.name, () => {
     return {
       files: {},
       schemaVersion: '1',
-      thresholds: { high: 80, low: 60 }
+      thresholds: { high: 80, low: 60 },
     };
   }
 });

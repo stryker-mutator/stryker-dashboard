@@ -11,7 +11,7 @@ export function spa(indexFileName: string) {
   ) => {
     if (
       req.method === 'GET' &&
-      !blacklist.some(item => req.url.startsWith(item))
+      !blacklist.some((item) => req.url.startsWith(item))
     ) {
       fs.readFile(indexFileName, 'utf-8', (err, indexHtml) => {
         if (err) {

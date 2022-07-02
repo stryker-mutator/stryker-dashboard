@@ -1,11 +1,15 @@
 import debug from 'debug';
-import Server from './Server';
-import { optionalEnvVar } from './utils';
-import { createProjectMapper, MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
+import Server from './Server.js';
+import { PlatformExpress } from '@tsed/platform-express';
+import util from './utils.js';
+import {
+  createProjectMapper,
+  MutationTestingReportService,
+} from '@stryker-mutator/dashboard-data-access';
 
 const log = debug('app');
 log('Starting Stryker Mutator dashboard');
-const port = parseInt(optionalEnvVar('PORT', '1337'), 10);
+const port = parseInt(util.optionalEnvVar('PORT', '1337'), 10);
 
 async function ensureDatabaseExists() {
   const repositoryMapper = createProjectMapper();
@@ -16,20 +20,9 @@ async function ensureDatabaseExists() {
 }
 
 async function startServer() {
-  const server = new Server(port);
-  await server.start();
-  debug(`Listening on port ${getPort()}`);
-
-  function getPort() {
-    const addr = server.httpServer.address();
-    if (typeof addr === 'string') {
-      return addr;
-    } else if (addr) {
-      return addr.port;
-    } else {
-      return 'unknown';
-    }
-  }
+  const platform = await PlatformExpress.bootstrap(Server, { port });
+  await platform.listen();
+  debug(`Listening on port ${port}`);
 }
 
 async function run() {

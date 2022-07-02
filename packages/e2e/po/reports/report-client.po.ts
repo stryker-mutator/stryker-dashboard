@@ -1,11 +1,11 @@
-import { APIRequestContext } from "@playwright/test";
-import { Report } from "@stryker-mutator/dashboard-common";
-import {
+import type { APIRequestContext } from '@playwright/test';
+import type { Report } from '@stryker-mutator/dashboard-common';
+import type {
   EnableRepositoryResponse,
   PutReportResponse,
   Repository,
-} from "@stryker-mutator/dashboard-contract";
-import { generateAuthToken } from "../../actions/auth.action";
+} from '@stryker-mutator/dashboard-contract';
+import { generateAuthToken } from '../../actions/auth.action.js';
 
 export class ReportClient {
   private projectApiKeys = new Map<string, Promise<string>>();
@@ -40,7 +40,7 @@ export class ReportClient {
 
   async getUserRepositories(): Promise<Repository[]> {
     const auth = generateAuthToken();
-    const response = await this.request.get("api/user/repositories", {
+    const response = await this.request.get('api/user/repositories', {
       headers: { Authorization: `Bearer ${auth}` },
     });
     const body = await response.json();
@@ -51,12 +51,12 @@ export class ReportClient {
     const apiKey = await this.enableRepository(result.projectName);
     const response = await this.request.put(
       `/api/reports/${result.projectName}/${result.version}${
-        result.moduleName ? `?module=${result.moduleName}` : ""
+        result.moduleName ? `?module=${result.moduleName}` : ''
       }`,
       {
         data: result,
         headers: {
-          ["X-Api-Key"]: apiKey,
+          ['X-Api-Key']: apiKey,
         },
       }
     );

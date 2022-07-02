@@ -17,7 +17,7 @@ jobs:
     - name: Build
       run: npm run build
     - name: Lerna publish
-      run: npx lerna publish from-git --yes
+      run: npx lerna publish from-git --yes --no-verify-access
     - name: Docker build & Tag
       run: | # Add a sleep to give npmjs.com the time to get the versions consistent 
         sleep 30s
@@ -57,10 +57,6 @@ jobs:
       uses: Azure/actions/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_PRODUCTION }}
-    - name: Setup Node 10.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
     - name: 'Download & prepare badge-api package'
       run: ./tasks/download-badge-api-package.sh ${GITHUB_REF:11}
     - name: 'Deploy badge-api.stryker-mutator.io'

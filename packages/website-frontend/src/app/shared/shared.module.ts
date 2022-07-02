@@ -4,19 +4,9 @@ import { LoadingComponent } from './loading/loading.component';
 import { ClipboardCopyComponent } from './clipboard-copy/clipboard-copy.component';
 
 @NgModule({
-  declarations: [
-    LoadingComponent,
-    ClipboardCopyComponent
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    LoadingComponent,
-    ClipboardCopyComponent
-  ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ]
+  declarations: [LoadingComponent, ClipboardCopyComponent],
+  imports: [CommonModule],
+  exports: [LoadingComponent, ClipboardCopyComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class SharedModule { }
+export class SharedModule {}

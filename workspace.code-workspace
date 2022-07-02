@@ -37,6 +37,12 @@
     "editor.codeActionsOnSave": {
       "source.fixAll.tslint": true
     },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/bower_components": true,
+      "**/*.code-search": true,
+      "**/dist": true
+    },
     "typescript.tsdk": "stryker-dashboard\\node_modules\\typescript\\lib",
     "cSpell.words": [
       "Clazz",
@@ -47,6 +53,7 @@
       "Testabilities"
     ],
     "task.autoDetect": "off",
-    "azurite.location": "root/.azurite"
+    "azurite.location": "root/.azurite",
+    "azureFunctions.showExtensionsCsprojWarning": false
   }
 }

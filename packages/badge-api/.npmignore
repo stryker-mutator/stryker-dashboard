@@ -1,5 +1,6 @@
 **/*
 !/badge/function.json
+!/badge/*.mjs
 !/dist/badge/**/*.js
 !README.md
 !host.json

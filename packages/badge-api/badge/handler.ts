@@ -1,16 +1,18 @@
+import fs from 'fs';
 import { Context, AzureFunction } from '@azure/functions';
-import { ShieldMapper } from './ShieldMapper';
 import { Slug, InvalidSlugError } from '@stryker-mutator/dashboard-common';
+import { ShieldMapper } from './ShieldMapper.js';
+
 const headers = {
-  ['X-Badge-Api-Version']: require('../../package.json').version
+  ['X-Badge-Api-Version']: JSON.parse(
+    fs.readFileSync(new URL('../../package.json', import.meta.url), 'utf-8')
+  ).version,
 };
 
 export function handler(mapper: ShieldMapper): AzureFunction {
   return async (context: Context): Promise<void> => {
-    const {
-      slug,
-      module: moduleName
-    } = context.bindingData as {
+    const { slug, module: moduleName } = context.bindingData as {
+      invocationId: string;
       slug: string | undefined;
       module: string | undefined;
     };
@@ -19,7 +21,7 @@ export function handler(mapper: ShieldMapper): AzureFunction {
 
       context.res = {
         headers,
-        body: await mapper.shieldFor(project, version, moduleName)
+        body: await mapper.shieldFor(project, version, moduleName),
       };
     } catch (error) {
       if (error instanceof InvalidSlugError) {
@@ -27,14 +29,14 @@ export function handler(mapper: ShieldMapper): AzureFunction {
         context.res = {
           status: 400,
           headers,
-          body: error.message
+          body: error.message,
         };
       } else {
         context.log.error('Internal server error', error);
         context.res = {
           status: 500,
           headers,
-          body: 'Internal server error.'
+          body: 'Internal server error.',
         };
       }
     }

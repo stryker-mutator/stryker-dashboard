@@ -5,10 +5,9 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'stryker-owner-selector',
   templateUrl: './owner-selector.component.html',
-  styleUrls: ['./owner-selector.component.scss']
+  styleUrls: ['./owner-selector.component.scss'],
 })
 export class OwnerSelectorComponent {
-
   @Input()
   public user: Login | null = null;
 

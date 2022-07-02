@@ -1,48 +1,36 @@
-import HttpClient, { Response } from '../../../src/client/HttpClient';
-import { HttpClient as InnerHttpClient, HttpClientResponse } from 'typed-rest-client/HttpClient';
-import * as InnerHttpClientModule from 'typed-rest-client/HttpClient';
+import HttpClient, { Response } from '../../../src/client/HttpClient.js';
+import utils from '../../../src/utils.js';
 import { expect } from 'chai';
-import sinon = require('sinon');
+import sinon from 'sinon';
+import fetch, { Response as NodeFetchResponse, Headers } from 'node-fetch';
 
 describe('HttpClient', () => {
-
   let sut: HttpClient;
-  let innerHttpClientMock: sinon.SinonStubbedInstance<InnerHttpClient>;
+  let fetchStub: sinon.SinonStubbedMember<typeof fetch>;
 
   beforeEach(() => {
-    innerHttpClientMock = sinon.createStubInstance(InnerHttpClient);
-    sut = new HttpClient(innerHttpClientMock as any);
+    fetchStub = sinon.stub(utils, 'fetch');
+    sut = new HttpClient();
   });
 
-  it('should do the request on `get`', async () => {
+  it('should do the request on `fetchJson`', async () => {
     // Arrange
-    const message: any = {
-      headers: { foo: 'baz' },
-      statusCode: 200
-    };
-    const response: HttpClientResponse = {
-      readBody() {
-        return Promise.resolve('{ "foo": "bar" }');
-      },
-      message
-    };
-    innerHttpClientMock.get.resolves(response);
+    const response = new NodeFetchResponse('{"foo":"bar"}', {
+      headers: { foo: 'baz', 'Content-Type': 'application/json' },
+    });
+    fetchStub.resolves(response);
 
     // Act
-    const actualFooBar = await sut.get<{ foo: string }>('some url');
+    const actualFooBar = await sut.fetchJson<{ foo: string }>('some url');
 
     // Assert
     const expectedResponse: Response<{ foo: string }> = {
       body: { foo: 'bar' },
-      headers: { foo: 'baz' }
+      headers: new Headers({ 'content-type': 'application/json', foo: 'baz' }),
     };
-    expect(actualFooBar).deep.eq(expectedResponse);
-  });
-
-  it('should add a User Agent header', async () => {
-    // See https://developer.github.com/v3/#user-agent-required
-    sinon.stub(InnerHttpClientModule, 'HttpClient');
-    new HttpClient([]);
-    expect(InnerHttpClientModule.HttpClient).calledWith('Stryker Dashboard API');
+    expect(actualFooBar.body).deep.eq(expectedResponse.body);
+    expectedResponse.headers.forEach((value, key) => {
+      expect(actualFooBar.headers.get(key)).deep.eq(value);
+    });
   });
 });

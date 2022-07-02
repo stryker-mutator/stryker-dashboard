@@ -1,34 +1,57 @@
-import { Controller, Get, Put, BodyParams, QueryParams, HeaderParams, Req } from '@tsed/common';
-import { BadRequest, NotFound, Unauthorized, InternalServerError } from 'ts-httpexceptions';
+import {
+  Controller,
+  Get,
+  Put,
+  BodyParams,
+  QueryParams,
+  HeaderParams,
+  Req,
+  PlatformContext,
+  Context,
+} from '@tsed/common';
+import {
+  BadRequest,
+  NotFound,
+  Unauthorized,
+  InternalServerError,
+} from 'ts-httpexceptions';
 import { MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
 import { PutReportResponse } from '@stryker-mutator/dashboard-contract';
-import { Slug, InvalidSlugError, Report, MutationScoreOnlyResult, isMutationTestResult } from '@stryker-mutator/dashboard-common';
-import { ReportValidator } from '../services/SchemaValidator';
-import Configuration from '../services/Configuration';
-import { ApiKeyValidator } from '../services/ApiKeyValidator';
+import {
+  Slug,
+  InvalidSlugError,
+  Report,
+  MutationScoreOnlyResult,
+  isMutationTestResult,
+} from '@stryker-mutator/dashboard-common';
 import { Request } from 'express';
 import { MutationTestResult } from 'mutation-testing-report-schema';
-import DataAccess from '../services/DataAccess';
+import { ReportValidator } from '../services/SchemaValidator.js';
+import Configuration from '../services/Configuration.js';
+import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
+import DataAccess from '../services/DataAccess.js';
 
 const API_KEY_HEADER = 'X-Api-Key';
 
 @Controller('/reports')
 export default class ReportsController {
-
   private readonly reportService: MutationTestingReportService;
-  constructor(dataAccess: DataAccess,
-              private readonly reportValidator: ReportValidator,
-              private readonly config: Configuration,
-              private readonly apiKeyValidator: ApiKeyValidator) {
+  constructor(
+    dataAccess: DataAccess,
+    private readonly reportValidator: ReportValidator,
+    private readonly config: Configuration,
+    private readonly apiKeyValidator: ApiKeyValidator
+  ) {
     this.reportService = dataAccess.mutationTestingReportService;
   }
 
   @Put('/*')
   public async update(
     @Req() req: Request,
+    @Context() $ctx: PlatformContext,
     @BodyParams() result: MutationScoreOnlyResult | MutationTestResult,
     @QueryParams('module') moduleName: string | undefined,
-    @HeaderParams(API_KEY_HEADER) authorizationHeader: string | undefined,
+    @HeaderParams(API_KEY_HEADER) authorizationHeader: string | undefined
   ): Promise<PutReportResponse> {
     if (!authorizationHeader) {
       throw new Unauthorized(`Provide an "${API_KEY_HEADER}" header`);
@@ -38,19 +61,32 @@ export default class ReportsController {
     await this.apiKeyValidator.validateApiKey(authorizationHeader, project);
     this.verifyRequiredPutReportProperties(result);
     try {
-      await this.reportService.saveReport({ projectName: project, version, moduleName }, result, req.log);
+      await this.reportService.saveReport(
+        { projectName: project, version, moduleName },
+        result,
+        $ctx.logger
+      );
       if (moduleName && isMutationTestResult(result)) {
         return {
           href: `${this.config.baseUrl}/reports/${project}/${version}?module=${moduleName}`,
-          projectHref: `${this.config.baseUrl}/reports/${project}/${version}`
+          projectHref: `${this.config.baseUrl}/reports/${project}/${version}`,
         };
       } else {
         return {
-          href: `${this.config.baseUrl}/reports/${project}/${version}${moduleName ? `?module=${moduleName}` : ''}`
+          href: `${this.config.baseUrl}/reports/${project}/${version}${
+            moduleName ? `?module=${moduleName}` : ''
+          }`,
         };
       }
     } catch (error) {
-      req.log.error({ message: `Error while trying to save report ${JSON.stringify({ project, version, moduleName })}`, error });
+      $ctx.logger.error({
+        message: `Error while trying to save report ${JSON.stringify({
+          project,
+          version,
+          moduleName,
+        })}`,
+        error,
+      });
       throw new InternalServerError('Internal server error');
     }
   }
@@ -58,22 +94,24 @@ export default class ReportsController {
   @Get('/*')
   public async get(
     @Req() req: Request,
+    @Context() $ctx: PlatformContext,
+
     @QueryParams('module') moduleName: string | undefined
   ): Promise<Report> {
-    if (req.log) {
-      req.log.info({ test: 'Test this one' });
-    }
+    $ctx.logger.info({ test: 'Test this one' });
     const slug = req.path;
     const { project, version } = this.parseSlug(slug);
     const report = await this.reportService.findOne({
       projectName: project,
       moduleName,
-      version
+      version,
     });
     if (report) {
       return report;
     } else {
-      throw new NotFound(`Version "${version}" does not exist for "${project}".`);
+      throw new NotFound(
+        `Version "${version}" does not exist for "${project}".`
+      );
     }
   }
 
@@ -89,13 +127,17 @@ export default class ReportsController {
     }
   }
 
-  private verifyRequiredPutReportProperties(body: MutationScoreOnlyResult | MutationTestResult) {
+  private verifyRequiredPutReportProperties(
+    body: MutationScoreOnlyResult | MutationTestResult
+  ) {
     const errors = this.reportValidator.findErrors(body);
     if (errors) {
       const mutationScoreOnlyResult = body as MutationScoreOnlyResult;
-      if (typeof mutationScoreOnlyResult.mutationScore !== 'number'
-        || mutationScoreOnlyResult.mutationScore < 0
-        || mutationScoreOnlyResult.mutationScore > 100) {
+      if (
+        typeof mutationScoreOnlyResult.mutationScore !== 'number' ||
+        mutationScoreOnlyResult.mutationScore < 0 ||
+        mutationScoreOnlyResult.mutationScore > 100
+      ) {
         throw new BadRequest(`Invalid report. ${errors}`);
       }
     }

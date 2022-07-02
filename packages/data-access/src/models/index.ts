@@ -1,3 +1,3 @@
-export * from './MutationTestingReport';
-export * from './Project';
-export * from './Timestamped';
+export * from './MutationTestingReport.js';
+export * from './Project.js';
+export * from './Timestamped.js';

@@ -3,10 +3,10 @@ import {
   createTableService,
   TableService,
   TableQuery,
-  common,
-  BlobService,
-} from "azure-storage";
-import { promisify } from "util";
+  type common,
+  type BlobService,
+} from 'azure-storage';
+import { promisify } from 'util';
 
 function getConnectionString(): string {
   if (process.env.E2E_AZURE_STORAGE_CONNECTION_STRING) {
@@ -62,8 +62,8 @@ async function deleteAllBlobs(containerName: string) {
 
 export default async function globalSetup() {
   await Promise.all([
-    deleteAllEntities("MutationTestingReport"),
-    deleteAllEntities("Project"),
-    deleteAllBlobs("mutation-testing-report"),
+    deleteAllEntities('MutationTestingReport'),
+    deleteAllEntities('Project'),
+    deleteAllBlobs('mutation-testing-report'),
   ]);
 }

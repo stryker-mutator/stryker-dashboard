@@ -1,127 +1,96 @@
-import { Type } from '@tsed/core';
-import { ServerLoader, IServerSettings, OverrideService, ExpressApplication, ServerSettings } from '@tsed/common';
-import { ProjectMapper, MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
-import { bootstrap, inject, TestContext } from '@tsed/testing';
-import Configuration from '../../src/services/Configuration';
-import supertest from 'supertest';
-import { SuperTest, Test } from 'supertest';
-import DataAccess from '../../src/services/DataAccess';
-import GithubRepositoryService from '../../src/services/GithubRepositoryService';
-import sinon = require('sinon');
-import bodyParser = require('body-parser');
-import { Authentication } from '../../src/github/models';
-import { createToken } from '../../src/middleware/securityMiddleware';
+import '@tsed/platform-express';
+import { OverrideProvider } from '@tsed/di';
+import * as dal from '@stryker-mutator/dashboard-data-access';
+import * as github from '../../src/github/models.js';
+import jwt from 'jsonwebtoken';
+import Configuration from '../../src/services/Configuration.js';
+import DataAccess from '../../src/services/DataAccess.js';
+import sinon from 'sinon';
+import { ProjectMapper } from '@stryker-mutator/dashboard-data-access';
 
-@OverrideService(Configuration)
-class ConfigurationStub implements Configuration {
-  public static githubClientId: string;
-  get githubClientId() { return ConfigurationStub.githubClientId; }
-  public static githubSecret: string;
-  get githubSecret() { return ConfigurationStub.githubSecret; }
-  public static baseUrl: string;
-  get baseUrl() { return ConfigurationStub.baseUrl; }
-  public static jwtSecret: string;
-  get jwtSecret() { return ConfigurationStub.jwtSecret; }
-  public static isDevelopment: boolean;
-  get isDevelopment() { return ConfigurationStub.isDevelopment; }
+export function createToken(user: github.Authentication): Promise<string> {
+  return new Promise<string>((resolve, reject) => {
+    jwt.sign(
+      user,
+      config.jwtSecret,
+      {
+        algorithm: 'HS512',
+        audience: 'stryker',
+        expiresIn: '30m',
+        issuer: 'stryker',
+      },
+      (err, encoded) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(encoded!);
+        }
+      }
+    );
+  });
 }
 
-@OverrideService(DataAccess)
-export class DataAccessStub implements DataAccess {
-  public static repositoryMapper: sinon.SinonStubbedInstance<ProjectMapper>;
-  public static mutationTestingReportService: sinon.SinonStubbedInstance<MutationTestingReportService>;
-  public get repositoryMapper(): ProjectMapper {
-    return DataAccessStub.repositoryMapper as any;
-  }
-  public get mutationTestingReportService(): MutationTestingReportService {
-    return DataAccessStub.mutationTestingReportService as any;
-  }
-}
-
-export async function createAuthToken(user: Authentication) {
-  const token = await createToken(user, ConfigurationStub.jwtSecret);
+export async function createAuthorizationHeader(user: github.Authentication) {
+  const token = await createToken(user);
   return `Bearer ${token}`;
 }
 
-@OverrideService(GithubRepositoryService)
-export class RepositoryServiceStub {
-  public static getAllForUser: sinon.SinonStub;
-  public static getAllForOrganization: sinon.SinonStub;
-  public static update: sinon.SinonStub;
-  public get getAllForUser() {
-    return RepositoryServiceStub.getAllForUser;
+export const config: Configuration = {
+  githubClientId: 'githubClientId',
+  githubSecret: 'githubSecret',
+  baseUrl: 'baseUrl',
+  jwtSecret: 'jwtSecret',
+  isDevelopment: true,
+};
+
+@OverrideProvider(Configuration)
+export class ConfigurationStub implements Configuration {
+  constructor() {
+    this.githubClientId = config.githubClientId;
+    this.githubSecret = config.githubSecret;
+    this.baseUrl = config.baseUrl;
+    this.jwtSecret = config.jwtSecret;
+    this.isDevelopment = config.isDevelopment;
   }
-  public get getAllForOrganization() {
-    return RepositoryServiceStub.getAllForOrganization;
-  }
-  public get update() {
-    return RepositoryServiceStub.update;
-  }
+  public githubClientId: string;
+  public githubSecret: string;
+  public baseUrl: string;
+  public jwtSecret: string;
+  public isDevelopment: boolean;
 }
 
-beforeEach(() => {
-  ConfigurationStub.githubClientId = 'github client id';
-  ConfigurationStub.githubSecret = 'github secret';
-  ConfigurationStub.jwtSecret = 'jwt secret';
-  ConfigurationStub.baseUrl = 'base url';
-  ConfigurationStub.isDevelopment = true;
-  DataAccessStub.repositoryMapper = {
+type IDataAccessMock = {
+  [Prop in keyof DataAccess]: sinon.SinonStubbedInstance<DataAccess[Prop]>;
+};
+
+@OverrideProvider(DataAccess)
+export class DataAccessMock implements IDataAccessMock {
+  repositoryMapper: sinon.SinonStubbedInstance<ProjectMapper> = {
     createStorageIfNotExists: sinon.stub(),
     findAll: sinon.stub(),
+    findOne: sinon.stub(),
     insertOrMerge: sinon.stub(),
-    findOne: sinon.stub(),
     insert: sinon.stub(),
-    replace: sinon.stub()
+    replace: sinon.stub(),
   };
-  DataAccessStub.mutationTestingReportService = {
-    createStorageIfNotExists: sinon.stub(),
-    saveReport: sinon.stub(),
-    findOne: sinon.stub(),
-  };
-  RepositoryServiceStub.getAllForOrganization = sinon.stub();
-  RepositoryServiceStub.getAllForUser = sinon.stub();
-  RepositoryServiceStub.update = sinon.stub();
-});
-
-afterEach(async () => {
-  TestContext.reset();
-  sinon.restore();
-});
-
-export default async function testServer<TController>(Controller: Type<TController>, ...middlewares: import('express').RequestHandler[])
-  : Promise<SuperTest<Test>> {
-  let request: SuperTest<Test> = null as any;
-  @ServerSettings({
-    logger: {
-      level: 'off' as any
-    }
-  })
-  class TestServer extends ServerLoader {
-    constructor() {
-      super();
-
-      const resetSettings: Partial<IServerSettings> = {
-        componentsScan: [],
-        mount: {}
-      };
-      this.setSettings(resetSettings);
-      this.addComponents([
-        ConfigurationStub,
-        DataAccessStub,
-        RepositoryServiceStub
-      ]);
-      this.addControllers('/', [Controller]);
-    }
-    public $beforeRoutesInit() {
-      if (middlewares.length) {
-        this.use(...middlewares);
-      }
-      this.use(bodyParser.json());
-    }
-  }
-  await bootstrap(TestServer)();
-  await inject([ExpressApplication], (app: ExpressApplication) => {
-    request = supertest(app);
-  })();
-  return request;
+  mutationTestingReportService = sinon.createStubInstance(
+    dal.MutationTestingReportService
+  );
 }
+
+// type I<T> = { [K in keyof T]: T[K] };
+
+// @OverrideProvider(dal.MutationTestingReportService)
+// export class MutationTestingReportServiceMock
+//   implements sinon.SinonStubbedInstance<I<dal.MutationTestingReportService>>
+// {
+//   createStorageIfNotExists: sinon.SinonStubbedMember<
+//     dal.MutationTestingReportService['createStorageIfNotExists']
+//   > = sinon.stub();
+//   saveReport: sinon.SinonStubbedMember<
+//     dal.MutationTestingReportService['saveReport']
+//   > = sinon.stub();
+//   findOne: sinon.SinonStubbedMember<
+//     dal.MutationTestingReportService['findOne']
+//   > = sinon.stub();
+// }

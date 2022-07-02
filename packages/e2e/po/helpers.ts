@@ -5,6 +5,6 @@ export function escapeRegExp(text: string) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
-export function createContainsRegExp(containsText: string){
+export function createContainsRegExp(containsText: string) {
   return new RegExp(escapeRegExp(containsText));
 }

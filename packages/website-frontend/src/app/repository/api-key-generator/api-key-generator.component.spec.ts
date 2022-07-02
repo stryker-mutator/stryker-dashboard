@@ -11,10 +11,9 @@ describe(ApiKeyGeneratorComponent.name, () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ApiKeyGeneratorComponent ],
-      imports: [ SharedModule ]
-    })
-    .compileComponents();
+      declarations: [ApiKeyGeneratorComponent],
+      imports: [SharedModule],
+    }).compileComponents();
     fixture = TestBed.createComponent(ApiKeyGeneratorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -41,7 +40,6 @@ describe(ApiKeyGeneratorComponent.name, () => {
   });
 
   describe('when displayMode = show', () => {
-
     beforeEach(() => {
       component.mode = 'show';
       component.apiKey = 'foo-api-key';
@@ -55,7 +53,6 @@ describe(ApiKeyGeneratorComponent.name, () => {
   });
 
   describe('when displayMode = loading', () => {
-
     beforeEach(() => {
       component.mode = 'loading';
       fixture.detectChanges();

@@ -1,13 +1,12 @@
-import { getEnvVariable } from '../../actions/helpers.action';
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import { getEnvVariable } from '../../actions/helpers.action.js';
+import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 
 export class BadgeApiClient {
-
   private readonly httpClient: AxiosInstance;
 
   constructor() {
     this.httpClient = axios.create({
-      baseURL: getEnvVariable('E2E_BADGE_API_BASE_URL')
+      baseURL: getEnvVariable('E2E_BADGE_API_BASE_URL'),
     });
   }
 
@@ -27,5 +26,5 @@ export enum Color {
   Grey = 'lightgrey',
   Red = 'red',
   Orange = 'orange',
-  Green = 'green'
+  Green = 'green',
 }
