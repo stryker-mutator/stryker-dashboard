@@ -37,9 +37,11 @@ export class ShieldMapper {
 function determineColor(score: number): Color {
   if (score < 60) {
     return Color.Red;
-  } else if (score < 80 && score >= 60) {
+  } else if (score < 80) {
     return Color.Orange;
-  } else {
+  } else if (score < 100) {
     return Color.Green;
+  } else {
+    return Color.BrightGreen;
   }
 }

@@ -52,6 +52,12 @@ describe(ShieldMapper.name, () => {
     expect(actualShield.label).eq('Mutation score');
   });
 
+  it('should show 100% as bright green', async () => {
+    arrangeMutationScore({ mutationScore: 100 });
+    const actualShield = await sut.shieldFor('foo', 'bar', 'baz');
+    expect(actualShield.color).eq(Color.BrightGreen);
+  });
+
   it('should show 80% as green', async () => {
     arrangeMutationScore({ mutationScore: 80 });
     const actualShield = await sut.shieldFor('foo', 'bar', 'baz');
