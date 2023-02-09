@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.11.0...v0.12.0) (2023-02-09)
+
+
+### Bug Fixes
+
+* **html report:** update to mutation testing elements v1.7.12 ([#242](https://github.com/stryker-mutator/stryker-dashboard/issues/242)) ([e831a62](https://github.com/stryker-mutator/stryker-dashboard/commit/e831a62ce6c9f4ab121d68ad0aa1293c719d8dad))
+
+
+### Features
+
+* **mte:** mutation testing elements redesign ([#263](https://github.com/stryker-mutator/stryker-dashboard/issues/263)) ([56ed5ac](https://github.com/stryker-mutator/stryker-dashboard/commit/56ed5ac52a3e92e5ed1fc07d3223bf66dd805da1))
+
+
+
+
+
 # [0.11.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.10.0...v0.11.0) (2022-07-02)
 
 **Note:** Version bump only for package e2e
