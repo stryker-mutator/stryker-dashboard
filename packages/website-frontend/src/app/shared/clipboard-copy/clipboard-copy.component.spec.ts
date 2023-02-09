@@ -29,6 +29,7 @@ describe(ClipboardCopyComponent.name, () => {
 
   it('should copy related code to clipboard when clicked', async () => {
     const writeToClipboardSpy = spyOn(navigator.clipboard, 'writeText');
+    writeToClipboardSpy.and.resolveTo();
     const svg = el.querySelector('svg');
     svg!.dispatchEvent(new Event('click', { bubbles: true, cancelable: true }));
     expect(writeToClipboardSpy).toHaveBeenCalledWith('foo-bar-code');

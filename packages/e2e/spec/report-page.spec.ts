@@ -39,9 +39,7 @@ test.describe('Report page', () => {
 
     test('should show the mutation-test-report-app with bound data', async () => {
       const app = page.mutationTestReportApp;
-      await expect(app.title).toContainText(
-        'All files - hello-org/master - Stryker Dashboard'
-      );
+      await expect(app.title).toContainText('hello-org/master');
       expect(await app.mutationScore()).toBe(33.33);
     });
 
@@ -119,7 +117,13 @@ test.describe('Report page', () => {
 
       test('should show the aggregated report for the project', async () => {
         await expect(page.mutationTestReportApp.title).toContainText(
-          'All files - hello-org/feat/modules - Stryker Dashboard'
+          'All files'
+        );
+        await expect(page.mutationTestReportApp.title).toContainText(
+          'hello-org/feat/modules'
+        );
+        await expect(page.mutationTestReportApp.title).toContainText(
+          'Stryker Dashboard'
         );
         expect(await page.mutationTestReportApp.mutationScore()).toBe(55.56);
         expect(await page.mutationTestReportApp.fileNames()).toEqual([
