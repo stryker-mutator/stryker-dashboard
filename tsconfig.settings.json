@@ -8,7 +8,7 @@
     "lib": ["es5", "es2015"],
     "types": ["node"],
     "noImplicitReturns": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false, // verified using eslint
     "skipLibCheck": true,
     "declarationMap": true,
     "declaration": true,
