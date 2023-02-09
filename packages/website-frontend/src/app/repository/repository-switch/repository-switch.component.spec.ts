@@ -68,7 +68,6 @@ describe(RepositorySwitchComponent.name, () => {
       const badge = el.querySelector(
         'stryker-mutation-score-badge img'
       ) as HTMLImageElement;
-      console.log(fixture.debugElement.children);
       expect(badge).not.toBeNull();
       expect(badge.src).toEqual(badgeSrc(repository));
     });
