@@ -7,14 +7,13 @@
       "dist/test/unit/**/*.js"
     ]
   },
-  "testFramework": "mocha",
   "testRunner": "mocha",
   "reporters": [
     "progress",
     "html",
     "dashboard"
   ],
-  "maxConcurrentTestRunners": 4,
+  "concurrency": 4,
   "dashboard": {
     "reportType": "full"
   }

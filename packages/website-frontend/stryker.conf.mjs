@@ -13,15 +13,13 @@ settings.dashboard.module = import.meta.url.split('/').slice(-2)[0];
 settings.testRunner = 'karma';
 settings.karma = {
   projectType: 'angular-cli',
-  configFile: 'src/karma.conf.js',
+  configFile: 'karma.conf.js',
   config: {
     browsers: ['ChromeHeadless'],
   },
 };
-settings.coverageAnalysis = 'off';
-settings.mutate = ['src/**/*.ts', '!src/**/*.spec.ts'];
+settings.mutate = ['src/**/*.ts', '!src/**/*.spec.ts', '!src/*.ts'];
 settings.tsconfigFile = 'src/tsconfig.spec.json';
-settings.transpilers = [];
 settings.plugins = ['@stryker-mutator/*', '@stryker-mutator/karma-runner'];
 
 /**
