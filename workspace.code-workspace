@@ -34,8 +34,9 @@
     ]
   },
   "settings": {
+    "eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
     "editor.codeActionsOnSave": {
-      "source.fixAll.tslint": true
+      "source.fixAll.eslint": true
     },
     "search.exclude": {
       "**/node_modules": true,
