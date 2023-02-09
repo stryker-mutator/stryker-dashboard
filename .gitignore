@@ -22,3 +22,5 @@ yarn-error.log*
 *.map
 .stryker-tmp
 /.azurite
+
+packages/*/reports
