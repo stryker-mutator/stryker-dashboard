@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.12.0...v0.12.1) (2023-02-23)
+
+
+### Bug Fixes
+
+* **cdn:** choose more stable CDN to deliver MTE ([#267](https://github.com/stryker-mutator/stryker-dashboard/issues/267)) ([7d4fcc7](https://github.com/stryker-mutator/stryker-dashboard/commit/7d4fcc7b66094bccb916b85cce9887b37e648c1f)), closes [#215](https://github.com/stryker-mutator/stryker-dashboard/issues/215)
+
+
+
+
+
 # [0.12.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.11.0...v0.12.0) (2023-02-09)
 
 
