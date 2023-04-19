@@ -44,7 +44,7 @@ set -e
 PASSWORD=`openssl rand -base64 16`
 echo "Using password ${PASSWORD}"
 
-certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/.secrets/certbot/cloudflare.ini -d dashboard.stryker-mutator.io -d badge.stryker-mutator.io -d badge-api.stryker-mutator.io
+certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/.secrets/certbot/cloudflare.ini -d dashboard.stryker-mutator.io -d badge.stryker-mutator.io -d badge-api.stryker-mutator.io --dns-cloudflare-propagation-seconds 60
 cd /etc/letsencrypt/live/dashboard.stryker-mutator.io/
 openssl pkcs12 -export -out stryker.pfx -inkey privkey.pem -in cert.pem -certfile chain.pem -password pass:$PASSWORD
 az webapp config ssl upload --certificate-file ./stryker.pfx --certificate-password $PASSWORD --name stryker-mutator-badge --resource-group stryker-mutator-badge
