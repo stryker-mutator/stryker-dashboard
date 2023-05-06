@@ -45,6 +45,10 @@ test.describe('Report api', () => {
           '/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report?module=module',
           baseURL
         ).toString(),
+        projectHref: new URL(
+          '/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report',
+          baseURL
+        ).toString(),
       };
       expect(response).toEqual(expectedResponse);
     });
