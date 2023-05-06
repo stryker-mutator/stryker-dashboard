@@ -4,7 +4,7 @@ import {
   type Shield,
   Color,
 } from '../po/badge-api/badge-api.po.js';
-import { simpleReport } from '../actions/report.action.js';
+import { simpleReportv1 } from '../actions/report.action.js';
 import { ReportClient } from '../po/reports/report-client.po.js';
 
 test.describe('badge-api', () => {
@@ -15,7 +15,7 @@ test.describe('badge-api', () => {
     client = new BadgeApiClient();
     reportClient = new ReportClient(request);
     await reportClient.uploadReport(
-      simpleReport(
+      simpleReportv1(
         'github.com/stryker-mutator-test-organization/hello-org',
         'master'
       )
@@ -54,7 +54,7 @@ test.describe('badge-api', () => {
       schemaVersion: 1,
     };
     await reportClient.uploadReport(
-      simpleReport(
+      simpleReportv1(
         'github.com/stryker-mutator-test-organization/hello-org',
         'feat/test'
       )

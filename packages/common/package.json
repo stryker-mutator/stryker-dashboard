@@ -20,6 +20,6 @@
   "main": "dist/src/index.js",
   "license": "ISC",
   "dependencies": {
-    "mutation-testing-report-schema": "1.7.10"
+    "mutation-testing-report-schema": "2.0.0"
   }
 }
