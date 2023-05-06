@@ -42,7 +42,7 @@ test.describe('Report api', () => {
 
       const expectedResponse: PutReportResponse = {
         href: new URL(
-          '/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report',
+          '/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report?module=module',
           baseURL
         ).toString(),
       };
