@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.12.1...v0.13.0) (2023-05-06)
+
+
+### Features
+
+* **mte:** Upgrade mutation testing elements to 2.0.0 ([#272](https://github.com/stryker-mutator/stryker-dashboard/issues/272)) ([9caba85](https://github.com/stryker-mutator/stryker-dashboard/commit/9caba85801fd8b5ead458d2b932a682f2cd16c72))
+
+
+
+
+
 ## [0.12.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.12.0...v0.12.1) (2023-02-23)
 
 **Note:** Version bump only for package @stryker-mutator/dashboard-backend
