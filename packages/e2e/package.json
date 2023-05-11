@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "azure-storage": "^2.10.3",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mutation-testing-report-schema": "2.0.0"
   },
   "repository": {
