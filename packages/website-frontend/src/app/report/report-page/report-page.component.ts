@@ -72,7 +72,8 @@ export class ReportPageComponent
 
 
     this.subscriptions.push(
-      combineLatest([slug$, moduleName$])
+      combineLatest<[string, string | undefined]>([slug$, moduleName$])
+        .pipe(distinctUntilChanged((previous, current) => previous[0] === current[0]))
         .pipe(
           mergeMap(([slug, moduleName]) =>
             this.reportService.get(slug, moduleName)
