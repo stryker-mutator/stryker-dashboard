@@ -101,6 +101,34 @@ describe(ReportPageComponent.name, () => {
       expect(loading.querySelector('mutation-test-report-app')).toBeTruthy();
     });
 
+    it('should only get the report once even if the anchor changes in the page', async () => {
+      // Arrange
+      url$.next([createUrlSegment({ path: 'someRepo' })]);
+      queryParam$.next({ module: null });
+      http.expectOne('/api/reports/someRepo').flush(createFullReport());
+
+      // Act
+      url$.next([createUrlSegment({ path: '#mutant' })]);
+      queryParam$.next({ module: null });
+
+      // Assert
+      http.expectNone('/api/reports/someRepo');
+    });
+
+    it('should get the report if the path changes', async () => {
+      // Arrange
+      url$.next([createUrlSegment({ path: 'someRepo' })]);
+      queryParam$.next({ module: null });
+      http.expectOne('/api/reports/someRepo').flush(createFullReport());
+
+      // Act
+      url$.next([createUrlSegment({ path: 'someOtherRepo' })]);
+      queryParam$.next({ module: null });
+
+      // Assert
+      http.expectOne('/api/reports/someOtherRepo').flush(createFullReport());
+    });
+
     it('should retrieve the correct report and bind it on the correct component', async () => {
       // Arrange
       const expectedReport = createFullReport();
