@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, flatMap } from 'rxjs/operators';
+import { map, flatMap, mergeMap, distinctUntilChanged } from 'rxjs/operators';
 import { Subscription, combineLatest } from 'rxjs';
 import { ReportsService } from '../ReportsService';
 import {
@@ -38,7 +38,7 @@ export class ReportPageComponent
     const reportParts: string[] = [];
     if (this.id) {
       reportParts.push(
-        this.id.projectName.substr(this.id.projectName.lastIndexOf('/') + 1)
+        this.id.projectName.substring(this.id.projectName.lastIndexOf('/') + 1)
       );
       reportParts.push(this.id.version);
       if (this.id.moduleName) {
@@ -70,15 +70,17 @@ export class ReportPageComponent
       )
     );
 
+
     this.subscriptions.push(
-      combineLatest(slug$, moduleName$)
+      combineLatest<[string, string | undefined]>([slug$, moduleName$])
+        .pipe(distinctUntilChanged((previous, current) => previous[0] === current[0]))
         .pipe(
-          flatMap(([slug, moduleName]) =>
+          mergeMap(([slug, moduleName]) =>
             this.reportService.get(slug, moduleName)
           )
         )
-        .subscribe(
-          (report) => {
+        .subscribe({
+          next: (report) => {
             if (report) {
               this.id = report;
               if (isMutationTestResult(report)) {
@@ -90,11 +92,11 @@ export class ReportPageComponent
               this.errorMessage = 'Report does not exist';
             }
           },
-          (error) => {
+          error: (error) => {
             console.error(error);
             this.errorMessage = 'A technical error occurred.';
           }
-        )
+        })
     );
   }
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.13.0...v0.13.1) (2023-05-12)
+
+
+### Bug Fixes
+
+* **report-page:** only get report when url path changes ([#278](https://github.com/stryker-mutator/stryker-dashboard/issues/278)) ([32fe85a](https://github.com/stryker-mutator/stryker-dashboard/commit/32fe85aafe2bf2d221f241d441b06e6568ba7ce5))
+
+
+
+
+
 # [0.13.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.12.1...v0.13.0) (2023-05-06)
 
 
