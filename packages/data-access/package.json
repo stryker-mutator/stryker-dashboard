@@ -23,8 +23,8 @@
   "dependencies": {
     "@stryker-mutator/dashboard-common": "0.13.1",
     "azure-storage": "^2.10.2",
-    "mutation-testing-metrics": "2.0.0",
-    "mutation-testing-report-schema": "2.0.0"
+    "mutation-testing-metrics": "2.0.1",
+    "mutation-testing-report-schema": "2.0.1"
   },
   "devDependencies": {
     "@types/es6-promisify": "^6.0.1",
