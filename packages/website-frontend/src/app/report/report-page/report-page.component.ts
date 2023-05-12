@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, flatMap, mergeMap, distinctUntilChanged } from 'rxjs/operators';
-import { Subscription, combineLatest } from 'rxjs';
+import { map, mergeMap, distinctUntilChanged } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
 import { ReportsService } from '../ReportsService';
 import {
   MutationScoreOnlyResult,
-  Report,
   ReportIdentifier,
   isMutationTestResult,
+  isPendingReport,
 } from '@stryker-mutator/dashboard-common';
 import { AutoUnsubscribe } from 'src/app/utils/auto-unsubscribe';
 import { MutationTestResult } from 'mutation-testing-report-schema';
@@ -27,6 +27,7 @@ export class ReportPageComponent
   implements OnInit, OnDestroy
 {
   public src!: string;
+  public sse: string | undefined;
   public id: ReportIdentifier | undefined;
   public mutationTestResult: MutationTestResult | undefined;
   public mutationScoreOnlyResult: MutationScoreOnlyResult | undefined;
@@ -70,32 +71,40 @@ export class ReportPageComponent
       )
     );
 
-
     this.subscriptions.push(
       combineLatest<[string, string | undefined]>([slug$, moduleName$])
-        .pipe(distinctUntilChanged((previous, current) => previous[0] === current[0]))
+        .pipe(
+          distinctUntilChanged(
+            (previous, current) => previous[0] === current[0]
+          )
+        )
         .pipe(
           mergeMap(([slug, moduleName]) =>
             this.reportService.get(slug, moduleName)
           )
         )
         .subscribe({
-          next: (report) => {
-            if (report) {
-              this.id = report;
-              if (isMutationTestResult(report)) {
-                this.mutationTestResult = report;
-              } else {
-                this.mutationScoreOnlyResult = report;
+          next: (object) => {
+            if (!object?.report) {
+              this.errorMessage = 'Report does not exist';
+              return;
+            }
+
+            this.id = object.report;
+            if (isMutationTestResult(object.report)) {
+              this.mutationTestResult = object.report;
+              if (isPendingReport(object.report)) {
+                console.log(object.slug);
+                this.sse = `/api/real-time/${object.slug}`;
               }
             } else {
-              this.errorMessage = 'Report does not exist';
+              this.mutationScoreOnlyResult = object.report;
             }
           },
           error: (error) => {
             console.error(error);
             this.errorMessage = 'A technical error occurred.';
-          }
+          },
         })
     );
   }
