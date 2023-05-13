@@ -47,6 +47,8 @@ jobs:
     name: Deploy to Acceptance
     needs: build-and-release
     runs-on: ubuntu-latest
+    environment: Acceptance
+    concurrency: Acceptance
     steps:
     - uses: actions/checkout@v2
     - name: 'Download artifact: version'
@@ -80,6 +82,7 @@ jobs:
     name: Run e2e tests
     needs: deploy
     runs-on: ubuntu-latest
+    concurrency: Acceptance
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
