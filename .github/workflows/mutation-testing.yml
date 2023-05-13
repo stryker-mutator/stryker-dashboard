@@ -9,7 +9,7 @@ jobs:
   website-frontend:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
     - run: npm ci
     - run: npm run build
     - name: Mutation testing
@@ -20,7 +20,7 @@ jobs:
   non-frontend: 
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
     - run: npm ci
     - run: npm run build
     - name: Mutation testing
