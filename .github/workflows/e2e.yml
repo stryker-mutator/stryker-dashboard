@@ -37,7 +37,7 @@ jobs:
     - name: Write version number
       run: echo $NPM_PACKAGE_VERSION > version.txt
     - name: 'Upload artifact: version'
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with: 
         name: version
         path: version.txt
@@ -98,7 +98,7 @@ jobs:
         E2E_JWT_SECRET: ${{ secrets.E2E_JWT_SECRET }}
         E2E_ACCESS_TOKEN: ${{ secrets.E2E_ACCESS_TOKEN }}
         E2E_BADGE_API_BASE_URL: https://stryker-mutator-badge-api-acceptance.azurewebsites.net
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       if: failure()
       with:
         name: playwright-videos
