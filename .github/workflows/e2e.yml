@@ -24,7 +24,7 @@ jobs:
         git commit -am "temp-commit"
         npx lerna publish from-package --dist-tag canary --no-git-reset --yes --no-verify-access
     - name: Docker build & Push
-      uses: nick-invision/retry@v2.4.0
+      uses: nick-invision/retry@v2.8.3
       with: 
         timeout_minutes: 1
         max_attempts: 3
