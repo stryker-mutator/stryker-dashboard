@@ -3,7 +3,6 @@ on: ['pull_request']
 name: e2e
 
 jobs:
-
   build-and-release:
     name: Build and Release
     runs-on: ubuntu-latest
@@ -43,8 +42,8 @@ jobs:
         name: version
         path: version.txt
 
-  deploy:
-    name: Deploy to Acceptance and E2E test
+  deploy-and-test:
+    name: Deploy to Acceptance and run E2E tests
     needs: build-and-release
     runs-on: ubuntu-latest
     environment: Acceptance
