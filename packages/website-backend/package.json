@@ -44,7 +44,7 @@
     "request-promise-native": "1.0.9",
     "sha512": "0.0.1",
     "ts-httpexceptions": "^4.0.0",
-    "uuid": "^8.3.2"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/body-parser": "1.19.2",
@@ -58,7 +58,7 @@
     "@types/request": "2.48.8",
     "@types/request-promise-native": "1.0.18",
     "@types/supertest": "2.0.12",
-    "@types/uuid": "^8.3.4",
+    "@types/uuid": "^9.0.0",
     "mutation-testing-report-schema": "2.0.1",
     "nodemon": "^2.0.16"
   },
