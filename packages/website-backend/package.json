@@ -34,7 +34,7 @@
     "ajv-formats": "^2.1.1",
     "body-parser": "1.20.0",
     "debug": "4.3.4",
-    "express": "4.18.1",
+    "express": "4.18.2",
     "express-jwt": "8.0.0",
     "js-sha512": "0.8.0",
     "node-fetch": "3.2.4",
@@ -49,7 +49,7 @@
   "devDependencies": {
     "@types/body-parser": "1.19.2",
     "@types/debug": "4.1.7",
-    "@types/express": "4.17.13",
+    "@types/express": "4.17.17",
     "@types/express-jwt": "6.0.4",
     "@types/jsonwebtoken": "8.5.8",
     "@types/node": "17.0.35",
