@@ -41,7 +41,7 @@
     "passport": "0.6.0",
     "passport-github2": "0.1.12",
     "request": "2.88.0",
-    "request-promise-native": "1.0.7",
+    "request-promise-native": "1.0.9",
     "sha512": "0.0.1",
     "ts-httpexceptions": "^4.0.0",
     "uuid": "^8.3.2"
