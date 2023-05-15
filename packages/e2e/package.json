@@ -17,7 +17,7 @@
     "@playwright/test": "^1.25.1",
     "@stryker-mutator/dashboard-common": "0.13.2",
     "@stryker-mutator/dashboard-contract": "0.13.2",
-    "@types/jsonwebtoken": "^8.5.9"
+    "@types/jsonwebtoken": "^9.0.0"
   },
   "dependencies": {
     "azure-storage": "^2.10.3",
