@@ -33,7 +33,7 @@
     "mutation-testing-elements": "2.0.1",
     "mutation-testing-metrics": "2.0.1",
     "mutation-testing-report-schema": "2.0.1",
-    "rxjs": "~7.5.5",
+    "rxjs": "~7.8.0",
     "tslib": "^2.4.0",
     "zone.js": "~0.11.5"
   },
