@@ -7,6 +7,7 @@ import Configuration from '../../src/services/Configuration.js';
 import DataAccess from '../../src/services/DataAccess.js';
 import sinon from 'sinon';
 import { ProjectMapper } from '@stryker-mutator/dashboard-data-access';
+import MutationtEventServerOrchestrator from '../../src/services/real-time/MutationtEventServerOrchestrator.js';
 
 export function createToken(user: github.Authentication): Promise<string> {
   return new Promise<string>((resolve, reject) => {
@@ -78,19 +79,7 @@ export class DataAccessMock implements IDataAccessMock {
   );
 }
 
-// type I<T> = { [K in keyof T]: T[K] };
-
-// @OverrideProvider(dal.MutationTestingReportService)
-// export class MutationTestingReportServiceMock
-//   implements sinon.SinonStubbedInstance<I<dal.MutationTestingReportService>>
-// {
-//   createStorageIfNotExists: sinon.SinonStubbedMember<
-//     dal.MutationTestingReportService['createStorageIfNotExists']
-//   > = sinon.stub();
-//   saveReport: sinon.SinonStubbedMember<
-//     dal.MutationTestingReportService['saveReport']
-//   > = sinon.stub();
-//   findOne: sinon.SinonStubbedMember<
-//     dal.MutationTestingReportService['findOne']
-//   > = sinon.stub();
-// }
+@OverrideProvider(MutationtEventServerOrchestrator)
+export class MutationtEventServerOrchestratorMock {
+  getSseInstanceForProject = sinon.stub();
+}

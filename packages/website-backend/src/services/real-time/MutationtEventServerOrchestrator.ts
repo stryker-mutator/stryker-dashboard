@@ -1,7 +1,9 @@
 import { createServer } from 'http';
 import { MutationEventServer } from './mutation-event-server.js';
 import { SseServer } from './sse-server.js';
+import { Service } from '@tsed/di';
 
+@Service()
 export default class MutationtEventServerOrchestrator {
   #mutationEventServers = new Map<string, MutationEventServer>();
 
@@ -19,7 +21,3 @@ export default class MutationtEventServerOrchestrator {
     return server;
   }
 }
-
-const instance = new MutationtEventServerOrchestrator();
-
-export { instance };
