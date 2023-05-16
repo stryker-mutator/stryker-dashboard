@@ -3,7 +3,7 @@ import type { Server, ServerResponse } from 'http';
 
 import { AddressInfo } from 'net';
 
-import { SseClient } from './sse-client.js';
+import { SseClient } from './SseClient.js';
 
 export class SseServer extends EventEmitter {
   public port?: number;

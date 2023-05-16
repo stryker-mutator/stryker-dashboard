@@ -1,6 +1,5 @@
-import { MutantResult } from '@stryker-mutator/api/core';
-
-import { SseClient } from './sse-client.js';
+import { MutantResult } from 'mutation-testing-report-schema';
+import { SseClient } from './SseClient.js';
 
 export class MutationEventSender {
   #client: SseClient;

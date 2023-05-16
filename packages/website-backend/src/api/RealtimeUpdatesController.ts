@@ -10,13 +10,13 @@ import {
 } from '@tsed/common';
 import { Controller } from '@tsed/di';
 import { Request } from 'express';
-import MutationtEventServerOrchestrator from '../services/real-time/MutationtEventServerOrchestrator.js';
 import { MutantResult } from '@stryker-mutator/api/core';
 import { Slug } from '@stryker-mutator/dashboard-common';
 import DataAccess from '../services/DataAccess.js';
 import { MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
 import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
 import { BadRequest, NotFound, Unauthorized } from 'ts-httpexceptions';
+import MutationtEventServerOrchestrator from '../services/real-time/MutationtEventServerOrchestrator.js';
 
 const API_KEY_HEADER = 'X-Api-Key';
 

@@ -1,6 +1,6 @@
 import { createServer } from 'http';
-import { MutationEventServer } from './mutation-event-server.js';
-import { SseServer } from './sse-server.js';
+import { MutationEventServer } from './MutationEventServer.js';
+import { SseServer } from './SseServer.js';
 import { Service } from '@tsed/di';
 
 @Service()
@@ -19,5 +19,9 @@ export default class MutationtEventServerOrchestrator {
     const server = new MutationEventServer(new SseServer(createServer()));
     this.#mutationEventServers.set(projectPath, server);
     return server;
+  }
+
+  public get servers() {
+    return this.#mutationEventServers.size;
   }
 }

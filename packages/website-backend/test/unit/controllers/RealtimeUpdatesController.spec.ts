@@ -15,7 +15,7 @@ import {
 import DataAccess from '../../../src/services/DataAccess.js';
 import { expect } from 'chai';
 import MutationtEventServerOrchestrator from '../../../src/services/real-time/MutationtEventServerOrchestrator.js';
-import { MutationEventServer } from '../../../src/services/real-time/mutation-event-server.js';
+import { MutationEventServer } from '../../../src/services/real-time/MutationEventServer.js';
 import utils from '../../../src/utils.js';
 import { MutantStatus } from 'mutation-testing-report-schema';
 
