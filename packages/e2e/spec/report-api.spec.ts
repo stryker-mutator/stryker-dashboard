@@ -33,7 +33,7 @@ test.describe('Report api', () => {
     test('should accept v2 reports', async ({ baseURL }) => {
       const response = await client.uploadReport(
         simpleReportv2(
-          'github.com/stryker-mutator-test-organization/hello-org',
+          'github.com/stryker-mutator-test-organization/hello-org?realtime=true',
           'feat/report',
           'module',
           [MutantStatus.Pending]
