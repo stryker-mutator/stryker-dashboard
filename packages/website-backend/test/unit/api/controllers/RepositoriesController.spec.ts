@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import supertest, { SuperTest, Test } from 'supertest';
-import { githubFactory } from '../../helpers/producers.js';
-import utils from '../../../src/utils.js';
-import * as github from '../../../src/github/models.js';
+import { githubFactory } from '../../../helpers/producers.js';
+import utils from '../../../../src/utils.js';
+import * as github from '../../../../src/github/models.js';
 import sinon from 'sinon';
 import { PlatformTest } from '@tsed/common';
-import Server from '../../../src/Server.js';
-import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
-import { createAuthorizationHeader } from '../../helpers/TestServer.js';
+import Server from '../../../../src/Server.js';
+import GithubRepositoryService from '../../../../src/services/GithubRepositoryService.js';
+import { createAuthorizationHeader } from '../../../helpers/TestServer.js';
 
 describe('RepositoriesController', () => {
   let request: SuperTest<Test>;

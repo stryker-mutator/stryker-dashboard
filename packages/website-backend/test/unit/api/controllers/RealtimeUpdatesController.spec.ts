@@ -1,7 +1,7 @@
 import supertest from 'supertest';
-import RealtimeUpdatesController from '../../../src/api/RealtimeUpdatesController.js';
+import RealtimeUpdatesController from '../../../../src/api/RealtimeUpdatesController.js';
 import { PlatformTest } from '@tsed/common';
-import Server from '../../../src/Server.js';
+import Server from '../../../../src/Server.js';
 import sinon from 'sinon';
 import {
   MutationTestingReportService,
@@ -11,12 +11,12 @@ import {
 import {
   DataAccessMock,
   MutationtEventServerOrchestratorMock,
-} from '../../helpers/TestServer.js';
-import DataAccess from '../../../src/services/DataAccess.js';
+} from '../../../helpers/TestServer.js';
+import DataAccess from '../../../../src/services/DataAccess.js';
 import { expect } from 'chai';
-import MutationtEventServerOrchestrator from '../../../src/services/real-time/MutationtEventServerOrchestrator.js';
-import { MutationEventServer } from '../../../src/services/real-time/MutationEventServer.js';
-import utils from '../../../src/utils.js';
+import MutationtEventServerOrchestrator from '../../../../src/services/real-time/MutationtEventServerOrchestrator.js';
+import { MutationEventServer } from '../../../../src/services/real-time/MutationEventServer.js';
+import utils from '../../../../src/utils.js';
 import { MutantStatus } from 'mutation-testing-report-schema';
 
 describe(RealtimeUpdatesController.name, () => {

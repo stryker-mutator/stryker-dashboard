@@ -1,4 +1,4 @@
-import ReportsController from '../../../src/api/ReportsController.js';
+import ReportsController from '../../../../src/api/ReportsController.js';
 import supertest from 'supertest';
 import { HTTPError } from 'superagent';
 import {
@@ -11,13 +11,13 @@ import {
   MutantStatus,
 } from 'mutation-testing-report-schema';
 import { expect } from 'chai';
-import utils from '../../../src/utils.js';
+import utils from '../../../../src/utils.js';
 import { Report } from '@stryker-mutator/dashboard-common';
 import { PlatformTest } from '@tsed/common';
-import Server from '../../../src/Server.js';
-import DataAccess from '../../../src/services/DataAccess.js';
+import Server from '../../../../src/Server.js';
+import DataAccess from '../../../../src/services/DataAccess.js';
 import sinon from 'sinon';
-import { DataAccessMock } from '../../helpers/TestServer.js';
+import { DataAccessMock } from '../../../helpers/TestServer.js';
 
 describe(ReportsController.name, () => {
   let request: supertest.SuperTest<supertest.Test>;
