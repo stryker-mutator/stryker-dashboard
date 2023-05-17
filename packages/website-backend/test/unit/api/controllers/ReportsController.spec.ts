@@ -95,6 +95,7 @@ describe(ReportsController.name, () => {
   describe('HTTP PUT /:slug', () => {
     const apiKey = '1346';
     let project: Project;
+
     beforeEach(() => {
       project = new Project();
       project.enabled = true;
@@ -218,6 +219,42 @@ describe(ReportsController.name, () => {
       expect(JSON.parse((response.error as HTTPError).text).message).include(
         'Invalid API key'
       );
+    });
+
+    it('should respond with 400 when uploading a report that is in-progress', async () => {
+      // Arrange
+      const mutationTestResult = createMutationTestResult();
+      // This action marks it in progress
+      mutationTestResult.files['a.js'].mutants[0].status = MutantStatus.Pending;
+
+      // Act
+      const response = await request
+        .put(
+          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging'
+        )
+        .set('X-Api-Key', apiKey)
+        .send(mutationTestResult);
+
+      // Assert
+      expect(response.status).eq(400);
+    });
+
+    it('should not respond with 400 when uploading a report that is in-progress', async () => {
+      // Arrange
+      const mutationTestResult = createMutationTestResult();
+      // This action marks it in progress
+      mutationTestResult.files['a.js'].mutants[0].status = MutantStatus.Pending;
+
+      // Act
+      const response = await request
+        .put(
+          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging&realtime=true'
+        )
+        .set('X-Api-Key', apiKey)
+        .send(mutationTestResult);
+
+      // Assert
+      expect(response.status).eq(400);
     });
   });
 

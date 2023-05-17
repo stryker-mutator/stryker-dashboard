@@ -23,6 +23,7 @@ import {
   Report,
   MutationScoreOnlyResult,
   isMutationTestResult,
+  isPendingReport,
 } from '@stryker-mutator/dashboard-common';
 import { Request } from 'express';
 import { MutationTestResult } from 'mutation-testing-report-schema';
@@ -61,6 +62,7 @@ export default class ReportsController {
     const { project, version } = this.parseSlug(slug);
     await this.apiKeyValidator.validateApiKey(authorizationHeader, project);
     this.verifyRequiredPutReportProperties(result);
+    this.verifyIfResultIsNotAnIncompleteReport(result, realTime);
     try {
       await this.reportService.saveReport(
         { projectName: project, version, moduleName, realTime },
@@ -142,6 +144,25 @@ export default class ReportsController {
       ) {
         throw new BadRequest(`Invalid report. ${errors}`);
       }
+    }
+  }
+
+  private verifyIfResultIsNotAnIncompleteReport(
+    result: MutationScoreOnlyResult | MutationTestResult,
+    realTime: boolean | undefined
+  ) {
+    if (!isMutationTestResult(result)) {
+      return;
+    }
+
+    if (realTime !== undefined) {
+      return;
+    }
+
+    if (isPendingReport(result)) {
+      throw new BadRequest(
+        'Not allowed to PUT incomplete reports without the `realTime` query parameter.'
+      );
     }
   }
 }
