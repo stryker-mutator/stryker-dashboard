@@ -87,10 +87,14 @@ export class MutationTestingResultMapper {
     moduleName,
     realTime,
   }: ReportIdentifier) {
-    let slug = [projectName, version, moduleName].filter(Boolean).join('/');
-    if (realTime) {
-      slug = `${slug}/realtime`;
-    }
+    const slug = [
+      projectName,
+      version,
+      moduleName,
+      realTime ? 'real-time' : realTime,
+    ]
+      .filter(Boolean)
+      .join('/');
     return encodeKey(slug);
   }
 }

@@ -45,6 +45,30 @@ describe(MutationTestingResultMapper.name, () => {
       );
     });
 
+    it('should encode real-time when given as option', async () => {
+      const result = createMutationTestResult();
+      await sut.insertOrReplace(
+        {
+          moduleName: 'core',
+          projectName: 'project',
+          version: 'version',
+          realTime: true,
+        },
+        result
+      );
+      expect(blobMock.createBlockBlobFromText).calledWith(
+        'mutation-testing-report',
+        'project;version;core;real-time',
+        JSON.stringify(result),
+        {
+          contentSettings: {
+            contentType: 'application/json',
+            contentEncoding: 'utf8',
+          },
+        }
+      );
+    });
+
     it('should throw OptimisticConcurrencyError "BlobHasBeenModified" is thrown', async () => {
       blobMock.createBlockBlobFromText.rejects(
         new StorageError('BlobHasBeenModified')
