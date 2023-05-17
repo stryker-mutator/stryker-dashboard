@@ -10,6 +10,7 @@ export interface MutationScoreOnlyResult {
 export interface ReportIdentifier {
   projectName: string;
   moduleName: string | undefined;
+  realTime?: boolean;
   version: string;
 }
 

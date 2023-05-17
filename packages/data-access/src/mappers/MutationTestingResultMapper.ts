@@ -81,8 +81,16 @@ export class MutationTestingResultMapper {
     }
   }
 
-  private toBlobName({ projectName, version, moduleName }: ReportIdentifier) {
-    const slug = [projectName, version, moduleName].filter(Boolean).join('/');
+  private toBlobName({
+    projectName,
+    version,
+    moduleName,
+    realTime,
+  }: ReportIdentifier) {
+    let slug = [projectName, version, moduleName].filter(Boolean).join('/');
+    if (realTime) {
+      slug = `${slug}/realtime`;
+    }
     return encodeKey(slug);
   }
 }

@@ -51,6 +51,7 @@ export default class ReportsController {
     @Context() $ctx: PlatformContext,
     @BodyParams() result: MutationScoreOnlyResult | MutationTestResult,
     @QueryParams('module') moduleName: string | undefined,
+    @QueryParams('realTime') realTime: boolean | undefined,
     @HeaderParams(API_KEY_HEADER) authorizationHeader: string | undefined
   ): Promise<PutReportResponse> {
     if (!authorizationHeader) {
@@ -62,7 +63,7 @@ export default class ReportsController {
     this.verifyRequiredPutReportProperties(result);
     try {
       await this.reportService.saveReport(
-        { projectName: project, version, moduleName },
+        { projectName: project, version, moduleName, realTime },
         result,
         $ctx.logger
       );
@@ -95,8 +96,8 @@ export default class ReportsController {
   public async get(
     @Req() req: Request,
     @Context() $ctx: PlatformContext,
-
-    @QueryParams('module') moduleName: string | undefined
+    @QueryParams('module') moduleName: string | undefined,
+    @QueryParams('realTime') realTime: boolean | undefined
   ): Promise<Report> {
     $ctx.logger.info({ test: 'Test this one' });
     const slug = req.path;
@@ -105,6 +106,7 @@ export default class ReportsController {
       projectName: project,
       moduleName,
       version,
+      realTime,
     });
     if (report) {
       return report;

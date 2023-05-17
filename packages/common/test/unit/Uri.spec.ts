@@ -11,6 +11,15 @@ describe(constructApiUri.name, () => {
     expect(uri).to.eq('/api/reports/github.com/user/project');
   });
 
+  it('should also ignore null values', () => {
+    const uri = constructApiUri('github.com/user/project', {
+      module: null as unknown as undefined,
+      realTime: null as unknown as undefined,
+    });
+
+    expect(uri).to.eq('/api/reports/github.com/user/project');
+  });
+
   it('should return the API uri with the module as query param', () => {
     const uri = constructApiUri('github.com/user/project', {
       module: 'project-submodule',

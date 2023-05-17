@@ -69,6 +69,7 @@ describe(ReportsController.name, () => {
         projectName: 'github.com/test/name',
         version: 'feat/dashboard',
         moduleName: 'core',
+        realTime: undefined,
       });
     });
 
@@ -116,6 +117,7 @@ describe(ReportsController.name, () => {
         projectName: 'github.com/testOrg/testName',
         version: 'feat/dashboard',
         moduleName: 'core',
+        realTime: undefined,
       };
 
       // Act
