@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, mergeMap, distinctUntilChanged } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { ReportsService } from '../ReportsService';
 import {
   MutationScoreOnlyResult,
@@ -61,9 +61,13 @@ export class ReportPageComponent
   }
 
   public ngOnInit() {
-    const moduleName$ = this.route.queryParams.pipe(
-      map((queryParams) => queryParams.module as string | undefined)
-    );
+    const queryParams$: Observable<[string | undefined, string | undefined]> =
+      this.route.queryParams.pipe(
+        map((queryParams) => [
+          queryParams.module as string | undefined,
+          queryParams.realTime as string | undefined,
+        ])
+      );
 
     const slug$ = this.route.url.pipe(
       map((pathSegments) =>
@@ -72,15 +76,18 @@ export class ReportPageComponent
     );
 
     this.subscriptions.push(
-      combineLatest<[string, string | undefined]>([slug$, moduleName$])
+      combineLatest<[string, [string | undefined, string | undefined]]>([
+        slug$,
+        queryParams$,
+      ])
         .pipe(
           distinctUntilChanged(
             (previous, current) => previous[0] === current[0]
           )
         )
         .pipe(
-          mergeMap(([slug, moduleName]) =>
-            this.reportService.get(slug, moduleName)
+          mergeMap(([slug, [moduleName, realTime]]) =>
+            this.reportService.get(slug, moduleName, realTime)
           )
         )
         .subscribe({
