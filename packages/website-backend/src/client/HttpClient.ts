@@ -1,4 +1,4 @@
-import { RequestInit } from 'node-fetch';
+import { Headers, RequestInit } from 'node-fetch';
 import { Injectable } from '@tsed/di';
 import util from '../utils.js';
 import debug from 'debug';
