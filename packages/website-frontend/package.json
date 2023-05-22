@@ -25,7 +25,7 @@
     "@angular/platform-browser-dynamic": "~13.3.9",
     "@angular/router": "~13.3.9",
     "@github/clipboard-copy-element": "^1.1.2",
-    "@ng-bootstrap/ng-bootstrap": "^12.1.2",
+    "@ng-bootstrap/ng-bootstrap": "^14.0.0",
     "@primer/octicons": "^17.2.0",
     "@stryker-mutator/dashboard-common": "0.13.2",
     "@stryker-mutator/dashboard-contract": "0.13.2",
