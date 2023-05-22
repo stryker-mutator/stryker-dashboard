@@ -89,5 +89,5 @@ export function passportAuthenticateGithub(
   res: express.Response,
   next: express.NextFunction
 ) {
-  return passport.authenticate('github')(req, res, next);
+  return passport.authenticate('github', { session: false })(req, res, next);
 }
