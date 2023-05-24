@@ -16,6 +16,8 @@ describe(MutationTestingResultMapper.name, () => {
       blobToText: sinon.stub(),
       createBlockBlobFromText: sinon.stub(),
       createContainerIfNotExists: sinon.stub(),
+      createAppendBlobFromText: sinon.stub(),
+      appendBlockFromText: sinon.stub(),
     };
     sut = new MutationTestingResultMapper(blobMock);
   });

@@ -1,6 +1,6 @@
 import { BlobServiceAsPromised } from '../services/BlobServiceAsPromised.js';
 import { BlobService, Constants } from 'azure-storage';
-import { encodeKey, isStorageError } from '../utils.js';
+import { isStorageError, toBlobName } from '../utils.js';
 import * as schema from 'mutation-testing-report-schema';
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 import { OptimisticConcurrencyError } from '../errors/index.js';
@@ -33,7 +33,7 @@ export class MutationTestingResultMapper {
     try {
       await this.blobService.createBlockBlobFromText(
         MutationTestingResultMapper.CONTAINER_NAME,
-        this.toBlobName(id),
+        toBlobName(id),
         JSON.stringify(result),
         {
           contentSettings: {
@@ -59,7 +59,7 @@ export class MutationTestingResultMapper {
   public async findOne(
     identifier: ReportIdentifier
   ): Promise<schema.MutationTestResult | null> {
-    const blobName = this.toBlobName(identifier);
+    const blobName = toBlobName(identifier);
     try {
       const result: schema.MutationTestResult = JSON.parse(
         await this.blobService.blobToText(
@@ -79,22 +79,5 @@ export class MutationTestingResultMapper {
         throw error;
       }
     }
-  }
-
-  private toBlobName({
-    projectName,
-    version,
-    moduleName,
-    realTime,
-  }: ReportIdentifier) {
-    const slug = [
-      projectName,
-      version,
-      moduleName,
-      realTime ? 'real-time' : realTime,
-    ]
-      .filter(Boolean)
-      .join('/');
-    return encodeKey(slug);
   }
 }

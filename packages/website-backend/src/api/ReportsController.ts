@@ -15,7 +15,10 @@ import {
   Unauthorized,
   InternalServerError,
 } from 'ts-httpexceptions';
-import { MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
+import {
+  MutationTestingReportService,
+  RealTimeMutantsBatchingService,
+} from '@stryker-mutator/dashboard-data-access';
 import { PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import {
   Slug,
@@ -37,6 +40,8 @@ const API_KEY_HEADER = 'X-Api-Key';
 @Controller('/reports')
 export default class ReportsController {
   private readonly reportService: MutationTestingReportService;
+  private readonly batchingService: RealTimeMutantsBatchingService;
+
   constructor(
     dataAccess: DataAccess,
     private readonly reportValidator: ReportValidator,
@@ -44,6 +49,7 @@ export default class ReportsController {
     private readonly apiKeyValidator: ApiKeyValidator
   ) {
     this.reportService = dataAccess.mutationTestingReportService;
+    this.batchingService = new RealTimeMutantsBatchingService();
   }
 
   @Put('/*')
@@ -69,6 +75,16 @@ export default class ReportsController {
         result,
         $ctx.logger
       );
+
+      if (realTime) {
+        this.batchingService.createBlob({
+          projectName: project,
+          version,
+          moduleName,
+          realTime,
+        });
+      }
+
       if (moduleName && isMutationTestResult(result)) {
         return {
           href: `${this.config.baseUrl}/reports/${project}/${version}?module=${moduleName}`,

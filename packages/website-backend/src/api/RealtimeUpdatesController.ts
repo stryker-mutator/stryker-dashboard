@@ -13,7 +13,10 @@ import { Request } from 'express';
 import { MutantResult } from '@stryker-mutator/api/core';
 import { Slug } from '@stryker-mutator/dashboard-common';
 import DataAccess from '../services/DataAccess.js';
-import { MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
+import {
+  MutationTestingReportService,
+  RealTimeMutantsBatchingService,
+} from '@stryker-mutator/dashboard-data-access';
 import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
 import { BadRequest, NotFound, Unauthorized } from 'ts-httpexceptions';
 import MutationtEventServerOrchestrator from '../services/real-time/MutationtEventServerOrchestrator.js';
@@ -25,6 +28,7 @@ export default class RealtimeUpdatesController {
   #apiKeyValidator: ApiKeyValidator;
   #reportService: MutationTestingReportService;
   #orchestrator: MutationtEventServerOrchestrator;
+  #batchingService: RealTimeMutantsBatchingService;
 
   constructor(
     apiKeyValidator: ApiKeyValidator,
@@ -34,6 +38,7 @@ export default class RealtimeUpdatesController {
     this.#apiKeyValidator = apiKeyValidator;
     this.#reportService = dataAcces.mutationTestingReportService;
     this.#orchestrator = mutationtEventServerOrchestrator;
+    this.#batchingService = new RealTimeMutantsBatchingService();
   }
 
   @Get('/*')
@@ -54,8 +59,16 @@ export default class RealtimeUpdatesController {
       );
     }
 
+    const data = await this.#batchingService.getEvents({
+      projectName: project,
+      version,
+      moduleName,
+      realTime: true,
+    });
+
     const server = this.#orchestrator.getSseInstanceForProject(project);
     server.attach(res);
+    data.forEach((mutant) => server.sendMutantTested(mutant));
   }
 
   @Post('/*')
@@ -69,7 +82,7 @@ export default class RealtimeUpdatesController {
       throw new Unauthorized(`Provide an "${API_KEY_HEADER}" header`);
     }
 
-    const { project } = Slug.parse(req.path);
+    const { project, version } = Slug.parse(req.path);
     await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
     const server = this.#orchestrator.getSseInstanceForProject(project);
 
@@ -81,6 +94,10 @@ export default class RealtimeUpdatesController {
       throw new BadRequest('Please provide mutant-tested events');
     }
 
+    await this.#batchingService.appendToBlob(
+      { projectName: project, version, moduleName: undefined, realTime: true },
+      result
+    );
     result.forEach((mutant) => {
       server.sendMutantTested(mutant);
     });
