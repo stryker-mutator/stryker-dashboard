@@ -1,5 +1,5 @@
 import supertest from 'supertest';
-import RealtimeUpdatesController from '../../../../src/api/RealtimeUpdatesController.js';
+import RealTimeUpdatesReport from '../../../../src/api/RealTimeReportsController.js';
 import { PlatformTest } from '@tsed/common';
 import Server from '../../../../src/Server.js';
 import sinon from 'sinon';
@@ -7,6 +7,7 @@ import {
   MutationTestingReportService,
   Project,
   ProjectMapper,
+  RealTimeMutantsBlobService,
 } from '@stryker-mutator/dashboard-data-access';
 import {
   DataAccessMock,
@@ -19,7 +20,7 @@ import { MutationEventServer } from '../../../../src/services/real-time/Mutation
 import utils from '../../../../src/utils.js';
 import { MutantStatus } from 'mutation-testing-report-schema';
 
-describe(RealtimeUpdatesController.name, () => {
+describe(RealTimeUpdatesReport.name, () => {
   let request: supertest.SuperTest<supertest.Test>;
   let findReportStub: sinon.SinonStubbedMember<
     MutationTestingReportService['findOne']
@@ -27,6 +28,9 @@ describe(RealtimeUpdatesController.name, () => {
   let findProjectStub: sinon.SinonStubbedMember<ProjectMapper['findOne']>;
   let sseInstanceForProjectStub: sinon.SinonStubbedMember<
     MutationtEventServerOrchestrator['getSseInstanceForProject']
+  >;
+  let getEventsStub: sinon.SinonStubbedMember<
+    RealTimeMutantsBlobService['getEvents']
   >;
 
   beforeEach(async () => {
@@ -36,6 +40,8 @@ describe(RealtimeUpdatesController.name, () => {
     const dataAccess = PlatformTest.get<DataAccessMock>(DataAccess);
     findReportStub = dataAccess.mutationTestingReportService.findOne;
     findProjectStub = dataAccess.repositoryMapper.findOne;
+    getEventsStub = dataAccess.batchingService.getEvents;
+    getEventsStub.returns(Promise.resolve([]));
 
     const orchestrator = PlatformTest.get<MutationtEventServerOrchestratorMock>(
       MutationtEventServerOrchestrator
@@ -77,6 +83,36 @@ describe(RealtimeUpdatesController.name, () => {
       expect(response.status).to.eq(200);
       expect(sseInstanceForProjectStub.calledOnce).to.be.true;
       expect(stub.attach.calledOnce);
+    });
+
+    it('should get events and replay them', async () => {
+      const stub = sinon.createStubInstance(MutationEventServer);
+      sseInstanceForProjectStub.returns(stub);
+      findReportStub.resolves({
+        files: {},
+        schemaVersion: '1',
+        thresholds: { high: 80, low: 60 },
+        moduleName: 'core',
+        projectName: 'github.com/user/does-not-exist/',
+        version: 'master',
+        mutationScore: 89,
+      });
+      getEventsStub.returns(
+        Promise.resolve([
+          { id: '1', status: MutantStatus.Killed },
+          { id: '2', status: MutantStatus.Survived },
+        ])
+      );
+
+      await request.get('/api/real-time/github.com/user/does-not-exist/master');
+
+      expect(getEventsStub).calledWith({
+        projectName: 'github.com/user/does-not-exist',
+        version: 'master',
+        moduleName: undefined,
+        realTime: true,
+      });
+      expect(stub.sendMutantTested.calledTwice).to.be.true;
     });
   });
 

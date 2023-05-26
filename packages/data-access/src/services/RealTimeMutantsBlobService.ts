@@ -5,21 +5,25 @@ import { MutantResult } from 'mutation-testing-report-schema';
 
 // To make resource delete themselves automatically, this should be managed from within Azure:
 // https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-overview?tabs=azure-portal
-export class RealTimeMutantsBatchingService {
+export class RealTimeMutantsBlobService {
   private static readonly CONTAINER_NAME = 'mutants-tested-batch';
 
-  constructor(private readonly blobService = new BlobServiceAsPromised()) {}
+  #blobService: BlobServiceAsPromised;
+
+  constructor(blobService = new BlobServiceAsPromised()) {
+    this.#blobService = blobService;
+  }
 
   public async createStorageIfNotExists() {
-    await this.blobService.createContainerIfNotExists(
-      RealTimeMutantsBatchingService.CONTAINER_NAME,
+    await this.#blobService.createContainerIfNotExists(
+      RealTimeMutantsBlobService.CONTAINER_NAME,
       {}
     );
   }
 
   public async createBlob(id: ReportIdentifier) {
-    await this.blobService.createAppendBlobFromText(
-      RealTimeMutantsBatchingService.CONTAINER_NAME,
+    await this.#blobService.createAppendBlobFromText(
+      RealTimeMutantsBlobService.CONTAINER_NAME,
       toBlobName(id),
       ''
     );
@@ -30,21 +34,22 @@ export class RealTimeMutantsBatchingService {
     mutants: Array<Partial<MutantResult>>
   ) {
     const blobName = toBlobName(id);
-
     const data = mutants
       .map((mutant) => `${JSON.stringify(mutant)}\n`)
       .join('');
 
-    await this.blobService.appendBlockFromText(
-      RealTimeMutantsBatchingService.CONTAINER_NAME,
+    await this.#blobService.appendBlockFromText(
+      RealTimeMutantsBlobService.CONTAINER_NAME,
       blobName,
       data
     );
   }
 
-  public async getEvents(id: ReportIdentifier) {
-    const data = await this.blobService.blobToText(
-      RealTimeMutantsBatchingService.CONTAINER_NAME,
+  public async getEvents(
+    id: ReportIdentifier
+  ): Promise<Array<Partial<MutantResult>>> {
+    const data = await this.#blobService.blobToText(
+      RealTimeMutantsBlobService.CONTAINER_NAME,
       toBlobName(id)
     );
 

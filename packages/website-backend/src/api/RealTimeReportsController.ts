@@ -15,7 +15,7 @@ import { Slug } from '@stryker-mutator/dashboard-common';
 import DataAccess from '../services/DataAccess.js';
 import {
   MutationTestingReportService,
-  RealTimeMutantsBatchingService,
+  RealTimeMutantsBlobService,
 } from '@stryker-mutator/dashboard-data-access';
 import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
 import { BadRequest, NotFound, Unauthorized } from 'ts-httpexceptions';
@@ -24,11 +24,11 @@ import MutationtEventServerOrchestrator from '../services/real-time/MutationtEve
 const API_KEY_HEADER = 'X-Api-Key';
 
 @Controller('/real-time')
-export default class RealtimeUpdatesController {
+export default class RealTimeReportsController {
   #apiKeyValidator: ApiKeyValidator;
   #reportService: MutationTestingReportService;
   #orchestrator: MutationtEventServerOrchestrator;
-  #batchingService: RealTimeMutantsBatchingService;
+  #batchingService: RealTimeMutantsBlobService;
 
   constructor(
     apiKeyValidator: ApiKeyValidator,
@@ -38,7 +38,7 @@ export default class RealtimeUpdatesController {
     this.#apiKeyValidator = apiKeyValidator;
     this.#reportService = dataAcces.mutationTestingReportService;
     this.#orchestrator = mutationtEventServerOrchestrator;
-    this.#batchingService = new RealTimeMutantsBatchingService();
+    this.#batchingService = dataAcces.batchingService;
   }
 
   @Get('/*')
@@ -52,6 +52,7 @@ export default class RealtimeUpdatesController {
       projectName: project,
       version,
       moduleName,
+      realTime: true,
     });
     if (report === null) {
       throw new NotFound(
@@ -75,7 +76,7 @@ export default class RealtimeUpdatesController {
   public async UpdateBatch(
     @Req() req: Request,
     @BodyParams()
-    result: Array<Partial<MutantResult>> | object | null | undefined,
+    mutants: Array<Partial<MutantResult>> | object | null | undefined,
     @HeaderParams(API_KEY_HEADER) authorizationHeader: string | undefined
   ) {
     if (!authorizationHeader) {
@@ -86,19 +87,19 @@ export default class RealtimeUpdatesController {
     await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
     const server = this.#orchestrator.getSseInstanceForProject(project);
 
-    if (!Array.isArray(result)) {
+    if (!Array.isArray(mutants)) {
       throw new BadRequest('Please provide an array of mutant-tested events');
     }
 
-    if (result === null || result === undefined) {
+    if (mutants === null || mutants === undefined) {
       throw new BadRequest('Please provide mutant-tested events');
     }
 
     await this.#batchingService.appendToBlob(
       { projectName: project, version, moduleName: undefined, realTime: true },
-      result
+      mutants
     );
-    result.forEach((mutant) => {
+    mutants.forEach((mutant) => {
       server.sendMutantTested(mutant);
     });
   }

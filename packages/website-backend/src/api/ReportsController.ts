@@ -17,7 +17,7 @@ import {
 } from 'ts-httpexceptions';
 import {
   MutationTestingReportService,
-  RealTimeMutantsBatchingService,
+  RealTimeMutantsBlobService,
 } from '@stryker-mutator/dashboard-data-access';
 import { PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import {
@@ -40,7 +40,7 @@ const API_KEY_HEADER = 'X-Api-Key';
 @Controller('/reports')
 export default class ReportsController {
   private readonly reportService: MutationTestingReportService;
-  private readonly batchingService: RealTimeMutantsBatchingService;
+  private readonly batchingService: RealTimeMutantsBlobService;
 
   constructor(
     dataAccess: DataAccess,
@@ -49,10 +49,11 @@ export default class ReportsController {
     private readonly apiKeyValidator: ApiKeyValidator
   ) {
     this.reportService = dataAccess.mutationTestingReportService;
-    this.batchingService = new RealTimeMutantsBatchingService();
+    this.batchingService = dataAccess.batchingService;
   }
 
   @Put('/*')
+  // TODO: move to RealTimeReportsController (realtime part)
   public async update(
     @Req() req: Request,
     @Context() $ctx: PlatformContext,
@@ -113,11 +114,9 @@ export default class ReportsController {
   @Get('/*')
   public async get(
     @Req() req: Request,
-    @Context() $ctx: PlatformContext,
     @QueryParams('module') moduleName: string | undefined,
     @QueryParams('realTime') realTime: boolean | undefined
   ): Promise<Report> {
-    $ctx.logger.info({ test: 'Test this one' });
     const slug = req.path;
     const { project, version } = this.parseSlug(slug);
     const report = await this.reportService.findOne({

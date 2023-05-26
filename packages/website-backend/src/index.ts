@@ -5,7 +5,7 @@ import util from './utils.js';
 import {
   createProjectMapper,
   MutationTestingReportService,
-  RealTimeMutantsBatchingService,
+  RealTimeMutantsBlobService,
 } from '@stryker-mutator/dashboard-data-access';
 
 const log = debug('app');
@@ -14,7 +14,7 @@ const port = parseInt(util.optionalEnvVar('PORT', '1337'), 10);
 
 async function ensureDatabaseExists() {
   const repositoryMapper = createProjectMapper();
-  const realTimeMutantsBatchingService = new RealTimeMutantsBatchingService();
+  const realTimeMutantsBatchingService = new RealTimeMutantsBlobService();
   const mutationTestingReportService = new MutationTestingReportService();
 
   await repositoryMapper.createStorageIfNotExists();

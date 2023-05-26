@@ -77,6 +77,7 @@ export class DataAccessMock implements IDataAccessMock {
   mutationTestingReportService = sinon.createStubInstance(
     dal.MutationTestingReportService
   );
+  batchingService = sinon.createStubInstance(dal.RealTimeMutantsBlobService);
 }
 
 @OverrideProvider(MutationtEventServerOrchestrator)

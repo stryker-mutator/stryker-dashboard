@@ -5,6 +5,7 @@ import {
   MutationTestingReportService,
   Project,
   ProjectMapper,
+  RealTimeMutantsBlobService,
 } from '@stryker-mutator/dashboard-data-access';
 import {
   MutationTestResult,
@@ -28,6 +29,9 @@ describe(ReportsController.name, () => {
     MutationTestingReportService['saveReport']
   >;
   let findProjectStub: sinon.SinonStubbedMember<ProjectMapper['findOne']>;
+  let createBlobStub: sinon.SinonStubbedMember<
+    RealTimeMutantsBlobService['createBlob']
+  >;
 
   beforeEach(async () => {
     await PlatformTest.bootstrap(Server)();
@@ -37,6 +41,7 @@ describe(ReportsController.name, () => {
     findReportStub = dataAccess.mutationTestingReportService.findOne;
     saveReportStub = dataAccess.mutationTestingReportService.saveReport;
     findProjectStub = dataAccess.repositoryMapper.findOne;
+    createBlobStub = dataAccess.batchingService.createBlob;
   });
 
   describe('HTTP GET /:slug', () => {
@@ -224,7 +229,6 @@ describe(ReportsController.name, () => {
     it('should respond with 400 when uploading a report that is in-progress', async () => {
       // Arrange
       const mutationTestResult = createMutationTestResult();
-      // This action marks it in progress
       mutationTestResult.files['a.js'].mutants[0].status = MutantStatus.Pending;
 
       // Act
@@ -239,22 +243,43 @@ describe(ReportsController.name, () => {
       expect(response.status).eq(400);
     });
 
-    it('should not respond with 400 when uploading a report that is in-progress', async () => {
+    it('should respond with 200 when uploading a report that is in-progress with realTime query parameter', async () => {
       // Arrange
       const mutationTestResult = createMutationTestResult();
-      // This action marks it in progress
       mutationTestResult.files['a.js'].mutants[0].status = MutantStatus.Pending;
 
       // Act
       const response = await request
         .put(
-          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging&realtime=true'
+          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging&realTime=true'
         )
         .set('X-Api-Key', apiKey)
         .send(mutationTestResult);
 
       // Assert
-      expect(response.status).eq(400);
+      expect(response.status).eq(200);
+    });
+
+    it('should create a blob voor mutant-tested events when realTime option is enabled', async () => {
+      // Arrange
+      const mutationTestResult = createMutationTestResult();
+      mutationTestResult.files['a.js'].mutants[0].status = MutantStatus.Pending;
+
+      // Act
+      await request
+        .put(
+          '/api/reports/github.com/testOrg/testName/main?module=logging&realTime=true'
+        )
+        .set('X-Api-Key', apiKey)
+        .send(mutationTestResult);
+
+      // Assert
+      expect(createBlobStub).calledWith({
+        projectName: 'github.com/testOrg/testName',
+        version: 'main',
+        moduleName: 'logging',
+        realTime: 'true',
+      });
     });
   });
 
