@@ -1,5 +1,5 @@
 import supertest from 'supertest';
-import RealTimeUpdatesReport from '../../../../src/api/RealTimeReportsController.js';
+import RealTimeReportsController from '../../../../src/api/RealTimeReportsController.js';
 import { PlatformTest } from '@tsed/common';
 import Server from '../../../../src/Server.js';
 import sinon from 'sinon';
@@ -19,8 +19,11 @@ import MutationtEventServerOrchestrator from '../../../../src/services/real-time
 import { MutationEventServer } from '../../../../src/services/real-time/MutationEventServer.js';
 import utils from '../../../../src/utils.js';
 import { MutantStatus } from 'mutation-testing-report-schema';
+import { createMutationTestResult } from '../../../helpers/mutants.js';
 
-describe(RealTimeUpdatesReport.name, () => {
+describe(RealTimeReportsController.name, () => {
+  const apiKey = '1346';
+
   let request: supertest.SuperTest<supertest.Test>;
   let findReportStub: sinon.SinonStubbedMember<
     MutationTestingReportService['findOne']
@@ -32,6 +35,13 @@ describe(RealTimeUpdatesReport.name, () => {
   let getEventsStub: sinon.SinonStubbedMember<
     RealTimeMutantsBlobService['getEvents']
   >;
+  let createBlobStub: sinon.SinonStubbedMember<
+    RealTimeMutantsBlobService['createBlob']
+  >;
+  let saveReportStub: sinon.SinonStubbedMember<
+    MutationTestingReportService['saveReport']
+  >;
+  let project: Project;
 
   beforeEach(async () => {
     await PlatformTest.bootstrap(Server)();
@@ -40,8 +50,10 @@ describe(RealTimeUpdatesReport.name, () => {
     const dataAccess = PlatformTest.get<DataAccessMock>(DataAccess);
     findReportStub = dataAccess.mutationTestingReportService.findOne;
     findProjectStub = dataAccess.repositoryMapper.findOne;
-    getEventsStub = dataAccess.batchingService.getEvents;
+    getEventsStub = dataAccess.blobService.getEvents;
     getEventsStub.returns(Promise.resolve([]));
+    createBlobStub = dataAccess.blobService.createBlob;
+    saveReportStub = dataAccess.mutationTestingReportService.saveReport;
 
     const orchestrator = PlatformTest.get<MutationtEventServerOrchestratorMock>(
       MutationtEventServerOrchestrator
@@ -50,6 +62,16 @@ describe(RealTimeUpdatesReport.name, () => {
       orchestrator.getSseInstanceForProject as sinon.SinonStubbedMember<
         MutationtEventServerOrchestrator['getSseInstanceForProject']
       >;
+
+    project = new Project();
+    project.enabled = true;
+    project.name = 'stryker';
+    project.owner = 'github.com/stryker-mutator';
+    project.apiKeyHash = utils.generateHashValue(apiKey);
+    findProjectStub.resolves({
+      model: project,
+      etag: 'etag',
+    });
   });
 
   describe('HTTP GET /*', () => {
@@ -116,25 +138,12 @@ describe(RealTimeUpdatesReport.name, () => {
     });
   });
 
-  describe('HTTP POST /:github/:project/:version', () => {
-    const apiKey = '1346';
-
+  describe('HTTP POST /*', () => {
     let serverStub: sinon.SinonStubbedInstance<MutationEventServer>;
-    let project: Project;
 
     beforeEach(() => {
       serverStub = sinon.createStubInstance(MutationEventServer);
       sseInstanceForProjectStub.returns(serverStub);
-
-      project = new Project();
-      project.enabled = true;
-      project.name = 'stryker';
-      project.owner = 'github.com/stryker-mutator';
-      project.apiKeyHash = utils.generateHashValue(apiKey);
-      findProjectStub.resolves({
-        model: project,
-        etag: 'etag',
-      });
     });
 
     it('should return unauthorized if the `X-Api-key` header is not set', async () => {
@@ -192,6 +201,94 @@ describe(RealTimeUpdatesReport.name, () => {
         id: '1',
         status: MutantStatus.Killed,
       });
+    });
+  });
+
+  describe('HTTP PUT /*', () => {
+    it('should respond with 200 when uploading a report that is in-progress', async () => {
+      // Arrange
+      const mutationTestResult = createMutationTestResult();
+      mutationTestResult.files['a.js'].mutants[0].status = MutantStatus.Pending;
+
+      // Act
+      const response = await request
+        .put(
+          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
+        )
+        .set('X-Api-Key', apiKey)
+        .send(mutationTestResult);
+
+      // Assert
+      expect(response.status).eq(200);
+      expect(saveReportStub.firstCall.firstArg).to.deep.include({
+        projectName: 'github.com/testOrg/testName',
+        version: 'myWebsite',
+        moduleName: 'logging',
+        realTime: true,
+      });
+    });
+
+    it('should create a blob', async () => {
+      // Arrange
+      const mutationTestResult = createMutationTestResult();
+      mutationTestResult.files['a.js'].mutants[0].status = MutantStatus.Pending;
+
+      // Act
+      await request
+        .put('/api/real-time/github.com/testOrg/testName/main?module=logging')
+        .set('X-Api-Key', apiKey)
+        .send(mutationTestResult);
+
+      // Assert
+      expect(createBlobStub).calledWith({
+        projectName: 'github.com/testOrg/testName',
+        version: 'main',
+        moduleName: 'logging',
+        realTime: true,
+      });
+    });
+
+    it('should return a 400 if the report is invalid', async () => {
+      // Act
+      const response = await request
+        .put('/api/real-time/github.com/testOrg/testName/main?module=logging')
+        .set('X-Api-Key', apiKey)
+        .send({ my: 'invalid', keys: true });
+
+      // Assert
+      expect(response.status).to.eq(400);
+    });
+
+    it('should return the correct href with a module', async () => {
+      // Arrange
+      const report = createMutationTestResult();
+
+      // Act
+      const response = await request
+        .put('/api/real-time/github.com/testOrg/testName/main?module=logging')
+        .set('X-Api-Key', apiKey)
+        .send(report);
+
+      // Arrange
+      expect(response.body.href).to.deep.include(
+        'baseUrl/reports/github.com/testOrg/testName/main?module=logging&realTime=true'
+      );
+    });
+
+    it('should return the correct href without a module', async () => {
+      // Arrange
+      const report = createMutationTestResult();
+
+      // Act
+      const response = await request
+        .put('/api/real-time/github.com/testOrg/testName/main')
+        .set('X-Api-Key', apiKey)
+        .send(report);
+
+      // Arrange
+      expect(response.body.href).to.deep.include(
+        'baseUrl/reports/github.com/testOrg/testName/main?realTime=true'
+      );
     });
   });
 });

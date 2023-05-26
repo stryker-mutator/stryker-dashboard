@@ -15,14 +15,9 @@ import {
   Unauthorized,
   InternalServerError,
 } from 'ts-httpexceptions';
-import {
-  MutationTestingReportService,
-  RealTimeMutantsBlobService,
-} from '@stryker-mutator/dashboard-data-access';
+import { MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
 import { PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import {
-  Slug,
-  InvalidSlugError,
   Report,
   MutationScoreOnlyResult,
   isMutationTestResult,
@@ -34,13 +29,13 @@ import { ReportValidator } from '../services/SchemaValidator.js';
 import Configuration from '../services/Configuration.js';
 import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
 import DataAccess from '../services/DataAccess.js';
+import { parseSlug } from './util.js';
 
 const API_KEY_HEADER = 'X-Api-Key';
 
 @Controller('/reports')
 export default class ReportsController {
   private readonly reportService: MutationTestingReportService;
-  private readonly batchingService: RealTimeMutantsBlobService;
 
   constructor(
     dataAccess: DataAccess,
@@ -49,42 +44,30 @@ export default class ReportsController {
     private readonly apiKeyValidator: ApiKeyValidator
   ) {
     this.reportService = dataAccess.mutationTestingReportService;
-    this.batchingService = dataAccess.batchingService;
   }
 
   @Put('/*')
-  // TODO: move to RealTimeReportsController (realtime part)
   public async update(
     @Req() req: Request,
     @Context() $ctx: PlatformContext,
     @BodyParams() result: MutationScoreOnlyResult | MutationTestResult,
     @QueryParams('module') moduleName: string | undefined,
-    @QueryParams('realTime') realTime: boolean | undefined,
     @HeaderParams(API_KEY_HEADER) authorizationHeader: string | undefined
   ): Promise<PutReportResponse> {
     if (!authorizationHeader) {
       throw new Unauthorized(`Provide an "${API_KEY_HEADER}" header`);
     }
     const slug = req.path;
-    const { project, version } = this.parseSlug(slug);
+    const { project, version } = parseSlug(slug);
     await this.apiKeyValidator.validateApiKey(authorizationHeader, project);
     this.verifyRequiredPutReportProperties(result);
-    this.verifyIfResultIsNotAnIncompleteReport(result, realTime);
+    this.verifyIfResultIsNotAnIncompleteReport(result);
     try {
       await this.reportService.saveReport(
-        { projectName: project, version, moduleName, realTime },
+        { projectName: project, version, moduleName },
         result,
         $ctx.logger
       );
-
-      if (realTime) {
-        this.batchingService.createBlob({
-          projectName: project,
-          version,
-          moduleName,
-          realTime,
-        });
-      }
 
       if (moduleName && isMutationTestResult(result)) {
         return {
@@ -118,7 +101,7 @@ export default class ReportsController {
     @QueryParams('realTime') realTime: boolean | undefined
   ): Promise<Report> {
     const slug = req.path;
-    const { project, version } = this.parseSlug(slug);
+    const { project, version } = parseSlug(slug);
     const report = await this.reportService.findOne({
       projectName: project,
       moduleName,
@@ -131,18 +114,6 @@ export default class ReportsController {
       throw new NotFound(
         `Version "${version}" does not exist for "${project}".`
       );
-    }
-  }
-
-  private parseSlug(slug: string) {
-    try {
-      return Slug.parse(slug);
-    } catch (error) {
-      if (error instanceof InvalidSlugError) {
-        throw new NotFound(`Report "${slug}" does not exist`);
-      } else {
-        throw error;
-      }
     }
   }
 
@@ -163,20 +134,15 @@ export default class ReportsController {
   }
 
   private verifyIfResultIsNotAnIncompleteReport(
-    result: MutationScoreOnlyResult | MutationTestResult,
-    realTime: boolean | undefined
+    result: MutationScoreOnlyResult | MutationTestResult
   ) {
     if (!isMutationTestResult(result)) {
       return;
     }
 
-    if (realTime !== undefined) {
-      return;
-    }
-
     if (isPendingReport(result)) {
       throw new BadRequest(
-        'Not allowed to PUT incomplete reports without the `realTime` query parameter.'
+        'Not allowed to PUT incomplete reports to the non real-time endpoint.'
       );
     }
   }

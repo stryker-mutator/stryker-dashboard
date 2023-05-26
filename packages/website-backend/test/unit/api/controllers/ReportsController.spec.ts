@@ -5,12 +5,8 @@ import {
   MutationTestingReportService,
   Project,
   ProjectMapper,
-  RealTimeMutantsBlobService,
 } from '@stryker-mutator/dashboard-data-access';
-import {
-  MutationTestResult,
-  MutantStatus,
-} from 'mutation-testing-report-schema';
+import { MutantStatus } from 'mutation-testing-report-schema';
 import { expect } from 'chai';
 import utils from '../../../../src/utils.js';
 import { Report } from '@stryker-mutator/dashboard-common';
@@ -19,6 +15,10 @@ import Server from '../../../../src/Server.js';
 import DataAccess from '../../../../src/services/DataAccess.js';
 import sinon from 'sinon';
 import { DataAccessMock } from '../../../helpers/TestServer.js';
+import {
+  createMutationTestResult,
+  createMutationTestingResult,
+} from '../../../helpers/mutants.js';
 
 describe(ReportsController.name, () => {
   let request: supertest.SuperTest<supertest.Test>;
@@ -29,9 +29,6 @@ describe(ReportsController.name, () => {
     MutationTestingReportService['saveReport']
   >;
   let findProjectStub: sinon.SinonStubbedMember<ProjectMapper['findOne']>;
-  let createBlobStub: sinon.SinonStubbedMember<
-    RealTimeMutantsBlobService['createBlob']
-  >;
 
   beforeEach(async () => {
     await PlatformTest.bootstrap(Server)();
@@ -41,7 +38,6 @@ describe(ReportsController.name, () => {
     findReportStub = dataAccess.mutationTestingReportService.findOne;
     saveReportStub = dataAccess.mutationTestingReportService.saveReport;
     findProjectStub = dataAccess.repositoryMapper.findOne;
-    createBlobStub = dataAccess.batchingService.createBlob;
   });
 
   describe('HTTP GET /:slug', () => {
@@ -123,7 +119,6 @@ describe(ReportsController.name, () => {
         projectName: 'github.com/testOrg/testName',
         version: 'feat/dashboard',
         moduleName: 'core',
-        realTime: undefined,
       };
 
       // Act
@@ -242,84 +237,5 @@ describe(ReportsController.name, () => {
       // Assert
       expect(response.status).eq(400);
     });
-
-    it('should respond with 200 when uploading a report that is in-progress with realTime query parameter', async () => {
-      // Arrange
-      const mutationTestResult = createMutationTestResult();
-      mutationTestResult.files['a.js'].mutants[0].status = MutantStatus.Pending;
-
-      // Act
-      const response = await request
-        .put(
-          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging&realTime=true'
-        )
-        .set('X-Api-Key', apiKey)
-        .send(mutationTestResult);
-
-      // Assert
-      expect(response.status).eq(200);
-    });
-
-    it('should create a blob voor mutant-tested events when realTime option is enabled', async () => {
-      // Arrange
-      const mutationTestResult = createMutationTestResult();
-      mutationTestResult.files['a.js'].mutants[0].status = MutantStatus.Pending;
-
-      // Act
-      await request
-        .put(
-          '/api/reports/github.com/testOrg/testName/main?module=logging&realTime=true'
-        )
-        .set('X-Api-Key', apiKey)
-        .send(mutationTestResult);
-
-      // Assert
-      expect(createBlobStub).calledWith({
-        projectName: 'github.com/testOrg/testName',
-        version: 'main',
-        moduleName: 'logging',
-        realTime: 'true',
-      });
-    });
   });
-
-  function createMutationTestResult(
-    mutantStates = [
-      MutantStatus.Killed,
-      MutantStatus.Killed,
-      MutantStatus.Survived,
-    ]
-  ): MutationTestResult {
-    return {
-      files: {
-        'a.js': {
-          language: 'javascript',
-          source: '+',
-          mutants: mutantStates.map((status, index) => ({
-            id: index.toString(),
-            location: {
-              start: { line: 1, column: 1 },
-              end: { line: 1, column: 2 },
-            },
-            mutatorName: 'BinaryMutator',
-            replacement: '-',
-            status,
-          })),
-        },
-      },
-      schemaVersion: '1',
-      thresholds: {
-        high: 80,
-        low: 70,
-      },
-    };
-  }
-
-  function createMutationTestingResult(): MutationTestResult {
-    return {
-      files: {},
-      schemaVersion: '1',
-      thresholds: { high: 80, low: 60 },
-    };
-  }
 });
