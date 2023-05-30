@@ -1,11 +1,19 @@
 import { expect } from 'chai';
 
 import MutationtEventServerOrchestrator from '../../../../src/services/real-time/MutationtEventServerOrchestrator.js';
+import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 
 describe(MutationtEventServerOrchestrator.name, () => {
+  let id: ReportIdentifier;
   let orchestrator: MutationtEventServerOrchestrator;
 
   beforeEach(() => {
+    id = {
+      projectName: 'abc',
+      version: 'v1',
+      moduleName: 'logger',
+      realTime: true,
+    };
     orchestrator = new MutationtEventServerOrchestrator();
   });
 
@@ -14,15 +22,15 @@ describe(MutationtEventServerOrchestrator.name, () => {
   });
 
   it('should create servers when there is not one avaiable', () => {
-    orchestrator.getSseInstanceForProject('my-project');
+    orchestrator.getSseInstanceForProject(id);
 
     expect(orchestrator.servers).to.be.eq(1);
   });
 
   it('should not create new servers when there is already one present', () => {
-    orchestrator.getSseInstanceForProject('my-project');
-    orchestrator.getSseInstanceForProject('my-project');
-    orchestrator.getSseInstanceForProject('my-project');
+    orchestrator.getSseInstanceForProject(id);
+    orchestrator.getSseInstanceForProject(id);
+    orchestrator.getSseInstanceForProject(id);
 
     expect(orchestrator.servers).to.be.eq(1);
   });

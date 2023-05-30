@@ -331,9 +331,12 @@ describe(RealTimeReportsController.name, () => {
 
       expect(response.status).to.eq(200);
       expect(sseInstanceForProjectStub.calledOnce).to.be.true;
-      expect(sseInstanceForProjectStub).calledWith(
-        'github.com/testOrg/testName'
-      );
+      expect(sseInstanceForProjectStub).calledWith({
+        projectName: 'github.com/testOrg/testName',
+        version: 'myWebsite',
+        moduleName: 'logging',
+        realTime: true,
+      });
       expect(stub.sendFinished.calledOnce);
     });
 

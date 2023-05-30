@@ -72,26 +72,21 @@ export default class RealTimeReportsController {
     @QueryParams('module') moduleName: string | undefined
   ) {
     const { project, version } = Slug.parse(req.path);
-    const report = await this.#reportService.findOne({
+    const id = {
       projectName: project,
       version,
       moduleName,
       realTime: true,
-    });
+    };
+    const report = await this.#reportService.findOne(id);
     if (report === null) {
       throw new NotFound(
         `Version "${version}" does not exist for "${project}".`
       );
     }
 
-    const data = await this.#blobService.getEvents({
-      projectName: project,
-      version,
-      moduleName,
-      realTime: true,
-    });
-
-    const server = this.#orchestrator.getSseInstanceForProject(project);
+    const data = await this.#blobService.getEvents(id);
+    const server = this.#orchestrator.getSseInstanceForProject(id);
     server.attach(res);
     data.forEach((mutant) => server.sendMutantTested(mutant));
   }
@@ -109,15 +104,15 @@ export default class RealTimeReportsController {
     const { project, version } = Slug.parse(req.path);
     await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
 
-    const server = this.#orchestrator.getSseInstanceForProject(project);
-    server.sendFinished();
-
     const id = {
       projectName: project,
       version: version,
       moduleName,
       realTime: true,
     };
+    const server = this.#orchestrator.getSseInstanceForProject(id);
+    server.sendFinished();
+
     this.#blobService.delete(id);
     this.#reportService.delete(id);
   }
@@ -135,7 +130,6 @@ export default class RealTimeReportsController {
 
     const { project, version } = Slug.parse(req.path);
     await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
-    const server = this.#orchestrator.getSseInstanceForProject(project);
 
     if (!Array.isArray(mutants)) {
       throw new BadRequest('Please provide an array of mutant-tested events');
@@ -145,10 +139,14 @@ export default class RealTimeReportsController {
       throw new BadRequest('Please provide mutant-tested events');
     }
 
-    await this.#blobService.appendToBlob(
-      { projectName: project, version, moduleName: undefined, realTime: true },
-      mutants
-    );
+    const id = {
+      projectName: project,
+      version,
+      moduleName: undefined,
+      realTime: true,
+    };
+    const server = this.#orchestrator.getSseInstanceForProject(id);
+    await this.#blobService.appendToBlob(id, mutants);
     mutants.forEach((mutant) => {
       server.sendMutantTested(mutant);
     });
@@ -174,15 +172,15 @@ export default class RealTimeReportsController {
     }
 
     try {
-      const information = {
+      const id = {
         projectName: project,
         version: version,
         moduleName,
         realTime: true,
       };
-      await this.#savePendingReport(information, result, $ctx.logger);
-      await this.#createRealTimeBlob(information);
-      return this.#getReportResponse(information);
+      await this.#savePendingReport(id, result, $ctx.logger);
+      await this.#createRealTimeBlob(id);
+      return this.#getReportResponse(id);
     } catch (error) {
       $ctx.logger.error({
         message: `Error while trying to save report ${JSON.stringify({
@@ -197,25 +195,25 @@ export default class RealTimeReportsController {
   }
 
   async #savePendingReport(
-    information: ReportIdentifier,
+    id: ReportIdentifier,
     result: MutationTestResult,
     logger: Logger
   ) {
-    await this.#reportService.saveReport(information, result, logger);
+    await this.#reportService.saveReport(id, result, logger);
   }
 
-  async #createRealTimeBlob(information: ReportIdentifier) {
-    this.#blobService.createBlob(information);
+  async #createRealTimeBlob(id: ReportIdentifier) {
+    this.#blobService.createBlob(id);
   }
 
-  #getReportResponse(information: ReportIdentifier): PutReportResponse {
-    const base = `${this.#config.baseUrl}/reports/${information.projectName}/${
-      information.version
+  #getReportResponse(id: ReportIdentifier): PutReportResponse {
+    const base = `${this.#config.baseUrl}/reports/${id.projectName}/${
+      id.version
     }`;
 
-    if (information.moduleName) {
+    if (id.moduleName) {
       return {
-        href: `${base}?module=${information.moduleName}&realTime=true`,
+        href: `${base}?module=${id.moduleName}&realTime=true`,
         projectHref: base,
       };
     }
