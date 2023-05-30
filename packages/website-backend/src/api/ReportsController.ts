@@ -25,7 +25,7 @@ import {
 } from '@stryker-mutator/dashboard-common';
 import { Request } from 'express';
 import { MutationTestResult } from 'mutation-testing-report-schema';
-import { ReportValidator } from '../services/SchemaValidator.js';
+import { ReportValidator } from '../services/ReportValidator.js';
 import Configuration from '../services/Configuration.js';
 import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
 import DataAccess from '../services/DataAccess.js';

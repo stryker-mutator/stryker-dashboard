@@ -35,7 +35,7 @@ import {
 import MutationtEventServerOrchestrator from '../services/real-time/MutationtEventServerOrchestrator.js';
 import { MutationTestResult } from 'mutation-testing-report-schema';
 import { parseSlug } from './util.js';
-import { ReportValidator } from '../services/SchemaValidator.js';
+import { ReportValidator } from '../services/ReportValidator.js';
 import { PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import Configuration from '../services/Configuration.js';
 
@@ -137,6 +137,11 @@ export default class RealTimeReportsController {
 
     if (mutants === null || mutants === undefined) {
       throw new BadRequest('Please provide mutant-tested events');
+    }
+
+    const errors = this.#reportValidator.validateMutants(mutants);
+    if (errors !== undefined) {
+      throw new BadRequest(`Invalid mutants: ${errors}`);
     }
 
     const id = {
