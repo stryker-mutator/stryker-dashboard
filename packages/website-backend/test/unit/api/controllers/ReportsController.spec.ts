@@ -70,7 +70,6 @@ describe(ReportsController.name, () => {
         projectName: 'github.com/test/name',
         version: 'feat/dashboard',
         moduleName: 'core',
-        realTime: undefined,
       });
     });
 
@@ -90,6 +89,33 @@ describe(ReportsController.name, () => {
       expect(JSON.parse((response.error as HTTPError).text).message).include(
         'Report "/slugwithoutslash" does not exist'
       );
+    });
+
+    it('should respond with a stable report if there is no real-time report', async () => {
+      const expected: Report = {
+        ...createMutationTestingResult(),
+        moduleName: 'core',
+        projectName: 'github.com/fooOrg/fooName',
+        version: 'master',
+        mutationScore: 89,
+      };
+      findReportStub.onCall(0).returns(Promise.resolve(null));
+      findReportStub.onCall(1).returns(Promise.resolve(expected));
+
+      const response = await request.get(
+        '/api/reports/github.com/owner/name/version?realTime=true'
+      );
+
+      expect(response.status).eq(200);
+      expect(response.body).deep.eq(expected);
+    });
+
+    it('should respond with 404 if there is no stable report and no real-time report', async () => {
+      const response = await request.get(
+        '/api/reports/github.com/owner/name/version?realTime=true'
+      );
+
+      expect(response.status).eq(404);
     });
   });
 

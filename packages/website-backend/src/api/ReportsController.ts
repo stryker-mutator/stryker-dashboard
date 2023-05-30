@@ -102,12 +102,21 @@ export default class ReportsController {
   ): Promise<Report> {
     const slug = req.path;
     const { project, version } = parseSlug(slug);
-    const report = await this.reportService.findOne({
+    const id = {
       projectName: project,
       moduleName,
       version,
-      realTime,
-    });
+    };
+
+    let report: Report | undefined | null;
+    if (realTime) {
+      report = await this.reportService.findOne({ ...id, realTime: true });
+    }
+
+    if (!report || !isMutationTestResult(report!)) {
+      report = await this.reportService.findOne(id);
+    }
+
     if (report) {
       return report;
     } else {
