@@ -23,6 +23,10 @@ export class BlobServiceAsPromised {
     blob: string,
     text: string | Buffer
   ) => Promise<BlobService.BlobResult>;
+  public deleteBlobIfExists: (
+    container: string,
+    blob: string
+  ) => Promise<unknown>;
 
   constructor(blobService = createBlobService()) {
     this.createContainerIfNotExists = promisify<
@@ -38,6 +42,9 @@ export class BlobServiceAsPromised {
       blobService.createAppendBlobFromText
     ).bind(blobService);
     this.appendBlockFromText = promisify(blobService.appendBlockFromText).bind(
+      blobService
+    );
+    this.deleteBlobIfExists = promisify(blobService.deleteBlobIfExists).bind(
       blobService
     );
   }

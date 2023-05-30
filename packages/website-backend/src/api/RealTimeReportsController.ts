@@ -1,6 +1,7 @@
 import {
   BodyParams,
   Context,
+  Delete,
   Get,
   HeaderParams,
   PlatformContext,
@@ -95,8 +96,34 @@ export default class RealTimeReportsController {
     data.forEach((mutant) => server.sendMutantTested(mutant));
   }
 
+  @Delete('/*')
+  public async finish(
+    @Req() req: Request,
+    @QueryParams('module') moduleName: string | undefined,
+    @HeaderParams(API_KEY_HEADER) authorizationHeader: string | undefined
+  ) {
+    if (!authorizationHeader) {
+      throw new Unauthorized(`Provide an "${API_KEY_HEADER}" header`);
+    }
+
+    const { project, version } = Slug.parse(req.path);
+    await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
+
+    const server = this.#orchestrator.getSseInstanceForProject(project);
+    server.sendFinished();
+
+    const id = {
+      projectName: project,
+      version: version,
+      moduleName,
+      realTime: true,
+    };
+    this.#blobService.delete(id);
+    this.#reportService.delete(id);
+  }
+
   @Post('/*')
-  public async UpdateBatch(
+  public async appendBatch(
     @Req() req: Request,
     @BodyParams()
     mutants: Array<Partial<MutantResult>> | object | null | undefined,

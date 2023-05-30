@@ -41,6 +41,12 @@ describe(RealTimeReportsController.name, () => {
   let saveReportStub: sinon.SinonStubbedMember<
     MutationTestingReportService['saveReport']
   >;
+  let realTimeDeleteBlobStub: sinon.SinonStubbedMember<
+    RealTimeMutantsBlobService['delete']
+  >;
+  let deleteBlobStub: sinon.SinonStubbedMember<
+    MutationTestingReportService['delete']
+  >;
   let project: Project;
 
   beforeEach(async () => {
@@ -54,6 +60,8 @@ describe(RealTimeReportsController.name, () => {
     getEventsStub.returns(Promise.resolve([]));
     createBlobStub = dataAccess.blobService.createBlob;
     saveReportStub = dataAccess.mutationTestingReportService.saveReport;
+    realTimeDeleteBlobStub = dataAccess.blobService.delete;
+    deleteBlobStub = dataAccess.mutationTestingReportService.delete;
 
     const orchestrator = PlatformTest.get<MutationtEventServerOrchestratorMock>(
       MutationtEventServerOrchestrator
@@ -289,6 +297,65 @@ describe(RealTimeReportsController.name, () => {
       expect(response.body.href).to.deep.include(
         'baseUrl/reports/github.com/testOrg/testName/main?realTime=true'
       );
+    });
+  });
+
+  describe('HTTP DELETE /*', () => {
+    it('should return unauthorized when header is not present', async () => {
+      const response = await request.delete(
+        '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
+      );
+
+      expect(response.status).to.eq(401);
+      expect(response.body.message).to.eq('Provide an "X-Api-Key" header');
+    });
+
+    it('should return unauthorized if ApiKey is invalid', async () => {
+      const response = await request
+        .delete(
+          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
+        )
+        .set('X-Api-Key', 'does-not-exist-abc');
+
+      expect(response.status).to.eq(401);
+    });
+
+    it('should send a finished event', async () => {
+      const stub = sinon.createStubInstance(MutationEventServer);
+      sseInstanceForProjectStub.returns(stub);
+      const response = await request
+        .delete(
+          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
+        )
+        .set('X-Api-Key', apiKey);
+
+      expect(response.status).to.eq(200);
+      expect(sseInstanceForProjectStub.calledOnce).to.be.true;
+      expect(sseInstanceForProjectStub).calledWith(
+        'github.com/testOrg/testName'
+      );
+      expect(stub.sendFinished.calledOnce);
+    });
+
+    it('should delete both blobs', async () => {
+      const stub = sinon.createStubInstance(MutationEventServer);
+      sseInstanceForProjectStub.returns(stub);
+      await request
+        .delete(
+          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
+        )
+        .set('X-Api-Key', apiKey);
+
+      const expectedId = {
+        projectName: 'github.com/testOrg/testName',
+        version: 'myWebsite',
+        moduleName: 'logging',
+        realTime: true,
+      };
+      expect(realTimeDeleteBlobStub.calledOnce).to.be.true;
+      expect(realTimeDeleteBlobStub).calledWith(expectedId);
+      expect(deleteBlobStub.calledOnce).to.be.true;
+      expect(deleteBlobStub).calledWith(expectedId);
     });
   });
 });

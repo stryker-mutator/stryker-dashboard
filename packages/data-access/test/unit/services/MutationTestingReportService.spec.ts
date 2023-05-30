@@ -389,4 +389,26 @@ describe(MutationTestingReportService.name, () => {
       expect(actual).null;
     });
   });
+
+  describe('delete', () => {
+    it('should delete the blob', () => {
+      // Arrange
+      const id = {
+        moduleName: 'm',
+        projectName: 'p',
+        version: 'v',
+      };
+
+      // Act
+      sut.delete(id);
+
+      // Assert
+      expect(resultMapperMock.delete.calledOnce).to.be.true;
+      expect(resultMapperMock.delete).calledWith({
+        moduleName: 'm',
+        projectName: 'p',
+        version: 'v',
+      });
+    });
+  });
 });

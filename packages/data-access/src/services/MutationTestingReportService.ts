@@ -145,6 +145,10 @@ export class MutationTestingReportService {
     }
   }
 
+  public async delete(id: ReportIdentifier): Promise<void> {
+    await this.resultMapper.delete(id);
+  }
+
   private async insertOrMergeReport(
     id: ReportIdentifier,
     report: MutationTestingReport,

@@ -62,4 +62,12 @@ export class RealTimeMutantsBlobService {
       .slice(0, -1)
       .map((mutant) => JSON.parse(mutant));
   }
+
+  public async delete(id: ReportIdentifier): Promise<void> {
+    const blobName = toBlobName(id);
+    this.#blobService.deleteBlobIfExists(
+      RealTimeMutantsBlobService.CONTAINER_NAME,
+      blobName
+    );
+  }
 }

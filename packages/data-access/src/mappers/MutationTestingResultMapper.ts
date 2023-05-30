@@ -80,4 +80,12 @@ export class MutationTestingResultMapper {
       }
     }
   }
+
+  public async delete(id: ReportIdentifier): Promise<void> {
+    const blobName = toBlobName(id);
+    await this.blobService.deleteBlobIfExists(
+      MutationTestingResultMapper.CONTAINER_NAME,
+      blobName
+    );
+  }
 }

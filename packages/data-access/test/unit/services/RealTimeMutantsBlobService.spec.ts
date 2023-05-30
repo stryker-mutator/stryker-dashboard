@@ -23,6 +23,7 @@ describe(RealTimeMutantsBlobService.name, () => {
       createContainerIfNotExists: sinon.stub(),
       createAppendBlobFromText: sinon.stub(),
       appendBlockFromText: sinon.stub(),
+      deleteBlobIfExists: sinon.stub(),
     };
     sut = new RealTimeMutantsBlobService(blobMock);
   });
@@ -94,6 +95,24 @@ describe(RealTimeMutantsBlobService.name, () => {
 
       const events = await sut.getEvents(id);
       expect(events.length).to.eq(0);
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete the blob', () => {
+      const identifier = {
+        moduleName: 'core',
+        projectName: 'project',
+        version: 'version',
+      };
+
+      sut.delete(identifier);
+
+      expect(blobMock.deleteBlobIfExists.calledOnce).to.be.true;
+      expect(blobMock.deleteBlobIfExists).calledWith(
+        'mutants-tested-batch',
+        'project;version;core'
+      );
     });
   });
 });

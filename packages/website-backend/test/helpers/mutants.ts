@@ -1,4 +1,7 @@
-import { MutantStatus, MutationTestResult } from "mutation-testing-report-schema";
+import {
+  MutantStatus,
+  MutationTestResult,
+} from 'mutation-testing-report-schema';
 
 export function createMutationTestResult(
   mutantStates = [

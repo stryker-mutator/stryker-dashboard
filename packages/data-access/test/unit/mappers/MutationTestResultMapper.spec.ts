@@ -18,6 +18,7 @@ describe(MutationTestingResultMapper.name, () => {
       createContainerIfNotExists: sinon.stub(),
       createAppendBlobFromText: sinon.stub(),
       appendBlockFromText: sinon.stub(),
+      deleteBlobIfExists: sinon.stub(),
     };
     sut = new MutationTestingResultMapper(blobMock);
   });
@@ -110,6 +111,24 @@ describe(MutationTestingResultMapper.name, () => {
         version: 'version',
       });
       expect(actual).null;
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete the blob', () => {
+      const identifier = {
+        moduleName: 'core',
+        projectName: 'project',
+        version: 'version',
+      };
+
+      sut.delete(identifier);
+
+      expect(blobMock.deleteBlobIfExists.calledOnce).to.be.true;
+      expect(blobMock.deleteBlobIfExists).calledWith(
+        'mutation-testing-report',
+        'project;version;core'
+      );
     });
   });
 });
