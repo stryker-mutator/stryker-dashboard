@@ -9,13 +9,15 @@ export class SseServer extends EventEmitter {
   public port?: number;
 
   #server: Server;
+  #cors: string;
   #clients = new Set<SseClient>();
 
-  constructor(server: Server) {
+  constructor(server: Server, cors = '') {
     super();
 
     this.#server = server;
     this.#server.on('request', (_, res) => this.#handleRequest(res));
+    this.#cors = cors;
   }
 
   public on(
@@ -53,7 +55,7 @@ export class SseServer extends EventEmitter {
       'Content-Type': 'text/event-stream',
       'Cache-Control': 'no-cache',
       Connection: 'keep-alive',
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': this.#cors,
     });
 
     const client = new SseClient(res);

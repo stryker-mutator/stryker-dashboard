@@ -3,6 +3,7 @@ import util from '../utils.js';
 
 @Service()
 export default class Configuration {
+  public readonly cors: string;
   public readonly githubClientId: string;
   public readonly githubSecret: string;
   public readonly baseUrl: string;
@@ -16,5 +17,11 @@ export default class Configuration {
       util.optionalEnvVar('NODE_ENV', 'production') === 'development'),
       (this.baseUrl = util.requiredEnvVar('STRYKER_DASHBOARD_BASE_URL'));
     this.jwtSecret = util.requiredEnvVar('JWT_SECRET');
+
+    if (this.isDevelopment) {
+      this.cors = '*';
+    } else {
+      this.cors = util.requiredEnvVar('STRYKER_DASHBOARD_CORS');
+    }
   }
 }

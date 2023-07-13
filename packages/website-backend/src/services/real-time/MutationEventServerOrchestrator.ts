@@ -3,10 +3,16 @@ import { MutationEventServer } from './MutationEventServer.js';
 import { SseServer } from './SseServer.js';
 import { Service } from '@tsed/di';
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
+import Configuration from '../Configuration.js';
 
 @Service()
 export default class MutationEventServerOrchestrator {
   #mutationEventServers = new Map<string, MutationEventServer>();
+  #configuration: Configuration;
+
+  constructor(configuration: Configuration) {
+    this.#configuration = configuration;
+  }
 
   getSseInstanceForProject(identifier: ReportIdentifier): MutationEventServer {
     const id = this.#toId(identifier);
@@ -22,7 +28,9 @@ export default class MutationEventServerOrchestrator {
   }
 
   #createMutationEventServer(id: string): MutationEventServer {
-    const server = new MutationEventServer(new SseServer(createServer()));
+    const server = new MutationEventServer(
+      new SseServer(createServer(), this.#configuration.cors)
+    );
     this.#mutationEventServers.set(id, server);
     return server;
   }
