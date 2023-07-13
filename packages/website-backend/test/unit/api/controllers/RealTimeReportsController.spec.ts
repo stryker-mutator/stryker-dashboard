@@ -15,7 +15,7 @@ import {
 } from '../../../helpers/TestServer.js';
 import DataAccess from '../../../../src/services/DataAccess.js';
 import { expect } from 'chai';
-import MutationtEventServerOrchestrator from '../../../../src/services/real-time/MutationtEventServerOrchestrator.js';
+import MutationEventServerOrchestrator from '../../../../src/services/real-time/MutationEventServerOrchestrator.js';
 import { MutationEventServer } from '../../../../src/services/real-time/MutationEventServer.js';
 import utils from '../../../../src/utils.js';
 import { MutantStatus } from 'mutation-testing-report-schema';
@@ -30,7 +30,7 @@ describe(RealTimeReportsController.name, () => {
   >;
   let findProjectStub: sinon.SinonStubbedMember<ProjectMapper['findOne']>;
   let sseInstanceForProjectStub: sinon.SinonStubbedMember<
-    MutationtEventServerOrchestrator['getSseInstanceForProject']
+    MutationEventServerOrchestrator['getSseInstanceForProject']
   >;
   let getEventsStub: sinon.SinonStubbedMember<
     RealTimeMutantsBlobService['getEvents']
@@ -64,11 +64,11 @@ describe(RealTimeReportsController.name, () => {
     deleteBlobStub = dataAccess.mutationTestingReportService.delete;
 
     const orchestrator = PlatformTest.get<MutationtEventServerOrchestratorMock>(
-      MutationtEventServerOrchestrator
+      MutationEventServerOrchestrator
     );
     sseInstanceForProjectStub =
       orchestrator.getSseInstanceForProject as sinon.SinonStubbedMember<
-        MutationtEventServerOrchestrator['getSseInstanceForProject']
+        MutationEventServerOrchestrator['getSseInstanceForProject']
       >;
 
     project = new Project();

@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
-import MutationtEventServerOrchestrator from '../../../../src/services/real-time/MutationtEventServerOrchestrator.js';
+import MutationEventServerOrchestrator from '../../../../src/services/real-time/MutationEventServerOrchestrator.js';
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 
-describe(MutationtEventServerOrchestrator.name, () => {
+describe(MutationEventServerOrchestrator.name, () => {
   let id: ReportIdentifier;
-  let orchestrator: MutationtEventServerOrchestrator;
+  let orchestrator: MutationEventServerOrchestrator;
 
   beforeEach(() => {
     id = {
@@ -14,7 +14,7 @@ describe(MutationtEventServerOrchestrator.name, () => {
       moduleName: 'logger',
       realTime: true,
     };
-    orchestrator = new MutationtEventServerOrchestrator();
+    orchestrator = new MutationEventServerOrchestrator();
   });
 
   it('should have no servers on initialization', () => {

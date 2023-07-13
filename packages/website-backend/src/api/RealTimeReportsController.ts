@@ -32,7 +32,7 @@ import {
   NotFound,
   Unauthorized,
 } from 'ts-httpexceptions';
-import MutationtEventServerOrchestrator from '../services/real-time/MutationtEventServerOrchestrator.js';
+import MutationEventServerOrchestrator from '../services/real-time/MutationEventServerOrchestrator.js';
 import { MutationTestResult } from 'mutation-testing-report-schema';
 import { parseSlug } from './util.js';
 import { ReportValidator } from '../services/ReportValidator.js';
@@ -46,21 +46,21 @@ export default class RealTimeReportsController {
   #apiKeyValidator: ApiKeyValidator;
   #reportService: MutationTestingReportService;
   #blobService: RealTimeMutantsBlobService;
-  #orchestrator: MutationtEventServerOrchestrator;
+  #orchestrator: MutationEventServerOrchestrator;
   #reportValidator: ReportValidator;
   #config: Configuration;
 
   constructor(
     apiKeyValidator: ApiKeyValidator,
     dataAcces: DataAccess,
-    mutationtEventServerOrchestrator: MutationtEventServerOrchestrator,
+    mutationEventServerOrchestrator: MutationEventServerOrchestrator,
     reportValidator: ReportValidator,
     config: Configuration
   ) {
     this.#apiKeyValidator = apiKeyValidator;
     this.#reportService = dataAcces.mutationTestingReportService;
     this.#blobService = dataAcces.blobService;
-    this.#orchestrator = mutationtEventServerOrchestrator;
+    this.#orchestrator = mutationEventServerOrchestrator;
     this.#reportValidator = reportValidator;
     this.#config = config;
   }

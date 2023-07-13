@@ -5,7 +5,7 @@ import { Service } from '@tsed/di';
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 
 @Service()
-export default class MutationtEventServerOrchestrator {
+export default class MutationEventServerOrchestrator {
   #mutationEventServers = new Map<string, MutationEventServer>();
 
   getSseInstanceForProject(identifier: ReportIdentifier): MutationEventServer {
