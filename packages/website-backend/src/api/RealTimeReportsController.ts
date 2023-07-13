@@ -92,7 +92,7 @@ export default class RealTimeReportsController {
   }
 
   @Delete('/*')
-  public async finish(
+  public async delete(
     @Req() req: Request,
     @QueryParams('module') moduleName: string | undefined,
     @HeaderParams(API_KEY_HEADER) authorizationHeader: string | undefined

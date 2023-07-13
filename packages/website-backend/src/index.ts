@@ -14,11 +14,11 @@ const port = parseInt(util.optionalEnvVar('PORT', '1337'), 10);
 
 async function ensureDatabaseExists() {
   const repositoryMapper = createProjectMapper();
-  const realTimeMutantsBatchingService = new RealTimeMutantsBlobService();
+  const realTimeMutantsBlobService = new RealTimeMutantsBlobService();
   const mutationTestingReportService = new MutationTestingReportService();
 
   await repositoryMapper.createStorageIfNotExists();
-  await realTimeMutantsBatchingService.createStorageIfNotExists();
+  await realTimeMutantsBlobService.createStorageIfNotExists();
   await mutationTestingReportService.createStorageIfNotExists();
 }
 

@@ -61,7 +61,7 @@ export default class ReportsController {
     const { project, version } = parseSlug(slug);
     await this.apiKeyValidator.validateApiKey(authorizationHeader, project);
     this.verifyRequiredPutReportProperties(result);
-    this.verifyIfResultIsNotAnIncompleteReport(result);
+    this.verifyIsCompletedReport(result);
     try {
       await this.reportService.saveReport(
         { projectName: project, version, moduleName },
@@ -142,7 +142,7 @@ export default class ReportsController {
     }
   }
 
-  private verifyIfResultIsNotAnIncompleteReport(
+  private verifyIsCompletedReport(
     result: MutationScoreOnlyResult | MutationTestResult
   ) {
     if (!isMutationTestResult(result)) {
@@ -151,7 +151,7 @@ export default class ReportsController {
 
     if (isPendingReport(result)) {
       throw new BadRequest(
-        'Not allowed to PUT incomplete reports to the non real-time endpoint.'
+        'Submitting pending reports to the completed reports endpoint is not allowed.'
       );
     }
   }
