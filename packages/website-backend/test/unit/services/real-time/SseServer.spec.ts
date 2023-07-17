@@ -13,7 +13,7 @@ describe(SseServer.name, () => {
   beforeEach(() => {
     server = createServer();
     serverResponseMock = sinon.createStubInstance(ServerResponse);
-    sut = new SseServer(server);
+    sut = new SseServer(server, '*');
   });
 
   afterEach(() => {

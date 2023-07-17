@@ -42,6 +42,7 @@ export const config: Configuration = {
   baseUrl: 'baseUrl',
   jwtSecret: 'jwtSecret',
   isDevelopment: true,
+  cors: '*',
 };
 
 @OverrideProvider(Configuration)
@@ -52,12 +53,14 @@ export class ConfigurationStub implements Configuration {
     this.baseUrl = config.baseUrl;
     this.jwtSecret = config.jwtSecret;
     this.isDevelopment = config.isDevelopment;
+    this.cors = config.cors;
   }
   public githubClientId: string;
   public githubSecret: string;
   public baseUrl: string;
   public jwtSecret: string;
   public isDevelopment: boolean;
+  public cors: string;
 }
 
 type IDataAccessMock = {
