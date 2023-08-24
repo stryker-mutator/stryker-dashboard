@@ -25,10 +25,12 @@ describe(handler.name, () => {
   it('should return the given mapped shield', async () => {
     // Arrange
     const expectedShield: Shield = {
-      color: Color.Green,
+      schemaVersion: 1,
       label: 'Mutation Testing',
       message: '80%',
-      schemaVersion: 1,
+      color: Color.Green,
+      namedLogo: 'stryker',
+      logoColor: 'whitesmoke',
     };
     shieldMapperStub.shieldFor.resolves(expectedShield);
     const context = createContext();
