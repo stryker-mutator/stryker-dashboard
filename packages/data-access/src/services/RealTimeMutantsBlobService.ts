@@ -6,7 +6,7 @@ import { MutantResult } from 'mutation-testing-report-schema';
 // To make resource delete themselves automatically, this should be managed from within Azure:
 // https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-overview?tabs=azure-portal
 export class RealTimeMutantsBlobService {
-  private static readonly CONTAINER_NAME = 'mutants-tested-batch';
+  private static readonly CONTAINER_NAME = 'real-time-mutant-results';
 
   #blobService: BlobServiceAsPromised;
 
@@ -21,7 +21,7 @@ export class RealTimeMutantsBlobService {
     );
   }
 
-  public async createBlob(id: ReportIdentifier) {
+  public async createReport(id: ReportIdentifier) {
     await this.#blobService.createAppendBlobFromText(
       RealTimeMutantsBlobService.CONTAINER_NAME,
       toBlobName(id),
@@ -29,7 +29,7 @@ export class RealTimeMutantsBlobService {
     );
   }
 
-  public async appendToBlob(
+  public async appendToReport(
     id: ReportIdentifier,
     mutants: Array<Partial<MutantResult>>
   ) {
@@ -45,7 +45,7 @@ export class RealTimeMutantsBlobService {
     );
   }
 
-  public async getEvents(
+  public async getReport(
     id: ReportIdentifier
   ): Promise<Array<Partial<MutantResult>>> {
     const data = await this.#blobService.blobToText(

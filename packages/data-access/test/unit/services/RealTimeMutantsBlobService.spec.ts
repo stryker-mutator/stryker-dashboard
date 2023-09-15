@@ -42,7 +42,7 @@ describe(RealTimeMutantsBlobService.name, () => {
 
   describe('createBlob', () => {
     it('should create an append blob', async () => {
-      await sut.createBlob(id);
+      await sut.createReport(id);
 
       expect(blobMock.createAppendBlobFromText.calledOnce).to.be.true;
       expect(blobMock.createAppendBlobFromText).calledWith(
@@ -59,7 +59,7 @@ describe(RealTimeMutantsBlobService.name, () => {
         { id: '1', status: MutantStatus.Killed },
         { id: '2', status: MutantStatus.Survived },
       ];
-      await sut.appendToBlob(id, mutants);
+      await sut.appendToReport(id, mutants);
 
       expect(blobMock.appendBlockFromText.calledOnce).to.be.true;
       expect(blobMock.appendBlockFromText).calledWith(
@@ -78,7 +78,7 @@ describe(RealTimeMutantsBlobService.name, () => {
         )
       );
 
-      const events = await sut.getEvents(id);
+      const events = await sut.getReport(id);
       expect(events.length).to.eq(2);
       expect(events[0]).to.deep.include({
         id: '1',
@@ -93,7 +93,7 @@ describe(RealTimeMutantsBlobService.name, () => {
     it('should return an empty array if the blob is empty', async () => {
       blobMock.blobToText.returns(Promise.resolve(''));
 
-      const events = await sut.getEvents(id);
+      const events = await sut.getReport(id);
       expect(events.length).to.eq(0);
     });
   });
