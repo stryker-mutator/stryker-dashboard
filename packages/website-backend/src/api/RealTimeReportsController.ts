@@ -85,7 +85,7 @@ export default class RealTimeReportsController {
       );
     }
 
-    const data = await this.#blobService.getEvents(id);
+    const data = await this.#blobService.getReport(id);
     const server = this.#orchestrator.getSseInstanceForProject(id);
     server.attach(res);
     data.forEach((mutant) => server.sendMutantTested(mutant));
@@ -121,7 +121,7 @@ export default class RealTimeReportsController {
   public async appendBatch(
     @Req() req: Request,
     @BodyParams()
-    mutants: Array<Partial<MutantResult>> | object | null | undefined,
+    mutants: Array<Partial<MutantResult>>,
     @HeaderParams(API_KEY_HEADER) authorizationHeader: string | undefined
   ) {
     if (!authorizationHeader) {
@@ -130,14 +130,6 @@ export default class RealTimeReportsController {
 
     const { project, version } = Slug.parse(req.path);
     await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
-
-    if (!Array.isArray(mutants)) {
-      throw new BadRequest('Please provide an array of mutant-tested events');
-    }
-
-    if (mutants === null || mutants === undefined) {
-      throw new BadRequest('Please provide mutant-tested events');
-    }
 
     const errors = this.#reportValidator.validateMutants(mutants);
     if (errors !== undefined) {
@@ -151,7 +143,7 @@ export default class RealTimeReportsController {
       realTime: true,
     };
     const server = this.#orchestrator.getSseInstanceForProject(id);
-    await this.#blobService.appendToBlob(id, mutants);
+    await this.#blobService.appendToReport(id, mutants);
     mutants.forEach((mutant) => {
       server.sendMutantTested(mutant);
     });
@@ -208,7 +200,7 @@ export default class RealTimeReportsController {
   }
 
   async #createRealTimeBlob(id: ReportIdentifier) {
-    this.#blobService.createBlob(id);
+    this.#blobService.createReport(id);
   }
 
   #getReportResponse(id: ReportIdentifier): PutReportResponse {

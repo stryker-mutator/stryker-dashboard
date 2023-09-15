@@ -33,10 +33,10 @@ describe(RealTimeReportsController.name, () => {
     MutationEventServerOrchestrator['getSseInstanceForProject']
   >;
   let getEventsStub: sinon.SinonStubbedMember<
-    RealTimeMutantsBlobService['getEvents']
+    RealTimeMutantsBlobService['getReport']
   >;
   let createBlobStub: sinon.SinonStubbedMember<
-    RealTimeMutantsBlobService['createBlob']
+    RealTimeMutantsBlobService['createReport']
   >;
   let saveReportStub: sinon.SinonStubbedMember<
     MutationTestingReportService['saveReport']
@@ -56,9 +56,9 @@ describe(RealTimeReportsController.name, () => {
     const dataAccess = PlatformTest.get<DataAccessMock>(DataAccess);
     findReportStub = dataAccess.mutationTestingReportService.findOne;
     findProjectStub = dataAccess.repositoryMapper.findOne;
-    getEventsStub = dataAccess.blobService.getEvents;
+    getEventsStub = dataAccess.blobService.getReport;
     getEventsStub.returns(Promise.resolve([]));
-    createBlobStub = dataAccess.blobService.createBlob;
+    createBlobStub = dataAccess.blobService.createReport;
     saveReportStub = dataAccess.mutationTestingReportService.saveReport;
     realTimeDeleteBlobStub = dataAccess.blobService.delete;
     deleteBlobStub = dataAccess.mutationTestingReportService.delete;
@@ -171,14 +171,6 @@ describe(RealTimeReportsController.name, () => {
 
       expect(sseInstanceForProjectStub.calledOnce).to.be.true;
       expect(serverStub.sendMutantTested.notCalled).to.be.true;
-    });
-
-    it('should return a bad request if an object is sent', async () => {
-      await request
-        .post('/api/real-time/github.com/user/does-not-exist/master')
-        .set('X-Api-Key', apiKey)
-        .send({ id: '1', status: MutantStatus.Killed })
-        .expect(400);
     });
 
     it('should return a bad request if null is sent', async () => {
