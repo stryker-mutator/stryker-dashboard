@@ -15,10 +15,9 @@ export class ReportsService {
     moduleName?: string,
     realTime?: string
   ): Observable<{ report: Report | null; slug: string } | null> {
+    const uri = constructApiUri(slug, { module: moduleName, realTime: realTime });
     return this.http
-      .get<Report>(
-        constructApiUri(slug, { module: moduleName, realTime: realTime })
-      )
+      .get<Report>(uri)
       .pipe(
         catchError((err) => {
           if (err.status === 404) {
@@ -27,7 +26,7 @@ export class ReportsService {
             return throwError(err);
           }
         }),
-        map((report) => ({ report, slug }))
+        map((report) => ({ report, slug: uri }))
       );
   }
 }

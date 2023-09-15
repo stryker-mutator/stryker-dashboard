@@ -122,11 +122,13 @@ export default class RealTimeReportsController {
     @Req() req: Request,
     @BodyParams()
     mutants: Array<Partial<MutantResult>>,
+    @QueryParams('module') moduleName: string | undefined,
     @HeaderParams(API_KEY_HEADER) authorizationHeader: string | undefined
   ) {
     if (!authorizationHeader) {
       throw new Unauthorized(`Provide an "${API_KEY_HEADER}" header`);
     }
+
 
     const { project, version } = Slug.parse(req.path);
     await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
@@ -139,7 +141,7 @@ export default class RealTimeReportsController {
     const id = {
       projectName: project,
       version,
-      moduleName: undefined,
+      moduleName,
       realTime: true,
     };
     const server = this.#orchestrator.getSseInstanceForProject(id);

@@ -9,7 +9,6 @@ export function constructApiUri(
       params.append(key, value);
     }
   }
-
   const queryString = params.toString();
   return queryString.length > 0 ? `${base}?${params.toString()}` : base;
 }

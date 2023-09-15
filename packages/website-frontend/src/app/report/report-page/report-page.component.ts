@@ -101,8 +101,7 @@ export class ReportPageComponent
             if (isMutationTestResult(object.report)) {
               this.mutationTestResult = object.report;
               if (isPendingReport(object.report)) {
-                console.log(object.slug);
-                this.sse = `/api/real-time/${object.slug}`;
+                this.sse = `/api/real-time/${object.slug.split("/api/reports/")[1]}`;
               }
             } else {
               this.mutationScoreOnlyResult = object.report;
