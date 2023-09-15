@@ -18,10 +18,6 @@ export default class Configuration {
       (this.baseUrl = util.requiredEnvVar('STRYKER_DASHBOARD_BASE_URL'));
     this.jwtSecret = util.requiredEnvVar('JWT_SECRET');
 
-    if (this.isDevelopment) {
-      this.cors = '*';
-    } else {
-      this.cors = util.requiredEnvVar('STRYKER_DASHBOARD_CORS');
-    }
+    this.cors = util.requiredEnvVar('STRYKER_DASHBOARD_BASE_URL');
   }
 }
