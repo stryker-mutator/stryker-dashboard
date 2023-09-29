@@ -32,7 +32,7 @@ import {
   NotFound,
   Unauthorized,
 } from 'ts-httpexceptions';
-import MutationEventServerOrchestrator from '../services/real-time/MutationEventServerOrchestrator.js';
+import MutationEventResponseOrchestrator from '../services/real-time/MutationEventResponseOrchestrator.js';
 import { MutationTestResult } from 'mutation-testing-report-schema';
 import { parseSlug } from './util.js';
 import { ReportValidator } from '../services/ReportValidator.js';
@@ -46,14 +46,14 @@ export default class RealTimeReportsController {
   #apiKeyValidator: ApiKeyValidator;
   #reportService: MutationTestingReportService;
   #blobService: RealTimeMutantsBlobService;
-  #orchestrator: MutationEventServerOrchestrator;
+  #orchestrator: MutationEventResponseOrchestrator;
   #reportValidator: ReportValidator;
   #config: Configuration;
 
   constructor(
     apiKeyValidator: ApiKeyValidator,
     dataAcces: DataAccess,
-    mutationEventServerOrchestrator: MutationEventServerOrchestrator,
+    mutationEventServerOrchestrator: MutationEventResponseOrchestrator,
     reportValidator: ReportValidator,
     config: Configuration
   ) {
@@ -86,9 +86,9 @@ export default class RealTimeReportsController {
     }
 
     const data = await this.#blobService.getReport(id);
-    const server = this.#orchestrator.getSseInstanceForProject(id);
-    server.attach(res);
-    data.forEach((mutant) => server.sendMutantTested(mutant));
+    const responseHandler = this.#orchestrator.createOrGetResponseHandler(id);
+    responseHandler.add(res);
+    data.forEach((mutant) => responseHandler.sendMutantTested(mutant));
   }
 
   @Delete('/*')
@@ -110,9 +110,10 @@ export default class RealTimeReportsController {
       moduleName,
       realTime: true,
     };
-    const server = this.#orchestrator.getSseInstanceForProject(id);
+    const server = this.#orchestrator.createOrGetResponseHandler(id);
     server.sendFinished();
 
+    this.#orchestrator.removeResponseHandlers(id);
     this.#blobService.delete(id);
     this.#reportService.delete(id);
   }
@@ -129,7 +130,6 @@ export default class RealTimeReportsController {
       throw new Unauthorized(`Provide an "${API_KEY_HEADER}" header`);
     }
 
-
     const { project, version } = Slug.parse(req.path);
     await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
 
@@ -144,7 +144,7 @@ export default class RealTimeReportsController {
       moduleName,
       realTime: true,
     };
-    const server = this.#orchestrator.getSseInstanceForProject(id);
+    const server = this.#orchestrator.createOrGetResponseHandler(id);
     await this.#blobService.appendToReport(id, mutants);
     mutants.forEach((mutant) => {
       server.sendMutantTested(mutant);

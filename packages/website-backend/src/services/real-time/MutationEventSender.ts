@@ -1,18 +1,34 @@
 import { MutantResult } from 'mutation-testing-report-schema';
-import { SseClient } from './SseClient.js';
+import { ServerResponse } from 'http';
 
 export class MutationEventSender {
-  #client: SseClient;
+  #response: ServerResponse;
 
-  constructor(client: SseClient) {
-    this.#client = client;
+  constructor(res: ServerResponse, cors: string) {
+    this.#response = res;
+    this.#response.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
+      'Access-Control-Allow-Origin': cors,
+    });
+    this.#response.on('close', () => this.#destroy());
   }
 
   public sendMutantTested(mutant: Partial<MutantResult>): void {
-    this.#client.send('mutant-tested', mutant);
+    this.#send('mutant-tested', mutant);
   }
 
   public sendFinished(): void {
-    this.#client.send('finished', {});
+    this.#send('finished', {});
+  }
+
+  #send<T>(event: string, payload: T): void {
+    this.#response.write(`event: ${event}\n`);
+    this.#response.write(`data: ${JSON.stringify(payload)}\n\n`);
+  }
+
+  #destroy() {
+    this.#response.destroy();
   }
 }

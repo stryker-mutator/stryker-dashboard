@@ -34,7 +34,7 @@ describe(RealTimeMutantsBlobService.name, () => {
 
       expect(blobMock.createContainerIfNotExists.calledOnce).to.be.true;
       expect(blobMock.createContainerIfNotExists).calledWith(
-        'mutants-tested-batch',
+        'real-time-mutant-results',
         {}
       );
     });
@@ -46,7 +46,7 @@ describe(RealTimeMutantsBlobService.name, () => {
 
       expect(blobMock.createAppendBlobFromText.calledOnce).to.be.true;
       expect(blobMock.createAppendBlobFromText).calledWith(
-        'mutants-tested-batch',
+        'real-time-mutant-results',
         'abc;main;real-time',
         ''
       );
@@ -63,7 +63,7 @@ describe(RealTimeMutantsBlobService.name, () => {
 
       expect(blobMock.appendBlockFromText.calledOnce).to.be.true;
       expect(blobMock.appendBlockFromText).calledWith(
-        'mutants-tested-batch',
+        'real-time-mutant-results',
         'abc;main;real-time',
         '{"id":"1","status":"Killed"}\n{"id":"2","status":"Survived"}\n'
       );
@@ -110,7 +110,7 @@ describe(RealTimeMutantsBlobService.name, () => {
 
       expect(blobMock.deleteBlobIfExists.calledOnce).to.be.true;
       expect(blobMock.deleteBlobIfExists).calledWith(
-        'mutants-tested-batch',
+        'real-time-mutant-results',
         'project;version;core'
       );
     });

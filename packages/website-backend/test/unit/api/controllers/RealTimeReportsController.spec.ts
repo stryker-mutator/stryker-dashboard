@@ -11,12 +11,12 @@ import {
 } from '@stryker-mutator/dashboard-data-access';
 import {
   DataAccessMock,
-  MutationtEventServerOrchestratorMock,
+  MutationEventResponseOrchestratorMock,
 } from '../../../helpers/TestServer.js';
 import DataAccess from '../../../../src/services/DataAccess.js';
 import { expect } from 'chai';
-import MutationEventServerOrchestrator from '../../../../src/services/real-time/MutationEventServerOrchestrator.js';
-import { MutationEventServer } from '../../../../src/services/real-time/MutationEventServer.js';
+import MutationEventResponseOrchestrator from '../../../../src/services/real-time/MutationEventResponseOrchestrator.js';
+import { MutationEventResponseHandler } from '../../../../src/services/real-time/MutationEventResponseHandler.js';
 import utils from '../../../../src/utils.js';
 import { MutantStatus } from 'mutation-testing-report-schema';
 import { createMutationTestResult } from '../../../helpers/mutants.js';
@@ -29,8 +29,11 @@ describe(RealTimeReportsController.name, () => {
     MutationTestingReportService['findOne']
   >;
   let findProjectStub: sinon.SinonStubbedMember<ProjectMapper['findOne']>;
-  let sseInstanceForProjectStub: sinon.SinonStubbedMember<
-    MutationEventServerOrchestrator['getSseInstanceForProject']
+  let removeResponseHandlerStub: sinon.SinonStubbedMember<
+    MutationEventResponseOrchestrator['removeResponseHandlers']
+  >;
+  let responseHandlerForProjectStub: sinon.SinonStubbedMember<
+    MutationEventResponseOrchestrator['createOrGetResponseHandler']
   >;
   let getEventsStub: sinon.SinonStubbedMember<
     RealTimeMutantsBlobService['getReport']
@@ -63,12 +66,18 @@ describe(RealTimeReportsController.name, () => {
     realTimeDeleteBlobStub = dataAccess.blobService.delete;
     deleteBlobStub = dataAccess.mutationTestingReportService.delete;
 
-    const orchestrator = PlatformTest.get<MutationtEventServerOrchestratorMock>(
-      MutationEventServerOrchestrator
-    );
-    sseInstanceForProjectStub =
-      orchestrator.getSseInstanceForProject as sinon.SinonStubbedMember<
-        MutationEventServerOrchestrator['getSseInstanceForProject']
+    const orchestrator =
+      PlatformTest.get<MutationEventResponseOrchestratorMock>(
+        MutationEventResponseOrchestrator
+      );
+
+    removeResponseHandlerStub =
+      orchestrator.removeResponseHandlers as sinon.SinonStubbedMember<
+        MutationEventResponseOrchestrator['removeResponseHandlers']
+      >;
+    responseHandlerForProjectStub =
+      orchestrator.createOrGetResponseHandler as sinon.SinonStubbedMember<
+        MutationEventResponseOrchestrator['createOrGetResponseHandler']
       >;
 
     project = new Project();
@@ -94,8 +103,8 @@ describe(RealTimeReportsController.name, () => {
     });
 
     it('should attach itself to the response if the project has been found', async () => {
-      const stub = sinon.createStubInstance(MutationEventServer);
-      sseInstanceForProjectStub.returns(stub);
+      const stub = sinon.createStubInstance(MutationEventResponseHandler);
+      responseHandlerForProjectStub.returns(stub);
       findReportStub.resolves({
         files: {},
         schemaVersion: '1',
@@ -111,13 +120,13 @@ describe(RealTimeReportsController.name, () => {
       );
 
       expect(response.status).to.eq(200);
-      expect(sseInstanceForProjectStub.calledOnce).to.be.true;
-      expect(stub.attach.calledOnce);
+      expect(responseHandlerForProjectStub.calledOnce).to.be.true;
+      expect(stub.add.calledOnce);
     });
 
     it('should get events and replay them', async () => {
-      const stub = sinon.createStubInstance(MutationEventServer);
-      sseInstanceForProjectStub.returns(stub);
+      const stub = sinon.createStubInstance(MutationEventResponseHandler);
+      responseHandlerForProjectStub.returns(stub);
       findReportStub.resolves({
         files: {},
         schemaVersion: '1',
@@ -147,11 +156,11 @@ describe(RealTimeReportsController.name, () => {
   });
 
   describe('HTTP POST /*', () => {
-    let serverStub: sinon.SinonStubbedInstance<MutationEventServer>;
+    let serverStub: sinon.SinonStubbedInstance<MutationEventResponseHandler>;
 
     beforeEach(() => {
-      serverStub = sinon.createStubInstance(MutationEventServer);
-      sseInstanceForProjectStub.returns(serverStub);
+      serverStub = sinon.createStubInstance(MutationEventResponseHandler);
+      responseHandlerForProjectStub.returns(serverStub);
     });
 
     it('should return unauthorized if the `X-Api-key` header is not set', async () => {
@@ -169,7 +178,7 @@ describe(RealTimeReportsController.name, () => {
         .send([])
         .expect(200);
 
-      expect(sseInstanceForProjectStub.calledOnce).to.be.true;
+      expect(responseHandlerForProjectStub.calledOnce).to.be.true;
       expect(serverStub.sendMutantTested.notCalled).to.be.true;
     });
 
@@ -196,7 +205,7 @@ describe(RealTimeReportsController.name, () => {
         .send([{ id: '1', status: MutantStatus.Killed }])
         .expect(200);
 
-      expect(sseInstanceForProjectStub.calledOnce).to.be.true;
+      expect(responseHandlerForProjectStub.calledOnce).to.be.true;
       expect(serverStub.sendMutantTested.firstCall.firstArg).to.deep.include({
         id: '1',
         status: MutantStatus.Killed,
@@ -313,8 +322,8 @@ describe(RealTimeReportsController.name, () => {
     });
 
     it('should send a finished event', async () => {
-      const stub = sinon.createStubInstance(MutationEventServer);
-      sseInstanceForProjectStub.returns(stub);
+      const stub = sinon.createStubInstance(MutationEventResponseHandler);
+      responseHandlerForProjectStub.returns(stub);
       const response = await request
         .delete(
           '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
@@ -322,19 +331,20 @@ describe(RealTimeReportsController.name, () => {
         .set('X-Api-Key', apiKey);
 
       expect(response.status).to.eq(200);
-      expect(sseInstanceForProjectStub.calledOnce).to.be.true;
-      expect(sseInstanceForProjectStub).calledWith({
+      expect(responseHandlerForProjectStub.calledOnce).to.be.true;
+      expect(responseHandlerForProjectStub).calledWith({
         projectName: 'github.com/testOrg/testName',
         version: 'myWebsite',
         moduleName: 'logging',
         realTime: true,
       });
       expect(stub.sendFinished.calledOnce);
+      expect(removeResponseHandlerStub.calledOnce).to.be.true;
     });
 
     it('should delete both blobs', async () => {
-      const stub = sinon.createStubInstance(MutationEventServer);
-      sseInstanceForProjectStub.returns(stub);
+      const stub = sinon.createStubInstance(MutationEventResponseHandler);
+      responseHandlerForProjectStub.returns(stub);
       await request
         .delete(
           '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'

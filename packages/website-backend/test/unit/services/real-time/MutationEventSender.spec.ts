@@ -1,19 +1,31 @@
 import sinon from 'sinon';
 
 import { MutationEventSender } from '../../../../src/services/real-time/MutationEventSender.js';
-import { SseClient } from '../../../../src/services/real-time/SseClient.js';
+import { ServerResponse } from 'http';
 import { MutantResult, MutantStatus } from 'mutation-testing-report-schema';
 
 describe(MutationEventSender.name, () => {
-  let clientMock: sinon.SinonStubbedInstance<SseClient>;
+  let responseMock: sinon.SinonStubbedInstance<ServerResponse>;
+  let cors: string;
   let sut: MutationEventSender;
 
   beforeEach(() => {
-    clientMock = sinon.createStubInstance(SseClient);
-    sut = new MutationEventSender(clientMock);
+    responseMock = sinon.createStubInstance(ServerResponse);
+    cors = 'my-cors';
+    sut = new MutationEventSender(responseMock, cors);
   });
 
-  it('should send mutant-tested correctly', () => {
+  it('should respond immediately with the correct HTTP SSE response', () => {
+    sinon.assert.calledOnce(responseMock.on);
+    sinon.assert.calledOnceWithExactly(responseMock.writeHead, 200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
+      'Access-Control-Allow-Origin': cors,
+    });
+  });
+
+  it('should write correctly when sending a mutant-tested event', () => {
     const mutant: Partial<MutantResult> = {
       id: '1',
       status: MutantStatus.Pending,
@@ -21,15 +33,24 @@ describe(MutationEventSender.name, () => {
 
     sut.sendMutantTested(mutant);
 
-    sinon.assert.calledOnceWithExactly(clientMock.send, 'mutant-tested', {
-      id: '1',
-      status: MutantStatus.Pending,
-    });
+    sinon.assert.calledTwice(responseMock.write);
+    sinon.assert.calledWith(responseMock.write, 'event: mutant-tested\n');
+    sinon.assert.calledWith(
+      responseMock.write,
+      'data: {"id":"1","status":"Pending"}\n\n'
+    );
   });
 
-  it('should send finished correctly', () => {
+  it('should write correctly when sending a finished event', () => {
     sut.sendFinished();
 
-    sinon.assert.calledOnceWithExactly(clientMock.send, 'finished', {});
+    sinon.assert.calledTwice(responseMock.write);
+    sinon.assert.calledWith(responseMock.write, 'event: finished\n');
+    sinon.assert.calledWith(responseMock.write, 'data: {}\n\n');
+  });
+
+  it('should call the destroy method when a connection closes', () => {
+    responseMock.on.firstCall.args[1]();
+    sinon.assert.calledOnce(responseMock.destroy);
   });
 });
