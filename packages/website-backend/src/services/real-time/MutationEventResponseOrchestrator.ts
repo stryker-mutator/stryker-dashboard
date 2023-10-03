@@ -29,7 +29,14 @@ export default class MutationEventResponseOrchestrator {
   }
 
   #toId(identifier: ReportIdentifier) {
-    return Object.values(identifier).join(';');
+    let id = `${identifier.projectName};${identifier.version}`;
+    if (identifier.moduleName) {
+      id = `${id};${identifier.moduleName}`;
+    }
+    if (identifier.realTime) {
+      id = `${id};real-time`;
+    }
+    return id;
   }
 
   #createResponseHandler(id: string): MutationEventResponseHandler {
