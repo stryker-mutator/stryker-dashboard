@@ -15,7 +15,7 @@ export class ReportsService {
     moduleName?: string,
     realTime?: string
   ): Observable<{ report: Report | null; slug: string } | null> {
-    const uri = constructApiUri(slug, { module: moduleName, realTime: realTime });
+    const uri = constructApiUri(location.origin, slug, { module: moduleName, realTime: realTime });
     return this.http
       .get<Report>(uri)
       .pipe(
