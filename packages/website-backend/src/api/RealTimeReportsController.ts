@@ -113,7 +113,7 @@ export default class RealTimeReportsController {
     const server = this.#orchestrator.createOrGetResponseHandler(id);
     server.sendFinished();
 
-    this.#orchestrator.removeResponseHandlers(id);
+    this.#orchestrator.removeResponseHandler(id);
     this.#blobService.delete(id);
     this.#reportService.delete(id);
   }

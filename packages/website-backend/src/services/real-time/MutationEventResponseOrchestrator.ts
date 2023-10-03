@@ -23,7 +23,7 @@ export default class MutationEventResponseOrchestrator {
     return this.#responseHandlers.get(id)!;
   }
 
-  removeResponseHandlers(identifier: ReportIdentifier) {
+  removeResponseHandler(identifier: ReportIdentifier) {
     const id = this.#toId(identifier);
     this.#responseHandlers.delete(id);
   }

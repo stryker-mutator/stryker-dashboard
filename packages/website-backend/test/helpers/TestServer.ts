@@ -86,5 +86,5 @@ export class DataAccessMock implements IDataAccessMock {
 @OverrideProvider(MutationEventResponseOrchestrator)
 export class MutationEventResponseOrchestratorMock {
   createOrGetResponseHandler = sinon.stub();
-  removeResponseHandlers = sinon.stub();
+  removeResponseHandler = sinon.stub();
 }

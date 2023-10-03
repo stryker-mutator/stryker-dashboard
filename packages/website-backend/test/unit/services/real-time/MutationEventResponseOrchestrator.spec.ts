@@ -48,7 +48,7 @@ describe(MutationEventResponseOrchestrator.name, () => {
   it('should remove handler with the given id', () => {
     orchestrator.createOrGetResponseHandler(id);
     orchestrator.createOrGetResponseHandler({ ...id, projectName: 'def' });
-    orchestrator.removeResponseHandlers(id);
+    orchestrator.removeResponseHandler(id);
 
     expect(orchestrator.handlers).to.be.eq(1);
   });

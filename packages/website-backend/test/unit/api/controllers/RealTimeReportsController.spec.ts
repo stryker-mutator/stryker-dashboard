@@ -4,10 +4,7 @@ import { PlatformTest } from '@tsed/common';
 import Server from '../../../../src/Server.js';
 import sinon from 'sinon';
 import {
-  MutationTestingReportService,
   Project,
-  ProjectMapper,
-  RealTimeMutantsBlobService,
 } from '@stryker-mutator/dashboard-data-access';
 import {
   DataAccessMock,
@@ -25,30 +22,12 @@ describe(RealTimeReportsController.name, () => {
   const apiKey = '1346';
 
   let request: supertest.SuperTest<supertest.Test>;
-  let findReportStub: sinon.SinonStubbedMember<
-    MutationTestingReportService['findOne']
-  >;
-  let findProjectStub: sinon.SinonStubbedMember<ProjectMapper['findOne']>;
+  let dataAccess: DataAccessMock;
   let removeResponseHandlerStub: sinon.SinonStubbedMember<
-    MutationEventResponseOrchestrator['removeResponseHandlers']
+    MutationEventResponseOrchestrator['removeResponseHandler']
   >;
   let responseHandlerForProjectStub: sinon.SinonStubbedMember<
     MutationEventResponseOrchestrator['createOrGetResponseHandler']
-  >;
-  let getEventsStub: sinon.SinonStubbedMember<
-    RealTimeMutantsBlobService['getReport']
-  >;
-  let createBlobStub: sinon.SinonStubbedMember<
-    RealTimeMutantsBlobService['createReport']
-  >;
-  let saveReportStub: sinon.SinonStubbedMember<
-    MutationTestingReportService['saveReport']
-  >;
-  let realTimeDeleteBlobStub: sinon.SinonStubbedMember<
-    RealTimeMutantsBlobService['delete']
-  >;
-  let deleteBlobStub: sinon.SinonStubbedMember<
-    MutationTestingReportService['delete']
   >;
   let project: Project;
 
@@ -56,15 +35,8 @@ describe(RealTimeReportsController.name, () => {
     await PlatformTest.bootstrap(Server)();
     request = supertest(PlatformTest.callback());
 
-    const dataAccess = PlatformTest.get<DataAccessMock>(DataAccess);
-    findReportStub = dataAccess.mutationTestingReportService.findOne;
-    findProjectStub = dataAccess.repositoryMapper.findOne;
-    getEventsStub = dataAccess.blobService.getReport;
-    getEventsStub.returns(Promise.resolve([]));
-    createBlobStub = dataAccess.blobService.createReport;
-    saveReportStub = dataAccess.mutationTestingReportService.saveReport;
-    realTimeDeleteBlobStub = dataAccess.blobService.delete;
-    deleteBlobStub = dataAccess.mutationTestingReportService.delete;
+    dataAccess = PlatformTest.get<DataAccessMock>(DataAccess);
+    dataAccess.blobService.getReport.returns(Promise.resolve([]));
 
     const orchestrator =
       PlatformTest.get<MutationEventResponseOrchestratorMock>(
@@ -72,8 +44,8 @@ describe(RealTimeReportsController.name, () => {
       );
 
     removeResponseHandlerStub =
-      orchestrator.removeResponseHandlers as sinon.SinonStubbedMember<
-        MutationEventResponseOrchestrator['removeResponseHandlers']
+      orchestrator.removeResponseHandler as sinon.SinonStubbedMember<
+        MutationEventResponseOrchestrator['removeResponseHandler']
       >;
     responseHandlerForProjectStub =
       orchestrator.createOrGetResponseHandler as sinon.SinonStubbedMember<
@@ -85,7 +57,7 @@ describe(RealTimeReportsController.name, () => {
     project.name = 'stryker';
     project.owner = 'github.com/stryker-mutator';
     project.apiKeyHash = utils.generateHashValue(apiKey);
-    findProjectStub.resolves({
+    dataAccess.repositoryMapper.findOne.resolves({
       model: project,
       etag: 'etag',
     });
@@ -93,7 +65,7 @@ describe(RealTimeReportsController.name, () => {
 
   describe('HTTP GET /*', () => {
     it('should return not found when project does not exist', async () => {
-      findReportStub.resolves(null);
+      dataAccess.mutationTestingReportService.findOne.resolves(null);
 
       const response = await request.get(
         '/api/real-time/github.com/user/does-not-exist/master'
@@ -105,7 +77,7 @@ describe(RealTimeReportsController.name, () => {
     it('should attach itself to the response if the project has been found', async () => {
       const stub = sinon.createStubInstance(MutationEventResponseHandler);
       responseHandlerForProjectStub.returns(stub);
-      findReportStub.resolves({
+      dataAccess.mutationTestingReportService.findOne.resolves({
         files: {},
         schemaVersion: '1',
         thresholds: { high: 80, low: 60 },
@@ -127,7 +99,7 @@ describe(RealTimeReportsController.name, () => {
     it('should get events and replay them', async () => {
       const stub = sinon.createStubInstance(MutationEventResponseHandler);
       responseHandlerForProjectStub.returns(stub);
-      findReportStub.resolves({
+      dataAccess.mutationTestingReportService.findOne.resolves({
         files: {},
         schemaVersion: '1',
         thresholds: { high: 80, low: 60 },
@@ -136,7 +108,7 @@ describe(RealTimeReportsController.name, () => {
         version: 'master',
         mutationScore: 89,
       });
-      getEventsStub.returns(
+      dataAccess.blobService.getReport.returns(
         Promise.resolve([
           { id: '1', status: MutantStatus.Killed },
           { id: '2', status: MutantStatus.Survived },
@@ -145,7 +117,7 @@ describe(RealTimeReportsController.name, () => {
 
       await request.get('/api/real-time/github.com/user/does-not-exist/master');
 
-      expect(getEventsStub).calledWith({
+      expect(dataAccess.blobService.getReport).calledWith({
         projectName: 'github.com/user/does-not-exist',
         version: 'master',
         moduleName: undefined,
@@ -198,7 +170,7 @@ describe(RealTimeReportsController.name, () => {
         .expect(400);
     });
 
-    it('should send a mutant tested for every client connected', async () => {
+    it('should send a mutant tested event', async () => {
       await request
         .post('/api/real-time/github.com/user/does-not-exist/master')
         .set('X-Api-Key', apiKey)
@@ -229,7 +201,7 @@ describe(RealTimeReportsController.name, () => {
 
       // Assert
       expect(response.status).eq(200);
-      expect(saveReportStub.firstCall.firstArg).to.deep.include({
+      expect(dataAccess.mutationTestingReportService.saveReport.firstCall.firstArg).to.deep.include({
         projectName: 'github.com/testOrg/testName',
         version: 'myWebsite',
         moduleName: 'logging',
@@ -249,7 +221,7 @@ describe(RealTimeReportsController.name, () => {
         .send(mutationTestResult);
 
       // Assert
-      expect(createBlobStub).calledWith({
+      expect(dataAccess.blobService.createReport).calledWith({
         projectName: 'github.com/testOrg/testName',
         version: 'main',
         moduleName: 'logging',
@@ -357,10 +329,10 @@ describe(RealTimeReportsController.name, () => {
         moduleName: 'logging',
         realTime: true,
       };
-      expect(realTimeDeleteBlobStub.calledOnce).to.be.true;
-      expect(realTimeDeleteBlobStub).calledWith(expectedId);
-      expect(deleteBlobStub.calledOnce).to.be.true;
-      expect(deleteBlobStub).calledWith(expectedId);
+      expect(dataAccess.blobService.delete.calledOnce).to.be.true;
+      expect(dataAccess.blobService.delete).calledWith(expectedId);
+      expect(dataAccess.mutationTestingReportService.delete.calledOnce).to.be.true;
+      expect(dataAccess.mutationTestingReportService.delete).calledWith(expectedId);
     });
   });
 });
