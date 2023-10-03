@@ -3,9 +3,7 @@ import RealTimeReportsController from '../../../../src/api/RealTimeReportsContro
 import { PlatformTest } from '@tsed/common';
 import Server from '../../../../src/Server.js';
 import sinon from 'sinon';
-import {
-  Project,
-} from '@stryker-mutator/dashboard-data-access';
+import { Project } from '@stryker-mutator/dashboard-data-access';
 import {
   DataAccessMock,
   MutationEventResponseOrchestratorMock,
@@ -201,7 +199,9 @@ describe(RealTimeReportsController.name, () => {
 
       // Assert
       expect(response.status).eq(200);
-      expect(dataAccess.mutationTestingReportService.saveReport.firstCall.firstArg).to.deep.include({
+      expect(
+        dataAccess.mutationTestingReportService.saveReport.firstCall.firstArg
+      ).to.deep.include({
         projectName: 'github.com/testOrg/testName',
         version: 'myWebsite',
         moduleName: 'logging',
@@ -331,8 +331,11 @@ describe(RealTimeReportsController.name, () => {
       };
       expect(dataAccess.blobService.delete.calledOnce).to.be.true;
       expect(dataAccess.blobService.delete).calledWith(expectedId);
-      expect(dataAccess.mutationTestingReportService.delete.calledOnce).to.be.true;
-      expect(dataAccess.mutationTestingReportService.delete).calledWith(expectedId);
+      expect(dataAccess.mutationTestingReportService.delete.calledOnce).to.be
+        .true;
+      expect(dataAccess.mutationTestingReportService.delete).calledWith(
+        expectedId
+      );
     });
   });
 });

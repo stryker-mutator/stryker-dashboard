@@ -9,6 +9,6 @@ export function constructApiUri(
       url.searchParams.append(key, value);
     }
   }
-  
+
   return url.toString();
 }
