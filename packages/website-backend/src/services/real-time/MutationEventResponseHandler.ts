@@ -13,13 +13,15 @@ export class MutationEventResponseHandler {
 
   public add(res: ServerResponse) {
     const eventSender = new MutationEventSender(res, this.#config.cors);
-    eventSender.on('destroyed', () => { this.#remove(eventSender); })
+    eventSender.on('destroyed', () => {
+      this.#remove(eventSender);
+    });
 
     this.#mutationEventSenders.add(eventSender);
   }
 
   #remove(eventSender: MutationEventSender) {
-    this.#mutationEventSenders.delete(eventSender)
+    this.#mutationEventSenders.delete(eventSender);
   }
 
   public sendMutantTested(mutant: Partial<MutantResult>): void {

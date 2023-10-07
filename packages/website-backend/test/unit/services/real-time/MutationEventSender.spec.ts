@@ -53,8 +53,8 @@ describe(MutationEventSender.name, () => {
     const spy = sinon.spy();
 
     sut.on('destroyed', () => {
-      spy('stryker was here!')
-    })
+      spy('stryker was here!');
+    });
 
     responseMock.on.firstCall.args[1]();
     sinon.assert.calledOnce(responseMock.destroy);

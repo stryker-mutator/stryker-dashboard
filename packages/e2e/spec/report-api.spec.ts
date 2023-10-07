@@ -1,9 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { URL } from 'url';
 import type { PutReportResponse } from '@stryker-mutator/dashboard-contract';
-import { simpleReportv1, simpleReportv2 } from '../actions/report.action.js';
+import { simpleReportV1, simpleReportV2 } from '../actions/report.action.js';
 import { ReportClient } from '../po/reports/report-client.po.js';
-import { MutantStatus } from 'mutation-testing-report-schema';
 
 test.describe('Report api', () => {
   let client: ReportClient;
@@ -15,7 +14,7 @@ test.describe('Report api', () => {
   test.describe('HTTP put', () => {
     test('should respond with the correct href', async ({ baseURL }) => {
       const response = await client.uploadReport(
-        simpleReportv1(
+        simpleReportV1(
           'github.com/stryker-mutator-test-organization/hello-org',
           'feat/report'
         )
@@ -32,11 +31,10 @@ test.describe('Report api', () => {
 
     test('should accept v2 reports', async ({ baseURL }) => {
       const response = await client.uploadReport(
-        simpleReportv2(
+        simpleReportV2(
           'github.com/stryker-mutator-test-organization/hello-org',
           'feat/report',
-          'module',
-          [MutantStatus.Pending]
+          'module'
         )
       );
 
@@ -57,7 +55,7 @@ test.describe('Report api', () => {
       baseURL,
     }) => {
       const response = await client.uploadReport(
-        simpleReportv1(
+        simpleReportV1(
           'github.com/stryker-mutator-test-organization/hello-org',
           'feat/report',
           'fooModule'

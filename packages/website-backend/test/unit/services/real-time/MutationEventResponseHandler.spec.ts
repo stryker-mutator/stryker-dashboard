@@ -70,5 +70,5 @@ describe(MutationEventResponseHandler.name, () => {
     response.emit('close');
 
     expect(sut.senders).to.eq(0);
-  })
+  });
 });
