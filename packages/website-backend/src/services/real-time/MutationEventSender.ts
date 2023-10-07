@@ -1,10 +1,13 @@
 import { MutantResult } from 'mutation-testing-report-schema';
 import { ServerResponse } from 'http';
+import { EventEmitter } from 'events';
 
-export class MutationEventSender {
+export class MutationEventSender extends EventEmitter {
   #response: ServerResponse;
 
   constructor(res: ServerResponse, cors: string) {
+    super();
+
     this.#response = res;
     this.#response.writeHead(200, {
       'Content-Type': 'text/event-stream',
@@ -30,5 +33,6 @@ export class MutationEventSender {
 
   #destroy() {
     this.#response.destroy();
+    this.emit('destroyed');
   }
 }

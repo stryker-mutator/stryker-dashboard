@@ -50,7 +50,14 @@ describe(MutationEventSender.name, () => {
   });
 
   it('should call the destroy method when a connection closes', () => {
+    const spy = sinon.spy();
+
+    sut.on('destroyed', () => {
+      spy('stryker was here!')
+    })
+
     responseMock.on.firstCall.args[1]();
     sinon.assert.calledOnce(responseMock.destroy);
+    sinon.assert.calledOnce(spy);
   });
 });

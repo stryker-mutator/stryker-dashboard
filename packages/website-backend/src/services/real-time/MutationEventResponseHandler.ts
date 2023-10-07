@@ -12,9 +12,14 @@ export class MutationEventResponseHandler {
   }
 
   public add(res: ServerResponse) {
-    this.#mutationEventSenders.add(
-      new MutationEventSender(res, this.#config.cors)
-    );
+    const eventSender = new MutationEventSender(res, this.#config.cors);
+    eventSender.on('destroyed', () => { this.#remove(eventSender); })
+
+    this.#mutationEventSenders.add(eventSender);
+  }
+
+  #remove(eventSender: MutationEventSender) {
+    this.#mutationEventSenders.delete(eventSender)
   }
 
   public sendMutantTested(mutant: Partial<MutantResult>): void {
@@ -27,5 +32,9 @@ export class MutationEventResponseHandler {
     this.#mutationEventSenders.forEach((sender) => {
       sender.sendFinished();
     });
+  }
+
+  public get senders() {
+    return this.#mutationEventSenders.size;
   }
 }
