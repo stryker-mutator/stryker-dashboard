@@ -42,8 +42,19 @@ test.describe('Real-time api', () => {
 
       const response = await client.postMutantBatch(report, [
         { id: '1', status: MutantStatus.Killed },
+        { id: '2', status: MutantStatus.Killed },
+        { id: '3', status: MutantStatus.Killed },
       ]);
-      expect(response.ok()).toBe(true);
+      expect(response.status()).toBe(400);
+    })
+
+    test('should not accept a batch of mutants if they do not comply with schema', async () => {
+      await uploadPendingReport(report);
+
+      const response = await client.postMutantBatch(report, [
+        { id: '1', },
+      ]);
+      expect(response.status()).toBe(400);
     });
   });
 

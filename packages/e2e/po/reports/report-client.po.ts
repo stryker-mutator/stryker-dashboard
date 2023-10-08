@@ -80,7 +80,7 @@ export class ReportClient {
 
   async postMutantBatch(result: Report, mutants: Array<Partial<MutantResult>>) {
     const apiKey = await this.enableRepository(result.projectName);
-    return await this.request.put(this.#getUrl('/api/real-time', result), {
+    return await this.request.post(this.#getUrl('/api/real-time', result), {
       data: mutants,
       headers: {
         ['X-Api-Key']: apiKey,
