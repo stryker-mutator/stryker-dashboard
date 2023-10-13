@@ -1,16 +1,16 @@
 {
-  "name": "str-comp-lib",
-  "private": true,
+  "name": "@stryker-mutator/ui-components",
   "version": "0.0.1",
   "type": "module",
   "files": [
     "dist"
   ],
-  "main": "./dist/str-comp-lib.umd.cjs",
+  "main": "./dist/ui-components.js",
+  "module": "./dist/ui-components.js",
   "exports": {
     ".": {
-      "import": "./dist/str-comp-lib.js",
-      "require": "./dist/str-comp-lib.umd.cjs"
+      "import": "./dist/ui-components.js",
+      "require": "./dist/ui-components.umd.cjs"
     }
   },
   "scripts": {
@@ -18,7 +18,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
-  "dependencies": {
+  "peerDependencies": {
     "lit": "^2.7.6"
   },
   "devDependencies": {
