@@ -1,4 +1,4 @@
-import { ProfileButton } from '../components/profile-button.ts';
+import { ProfileButton } from '../components/profile-button';
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -1,4 +1,4 @@
-import { TopBar } from '../components/top-bar.ts';
+import { TopBar } from '../components/top-bar';
 
 declare global {
   interface HTMLElementTagNameMap {

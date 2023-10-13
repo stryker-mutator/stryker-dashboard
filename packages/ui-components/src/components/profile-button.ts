@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import { BaseElement } from '../base.ts';
+import { BaseElement } from '../base';
 import { property, state } from 'lit/decorators.js';
 
 type User = {

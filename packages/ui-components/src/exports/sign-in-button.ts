@@ -1,4 +1,4 @@
-import { SignInButton } from '../components/sign-in-button.ts';
+import { SignInButton } from '../components/sign-in-button';
 
 declare global {
   interface HTMLElementTagNameMap {
