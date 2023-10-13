@@ -1,3 +1,3 @@
 import './index.css';
-
-export { TestElement } from './test';
+export { TestElement } from './components/test';
+import './exports/test';

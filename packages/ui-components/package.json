@@ -3,15 +3,26 @@
   "version": "0.0.1",
   "type": "module",
   "files": [
-    "dist"
+    "dist/build",
+    "dist/types"
   ],
-  "main": "./dist/ui-components.js",
-  "module": "./dist/ui-components.js",
   "exports": {
     ".": {
-      "import": "./dist/ui-components.js",
-      "require": "./dist/ui-components.umd.cjs"
-    }
+      "types": "./dist/types/main.d.ts",
+      "main": "./dist/build/main.cjs.js",
+      "module": "./dist/build/main.js"
+    },
+    "./*": {
+      "module": "./dist/build/exports/*.js",
+      "main": "./dist/build/exports/*.cjs.js",
+      "types": "./dist/types/exports/*"
+    },
+    "./components/*": {
+      "module": "./dist/build/components/*.js",
+      "main": "./dist/build/components/*.cjs.js",
+      "types": "./dist/types/components/*"
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "dev": "vite",
