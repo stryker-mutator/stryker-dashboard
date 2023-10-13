@@ -20,6 +20,7 @@ export default defineConfig({
         preserveModules: true,
         preserveModulesRoot: SOURCE_DIR,
         entryFileNames: '[name].js',
+        inlineDynamicImports: false,
       },
     },
   },
