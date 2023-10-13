@@ -9,8 +9,8 @@
   "module": "./dist/ui-components.js",
   "exports": {
     ".": {
-      "import": "./dist/str-comp-lib.js",
-      "require": "./dist/str-comp-lib.umd.cjs"
+      "import": "./dist/ui-components.js",
+      "require": "./dist/ui-components.umd.cjs"
     }
   },
   "scripts": {
