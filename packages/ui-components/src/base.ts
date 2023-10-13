@@ -1,7 +1,17 @@
-import { LitElement } from 'lit';
+import { LitElement, unsafeCSS } from 'lit';
+
+import components from './tailwind-styles/components.css?inline';
+import utilities from './tailwind-styles/utilities.css?inline';
+import screens from './tailwind-styles/screens.css?inline';
+
+import './tailwind-styles/preflight.css';
+import preflight from './tailwind-styles/preflight.css?inline';
 
 export class BaseElement extends LitElement {
-  createRenderRoot() {
-    return this;
-  }
+  public static styles = [
+    unsafeCSS(preflight),
+    unsafeCSS(components),
+    unsafeCSS(utilities),
+    unsafeCSS(screens),
+  ].filter((styles) => styles.cssText !== '');
 }
