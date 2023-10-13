@@ -3,6 +3,6 @@ import { BaseElement } from '../base';
 
 export class TestElement extends BaseElement {
   render() {
-    return html` <div>Test</div> `;
+    return html` <div class="bg-red-300">Test</div> `;
   }
 }
