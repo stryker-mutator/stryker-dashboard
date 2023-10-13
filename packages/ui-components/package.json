@@ -6,21 +6,24 @@
     "dist/build",
     "dist/types"
   ],
+  "module": "./dist/main.mjs",
+  "main": "./dist/main.cjs",
+  "types": "./dist/main.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/types/main.d.ts",
-      "main": "./dist/build/main.cjs.js",
-      "module": "./dist/build/main.js"
+      "module": "./dist/main.mjs",
+      "main": "./dist/main.cjs",
+      "types": "./dist/main.d.ts"
     },
     "./*": {
-      "module": "./dist/build/exports/*.js",
-      "main": "./dist/build/exports/*.cjs.js",
-      "types": "./dist/types/exports/*"
+      "module": "./dist/exports/*",
+      "main": "./dist/exports/*",
+      "types": "./dist/exports/*"
     },
     "./components/*": {
-      "module": "./dist/build/components/*.js",
-      "main": "./dist/build/components/*.cjs.js",
-      "types": "./dist/types/components/*"
+      "module": "./dist/components/*",
+      "main": "./dist/components/*",
+      "types": "./dist/components/*"
     },
     "./package.json": "./package.json"
   },

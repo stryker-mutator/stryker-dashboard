@@ -3,9 +3,10 @@ import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
 
 const SOURCE_DIR = resolve(__dirname, 'src');
-const OUTPUT_DIR = resolve(__dirname, 'dist');
-const BUILD_DIR = resolve(OUTPUT_DIR, 'build');
-const TYPES_DIR = resolve(OUTPUT_DIR, 'types');
+const BUILD_DIR = resolve(__dirname, 'dist');
+// const TYPES_DIR = resolve(__dirname, 'dist');
+// const TYPES_DIR = resolve(__dirname, 'types'); /* This is kind of better, but the node resolution angular project does not support it */
+const TYPES_DIR = BUILD_DIR;
 
 export default defineConfig({
   plugins: [
@@ -15,21 +16,30 @@ export default defineConfig({
   ],
   build: {
     target: 'ES2020',
-    minify: false,
+    minify: true,
     outDir: BUILD_DIR,
     emptyOutDir: true,
     lib: {
       entry: resolve(SOURCE_DIR, 'main.ts'),
-      formats: ['es', 'cjs'],
     },
     rollupOptions: {
       external: /^lit/,
-      output: {
-        preserveModules: true,
-        preserveModulesRoot: SOURCE_DIR,
-        entryFileNames: '[name].[format].js',
-        inlineDynamicImports: false,
-      },
+      output: [
+        {
+          format: 'es',
+          preserveModules: true,
+          preserveModulesRoot: SOURCE_DIR,
+          entryFileNames: '[name].mjs',
+          inlineDynamicImports: false,
+        },
+        {
+          format: 'cjs',
+          preserveModules: true,
+          preserveModulesRoot: SOURCE_DIR,
+          entryFileNames: '[name].cjs',
+          inlineDynamicImports: false,
+        },
+      ],
     },
   },
 });
