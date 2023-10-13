@@ -16,6 +16,9 @@ import { SharedModule } from './shared/shared.module';
 import { ReportModule } from './report/report.module';
 import { AppRouterModule } from './app-router.module';
 
+// import custom components
+import {TestElement} from "@stryker-mutator/ui-components";
+
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [
@@ -42,5 +45,6 @@ import { AppRouterModule } from './app-router.module';
       multi: true,
     },
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}
