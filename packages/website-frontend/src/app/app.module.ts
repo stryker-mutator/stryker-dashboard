@@ -16,8 +16,10 @@ import { SharedModule } from './shared/shared.module';
 import { ReportModule } from './report/report.module';
 import { AppRouterModule } from './app-router.module';
 
-// import custom components
-import {TestElement} from "@stryker-mutator/ui-components";
+/* Import preflight styles */
+import "@stryker-mutator/ui-components/dist/style.css"
+/* Node resolution inside angular project does not support importing by subpath exports, so we directly import the component export by file */
+import "@stryker-mutator/ui-components/dist/exports/test";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -45,6 +47,6 @@ import {TestElement} from "@stryker-mutator/ui-components";
       multi: true,
     },
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], /* Lit won't work otherwise */
 })
 export class AppModule {}
