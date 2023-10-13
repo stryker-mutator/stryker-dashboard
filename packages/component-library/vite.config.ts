@@ -1,11 +1,11 @@
-import { defineConfig } from 'vite'
-import { resolve } from 'path'
-import dts from 'vite-plugin-dts'
+import { defineConfig } from 'vite';
+import { resolve } from 'path';
+import dts from 'vite-plugin-dts';
 
 export default defineConfig({
   plugins: [dts()],
   build: {
-    target: "ES2020",
+    target: 'ES2020',
     minify: false,
     lib: {
       entry: resolve(__dirname, 'src/main.ts'),
@@ -15,7 +15,6 @@ export default defineConfig({
     },
     rollupOptions: {
       external: /^lit/,
-      
     },
   },
-})
+});
