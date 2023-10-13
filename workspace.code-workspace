@@ -22,6 +22,9 @@
       "path": "packages/e2e"
     },
     {
+      "path": "packages/ui-components"
+    },
+    {
       "path": ".",
       "name": "root"
     }
@@ -34,7 +37,12 @@
     ]
   },
   "settings": {
-    "eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
+    "eslint.rules.customizations": [
+      {
+        "rule": "*",
+        "severity": "warn"
+      }
+    ],
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     },
