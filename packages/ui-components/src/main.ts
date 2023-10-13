@@ -1,3 +1,4 @@
 import './index.css';
 
-export { TestElement } from './test';
+export { GettingStartedStep } from './components/getting-started/getting-started-step';
+export { GettingStartedStepOverview } from './components/getting-started/getting-started-step-overview';

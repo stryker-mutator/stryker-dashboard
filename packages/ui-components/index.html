@@ -1,17 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vite + Lit + TS</title>
-  <link rel="stylesheet" href="./src/index.css" />
-  <script type="module" src="/src/my-element.ts"></script>
-</head>
-
-<body>
-  Vite + Lit
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + Lit + TS</title>
+    <link rel="stylesheet" href="./src/index.css" />
+  </head>
+  <body>
+    <div class="container" style="width:1400px;margin:0 auto">
+      <getting-started-step-overview></getting-started-step-overview>
+    </div>
+    <style>
+      html {
+        @apply bg-neutral-800;
+      }
+    </style>
+    <script type="module">
+      import './src/exports/getting-started/getting-started-step-overview';
+    </script>
+  </body>
 </html>
