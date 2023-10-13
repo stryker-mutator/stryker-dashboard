@@ -1,3 +1,3 @@
-import "./index.css"
+import './index.css';
 
-export { MyElement } from './my-element';
+// export { MyElement } from './my-element'
