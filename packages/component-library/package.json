@@ -1,0 +1,16 @@
+{
+  "name": "component-library",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "lit": "^3.0.0",
+    "lit-element": "^4.0.0",
+    "lit-html": "^3.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
