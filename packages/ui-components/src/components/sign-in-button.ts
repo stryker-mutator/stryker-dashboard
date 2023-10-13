@@ -13,7 +13,7 @@ export class SignInButton extends BaseElement {
   render() {
     return html`<button
       @click="${this._handleClick}"
-      class="p-2 border-2 bg-neutral-800 border-solid border-white"
+      class="p-2 h-10 border-2 bg-neutral-800 border-solid border-white"
     >
       <p class="font-bold text-white text-l">Sign in with Github</p>
     </button>`;
