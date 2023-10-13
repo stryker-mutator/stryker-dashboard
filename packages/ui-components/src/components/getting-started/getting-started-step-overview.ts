@@ -13,12 +13,8 @@ export class GettingStartedStepOverview extends BaseElement {
     ...BaseElement.styles,
     css`
       .grid-template {
-        grid-template-rows: 350px 250px 200px;
+        grid-template-rows: 350px 250px 390px;
         grid-template-columns: 1fr 1fr 200px 1fr 1fr;
-      }
-
-      .center {
-        align-self: center;
       }
 
       .trail-one {
@@ -30,7 +26,7 @@ export class GettingStartedStepOverview extends BaseElement {
       }
 
       .trail-three {
-        margin: 0 0 -350px -80px;
+        margin: 0 0 -125px -80px;
       }
     `,
   ];
@@ -64,18 +60,20 @@ export class GettingStartedStepOverview extends BaseElement {
     return html`
       <div class="grid grid-template">
         <getting-started-step
-          class="center col-span-2"
+          class="self-center col-span-2"
           title="${this.steps[0].title}"
         >
           ${this.steps[0].description}
         </getting-started-step>
-        <div class="center trail-one col-span-3">${unsafeSVG(TrailOne)}</div>
+        <div class="self-center trail-one col-span-3">
+          ${unsafeSVG(TrailOne)}
+        </div>
 
-        <div class="center trail-two col-span-3 place-self-end">
+        <div class="self-center trail-two col-span-3 place-self-end">
           ${unsafeSVG(TrailTwo)}
         </div>
         <getting-started-step
-          class="center col-span-2"
+          class="self-center col-span-2"
           title="${this.steps[1].title}"
         >
           ${this.steps[1].description}
@@ -84,7 +82,7 @@ export class GettingStartedStepOverview extends BaseElement {
         <getting-started-step class="col-span-2" title="${this.steps[2].title}">
           ${this.steps[2].description}
         </getting-started-step>
-        <div class="center trail-three col-span-3">
+        <div class="self-center trail-three col-span-3">
           ${unsafeSVG(TrailThree)}
         </div>
 
