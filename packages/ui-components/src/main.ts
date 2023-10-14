@@ -21,3 +21,6 @@ import './exports/common/result-item';
 
 export { TopBar } from './components/top-bar';
 import './exports/top-bar';
+
+export { StatusBoxComponent } from './components/status-box-component'
+import './exports/status-box-component'
