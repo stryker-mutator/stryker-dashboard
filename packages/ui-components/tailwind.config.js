@@ -8,15 +8,16 @@ export default {
         hero_background: '#22323D',
       },
       keyframes: {
-        move: {
-          from: { transform: 'translateX(-100px)' },
-          to: { transform: 'translateX(110%)' },
-        }
+        something: {
+          '0%': { opacity: 0, transform: 'translateX(0px)' },
+          '10%': { opacity: 1 },
+          '100%': { transform: `translateX(calc(100vw + 1px))` },
+        },
       },
       animation: {
-        move: 'move 1s linear infinite',
-      }
+        flow: 'something 1s linear infinite',
+      },
     },
+    plugins: [],
   },
-  plugins: [],
 };
