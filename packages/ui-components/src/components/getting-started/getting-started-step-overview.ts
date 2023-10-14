@@ -56,7 +56,7 @@ export class GettingStartedStepOverview extends BaseElement {
 
   render() {
     return html`
-      <h2 class="text-center text-white font-bold text-2xl">
+      <h2 class="text-center text-white font-bold text-2xl" id="getting-started">
         Getting started with Stryker dashboard
       </h2>
       <div class="grid grid-template">

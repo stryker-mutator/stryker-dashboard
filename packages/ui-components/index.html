@@ -10,10 +10,6 @@
       body {
         @apply bg-neutral-800;
       }
-
-      .container {
-        @apply max-w-screen-lg m-auto p-8;
-      }
     </style>
   </head>
   <body>
@@ -24,9 +20,9 @@
     <labeled-container-component label="Hello there">
       <hero-component></hero-component>
     </labeled-container-component>
-    <div class="container">
+    <layout-component>
       <status-box-component></status-box-component>
       <getting-started-step-overview></getting-started-step-overview>
-    </div>
+    </layout-component>
   </body>
 </html>
