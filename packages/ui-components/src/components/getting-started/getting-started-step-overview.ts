@@ -1,12 +1,11 @@
 import { BaseElement } from '../../base';
-import { GettingStartedStep } from './getting-started-step';
+// import { GettingStartedStep } from './getting-started-step';
 import { TemplateResult, css, html } from 'lit';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import TrailOne from '../../assets/trail-1.svg?raw';
 import TrailTwo from '../../assets/trail-2.svg?raw';
 import TrailThree from '../../assets/trail-3.svg?raw';
 
-customElements.define('getting-started-step', GettingStartedStep);
 export class GettingStartedStepOverview extends BaseElement {
   static styles = [
     ...BaseElement.styles,
