@@ -15,5 +15,5 @@ export { GettingStartedStepOverview } from './components/getting-started/getting
 import './exports/common/progress-bar';
 export { ProgressBar } from './components/common/progress-bar';
 
-import './exports/common/repository-result';
-export { RepositoryResult } from './components/common/repository-result';
+import './exports/common/result-item';
+export { ResultItem as RepositoryResult } from './components/common/result-item';

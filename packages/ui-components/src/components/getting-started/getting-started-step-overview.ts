@@ -7,7 +7,6 @@ import TrailTwo from '../../assets/trail-2.svg?raw';
 import TrailThree from '../../assets/trail-3.svg?raw';
 
 customElements.define('getting-started-step', GettingStartedStep);
-
 export class GettingStartedStepOverview extends BaseElement {
   static styles = [
     ...BaseElement.styles,
@@ -50,8 +49,9 @@ export class GettingStartedStepOverview extends BaseElement {
       title: '📊 Upload your report',
       description: html`
         Use your favourite Stryker distribution to generate a steps to add your
-        token to the report. Follow report. This will make sure that
-        <i>Dashboard</i> can find it!
+        token to the report. Follow <a href="/some-url">these</a> steps to add
+        your token to the report. This will make sure that <i>Dashboard</i> can
+        find it!
       `,
     },
   ];
@@ -91,6 +91,9 @@ export class GettingStartedStepOverview extends BaseElement {
 
         <div></div>
       </div>
+
+      <h2 class="font-bold text-3xl mb-3 text-white">🔍 View your results</h2>
+      <result-item resultName="your-repository"></result-item>
     `;
   }
 }
