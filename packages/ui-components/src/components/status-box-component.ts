@@ -1,9 +1,8 @@
 import { html } from 'lit';
 import { BaseElement } from '../base';
-import { customElement, property } from "lit/decorators.js"
+import { property } from "lit/decorators.js"
 
-@customElement("status-box-component")
-export class StatusBoxElement extends BaseElement {
+export class StatusBoxComponent extends BaseElement {
 
   @property()
   boxes = [
