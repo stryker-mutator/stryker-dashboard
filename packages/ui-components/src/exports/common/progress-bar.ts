@@ -6,6 +6,6 @@ declare global {
   }
 }
 
-if (!!customElements.get('progress-bar')) {
+if (!customElements.get('progress-bar')) {
   customElements.define('progress-bar', ProgressBar);
 }
