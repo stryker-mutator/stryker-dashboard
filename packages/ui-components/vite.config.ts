@@ -15,8 +15,8 @@ export default defineConfig({
     }),
   ],
   build: {
-    target: 'ES2020',
-    minify: true,
+    target: 'ESNext',
+    minify: false,
     outDir: BUILD_DIR,
     emptyOutDir: true,
     lib: {
