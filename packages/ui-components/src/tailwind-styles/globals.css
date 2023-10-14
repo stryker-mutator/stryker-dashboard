@@ -1,0 +1,8 @@
+a { 
+    @apply text-yellow-400;
+    @apply underline;
+}
+
+a:hover {
+    @apply animate-pulse;
+}
