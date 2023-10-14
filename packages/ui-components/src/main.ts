@@ -1,3 +1,6 @@
+export { HeroComponent } from './components/hero-component';
+import './exports/hero-component';
+
 export { ProfileButton } from './components/profile-button';
 import './exports/profile-button';
 

@@ -12,15 +12,15 @@
       @apply bg-neutral-800
     }
 
-    #root {
-      @apply max-w-screen-lg m-auto
+    .container {
+      @apply max-w-screen-lg m-auto p-8
     }
   </style>
 </head>
-
 <body>
-  <div id="root">
-    <top-bar><profile-button slot="user"></profile-button></top-bar>
+  <top-bar logo="https://stryker-mutator.io/images/stryker.svg"><profile-button slot="user"></profile-button></top-bar>
+  <hero-component></hero-component>
+  <div class="container">
     <getting-started-step-overview></getting-started-step-overview>
   </div>
 </body>
