@@ -66,10 +66,10 @@ export class HeroComponent extends BaseElement {
         color: this.#getRandomCloudColor(),
         delay: this.#getRandomNumber(0, 5),
         scale: this.#getRandomNumber(1, 2),
-        duration: this.#getRandomNumber(5, 5),
+        duration: this.#getRandomNumber(20, 40),
         position: {
           x: this.#getRandomNumber(-100, 100),
-          y: this.#getRandomNumber(0, 100),
+          y: this.#getRandomNumber(-20, 100),
         },
       };
     }
