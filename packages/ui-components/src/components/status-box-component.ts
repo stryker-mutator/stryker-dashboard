@@ -17,21 +17,21 @@ export class StatusBoxComponent extends BaseElement {
           class="w-11/12 md:flex md:justify-around md:max-w-4xl grid justify-center content-around md:h-full h-auto py-16"
         >
           ${this.boxes.map(
-            ({ value, label, color }) => html`
+      ({ value, label, color }) => html`
               <div
-                class="flex flex-col items-center flex-nowrap md:border-[3px] border-b-2  border-neutral-600 md:hover:bg-neutral-700/25 md:hover:border-opacity-95 md:px-4 md:py-2 py-16 md:rounded sm:w-52 px-0 w-48 h-fit duration-150 hover:shadow-sm max-md:last:border-none "
+                class="flex flex-col items-center flex-nowrap md:border-2 border-b-2  border-neutral-600 md:px-4 md:py-2 py-16 md:rounded sm:w-52 px-0 w-48 h-fit duration-150 hover:shadow-sm max-md:last:border-none "
               >
-                <label
+                <p
                   class="${color} lg:text-4xl md:text-2xl font-bold text-6xl"
-                  >${value}</label
+                  >${value}</p
                 >
-                <label
+                <p
                   class="text-gray-100 font-bold md:text-lg text-2xl whitespace-nowrap"
-                  >${label}</label
+                  >${label}</p
                 >
               </div>
             `
-          )}
+    )}
         </div>
       </div>
     `;
