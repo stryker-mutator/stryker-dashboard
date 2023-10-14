@@ -113,8 +113,8 @@ export class HeroComponent extends BaseElement {
             <h1 class="font-bold text-6xl text-yellow-400 mb-1">Stryker Dashboard</h1>
             <p class="text-center font-bold text-xl text-gray-50">See your reports from anywhere</p>
             <div class="flex justify-center space-x-4 my-8">
-              <hero-button text="Get started"></hero-button>
-              <hero-button text="What is Stryker?" priority="secondary"></hero-button>  
+              <sme-button>Get started</sme-button>
+              <sme-button priority="secondary">What is Stryker?</sme-button>  
             </div>
           </div>
         </div>
