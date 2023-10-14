@@ -1,4 +1,12 @@
 {
   "watch": ["dist/"],
-  "delay": 500 
+  "delay": 500,
+  "env": {
+    "STRYKER_DASHBOARD_BASE_URL": "http://localhost:1337",
+    "AZURE_STORAGE_CONNECTION_STRING": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1",
+    "GH_BASIC_CLIENT_ID": "c5f245c2364466091dd1",
+    "GH_BASIC_SECRET_ID": "84e41e720c94ef80d7c4fdcff0eedf1b8b7b07e3",
+    "JWT_SECRET": "u7apm8MrMBe8Fwrx4uMH",
+    "PORT": 1337
+  }
 }
