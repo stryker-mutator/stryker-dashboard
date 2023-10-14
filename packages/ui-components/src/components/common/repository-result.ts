@@ -6,6 +6,10 @@ import { property } from 'lit/decorators.js';
 export class RepositoryResult extends BaseElement {
   @property({ type: String })
   repositoryName = 'your-repository';
+  @property({ type: Number })
+  currentStep = 907;
+  @property({ type: Number })
+  totalSteps = 1000;
 
   render() {
     return html`
@@ -16,8 +20,8 @@ export class RepositoryResult extends BaseElement {
         <span class="text-white col-span-1">${this.repositoryName}</span>
         <progress-bar
           class="col-span-2"
-          currentStep="907"
-          totalSteps="1000"
+          currentStep="${this.currentStep}"
+          totalSteps="${this.totalSteps}"
         ></progress-bar>
       </div>
     `;
