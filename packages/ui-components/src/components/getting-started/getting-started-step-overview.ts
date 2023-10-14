@@ -58,6 +58,9 @@ export class GettingStartedStepOverview extends BaseElement {
 
   render() {
     return html`
+      <h2 class="text-center text-white font-bold text-4xl">
+        Getting started with dashboard
+      </h2>
       <div class="grid grid-template">
         <getting-started-step
           class="self-center col-span-2"
