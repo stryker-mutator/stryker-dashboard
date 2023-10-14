@@ -10,11 +10,8 @@ type User = {
 export class ProfileButton extends BaseElement {
   @property()
   direction: 'left' | 'right' = 'right';
+  @property()
   user: User = { name: '', avatarUrl: '' };
-  logout = () => {
-    window.location.href = '/';
-    return;
-  };
 
   @state()
   private clicked = true;
@@ -27,6 +24,10 @@ export class ProfileButton extends BaseElement {
     window.location.href = `/repos/${this.user.name}`;
   };
 
+  #dispatchSignOut() {
+    this.dispatchEvent(new Event('sign-out'));
+  }
+
   render() {
     return html`<button
         @click="${this._handleClick}"
@@ -38,7 +39,7 @@ export class ProfileButton extends BaseElement {
         class="${this.clicked ? '' : 'hidden'} absolute ${this.direction ==
         'right'
           ? '-translate-x-40'
-          : ''} translate-y-4 overflow-hidden border border-2 border-neutral-600 rounded-md w-48 bg-neutral-800 flex align-center flex-col"
+          : ''} z-[999] translate-y-4 overflow-hidden border border-2 border-neutral-600 rounded-md w-48 bg-neutral-800 flex align-center flex-col"
       >
         <button
           @click="${this._navigateToRepositories}"
@@ -49,7 +50,7 @@ export class ProfileButton extends BaseElement {
           My repositories
         </button>
         <button
-          @click="${this.logout}"
+          @click="${this.#dispatchSignOut}"
           class="${this.direction == 'right'
             ? 'text-right hover:border-l-8 pr-5'
             : 'text-left hover:border-r-8 pl-5'} text-white transition-all h-10 border-neutral-600"
