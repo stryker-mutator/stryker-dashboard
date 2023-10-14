@@ -12,7 +12,7 @@ export class GettingStartedStepOverview extends BaseElement {
     ...BaseElement.styles,
     css`
       .grid-template {
-        grid-template-rows: 350px 250px 390px;
+        grid-template-rows: 250px 250px 390px;
         grid-template-columns: 1fr 1fr 200px 1fr 1fr;
       }
 
@@ -25,7 +25,7 @@ export class GettingStartedStepOverview extends BaseElement {
       }
 
       .trail-three {
-        margin: 0 0 -125px -80px;
+        margin: 0 0 -110px -80px;
       }
     `,
   ];
@@ -58,7 +58,7 @@ export class GettingStartedStepOverview extends BaseElement {
 
   render() {
     return html`
-      <h2 class="text-center text-white font-bold text-4xl">
+      <h2 class="text-center text-white font-bold text-2xl">
         Getting started with dashboard
       </h2>
       <div class="grid grid-template">
@@ -92,7 +92,7 @@ export class GettingStartedStepOverview extends BaseElement {
         <div></div>
       </div>
 
-      <h2 class="font-bold text-3xl mb-3 text-white">🔍 View your results</h2>
+      <h2 class="font-bold text-xl mb-3 text-white">🔍 View your results</h2>
       <result-item resultName="your-repository"></result-item>
     `;
   }
