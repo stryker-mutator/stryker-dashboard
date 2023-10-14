@@ -29,9 +29,9 @@ export class GettingStartedStepOverview extends BaseElement {
   ];
   steps: { title: string; description: TemplateResult }[] = [
     {
-      title: '🔒 Sign in throught Github',
+      title: '🔒 Sign in through Github',
       description: html`
-        You should see a list of all your <u>public</u> applications.
+        You should see a list of all your <u>public</u> repositories.
       `,
     },
     {
@@ -40,7 +40,7 @@ export class GettingStartedStepOverview extends BaseElement {
         Click <u>enable</u> next to the repository you want to use with
         <i>Stryker Dashboard</i>.<br /><br />
         A token is shown that will be used to upload your report later. Don't
-        worry if you lose it though, you
+        worry if you lose it though, you can always regenerate it.
       `,
     },
     {
@@ -57,7 +57,7 @@ export class GettingStartedStepOverview extends BaseElement {
   render() {
     return html`
       <h2 class="text-center text-white font-bold text-2xl">
-        Getting started with dashboard
+        Getting started with Stryker dashboard
       </h2>
       <div class="grid grid-template">
         <getting-started-step
@@ -86,10 +86,7 @@ export class GettingStartedStepOverview extends BaseElement {
         <div class="self-center trail-three col-span-3">
           ${unsafeSVG(TrailThree)}
         </div>
-
-        <div></div>
       </div>
-
       <h2 class="font-bold text-xl mb-3 text-white">🔍 View your results</h2>
       <result-item resultName="your-repository"></result-item>
     `;
