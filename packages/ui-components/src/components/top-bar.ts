@@ -19,7 +19,9 @@ export class TopBar extends BaseElement {
       class="text-white items-center bg-neutral-800 h-16 p-2 text-l flex flex-row"
     >
       ${this.getLogo()}
-      <h2 class="px-1"><span class="font-bold">Stryker Mutator</span> | Dashboard</h2>
+      <h2 class="px-1">
+        <a href="/" class="hover:cursor-pointer hover:text-red-500 transition-all text-white no-underline font-bold">Stryker Mutator</a> | Dashboard
+      </h2>
       <div class="ml-auto"><slot name="user"></slot></div>
     </div>`;
   }
