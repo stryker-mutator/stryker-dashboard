@@ -1,6 +1,6 @@
 <div *ngIf="user; else login">
   <!-- -vvv- Lit component -vvv- -->
-  <profile-button name="{{ user.name }}" avatarUrl="{{ user.avatarUrl }}"></profile-button>
+  <profile-button (sign-out)="logOut()" name="{{ user.name }}" avatarUrl="{{ user.avatarUrl }}"></profile-button>
 </div>
 
 <ng-template #login>

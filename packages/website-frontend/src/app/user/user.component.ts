@@ -26,8 +26,6 @@ export class UserComponent extends AutoUnsubscribe implements OnInit {
         this.user = user;
       })
     );
-
-    document.addEventListener('sign-out', () => this.logOut())
   }
 
   public logOut() {
