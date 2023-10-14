@@ -9,6 +9,7 @@ type User = {
 
 export class ProfileButton extends BaseElement {
   @property()
+  direction: 'left' | 'right' = 'right';
   user: User = { name: '', avatarUrl: '' };
   logout = () => {
     window.location.href = '/';
@@ -34,19 +35,24 @@ export class ProfileButton extends BaseElement {
         <img class="w-full h-full" src="${this.user.avatarUrl}" />
       </button>
       <div
-        class="${this.clicked
-          ? ''
-          : 'hidden'} absolute -translate-x-40 translate-y-4 overflow-hidden border border-2 border-neutral-600 rounded-md w-48 bg-neutral-800 flex align-center flex-col text-right"
+        class="${this.clicked ? '' : 'hidden'} absolute ${this.direction ==
+        'right'
+          ? '-translate-x-40'
+          : ''} translate-y-4 overflow-hidden border border-2 border-neutral-600 rounded-md w-48 bg-neutral-800 flex align-center flex-col"
       >
         <button
           @click="${this._navigateToRepositories}"
-          class="transition-all  hover:border-l-8 pr-5 text-right h-10 border-b-2 border-neutral-600"
+          class="${this.direction == 'right'
+            ? 'text-right hover:border-l-8 pr-5'
+            : 'text-left hover:border-r-8 pl-5'} text-white transition-all h-10 border-b-2 border-neutral-600"
         >
           My repositories
         </button>
         <button
           @click="${this.logout}"
-          class="transition-all hover:border-l-8 h-10 border-neutral-600 text-right pr-5"
+          class="${this.direction == 'right'
+            ? 'text-right hover:border-l-8 pr-5'
+            : 'text-left hover:border-r-8 pl-5'} text-white transition-all h-10 border-neutral-600"
         >
           Sign out
         </button>
