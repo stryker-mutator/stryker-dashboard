@@ -29,6 +29,7 @@
     "@primer/octicons": "^17.2.0",
     "@stryker-mutator/dashboard-common": "0.13.2",
     "@stryker-mutator/dashboard-contract": "0.13.2",
+    "@stryker-mutator/ui-components": "0.0.1",
     "bootstrap": "~5.2.0",
     "mutation-testing-elements": "2.0.1",
     "mutation-testing-metrics": "2.0.1",
