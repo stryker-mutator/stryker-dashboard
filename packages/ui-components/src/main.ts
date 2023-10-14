@@ -12,7 +12,7 @@ import './exports/getting-started/getting-started-step-overview';
 export { ProgressBar } from './components/common/progress-bar';
 import './exports/common/progress-bar';
 
-export { ResultItem as RepositoryResult } from './components/common/result-item';
+export { ResultItem } from './components/common/result-item';
 import './exports/common/result-item';
 
 export { TopBar } from './components/top-bar';
