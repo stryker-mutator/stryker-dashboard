@@ -12,16 +12,30 @@
       @apply bg-neutral-800
     }
 
-    #root {
+    .container {
       @apply max-w-screen-lg m-auto
+    }
+
+    .col {
+      @apply flex flex-col gap-5
+    }
+
+    .jort-why-does-the-top-bar-break-if-i-dont-add-this {
+      @apply w-full
     }
   </style>
 </head>
 <body>
-  <div id="root">
-    <top-bar><profile-button slot="user"></profile-button></top-bar>
-    <hero-component></hero-component>
-    <getting-started-step-overview></getting-started-step-overview>
+  <div class="col w-auto">
+    <div class="container jort-why-does-the-top-bar-break-if-i-dont-add-this">
+      <top-bar><profile-button slot="user"></profile-button></top-bar>
+    </div>
+    <div>
+      <hero-component></hero-component>
+    </div>
+    <div class="container">
+      <getting-started-step-overview></getting-started-step-overview>
+    </div>
   </div>
 </body>
 
