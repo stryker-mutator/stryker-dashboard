@@ -1,5 +1,3 @@
-import './index.css';
-
 export { ProfileButton } from './components/profile-button';
 import './exports/profile-button';
 
@@ -20,4 +18,3 @@ import './exports/common/result-item';
 
 export { TopBar } from './components/top-bar';
 import './exports/top-bar';
-
