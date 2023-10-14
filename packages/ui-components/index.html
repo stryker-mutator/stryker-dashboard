@@ -1,17 +1,28 @@
 <!doctype html>
 <html lang="en">
-  
+
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vite + Lit + TS</title>
   <script type="module" src="./src/main.ts"></script>
+  <style>
+    body {
+      @apply bg-neutral-800
+    }
+
+    #root {
+      @apply max-w-screen-lg m-auto
+    }
+  </style>
 </head>
-<body class="bg-neutral-800" style="width:1000px;margin:0 auto;">
-  <top-bar><profile-button slot="user"></profile-button></top-bar>
-  <hero-component></hero-component>
-  <getting-started-step-overview></getting-started-step-overview>
+<body>
+  <div id="root">
+    <top-bar><profile-button slot="user"></profile-button></top-bar>
+    <hero-component></hero-component>
+    <getting-started-step-overview></getting-started-step-overview>
+  </div>
 </body>
 
 </html>

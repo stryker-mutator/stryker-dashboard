@@ -1,10 +1,7 @@
-import './index.css';
-
-
-export { ProfileButton } from './components/profile-button';
-export { HeroComponent } from './components/hero-component'
+export { HeroComponent } from './components/hero-component';
 import './exports/hero-component';
 
+export { ProfileButton } from './components/profile-button';
 import './exports/profile-button';
 
 export { Button } from './components/button';
@@ -24,4 +21,3 @@ import './exports/common/result-item';
 
 export { TopBar } from './components/top-bar';
 import './exports/top-bar';
-
