@@ -15,25 +15,35 @@ export class ProgressBar extends BaseElement {
   tresholdLow = 60;
   tresholdHight = 80;
 
-  getColor() {
+  backgroundColors: { [index: number]: string } = {
+    0: 'bg-red-600',
+    1: 'bg-yellow-400',
+    2: 'bg-green-600',
+  };
+  textColors: { [index: number]: string } = {
+    0: 'text-red-600',
+    1: 'text-yellow-400',
+    2: 'text-green-600',
+  };
+
+  getColor(): number {
     if (this.currentStep / this.totalSteps <= this.tresholdLow / 100) {
-      return 'red-600';
+      return 0;
     } else if (
       this.currentStep / this.totalSteps > this.tresholdLow / 100 &&
       this.currentStep / this.totalSteps <= this.tresholdHight / 100
     ) {
-      return 'yellow-400';
+      return 1;
     } else {
-      return 'green-600';
+      return 2;
     }
   }
 
   render() {
     const progressText = html`
       <span
-        class="font-bold text-${this.getColor()} ${this.hideProgressBar
-          ? ''
-          : 'pr-3'}"
+        class="font-bold ${this.textColors[this.getColor()]} 
+          ${this.hideProgressBar ? '' : 'pr-3'}"
         ?hidden="${this.hideProgressText}"
       >
         ${Math.round((this.currentStep / this.totalSteps) * 1000) / 10}%
@@ -45,7 +55,7 @@ export class ProgressBar extends BaseElement {
         ?hidden="${this.hideProgressBar}"
       >
         <div
-          class="bg-${this.getColor()} rounded-full h-4"
+          class="${this.backgroundColors[this.getColor()]} rounded-full h-4"
           style="width:${(this.currentStep / this.totalSteps) * 100}%"
         ></div>
       </div>
