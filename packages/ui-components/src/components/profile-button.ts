@@ -2,30 +2,29 @@ import { html } from 'lit';
 import { BaseElement } from '../base';
 import { property, state } from 'lit/decorators.js';
 
-type User = {
-  name: string;
-  avatarUrl: string;
-};
-
 export class ProfileButton extends BaseElement {
   @property()
   direction: 'left' | 'right' = 'right';
+
   @property()
-  user: User = { name: '', avatarUrl: '' };
+  name = '';
+
+  @property()
+  avatarUrl = '';
 
   @state()
-  private clicked = true;
+  clicked = false;
 
   _handleClick = () => {
     this.clicked = !this.clicked;
   };
 
   _navigateToRepositories = () => {
-    window.location.href = `/repos/${this.user.name}`;
+    window.location.href = `/repos/${this.name}`;
   };
 
   #dispatchSignOut() {
-    this.dispatchEvent(new Event('sign-out'));
+    this.dispatchEvent(new Event('sign-out', { bubbles: true }));
   }
 
   render() {
@@ -33,7 +32,7 @@ export class ProfileButton extends BaseElement {
         @click="${this._handleClick}"
         class="rounded-full overflow-hidden w-10 h-10 border-solid border border-neutral-600 border border-2  mr-4"
       >
-        <img class="w-full h-full" src="${this.user.avatarUrl}" />
+        <img class="w-full h-full" src="${this.avatarUrl}" />
       </button>
       <div
         class="${this.clicked ? '' : 'hidden'} absolute ${this.direction ==
