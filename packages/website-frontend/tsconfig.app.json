@@ -3,12 +3,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": [],
-    "paths": {
-      "@stryker-mutator/ui-components/*": [
-        "./node_modules/@stryker-mutator/ui-components/*"
-      ]
-    }
+    "types": []
   },
   "files": [
     "src/main.ts",

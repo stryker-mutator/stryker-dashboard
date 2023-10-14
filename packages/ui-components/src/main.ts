@@ -1,19 +1,20 @@
 import './index.css';
 
-import './exports/test';
-export { TestElement } from './components/test';
-
-import './exports/profile-button';
 export { ProfileButton } from './components/profile-button';
+import './exports/profile-button';
 
-import './exports/sign-in-button';
 export { SignInButton } from './components/sign-in-button';
+import './exports/sign-in-button';
 
-import './exports/getting-started/getting-started-step-overview';
 export { GettingStartedStepOverview } from './components/getting-started/getting-started-step-overview';
+import './exports/getting-started/getting-started-step-overview';
 
-import './exports/common/progress-bar';
 export { ProgressBar } from './components/common/progress-bar';
+import './exports/common/progress-bar';
 
-import './exports/common/result-item';
 export { ResultItem as RepositoryResult } from './components/common/result-item';
+import './exports/common/result-item';
+
+export { TopBar } from './components/top-bar';
+import './exports/top-bar';
+
