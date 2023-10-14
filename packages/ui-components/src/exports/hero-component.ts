@@ -6,4 +6,6 @@ declare global {
   }
 }
 
-customElements.define('hero-component', HeroComponent);
+if (!!customElements.get('hero-component')) {
+  customElements.define('hero-component', HeroComponent);
+}

@@ -1,4 +1,4 @@
-import '../exports/hero-button'
+import '../exports/button'
 import { css, html } from 'lit';
 import { BaseElement } from '../base';
 
