@@ -4,6 +4,9 @@ import './exports/hero-component';
 export { ProfileButton } from './components/profile-button';
 import './exports/profile-button';
 
+export { EnableButton } from './components/enable-button'
+import './exports/enable-button'
+
 export { Button } from './components/button';
 import './exports/button';
 
