@@ -8,7 +8,7 @@ $theme-colors: (
   "warning": #ffc107,
   "danger": #dc3545
 );
-@import "~bootstrap/scss/bootstrap";
+// @import "~bootstrap/scss/bootstrap";
 @import "~@stryker-mutator/ui-components/dist/style.css";
 
 a {

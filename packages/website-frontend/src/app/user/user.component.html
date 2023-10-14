@@ -1,33 +1,9 @@
 <div *ngIf="user; else login">
-  <ul class="navbar-nav">
-    <li class="nav-item" ngbDropdown placement="bottom-right">
-      <a
-        class="nav-link"
-        ngbDropdownToggle
-        role="button"
-        data-toggle="dropdown"
-        id="navbarDropdownMenuLink"
-        aria-haspopup="true"
-        [attr.aria-expanded]="expanded"
-      >
-        <span class="username">{{ user.name }}</span>
-        <img
-          class="avatar rounded-circle"
-          [src]="user.avatarUrl"
-          [alt]="user.name + ' avatar'"
-        />
-      </a>
-      <div
-        class="dropdown-menu"
-        ngbDropdownMenu
-        aria-labelledby="navbarDropdownMenuLink"
-      >
-        <a class="dropdown-item" (click)="logOut()">Log out</a>
-      </div>
-    </li>
-  </ul>
+  <!-- -vvv- Lit component -vvv- -->
+  <profile-button></profile-button>
 </div>
 
 <ng-template #login>
-  <stryker-login kind="small"></stryker-login>
+  <!-- -vvv- Lit component -vvv- -->
+  <sign-in-button></sign-in-button>
 </ng-template>
