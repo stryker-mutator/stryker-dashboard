@@ -6,6 +6,6 @@ declare global {
   }
 }
 
-if (!!customElements.get('sme-button')) {
+if (!customElements.get('sme-button')) {
   customElements.define('sme-button', Button);
 }
