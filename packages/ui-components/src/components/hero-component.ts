@@ -134,18 +134,20 @@ export class HeroComponent extends BaseElement {
       animation-duration: ${config.duration}s"
         class="cloud-container opacity-0 absolute animate-flow"
       >
-        <div
-          class="cloud absolute rounded-full ${config.color} h-25 w-25"
-          style="left: 35px; top: 2px;"
-        ></div>
-        <div
-          class="cloud-small absolute rounded-full ${config.color} h-25 w-25"
-          style="left: 15px; top: 10px;"
-        ></div>
-        <div
-          class="cloud-pill absolute rounded-full ${config.color} h-25 w-25"
-          style="top: 25px;"
-        ></div>
+        <div style="transform: scale(${config.scale})" class="absolute">
+          <div
+            class="cloud absolute rounded-full ${config.color} h-25 w-25"
+            style="left: 35px; top: 2px;"
+          ></div>
+          <div
+            class="cloud-small absolute rounded-full ${config.color} h-25 w-25"
+            style="left: 15px; top: 10px;"
+          ></div>
+          <div
+            class="cloud-pill absolute rounded-full ${config.color} h-25 w-25"
+            style="top: 25px;"
+          ></div>
+        </div>
       </div>
     `;
   }
