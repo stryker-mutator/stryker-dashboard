@@ -5,11 +5,11 @@ import { property } from 'lit/decorators.js';
 
 export class RepositoryResult extends BaseElement {
   @property({ type: String })
-  repositoryName = 'your-repository';
+  repositoryName = '';
   @property({ type: Number })
-  currentStep = 907;
+  currentStep = 0;
   @property({ type: Number })
-  totalSteps = 1000;
+  totalSteps = 1;
 
   render() {
     return html`
