@@ -19,7 +19,7 @@ export class TopBar extends BaseElement {
       class="text-white items-center bg-neutral-800 h-16 p-2 text-l flex flex-row"
     >
       ${this.getLogo()}
-      <h2 class="px-1 font-bold">Stryker Mutator Dashboard</h2>
+      <h2 class="px-1"><span class="font-bold">Stryker Mutator</span> | Dashboard</h2>
       <div class="ml-auto"><slot name="user"></slot></div>
     </div>`;
   }
