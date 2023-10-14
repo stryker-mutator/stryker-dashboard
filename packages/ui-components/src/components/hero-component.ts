@@ -111,11 +111,8 @@ export class HeroComponent extends BaseElement {
               See your reports from anywhere
             </p>
             <div class="flex justify-center space-x-4 my-8">
-              <hero-button text="Get started"></hero-button>
-              <hero-button
-                text="What is Stryker?"
-                priority="secondary"
-              ></hero-button>
+              <sme-button>Get started</sme-button>
+              <sme-button priority="secondary">What is Stryker?</sme-button>
             </div>
           </div>
         </div>
