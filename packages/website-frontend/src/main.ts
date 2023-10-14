@@ -8,6 +8,12 @@ if (environment.production) {
   enableProdMode();
 }
 
+/* Import preflight styles */
+import "@stryker-mutator/ui-components/dist/style.css"
+/* Node resolution inside angular project does not support importing by subpath exports, so we directly import the component export by file */
+// import "@stryker-mutator/ui-components/dist/exports/profile-button";
+// import "@stryker-mutator/ui-components/dist/exports/sign-in-button";
+
 platformBrowserDynamic()
   .bootstrapModule(AppModule)
   .catch((err) => console.error(err));
