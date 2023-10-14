@@ -25,5 +25,5 @@ import './exports/top-bar';
 export { StatusBoxComponent } from './components/status-box-component'
 import './exports/status-box-component'
 
-export {LabeledContainerComponent} from './components/labeled-container-component';
+export { LabeledContainerComponent } from './components/labeled-container-component';
 import './exports/labeled-container-component';
