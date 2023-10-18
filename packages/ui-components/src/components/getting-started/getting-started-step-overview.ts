@@ -62,27 +62,27 @@ export class GettingStartedStepOverview extends BaseElement {
   render() {
     return html`
       <h2
-        class="text-center text-white font-bold text-2xl"
+        class="text-center text-2xl font-bold text-white"
         id="getting-started"
       >
         Getting started with Stryker dashboard
       </h2>
-      <div class="grid grid-template">
+      <div class="grid-template grid">
         <getting-started-step
-          class="self-center col-span-2"
+          class="col-span-2 self-center"
           title="${this.steps[0].title}"
         >
           ${this.steps[0].description}
         </getting-started-step>
-        <div class="self-center trail-one col-span-3">
+        <div class="trail-one col-span-3 self-center">
           ${unsafeSVG(TrailOne)}
         </div>
 
-        <div class="self-center trail-two col-span-3 place-self-end">
+        <div class="trail-two col-span-3 place-self-end self-center">
           ${unsafeSVG(TrailTwo)}
         </div>
         <getting-started-step
-          class="self-center col-span-2"
+          class="col-span-2 self-center"
           title="${this.steps[1].title}"
         >
           ${this.steps[1].description}
@@ -91,11 +91,11 @@ export class GettingStartedStepOverview extends BaseElement {
         <getting-started-step class="col-span-2" title="${this.steps[2].title}">
           ${this.steps[2].description}
         </getting-started-step>
-        <div class="self-center trail-three col-span-3">
+        <div class="trail-three col-span-3 self-center">
           ${unsafeSVG(TrailThree)}
         </div>
       </div>
-      <h2 class="font-bold text-xl mb-3 text-white">🔍 View your results</h2>
+      <h2 class="mb-3 text-xl font-bold text-white">🔍 View your results</h2>
       <result-item resultName="your-repository"></result-item>
     `;
   }

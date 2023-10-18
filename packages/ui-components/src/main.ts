@@ -4,8 +4,8 @@ import './exports/hero-component';
 export { ProfileButton } from './components/profile-button';
 import './exports/profile-button';
 
-export { EnableButton } from './components/enable-button'
-import './exports/enable-button'
+export { EnableButton } from './components/enable-button';
+import './exports/enable-button';
 
 export { Button } from './components/button';
 import './exports/button';
@@ -25,10 +25,10 @@ import './exports/common/result-item';
 export { TopBar } from './components/top-bar';
 import './exports/top-bar';
 
-export { StatusBoxComponent } from './components/status-box-component'
-import './exports/status-box-component'
+export { StatusBoxComponent } from './components/status-box-component';
+import './exports/status-box-component';
 
-export { Layout } from './components/layout'
+export { Layout } from './components/layout';
 import './exports/layout';
 
 export { LabeledContainerComponent } from './components/labeled-container-component';

@@ -8,8 +8,8 @@ export class GettingStartedStep extends BaseElement {
 
   render() {
     return html`
-      <div class="text-white block">
-        <h2 class="font-bold text-xl mb-4">${this.title}</h2>
+      <div class="block text-white">
+        <h2 class="mb-4 text-xl font-bold">${this.title}</h2>
         <div class="rounded-lg border-2 border-neutral-600 p-4">
           <slot></slot>
         </div>

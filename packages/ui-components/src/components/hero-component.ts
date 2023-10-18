@@ -87,6 +87,7 @@ export class HeroComponent extends BaseElement {
 
   #handleSecondary() {
     window.location.href = 'https://stryker-mutator.io/docs/';
+    window.location.href = 'https://stryker-mutator.io/docs/';
   }
 
   #getRandomCloudColor(): CloudKey {
@@ -111,18 +112,18 @@ export class HeroComponent extends BaseElement {
   render() {
     return html`
       <div class="relative overflow-hidden">
-        <div class="hero absolute w-full top-0">
+        <div class="hero absolute top-0 w-full">
           ${this.#myClouds.map(this.#renderCloud)}
         </div>
-        <div class="hero flex justify-center content-center w-full bg-cyan-950">
-          <div class="my-auto z-20">
-            <h1 class="font-bold text-6xl text-yellow-400 mb-1">
+        <div class="hero flex w-full content-center justify-center bg-cyan-950">
+          <div class="z-20 my-auto">
+            <h1 class="mb-1 text-6xl font-bold text-yellow-400">
               Stryker Dashboard
             </h1>
-            <p class="text-center font-bold text-xl text-gray-50">
+            <p class="text-center text-xl font-bold text-gray-50">
               See your reports from anywhere
             </p>
-            <div class="flex justify-center space-x-4 my-8">
+            <div class="my-8 flex justify-center space-x-4">
               <sme-button @click="${this.#handlePrimary}"
                 >Get started</sme-button
               >
@@ -145,19 +146,19 @@ export class HeroComponent extends BaseElement {
       transform: scale(${config.scale}); 
       animation-delay: ${config.delay}s; 
       animation-duration: ${config.duration}s"
-        class="cloud-container opacity-0 absolute animate-flow"
+        class="cloud-container absolute animate-flow opacity-0"
       >
         <div style="transform: scale(${config.scale})" class="absolute">
           <div
-            class="cloud absolute rounded-full ${config.color} h-25 w-25"
+            class="cloud ${config.color} h-25 w-25 absolute rounded-full"
             style="left: 35px; top: 2px;"
           ></div>
           <div
-            class="cloud-small absolute rounded-full ${config.color} h-25 w-25"
+            class="cloud-small ${config.color} h-25 w-25 absolute rounded-full"
             style="left: 15px; top: 10px;"
           ></div>
           <div
-            class="cloud-pill absolute rounded-full ${config.color} h-25 w-25"
+            class="cloud-pill ${config.color} h-25 w-25 absolute rounded-full"
             style="top: 25px;"
           ></div>
         </div>

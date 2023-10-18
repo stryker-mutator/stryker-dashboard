@@ -5,9 +5,9 @@ export class EnableButton extends BaseElement {
   render() {
     return html`
       <button
-        class="transition-all flex items-center flex-row align-center text-white border-2 border-neutral-600 rounded-md box-border font-bold"
+        class="align-center box-border flex flex-row items-center rounded-md border-2 border-neutral-600 font-bold text-white transition-all"
       >
-        <div class="z-[2] bg-neutral-600 box-border p-2">+</div>
+        <div class="z-[2] box-border bg-neutral-600 p-2">+</div>
         <p class="p-2">Enable Repository</p>
       </button>
     `;
