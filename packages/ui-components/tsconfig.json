@@ -16,14 +16,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "declaration": true,
+    "declarationMap": true,
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-
-    "declaration": true,
-    "declarationMap": true
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "src"
