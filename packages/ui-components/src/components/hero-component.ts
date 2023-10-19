@@ -81,12 +81,12 @@ export class HeroComponent extends BaseElement {
     window.scrollTo({
       top: document.body.scrollHeight,
       left: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   }
 
   #handleSecondary() {
-    window.location.href = "https://stryker-mutator.io/docs/"
+    window.location.href = 'https://stryker-mutator.io/docs/';
   }
 
   #getRandomCloudColor(): CloudKey {
@@ -123,8 +123,12 @@ export class HeroComponent extends BaseElement {
               See your reports from anywhere
             </p>
             <div class="flex justify-center space-x-4 my-8">
-              <sme-button @click="${this.#handlePrimary}">Get started</sme-button>
-              <sme-button @click="${this.#handleSecondary}" priority="secondary">What is Stryker?</sme-button>
+              <sme-button @click="${this.#handlePrimary}"
+                >Get started</sme-button
+              >
+              <sme-button @click="${this.#handleSecondary}" type="secondary"
+                >What is Stryker?</sme-button
+              >
             </div>
           </div>
         </div>
