@@ -16,6 +16,7 @@ export default defineConfig({
   ],
   build: {
     target: 'ESNext',
+    sourcemap: true,
     minify: false,
     outDir: BUILD_DIR,
     emptyOutDir: true,
