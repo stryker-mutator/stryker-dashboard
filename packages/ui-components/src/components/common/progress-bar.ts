@@ -5,15 +5,18 @@ import { property } from 'lit/decorators.js';
 export class ProgressBar extends BaseElement {
   @property({ type: Number })
   currentStep = 0;
+
   @property({ type: Number })
   totalSteps = 1;
+
   @property({ type: Boolean })
   hideProgressText = false;
+
   @property({ type: Boolean })
   hideProgressBar = false;
 
-  tresholdLow = 60;
-  tresholdHight = 80;
+  thresholdLow = 60;
+  thresholdHigh = 80;
 
   backgroundColors: { [index: number]: string } = {
     0: 'bg-red-600',
@@ -26,12 +29,12 @@ export class ProgressBar extends BaseElement {
     2: 'text-green-600',
   };
 
-  getColor(): number {
-    if (this.currentStep / this.totalSteps <= this.tresholdLow / 100) {
+  getIndex(): number {
+    if (this.currentStep / this.totalSteps <= this.thresholdLow / 100) {
       return 0;
     } else if (
-      this.currentStep / this.totalSteps > this.tresholdLow / 100 &&
-      this.currentStep / this.totalSteps <= this.tresholdHight / 100
+      this.currentStep / this.totalSteps > this.thresholdLow / 100 &&
+      this.currentStep / this.totalSteps <= this.thresholdHigh / 100
     ) {
       return 1;
     } else {
@@ -42,7 +45,7 @@ export class ProgressBar extends BaseElement {
   render() {
     const progressText = html`
       <span
-        class="font-bold ${this.textColors[this.getColor()]} 
+        class="font-bold ${this.textColors[this.getIndex()]} 
           ${this.hideProgressBar ? '' : 'pr-3'}"
         ?hidden="${this.hideProgressText}"
       >
@@ -55,7 +58,7 @@ export class ProgressBar extends BaseElement {
         ?hidden="${this.hideProgressBar}"
       >
         <div
-          class="${this.backgroundColors[this.getColor()]} rounded-full h-4"
+          class="${this.backgroundColors[this.getIndex()]} rounded-full h-4"
           style="width:${(this.currentStep / this.totalSteps) * 100}%"
         ></div>
       </div>
