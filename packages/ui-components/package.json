@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "type": "module",
   "files": [
-    "dist/build",
-    "dist/types"
+    "dist",
+    "src"
   ],
   "module": "./dist/main.mjs",
   "main": "./dist/main.cjs",
