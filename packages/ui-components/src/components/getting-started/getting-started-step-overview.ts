@@ -27,6 +27,7 @@ export class GettingStartedStepOverview extends BaseElement {
       }
     `,
   ];
+  
   steps: { title: string; description: TemplateResult }[] = [
     {
       title: '🔒 Sign in through Github',
