@@ -1,5 +1,6 @@
 import { GettingStartedStep } from '../../components/getting-started/getting-started-step';
 import { GettingStartedStepOverview } from '../../components/getting-started/getting-started-step-overview';
+import { defineElement } from '../../define-element';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -7,11 +8,5 @@ declare global {
   }
 }
 
-if (!customElements.get('getting-started-step')) {
-  customElements.define('getting-started-step', GettingStartedStep);
-}
-
-customElements.define(
-  'getting-started-step-overview',
-  GettingStartedStepOverview
-);
+defineElement('getting-started-step', GettingStartedStep);
+defineElement('getting-started-step-overview', GettingStartedStepOverview);

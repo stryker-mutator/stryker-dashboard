@@ -1,4 +1,5 @@
 import { ProgressBar } from '../../components/common/progress-bar';
+import { defineElement } from '../../define-element';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -6,6 +7,4 @@ declare global {
   }
 }
 
-if (!customElements.get('progress-bar')) {
-  customElements.define('progress-bar', ProgressBar);
-}
+defineElement('progress-bar', ProgressBar);
