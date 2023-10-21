@@ -1,18 +1,11 @@
 import { html } from 'lit';
-import { BaseElement } from '../base';
 import { property } from 'lit/decorators.js';
+
+import { BaseElement } from '../base';
 
 export class TopBar extends BaseElement {
   @property({ type: String })
   logo = '';
-
-  getLogo() {
-    if (this.logo) {
-      return html``;
-    } else {
-      return html``;
-    }
-  }
 
   render() {
     return html` <div
