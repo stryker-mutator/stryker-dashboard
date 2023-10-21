@@ -27,6 +27,7 @@ export class GettingStartedStepOverview extends BaseElement {
       }
     `,
   ];
+
   steps: { title: string; description: TemplateResult }[] = [
     {
       title: '🔒 Sign in through Github',
@@ -46,17 +47,24 @@ export class GettingStartedStepOverview extends BaseElement {
     {
       title: '📊 Upload your report',
       description: html`
-        Use your favourite Stryker distribution to generate a steps to add your
-        token to the report. Follow <a href="/some-url">these</a> steps to add
-        your token to the report. This will make sure that <i>Dashboard</i> can
-        find it!
+        Follow
+        <a
+          href="https://stryker-mutator.io/docs/General/dashboard/#send-your-first-report"
+          >these</a
+        >
+        steps create a new token that you can use to authenticate to
+        <i>Dashboard</i>. Use your favourite Stryker distribution to generate a
+        report and Stryker then automatically uploads it to <i>Dashboard</i>.
       `,
     },
   ];
 
   render() {
     return html`
-      <h2 class="text-center text-white font-bold text-2xl" id="getting-started">
+      <h2
+        class="text-center text-white font-bold text-2xl"
+        id="getting-started"
+      >
         Getting started with Stryker dashboard
       </h2>
       <div class="grid grid-template">

@@ -4,10 +4,10 @@ import { property } from 'lit/decorators.js';
 
 export class Button extends BaseElement {
   @property()
-  priority: 'primary' | 'secondary' = 'primary';
+  type: 'primary' | 'secondary' = 'primary';
 
   render() {
-    const isPrimary = this.priority === 'primary';
+    const isPrimary = this.type === 'primary';
 
     return html`
       <button
