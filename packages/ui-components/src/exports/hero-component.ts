@@ -1,4 +1,5 @@
 import { HeroComponent } from '../components/hero-component';
+import { defineElement } from '../define-element';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -6,6 +7,4 @@ declare global {
   }
 }
 
-if (!customElements.get('hero-component')) {
-  customElements.define('hero-component', HeroComponent);
-}
+defineElement('hero-component', HeroComponent);

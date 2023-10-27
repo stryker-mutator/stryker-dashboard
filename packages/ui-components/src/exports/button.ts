@@ -1,11 +1,10 @@
 import { Button } from '../components/button';
+import { defineElement } from '../define-element';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'hero-button': Button;
+    'sme-button': Button;
   }
 }
 
-if (!customElements.get('sme-button')) {
-  customElements.define('sme-button', Button);
-}
+defineElement('sme-button', Button);

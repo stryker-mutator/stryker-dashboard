@@ -1,3 +1,4 @@
+import { defineElement } from '../define-element';
 import { EnableButton } from './../components/enable-button';
 
 declare global {
@@ -6,4 +7,4 @@ declare global {
   }
 }
 
-customElements.define('enable-button', EnableButton);
+defineElement('enable-button', EnableButton);

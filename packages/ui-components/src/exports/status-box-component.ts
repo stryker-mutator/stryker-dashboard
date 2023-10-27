@@ -1,4 +1,5 @@
 import { StatusBoxComponent } from '../components/status-box-component';
+import { defineElement } from '../define-element';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -6,4 +7,4 @@ declare global {
   }
 }
 
-customElements.define('status-box-component', StatusBoxComponent);
+defineElement('status-box-component', StatusBoxComponent);
