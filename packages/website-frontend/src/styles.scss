@@ -9,7 +9,7 @@ $theme-colors: (
   "danger": #dc3545
 );
 @import "~bootstrap/scss/bootstrap";
-@import "~@stryker-mutator/ui-components/dist/style.css";
+@import "~@stryker-mutator/stryker-elements/dist/style.css";
 
 a {
   cursor: pointer;
