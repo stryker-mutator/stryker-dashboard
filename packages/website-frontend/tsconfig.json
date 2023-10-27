@@ -23,8 +23,8 @@
       "dom"
     ],
     "paths": {
-      "@stryker-mutator/ui-components/*": [
-        "./node_modules/@stryker-mutator/ui-components/*"
+      "@stryker-mutator/stryker-elements/*": [
+        "./node_modules/@stryker-mutator/stryker-elements/*"
       ]
     }
   },

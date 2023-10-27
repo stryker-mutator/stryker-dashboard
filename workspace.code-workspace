@@ -22,7 +22,7 @@
       "path": "packages/e2e"
     },
     {
-      "path": "packages/ui-components"
+      "path": "packages/stryker-elements"
     },
     {
       "path": ".",

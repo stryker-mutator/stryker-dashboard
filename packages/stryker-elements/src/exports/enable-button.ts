@@ -1,5 +1,5 @@
 import { defineElement } from '../define-element';
-import { EnableButton } from './../components/enable-button';
+import { EnableButton } from '../components/enable-button';
 
 declare global {
   interface HTMLElementTagNameMap {
