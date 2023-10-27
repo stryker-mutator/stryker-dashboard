@@ -18,24 +18,25 @@ import {
 import { MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
 import { PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import {
-  Slug,
-  InvalidSlugError,
   Report,
   MutationScoreOnlyResult,
   isMutationTestResult,
+  isPendingReport,
 } from '@stryker-mutator/dashboard-common';
 import { Request } from 'express';
 import { MutationTestResult } from 'mutation-testing-report-schema';
-import { ReportValidator } from '../services/SchemaValidator.js';
+import { ReportValidator } from '../services/ReportValidator.js';
 import Configuration from '../services/Configuration.js';
 import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
 import DataAccess from '../services/DataAccess.js';
+import { parseSlug } from './util.js';
 
 const API_KEY_HEADER = 'X-Api-Key';
 
 @Controller('/reports')
 export default class ReportsController {
   private readonly reportService: MutationTestingReportService;
+
   constructor(
     dataAccess: DataAccess,
     private readonly reportValidator: ReportValidator,
@@ -57,15 +58,17 @@ export default class ReportsController {
       throw new Unauthorized(`Provide an "${API_KEY_HEADER}" header`);
     }
     const slug = req.path;
-    const { project, version } = this.parseSlug(slug);
+    const { project, version } = parseSlug(slug);
     await this.apiKeyValidator.validateApiKey(authorizationHeader, project);
     this.verifyRequiredPutReportProperties(result);
+    this.verifyIsCompletedReport(result);
     try {
       await this.reportService.saveReport(
         { projectName: project, version, moduleName },
         result,
         $ctx.logger
       );
+
       if (moduleName && isMutationTestResult(result)) {
         return {
           href: `${this.config.baseUrl}/reports/${project}/${version}?module=${moduleName}`,
@@ -94,36 +97,32 @@ export default class ReportsController {
   @Get('/*')
   public async get(
     @Req() req: Request,
-    @Context() $ctx: PlatformContext,
-
-    @QueryParams('module') moduleName: string | undefined
+    @QueryParams('module') moduleName: string | undefined,
+    @QueryParams('realTime') realTime: boolean | undefined
   ): Promise<Report> {
-    $ctx.logger.info({ test: 'Test this one' });
     const slug = req.path;
-    const { project, version } = this.parseSlug(slug);
-    const report = await this.reportService.findOne({
+    const { project, version } = parseSlug(slug);
+    const id = {
       projectName: project,
       moduleName,
       version,
-    });
+    };
+
+    let report: Report | undefined | null;
+    if (realTime) {
+      report = await this.reportService.findOne({ ...id, realTime: true });
+    }
+
+    if (!report || !isMutationTestResult(report!)) {
+      report = await this.reportService.findOne(id);
+    }
+
     if (report) {
       return report;
     } else {
       throw new NotFound(
         `Version "${version}" does not exist for "${project}".`
       );
-    }
-  }
-
-  private parseSlug(slug: string) {
-    try {
-      return Slug.parse(slug);
-    } catch (error) {
-      if (error instanceof InvalidSlugError) {
-        throw new NotFound(`Report "${slug}" does not exist`);
-      } else {
-        throw error;
-      }
     }
   }
 
@@ -140,6 +139,20 @@ export default class ReportsController {
       ) {
         throw new BadRequest(`Invalid report. ${errors}`);
       }
+    }
+  }
+
+  private verifyIsCompletedReport(
+    result: MutationScoreOnlyResult | MutationTestResult
+  ) {
+    if (!isMutationTestResult(result)) {
+      return;
+    }
+
+    if (isPendingReport(result)) {
+      throw new BadRequest(
+        'Submitting pending reports to the completed reports endpoint is not allowed.'
+      );
     }
   }
 }

@@ -47,4 +47,34 @@ describe(BlobServiceAsPromised.name, () => {
       expect(blobServiceMock.createBlockBlobFromText).calledOn(blobServiceMock);
     });
   });
+
+  describe('blobToText', () => {
+    it('should pass through the call to azure', async () => {
+      sut.blobToText('foo', 'bar');
+
+      const methodUnderTest = blobServiceMock.getBlobToText;
+      expect(methodUnderTest.calledOnce).to.be.true;
+      expect(methodUnderTest).calledWith('foo', 'bar');
+    });
+  });
+
+  describe('createAppendBlobFromText', async () => {
+    it('should pass through the call to azure', async () => {
+      sut.createAppendBlobFromText('foo', 'bar', 'baz');
+
+      const methodUnderTest = blobServiceMock.createAppendBlobFromText;
+      expect(methodUnderTest.calledOnce).to.be.true;
+      expect(methodUnderTest).calledWith('foo', 'bar', 'baz');
+    });
+  });
+
+  describe('appendBlockFromText', async () => {
+    it('should pass through the call to azure', async () => {
+      sut.appendBlockFromText('foo', 'bar', 'baz');
+
+      const methodUnderTest = blobServiceMock.appendBlockFromText;
+      expect(methodUnderTest.calledOnce).to.be.true;
+      expect(methodUnderTest).calledWith('foo', 'bar', 'baz');
+    });
+  });
 });

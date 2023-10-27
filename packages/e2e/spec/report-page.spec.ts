@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { MutantStatus } from 'mutation-testing-report-schema';
 import { ReportPage } from '../po/reports/report-page.po.js';
-import { simpleReportv1, scoreOnlyReport } from '../actions/report.action.js';
+import { simpleReportV1, scoreOnlyReport } from '../actions/report.action.js';
 import { ReportClient } from '../po/reports/report-client.po.js';
 
 test.describe('Report page', () => {
@@ -26,7 +26,7 @@ test.describe('Report page', () => {
   test.describe('when a full report exists', async () => {
     test.beforeEach(async () => {
       await client.uploadReport(
-        simpleReportv1(
+        simpleReportV1(
           'github.com/stryker-mutator-test-organization/hello-org',
           'master'
         )
@@ -72,7 +72,7 @@ test.describe('Report page', () => {
     test.beforeEach(async () => {
       await Promise.all([
         client.uploadReport(
-          simpleReportv1(
+          simpleReportV1(
             'github.com/stryker-mutator-test-organization/hello-org',
             'feat/modules',
             'one',
@@ -80,7 +80,7 @@ test.describe('Report page', () => {
           )
         ),
         client.uploadReport(
-          simpleReportv1(
+          simpleReportV1(
             'github.com/stryker-mutator-test-organization/hello-org',
             'feat/modules',
             'two',
@@ -92,7 +92,7 @@ test.describe('Report page', () => {
           )
         ),
         client.uploadReport(
-          simpleReportv1(
+          simpleReportV1(
             'github.com/stryker-mutator-test-organization/hello-org',
             'feat/modules',
             'three',

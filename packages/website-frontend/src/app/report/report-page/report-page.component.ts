@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, flatMap, mergeMap, distinctUntilChanged } from 'rxjs/operators';
-import { Subscription, combineLatest } from 'rxjs';
+import { map, mergeMap, distinctUntilChanged } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
 import { ReportsService } from '../ReportsService';
 import {
   MutationScoreOnlyResult,
-  Report,
   ReportIdentifier,
   isMutationTestResult,
+  isPendingReport,
 } from '@stryker-mutator/dashboard-common';
 import { AutoUnsubscribe } from 'src/app/utils/auto-unsubscribe';
 import { MutationTestResult } from 'mutation-testing-report-schema';
@@ -27,6 +27,7 @@ export class ReportPageComponent
   implements OnInit, OnDestroy
 {
   public src!: string;
+  public sse: string | undefined;
   public id: ReportIdentifier | undefined;
   public mutationTestResult: MutationTestResult | undefined;
   public mutationScoreOnlyResult: MutationScoreOnlyResult | undefined;
@@ -60,9 +61,13 @@ export class ReportPageComponent
   }
 
   public ngOnInit() {
-    const moduleName$ = this.route.queryParams.pipe(
-      map((queryParams) => queryParams.module as string | undefined)
-    );
+    const queryParams$: Observable<[string | undefined, string | undefined]> =
+      this.route.queryParams.pipe(
+        map((queryParams) => [
+          queryParams.module as string | undefined,
+          queryParams.realTime as string | undefined,
+        ])
+      );
 
     const slug$ = this.route.url.pipe(
       map((pathSegments) =>
@@ -70,32 +75,43 @@ export class ReportPageComponent
       )
     );
 
-
     this.subscriptions.push(
-      combineLatest<[string, string | undefined]>([slug$, moduleName$])
-        .pipe(distinctUntilChanged((previous, current) => previous[0] === current[0]))
+      combineLatest<[string, [string | undefined, string | undefined]]>([
+        slug$,
+        queryParams$,
+      ])
         .pipe(
-          mergeMap(([slug, moduleName]) =>
-            this.reportService.get(slug, moduleName)
+          distinctUntilChanged(
+            (previous, current) => previous[0] === current[0]
+          )
+        )
+        .pipe(
+          mergeMap(([slug, [moduleName, realTime]]) =>
+            this.reportService.get(slug, moduleName, realTime)
           )
         )
         .subscribe({
-          next: (report) => {
-            if (report) {
-              this.id = report;
-              if (isMutationTestResult(report)) {
-                this.mutationTestResult = report;
-              } else {
-                this.mutationScoreOnlyResult = report;
+          next: (object) => {
+            if (!object?.report) {
+              this.errorMessage = 'Report does not exist';
+              return;
+            }
+
+            this.id = object.report;
+            if (isMutationTestResult(object.report)) {
+              this.mutationTestResult = object.report;
+              if (isPendingReport(object.report)) {
+                // We grab everything behind the /api/reports/ url, the first index is empty so skip it.
+                this.sse = `/api/real-time/${object.slug.split("/api/reports/")[1]}`;
               }
             } else {
-              this.errorMessage = 'Report does not exist';
+              this.mutationScoreOnlyResult = object.report;
             }
           },
           error: (error) => {
             console.error(error);
             this.errorMessage = 'A technical error occurred.';
-          }
+          },
         })
     );
   }

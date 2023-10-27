@@ -14,7 +14,7 @@ export function scoreOnlyReport(
   };
 }
 
-export function simpleReportv1(
+export function simpleReportV1(
   projectName: string,
   version: string,
   moduleName?: string,
@@ -89,16 +89,11 @@ export function simpleReportv1(
   };
 }
 
-export function simpleReportv2(
+export function simpleReportV2(
   projectName: string,
   version: string,
   moduleName?: string,
-  states = [
-    MutantStatus.Survived,
-    MutantStatus.Survived,
-    MutantStatus.Killed,
-    MutantStatus.Pending,
-  ]
+  states = [MutantStatus.Survived, MutantStatus.Survived, MutantStatus.Killed]
 ): Report {
   return {
     projectName,
@@ -181,4 +176,13 @@ export function simpleReportv2(
       },
     },
   };
+}
+
+export function pendingReport(
+  projectName: string,
+  version: string,
+  moduleName?: string,
+  states = [MutantStatus.Pending, MutantStatus.Pending, MutantStatus.Pending]
+): Report {
+  return simpleReportV2(projectName, version, moduleName, states);
 }

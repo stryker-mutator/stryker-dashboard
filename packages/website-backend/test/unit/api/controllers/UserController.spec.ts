@@ -1,15 +1,15 @@
 import { expect } from 'chai';
 import supertest, { SuperTest, Test } from 'supertest';
 import * as contract from '@stryker-mutator/dashboard-contract';
-import GithubAgent from '../../../src/github/GithubAgent.js';
+import GithubAgent from '../../../../src/github/GithubAgent.js';
 
-import { githubFactory, contractFactory } from '../../helpers/producers.js';
+import { githubFactory, contractFactory } from '../../../helpers/producers.js';
 import sinon from 'sinon';
-import { Authentication } from '../../../dist/src/github/models.js';
+import { Authentication } from '../../../../dist/src/github/models.js';
 import { PlatformTest } from '@tsed/common';
-import Server from '../../../src/Server.js';
-import { createAuthorizationHeader } from '../../helpers/TestServer.js';
-import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
+import Server from '../../../../src/Server.js';
+import { createAuthorizationHeader } from '../../../helpers/TestServer.js';
+import GithubRepositoryService from '../../../../src/services/GithubRepositoryService.js';
 
 describe('UserController', () => {
   let request: SuperTest<Test>;

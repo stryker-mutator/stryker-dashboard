@@ -1,6 +1,6 @@
 import { BlobServiceAsPromised } from '../services/BlobServiceAsPromised.js';
 import { BlobService, Constants } from 'azure-storage';
-import { encodeKey, isStorageError } from '../utils.js';
+import { isStorageError, toBlobName } from '../utils.js';
 import * as schema from 'mutation-testing-report-schema';
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 import { OptimisticConcurrencyError } from '../errors/index.js';
@@ -33,7 +33,7 @@ export class MutationTestingResultMapper {
     try {
       await this.blobService.createBlockBlobFromText(
         MutationTestingResultMapper.CONTAINER_NAME,
-        this.toBlobName(id),
+        toBlobName(id),
         JSON.stringify(result),
         {
           contentSettings: {
@@ -59,7 +59,7 @@ export class MutationTestingResultMapper {
   public async findOne(
     identifier: ReportIdentifier
   ): Promise<schema.MutationTestResult | null> {
-    const blobName = this.toBlobName(identifier);
+    const blobName = toBlobName(identifier);
     try {
       const result: schema.MutationTestResult = JSON.parse(
         await this.blobService.blobToText(
@@ -81,8 +81,11 @@ export class MutationTestingResultMapper {
     }
   }
 
-  private toBlobName({ projectName, version, moduleName }: ReportIdentifier) {
-    const slug = [projectName, version, moduleName].filter(Boolean).join('/');
-    return encodeKey(slug);
+  public async delete(id: ReportIdentifier): Promise<void> {
+    const blobName = toBlobName(id);
+    await this.blobService.deleteBlobIfExists(
+      MutationTestingResultMapper.CONTAINER_NAME,
+      blobName
+    );
   }
 }

@@ -7,6 +7,7 @@ import Configuration from '../../src/services/Configuration.js';
 import DataAccess from '../../src/services/DataAccess.js';
 import sinon from 'sinon';
 import { ProjectMapper } from '@stryker-mutator/dashboard-data-access';
+import MutationEventResponseOrchestrator from '../../src/services/real-time/MutationEventResponseOrchestrator.js';
 
 export function createToken(user: github.Authentication): Promise<string> {
   return new Promise<string>((resolve, reject) => {
@@ -41,6 +42,7 @@ export const config: Configuration = {
   baseUrl: 'baseUrl',
   jwtSecret: 'jwtSecret',
   isDevelopment: true,
+  cors: '*',
 };
 
 @OverrideProvider(Configuration)
@@ -51,12 +53,14 @@ export class ConfigurationStub implements Configuration {
     this.baseUrl = config.baseUrl;
     this.jwtSecret = config.jwtSecret;
     this.isDevelopment = config.isDevelopment;
+    this.cors = config.cors;
   }
   public githubClientId: string;
   public githubSecret: string;
   public baseUrl: string;
   public jwtSecret: string;
   public isDevelopment: boolean;
+  public cors: string;
 }
 
 type IDataAccessMock = {
@@ -76,21 +80,11 @@ export class DataAccessMock implements IDataAccessMock {
   mutationTestingReportService = sinon.createStubInstance(
     dal.MutationTestingReportService
   );
+  blobService = sinon.createStubInstance(dal.RealTimeMutantsBlobService);
 }
 
-// type I<T> = { [K in keyof T]: T[K] };
-
-// @OverrideProvider(dal.MutationTestingReportService)
-// export class MutationTestingReportServiceMock
-//   implements sinon.SinonStubbedInstance<I<dal.MutationTestingReportService>>
-// {
-//   createStorageIfNotExists: sinon.SinonStubbedMember<
-//     dal.MutationTestingReportService['createStorageIfNotExists']
-//   > = sinon.stub();
-//   saveReport: sinon.SinonStubbedMember<
-//     dal.MutationTestingReportService['saveReport']
-//   > = sinon.stub();
-//   findOne: sinon.SinonStubbedMember<
-//     dal.MutationTestingReportService['findOne']
-//   > = sinon.stub();
-// }
+@OverrideProvider(MutationEventResponseOrchestrator)
+export class MutationEventResponseOrchestratorMock {
+  createOrGetResponseHandler = sinon.stub();
+  removeResponseHandler = sinon.stub();
+}

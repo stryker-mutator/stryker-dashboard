@@ -16,6 +16,10 @@ export class MutationTestingReport implements ReportIdentifier {
    * For example 'schema'
    */
   public moduleName: string | undefined;
+  /**
+   * Indicates whether this report is real-time.
+   */
+  public realTime?: boolean;
   public mutationScore: number;
 
   public static createRowKey(

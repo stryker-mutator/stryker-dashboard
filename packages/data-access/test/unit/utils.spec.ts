@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { encodeKey, decodeKey } from '../../src/utils.js';
+import { encodeKey, decodeKey, toBlobName } from '../../src/utils.js';
 
 describe('utils', () => {
   describe(encodeKey.name, () => {
@@ -17,6 +17,41 @@ describe('utils', () => {
     });
     it('should return input if not contains a slash', () => {
       expect(decodeKey('input;middle;output')).eq('input/middle/output');
+    });
+  });
+
+  describe(toBlobName.name, () => {
+    it('should return the correct blob name', () => {
+      expect(
+        toBlobName({
+          projectName: 'abc',
+          version: 'main',
+          moduleName: 'def',
+          realTime: true,
+        })
+      ).to.eq('abc;main;def;real-time');
+    });
+
+    it('should not include module if it is undefined', () => {
+      expect(
+        toBlobName({
+          projectName: 'abc',
+          version: 'main',
+          moduleName: undefined,
+          realTime: true,
+        })
+      ).to.eq('abc;main;real-time');
+    });
+
+    it('should not include real-time if it is undefined', () => {
+      expect(
+        toBlobName({
+          projectName: 'abc',
+          version: 'main',
+          moduleName: 'def',
+          realTime: undefined,
+        })
+      );
     });
   });
 });
