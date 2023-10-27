@@ -101,6 +101,7 @@ export class ReportPageComponent
             if (isMutationTestResult(object.report)) {
               this.mutationTestResult = object.report;
               if (isPendingReport(object.report)) {
+                // We grab everything behind the /api/reports/ url, the first index is empty so skip it.
                 this.sse = `/api/real-time/${object.slug.split("/api/reports/")[1]}`;
               }
             } else {
