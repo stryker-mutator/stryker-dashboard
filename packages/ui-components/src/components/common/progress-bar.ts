@@ -45,8 +45,10 @@ export class ProgressBar extends BaseElement {
   render() {
     const progressText = html`
       <span
-        class="font-bold ${this.textColors[this.getIndex()]} 
-          ${this.hideProgressBar ? '' : 'pr-3'}"
+        class="${this.textColors[this.getIndex()]} ${this.hideProgressBar
+          ? ''
+          : 'pr-3'} 
+          font-bold"
         ?hidden="${this.hideProgressText}"
       >
         ${Math.round((this.currentStep / this.totalSteps) * 1000) / 10}%
@@ -54,11 +56,11 @@ export class ProgressBar extends BaseElement {
     `;
     const progressBar = html`
       <div
-        class="bg-neutral-600 rounded-full h-4 w-full"
+        class="h-4 w-full rounded-full bg-neutral-600"
         ?hidden="${this.hideProgressBar}"
       >
         <div
-          class="${this.backgroundColors[this.getIndex()]} rounded-full h-4"
+          class="${this.backgroundColors[this.getIndex()]} h-4 rounded-full"
           style="width:${(this.currentStep / this.totalSteps) * 100}%"
         ></div>
       </div>

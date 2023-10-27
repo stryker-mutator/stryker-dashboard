@@ -13,7 +13,7 @@ export class Button extends BaseElement {
       <button
         class="${isPrimary
           ? 'text-white bg-red-800'
-          : 'text-white bg-slate-800'} text-l font-bold px-6 py-1 rounded-md h-11"
+          : 'text-white bg-slate-800'} text-l h-11 rounded-md px-6 py-1 font-bold"
       >
         <slot></slot>
       </button>

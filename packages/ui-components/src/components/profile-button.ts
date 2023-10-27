@@ -30,21 +30,20 @@ export class ProfileButton extends BaseElement {
   render() {
     return html`<button
         @click="${this._handleClick}"
-        class="rounded-full overflow-hidden w-10 h-10 border-solid border border-neutral-600 border border-2  mr-4"
+        class="mr-4 h-10 w-10 overflow-hidden rounded-full border border border-2 border-solid  border-neutral-600"
       >
-        <img class="w-full h-full" src="${this.avatarUrl}" />
+        <img class="h-full w-full" src="${this.avatarUrl}" />
       </button>
       <div
-        class="${this.clicked ? '' : 'hidden'} absolute ${this.direction ==
-        'right'
+        class="${this.clicked ? '' : 'hidden'} ${this.direction == 'right'
           ? '-translate-x-40'
-          : ''} z-[999] translate-y-4 overflow-hidden border border-2 border-neutral-600 rounded-md w-48 bg-neutral-800 flex align-center flex-col"
+          : ''} align-center absolute z-[999] flex w-48 translate-y-4 flex-col overflow-hidden rounded-md border border-2 border-neutral-600 bg-neutral-800"
       >
         <button
           @click="${this._navigateToRepositories}"
           class="${this.direction == 'right'
             ? 'text-right hover:border-l-8 pr-5'
-            : 'text-left hover:border-r-8 pl-5'} text-white transition-all h-10 border-b-2 border-neutral-600"
+            : 'text-left hover:border-r-8 pl-5'} h-10 border-b-2 border-neutral-600 text-white transition-all"
         >
           My repositories
         </button>
@@ -52,7 +51,7 @@ export class ProfileButton extends BaseElement {
           @click="${this.#dispatchSignOut}"
           class="${this.direction == 'right'
             ? 'text-right hover:border-l-8 pr-5'
-            : 'text-left hover:border-r-8 pl-5'} text-white transition-all h-10 border-neutral-600"
+            : 'text-left hover:border-r-8 pl-5'} h-10 border-neutral-600 text-white transition-all"
         >
           Sign out
         </button>

@@ -4,12 +4,16 @@ import { property } from 'lit/decorators.js';
 
 export class LabeledContainerComponent extends BaseElement {
   @property({ type: String })
-  label: string = '';
+  label = '';
 
   render() {
     return html`
-      <div class="border-neutral-600 border-2 rounded">
-        <p class="text-l font-semibold bg-neutral-600 text-neutral-100 p-1 cursor-default">${this.label}</p>
+      <div class="rounded border-2 border-neutral-600">
+        <p
+          class="text-l cursor-default bg-neutral-600 p-1 font-semibold text-neutral-100"
+        >
+          ${this.label}
+        </p>
         <slot></slot>
       </div>
     `;

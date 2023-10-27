@@ -9,14 +9,14 @@ export class ResultItem extends BaseElement {
 
   @property({ type: Number })
   currentStep = 907;
-  
+
   @property({ type: Number })
   totalSteps = 1000;
 
   render() {
     return html`
-      <div class="grid grid-cols-3 border-2 p-4 rounded-lg border-neutral-600">
-        <span class="text-white col-span-1">${this.resultName}</span>
+      <div class="grid grid-cols-3 rounded-lg border-2 border-neutral-600 p-4">
+        <span class="col-span-1 text-white">${this.resultName}</span>
         <progress-bar
           class="col-span-2"
           currentStep="${this.currentStep}"

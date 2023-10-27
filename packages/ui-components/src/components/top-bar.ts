@@ -9,13 +9,13 @@ export class TopBar extends BaseElement {
 
   render() {
     return html` <div
-      class="text-white items-center bg-neutral-800 h-16 p-2 text-l flex flex-row"
+      class="text-l flex h-16 flex-row items-center bg-neutral-800 p-2 text-white"
     >
-      ${this.logo && html`<img class="p-2 h-12" src="${this.logo}" />`}
+      ${this.logo && html`<img class="h-12 p-2" src="${this.logo}" />`}
       <h2 class="px-1">
         <a
           href="/"
-          class="hover:cursor-pointer hover:text-red-500 transition-all text-white no-underline font-bold"
+          class="font-bold text-white no-underline transition-all hover:cursor-pointer hover:text-red-500"
           >Stryker Mutator</a
         >
         | Dashboard
