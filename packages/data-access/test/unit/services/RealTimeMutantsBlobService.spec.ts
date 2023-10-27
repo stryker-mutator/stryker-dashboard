@@ -40,7 +40,7 @@ describe(RealTimeMutantsBlobService.name, () => {
     });
   });
 
-  describe('createBlob', () => {
+  describe('createReport', () => {
     it('should create an append blob', async () => {
       await sut.createReport(id);
 
@@ -53,7 +53,7 @@ describe(RealTimeMutantsBlobService.name, () => {
     });
   });
 
-  describe('appendToblob', () => {
+  describe('appendToReport', () => {
     it('should append to the append block correctly', async () => {
       const mutants = [
         { id: '1', status: MutantStatus.Killed },
@@ -70,7 +70,7 @@ describe(RealTimeMutantsBlobService.name, () => {
     });
   });
 
-  describe('getEvents', () => {
+  describe('getReport', () => {
     it('should get the events correctly', async () => {
       blobMock.blobToText.returns(
         Promise.resolve(

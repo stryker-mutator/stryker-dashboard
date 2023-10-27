@@ -59,7 +59,9 @@ export class RealTimeMutantsBlobService {
 
     return data
       .split('\n')
-      .slice(0, -1)
+      // Since every line has a newline it will produce an empty string in the list.
+      // Remove it, so nothing breaks.
+      .filter(row => row !== "")
       .map((mutant) => JSON.parse(mutant));
   }
 
