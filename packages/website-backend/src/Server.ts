@@ -1,25 +1,32 @@
 import path from 'path';
-import { Configuration, Inject, PlatformApplication } from '@tsed/common';
+import {
+  BeforeInit,
+  Configuration,
+  Inject,
+  PlatformApplication,
+} from '@tsed/common';
 import passport from 'passport';
 import express from 'express';
 import bodyParser from 'body-parser';
 import { githubStrategy } from './middleware/securityMiddleware.js';
 import { spa } from './middleware/spaMiddleware.js';
-// import errorHandler from "./middleware/errorHandler";
 import { dist } from '@stryker-mutator/dashboard-frontend';
 import { fileURLToPath } from 'url';
 import ConfigurationService from './services/Configuration.js';
+import DataAccess from './services/DataAccess.js';
 
 @Configuration({
-  // acceptMimes: ["application/json"],
   mount: {
     '/api': ['${rootDir}/api/**/**.js'],
   },
   rootDir: fileURLToPath(new URL('.', import.meta.url)),
 })
-export default class Server {
+export default class Server implements BeforeInit {
   @Inject()
   app: PlatformApplication;
+
+  @Inject()
+  dataAccess: DataAccess;
 
   public $beforeRoutesInit() {
     passport.serializeUser((user, done) => {
@@ -38,5 +45,11 @@ export default class Server {
       .use(spa(path.join(dist, 'index.html')))
       .use(bodyParser.json({ limit: '100mb' }))
       .use(passport.initialize());
+  }
+
+  $beforeInit(): void | Promise<any> {
+    this.dataAccess.blobService.createStorageIfNotExists();
+    this.dataAccess.mutationTestingReportService.createStorageIfNotExists();
+    this.dataAccess.repositoryMapper.createStorageIfNotExists();
   }
 }

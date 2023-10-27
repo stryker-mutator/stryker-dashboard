@@ -1,12 +1,15 @@
 import '@tsed/platform-express';
 import { OverrideProvider } from '@tsed/di';
-import * as dal from '@stryker-mutator/dashboard-data-access';
 import * as github from '../../src/github/models.js';
 import jwt from 'jsonwebtoken';
 import Configuration from '../../src/services/Configuration.js';
 import DataAccess from '../../src/services/DataAccess.js';
 import sinon from 'sinon';
-import { ProjectMapper } from '@stryker-mutator/dashboard-data-access';
+import {
+  MutationTestingReportService,
+  ProjectMapper,
+  RealTimeMutantsBlobService,
+} from '@stryker-mutator/dashboard-data-access';
 import MutationEventResponseOrchestrator from '../../src/services/real-time/MutationEventResponseOrchestrator.js';
 
 export function createToken(user: github.Authentication): Promise<string> {
@@ -78,9 +81,9 @@ export class DataAccessMock implements IDataAccessMock {
     replace: sinon.stub(),
   };
   mutationTestingReportService = sinon.createStubInstance(
-    dal.MutationTestingReportService
+    MutationTestingReportService
   );
-  blobService = sinon.createStubInstance(dal.RealTimeMutantsBlobService);
+  blobService = sinon.createStubInstance(RealTimeMutantsBlobService);
 }
 
 @OverrideProvider(MutationEventResponseOrchestrator)

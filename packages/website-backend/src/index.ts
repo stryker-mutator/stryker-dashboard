@@ -2,25 +2,10 @@ import debug from 'debug';
 import Server from './Server.js';
 import { PlatformExpress } from '@tsed/platform-express';
 import util from './utils.js';
-import {
-  createProjectMapper,
-  MutationTestingReportService,
-  RealTimeMutantsBlobService,
-} from '@stryker-mutator/dashboard-data-access';
 
 const log = debug('app');
 log('Starting Stryker Mutator dashboard');
 const port = parseInt(util.optionalEnvVar('PORT', '1337'), 10);
-
-async function ensureDatabaseExists() {
-  const repositoryMapper = createProjectMapper();
-  const realTimeMutantsBlobService = new RealTimeMutantsBlobService();
-  const mutationTestingReportService = new MutationTestingReportService();
-
-  await repositoryMapper.createStorageIfNotExists();
-  await realTimeMutantsBlobService.createStorageIfNotExists();
-  await mutationTestingReportService.createStorageIfNotExists();
-}
 
 async function startServer() {
   const platform = await PlatformExpress.bootstrap(Server, { port });
@@ -30,7 +15,6 @@ async function startServer() {
 
 async function run() {
   try {
-    await ensureDatabaseExists();
     await startServer();
   } catch (error) {
     if (isErrnoError(error)) {
