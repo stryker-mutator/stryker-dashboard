@@ -1,11 +1,11 @@
 import supertest, { SuperTest, Test } from 'supertest';
-import { contractFactory, githubFactory } from '../../helpers/producers.js';
+import { contractFactory, githubFactory } from '../../../helpers/producers.js';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { PlatformTest } from '@tsed/common';
-import Server from '../../../src/Server.js';
-import { createAuthorizationHeader } from '../../helpers/TestServer.js';
-import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
+import Server from '../../../../src/Server.js';
+import { createAuthorizationHeader } from '../../../helpers/TestServer.js';
+import GithubRepositoryService from '../../../../src/services/GithubRepositoryService.js';
 
 describe('OrganizationsController', () => {
   let request: SuperTest<Test>;

@@ -1,4 +1,4 @@
-import ReportsController from '../../../src/api/ReportsController.js';
+import ReportsController from '../../../../src/api/ReportsController.js';
 import supertest from 'supertest';
 import { HTTPError } from 'superagent';
 import {
@@ -6,18 +6,19 @@ import {
   Project,
   ProjectMapper,
 } from '@stryker-mutator/dashboard-data-access';
-import {
-  MutationTestResult,
-  MutantStatus,
-} from 'mutation-testing-report-schema';
+import { MutantStatus } from 'mutation-testing-report-schema';
 import { expect } from 'chai';
-import utils from '../../../src/utils.js';
+import utils from '../../../../src/utils.js';
 import { Report } from '@stryker-mutator/dashboard-common';
 import { PlatformTest } from '@tsed/common';
-import Server from '../../../src/Server.js';
-import DataAccess from '../../../src/services/DataAccess.js';
+import Server from '../../../../src/Server.js';
+import DataAccess from '../../../../src/services/DataAccess.js';
 import sinon from 'sinon';
-import { DataAccessMock } from '../../helpers/TestServer.js';
+import { DataAccessMock } from '../../../helpers/TestServer.js';
+import {
+  createMutationTestResult,
+  createMutationTestingResult,
+} from '../../../helpers/mutants.js';
 
 describe(ReportsController.name, () => {
   let request: supertest.SuperTest<supertest.Test>;
@@ -89,11 +90,39 @@ describe(ReportsController.name, () => {
         'Report "/slugwithoutslash" does not exist'
       );
     });
+
+    it('should respond with a stable report if there is no real-time report', async () => {
+      const expected: Report = {
+        ...createMutationTestingResult(),
+        moduleName: 'core',
+        projectName: 'github.com/fooOrg/fooName',
+        version: 'master',
+        mutationScore: 89,
+      };
+      findReportStub.onCall(0).returns(Promise.resolve(null));
+      findReportStub.onCall(1).returns(Promise.resolve(expected));
+
+      const response = await request.get(
+        '/api/reports/github.com/owner/name/version?realTime=true'
+      );
+
+      expect(response.status).eq(200);
+      expect(response.body).deep.eq(expected);
+    });
+
+    it('should respond with 404 if there is no stable report and no real-time report', async () => {
+      const response = await request.get(
+        '/api/reports/github.com/owner/name/version?realTime=true'
+      );
+
+      expect(response.status).eq(404);
+    });
   });
 
   describe('HTTP PUT /:slug', () => {
     const apiKey = '1346';
     let project: Project;
+
     beforeEach(() => {
       project = new Project();
       project.enabled = true;
@@ -217,45 +246,22 @@ describe(ReportsController.name, () => {
         'Invalid API key'
       );
     });
+
+    it('should respond with 400 when uploading a report that is in-progress', async () => {
+      // Arrange
+      const mutationTestResult = createMutationTestResult();
+      mutationTestResult.files['a.js'].mutants[0].status = MutantStatus.Pending;
+
+      // Act
+      const response = await request
+        .put(
+          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging'
+        )
+        .set('X-Api-Key', apiKey)
+        .send(mutationTestResult);
+
+      // Assert
+      expect(response.status).eq(400);
+    });
   });
-
-  function createMutationTestResult(
-    mutantStates = [
-      MutantStatus.Killed,
-      MutantStatus.Killed,
-      MutantStatus.Survived,
-    ]
-  ): MutationTestResult {
-    return {
-      files: {
-        'a.js': {
-          language: 'javascript',
-          source: '+',
-          mutants: mutantStates.map((status, index) => ({
-            id: index.toString(),
-            location: {
-              start: { line: 1, column: 1 },
-              end: { line: 1, column: 2 },
-            },
-            mutatorName: 'BinaryMutator',
-            replacement: '-',
-            status,
-          })),
-        },
-      },
-      schemaVersion: '1',
-      thresholds: {
-        high: 80,
-        low: 70,
-      },
-    };
-  }
-
-  function createMutationTestingResult(): MutationTestResult {
-    return {
-      files: {},
-      schemaVersion: '1',
-      thresholds: { high: 80, low: 60 },
-    };
-  }
 });

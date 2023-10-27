@@ -16,6 +16,9 @@ describe(MutationTestingResultMapper.name, () => {
       blobToText: sinon.stub(),
       createBlockBlobFromText: sinon.stub(),
       createContainerIfNotExists: sinon.stub(),
+      createAppendBlobFromText: sinon.stub(),
+      appendBlockFromText: sinon.stub(),
+      deleteBlobIfExists: sinon.stub(),
     };
     sut = new MutationTestingResultMapper(blobMock);
   });
@@ -35,6 +38,30 @@ describe(MutationTestingResultMapper.name, () => {
       expect(blobMock.createBlockBlobFromText).calledWith(
         'mutation-testing-report',
         'project;version;core',
+        JSON.stringify(result),
+        {
+          contentSettings: {
+            contentType: 'application/json',
+            contentEncoding: 'utf8',
+          },
+        }
+      );
+    });
+
+    it('should encode real-time when given as option', async () => {
+      const result = createMutationTestResult();
+      await sut.insertOrReplace(
+        {
+          moduleName: 'core',
+          projectName: 'project',
+          version: 'version',
+          realTime: true,
+        },
+        result
+      );
+      expect(blobMock.createBlockBlobFromText).calledWith(
+        'mutation-testing-report',
+        'project;version;core;real-time',
         JSON.stringify(result),
         {
           contentSettings: {
@@ -84,6 +111,24 @@ describe(MutationTestingResultMapper.name, () => {
         version: 'version',
       });
       expect(actual).null;
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete the blob', () => {
+      const identifier = {
+        moduleName: 'core',
+        projectName: 'project',
+        version: 'version',
+      };
+
+      sut.delete(identifier);
+
+      expect(blobMock.deleteBlobIfExists.calledOnce).to.be.true;
+      expect(blobMock.deleteBlobIfExists).calledWith(
+        'mutation-testing-report',
+        'project;version;core'
+      );
     });
   });
 });
