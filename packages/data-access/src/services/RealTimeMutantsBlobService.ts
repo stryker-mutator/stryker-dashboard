@@ -57,12 +57,14 @@ export class RealTimeMutantsBlobService {
       return [];
     }
 
-    return data
-      .split('\n')
-      // Since every line has a newline it will produce an empty string in the list.
-      // Remove it, so nothing breaks.
-      .filter(row => row !== "")
-      .map((mutant) => JSON.parse(mutant));
+    return (
+      data
+        .split('\n')
+        // Since every line has a newline it will produce an empty string in the list.
+        // Remove it, so nothing breaks.
+        .filter((row) => row !== '')
+        .map((mutant) => JSON.parse(mutant))
+    );
   }
 
   public async delete(id: ReportIdentifier): Promise<void> {
