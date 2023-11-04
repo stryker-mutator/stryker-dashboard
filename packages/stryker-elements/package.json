@@ -5,7 +5,10 @@
   "files": [
     "dist",
     "src"
-  ],
+  ],  
+  "publishConfig": {
+    "access": "public"
+  },
   "module": "./dist/main.mjs",
   "main": "./dist/main.cjs",
   "types": "./dist/main.d.ts",
