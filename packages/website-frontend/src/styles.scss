@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
 $theme-colors: (
   "primary": #B74934,
   "secondary": #6c757d,
@@ -8,6 +9,7 @@ $theme-colors: (
   "danger": #dc3545
 );
 @import "~bootstrap/scss/bootstrap";
+@import "~@stryker-mutator/stryker-elements/dist/style.css";
 
 a {
   cursor: pointer;

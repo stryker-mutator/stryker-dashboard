@@ -42,5 +42,6 @@ import { AppRouterModule } from './app-router.module';
       multi: true,
     },
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], /* Lit won't work otherwise */
 })
 export class AppModule {}

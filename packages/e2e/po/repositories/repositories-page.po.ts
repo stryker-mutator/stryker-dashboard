@@ -15,6 +15,6 @@ export class RepositoriesPage extends DashboardPage {
   );
 
   public async navigate() {
-    await this.page.goto('/repos');
+    await this.page.goto('/repos/strykermutator-test-account');
   }
 }

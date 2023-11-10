@@ -1,7 +1,7 @@
 import { DashboardPage } from '../shared/dashboard-page.po.js';
 
 export class Homepage extends DashboardPage {
-  public readonly h1 = this.page.locator('h1');
+  public readonly h1 = this.page.locator('.hero p');
 
   public async navigate() {
     return this.page.goto('/');
