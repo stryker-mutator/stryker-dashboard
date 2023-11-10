@@ -32,16 +32,20 @@ export class GettingStartedStepOverview extends BaseElement {
     {
       title: '🔒 Sign in through Github',
       description: html`
-        You should see a list of all your <u>public</u> repositories.
+        You should see a list of all your public repositories.
       `,
     },
     {
       title: '✅ Enable your repository',
       description: html`
-        Click <u>enable</u> next to the repository you want to use with
-        <i>Stryker Dashboard</i>.<br /><br />
-        A token is shown that will be used to upload your report later. Don't
-        worry if you lose it though, you can always regenerate it.
+        <p>
+          Click enable next to the repository you want to use with
+          <i>Stryker Dashboard</i>.
+        </p>
+        <p class="mt-4">
+          A token is shown that will be used to upload your report later. Don't
+          worry if you lose it though, you can always regenerate it.
+        </p>
       `,
     },
     {
@@ -49,12 +53,14 @@ export class GettingStartedStepOverview extends BaseElement {
       description: html`
         Follow
         <a
+          class="text-red-600 underline"
           href="https://stryker-mutator.io/docs/General/dashboard/#send-your-first-report"
           >these</a
         >
-        steps create a new token that you can use to authenticate to
-        <i>Dashboard</i>. Use your favourite Stryker distribution to generate a
-        report and Stryker then automatically uploads it to <i>Dashboard</i>.
+        steps to create a new token that you can use to authenticate to
+        <i>Stryker Dashboard</i>. Use your favourite supported mutation testing
+        framework to generate a report and to automatically upload it to
+        <i>Stryker Dashboard</i>.
       `,
     },
   ];
