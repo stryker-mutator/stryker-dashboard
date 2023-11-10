@@ -146,7 +146,7 @@ export class HeroComponent extends BaseElement {
       'animation-delay': `${config.delay}s`,
       'animation-duration': `${config.duration}s`,
     });
-    
+
     return html`
       <div
         style="${style}"
