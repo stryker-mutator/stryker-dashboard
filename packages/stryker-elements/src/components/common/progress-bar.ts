@@ -1,6 +1,8 @@
 import { BaseElement } from '../../base';
 import { html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
+import { styleMap } from 'lit/directives/style-map.js';
 
 export class ProgressBar extends BaseElement {
   @property({ type: Number })
@@ -45,15 +47,17 @@ export class ProgressBar extends BaseElement {
   render() {
     const progressText = html`
       <span
-        class="${this.textColors[this.getIndex()]} ${this.hideProgressBar
-          ? ''
-          : 'pr-3'} 
+        class="${classMap({
+          'pr-3': !this.hideProgressBar,
+          [this.textColors[this.getIndex()]]: true,
+        })}
           font-bold"
         ?hidden="${this.hideProgressText}"
       >
         ${Math.round((this.currentStep / this.totalSteps) * 1000) / 10}%
       </span>
     `;
+
     const progressBar = html`
       <div
         class="h-4 w-full rounded-full bg-neutral-600"
@@ -61,7 +65,9 @@ export class ProgressBar extends BaseElement {
       >
         <div
           class="${this.backgroundColors[this.getIndex()]} h-4 rounded-full"
-          style="width:${(this.currentStep / this.totalSteps) * 100}%"
+          style="${styleMap({
+            width: `${(this.currentStep / this.totalSteps) * 100}%`,
+          })}"
         ></div>
       </div>
     `;
@@ -69,8 +75,9 @@ export class ProgressBar extends BaseElement {
     return html`
       <div class="${this.hideProgressText ? 'grid items-center h-full' : ''}">
         <div
-          class="w-full"
-          class="${this.hideProgressText ? '' : 'flex space-y-1'}"
+          class="${classMap({
+            'flex space-y-1': !this.hideProgressText,
+          })} w-full"
         >
           ${!this.hideProgressText ? progressText : nothing}
           ${!this.hideProgressBar ? progressBar : nothing}
