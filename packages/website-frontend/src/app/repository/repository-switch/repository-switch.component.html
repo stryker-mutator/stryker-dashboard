@@ -1,4 +1,4 @@
-<div class="list-group-item d-flex  justify-content-between align-items-center">
+<div class="list-group-item d-flex justify-content-between align-items-center">
   <div class="repo-slug d-flex flex-row align-items-center">
     <button *ngIf="repo.enabled" class="btn-link me-4" (click)="displayClicked()">{{ repo.slug }}</button>
     <stryker-mutation-score-badge *ngIf="repo.enabled" [repo]="repo" [enableLink]="true"></stryker-mutation-score-badge>
