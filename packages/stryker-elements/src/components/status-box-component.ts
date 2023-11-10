@@ -1,6 +1,7 @@
 import { html } from 'lit';
 import { BaseElement } from '../base';
 import { property } from 'lit/decorators.js';
+import { map } from 'lit/directives/map.js';
 
 export class StatusBoxComponent extends BaseElement {
   @property({ type: Array })
@@ -16,7 +17,7 @@ export class StatusBoxComponent extends BaseElement {
         <div
           class="grid h-auto w-11/12 content-around justify-center py-16 md:flex md:h-full md:max-w-4xl md:justify-around"
         >
-          ${this.boxes.map(
+          ${map(this.boxes,
             ({ value, label, color }) => html`
               <div
                 class="flex h-fit w-48 flex-col flex-nowrap items-center  border-b-2 border-neutral-600 px-0 py-16 duration-150 hover:shadow-sm max-md:last:border-none sm:w-52 md:rounded md:border-2 md:px-4 md:py-2 "
