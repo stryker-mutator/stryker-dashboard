@@ -54,6 +54,7 @@
     "all": "npm run lint && npm run clean && npm run build && npm run test",
     "clean": "rimraf \"packages/*/{.nyc_output,reports,coverage,dist}\"",
     "lint": "eslint .",
+    "lint:fix": "eslint --ext .ts,.js src --fix",
     "build": "tsc -b && lerna run build",
     "start:azurite": "rimraf .azurite && mkdir -p .azurite && azurite -l .azurite",
     "test": "lerna run --ignore e2e test --concurrency 4 --stream"
