@@ -33,8 +33,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview",
-    "lint:fix": "eslint --ext .ts,.js src --fix"
+    "preview": "vite preview"
   },
   "peerDependencies": {
     "lit": "^2.7.6"
