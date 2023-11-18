@@ -28,9 +28,13 @@ export class UserComponent extends AutoUnsubscribe implements OnInit {
     );
   }
 
+  public logIn() {
+    window.location.href = '/api/auth/github';
+  }
+
   public logOut() {
     this.authService.logOut();
     this.user = null;
-    this.router.navigate(['/']);
+    window.location.href = '/';
   }
 }

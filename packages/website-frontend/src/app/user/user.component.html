@@ -1,9 +1,9 @@
 <div *ngIf="user; else login">
   <!-- -vvv- Lit component -vvv- -->
-  <profile-button (sign-out)="logOut()" name="{{ user.name }}" avatarUrl="{{ user.avatarUrl }}"></profile-button>
+  <sme-profile-button (sign-out)="logOut()" name="{{ user.name }}" avatarUrl="{{ user.avatarUrl }}"></sme-profile-button>
 </div>
 
 <ng-template #login>
   <!-- -vvv- Lit component -vvv- -->
-  <sign-in-button></sign-in-button>
+  <sme-button (click)="logIn()">Sign in with GitHub</sme-button>
 </ng-template>
