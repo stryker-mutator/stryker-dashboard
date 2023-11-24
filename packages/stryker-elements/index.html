@@ -14,15 +14,13 @@
   </head>
   <body>
     <enable-button></enable-button>
-    <top-bar logo="https://stryker-mutator.io/images/stryker.svg"
-      ><profile-button slot="user"></profile-button
-    ></top-bar>
-    <labeled-container-component label="Hello there">
-      <hero-component></hero-component>
-    </labeled-container-component>
-    <layout-component>
-      <status-box-component></status-box-component>
-      <getting-started-step-overview></getting-started-step-overview>
-    </layout-component>
+    <sme-top-bar logoUrl="https://stryker-mutator.io/images/stryker.svg"
+      ><sme-button slot="right-side">Sign in with GitHub</sme-button
+    ></sme-top-bar>
+    <sme-hero></sme-hero>
+    <sme-spatious-layout>
+      <sme-status-overview id="getting-started"></sme-status-overview>
+      <sme-getting-started-overview></sme-getting-started-overview>
+    </sme-spatious-layout>
   </body>
 </html>
