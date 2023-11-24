@@ -106,7 +106,9 @@ export class Hero extends BaseElement {
         <div class="hero absolute top-0 w-full">
           ${map(this.#myClouds, this.#renderCloud)}
         </div>
-        <div class="hero flex w-full content-center justify-center bg-cyan-950">
+        <div
+          class="hero flex w-full content-center justify-center bg-gradient-to-b from-cyan-950 to-sky-950"
+        >
           <div class="z-20 my-auto">
             <h1 class="mb-2 text-6xl font-bold text-yellow-400">
               Stryker Dashboard
