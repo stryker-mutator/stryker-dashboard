@@ -14,6 +14,8 @@ test.describe('Homepage', () => {
   });
 
   test('should show slogan', async () => {
-    await expect(sut.h1).toHaveText('See your reports from anywhere');
+    await expect(sut.h1).toHaveText(
+      'See your mutation testing reports from anywhere'
+    );
   });
 });

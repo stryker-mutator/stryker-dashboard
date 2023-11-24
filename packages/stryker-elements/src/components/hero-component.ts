@@ -118,11 +118,11 @@ export class HeroComponent extends BaseElement {
         </div>
         <div class="hero flex w-full content-center justify-center bg-cyan-950">
           <div class="z-20 my-auto">
-            <h1 class="mb-1 text-6xl font-bold text-yellow-400">
+            <h1 class="mb-2 text-6xl font-bold text-yellow-400">
               Stryker Dashboard
             </h1>
-            <p class="text-center text-xl font-bold text-gray-50">
-              See your reports from anywhere
+            <p class="text-center text-lg text-xl font-bold text-gray-50">
+              See your mutation testing reports from anywhere
             </p>
             <div class="my-8 flex justify-center space-x-4">
               <sme-button @click="${this.#handlePrimary}"
