@@ -40,5 +40,8 @@ import './exports/lib/organisms/hero';
 export { StatusOverview } from './lib/organisms/status-overview';
 import './exports/lib/organisms/status-overview';
 
+export { StrykerDashboardExplanation } from './lib/organisms/stryker-dashboard-explanation';
+import './exports/lib/organisms/stryker-dashboard-explanation';
+
 export { TopBar } from './lib/organisms/top-bar';
 import './exports/lib/organisms/top-bar';
