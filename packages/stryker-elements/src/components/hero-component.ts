@@ -1,6 +1,8 @@
 import '../exports/button';
 import { css, html } from 'lit';
 import { BaseElement } from '../base';
+import { map } from 'lit/directives/map.js';
+import { styleMap } from 'lit/directives/style-map.js';
 
 interface CloudColors {
   darkest: string;
@@ -87,7 +89,6 @@ export class HeroComponent extends BaseElement {
 
   #handleSecondary() {
     window.location.href = 'https://stryker-mutator.io/docs/';
-    window.location.href = 'https://stryker-mutator.io/docs/';
   }
 
   #getRandomCloudColor(): CloudKey {
@@ -113,15 +114,15 @@ export class HeroComponent extends BaseElement {
     return html`
       <div class="relative overflow-hidden">
         <div class="hero absolute top-0 w-full">
-          ${this.#myClouds.map(this.#renderCloud)}
+          ${map(this.#myClouds, this.#renderCloud)}
         </div>
         <div class="hero flex w-full content-center justify-center bg-cyan-950">
           <div class="z-20 my-auto">
-            <h1 class="mb-1 text-6xl font-bold text-yellow-400">
+            <h1 class="mb-2 text-6xl font-bold text-yellow-400">
               Stryker Dashboard
             </h1>
-            <p class="text-center text-xl font-bold text-gray-50">
-              See your reports from anywhere
+            <p class="text-center text-lg text-xl font-bold text-gray-50">
+              See your mutation testing reports from anywhere
             </p>
             <div class="my-8 flex justify-center space-x-4">
               <sme-button @click="${this.#handlePrimary}"
@@ -138,14 +139,17 @@ export class HeroComponent extends BaseElement {
   }
 
   #renderCloud(config: CloudConfig) {
+    const style = styleMap({
+      top: `${config.position.y}%`,
+      left: `${config.position.x}%`,
+      transform: `scale(${config.duration})`,
+      'animation-delay': `${config.delay}s`,
+      'animation-duration': `${config.duration}s`,
+    });
+
     return html`
       <div
-        style="
-      top: ${config.position.y}%;
-      left: ${config.position.x}%;
-      transform: scale(${config.scale}); 
-      animation-delay: ${config.delay}s; 
-      animation-duration: ${config.duration}s"
+        style="${style}"
         class="cloud-container absolute animate-flow opacity-0"
       >
         <div style="transform: scale(${config.scale})" class="absolute">
