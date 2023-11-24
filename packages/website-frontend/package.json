@@ -1,6 +1,6 @@
 {
   "name": "@stryker-mutator/dashboard-frontend",
-  "version": "0.13.2",
+  "version": "0.13.3",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -27,9 +27,9 @@
     "@github/clipboard-copy-element": "^1.1.2",
     "@ng-bootstrap/ng-bootstrap": "^12.1.2",
     "@primer/octicons": "^17.2.0",
-    "@stryker-mutator/dashboard-common": "0.13.2",
-    "@stryker-mutator/dashboard-contract": "0.13.2",
-    "@stryker-mutator/stryker-elements": "0.0.1",
+    "@stryker-mutator/dashboard-common": "0.13.3",
+    "@stryker-mutator/dashboard-contract": "0.13.3",
+    "@stryker-mutator/stryker-elements": "0.13.3",
     "bootstrap": "~5.2.0",
     "mutation-testing-elements": "2.0.1",
     "mutation-testing-metrics": "2.0.1",

@@ -1,6 +1,6 @@
 {
   "name": "@stryker-mutator/dashboard-backend",
-  "version": "0.13.2",
+  "version": "0.13.3",
   "description": "The package which contains the stryker dashboard website backend.",
   "main": "index.js",
   "type": "module",
@@ -21,10 +21,10 @@
     "directory": "packages/website-backend"
   },
   "dependencies": {
-    "@stryker-mutator/dashboard-common": "0.13.2",
-    "@stryker-mutator/dashboard-contract": "0.13.2",
-    "@stryker-mutator/dashboard-data-access": "0.13.2",
-    "@stryker-mutator/dashboard-frontend": "0.13.2",
+    "@stryker-mutator/dashboard-common": "0.13.3",
+    "@stryker-mutator/dashboard-contract": "0.13.3",
+    "@stryker-mutator/dashboard-data-access": "0.13.3",
+    "@stryker-mutator/dashboard-frontend": "0.13.3",
     "@tsed/common": "^6.114.14",
     "@tsed/core": "^6.114.14",
     "@tsed/di": "^6.114.14",

@@ -1,9 +1,7 @@
 {
   "lerna": "2.5.1",
-  "packages": [
-    "packages/*"
-  ],
-  "version": "0.13.2",
+  "packages": ["packages/*"],
+  "version": "0.13.3",
   "command": {
     "version": {
       "forcePublish": true,

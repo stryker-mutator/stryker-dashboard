@@ -2,7 +2,7 @@
   "name": "@stryker-mutator/dashboard-badge-api",
   "description": "The stryker dashboard badge-api serverless app",
   "type": "module",
-  "version": "0.13.2",
+  "version": "0.13.3",
   "publishConfig": {
     "access": "public"
   },
@@ -19,8 +19,8 @@
     "stryker": "stryker run"
   },
   "dependencies": {
-    "@stryker-mutator/dashboard-common": "0.13.2",
-    "@stryker-mutator/dashboard-data-access": "0.13.2",
+    "@stryker-mutator/dashboard-common": "0.13.3",
+    "@stryker-mutator/dashboard-data-access": "0.13.3",
     "source-map-support": "^0.5.21",
     "ts-httpexceptions": "^4.1.0"
   },
