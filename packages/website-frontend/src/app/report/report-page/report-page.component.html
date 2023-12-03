@@ -1,4 +1,4 @@
-<stryker-loading class="row" [ngStyle]="{'background': backgroundColor}" [showContent]="doneLoading">
+<stryker-loading class="d-flex justify-content-center" [ngStyle]="{'background': backgroundColor}" [showContent]="doneLoading">
   <div class="col-md-12" *ngIf="id">
     <mutation-test-report-app (theme-changed)="themeChanged($event)" *ngIf="mutationTestResult" [report]="mutationTestResult" [titlePostfix]="reportTitle" [sse]="sse">
     </mutation-test-report-app>
