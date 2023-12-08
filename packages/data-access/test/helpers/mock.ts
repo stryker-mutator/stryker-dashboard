@@ -36,7 +36,7 @@ export function createMutationTestResult(
 }
 
 export function createFileResult(
-  mutantStates = [MutantStatus.Killed, MutantStatus.Survived]
+  mutantStates: MutantStatus[] = ['Killed', 'Survived']
 ): FileResult {
   return {
     language: 'javascript',

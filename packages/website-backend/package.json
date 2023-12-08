@@ -59,7 +59,7 @@
     "@types/request-promise-native": "1.0.18",
     "@types/supertest": "2.0.12",
     "@types/uuid": "^9.0.0",
-    "mutation-testing-report-schema": "2.0.1",
+    "mutation-testing-report-schema": "3.0.0",
     "nodemon": "^2.0.16"
   },
   "keywords": [],

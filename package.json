@@ -52,7 +52,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap && link-parent-bin",
     "all": "npm run lint && npm run clean && npm run build && npm run test",
-    "clean": "rimraf \"packages/*/{.nyc_output,reports,coverage,dist}\"",
+    "clean": "rimraf --glob \"packages/*/{.nyc_output,reports,coverage,dist}\"",
     "lint": "eslint .",
     "lint:fix": "eslint --ext .ts,.js . --fix",
     "build": "tsc -b && lerna run build",

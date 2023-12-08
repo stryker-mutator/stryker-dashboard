@@ -28,7 +28,7 @@ describe(MutationEventSender.name, () => {
   it('should write correctly when sending a mutant-tested event', () => {
     const mutant: Partial<MutantResult> = {
       id: '1',
-      status: MutantStatus.Pending,
+      status: 'Pending',
     };
 
     sut.sendMutantTested(mutant);

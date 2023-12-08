@@ -41,9 +41,9 @@ test.describe('Real-time api', () => {
       await uploadPendingReport(report);
 
       const response = await client.postMutantBatch(report, [
-        { id: '1', status: MutantStatus.Killed },
-        { id: '2', status: MutantStatus.Killed },
-        { id: '3', status: MutantStatus.Killed },
+        { id: '1', status: 'Killed' },
+        { id: '2', status: 'Killed' },
+        { id: '3', status: 'Killed' },
       ]);
       expect(response.status()).toBe(200);
     });

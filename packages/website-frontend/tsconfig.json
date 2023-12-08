@@ -26,7 +26,9 @@
       "@stryker-mutator/stryker-elements/*": [
         "./node_modules/@stryker-mutator/stryker-elements/*"
       ]
-    }
+    },
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

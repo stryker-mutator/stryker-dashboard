@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import { BlobServiceAsPromised } from '../../../src/services/BlobServiceAsPromised.js';
 import { expect } from 'chai';
 import { RealTimeMutantsBlobService } from '../../../src/services/RealTimeMutantsBlobService.js';
-import { MutantStatus } from 'mutation-testing-report-schema/api';
+import { MutantResult, MutantStatus } from 'mutation-testing-report-schema/api';
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 
 describe(RealTimeMutantsBlobService.name, () => {
@@ -55,9 +55,9 @@ describe(RealTimeMutantsBlobService.name, () => {
 
   describe('appendToReport', () => {
     it('should append to the append block correctly', async () => {
-      const mutants = [
-        { id: '1', status: MutantStatus.Killed },
-        { id: '2', status: MutantStatus.Survived },
+      const mutants: Partial<MutantResult>[] = [
+        { id: '1', status: 'Killed' },
+        { id: '2', status: 'Survived' },
       ];
       await sut.appendToReport(id, mutants);
 
@@ -82,11 +82,11 @@ describe(RealTimeMutantsBlobService.name, () => {
       expect(events.length).to.eq(2);
       expect(events[0]).to.deep.include({
         id: '1',
-        status: MutantStatus.Killed,
+        status: 'Killed',
       });
       expect(events[1]).to.deep.include({
         id: '2',
-        status: MutantStatus.Survived,
+        status: 'Survived',
       });
     });
 

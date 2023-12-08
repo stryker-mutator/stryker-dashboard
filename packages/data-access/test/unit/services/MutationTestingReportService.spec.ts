@@ -55,7 +55,7 @@ describe(MutationTestingReportService.name, () => {
       // Arrange
       const expectedResult = createMutationTestResult(
         createFileResultDictionary(
-          createFileResult([MutantStatus.Killed, MutantStatus.Survived])
+          createFileResult(['Killed', 'Survived'])
         )
       );
       const reportIdentifier = {
@@ -142,10 +142,10 @@ describe(MutationTestingReportService.name, () => {
         const projectName = 'github.com/testOrg/testName';
         const version = 'feat/something';
         const coreResult = createMutationTestResult({
-          'a/b': createFileResult([MutantStatus.Killed]),
+          'a/b': createFileResult(['Killed']),
         });
         const apiResult = createMutationTestResult({
-          'a/b': createFileResult([MutantStatus.NoCoverage]),
+          'a/b': createFileResult(['NoCoverage']),
         });
         const coreReport: MutationTestingReport = {
           moduleName: 'core',
@@ -206,7 +206,7 @@ describe(MutationTestingReportService.name, () => {
         const projectName = 'github.com/testOrg/testName';
         const version = 'feat/something';
         const moduleResult = createMutationTestResult({
-          'a/b': createFileResult([MutantStatus.Killed]),
+          'a/b': createFileResult(['Killed']),
         });
         const moduleReport: MutationTestingReport = {
           moduleName: 'core',
@@ -275,7 +275,7 @@ describe(MutationTestingReportService.name, () => {
         const projectName = 'github.com/testOrg/testName';
         const version = 'feat/something';
         const moduleResult = createMutationTestResult({
-          'a/b': createFileResult([MutantStatus.Killed]),
+          'a/b': createFileResult(['Killed']),
         });
         const moduleReport: MutationTestingReport = {
           moduleName: 'core',

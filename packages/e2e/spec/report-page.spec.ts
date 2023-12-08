@@ -76,7 +76,7 @@ test.describe('Report page', () => {
             'github.com/stryker-mutator-test-organization/hello-org',
             'feat/modules',
             'one',
-            [MutantStatus.Killed, MutantStatus.Killed, MutantStatus.Killed]
+            ['Killed', 'Killed', 'Killed']
           )
         ),
         client.uploadReport(
@@ -85,9 +85,9 @@ test.describe('Report page', () => {
             'feat/modules',
             'two',
             [
-              MutantStatus.Survived,
-              MutantStatus.Survived,
-              MutantStatus.Survived,
+              'Survived',
+              'Survived',
+              'Survived',
             ]
           )
         ),
@@ -96,7 +96,7 @@ test.describe('Report page', () => {
             'github.com/stryker-mutator-test-organization/hello-org',
             'feat/modules',
             'three',
-            [MutantStatus.Killed, MutantStatus.Timeout, MutantStatus.NoCoverage]
+            ['Killed', 'Timeout', 'NoCoverage']
           )
         ),
       ]);

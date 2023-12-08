@@ -11,7 +11,7 @@ import { Socket } from 'net';
 describe(MutationEventResponseHandler.name, () => {
   const data: Partial<MutantResult> = {
     id: '1',
-    status: MutantStatus.Killed,
+    status: 'Killed',
     location: {
       start: { line: 1, column: 2 },
       end: { line: 1, column: 2 },
