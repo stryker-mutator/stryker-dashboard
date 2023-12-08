@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import { BlobServiceAsPromised } from '../../../src/services/BlobServiceAsPromised.js';
 import { expect } from 'chai';
 import { RealTimeMutantsBlobService } from '../../../src/services/RealTimeMutantsBlobService.js';
-import { MutantResult, MutantStatus } from 'mutation-testing-report-schema/api';
+import { MutantResult } from 'mutation-testing-report-schema/api';
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 
 describe(RealTimeMutantsBlobService.name, () => {

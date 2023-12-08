@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import { MutantStatus } from 'mutation-testing-report-schema';
 import { ReportPage } from '../po/reports/report-page.po.js';
 import { simpleReportV1, scoreOnlyReport } from '../actions/report.action.js';
 import { ReportClient } from '../po/reports/report-client.po.js';
@@ -84,11 +83,7 @@ test.describe('Report page', () => {
             'github.com/stryker-mutator-test-organization/hello-org',
             'feat/modules',
             'two',
-            [
-              'Survived',
-              'Survived',
-              'Survived',
-            ]
+            ['Survived', 'Survived', 'Survived']
           )
         ),
         client.uploadReport(

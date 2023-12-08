@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { MutationEventSender } from '../../../../src/services/real-time/MutationEventSender.js';
 import { ServerResponse } from 'http';
-import { MutantResult, MutantStatus } from 'mutation-testing-report-schema';
+import { MutantResult } from 'mutation-testing-report-schema';
 
 describe(MutationEventSender.name, () => {
   let responseMock: sinon.SinonStubbedInstance<ServerResponse>;

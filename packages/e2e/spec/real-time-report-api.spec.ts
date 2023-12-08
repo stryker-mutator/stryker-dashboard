@@ -3,7 +3,6 @@ import { ReportClient } from '../po/reports/report-client.po.js';
 import { pendingReport } from '../actions/report.action.js';
 import type { PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import type { Report } from '@stryker-mutator/dashboard-common';
-import { MutantStatus } from 'mutation-testing-report-schema';
 
 test.describe('Real-time api', () => {
   let client: ReportClient;

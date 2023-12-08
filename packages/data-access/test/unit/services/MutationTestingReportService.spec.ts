@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { MutantStatus } from 'mutation-testing-report-schema';
 import sinon from 'sinon';
 import { MutationTestingReport } from '../../../src/models/index.js';
 import {
@@ -54,9 +53,7 @@ describe(MutationTestingReportService.name, () => {
     it('should update the expected report using the score from metrics', async () => {
       // Arrange
       const expectedResult = createMutationTestResult(
-        createFileResultDictionary(
-          createFileResult(['Killed', 'Survived'])
-        )
+        createFileResultDictionary(createFileResult(['Killed', 'Survived']))
       );
       const reportIdentifier = {
         version: 'feat/dashboard',

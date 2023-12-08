@@ -6,7 +6,6 @@ import {
   Project,
   ProjectMapper,
 } from '@stryker-mutator/dashboard-data-access';
-import { MutantStatus } from 'mutation-testing-report-schema';
 import { expect } from 'chai';
 import utils from '../../../../src/utils.js';
 import { Report } from '@stryker-mutator/dashboard-common';
@@ -137,10 +136,7 @@ describe(ReportsController.name, () => {
 
     it('should save the expected report', async () => {
       // Arrange
-      const body = createMutationTestResult([
-        'Killed',
-        'Survived',
-      ]);
+      const body = createMutationTestResult(['Killed', 'Survived']);
       const expectedId = {
         projectName: 'github.com/testOrg/testName',
         version: 'feat/dashboard',

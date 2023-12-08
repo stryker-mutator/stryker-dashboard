@@ -13,7 +13,6 @@ import { expect } from 'chai';
 import MutationEventResponseOrchestrator from '../../../../src/services/real-time/MutationEventResponseOrchestrator.js';
 import { MutationEventResponseHandler } from '../../../../src/services/real-time/MutationEventResponseHandler.js';
 import utils from '../../../../src/utils.js';
-import { MutantStatus } from 'mutation-testing-report-schema';
 import { createMutationTestResult } from '../../../helpers/mutants.js';
 
 describe(RealTimeReportsController.name, () => {

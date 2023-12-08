@@ -4,11 +4,7 @@ import {
 } from 'mutation-testing-report-schema';
 
 export function createMutationTestResult(
-  mutantStates: MutantStatus[] = [
-    'Killed',
-    'Killed',
-    'Survived',
-  ]
+  mutantStates: MutantStatus[] = ['Killed', 'Killed', 'Survived']
 ): MutationTestResult {
   return {
     files: {
