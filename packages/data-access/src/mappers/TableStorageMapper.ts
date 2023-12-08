@@ -1,12 +1,30 @@
 import { Constants } from 'azure-storage';
-import TableServiceAsPromised, {
-  Entity,
-} from '../services/TableServiceAsPromised.js';
 import { encodeKey, decodeKey, isStorageError } from '../utils.js';
 import { Mapper, Result } from './Mapper.js';
 import { OptimisticConcurrencyError } from '../errors/index.js';
 import { ModelClass } from './ModelClass.js';
 import { DashboardQuery } from './DashboardQuery.js';
+import { TableClient } from '@azure/data-tables';
+
+type Entity<T, TKeyFields extends keyof T> = {
+  [K in Exclude<keyof T, TKeyFields>]: {
+    $: string;
+    _: T[K];
+  };
+} & EntityKey &
+  EntityMetadata;
+
+interface EntityKey {
+  // TODO: is this correct?
+  partitionKey: string
+  rowKey: string;
+}
+
+interface EntityMetadata {
+  ['.metadata']: {
+    etag: string;
+  };
+}
 
 export default class TableStorageMapper<
   TModel extends object,
@@ -14,49 +32,46 @@ export default class TableStorageMapper<
   TRowKeyFields extends keyof TModel
 > implements Mapper<TModel, TPartitionKeyFields, TRowKeyFields>
 {
-  constructor(
-    private readonly ModelClass: ModelClass<
+  #model: ModelClass<
+    TModel,
+    TPartitionKeyFields,
+    TRowKeyFields
+  >;
+  #tableClient: TableClient;
+
+  constructor(model: ModelClass<
       TModel,
       TPartitionKeyFields,
       TRowKeyFields
     >,
-    private readonly tableService: TableServiceAsPromised = new TableServiceAsPromised()
-  ) {}
+    tableClient = TableClient.fromConnectionString(process.env["AZURE_STORAGE_CONNECTION_STRING"]!, model.tableName)
+  ) {
+    this.#model = model;
+    this.#tableClient = tableClient;
+  }
 
   public async createStorageIfNotExists(): Promise<void> {
-    await this.tableService.createTableIfNotExists(this.ModelClass.tableName);
+    await this.#tableClient.createTable();
   }
 
   public async insertOrMerge(model: TModel) {
     const entity = this.toEntity(model);
-    await this.tableService.insertOrMergeEntity(
-      this.ModelClass.tableName,
-      entity
-    );
+    await this.#tableClient.upsertEntity(entity);
   }
 
   public async findOne(
     identity: Pick<TModel, TPartitionKeyFields | TRowKeyFields>
   ): Promise<Result<TModel> | null> {
     try {
-      const result = await this.tableService.retrieveEntity<
+      const result = await this.#tableClient.getEntity<
         Entity<TModel, TPartitionKeyFields | TRowKeyFields>
       >(
-        this.ModelClass.tableName,
-        encodeKey(this.ModelClass.createPartitionKey(identity)),
-        encodeKey(this.ModelClass.createRowKey(identity) || '')
+        encodeKey(this.#model.createPartitionKey(identity)),
+        encodeKey(this.#model.createRowKey(identity) || '')
       );
       return this.toModel(result);
     } catch (err) {
-      if (
-        isStorageError(err) &&
-        err.code === Constants.StorageErrorCodeStrings.RESOURCE_NOT_FOUND
-      ) {
-        return null;
-      } else {
-        // Oops... didn't mean to catch this one
-        throw err;
-      }
+      throw err;
     }
   }
 
@@ -65,14 +80,16 @@ export default class TableStorageMapper<
       TModel,
       TPartitionKeyFields,
       TRowKeyFields
-    > = DashboardQuery.create(this.ModelClass)
+    > = DashboardQuery.create(this.#model)
   ): Promise<Result<TModel>[]> {
     const tableQuery = query.build();
-    const results = await this.tableService.queryEntities<
-      TModel,
-      TPartitionKeyFields | TRowKeyFields
-    >(this.ModelClass.tableName, tableQuery, undefined);
-    return results.entries.map((entity) => this.toModel(entity));
+    const entities = this.#tableClient.listEntities<TModel>({ queryOptions: { filter: tableQuery } });
+    const models = []
+    for await (const entity of entities) {
+      // TODO: fix
+      models.push(this.toModel(entity as any))
+    }
+    return models;
   }
 
   /**
@@ -85,60 +102,33 @@ export default class TableStorageMapper<
     const entity = this.toEntity(model);
     entity['.metadata'].etag = etag;
     try {
-      const result = await this.tableService.replaceEntity(
-        this.ModelClass.tableName,
-        entity,
-        {}
-      );
-      return { model, etag: result['.metadata'].etag };
+      const result = await this.#tableClient.upsertEntity(entity, "Replace");
+      return { model, etag: result.etag! };
     } catch (err) {
-      if (
-        isStorageError(err) &&
-        err.code ===
-          Constants.StorageErrorCodeStrings.UPDATE_CONDITION_NOT_SATISFIED
-      ) {
-        throw new OptimisticConcurrencyError(
-          `Replace entity with etag ${etag} resulted in ${Constants.StorageErrorCodeStrings.UPDATE_CONDITION_NOT_SATISFIED}`
-        );
-      } else {
-        throw err;
-      }
+      throw err;
     }
   }
 
   public async insert(model: TModel): Promise<Result<TModel>> {
     const entity = this.toEntity(model);
     try {
-      const result = await this.tableService.insertEntity(
-        this.ModelClass.tableName,
-        entity,
-        {}
-      );
-      return { model, etag: result['.metadata'].etag };
+      const result = await this.#tableClient.createEntity(entity);
+      return { model, etag: result.etag! };
     } catch (err) {
-      if (
-        isStorageError(err) &&
-        err.code === Constants.TableErrorCodeStrings.ENTITY_ALREADY_EXISTS
-      ) {
-        throw new OptimisticConcurrencyError(
-          `Trying to insert "${entity.PartitionKey}" "${entity.RowKey}" which already exists (${Constants.TableErrorCodeStrings.ENTITY_ALREADY_EXISTS})`
-        );
-      } else {
-        throw err;
-      }
+      throw err;
     }
   }
 
   private toModel(
     entity: Entity<TModel, TPartitionKeyFields | TRowKeyFields>
   ): Result<TModel> {
-    const value = new this.ModelClass();
-    this.ModelClass.identify(
+    const value = new this.#model();
+    this.#model.identify(
       value,
-      decodeKey(entity.PartitionKey._),
-      decodeKey(entity.RowKey._)
+      decodeKey(entity.partitionKey),
+      decodeKey(entity.rowKey)
     );
-    this.ModelClass.persistedFields.forEach(
+    this.#model.persistedFields.forEach(
       (field) => ((value[field] as any) = (entity as any)[field]._)
     );
     return {
@@ -151,13 +141,11 @@ export default class TableStorageMapper<
     entity: TModel
   ): Entity<TModel, TPartitionKeyFields | TRowKeyFields> {
     const data: any = {
-      PartitionKey: encodeKey(this.ModelClass.createPartitionKey(entity)),
-      RowKey: encodeKey(this.ModelClass.createRowKey(entity) || ''),
+      partitionKey: encodeKey(this.#model.createPartitionKey(entity)),
+      rowKey: encodeKey(this.#model.createRowKey(entity) || ''),
     };
-    this.ModelClass.persistedFields.forEach(
-      (field) => (data[field] = entity[field])
-    );
-    data['.metadata'] = {};
+    this.#model.persistedFields.forEach((field) => (data[field] = entity[field]));
+    // data['.metadata'] = {};
     return data;
   }
 }

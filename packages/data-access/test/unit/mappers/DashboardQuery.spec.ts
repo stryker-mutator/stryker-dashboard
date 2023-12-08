@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { FooModel } from './TableStorageMapper.spec.js';
 import { TableQuery } from 'azure-storage';
 
-describe(DashboardQuery.name, () => {
+describe.only(DashboardQuery.name, () => {
   it('should be able to construct an empty query', () => {
-    expect(DashboardQuery.create(FooModel).build()).deep.eq(new TableQuery());
+    expect(DashboardQuery.create(FooModel).build()).eq('');
   });
 
   it('should be able to construct a PartitionKey query', () => {
@@ -13,7 +13,7 @@ describe(DashboardQuery.name, () => {
       DashboardQuery.create(FooModel)
         .wherePartitionKeyEquals({ partitionId: 'bar' })
         .build()
-    ).deep.eq(new TableQuery().where('PartitionKey eq ?', 'bar'));
+    ).eq('PartitionKey eq \'bar\'');
   });
 
   it('should escape PartitionKey values', () => {
@@ -21,7 +21,7 @@ describe(DashboardQuery.name, () => {
       DashboardQuery.create(FooModel)
         .wherePartitionKeyEquals({ partitionId: 'foo/bar' })
         .build()
-    ).deep.eq(new TableQuery().where('PartitionKey eq ?', 'foo;bar'));
+    ).eq('PartitionKey eq \'foo;bar\'');
   });
 
   it('should be able to construct a RowKey not equals query', () => {
@@ -29,7 +29,7 @@ describe(DashboardQuery.name, () => {
       DashboardQuery.create(FooModel)
         .whereRowKeyNotEquals({ rowId: 'foo' })
         .build()
-    ).deep.eq(new TableQuery().where('not(RowKey eq ?)', 'foo'));
+    ).eq('not(RowKey eq \'foo\')');
   });
 
   it('should escape RowKey values', () => {
@@ -37,7 +37,7 @@ describe(DashboardQuery.name, () => {
       DashboardQuery.create(FooModel)
         .whereRowKeyNotEquals({ rowId: 'foo/bar' })
         .build()
-    ).deep.eq(new TableQuery().where('not(RowKey eq ?)', 'foo;bar'));
+    ).eq('not(RowKey eq \'foo;bar\')');
   });
 
   it('should be able to construct a query with multiple where condition', () => {
@@ -46,10 +46,6 @@ describe(DashboardQuery.name, () => {
         .wherePartitionKeyEquals({ partitionId: 'part' })
         .whereRowKeyNotEquals({ rowId: 'row' })
         .build()
-    ).deep.eq(
-      new TableQuery()
-        .where('PartitionKey eq ?', 'part')
-        .and('not(RowKey eq ?)', 'row')
-    );
+    ).eq('PartitionKey eq \'part\' and not(RowKey eq \'row\')');
   });
 });

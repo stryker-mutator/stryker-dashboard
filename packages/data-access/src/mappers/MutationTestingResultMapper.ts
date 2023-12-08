@@ -1,13 +1,8 @@
-import { BlobServiceAsPromised } from '../services/BlobServiceAsPromised.js';
-import { BlobService, Constants } from 'azure-storage';
-import { isStorageError, toBlobName } from '../utils.js';
+import { toBlobName } from '../utils.js';
 import * as schema from 'mutation-testing-report-schema';
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
-import { OptimisticConcurrencyError } from '../errors/index.js';
-
-const additionalErrorCodes = Object.freeze({
-  BLOB_HAS_BEEN_MODIFIED: 'BlobHasBeenModified',
-});
+import { BlobServiceClient } from '@azure/storage-blob'
+import { buffer } from 'node:stream/consumers';
 
 /**
  * The report json part of a mutation testing report is stored in blob storage
@@ -15,77 +10,54 @@ const additionalErrorCodes = Object.freeze({
 export class MutationTestingResultMapper {
   private static readonly CONTAINER_NAME = 'mutation-testing-report';
 
-  constructor(
-    private readonly blobService: BlobServiceAsPromised = new BlobServiceAsPromised()
-  ) {}
+  #blobService: BlobServiceClient;
 
-  public createStorageIfNotExists(): Promise<BlobService.ContainerResult> {
-    return this.blobService.createContainerIfNotExists(
-      MutationTestingResultMapper.CONTAINER_NAME,
-      {}
-    );
+  constructor(blobService = BlobServiceClient.fromConnectionString(process.env["AZURE_STORAGE_CONNECTION_STRING"]!)) {
+    this.#blobService = blobService;
+  }
+
+  public async createStorageIfNotExists() {
+    await this.#blobService
+      .getContainerClient(MutationTestingResultMapper.CONTAINER_NAME)
+      .createIfNotExists();
   }
 
   public async insertOrReplace(
-    id: ReportIdentifier,
+    identifier: ReportIdentifier,
     result: schema.MutationTestResult | null
   ) {
     try {
-      await this.blobService.createBlockBlobFromText(
-        MutationTestingResultMapper.CONTAINER_NAME,
-        toBlobName(id),
-        JSON.stringify(result),
-        {
-          contentSettings: {
-            contentType: 'application/json',
-            contentEncoding: 'utf8',
-          },
-        }
-      );
+      const data = JSON.stringify(result);
+      await this.#blobService
+        .getContainerClient(MutationTestingResultMapper.CONTAINER_NAME)
+        .getBlockBlobClient(toBlobName(identifier))
+        .upload(data, data.length);
+
     } catch (err) {
-      if (
-        isStorageError(err) &&
-        err.code === additionalErrorCodes.BLOB_HAS_BEEN_MODIFIED
-      ) {
-        throw new OptimisticConcurrencyError(
-          `Blob "${JSON.stringify(id)}" was modified by another process`
-        );
-      } else {
-        throw err; // Oops
-      }
+      throw err;
     }
   }
 
   public async findOne(
     identifier: ReportIdentifier
   ): Promise<schema.MutationTestResult | null> {
-    const blobName = toBlobName(identifier);
     try {
-      const result: schema.MutationTestResult = JSON.parse(
-        await this.blobService.blobToText(
-          MutationTestingResultMapper.CONTAINER_NAME,
-          blobName
-        )
-      );
-      return result;
+      const response = await this.#blobService
+        .getContainerClient(MutationTestingResultMapper.CONTAINER_NAME)
+        .getBlockBlobClient(toBlobName(identifier))
+        .download();
+      const body = (await buffer(response.readableStreamBody!)).toString();
+
+      return JSON.parse(body);
     } catch (error) {
-      if (
-        isStorageError(error) &&
-        error.code === Constants.BlobErrorCodeStrings.BLOB_NOT_FOUND
-      ) {
-        return null;
-      } else {
-        // Oops
-        throw error;
-      }
+      throw error;
     }
   }
 
-  public async delete(id: ReportIdentifier): Promise<void> {
-    const blobName = toBlobName(id);
-    await this.blobService.deleteBlobIfExists(
-      MutationTestingResultMapper.CONTAINER_NAME,
-      blobName
-    );
+  public async delete(id: ReportIdentifier) {
+    await this.#blobService
+      .getContainerClient(MutationTestingResultMapper.CONTAINER_NAME)
+      .getBlockBlobClient(toBlobName(id))
+      .deleteIfExists();
   }
 }

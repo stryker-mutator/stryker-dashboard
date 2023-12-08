@@ -1,35 +1,35 @@
 import { ModelClass } from './ModelClass.js';
-import { TableQuery } from 'azure-storage';
+import { odata } from "@azure/data-tables"
 import { encodeKey } from '../utils.js';
-
-interface WhereCondition {
-  condition: string;
-  params: unknown[];
-}
 
 export class DashboardQuery<
   TModel,
   TPartitionKeyFields extends keyof TModel,
   TRowKeyFields extends keyof TModel
 > {
-  private constructor(
-    protected ModelClass: ModelClass<
-      TModel,
-      TPartitionKeyFields,
-      TRowKeyFields
-    >,
-    private readonly whereConditions: WhereCondition[]
-  ) {}
+  #modelClass: ModelClass<
+    TModel,
+    TPartitionKeyFields,
+    TRowKeyFields
+  >;
+  #whereConditions: string[]
+
+  private constructor(modelClass: ModelClass<
+    TModel,
+    TPartitionKeyFields,
+    TRowKeyFields
+  >, whereConditions: string[]) {
+    this.#modelClass = modelClass;
+    this.#whereConditions = whereConditions;
+  }
 
   public whereRowKeyNotEquals(
     rowKey: Pick<TModel, TRowKeyFields>
   ): DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> {
-    const whereCondition: WhereCondition = {
-      condition: 'not(RowKey eq ?)',
-      params: [encodeKey(this.ModelClass.createRowKey(rowKey) || '')],
-    };
-    return new DashboardQuery(this.ModelClass, [
-      ...this.whereConditions,
+    // TODO: not(Rowkey eq 'bla') could also be Rowkey ne 'bla'
+    const whereCondition = odata`not(RowKey eq ${encodeKey(this.#modelClass.createRowKey(rowKey) || '')})`;
+    return new DashboardQuery(this.#modelClass, [
+      ...this.#whereConditions,
       whereCondition,
     ]);
   }
@@ -37,12 +37,9 @@ export class DashboardQuery<
   public wherePartitionKeyEquals(
     partitionKey: Pick<TModel, TPartitionKeyFields>
   ): DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> {
-    const whereCondition: WhereCondition = {
-      condition: 'PartitionKey eq ?',
-      params: [encodeKey(this.ModelClass.createPartitionKey(partitionKey))],
-    };
-    return new DashboardQuery(this.ModelClass, [
-      ...this.whereConditions,
+    const whereCondition = odata`PartitionKey eq ${encodeKey(this.#modelClass.createPartitionKey(partitionKey))}`
+    return new DashboardQuery(this.#modelClass, [
+      ...this.#whereConditions,
       whereCondition,
     ]);
   }
@@ -57,16 +54,13 @@ export class DashboardQuery<
     return new DashboardQuery(ModelClass, []);
   }
 
-  public build(): TableQuery {
-    return this.whereConditions.reduce((tableQuery, whereCondition, index) => {
+  public build(): string {
+    return this.#whereConditions.reduce((query, whereCondition, index) => {
       if (index === 0) {
-        return tableQuery.where(
-          whereCondition.condition,
-          ...whereCondition.params
-        );
+        return whereCondition;
       } else {
-        return tableQuery.and(whereCondition.condition, whereCondition.params);
+        return `${query} and ${whereCondition}`;
       }
-    }, new TableQuery());
+    }, '');
   }
 }

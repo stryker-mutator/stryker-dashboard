@@ -29,6 +29,10 @@ async function startServer() {
 }
 
 async function run() {
+  // TODO: https://github.com/Azure/azure-sdk-for-js/issues/27813
+  // Blob storage sdk does not support HTTP - which makes local development a bit annoying...
+  // Note: this absolutely won't be release on production like this! This is currently needed because I am using a self-signed certificate for HTTPS traffic (local)
+  process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = "0";
   try {
     await ensureDatabaseExists();
     await startServer();

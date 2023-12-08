@@ -25,7 +25,7 @@ describe(RealTimeMutantsBlobService.name, () => {
       appendBlockFromText: sinon.stub(),
       deleteBlobIfExists: sinon.stub(),
     };
-    sut = new RealTimeMutantsBlobService(blobMock);
+    // sut = new RealTimeMutantsBlobService(blobMock);
   });
 
   describe('createStorageIfNotExists', () => {

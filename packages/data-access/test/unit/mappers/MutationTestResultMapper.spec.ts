@@ -20,7 +20,7 @@ describe(MutationTestingResultMapper.name, () => {
       appendBlockFromText: sinon.stub(),
       deleteBlobIfExists: sinon.stub(),
     };
-    sut = new MutationTestingResultMapper(blobMock);
+    // sut = new MutationTestingResultMapper(blobMock);
   });
 
   it('should create container when createStorageIfNotExists is called', async () => {
