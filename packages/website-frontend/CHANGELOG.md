@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.4](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.13.3...v0.13.4) (2023-12-08)
+
+### Bug Fixes
+
+- **website-frontend:** visual bug when scrolling in report ([#412](https://github.com/stryker-mutator/stryker-dashboard/issues/412)) ([0bf5fbc](https://github.com/stryker-mutator/stryker-dashboard/commit/0bf5fbc945b1943ba72812ed172c768f0a034419))
+
 ## [0.13.3](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.13.2...v0.13.3) (2023-11-24)
 
 ### Bug Fixes
