@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { MutationEventSender } from '../../../../src/services/real-time/MutationEventSender.js';
 import { ServerResponse } from 'http';
-import { MutantResult, MutantStatus } from 'mutation-testing-report-schema';
+import { MutantResult } from 'mutation-testing-report-schema';
 
 describe(MutationEventSender.name, () => {
   let responseMock: sinon.SinonStubbedInstance<ServerResponse>;
@@ -28,7 +28,7 @@ describe(MutationEventSender.name, () => {
   it('should write correctly when sending a mutant-tested event', () => {
     const mutant: Partial<MutantResult> = {
       id: '1',
-      status: MutantStatus.Pending,
+      status: 'Pending',
     };
 
     sut.sendMutantTested(mutant);

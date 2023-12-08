@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { ReportValidator } from '../../../src/services/ReportValidator.js';
-import { MutantStatus } from 'mutation-testing-report-schema';
+import { MutantResult } from 'mutation-testing-report-schema/api';
 
 describe(ReportValidator.name, () => {
   let sut: ReportValidator;
@@ -11,9 +11,9 @@ describe(ReportValidator.name, () => {
 
   describe('validateMutants', () => {
     it('should validate partial mutants correctly', () => {
-      const payload = [
-        { id: '1', status: MutantStatus.Killed },
-        { id: '2', status: MutantStatus.Survived },
+      const payload: Partial<MutantResult>[] = [
+        { id: '1', status: 'Killed' },
+        { id: '2', status: 'Survived' },
       ];
 
       const errors = sut.validateMutants(payload);
@@ -30,9 +30,9 @@ describe(ReportValidator.name, () => {
     });
 
     it('should error when not all mutants have all required properties', () => {
-      const payload = [
-        { id: '1', status: MutantStatus.Killed },
-        { id: '2', status: MutantStatus.Survived },
+      const payload: Partial<MutantResult>[] = [
+        { id: '1', status: 'Killed' },
+        { id: '2', status: 'Survived' },
         { id: '3' },
       ];
 

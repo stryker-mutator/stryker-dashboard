@@ -1,7 +1,4 @@
-import {
-  MutantStatus,
-  MutationTestResult,
-} from 'mutation-testing-report-schema';
+import { MutationTestResult } from 'mutation-testing-report-schema';
 
 export interface MutationScoreOnlyResult {
   mutationScore: number;
@@ -30,5 +27,5 @@ export function isMutationTestResult(
 export function isPendingReport(report: MutationTestResult) {
   return Object.values(report.files)
     .flatMap((file) => file.mutants)
-    .some((mutant) => mutant.status === MutantStatus.Pending);
+    .some((mutant) => mutant.status === 'Pending');
 }

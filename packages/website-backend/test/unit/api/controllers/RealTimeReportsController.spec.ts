@@ -13,7 +13,6 @@ import { expect } from 'chai';
 import MutationEventResponseOrchestrator from '../../../../src/services/real-time/MutationEventResponseOrchestrator.js';
 import { MutationEventResponseHandler } from '../../../../src/services/real-time/MutationEventResponseHandler.js';
 import utils from '../../../../src/utils.js';
-import { MutantStatus } from 'mutation-testing-report-schema';
 import { createMutationTestResult } from '../../../helpers/mutants.js';
 
 describe(RealTimeReportsController.name, () => {
@@ -108,8 +107,8 @@ describe(RealTimeReportsController.name, () => {
       });
       dataAccess.blobService.getReport.returns(
         Promise.resolve([
-          { id: '1', status: MutantStatus.Killed },
-          { id: '2', status: MutantStatus.Survived },
+          { id: '1', status: 'Killed' },
+          { id: '2', status: 'Survived' },
         ])
       );
 
@@ -172,13 +171,13 @@ describe(RealTimeReportsController.name, () => {
       await request
         .post('/api/real-time/github.com/user/does-not-exist/master')
         .set('X-Api-Key', apiKey)
-        .send([{ id: '1', status: MutantStatus.Killed }])
+        .send([{ id: '1', status: 'Killed' }])
         .expect(200);
 
       expect(responseHandlerForProjectStub.calledOnce).to.be.true;
       expect(serverStub.sendMutantTested.firstCall.firstArg).to.deep.include({
         id: '1',
-        status: MutantStatus.Killed,
+        status: 'Killed',
       });
     });
   });
@@ -187,7 +186,7 @@ describe(RealTimeReportsController.name, () => {
     it('should respond with 200 when uploading a report that is in-progress', async () => {
       // Arrange
       const mutationTestResult = createMutationTestResult();
-      mutationTestResult.files['a.js'].mutants[0].status = MutantStatus.Pending;
+      mutationTestResult.files['a.js'].mutants[0].status = 'Pending';
 
       // Act
       const response = await request
@@ -212,7 +211,7 @@ describe(RealTimeReportsController.name, () => {
     it('should create a blob', async () => {
       // Arrange
       const mutationTestResult = createMutationTestResult();
-      mutationTestResult.files['a.js'].mutants[0].status = MutantStatus.Pending;
+      mutationTestResult.files['a.js'].mutants[0].status = 'Pending';
 
       // Act
       await request

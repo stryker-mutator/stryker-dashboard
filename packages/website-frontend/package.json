@@ -31,9 +31,9 @@
     "@stryker-mutator/dashboard-contract": "0.13.4",
     "@stryker-mutator/stryker-elements": "0.13.4",
     "bootstrap": "~5.2.0",
-    "mutation-testing-elements": "2.0.1",
-    "mutation-testing-metrics": "2.0.1",
-    "mutation-testing-report-schema": "2.0.1",
+    "mutation-testing-elements": "3.0.1",
+    "mutation-testing-metrics": "3.0.0",
+    "mutation-testing-report-schema": "3.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.4.0",
     "zone.js": "~0.11.5"

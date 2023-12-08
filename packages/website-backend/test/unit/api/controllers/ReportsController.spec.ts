@@ -6,7 +6,6 @@ import {
   Project,
   ProjectMapper,
 } from '@stryker-mutator/dashboard-data-access';
-import { MutantStatus } from 'mutation-testing-report-schema';
 import { expect } from 'chai';
 import utils from '../../../../src/utils.js';
 import { Report } from '@stryker-mutator/dashboard-common';
@@ -137,10 +136,7 @@ describe(ReportsController.name, () => {
 
     it('should save the expected report', async () => {
       // Arrange
-      const body = createMutationTestResult([
-        MutantStatus.Killed,
-        MutantStatus.Survived,
-      ]);
+      const body = createMutationTestResult(['Killed', 'Survived']);
       const expectedId = {
         projectName: 'github.com/testOrg/testName',
         version: 'feat/dashboard',
@@ -250,7 +246,7 @@ describe(ReportsController.name, () => {
     it('should respond with 400 when uploading a report that is in-progress', async () => {
       // Arrange
       const mutationTestResult = createMutationTestResult();
-      mutationTestResult.files['a.js'].mutants[0].status = MutantStatus.Pending;
+      mutationTestResult.files['a.js'].mutants[0].status = 'Pending';
 
       // Act
       const response = await request

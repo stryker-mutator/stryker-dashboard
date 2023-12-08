@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { MutantStatus } from 'mutation-testing-report-schema';
 import sinon from 'sinon';
 import { MutationTestingReport } from '../../../src/models/index.js';
 import {
@@ -54,9 +53,7 @@ describe(MutationTestingReportService.name, () => {
     it('should update the expected report using the score from metrics', async () => {
       // Arrange
       const expectedResult = createMutationTestResult(
-        createFileResultDictionary(
-          createFileResult([MutantStatus.Killed, MutantStatus.Survived])
-        )
+        createFileResultDictionary(createFileResult(['Killed', 'Survived']))
       );
       const reportIdentifier = {
         version: 'feat/dashboard',
@@ -142,10 +139,10 @@ describe(MutationTestingReportService.name, () => {
         const projectName = 'github.com/testOrg/testName';
         const version = 'feat/something';
         const coreResult = createMutationTestResult({
-          'a/b': createFileResult([MutantStatus.Killed]),
+          'a/b': createFileResult(['Killed']),
         });
         const apiResult = createMutationTestResult({
-          'a/b': createFileResult([MutantStatus.NoCoverage]),
+          'a/b': createFileResult(['NoCoverage']),
         });
         const coreReport: MutationTestingReport = {
           moduleName: 'core',
@@ -206,7 +203,7 @@ describe(MutationTestingReportService.name, () => {
         const projectName = 'github.com/testOrg/testName';
         const version = 'feat/something';
         const moduleResult = createMutationTestResult({
-          'a/b': createFileResult([MutantStatus.Killed]),
+          'a/b': createFileResult(['Killed']),
         });
         const moduleReport: MutationTestingReport = {
           moduleName: 'core',
@@ -275,7 +272,7 @@ describe(MutationTestingReportService.name, () => {
         const projectName = 'github.com/testOrg/testName';
         const version = 'feat/something';
         const moduleResult = createMutationTestResult({
-          'a/b': createFileResult([MutantStatus.Killed]),
+          'a/b': createFileResult(['Killed']),
         });
         const moduleReport: MutationTestingReport = {
           moduleName: 'core',

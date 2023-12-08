@@ -3,7 +3,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import sinon from 'sinon';
 
 import { MutationEventResponseHandler } from '../../../../src/services/real-time/MutationEventResponseHandler.js';
-import { MutantResult, MutantStatus } from 'mutation-testing-report-schema';
+import { MutantResult } from 'mutation-testing-report-schema';
 import Configuration from '../../../../src/services/Configuration.js';
 import { expect } from 'chai';
 import { Socket } from 'net';
@@ -11,7 +11,7 @@ import { Socket } from 'net';
 describe(MutationEventResponseHandler.name, () => {
   const data: Partial<MutantResult> = {
     id: '1',
-    status: MutantStatus.Killed,
+    status: 'Killed',
     location: {
       start: { line: 1, column: 2 },
       end: { line: 1, column: 2 },
