@@ -1,15 +1,18 @@
 import { expect } from 'chai';
 import passport from 'passport';
-import supertest from 'supertest';
+import request from 'supertest';
 import * as sinon from 'sinon';
-import { PlatformTest } from '@tsed/common';
-import Server from '../../../../src/Server.js';
-import { createToken } from '../../../helpers/TestServer.js';
-import { githubFactory } from '../../../helpers/producers.js';
-import * as github from '../../../../src/github/models.js';
+import * as github from '../../../src/github/models.js';
+import { githubFactory } from '../../helpers/producers.js';
+import { config, createToken } from '../../helpers/TestServer.js';
+import { Test } from '@nestjs/testing';
+import { AppModule } from '../../../src/app.module.js';
+import { INestApplication } from '@nestjs/common';
+import Configuration from '../../../src/services/Configuration.js';
+import AuthController from '../../../src/controllers/auth.controller.js';
 
-describe('GitHubAuth', () => {
-  let request: supertest.SuperTest<supertest.Test>;
+describe(AuthController.name, () => {
+  let app: INestApplication;
   let logoutStub: sinon.SinonStub;
   let authenticateStub: sinon.SinonStubbedMember<typeof passport.authenticate>;
   let authenticateMiddleware: sinon.SinonStub;
@@ -27,8 +30,17 @@ describe('GitHubAuth', () => {
       next();
     };
     authenticateMiddleware.callsFake(passThroughMiddleware);
-    await PlatformTest.bootstrap(Server)();
-    request = supertest(PlatformTest.callback());
+
+    const moduleRef = await Test.createTestingModule({
+      imports: [AppModule],
+    })
+      .overrideProvider(Configuration)
+      .useValue(config)
+      .compile();
+
+    app = moduleRef.createNestApplication();
+    app.setGlobalPrefix('/api');
+    await app.init();
   });
 
   describe('POST /auth/github', () => {
@@ -37,10 +49,12 @@ describe('GitHubAuth', () => {
       const token = await createToken(user);
 
       // Act
-      const onGoingRequest = request.post('/api/auth/github?code=foo');
+      const onGoingRequest = request(app.getHttpServer()).post(
+        '/api/auth/github?code=foo'
+      );
 
       // Assert
-      const response = await onGoingRequest.expect(200);
+      const response = await onGoingRequest.expect(201);
       expect(response.body).deep.eq({ jwt: token });
     });
   });

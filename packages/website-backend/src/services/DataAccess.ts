@@ -1,4 +1,4 @@
-import { Service } from '@tsed/common';
+import { Injectable } from '@nestjs/common';
 import {
   ProjectMapper,
   createProjectMapper,
@@ -6,7 +6,7 @@ import {
   RealTimeMutantsBlobService,
 } from '@stryker-mutator/dashboard-data-access';
 
-@Service()
+@Injectable()
 export default class DataAccess {
   public readonly repositoryMapper: ProjectMapper;
   public readonly mutationTestingReportService: MutationTestingReportService;

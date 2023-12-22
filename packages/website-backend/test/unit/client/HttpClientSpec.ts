@@ -1,5 +1,5 @@
 import HttpClient, { Response } from '../../../src/client/HttpClient.js';
-import utils from '../../../src/utils.js';
+import utils from '../../../src/utils/utils.js';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import fetch, { Response as NodeFetchResponse, Headers } from 'node-fetch';

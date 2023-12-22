@@ -1,13 +1,12 @@
+import { Authentication } from '../github/models.js';
+import Configuration from '../services/Configuration.js';
+import { Injectable, NestMiddleware, Next, Req, Res } from '@nestjs/common';
 import debug from 'debug';
+import { NextFunction, Request, Response } from 'express';
 import { expressjwt } from 'express-jwt';
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import { Strategy } from 'passport-github2';
-import express from 'express';
-
-import Configuration from '../services/Configuration.js';
-import { Authentication } from '../github/models.js';
-import { Middleware, Req, Res, Next, MiddlewareMethods } from '@tsed/common';
 
 export const githubStrategy = (config: Configuration): Strategy => {
   const options = {
@@ -33,9 +32,10 @@ export const githubStrategy = (config: Configuration): Strategy => {
   return new Strategy(options, callback);
 };
 
-@Middleware()
-export class GithubSecurityMiddleware implements MiddlewareMethods {
+@Injectable()
+export class GithubSecurityMiddleware implements NestMiddleware {
   private readonly requestHandler: ReturnType<typeof expressjwt>;
+
   constructor(configuration: Configuration) {
     this.requestHandler = expressjwt({
       getToken(req) {
@@ -55,9 +55,9 @@ export class GithubSecurityMiddleware implements MiddlewareMethods {
   }
 
   public use(
-    @Req() request: express.Request,
-    @Res() response: express.Response,
-    @Next() next: express.NextFunction
+    @Req() request: Request,
+    @Res() response: Response,
+    @Next() next: NextFunction
   ) {
     this.requestHandler(request, response, next);
   }
@@ -85,9 +85,9 @@ export const createToken = (
 };
 
 export function passportAuthenticateGithub(
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) {
   return passport.authenticate('github', { session: false })(req, res, next);
 }

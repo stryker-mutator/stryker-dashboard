@@ -1,5 +1,3 @@
-import '@tsed/platform-express';
-import { OverrideProvider } from '@tsed/di';
 import * as dal from '@stryker-mutator/dashboard-data-access';
 import * as github from '../../src/github/models.js';
 import jwt from 'jsonwebtoken';
@@ -7,7 +5,6 @@ import Configuration from '../../src/services/Configuration.js';
 import DataAccess from '../../src/services/DataAccess.js';
 import sinon from 'sinon';
 import { ProjectMapper } from '@stryker-mutator/dashboard-data-access';
-import MutationEventResponseOrchestrator from '../../src/services/real-time/MutationEventResponseOrchestrator.js';
 
 export function createToken(user: github.Authentication): Promise<string> {
   return new Promise<string>((resolve, reject) => {
@@ -45,7 +42,6 @@ export const config: Configuration = {
   cors: '*',
 };
 
-@OverrideProvider(Configuration)
 export class ConfigurationStub implements Configuration {
   constructor() {
     this.githubClientId = config.githubClientId;
@@ -67,7 +63,6 @@ type IDataAccessMock = {
   [Prop in keyof DataAccess]: sinon.SinonStubbedInstance<DataAccess[Prop]>;
 };
 
-@OverrideProvider(DataAccess)
 export class DataAccessMock implements IDataAccessMock {
   repositoryMapper: sinon.SinonStubbedInstance<ProjectMapper> = {
     createStorageIfNotExists: sinon.stub(),
@@ -83,7 +78,6 @@ export class DataAccessMock implements IDataAccessMock {
   blobService = sinon.createStubInstance(dal.RealTimeMutantsBlobService);
 }
 
-@OverrideProvider(MutationEventResponseOrchestrator)
 export class MutationEventResponseOrchestratorMock {
   createOrGetResponseHandler = sinon.stub();
   removeResponseHandler = sinon.stub();

@@ -1,24 +1,28 @@
-import supertest from 'supertest';
-import RealTimeReportsController from '../../../../src/api/RealTimeReportsController.js';
-import { PlatformTest } from '@tsed/common';
-import Server from '../../../../src/Server.js';
+import request from 'supertest';
 import sinon from 'sinon';
 import { Project } from '@stryker-mutator/dashboard-data-access';
+import { expect } from 'chai';
+import RealTimeReportsController from '../../../src/controllers/real-time-reports.controller.js';
+import { INestApplication } from '@nestjs/common';
+import MutationEventResponseOrchestrator from '../../../src/services/real-time/MutationEventResponseOrchestrator.js';
 import {
   DataAccessMock,
   MutationEventResponseOrchestratorMock,
-} from '../../../helpers/TestServer.js';
-import DataAccess from '../../../../src/services/DataAccess.js';
-import { expect } from 'chai';
-import MutationEventResponseOrchestrator from '../../../../src/services/real-time/MutationEventResponseOrchestrator.js';
-import { MutationEventResponseHandler } from '../../../../src/services/real-time/MutationEventResponseHandler.js';
-import utils from '../../../../src/utils.js';
-import { createMutationTestResult } from '../../../helpers/mutants.js';
+  config,
+} from '../../helpers/TestServer.js';
+import { Test } from '@nestjs/testing';
+import { AppModule } from '../../../src/app.module.js';
+import Configuration from '../../../src/services/Configuration.js';
+import DataAccess from '../../../src/services/DataAccess.js';
+import utils from '../../../src/utils/utils.js';
+import { MutationEventResponseHandler } from '../../../src/services/real-time/MutationEventResponseHandler.js';
+import { createMutationTestResult } from '../../helpers/mutants.js';
+import { IncomingMessage, ServerResponse } from 'http';
 
 describe(RealTimeReportsController.name, () => {
   const apiKey = '1346';
 
-  let request: supertest.SuperTest<supertest.Test>;
+  let app: INestApplication;
   let dataAccess: DataAccessMock;
   let removeResponseHandlerStub: sinon.SinonStubbedMember<
     MutationEventResponseOrchestrator['removeResponseHandler']
@@ -29,16 +33,26 @@ describe(RealTimeReportsController.name, () => {
   let project: Project;
 
   beforeEach(async () => {
-    await PlatformTest.bootstrap(Server)();
-    request = supertest(PlatformTest.callback());
+    const moduleRef = await Test.createTestingModule({
+      imports: [AppModule],
+    })
+      .overrideProvider(Configuration)
+      .useValue(config)
+      .overrideProvider(DataAccess)
+      .useValue(new DataAccessMock())
+      .overrideProvider(MutationEventResponseOrchestrator)
+      .useValue(new MutationEventResponseOrchestratorMock())
+      .compile();
 
-    dataAccess = PlatformTest.get<DataAccessMock>(DataAccess);
+    app = moduleRef.createNestApplication();
+    app.setGlobalPrefix('/api');
+
+    dataAccess = app.get<DataAccessMock>(DataAccess);
     dataAccess.blobService.getReport.returns(Promise.resolve([]));
 
-    const orchestrator =
-      PlatformTest.get<MutationEventResponseOrchestratorMock>(
-        MutationEventResponseOrchestrator
-      );
+    const orchestrator = app.get<MutationEventResponseOrchestratorMock>(
+      MutationEventResponseOrchestrator
+    );
 
     removeResponseHandlerStub =
       orchestrator.removeResponseHandler as sinon.SinonStubbedMember<
@@ -58,13 +72,15 @@ describe(RealTimeReportsController.name, () => {
       model: project,
       etag: 'etag',
     });
+
+    await app.init();
   });
 
   describe('HTTP GET /*', () => {
     it('should return not found when project does not exist', async () => {
       dataAccess.mutationTestingReportService.findOne.resolves(null);
 
-      const response = await request.get(
+      const response = await request(app.getHttpServer()).get(
         '/api/real-time/github.com/user/does-not-exist/master'
       );
 
@@ -73,6 +89,10 @@ describe(RealTimeReportsController.name, () => {
 
     it('should attach itself to the response if the project has been found', async () => {
       const stub = sinon.createStubInstance(MutationEventResponseHandler);
+      stub.add.restore();
+      sinon.stub(stub, 'add').callsFake((res) => {
+        res.end();
+      });
       responseHandlerForProjectStub.returns(stub);
       dataAccess.mutationTestingReportService.findOne.resolves({
         files: {},
@@ -84,7 +104,7 @@ describe(RealTimeReportsController.name, () => {
         mutationScore: 89,
       });
 
-      const response = await request.get(
+      const response = await request(app.getHttpServer()).get(
         '/api/real-time/github.com/user/does-not-exist/master'
       );
 
@@ -94,7 +114,19 @@ describe(RealTimeReportsController.name, () => {
     });
 
     it('should get events and replay them', async () => {
+      let capturedResponse: ServerResponse<IncomingMessage>;
       const stub = sinon.createStubInstance(MutationEventResponseHandler);
+      stub.add.restore();
+      stub.sendMutantTested.restore();
+      sinon.stub(stub, 'add').callsFake((res) => {
+        capturedResponse = res.end();
+      });
+      sinon
+        .stub(stub, 'sendMutantTested')
+        .onCall(1)
+        .callsFake(() => {
+          capturedResponse.end();
+        });
       responseHandlerForProjectStub.returns(stub);
       dataAccess.mutationTestingReportService.findOne.resolves({
         files: {},
@@ -112,7 +144,9 @@ describe(RealTimeReportsController.name, () => {
         ])
       );
 
-      await request.get('/api/real-time/github.com/user/does-not-exist/master');
+      await request(app.getHttpServer()).get(
+        '/api/real-time/github.com/user/does-not-exist/master'
+      );
 
       expect(dataAccess.blobService.getReport).calledWith({
         projectName: 'github.com/user/does-not-exist',
@@ -133,7 +167,7 @@ describe(RealTimeReportsController.name, () => {
     });
 
     it('should return unauthorized if the `X-Api-key` header is not set', async () => {
-      const response = await request.post(
+      const response = await request(app.getHttpServer()).post(
         '/api/real-time/github.com/user/does-exist/master'
       );
 
@@ -141,18 +175,18 @@ describe(RealTimeReportsController.name, () => {
     });
 
     it('shoud not send any event if no mutant is sent', async () => {
-      await request
+      await request(app.getHttpServer())
         .post('/api/real-time/github.com/user/does-not-exist/master')
         .set('X-Api-Key', apiKey)
         .send([])
-        .expect(200);
+        .expect(201);
 
       expect(responseHandlerForProjectStub.calledOnce).to.be.true;
       expect(serverStub.sendMutantTested.notCalled).to.be.true;
     });
 
     it('should return a bad request if null is sent', async () => {
-      await request
+      await request(app.getHttpServer())
         .post('/api/real-time/github.com/user/does-not-exist/master')
         .set('X-Api-Key', apiKey)
         .send(null as unknown as undefined) // trust me
@@ -160,7 +194,7 @@ describe(RealTimeReportsController.name, () => {
     });
 
     it('should return a bad request if undefined is sent', async () => {
-      await request
+      await request(app.getHttpServer())
         .post('/api/real-time/github.com/user/does-not-exist/master')
         .set('X-Api-Key', apiKey)
         .send(undefined)
@@ -168,11 +202,11 @@ describe(RealTimeReportsController.name, () => {
     });
 
     it('should send a mutant tested event', async () => {
-      await request
+      await request(app.getHttpServer())
         .post('/api/real-time/github.com/user/does-not-exist/master')
         .set('X-Api-Key', apiKey)
         .send([{ id: '1', status: 'Killed' }])
-        .expect(200);
+        .expect(201);
 
       expect(responseHandlerForProjectStub.calledOnce).to.be.true;
       expect(serverStub.sendMutantTested.firstCall.firstArg).to.deep.include({
@@ -189,7 +223,7 @@ describe(RealTimeReportsController.name, () => {
       mutationTestResult.files['a.js'].mutants[0].status = 'Pending';
 
       // Act
-      const response = await request
+      const response = await request(app.getHttpServer())
         .put(
           '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
         )
@@ -214,7 +248,7 @@ describe(RealTimeReportsController.name, () => {
       mutationTestResult.files['a.js'].mutants[0].status = 'Pending';
 
       // Act
-      await request
+      await request(app.getHttpServer())
         .put('/api/real-time/github.com/testOrg/testName/main?module=logging')
         .set('X-Api-Key', apiKey)
         .send(mutationTestResult);
@@ -230,7 +264,7 @@ describe(RealTimeReportsController.name, () => {
 
     it('should return a 400 if the report is invalid', async () => {
       // Act
-      const response = await request
+      const response = await request(app.getHttpServer())
         .put('/api/real-time/github.com/testOrg/testName/main?module=logging')
         .set('X-Api-Key', apiKey)
         .send({ my: 'invalid', keys: true });
@@ -244,7 +278,7 @@ describe(RealTimeReportsController.name, () => {
       const report = createMutationTestResult();
 
       // Act
-      const response = await request
+      const response = await request(app.getHttpServer())
         .put('/api/real-time/github.com/testOrg/testName/main?module=logging')
         .set('X-Api-Key', apiKey)
         .send(report);
@@ -260,7 +294,7 @@ describe(RealTimeReportsController.name, () => {
       const report = createMutationTestResult();
 
       // Act
-      const response = await request
+      const response = await request(app.getHttpServer())
         .put('/api/real-time/github.com/testOrg/testName/main')
         .set('X-Api-Key', apiKey)
         .send(report);
@@ -274,7 +308,7 @@ describe(RealTimeReportsController.name, () => {
 
   describe('HTTP DELETE /*', () => {
     it('should return unauthorized when header is not present', async () => {
-      const response = await request.delete(
+      const response = await request(app.getHttpServer()).delete(
         '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
       );
 
@@ -283,7 +317,7 @@ describe(RealTimeReportsController.name, () => {
     });
 
     it('should return unauthorized if ApiKey is invalid', async () => {
-      const response = await request
+      const response = await request(app.getHttpServer())
         .delete(
           '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
         )
@@ -295,7 +329,7 @@ describe(RealTimeReportsController.name, () => {
     it('should send a finished event', async () => {
       const stub = sinon.createStubInstance(MutationEventResponseHandler);
       responseHandlerForProjectStub.returns(stub);
-      const response = await request
+      const response = await request(app.getHttpServer())
         .delete(
           '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
         )
@@ -316,7 +350,7 @@ describe(RealTimeReportsController.name, () => {
     it('should delete both blobs', async () => {
       const stub = sinon.createStubInstance(MutationEventResponseHandler);
       responseHandlerForProjectStub.returns(stub);
-      await request
+      await request(app.getHttpServer())
         .delete(
           '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
         )

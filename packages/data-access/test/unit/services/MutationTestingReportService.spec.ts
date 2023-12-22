@@ -29,7 +29,7 @@ describe(MutationTestingReportService.name, () => {
   beforeEach(() => {
     logger = {
       debug: sinon.stub(),
-      info: sinon.stub(),
+      log: sinon.stub(),
       warn: sinon.stub(),
       error: sinon.stub(),
     };
@@ -260,7 +260,7 @@ describe(MutationTestingReportService.name, () => {
           expectedMutationTestingReport,
           'new-project-etag'
         );
-        expect(logger.info).calledWith({
+        expect(logger.log).calledWith({
           message: `Optimistic concurrency exception occurred while trying to aggregate the report ${JSON.stringify(
             expectedProjectId
           )}, retrying...`,

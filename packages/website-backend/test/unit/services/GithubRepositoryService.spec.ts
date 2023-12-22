@@ -5,13 +5,13 @@ import * as github from '../../../src/github/models.js';
 import GithubAgent from '../../../src/github/GithubAgent.js';
 import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
 import { expect } from 'chai';
-import { HTTPException } from 'ts-httpexceptions';
 import sinon from 'sinon';
 import {
   DashboardQuery,
   Project,
 } from '@stryker-mutator/dashboard-data-access';
 import { DataAccessMock } from '../../helpers/TestServer.js';
+import { HttpException } from '@nestjs/common';
 
 describe('GithubRepositoryService.js', () => {
   let githubAgentMock: sinon.SinonStubbedInstance<GithubAgent>;
@@ -135,8 +135,8 @@ describe('GithubRepositoryService.js', () => {
         await sut.update(githubFactory.authentication(), '', '', true);
         expect.fail('Should have thrown');
       } catch (err) {
-        const httpError = err as HTTPException;
-        expect(httpError.status).eq(401);
+        const httpError = err as HttpException;
+        expect(httpError.getStatus()).eq(401);
         expect(httpError.message).eq(
           `Permission denied. foobar does not have enough permissions for resource / (was "push": false).`
         );

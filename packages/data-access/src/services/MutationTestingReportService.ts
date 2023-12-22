@@ -68,7 +68,7 @@ export class MutationTestingReportService {
     };
 
     while (!(await this.tryAggregateProjectReport(id))) {
-      logger.info({
+      logger.log({
         message: `Optimistic concurrency exception occurred while trying to aggregate the report ${JSON.stringify(
           id
         )}, retrying...`,

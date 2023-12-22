@@ -1,43 +1,36 @@
-import {
-  BodyParams,
-  Context,
-  Delete,
-  Get,
-  HeaderParams,
-  PlatformContext,
-  Post,
-  Put,
-  QueryParams,
-  Req,
-  Res,
-  Response,
-} from '@tsed/common';
-import { Controller } from '@tsed/di';
-import { Request } from 'express';
 import { MutantResult } from '@stryker-mutator/api/core';
-import {
-  Logger,
-  ReportIdentifier,
-  Slug,
-} from '@stryker-mutator/dashboard-common';
+import { ReportIdentifier, Slug } from '@stryker-mutator/dashboard-common';
 import DataAccess from '../services/DataAccess.js';
 import {
   MutationTestingReportService,
   RealTimeMutantsBlobService,
 } from '@stryker-mutator/dashboard-data-access';
 import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
-import {
-  BadRequest,
-  InternalServerError,
-  NotFound,
-  Unauthorized,
-} from 'ts-httpexceptions';
 import MutationEventResponseOrchestrator from '../services/real-time/MutationEventResponseOrchestrator.js';
 import { MutationTestResult } from 'mutation-testing-report-schema';
-import { parseSlug } from './util.js';
 import { ReportValidator } from '../services/ReportValidator.js';
 import { PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import Configuration from '../services/Configuration.js';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Headers,
+  HttpException,
+  HttpStatus,
+  InternalServerErrorException,
+  Logger,
+  Param,
+  Post,
+  Put,
+  Query,
+  Res,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { Response } from 'express';
+import { parseSlug } from '../utils/utils.js';
 
 const API_KEY_HEADER = 'X-Api-Key';
 
@@ -49,6 +42,7 @@ export default class RealTimeReportsController {
   #orchestrator: MutationEventResponseOrchestrator;
   #reportValidator: ReportValidator;
   #config: Configuration;
+  #logger: Logger = new Logger(RealTimeReportsController.name);
 
   constructor(
     apiKeyValidator: ApiKeyValidator,
@@ -65,13 +59,13 @@ export default class RealTimeReportsController {
     this.#config = config;
   }
 
-  @Get('/*')
+  @Get('/:slug(*)')
   public async getSseEndpointForProject(
-    @Req() req: Request,
+    @Param('slug') slug: string,
     @Res() res: Response,
-    @QueryParams('module') moduleName: string | undefined
+    @Query('module') moduleName: string | undefined
   ) {
-    const { project, version } = Slug.parse(req.path);
+    const { project, version } = Slug.parse(slug);
     const id = {
       projectName: project,
       version,
@@ -80,8 +74,9 @@ export default class RealTimeReportsController {
     };
     const report = await this.#reportService.findOne(id);
     if (report === null) {
-      throw new NotFound(
-        `Version "${version}" does not exist for "${project}".`
+      throw new HttpException(
+        `Version "${version}" does not exist for "${project}".`,
+        HttpStatus.NOT_FOUND
       );
     }
 
@@ -91,17 +86,20 @@ export default class RealTimeReportsController {
     data.forEach((mutant) => responseHandler.sendMutantTested(mutant));
   }
 
-  @Delete('/*')
+  @Delete('/:slug(*)')
   public async delete(
-    @Req() req: Request,
-    @QueryParams('module') moduleName: string | undefined,
-    @HeaderParams(API_KEY_HEADER) authorizationHeader: string | undefined
+    @Param('slug') slug: string,
+    @Query('module') moduleName: string | undefined,
+    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined
   ) {
     if (!authorizationHeader) {
-      throw new Unauthorized(`Provide an "${API_KEY_HEADER}" header`);
+      throw new HttpException(
+        `Provide an "${API_KEY_HEADER}" header`,
+        HttpStatus.UNAUTHORIZED
+      );
     }
 
-    const { project, version } = Slug.parse(req.path);
+    const { project, version } = Slug.parse(slug);
     await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
 
     const id = {
@@ -118,24 +116,24 @@ export default class RealTimeReportsController {
     this.#reportService.delete(id);
   }
 
-  @Post('/*')
+  @Post('/:slug(*)')
   public async appendBatch(
-    @Req() req: Request,
-    @BodyParams()
+    @Param('slug') slug: string,
+    @Body()
     mutants: Array<Partial<MutantResult>>,
-    @QueryParams('module') moduleName: string | undefined,
-    @HeaderParams(API_KEY_HEADER) authorizationHeader: string | undefined
+    @Query('module') moduleName: string | undefined,
+    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined
   ) {
     if (!authorizationHeader) {
-      throw new Unauthorized(`Provide an "${API_KEY_HEADER}" header`);
+      throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
     }
 
-    const { project, version } = Slug.parse(req.path);
+    const { project, version } = Slug.parse(slug);
     await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
 
     const errors = this.#reportValidator.validateMutants(mutants);
     if (errors !== undefined) {
-      throw new BadRequest(`Invalid mutants: ${errors}`);
+      throw new BadRequestException(`Invalid mutants: ${errors}`);
     }
 
     const id = {
@@ -151,23 +149,22 @@ export default class RealTimeReportsController {
     });
   }
 
-  @Put('/*')
+  @Put('/:slug(*)')
   public async update(
-    @Req() req: Request,
-    @Context() $ctx: PlatformContext,
-    @BodyParams() result: MutationTestResult,
-    @QueryParams('module') moduleName: string | undefined,
-    @HeaderParams(API_KEY_HEADER) authorizationHeader: string | undefined
+    @Param('slug') slug: string,
+    @Body() result: MutationTestResult,
+    @Query('module') moduleName: string | undefined,
+    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined
   ): Promise<PutReportResponse> {
     if (!authorizationHeader) {
-      throw new Unauthorized(`Provide an "${API_KEY_HEADER}" header`);
+      throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
     }
-    const { project, version } = parseSlug(req.path);
+    const { project, version } = parseSlug(slug);
     await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
 
     const errors = this.#reportValidator.findErrors(result);
     if (errors) {
-      throw new BadRequest('Invalid report. ${errors}');
+      throw new BadRequestException('Invalid report. ${errors}');
     }
 
     try {
@@ -177,11 +174,11 @@ export default class RealTimeReportsController {
         moduleName,
         realTime: true,
       };
-      await this.#savePendingReport(id, result, $ctx.logger);
+      await this.#savePendingReport(id, result);
       await this.#createRealTimeBlob(id);
       return this.#getReportResponse(id);
     } catch (error) {
-      $ctx.logger.error({
+      this.#logger.error({
         message: `Error while trying to save report ${JSON.stringify({
           project,
           version,
@@ -189,16 +186,12 @@ export default class RealTimeReportsController {
         })}`,
         error,
       });
-      throw new InternalServerError('Internal server error');
+      throw new InternalServerErrorException('Internal server error');
     }
   }
 
-  async #savePendingReport(
-    id: ReportIdentifier,
-    result: MutationTestResult,
-    logger: Logger
-  ) {
-    await this.#reportService.saveReport(id, result, logger);
+  async #savePendingReport(id: ReportIdentifier, result: MutationTestResult) {
+    await this.#reportService.saveReport(id, result, this.#logger);
   }
 
   async #createRealTimeBlob(id: ReportIdentifier) {
