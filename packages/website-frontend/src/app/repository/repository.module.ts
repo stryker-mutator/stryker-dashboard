@@ -4,7 +4,7 @@ import { RepositoryListComponent } from './repository-list/repository-list.compo
 import { RepositoryModalComponent } from './repository-modal/repository-modal.component';
 import { RepositoryPageComponent } from './repository-page/repository-page.component';
 import { RepositorySwitchComponent } from './repository-switch/repository-switch.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OwnerSelectorComponent } from './owner-selector/owner-selector.component';
 import { ShortExplanationComponent } from './short-explanation/short-explanation.component';
 import { SharedModule } from '../shared/shared.module';
@@ -24,7 +24,7 @@ import { ApiKeyGeneratorComponent } from './api-key-generator/api-key-generator.
     MutationScoreBadgeComponent,
     ApiKeyGeneratorComponent,
   ],
-  imports: [CommonModule, RouterModule, NgbModule, SharedModule, FormsModule],
+  imports: [CommonModule, RouterModule, NgbModule, SharedModule, FormsModule, NgbAccordionModule],
   exports: [RepositoryPageComponent],
 })
 export class RepositoryModule {}

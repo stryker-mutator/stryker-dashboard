@@ -111,5 +111,7 @@
       }
     }
   },
-  "defaultProject": "@stryker-mutator/dashboard-frontend"
+  "cli": {
+    "analytics": false
+  }
 }
