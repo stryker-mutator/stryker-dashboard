@@ -8,7 +8,7 @@
     <div *ngIf="enabled; then enablingContent else disablingContent"></div>
     <ng-template #enablingContent>
       <div ngbAccordion activeIds="panel-about-your-api-key" [closeOthers]="true">
-        <div ngbAccordionItem id="panel-about-your-api-key">
+        <div ngbAccordionItem id="panel-about-your-api-key" [collapsed]="false">
           <h2 ngbAccordionHeader>
             <button ngbAccordionButton>About your key</button>
           </h2>
