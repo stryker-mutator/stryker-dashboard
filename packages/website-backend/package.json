@@ -27,7 +27,7 @@
     "@stryker-mutator/dashboard-frontend": "0.13.4",
     "@tsed/common": "^6.114.14",
     "@tsed/core": "^6.114.14",
-    "@tsed/di": "^6.114.14",
+    "@tsed/di": "^7.0.0",
     "@tsed/exceptions": "^6.114.14",
     "@tsed/platform-express": "^6.114.14",
     "ajv": "^8.11.0",
