@@ -23,6 +23,7 @@
       "main": "./dist/exports/*",
       "types": "./dist/exports/*"
     },
+    "./dist/style.css": "./dist/style.css",
     "./components/*": {
       "module": "./dist/components/*",
       "main": "./dist/components/*",

@@ -8,8 +8,8 @@ $theme-colors: (
   "warning": #ffc107,
   "danger": #dc3545
 );
-@import "~bootstrap/scss/bootstrap";
-@import "~@stryker-mutator/stryker-elements/dist/style.css";
+@import "bootstrap/scss/bootstrap.scss";
+@import "@stryker-mutator/stryker-elements/dist/style.css";
 
 a {
   cursor: pointer;
