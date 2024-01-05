@@ -2,13 +2,14 @@ import request from 'supertest';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { contractFactory, githubFactory } from '../../helpers/producers.js';
-import { config, createAuthorizationHeader } from '../../helpers/TestServer.js';
+import { DataAccessMock, config, createAuthorizationHeader } from '../../helpers/TestServer.js';
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
 import { AppModule } from '../../../src/app.module.js';
 import Configuration from '../../../src/services/Configuration.js';
 import OrganizationsController from '../../../src/controllers/organizations.controller.js';
+import DataAccess from '../../../src/services/DataAccess.js';
 
 describe(OrganizationsController.name, () => {
   let app: INestApplication;
@@ -22,6 +23,8 @@ describe(OrganizationsController.name, () => {
       .useValue(repositoryStub)
       .overrideProvider(Configuration)
       .useValue(config)
+      .overrideProvider(DataAccess)
+      .useValue(new DataAccessMock())
       .compile();
 
     app = moduleRef.createNestApplication();

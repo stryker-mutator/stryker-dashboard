@@ -4,12 +4,13 @@ import request from 'supertest';
 import * as sinon from 'sinon';
 import * as github from '../../../src/github/models.js';
 import { githubFactory } from '../../helpers/producers.js';
-import { config, createToken } from '../../helpers/TestServer.js';
+import { DataAccessMock, config, createToken } from '../../helpers/TestServer.js';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../../../src/app.module.js';
 import { INestApplication } from '@nestjs/common';
 import Configuration from '../../../src/services/Configuration.js';
 import AuthController from '../../../src/controllers/auth.controller.js';
+import DataAccess from '../../../src/services/DataAccess.js';
 
 describe(AuthController.name, () => {
   let app: INestApplication;
@@ -36,6 +37,8 @@ describe(AuthController.name, () => {
     })
       .overrideProvider(Configuration)
       .useValue(config)
+      .overrideProvider(DataAccess)
+      .useValue(new DataAccessMock())
       .compile();
 
     app = moduleRef.createNestApplication();
