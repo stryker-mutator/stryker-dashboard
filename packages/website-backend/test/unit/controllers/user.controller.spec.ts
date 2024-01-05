@@ -9,7 +9,11 @@ import { AppModule } from '../../../src/app.module.js';
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { contractFactory, githubFactory } from '../../helpers/producers.js';
-import { DataAccessMock, config, createAuthorizationHeader } from '../../helpers/TestServer.js';
+import {
+  DataAccessMock,
+  config,
+  createAuthorizationHeader,
+} from '../../helpers/TestServer.js';
 import Configuration from '../../../src/services/Configuration.js';
 import UserController from '../../../src/controllers/user.controller.js';
 import DataAccess from '../../../src/services/DataAccess.js';

@@ -4,7 +4,11 @@ import request from 'supertest';
 import * as sinon from 'sinon';
 import * as github from '../../../src/github/models.js';
 import { githubFactory } from '../../helpers/producers.js';
-import { DataAccessMock, config, createToken } from '../../helpers/TestServer.js';
+import {
+  DataAccessMock,
+  config,
+  createToken,
+} from '../../helpers/TestServer.js';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../../../src/app.module.js';
 import { INestApplication } from '@nestjs/common';

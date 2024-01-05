@@ -5,7 +5,11 @@ import { Test } from '@nestjs/testing';
 import { AppModule } from '../../../src/app.module.js';
 import * as github from '../../../src/github/models.js';
 import Configuration from '../../../src/services/Configuration.js';
-import { DataAccessMock, config, createAuthorizationHeader } from '../../helpers/TestServer.js';
+import {
+  DataAccessMock,
+  config,
+  createAuthorizationHeader,
+} from '../../helpers/TestServer.js';
 import { INestApplication } from '@nestjs/common';
 import utils from '../../../src/utils/utils.js';
 import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
