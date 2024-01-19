@@ -1,5 +1,3 @@
-import { Headers, RequestInit } from 'node-fetch';
-import util from '../utils/utils.js';
 import debug from 'debug';
 import { Injectable } from '@nestjs/common';
 
@@ -17,7 +15,7 @@ export default class HttpClient {
     requestInit?: RequestInit
   ): Promise<Response<T>> {
     this.log(`Performing HTTP GET "${fullUrl}"`);
-    const response = await util.fetch(fullUrl, requestInit);
+    const response = await fetch(fullUrl, requestInit);
     if (response.ok) {
       return {
         headers: response.headers,
