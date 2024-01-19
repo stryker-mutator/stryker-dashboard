@@ -20,7 +20,7 @@ async function bootstrap() {
 
   app.use(express.static(dist));
   app.use(spa(path.join(dist, 'index.html')));
-  app.use(parser.json({ limit: '100mb' }))
+  app.use(parser.json({ limit: '100mb' }));
   await app.listen(1337);
 }
 
