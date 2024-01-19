@@ -1,7 +1,7 @@
-import { Service } from '@tsed/common';
-import util from '../utils.js';
+import util from '../utils/utils.js';
+import { Injectable } from '@nestjs/common';
 
-@Service()
+@Injectable()
 export default class Configuration {
   public readonly cors: string;
   public readonly githubClientId: string;

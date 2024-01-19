@@ -1,4 +1,4 @@
-import { spa } from '../../../src/middleware/spaMiddleware.js';
+import { spa } from '../../../src/middleware/spa.middleware.js';
 import { Request, Response, NextFunction } from 'express';
 import * as sinon from 'sinon';
 import { expect } from 'chai';

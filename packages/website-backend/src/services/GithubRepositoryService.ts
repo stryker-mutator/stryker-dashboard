@@ -1,14 +1,13 @@
-import { Service } from '@tsed/common';
 import DataAccess from './DataAccess.js';
 import GithubAgent from '../github/GithubAgent.js';
 import * as dal from '@stryker-mutator/dashboard-data-access';
 import * as contract from '@stryker-mutator/dashboard-contract';
 import * as github from '../github/models.js';
-import { Unauthorized } from 'ts-httpexceptions';
 import {
   DashboardQuery,
   Project,
 } from '@stryker-mutator/dashboard-data-access';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 /**
  * Prefix a github login name with "github.com/" in order to put it in the database
@@ -18,7 +17,7 @@ function prefixGithub(slug: string) {
   return `github.com/${slug}`;
 }
 
-@Service()
+@Injectable()
 export default class GithubRepositoryService {
   private readonly projectMapper: dal.ProjectMapper;
 
@@ -77,8 +76,9 @@ export default class GithubRepositoryService {
   ): Promise<void> {
     const hasPushAccess = await this.agent.userHasPushAccess(auth, owner, name);
     if (!hasPushAccess) {
-      throw new Unauthorized(
-        `Permission denied. ${auth.username} does not have enough permissions for resource ${owner}/${name} (was "push": false).`
+      throw new HttpException(
+        `Permission denied. ${auth.username} does not have enough permissions for resource ${owner}/${name} (was "push": false).`,
+        HttpStatus.UNAUTHORIZED
       );
     }
   }

@@ -1,6 +1,20 @@
 import { v4 as uuidV4 } from 'uuid';
 import { sha512_256 } from 'js-sha512';
 import fetch from 'node-fetch';
+import { InvalidSlugError, Slug } from '@stryker-mutator/dashboard-common';
+import { NotFoundException } from '@nestjs/common';
+
+export function parseSlug(slug: string) {
+  try {
+    return Slug.parse(slug);
+  } catch (error) {
+    if (error instanceof InvalidSlugError) {
+      throw new NotFoundException(`Report "${slug}" does not exist`);
+    } else {
+      throw error;
+    }
+  }
+}
 
 export default {
   env(key: string) {

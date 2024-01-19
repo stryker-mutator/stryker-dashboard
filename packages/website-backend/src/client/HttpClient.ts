@@ -1,7 +1,7 @@
 import { Headers, RequestInit } from 'node-fetch';
-import { Injectable } from '@tsed/di';
-import util from '../utils.js';
+import util from '../utils/utils.js';
 import debug from 'debug';
+import { Injectable } from '@nestjs/common';
 
 export interface Response<T> {
   body: T;

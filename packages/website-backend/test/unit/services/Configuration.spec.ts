@@ -1,6 +1,6 @@
 import Configuration from '../../../src/services/Configuration.js';
 import { expect } from 'chai';
-import utils from '../../../src/utils.js';
+import utils from '../../../src/utils/utils.js';
 import sinon from 'sinon';
 
 describe('Configuration', () => {

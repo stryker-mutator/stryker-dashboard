@@ -1,10 +1,17 @@
-import { Controller, BodyParams, Post } from '@tsed/common';
-import { Status } from '@tsed/schema';
-import { Logger } from '@tsed/logger';
 import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
-import { BadRequest } from 'ts-httpexceptions';
-import { MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
+import {
+  Logger,
+  MutationScoreOnlyResult,
+} from '@stryker-mutator/dashboard-common';
 import DataAccess from '../services/DataAccess.js';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 /**
  * Represents the 'old' style of report, containing the mutation score calculated at client side
  */
@@ -14,22 +21,25 @@ interface ScoreReport extends MutationScoreOnlyResult {
   branch: string;
 }
 
-@Controller('')
+@Controller('/reports')
 export class OldReportsController {
-  constructor(
-    private readonly apiKeyValidator: ApiKeyValidator,
-    private readonly dal: DataAccess
-  ) {}
+  #apiKeyValidator: ApiKeyValidator;
+  #dal: DataAccess;
 
-  @Post('/reports')
-  @Status(201)
-  public async addNew(@BodyParams() report: ScoreReport, log: Logger) {
+  constructor(apiKeyValidator: ApiKeyValidator, dal: DataAccess) {
+    this.#apiKeyValidator = apiKeyValidator;
+    this.#dal = dal;
+  }
+
+  @Post()
+  @HttpCode(201)
+  public async addNew(@Body() report: ScoreReport, log: Logger) {
     this.verifyRequiredPostScoreReportProperties(report);
-    await this.apiKeyValidator.validateApiKey(
+    await this.#apiKeyValidator.validateApiKey(
       report.apiKey,
       report.repositorySlug
     );
-    await this.dal.mutationTestingReportService.saveReport(
+    await this.#dal.mutationTestingReportService.saveReport(
       {
         moduleName: undefined,
         projectName: report.repositorySlug,
@@ -44,7 +54,10 @@ export class OldReportsController {
   private verifyRequiredPostScoreReportProperties(body: any) {
     ['apiKey', 'repositorySlug', 'mutationScore'].forEach((prop) => {
       if (body[prop] === undefined) {
-        throw new BadRequest(`Missing required property "${prop}"`);
+        throw new HttpException(
+          `Missing required property "${prop}"`,
+          HttpStatus.BAD_REQUEST
+        );
       }
     });
   }

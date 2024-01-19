@@ -44,7 +44,7 @@ test.describe('Real-time api', () => {
         { id: '2', status: 'Killed' },
         { id: '3', status: 'Killed' },
       ]);
-      expect(response.status()).toBe(200);
+      expect(response.status()).toBe(201);
     });
 
     test('should not accept a batch of mutants if they do not comply with schema', async () => {

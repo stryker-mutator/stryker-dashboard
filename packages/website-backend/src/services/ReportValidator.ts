@@ -1,11 +1,11 @@
+import { Injectable } from '@nestjs/common';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import { MutantResult, schema } from 'mutation-testing-report-schema';
-import { Service } from '@tsed/di';
 
 const SCHEMA_NAME = 'http://stryker-mutator.io/report.schema.json';
 
-@Service()
+@Injectable()
 export class ReportValidator {
   readonly #schemaValidator: Ajv;
   readonly #mutantsValidator: Ajv;

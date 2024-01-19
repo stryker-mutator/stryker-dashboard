@@ -1,10 +1,9 @@
-import util from '../utils.js';
-import { BadRequest, Unauthorized } from 'ts-httpexceptions';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import util from '../utils/utils.js';
 import DataAccess from './DataAccess.js';
-import { Service } from '@tsed/di';
 import { ProjectMapper } from '@stryker-mutator/dashboard-data-access';
 
-@Service()
+@Injectable()
 export class ApiKeyValidator {
   private readonly projectMapper: ProjectMapper;
   constructor({ repositoryMapper }: DataAccess) {
@@ -18,7 +17,10 @@ export class ApiKeyValidator {
     const lastDelimiter = projectName.lastIndexOf('/');
     const hash = util.generateHashValue(apiKey);
     if (lastDelimiter === -1) {
-      throw new BadRequest(`Repository "${projectName}" is invalid`);
+      throw new HttpException(
+        `Repository "${projectName}" is invalid`,
+        HttpStatus.BAD_REQUEST
+      );
     } else {
       const projectPromise = this.projectMapper.findOne({
         owner: projectName.substr(0, lastDelimiter),
@@ -26,7 +28,7 @@ export class ApiKeyValidator {
       });
       const repo = await projectPromise;
       if (repo === null || repo.model.apiKeyHash !== hash) {
-        throw new Unauthorized('Invalid API key');
+        throw new HttpException('Invalid API key', HttpStatus.UNAUTHORIZED);
       }
     }
   }

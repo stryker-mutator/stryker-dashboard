@@ -1,20 +1,28 @@
 import { expect } from 'chai';
-import supertest, { SuperTest, Test } from 'supertest';
+import request from 'supertest';
 import * as contract from '@stryker-mutator/dashboard-contract';
-import GithubAgent from '../../../../src/github/GithubAgent.js';
-
-import { githubFactory, contractFactory } from '../../../helpers/producers.js';
 import sinon from 'sinon';
-import { Authentication } from '../../../../dist/src/github/models.js';
-import { PlatformTest } from '@tsed/common';
-import Server from '../../../../src/Server.js';
-import { createAuthorizationHeader } from '../../../helpers/TestServer.js';
-import GithubRepositoryService from '../../../../src/services/GithubRepositoryService.js';
+import { Authentication } from '../../../src/github/models.js';
+import GithubAgent from '../../../src/github/GithubAgent.js';
+import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
+import { AppModule } from '../../../src/app.module.js';
+import { Test } from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
+import { contractFactory, githubFactory } from '../../helpers/producers.js';
+import {
+  DataAccessMock,
+  config,
+  createAuthorizationHeader,
+} from '../../helpers/TestServer.js';
+import Configuration from '../../../src/services/Configuration.js';
+import UserController from '../../../src/controllers/user.controller.js';
+import DataAccess from '../../../src/services/DataAccess.js';
 
-describe('UserController', () => {
-  let request: SuperTest<Test>;
+describe(UserController.name, () => {
   const expectedUsername = 'foobar username';
   const expectedAccessToken = 'foobar access token';
+
+  let app: INestApplication;
   let auth: Authentication;
   let authToken: string;
 
@@ -29,10 +37,20 @@ describe('UserController', () => {
   >;
 
   beforeEach(async () => {
-    await PlatformTest.bootstrap(Server)();
-    request = supertest(PlatformTest.callback());
-    const githubAgent = PlatformTest.get<GithubAgent>(GithubAgent);
-    const githubRepositoryService = PlatformTest.get<GithubRepositoryService>(
+    const moduleRef = await Test.createTestingModule({
+      imports: [AppModule],
+    })
+      .overrideProvider(Configuration)
+      .useValue(config)
+      .overrideProvider(DataAccess)
+      .useValue(new DataAccessMock())
+      .compile();
+
+    app = moduleRef.createNestApplication();
+    app.setGlobalPrefix('/api');
+
+    const githubAgent = app.get<GithubAgent>(GithubAgent);
+    const githubRepositoryService = app.get<GithubRepositoryService>(
       GithubRepositoryService
     );
 
@@ -45,6 +63,8 @@ describe('UserController', () => {
       username: expectedUsername,
     });
     authToken = await createAuthorizationHeader(auth);
+
+    await app.init();
   });
 
   describe('HTTP GET /user', () => {
@@ -59,7 +79,7 @@ describe('UserController', () => {
         name: 'foo',
       });
       getCurrentUserStub.resolves(githubResult);
-      await request
+      await request(app.getHttpServer())
         .get('/api/user')
         .set('Authorization', authToken)
         .expect(200)
@@ -77,7 +97,7 @@ describe('UserController', () => {
         }),
       ];
       getAllForUserStub.resolves(expectedRepositories);
-      await request
+      await request(app.getHttpServer())
         .get('/api/user/repositories')
         .set('Authorization', authToken)
         .expect(200)
@@ -99,7 +119,7 @@ describe('UserController', () => {
           login: 'foobar.org',
         }),
       ]);
-      await request
+      await request(app.getHttpServer())
         .get('/api/user/organizations')
         .set('Authorization', authToken)
         .expect(200)

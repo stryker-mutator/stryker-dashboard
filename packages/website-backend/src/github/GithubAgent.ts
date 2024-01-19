@@ -1,8 +1,8 @@
 import debug from 'debug';
 import { Repository, Login } from './models.js';
 import HttpClient from '../client/HttpClient.js';
-import { Injectable } from '@tsed/di';
 import * as github from '../github/models.js';
+import { Injectable } from '@nestjs/common';
 
 const GITHUB_BACKEND = 'https://api.github.com';
 

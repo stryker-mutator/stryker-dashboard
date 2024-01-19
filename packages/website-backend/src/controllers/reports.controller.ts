@@ -1,20 +1,3 @@
-import {
-  Controller,
-  Get,
-  Put,
-  BodyParams,
-  QueryParams,
-  HeaderParams,
-  Req,
-  PlatformContext,
-  Context,
-} from '@tsed/common';
-import {
-  BadRequest,
-  NotFound,
-  Unauthorized,
-  InternalServerError,
-} from 'ts-httpexceptions';
 import { MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
 import { PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import {
@@ -23,66 +6,86 @@ import {
   isMutationTestResult,
   isPendingReport,
 } from '@stryker-mutator/dashboard-common';
-import { Request } from 'express';
 import { MutationTestResult } from 'mutation-testing-report-schema';
 import { ReportValidator } from '../services/ReportValidator.js';
 import Configuration from '../services/Configuration.js';
 import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
 import DataAccess from '../services/DataAccess.js';
-import { parseSlug } from './util.js';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Headers,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+  Param,
+  Put,
+  Query,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { parseSlug } from '../utils/utils.js';
 
 const API_KEY_HEADER = 'X-Api-Key';
 
 @Controller('/reports')
 export default class ReportsController {
-  private readonly reportService: MutationTestingReportService;
+  #apiKeyValidator: ApiKeyValidator;
+  #config: Configuration;
+  #logger = new Logger(ReportsController.name);
+  #reportService: MutationTestingReportService;
+  #reportValidator: ReportValidator;
 
   constructor(
+    apiKeyValidator: ApiKeyValidator,
+    config: Configuration,
     dataAccess: DataAccess,
-    private readonly reportValidator: ReportValidator,
-    private readonly config: Configuration,
-    private readonly apiKeyValidator: ApiKeyValidator
+    reportValidator: ReportValidator
   ) {
-    this.reportService = dataAccess.mutationTestingReportService;
+    this.#apiKeyValidator = apiKeyValidator;
+    this.#config = config;
+    this.#reportService = dataAccess.mutationTestingReportService;
+    this.#reportValidator = reportValidator;
   }
 
-  @Put('/*')
+  @Put('/:slug(*)')
   public async update(
-    @Req() req: Request,
-    @Context() $ctx: PlatformContext,
-    @BodyParams() result: MutationScoreOnlyResult | MutationTestResult,
-    @QueryParams('module') moduleName: string | undefined,
-    @HeaderParams(API_KEY_HEADER) authorizationHeader: string | undefined
+    @Param('slug') slug: string,
+    @Body() result: MutationScoreOnlyResult | MutationTestResult,
+    @Query('module') moduleName: string | undefined,
+    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined
   ): Promise<PutReportResponse> {
     if (!authorizationHeader) {
-      throw new Unauthorized(`Provide an "${API_KEY_HEADER}" header`);
+      throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
     }
-    const slug = req.path;
     const { project, version } = parseSlug(slug);
-    await this.apiKeyValidator.validateApiKey(authorizationHeader, project);
+    await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
     this.verifyRequiredPutReportProperties(result);
     this.verifyIsCompletedReport(result);
     try {
-      await this.reportService.saveReport(
+      await this.#reportService.saveReport(
         { projectName: project, version, moduleName },
         result,
-        $ctx.logger
+        this.#logger
       );
 
       if (moduleName && isMutationTestResult(result)) {
         return {
-          href: `${this.config.baseUrl}/reports/${project}/${version}?module=${moduleName}`,
-          projectHref: `${this.config.baseUrl}/reports/${project}/${version}`,
+          href: `${
+            this.#config.baseUrl
+          }/reports/${project}/${version}?module=${moduleName}`,
+          projectHref: `${this.#config.baseUrl}/reports/${project}/${version}`,
         };
       } else {
         return {
-          href: `${this.config.baseUrl}/reports/${project}/${version}${
+          href: `${this.#config.baseUrl}/reports/${project}/${version}${
             moduleName ? `?module=${moduleName}` : ''
           }`,
         };
       }
     } catch (error) {
-      $ctx.logger.error({
+      this.#logger.error({
         message: `Error while trying to save report ${JSON.stringify({
           project,
           version,
@@ -90,17 +93,16 @@ export default class ReportsController {
         })}`,
         error,
       });
-      throw new InternalServerError('Internal server error');
+      throw new InternalServerErrorException('Internal server error');
     }
   }
 
-  @Get('/*')
+  @Get('/:slug(*)')
   public async get(
-    @Req() req: Request,
-    @QueryParams('module') moduleName: string | undefined,
-    @QueryParams('realTime') realTime: boolean | undefined
+    @Param('slug') slug: string,
+    @Query('module') moduleName: string | undefined,
+    @Query('realTime') realTime: boolean | undefined
   ): Promise<Report> {
-    const slug = req.path;
     const { project, version } = parseSlug(slug);
     const id = {
       projectName: project,
@@ -110,17 +112,17 @@ export default class ReportsController {
 
     let report: Report | undefined | null;
     if (realTime) {
-      report = await this.reportService.findOne({ ...id, realTime: true });
+      report = await this.#reportService.findOne({ ...id, realTime: true });
     }
 
     if (!report || !isMutationTestResult(report!)) {
-      report = await this.reportService.findOne(id);
+      report = await this.#reportService.findOne(id);
     }
 
     if (report) {
       return report;
     } else {
-      throw new NotFound(
+      throw new NotFoundException(
         `Version "${version}" does not exist for "${project}".`
       );
     }
@@ -129,7 +131,7 @@ export default class ReportsController {
   private verifyRequiredPutReportProperties(
     body: MutationScoreOnlyResult | MutationTestResult
   ) {
-    const errors = this.reportValidator.findErrors(body);
+    const errors = this.#reportValidator.findErrors(body);
     if (errors) {
       const mutationScoreOnlyResult = body as MutationScoreOnlyResult;
       if (
@@ -137,7 +139,7 @@ export default class ReportsController {
         mutationScoreOnlyResult.mutationScore < 0 ||
         mutationScoreOnlyResult.mutationScore > 100
       ) {
-        throw new BadRequest(`Invalid report. ${errors}`);
+        throw new BadRequestException(`Invalid report. ${errors}`);
       }
     }
   }
@@ -150,7 +152,7 @@ export default class ReportsController {
     }
 
     if (isPendingReport(result)) {
-      throw new BadRequest(
+      throw new BadRequestException(
         'Submitting pending reports to the completed reports endpoint is not allowed.'
       );
     }

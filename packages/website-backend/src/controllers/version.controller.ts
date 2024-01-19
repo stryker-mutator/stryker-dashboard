@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { Get, Controller } from '@tsed/common';
 import { version } from '@stryker-mutator/dashboard-frontend';
+import { Controller, Get } from '@nestjs/common';
 
 const dashboardVersion = JSON.parse(
   fs.readFileSync(new URL('../../../package.json', import.meta.url), 'utf-8')
@@ -11,7 +11,7 @@ export default class VersionController {
   /**
    * Gets the current version of the dashboard
    */
-  @Get('/')
+  @Get()
   public get() {
     return {
       dashboard: dashboardVersion,
