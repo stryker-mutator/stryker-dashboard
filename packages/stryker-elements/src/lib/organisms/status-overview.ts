@@ -32,7 +32,7 @@ export class StatusOverview extends BaseElement {
                   ${label}
                 </p>
               </div>
-            `
+            `,
           )}
         </div>
       </div>

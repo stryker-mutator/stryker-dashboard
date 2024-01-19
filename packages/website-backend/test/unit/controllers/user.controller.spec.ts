@@ -51,7 +51,7 @@ describe(UserController.name, () => {
 
     const githubAgent = app.get<GithubAgent>(GithubAgent);
     const githubRepositoryService = app.get<GithubRepositoryService>(
-      GithubRepositoryService
+      GithubRepositoryService,
     );
 
     getCurrentUserStub = sinon.stub(githubAgent, 'getCurrentUser');

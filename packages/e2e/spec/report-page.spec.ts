@@ -27,12 +27,12 @@ test.describe('Report page', () => {
       await client.uploadReport(
         simpleReportV1(
           'github.com/stryker-mutator-test-organization/hello-org',
-          'master'
-        )
+          'master',
+        ),
       );
       await page.navigate(
         'github.com/stryker-mutator-test-organization/hello-org',
-        'master'
+        'master',
       );
     });
 
@@ -48,18 +48,18 @@ test.describe('Report page', () => {
           scoreOnlyReport(
             'github.com/stryker-mutator-test-organization/hello-org',
             'master',
-            42
-          )
+            42,
+          ),
         );
         await page.navigate(
           'github.com/stryker-mutator-test-organization/hello-org',
-          'master'
+          'master',
         );
       });
 
       test('should show the mutation score only', async () => {
         await expect(page.warningAlert).toContainText(
-          'No html report stored for github.com/stryker-mutator-test-organization/hello-org/master'
+          'No html report stored for github.com/stryker-mutator-test-organization/hello-org/master',
         );
         await expect(page.mutationTestReportApp.host).not.toExist();
         await expect(page.mutationScore).toContainText('Mutation score: 42');
@@ -75,39 +75,39 @@ test.describe('Report page', () => {
             'github.com/stryker-mutator-test-organization/hello-org',
             'feat/modules',
             'one',
-            ['Killed', 'Killed', 'Killed']
-          )
+            ['Killed', 'Killed', 'Killed'],
+          ),
         ),
         client.uploadReport(
           simpleReportV1(
             'github.com/stryker-mutator-test-organization/hello-org',
             'feat/modules',
             'two',
-            ['Survived', 'Survived', 'Survived']
-          )
+            ['Survived', 'Survived', 'Survived'],
+          ),
         ),
         client.uploadReport(
           simpleReportV1(
             'github.com/stryker-mutator-test-organization/hello-org',
             'feat/modules',
             'three',
-            ['Killed', 'Timeout', 'NoCoverage']
-          )
+            ['Killed', 'Timeout', 'NoCoverage'],
+          ),
         ),
       ]);
       await page.navigate(
         'github.com/stryker-mutator-test-organization/hello-org',
-        'feat/modules'
+        'feat/modules',
       );
     });
 
     test('should show the aggregated report for the project', async () => {
       await expect(page.mutationTestReportApp.title).toContainText('All files');
       await expect(page.mutationTestReportApp.title).toContainText(
-        'hello-org/feat/modules'
+        'hello-org/feat/modules',
       );
       await expect(page.mutationTestReportApp.title).toContainText(
-        'Stryker Dashboard'
+        'Stryker Dashboard',
       );
       expect(await page.mutationTestReportApp.mutationScore()).toBe(55.56);
       expect(await page.mutationTestReportApp.fileNames()).toEqual([

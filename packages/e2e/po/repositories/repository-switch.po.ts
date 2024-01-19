@@ -5,7 +5,7 @@ export class RepositorySwitchPageObject extends PageObject {
   public readonly checkbox = this.host.locator('input[type=checkbox]');
   private readonly switch = this.host.locator('label');
   public readonly mutationScoreBadge = new MutationScoreBadgePageObject(
-    this.host.locator('stryker-mutation-score-badge')
+    this.host.locator('stryker-mutation-score-badge'),
   );
 
   public async name(): Promise<string> {

@@ -6,7 +6,7 @@ describe(MutationTestingReport.name, () => {
     expect(
       MutationTestingReport.createRowKey({
         moduleName: 'fooModule',
-      })
+      }),
     ).eq('fooModule');
   });
 
@@ -15,7 +15,7 @@ describe(MutationTestingReport.name, () => {
       MutationTestingReport.createPartitionKey({
         version: 'fooVersion',
         projectName: 'barSlug',
-      })
+      }),
     ).eq('barSlug/fooVersion');
   });
 

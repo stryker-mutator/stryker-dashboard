@@ -37,7 +37,7 @@ describe(MutationTestingReportService.name, () => {
     resultMapperMock = sinon.createStubInstance(MutationTestingResultMapper);
     sut = new MutationTestingReportService(
       resultMapperMock as unknown as MutationTestingResultMapper,
-      reportMapperMock
+      reportMapperMock,
     );
   });
 
@@ -53,7 +53,7 @@ describe(MutationTestingReportService.name, () => {
     it('should update the expected report using the score from metrics', async () => {
       // Arrange
       const expectedResult = createMutationTestResult(
-        createFileResultDictionary(createFileResult(['Killed', 'Survived']))
+        createFileResultDictionary(createFileResult(['Killed', 'Survived'])),
       );
       const reportIdentifier = {
         version: 'feat/dashboard',
@@ -70,11 +70,11 @@ describe(MutationTestingReportService.name, () => {
 
       // Assert
       expect(reportMapperMock.insertOrMerge).calledWith(
-        expectedMutationTestingReport
+        expectedMutationTestingReport,
       );
       expect(resultMapperMock.insertOrReplace).calledWith(
         reportIdentifier,
-        expectedResult
+        expectedResult,
       );
     });
 
@@ -84,7 +84,7 @@ describe(MutationTestingReportService.name, () => {
         createMutationTestResult({
           ['a/b/c/d']: createFileResult(),
           ['a/b/e/f']: createFileResult(),
-        })
+        }),
       );
       const reportIdentifier = {
         version: 'feat/dashboard',
@@ -98,7 +98,7 @@ describe(MutationTestingReportService.name, () => {
       // Assert
       expect(resultMapperMock.insertOrReplace).calledWith(
         reportIdentifier,
-        rawResult
+        rawResult,
       );
     });
 
@@ -125,11 +125,11 @@ describe(MutationTestingReportService.name, () => {
         projectName: 'github.com/testOrg/testName',
       };
       expect(reportMapperMock.insertOrMerge).calledWith(
-        expectedMutationTestingReport
+        expectedMutationTestingReport,
       );
       expect(resultMapperMock.insertOrReplace).calledWith(
         reportIdentifier,
-        null
+        null,
       );
     });
 
@@ -190,11 +190,11 @@ describe(MutationTestingReportService.name, () => {
         }; // one killed and one noCoverage
         expect(resultMapperMock.insertOrReplace).calledWith(
           expectedProjectId,
-          expectedProjectResult
+          expectedProjectResult,
         );
         expect(reportMapperMock.replace).calledWith(
           expectedMutationTestingReport,
-          'old-project-etag'
+          'old-project-etag',
         );
       });
 
@@ -229,8 +229,8 @@ describe(MutationTestingReportService.name, () => {
           .onFirstCall()
           .rejects(
             new OptimisticConcurrencyError(
-              'OptimisticConcurrencyError for testing'
-            )
+              'OptimisticConcurrencyError for testing',
+            ),
           )
           .onSecondCall()
           .resolves();
@@ -253,16 +253,16 @@ describe(MutationTestingReportService.name, () => {
         };
         expect(resultMapperMock.insertOrReplace).calledWith(
           expectedProjectId,
-          expectedProjectResult
+          expectedProjectResult,
         );
         expect(reportMapperMock.replace).calledTwice;
         expect(reportMapperMock.replace).calledWith(
           expectedMutationTestingReport,
-          'new-project-etag'
+          'new-project-etag',
         );
         expect(logger.log).calledWith({
           message: `Optimistic concurrency exception occurred while trying to aggregate the report ${JSON.stringify(
-            expectedProjectId
+            expectedProjectId,
           )}, retrying...`,
         });
       });
@@ -316,12 +316,12 @@ describe(MutationTestingReportService.name, () => {
         expect(resultMapperMock.insertOrReplace).calledThrice;
         expect(resultMapperMock.insertOrReplace).calledWith(
           expectedProjectId,
-          expectedProjectResult
+          expectedProjectResult,
         );
         expect(reportMapperMock.replace).calledOnce;
         expect(reportMapperMock.replace).calledWith(
           expectedMutationTestingReport,
-          'project-etag'
+          'project-etag',
         );
       });
     });

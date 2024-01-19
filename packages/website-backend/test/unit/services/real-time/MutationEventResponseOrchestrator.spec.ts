@@ -16,7 +16,7 @@ describe(MutationEventResponseOrchestrator.name, () => {
       realTime: true,
     };
     orchestrator = new MutationEventResponseOrchestrator(
-      new ConfigurationStub()
+      new ConfigurationStub(),
     );
   });
 

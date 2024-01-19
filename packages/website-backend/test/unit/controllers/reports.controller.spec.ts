@@ -66,7 +66,7 @@ describe(ReportsController.name, () => {
 
       // Act
       const response = await request(app.getHttpServer()).get(
-        '/api/reports/github.com/owner/name/version'
+        '/api/reports/github.com/owner/name/version',
       );
 
       // Assert
@@ -76,7 +76,7 @@ describe(ReportsController.name, () => {
 
     it('should call dissect the correct slug, version and module', async () => {
       await request(app.getHttpServer()).get(
-        '/api/reports/github.com/test/name/feat/dashboard?module=core'
+        '/api/reports/github.com/test/name/feat/dashboard?module=core',
       );
       expect(findReportStub).calledWith({
         projectName: 'github.com/test/name',
@@ -87,21 +87,21 @@ describe(ReportsController.name, () => {
 
     it('should respond with 404 if the report could not be found', async () => {
       const response = await request(app.getHttpServer()).get(
-        '/api/reports/github.com/owner/name/version'
+        '/api/reports/github.com/owner/name/version',
       );
       expect(response.status).eq(404);
       expect(JSON.parse((response.error as HTTPError).text).message).includes(
-        'Version "version" does not exist for "github.com/owner/name".'
+        'Version "version" does not exist for "github.com/owner/name".',
       );
     });
 
     it('should respond with 404 if slug is invalid', async () => {
       const response = await request(app.getHttpServer()).get(
-        '/api/reports/slugwithoutslash'
+        '/api/reports/slugwithoutslash',
       );
       expect(response.status).eq(404);
       expect(JSON.parse((response.error as HTTPError).text).message).include(
-        'Report "slugwithoutslash" does not exist'
+        'Report "slugwithoutslash" does not exist',
       );
     });
 
@@ -117,7 +117,7 @@ describe(ReportsController.name, () => {
       findReportStub.onCall(1).returns(Promise.resolve(expected));
 
       const response = await request(app.getHttpServer()).get(
-        '/api/reports/github.com/owner/name/version?realTime=true'
+        '/api/reports/github.com/owner/name/version?realTime=true',
       );
 
       expect(response.status).eq(200);
@@ -126,7 +126,7 @@ describe(ReportsController.name, () => {
 
     it('should respond with 404 if there is no stable report and no real-time report', async () => {
       const response = await request(app.getHttpServer()).get(
-        '/api/reports/github.com/owner/name/version?realTime=true'
+        '/api/reports/github.com/owner/name/version?realTime=true',
       );
 
       expect(response.status).eq(404);
@@ -161,7 +161,7 @@ describe(ReportsController.name, () => {
       // Act
       await request(app.getHttpServer())
         .put(
-          '/api/reports/github.com/testOrg/testName/feat/dashboard?module=core'
+          '/api/reports/github.com/testOrg/testName/feat/dashboard?module=core',
         )
         .set('X-Api-Key', apiKey)
         .send(body)
@@ -189,7 +189,7 @@ describe(ReportsController.name, () => {
       // Act
       const response = await request(app.getHttpServer())
         .put(
-          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging'
+          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging',
         )
         .set('X-Api-Key', apiKey)
         .send(createMutationTestResult());
@@ -206,7 +206,7 @@ describe(ReportsController.name, () => {
       // Act
       const response = await request(app.getHttpServer())
         .put(
-          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging'
+          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging',
         )
         .set('X-Api-Key', apiKey)
         .send({ mutationScore: 25 });
@@ -226,7 +226,7 @@ describe(ReportsController.name, () => {
       // Act
       const response = await request(app.getHttpServer())
         .put(
-          '/api/reports/github.com/testOrg/testName/feat/dashboard?module=core'
+          '/api/reports/github.com/testOrg/testName/feat/dashboard?module=core',
         )
         .set('X-Api-Key', apiKey)
         .send(createMutationTestResult());
@@ -238,23 +238,23 @@ describe(ReportsController.name, () => {
 
     it('should respond with 401 when X-Api-Key header is missing', async () => {
       const response = await request(app.getHttpServer()).put(
-        '/api/reports/github.com/testOrg/testName/feat/dashboard'
+        '/api/reports/github.com/testOrg/testName/feat/dashboard',
       );
       expect(response.status).eq(401);
       expect(JSON.parse((response.error as HTTPError).text).message).include(
-        'Provide an "X-Api-Key" header'
+        'Provide an "X-Api-Key" header',
       );
     });
 
     it("should respond with 401 when the api key doesn't match", async () => {
       const response = await request(app.getHttpServer())
         .put(
-          '/api/reports/github.com/testOrg/testName/feat/dashboard?module=core'
+          '/api/reports/github.com/testOrg/testName/feat/dashboard?module=core',
         )
         .set('X-Api-Key', 'wrong key');
       expect(response.status).eq(401);
       expect(JSON.parse((response.error as HTTPError).text).message).include(
-        'Invalid API key'
+        'Invalid API key',
       );
     });
 
@@ -266,7 +266,7 @@ describe(ReportsController.name, () => {
       // Act
       const response = await request(app.getHttpServer())
         .put(
-          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging'
+          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging',
         )
         .set('X-Api-Key', apiKey)
         .send(mutationTestResult);

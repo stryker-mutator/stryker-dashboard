@@ -17,7 +17,7 @@ export class RealTimeMutantsBlobService {
   public async createStorageIfNotExists() {
     await this.#blobService.createContainerIfNotExists(
       RealTimeMutantsBlobService.CONTAINER_NAME,
-      {}
+      {},
     );
   }
 
@@ -25,13 +25,13 @@ export class RealTimeMutantsBlobService {
     await this.#blobService.createAppendBlobFromText(
       RealTimeMutantsBlobService.CONTAINER_NAME,
       toBlobName(id),
-      ''
+      '',
     );
   }
 
   public async appendToReport(
     id: ReportIdentifier,
-    mutants: Array<Partial<MutantResult>>
+    mutants: Array<Partial<MutantResult>>,
   ) {
     const blobName = toBlobName(id);
     const data = mutants
@@ -41,16 +41,16 @@ export class RealTimeMutantsBlobService {
     await this.#blobService.appendBlockFromText(
       RealTimeMutantsBlobService.CONTAINER_NAME,
       blobName,
-      data
+      data,
     );
   }
 
   public async getReport(
-    id: ReportIdentifier
+    id: ReportIdentifier,
   ): Promise<Array<Partial<MutantResult>>> {
     const data = await this.#blobService.blobToText(
       RealTimeMutantsBlobService.CONTAINER_NAME,
-      toBlobName(id)
+      toBlobName(id),
     );
 
     if (data === '') {
@@ -71,7 +71,7 @@ export class RealTimeMutantsBlobService {
     const blobName = toBlobName(id);
     this.#blobService.deleteBlobIfExists(
       RealTimeMutantsBlobService.CONTAINER_NAME,
-      blobName
+      blobName,
     );
   }
 }

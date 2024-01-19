@@ -12,7 +12,7 @@ describe(DashboardQuery.name, () => {
     expect(
       DashboardQuery.create(FooModel)
         .wherePartitionKeyEquals({ partitionId: 'bar' })
-        .build()
+        .build(),
     ).deep.eq(new TableQuery().where('PartitionKey eq ?', 'bar'));
   });
 
@@ -20,7 +20,7 @@ describe(DashboardQuery.name, () => {
     expect(
       DashboardQuery.create(FooModel)
         .wherePartitionKeyEquals({ partitionId: 'foo/bar' })
-        .build()
+        .build(),
     ).deep.eq(new TableQuery().where('PartitionKey eq ?', 'foo;bar'));
   });
 
@@ -28,7 +28,7 @@ describe(DashboardQuery.name, () => {
     expect(
       DashboardQuery.create(FooModel)
         .whereRowKeyNotEquals({ rowId: 'foo' })
-        .build()
+        .build(),
     ).deep.eq(new TableQuery().where('not(RowKey eq ?)', 'foo'));
   });
 
@@ -36,7 +36,7 @@ describe(DashboardQuery.name, () => {
     expect(
       DashboardQuery.create(FooModel)
         .whereRowKeyNotEquals({ rowId: 'foo/bar' })
-        .build()
+        .build(),
     ).deep.eq(new TableQuery().where('not(RowKey eq ?)', 'foo;bar'));
   });
 
@@ -45,11 +45,11 @@ describe(DashboardQuery.name, () => {
       DashboardQuery.create(FooModel)
         .wherePartitionKeyEquals({ partitionId: 'part' })
         .whereRowKeyNotEquals({ rowId: 'row' })
-        .build()
+        .build(),
     ).deep.eq(
       new TableQuery()
         .where('PartitionKey eq ?', 'part')
-        .and('not(RowKey eq ?)', 'row')
+        .and('not(RowKey eq ?)', 'row'),
     );
   });
 });

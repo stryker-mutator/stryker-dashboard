@@ -48,11 +48,11 @@ test.describe.serial('Repositories page', () => {
       await expect(page.ownerSelector.options()).toHaveCount(2);
       await expect(page.ownerSelector.options().nth(0)).toHaveAttribute(
         'value',
-        'strykermutator-test-account'
+        'strykermutator-test-account',
       );
       await expect(page.ownerSelector.options().nth(1)).toHaveAttribute(
         'value',
-        'stryker-mutator-test-organization'
+        'stryker-mutator-test-organization',
       );
     });
 
@@ -67,7 +67,7 @@ test.describe.serial('Repositories page', () => {
 
       test("should show the repo's belonging to that organization", async () => {
         await expect(page.repositoryList.repositoryNamesLocator).toContainText(
-          'github.com/stryker-mutator-test-organization/hello-org'
+          'github.com/stryker-mutator-test-organization/hello-org',
         );
       });
     });
@@ -92,7 +92,7 @@ test.describe.serial('Repositories page', () => {
 
     test('should show the api key', async () => {
       await expect(page.modalDialog.apiKeyGenerator.apiKey).toHaveText(
-        API_KEY_REGEX
+        API_KEY_REGEX,
       );
     });
 
@@ -122,13 +122,13 @@ test.describe.serial('Repositories page', () => {
     test('should show the mutation score badge for that repo', async () => {
       await expect(repositoryPageObject.mutationScoreBadge.img).toHaveAttribute(
         'src',
-        createContainsRegExp(encodeURIComponent(repository.slug))
+        createContainsRegExp(encodeURIComponent(repository.slug)),
       );
       await expect(
-        repositoryPageObject.mutationScoreBadge.link
+        repositoryPageObject.mutationScoreBadge.link,
       ).toHaveAttribute(
         'href',
-        createContainsRegExp(`reports/${repository.slug}`)
+        createContainsRegExp(`reports/${repository.slug}`),
       );
     });
 
@@ -138,14 +138,14 @@ test.describe.serial('Repositories page', () => {
       });
       test('should hide the API key', async () => {
         await expect(page.modalDialog.apiKeyGenerator.apiKey).toContainText(
-          '•••••••••••••••••••'
+          '•••••••••••••••••••',
         );
       });
 
       test('should generate a new api key if "Generate new" is clicked', async () => {
         await page.modalDialog.apiKeyGenerator.generateNew();
         await expect(page.modalDialog.apiKeyGenerator.apiKey).toHaveText(
-          API_KEY_REGEX
+          API_KEY_REGEX,
         );
       });
     });

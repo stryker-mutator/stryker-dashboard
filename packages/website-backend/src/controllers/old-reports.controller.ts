@@ -9,8 +9,6 @@ import {
   Body,
   Controller,
   HttpCode,
-  HttpException,
-  HttpStatus,
   Post,
 } from '@nestjs/common';
 /**
@@ -38,7 +36,7 @@ export class OldReportsController {
     this.verifyRequiredPostScoreReportProperties(report);
     await this.#apiKeyValidator.validateApiKey(
       report.apiKey,
-      report.repositorySlug
+      report.repositorySlug,
     );
     await this.#dal.mutationTestingReportService.saveReport(
       {
@@ -47,7 +45,7 @@ export class OldReportsController {
         version: report.branch,
       },
       report,
-      log
+      log,
     );
     return '';
   }
@@ -55,9 +53,7 @@ export class OldReportsController {
   private verifyRequiredPostScoreReportProperties(body: any) {
     ['apiKey', 'repositorySlug', 'mutationScore'].forEach((prop) => {
       if (body[prop] === undefined) {
-        throw new BadRequestException(
-          `Missing required property "${prop}"`
-        );
+        throw new BadRequestException(`Missing required property "${prop}"`);
       }
     });
   }

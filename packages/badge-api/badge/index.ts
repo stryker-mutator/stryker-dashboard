@@ -5,6 +5,6 @@ import { createMutationTestingReportMapper } from '@stryker-mutator/dashboard-da
 import { handler } from './handler.js';
 
 const httpTrigger: AzureFunction = handler(
-  new ShieldMapper(createMutationTestingReportMapper())
+  new ShieldMapper(createMutationTestingReportMapper()),
 );
 export default httpTrigger;

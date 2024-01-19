@@ -4,7 +4,7 @@ import type { Report } from '@stryker-mutator/dashboard-common';
 export function scoreOnlyReport(
   projectName: string,
   version: string,
-  mutationScore: number
+  mutationScore: number,
 ): Report {
   return {
     mutationScore,
@@ -18,7 +18,7 @@ export function simpleReportV1(
   projectName: string,
   version: string,
   moduleName?: string,
-  states: MutantStatus[] = ['Survived', 'Survived', 'Killed']
+  states: MutantStatus[] = ['Survived', 'Survived', 'Killed'],
 ): Report {
   return {
     projectName,
@@ -93,7 +93,7 @@ export function simpleReportV2(
   projectName: string,
   version: string,
   moduleName?: string,
-  states: MutantStatus[] = ['Survived', 'Survived', 'Killed']
+  states: MutantStatus[] = ['Survived', 'Survived', 'Killed'],
 ): Report {
   return {
     projectName,
@@ -182,7 +182,7 @@ export function pendingReport(
   projectName: string,
   version: string,
   moduleName?: string,
-  states: MutantStatus[] = ['Pending', 'Pending', 'Pending']
+  states: MutantStatus[] = ['Pending', 'Pending', 'Pending'],
 ): Report {
   return simpleReportV2(projectName, version, moduleName, states);
 }

@@ -37,7 +37,7 @@ describe(MutationEventSender.name, () => {
     sinon.assert.calledWith(responseMock.write, 'event: mutant-tested\n');
     sinon.assert.calledWith(
       responseMock.write,
-      'data: {"id":"1","status":"Pending"}\n\n'
+      'data: {"id":"1","status":"Pending"}\n\n',
     );
   });
 

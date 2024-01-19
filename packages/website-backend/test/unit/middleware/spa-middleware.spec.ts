@@ -8,7 +8,7 @@ describe('spa middleware', () => {
   let sut: (
     req: Pick<Request, 'url' | 'method'>,
     res: Pick<Response, 'send'>,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   let responseStub: sinon.SinonStubbedInstance<Pick<Response, 'send'>>;
   let nextStub: sinon.SinonStub;
@@ -28,7 +28,7 @@ describe('spa middleware', () => {
         method: 'GET',
       },
       responseStub,
-      nextStub
+      nextStub,
     );
     expect(responseStub.send).not.called;
     expect(nextStub).called;
@@ -41,7 +41,7 @@ describe('spa middleware', () => {
         method: 'POST',
       },
       responseStub,
-      nextStub
+      nextStub,
     );
     expect(responseStub.send).not.called;
     expect(nextStub).called;
@@ -58,7 +58,7 @@ describe('spa middleware', () => {
         method: 'GET',
       },
       responseStub,
-      nextStub
+      nextStub,
     );
 
     // Assert
@@ -67,7 +67,7 @@ describe('spa middleware', () => {
     expect(readFileStub).calledWith(
       'frontend/index.html',
       'utf-8',
-      sinon.match.func
+      sinon.match.func,
     );
   });
 
@@ -83,7 +83,7 @@ describe('spa middleware', () => {
         method: 'GET',
       },
       responseStub,
-      nextStub
+      nextStub,
     );
 
     // Assert

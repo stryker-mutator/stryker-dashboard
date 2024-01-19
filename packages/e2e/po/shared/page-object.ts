@@ -15,7 +15,7 @@ export abstract class PageObject {
   static async selectAll<T extends PageObject>(
     host: Locator,
     PageObject: { new (locator: Locator): T },
-    expectedCount: number
+    expectedCount: number,
   ) {
     await expect(host).toHaveCount(expectedCount);
     const objects: T[] = [];

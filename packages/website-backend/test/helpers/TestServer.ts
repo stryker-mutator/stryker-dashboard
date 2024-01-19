@@ -23,7 +23,7 @@ export function createToken(user: github.Authentication): Promise<string> {
         } else {
           resolve(encoded!);
         }
-      }
+      },
     );
   });
 }
@@ -73,7 +73,7 @@ export class DataAccessMock implements IDataAccessMock {
     replace: sinon.stub(),
   };
   mutationTestingReportService = sinon.createStubInstance(
-    dal.MutationTestingReportService
+    dal.MutationTestingReportService,
   );
   blobService = sinon.createStubInstance(dal.RealTimeMutantsBlobService);
 }

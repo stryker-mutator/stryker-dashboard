@@ -23,11 +23,11 @@ test.describe('Real-time api', () => {
       const expectedResponse: PutReportResponse = {
         href: new URL(
           'reports/github.com/stryker-mutator-test-organization/hello-org/main?realTime=true',
-          baseURL
+          baseURL,
         ).toString(),
         projectHref: new URL(
           'reports/github.com/stryker-mutator-test-organization/hello-org/main',
-          baseURL
+          baseURL,
         ).toString(),
       };
 
@@ -58,12 +58,12 @@ test.describe('Real-time api', () => {
   function createPendingReport(): Report {
     return pendingReport(
       'github.com/stryker-mutator-test-organization/hello-org',
-      'main'
+      'main',
     );
   }
 
   async function uploadPendingReport(
-    report: Report
+    report: Report,
   ): Promise<PutReportResponse> {
     return await client.uploadPendingReport(report);
   }

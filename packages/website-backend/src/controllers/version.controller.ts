@@ -3,7 +3,7 @@ import { version } from '@stryker-mutator/dashboard-frontend';
 import { Controller, Get } from '@nestjs/common';
 
 const dashboardVersion = JSON.parse(
-  fs.readFileSync(new URL('../../../package.json', import.meta.url), 'utf-8')
+  fs.readFileSync(new URL('../../../package.json', import.meta.url), 'utf-8'),
 ).version;
 
 @Controller('/version')

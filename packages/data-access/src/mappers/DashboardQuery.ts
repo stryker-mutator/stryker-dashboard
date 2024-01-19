@@ -10,7 +10,7 @@ interface WhereCondition {
 export class DashboardQuery<
   TModel,
   TPartitionKeyFields extends keyof TModel,
-  TRowKeyFields extends keyof TModel
+  TRowKeyFields extends keyof TModel,
 > {
   private constructor(
     protected ModelClass: ModelClass<
@@ -18,11 +18,11 @@ export class DashboardQuery<
       TPartitionKeyFields,
       TRowKeyFields
     >,
-    private readonly whereConditions: WhereCondition[]
+    private readonly whereConditions: WhereCondition[],
   ) {}
 
   public whereRowKeyNotEquals(
-    rowKey: Pick<TModel, TRowKeyFields>
+    rowKey: Pick<TModel, TRowKeyFields>,
   ): DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> {
     const whereCondition: WhereCondition = {
       condition: 'not(RowKey eq ?)',
@@ -35,7 +35,7 @@ export class DashboardQuery<
   }
 
   public wherePartitionKeyEquals(
-    partitionKey: Pick<TModel, TPartitionKeyFields>
+    partitionKey: Pick<TModel, TPartitionKeyFields>,
   ): DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> {
     const whereCondition: WhereCondition = {
       condition: 'PartitionKey eq ?',
@@ -50,9 +50,9 @@ export class DashboardQuery<
   public static create<
     TModel,
     TPartitionKeyFields extends keyof TModel,
-    TRowKeyFields extends keyof TModel
+    TRowKeyFields extends keyof TModel,
   >(
-    ModelClass: ModelClass<TModel, TPartitionKeyFields, TRowKeyFields>
+    ModelClass: ModelClass<TModel, TPartitionKeyFields, TRowKeyFields>,
   ): DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> {
     return new DashboardQuery(ModelClass, []);
   }
@@ -62,7 +62,7 @@ export class DashboardQuery<
       if (index === 0) {
         return tableQuery.where(
           whereCondition.condition,
-          ...whereCondition.params
+          ...whereCondition.params,
         );
       } else {
         return tableQuery.and(whereCondition.condition, whereCondition.params);

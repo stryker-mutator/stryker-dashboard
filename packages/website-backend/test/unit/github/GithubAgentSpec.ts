@@ -34,7 +34,7 @@ describe('GithubClient', () => {
       expect(actualRepos).eq(expectedResponse.body);
       expect(httpClientMock.fetchJson).calledWith(
         'https://api.github.com/orgs/foobar/repos?type=member',
-        { headers: expectedHeaders }
+        { headers: expectedHeaders },
       );
     });
 
@@ -88,7 +88,7 @@ describe('GithubClient', () => {
       httpClientMock.fetchJson.rejects(new Error(message));
 
       return expect(
-        sut.getOrganizationRepositories(user, 'something')
+        sut.getOrganizationRepositories(user, 'something'),
       ).rejectedWith(message);
     });
   });
@@ -104,7 +104,7 @@ describe('GithubClient', () => {
       expect(actual).eq(response.body);
       expect(httpClientMock.fetchJson).calledWith(
         'https://api.github.com/user',
-        { headers: expectedHeaders }
+        { headers: expectedHeaders },
       );
     });
   });
@@ -120,7 +120,7 @@ describe('GithubClient', () => {
       expect(actual).eq(response.body);
       expect(httpClientMock.fetchJson).calledWith(
         'https://api.github.com/user/orgs',
-        { headers: expectedHeaders }
+        { headers: expectedHeaders },
       );
     });
   });
@@ -136,7 +136,7 @@ describe('GithubClient', () => {
       expect(actual).eq(response.body);
       expect(httpClientMock.fetchJson).calledWith(
         'https://api.github.com/orgs/foobar.org/repos?type=member',
-        { headers: expectedHeaders }
+        { headers: expectedHeaders },
       );
     });
   });
@@ -152,7 +152,7 @@ describe('GithubClient', () => {
       expect(actual).eq(response.body);
       expect(httpClientMock.fetchJson).calledWith(
         'https://api.github.com/user/repos?type=owner',
-        { headers: expectedHeaders }
+        { headers: expectedHeaders },
       );
     });
   });

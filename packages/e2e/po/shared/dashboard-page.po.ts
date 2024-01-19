@@ -8,7 +8,7 @@ export abstract class DashboardPage {
     const authToken = generateAuthToken();
     await this.page.goto('/');
     await this.page.evaluate(
-      `window.sessionStorage.setItem('authToken', '${authToken}');`
+      `window.sessionStorage.setItem('authToken', '${authToken}');`,
     );
   }
 

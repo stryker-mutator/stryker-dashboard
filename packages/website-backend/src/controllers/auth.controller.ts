@@ -17,12 +17,12 @@ export default class AuthController {
   public get(
     @Req() request: Request,
     @Res() response: Response,
-    @Next() next: NextFunction
+    @Next() next: NextFunction,
   ) {
     passport.authenticate('github', { scope: ['user:email', 'read:org'] })(
       request,
       response,
-      next
+      next,
     );
   }
 

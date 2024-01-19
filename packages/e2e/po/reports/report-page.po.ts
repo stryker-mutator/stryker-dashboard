@@ -4,7 +4,7 @@ import { MutationTestingReportAppPageObject } from './mutation-testing-report-ap
 export class ReportPage extends DashboardPage {
   public async navigate(
     repositorySlug: string,
-    version: string
+    version: string,
   ): Promise<void> {
     await this.page.goto(`/reports/${repositorySlug}/${version}`);
   }
@@ -12,7 +12,7 @@ export class ReportPage extends DashboardPage {
   public errorAlert = this.page.locator('.alert-danger');
   public warningAlert = this.page.locator('.alert-warning');
   public mutationTestReportApp = new MutationTestingReportAppPageObject(
-    this.page.locator('mutation-test-report-app')
+    this.page.locator('mutation-test-report-app'),
   );
   public mutationScore = this.page.locator('.stryker-mutation-score');
 }

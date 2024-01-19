@@ -18,19 +18,19 @@ export class FooModel {
   public bar: number;
 
   public static createPartitionKey(
-    entity: Pick<FooModel, 'partitionId'>
+    entity: Pick<FooModel, 'partitionId'>,
   ): string {
     return entity.partitionId;
   }
   public static createRowKey(
-    entity: Pick<FooModel, 'rowId'>
+    entity: Pick<FooModel, 'rowId'>,
   ): string | undefined {
     return entity.rowId;
   }
   public static identify(
     entity: FooModel,
     partitionKeyValue: string,
-    rowKeyValue: string
+    rowKeyValue: string,
   ): void {
     entity.partitionId = partitionKeyValue;
     entity.rowId = rowKeyValue;
@@ -63,7 +63,7 @@ describe(TModel.name, () => {
       helper.tableServiceAsPromisedMock.createTableIfNotExists.resolves();
       await helper.sut.createStorageIfNotExists();
       expect(
-        helper.tableServiceAsPromisedMock.createTableIfNotExists
+        helper.tableServiceAsPromisedMock.createTableIfNotExists,
       ).calledWith('FooTable');
     });
   });
@@ -84,7 +84,7 @@ describe(TModel.name, () => {
           RowKey: 'name',
           bar: 42,
           ['.metadata']: {},
-        }
+        },
       );
       expect(expected.bar).eq(42);
     });
@@ -101,13 +101,13 @@ describe(TModel.name, () => {
       expect(helper.tableServiceAsPromisedMock.retrieveEntity).calledWith(
         'FooTable',
         'github;partKey',
-        'row;key'
+        'row;key',
       );
     });
 
     it('should return null if it resulted in a 404', async () => {
       const error = new StorageError(
-        Constants.StorageErrorCodeStrings.RESOURCE_NOT_FOUND
+        Constants.StorageErrorCodeStrings.RESOURCE_NOT_FOUND,
       );
       helper.tableServiceAsPromisedMock.retrieveEntity.rejects(error);
       const actualProject = await helper.sut.findOne({
@@ -124,7 +124,7 @@ describe(TModel.name, () => {
         bar: 42,
       };
       helper.tableServiceAsPromisedMock.retrieveEntity.resolves(
-        createEntity(expected, 'etagValue')
+        createEntity(expected, 'etagValue'),
       );
       const actualProjects = await helper.sut.findOne({
         partitionId: 'github/partKey',
@@ -138,17 +138,17 @@ describe(TModel.name, () => {
     it('should query the underlying storage', async () => {
       const expectedQuery = new TableQuery().where(
         'PartitionKey eq ?',
-        'github;partKey'
+        'github;partKey',
       );
       helper.tableServiceAsPromisedMock.queryEntities.resolves({ entries: [] });
       await helper.sut.findAll(
         DashboardQuery.create(FooModel).wherePartitionKeyEquals({
           partitionId: 'github/partKey',
-        })
+        }),
       );
       expect(helper.tableServiceAsPromisedMock.queryEntities).calledWith(
         'FooTable',
-        expectedQuery
+        expectedQuery,
       );
     });
 
@@ -163,10 +163,10 @@ describe(TModel.name, () => {
       const actualProjects = await helper.sut.findAll(
         DashboardQuery.create(FooModel).wherePartitionKeyEquals({
           partitionId: 'github/partKey',
-        })
+        }),
       );
       expect(actualProjects).deep.eq(
-        expectedEntities.map((model) => ({ model, etag: 'foo-etag' }))
+        expectedEntities.map((model) => ({ model, etag: 'foo-etag' })),
       );
     });
   });
@@ -191,21 +191,21 @@ describe(TModel.name, () => {
       expect(helper.tableServiceAsPromisedMock.replaceEntity).calledWith(
         FooModel.tableName,
         expectedEntity,
-        {}
+        {},
       );
     });
 
     it('should throw a OptimisticConcurrencyError if the UPDATE_CONDITION_NOT_SATISFIED is thrown', async () => {
       helper.tableServiceAsPromisedMock.replaceEntity.rejects(
         new StorageError(
-          Constants.StorageErrorCodeStrings.UPDATE_CONDITION_NOT_SATISFIED
-        )
+          Constants.StorageErrorCodeStrings.UPDATE_CONDITION_NOT_SATISFIED,
+        ),
       );
       await expect(
         helper.sut.replace(
           { bar: 24, partitionId: 'part', rowId: 'row' },
-          'prev-etag'
-        )
+          'prev-etag',
+        ),
       ).rejectedWith(OptimisticConcurrencyError);
     });
   });
@@ -229,16 +229,16 @@ describe(TModel.name, () => {
       expect(helper.tableServiceAsPromisedMock.insertEntity).calledWith(
         FooModel.tableName,
         createRawEntity(expected),
-        {}
+        {},
       );
     });
 
     it('should throw an OptimisticConcurrencyError if the entity already exists', async () => {
       helper.tableServiceAsPromisedMock.insertEntity.rejects(
-        new StorageError(Constants.TableErrorCodeStrings.ENTITY_ALREADY_EXISTS)
+        new StorageError(Constants.TableErrorCodeStrings.ENTITY_ALREADY_EXISTS),
       );
       await expect(
-        helper.sut.insert({ bar: 24, partitionId: 'part', rowId: 'row' })
+        helper.sut.insert({ bar: 24, partitionId: 'part', rowId: 'row' }),
       ).rejectedWith(OptimisticConcurrencyError);
     });
   });
@@ -269,7 +269,7 @@ describe(TModel.name, () => {
 
   function createEntity(
     overrides?: Partial<FooModel>,
-    etag = 'foo-etag'
+    etag = 'foo-etag',
   ): Entity<FooModel, 'partitionId' | 'rowId'> {
     const foo: FooModel = {
       bar: 42,

@@ -33,7 +33,7 @@ describe(MutationTestingResultMapper.name, () => {
       const result = createMutationTestResult();
       await sut.insertOrReplace(
         { moduleName: 'core', projectName: 'project', version: 'version' },
-        result
+        result,
       );
       expect(blobMock.createBlockBlobFromText).calledWith(
         'mutation-testing-report',
@@ -44,7 +44,7 @@ describe(MutationTestingResultMapper.name, () => {
             contentType: 'application/json',
             contentEncoding: 'utf8',
           },
-        }
+        },
       );
     });
 
@@ -57,7 +57,7 @@ describe(MutationTestingResultMapper.name, () => {
           version: 'version',
           realTime: true,
         },
-        result
+        result,
       );
       expect(blobMock.createBlockBlobFromText).calledWith(
         'mutation-testing-report',
@@ -68,19 +68,19 @@ describe(MutationTestingResultMapper.name, () => {
             contentType: 'application/json',
             contentEncoding: 'utf8',
           },
-        }
+        },
       );
     });
 
     it('should throw OptimisticConcurrencyError "BlobHasBeenModified" is thrown', async () => {
       blobMock.createBlockBlobFromText.rejects(
-        new StorageError('BlobHasBeenModified')
+        new StorageError('BlobHasBeenModified'),
       );
       await expect(
         sut.insertOrReplace(
           { moduleName: 'core', projectName: 'project', version: 'version' },
-          null
-        )
+          null,
+        ),
       ).rejectedWith(OptimisticConcurrencyError);
     });
   });
@@ -96,14 +96,14 @@ describe(MutationTestingResultMapper.name, () => {
       });
       expect(blobMock.blobToText).calledWith(
         'mutation-testing-report',
-        'project;version;core'
+        'project;version;core',
       );
       expect(actual).deep.eq(expected);
     });
 
     it('should return null when "BlobNotFound" is thrown', async () => {
       blobMock.blobToText.rejects(
-        new StorageError(Constants.BlobErrorCodeStrings.BLOB_NOT_FOUND)
+        new StorageError(Constants.BlobErrorCodeStrings.BLOB_NOT_FOUND),
       );
       const actual = await sut.findOne({
         moduleName: 'core',
@@ -127,7 +127,7 @@ describe(MutationTestingResultMapper.name, () => {
       expect(blobMock.deleteBlobIfExists.calledOnce).to.be.true;
       expect(blobMock.deleteBlobIfExists).calledWith(
         'mutation-testing-report',
-        'project;version;core'
+        'project;version;core',
       );
     });
   });

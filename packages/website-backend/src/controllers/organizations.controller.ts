@@ -13,7 +13,7 @@ export default class OrganizationsController {
   @Get('/:name/repositories')
   public get(
     @Param('name') login: string,
-    @Req() req: Express.Request
+    @Req() req: Express.Request,
   ): Promise<Repository[]> {
     return this.#repositoryService.getAllForOrganization(req.user!, login);
   }

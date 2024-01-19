@@ -10,7 +10,7 @@ describe(constructApiUri.name, () => {
     });
 
     expect(uri).to.eq(
-      'http://stryker-website/api/reports/github.com/user/project'
+      'http://stryker-website/api/reports/github.com/user/project',
     );
   });
 
@@ -21,7 +21,7 @@ describe(constructApiUri.name, () => {
     });
 
     expect(uri).to.eq(
-      'http://stryker-website/api/reports/github.com/user/project'
+      'http://stryker-website/api/reports/github.com/user/project',
     );
   });
 
@@ -32,7 +32,7 @@ describe(constructApiUri.name, () => {
     });
 
     expect(uri).to.eq(
-      'http://stryker-website/api/reports/github.com/user/project?module=project-submodule'
+      'http://stryker-website/api/reports/github.com/user/project?module=project-submodule',
     );
   });
 
@@ -43,7 +43,7 @@ describe(constructApiUri.name, () => {
     });
 
     expect(uri).to.eq(
-      'http://stryker-website/api/reports/github.com/user/project?realTime=true'
+      'http://stryker-website/api/reports/github.com/user/project?realTime=true',
     );
   });
 
@@ -54,7 +54,7 @@ describe(constructApiUri.name, () => {
     });
 
     expect(uri).to.eq(
-      'http://stryker-website/api/reports/github.com/user/project?module=project-submodule&realTime=true'
+      'http://stryker-website/api/reports/github.com/user/project?module=project-submodule&realTime=true',
     );
   });
 });

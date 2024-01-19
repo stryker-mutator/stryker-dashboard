@@ -28,7 +28,7 @@ describe('utils', () => {
           version: 'main',
           moduleName: 'def',
           realTime: true,
-        })
+        }),
       ).to.eq('abc;main;def;real-time');
     });
 
@@ -39,7 +39,7 @@ describe('utils', () => {
           version: 'main',
           moduleName: undefined,
           realTime: true,
-        })
+        }),
       ).to.eq('abc;main;real-time');
     });
 
@@ -50,7 +50,7 @@ describe('utils', () => {
           version: 'main',
           moduleName: 'def',
           realTime: undefined,
-        })
+        }),
       );
     });
   });

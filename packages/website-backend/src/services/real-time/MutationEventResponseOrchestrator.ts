@@ -13,7 +13,7 @@ export default class MutationEventResponseOrchestrator {
   }
 
   createOrGetResponseHandler(
-    identifier: ReportIdentifier
+    identifier: ReportIdentifier,
   ): MutationEventResponseHandler {
     const id = this.#toId(identifier);
     if (!this.#responseHandlers.has(id)) {
