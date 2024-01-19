@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { Headers } from 'node-fetch';
 import GithubAgent from '../../../src/github/GithubAgent.js';
 import HttpClient, { Response } from '../../../src/client/HttpClient.js';
 import * as github from '../../../src/github/models.js';
