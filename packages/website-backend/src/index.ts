@@ -9,6 +9,7 @@ import Configuration from './services/Configuration.js';
 import { githubStrategy } from './middleware/security.middleware.js';
 import { INestApplication } from '@nestjs/common';
 import DataAccess from './services/DataAccess.js';
+import parser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,6 +20,7 @@ async function bootstrap() {
 
   app.use(express.static(dist));
   app.use(spa(path.join(dist, 'index.html')));
+  app.use(parser.json({ limit: '100mb' }))
   await app.listen(1337);
 }
 
