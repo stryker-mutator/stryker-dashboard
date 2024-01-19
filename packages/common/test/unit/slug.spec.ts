@@ -5,7 +5,7 @@ describe(Slug.name, () => {
   describe('parse', () => {
     it('should parse project name and version correctly', () => {
       expect(Slug.parse('a/b/c/dds%20ds')).deep.eq(
-        new Slug('a/b/c', 'dds%20ds')
+        new Slug('a/b/c', 'dds%20ds'),
       );
     });
 
@@ -15,9 +15,9 @@ describe(Slug.name, () => {
 
     it('should allow a version with slashes', () => {
       expect(
-        Slug.parse('github.com/stryker-mutator/stryker/feat/support/slashes')
+        Slug.parse('github.com/stryker-mutator/stryker/feat/support/slashes'),
       ).deep.eq(
-        new Slug('github.com/stryker-mutator/stryker', 'feat/support/slashes')
+        new Slug('github.com/stryker-mutator/stryker', 'feat/support/slashes'),
       );
     });
 

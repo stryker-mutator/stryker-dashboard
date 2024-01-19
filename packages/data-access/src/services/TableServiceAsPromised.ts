@@ -34,24 +34,24 @@ export interface EntityMetadata {
 export default class TableServiceAsPromised {
   constructor(tableService = createTableService()) {
     this.createTableIfNotExists = promisify(
-      tableService.createTableIfNotExists
+      tableService.createTableIfNotExists,
     ).bind(tableService);
     this.queryEntities = promisify(tableService.queryEntities).bind(
-      tableService
+      tableService,
     ) as any;
     this.insertOrMergeEntity = promisify(tableService.insertOrMergeEntity).bind(
-      tableService
+      tableService,
     );
     this.retrieveEntity = promisify(tableService.retrieveEntity).bind(
-      tableService
+      tableService,
     ) as <TResult>(
       table: string,
       partitionKey: string,
       rowKey: string,
-      options?: TableService.TableEntityRequestOptions
+      options?: TableService.TableEntityRequestOptions,
     ) => Promise<TResult>;
     this.replaceEntity = promisify(tableService.replaceEntity).bind(
-      tableService
+      tableService,
     );
     this.insertEntity = promisify(tableService.insertEntity).bind(tableService);
   }
@@ -59,29 +59,29 @@ export default class TableServiceAsPromised {
   public insertEntity: (
     table: string,
     entityDescriptor: unknown,
-    options: common.RequestOptions
+    options: common.RequestOptions,
   ) => Promise<TableService.EntityMetadata>;
   public replaceEntity: (
     table: string,
     entityDescriptor: unknown,
-    options: common.RequestOptions
+    options: common.RequestOptions,
   ) => Promise<TableService.EntityMetadata>;
   public createTableIfNotExists: (
-    name: string
+    name: string,
   ) => Promise<TableService.TableResult>;
   public queryEntities: <T, Keys extends keyof T>(
     table: string,
     tableQuery: TableQuery,
-    cancellationToken: TableService.TableContinuationToken | undefined
+    cancellationToken: TableService.TableContinuationToken | undefined,
   ) => Promise<TableService.QueryEntitiesResult<Entity<T, Keys> & EntityKey>>;
   public insertOrMergeEntity: (
     table: string,
-    entity: any
+    entity: any,
   ) => Promise<TableService.EntityMetadata>;
   public retrieveEntity: <TResult>(
     table: string,
     partitionKey: string,
     rowKey: string,
-    options?: TableService.TableEntityRequestOptions
+    options?: TableService.TableEntityRequestOptions,
   ) => Promise<TResult>;
 }

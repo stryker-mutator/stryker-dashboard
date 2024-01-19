@@ -8,7 +8,7 @@ export class RepositoriesListPageObject extends PageObject {
 
   public repository(name: string): RepositorySwitchPageObject {
     const host = this.repositoriesLocator.locator(
-      `:has(.repo-slug:has-text("${name}"))`
+      `:has(.repo-slug:has-text("${name}"))`,
     );
     return new RepositorySwitchPageObject(host);
   }
@@ -17,7 +17,7 @@ export class RepositoriesListPageObject extends PageObject {
     return PageObject.selectAll(
       this.repositoriesLocator,
       RepositorySwitchPageObject,
-      expectedCount
+      expectedCount,
     );
   }
 }

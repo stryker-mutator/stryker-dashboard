@@ -22,10 +22,10 @@ describe(BlobServiceAsPromised.name, () => {
       expect(result).instanceof(Promise);
       expect(blobServiceMock.createContainerIfNotExists).calledWith(
         'some-blob-storage',
-        { publicAccessLevel: 'container' }
+        { publicAccessLevel: 'container' },
       );
       expect(blobServiceMock.createContainerIfNotExists).calledOn(
-        blobServiceMock
+        blobServiceMock,
       );
     });
   });
@@ -42,7 +42,7 @@ describe(BlobServiceAsPromised.name, () => {
         'foo',
         'bar',
         'baz',
-        { contentSettings: { contentEncoding: 'utf8' } }
+        { contentSettings: { contentEncoding: 'utf8' } },
       );
       expect(blobServiceMock.createBlockBlobFromText).calledOn(blobServiceMock);
     });

@@ -35,7 +35,7 @@ describe(RealTimeMutantsBlobService.name, () => {
       expect(blobMock.createContainerIfNotExists.calledOnce).to.be.true;
       expect(blobMock.createContainerIfNotExists).calledWith(
         'real-time-mutant-results',
-        {}
+        {},
       );
     });
   });
@@ -48,7 +48,7 @@ describe(RealTimeMutantsBlobService.name, () => {
       expect(blobMock.createAppendBlobFromText).calledWith(
         'real-time-mutant-results',
         'abc;main;real-time',
-        ''
+        '',
       );
     });
   });
@@ -65,7 +65,7 @@ describe(RealTimeMutantsBlobService.name, () => {
       expect(blobMock.appendBlockFromText).calledWith(
         'real-time-mutant-results',
         'abc;main;real-time',
-        '{"id":"1","status":"Killed"}\n{"id":"2","status":"Survived"}\n'
+        '{"id":"1","status":"Killed"}\n{"id":"2","status":"Survived"}\n',
       );
     });
   });
@@ -74,8 +74,8 @@ describe(RealTimeMutantsBlobService.name, () => {
     it('should get the events correctly', async () => {
       blobMock.blobToText.returns(
         Promise.resolve(
-          '{"id":"1","status":"Killed"}\n{"id":"2","status":"Survived"}\n'
-        )
+          '{"id":"1","status":"Killed"}\n{"id":"2","status":"Survived"}\n',
+        ),
       );
 
       const events = await sut.getReport(id);
@@ -111,7 +111,7 @@ describe(RealTimeMutantsBlobService.name, () => {
       expect(blobMock.deleteBlobIfExists.calledOnce).to.be.true;
       expect(blobMock.deleteBlobIfExists).calledWith(
         'real-time-mutant-results',
-        'project;version;core'
+        'project;version;core',
       );
     });
   });

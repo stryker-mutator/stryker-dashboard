@@ -41,7 +41,7 @@ export default class ReportsController {
     apiKeyValidator: ApiKeyValidator,
     config: Configuration,
     dataAccess: DataAccess,
-    reportValidator: ReportValidator
+    reportValidator: ReportValidator,
   ) {
     this.#apiKeyValidator = apiKeyValidator;
     this.#config = config;
@@ -54,7 +54,7 @@ export default class ReportsController {
     @Param('slug') slug: string,
     @Body() result: MutationScoreOnlyResult | MutationTestResult,
     @Query('module') moduleName: string | undefined,
-    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined
+    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined,
   ): Promise<PutReportResponse> {
     if (!authorizationHeader) {
       throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
@@ -67,14 +67,12 @@ export default class ReportsController {
       await this.#reportService.saveReport(
         { projectName: project, version, moduleName },
         result,
-        this.#logger
+        this.#logger,
       );
 
       if (moduleName && isMutationTestResult(result)) {
         return {
-          href: `${
-            this.#config.baseUrl
-          }/reports/${project}/${version}?module=${moduleName}`,
+          href: `${this.#config.baseUrl}/reports/${project}/${version}?module=${moduleName}`,
           projectHref: `${this.#config.baseUrl}/reports/${project}/${version}`,
         };
       } else {
@@ -101,7 +99,7 @@ export default class ReportsController {
   public async get(
     @Param('slug') slug: string,
     @Query('module') moduleName: string | undefined,
-    @Query('realTime') realTime: boolean | undefined
+    @Query('realTime') realTime: boolean | undefined,
   ): Promise<Report> {
     const { project, version } = parseSlug(slug);
     const id = {
@@ -123,13 +121,13 @@ export default class ReportsController {
       return report;
     } else {
       throw new NotFoundException(
-        `Version "${version}" does not exist for "${project}".`
+        `Version "${version}" does not exist for "${project}".`,
       );
     }
   }
 
   private verifyRequiredPutReportProperties(
-    body: MutationScoreOnlyResult | MutationTestResult
+    body: MutationScoreOnlyResult | MutationTestResult,
   ) {
     const errors = this.#reportValidator.findErrors(body);
     if (errors) {
@@ -145,7 +143,7 @@ export default class ReportsController {
   }
 
   private verifyIsCompletedReport(
-    result: MutationScoreOnlyResult | MutationTestResult
+    result: MutationScoreOnlyResult | MutationTestResult,
   ) {
     if (!isMutationTestResult(result)) {
       return;
@@ -153,7 +151,7 @@ export default class ReportsController {
 
     if (isPendingReport(result)) {
       throw new BadRequestException(
-        'Submitting pending reports to the completed reports endpoint is not allowed.'
+        'Submitting pending reports to the completed reports endpoint is not allowed.',
       );
     }
   }

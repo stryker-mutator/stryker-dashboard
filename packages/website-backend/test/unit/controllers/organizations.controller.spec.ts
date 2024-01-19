@@ -58,7 +58,7 @@ describe(OrganizationsController.name, () => {
       // Assert
       expect(getAllForOrganizationStub).calledWithMatch(
         expectedUser,
-        'foobarOrg'
+        'foobarOrg',
       );
     });
   });

@@ -51,7 +51,7 @@ describe(RealTimeReportsController.name, () => {
     dataAccess.blobService.getReport.returns(Promise.resolve([]));
 
     const orchestrator = app.get<MutationEventResponseOrchestratorMock>(
-      MutationEventResponseOrchestrator
+      MutationEventResponseOrchestrator,
     );
 
     removeResponseHandlerStub =
@@ -81,7 +81,7 @@ describe(RealTimeReportsController.name, () => {
       dataAccess.mutationTestingReportService.findOne.resolves(null);
 
       const response = await request(app.getHttpServer()).get(
-        '/api/real-time/github.com/user/does-not-exist/master'
+        '/api/real-time/github.com/user/does-not-exist/master',
       );
 
       expect(response.status).to.eq(404);
@@ -105,7 +105,7 @@ describe(RealTimeReportsController.name, () => {
       });
 
       const response = await request(app.getHttpServer()).get(
-        '/api/real-time/github.com/user/does-not-exist/master'
+        '/api/real-time/github.com/user/does-not-exist/master',
       );
 
       expect(response.status).to.eq(200);
@@ -141,11 +141,11 @@ describe(RealTimeReportsController.name, () => {
         Promise.resolve([
           { id: '1', status: 'Killed' },
           { id: '2', status: 'Survived' },
-        ])
+        ]),
       );
 
       await request(app.getHttpServer()).get(
-        '/api/real-time/github.com/user/does-not-exist/master'
+        '/api/real-time/github.com/user/does-not-exist/master',
       );
 
       expect(dataAccess.blobService.getReport).calledWith({
@@ -168,7 +168,7 @@ describe(RealTimeReportsController.name, () => {
 
     it('should return unauthorized if the `X-Api-key` header is not set', async () => {
       const response = await request(app.getHttpServer()).post(
-        '/api/real-time/github.com/user/does-exist/master'
+        '/api/real-time/github.com/user/does-exist/master',
       );
 
       expect(response.status).to.eq(401);
@@ -225,7 +225,7 @@ describe(RealTimeReportsController.name, () => {
       // Act
       const response = await request(app.getHttpServer())
         .put(
-          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
+          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging',
         )
         .set('X-Api-Key', apiKey)
         .send(mutationTestResult);
@@ -233,7 +233,7 @@ describe(RealTimeReportsController.name, () => {
       // Assert
       expect(response.status).eq(200);
       expect(
-        dataAccess.mutationTestingReportService.saveReport.firstCall.firstArg
+        dataAccess.mutationTestingReportService.saveReport.firstCall.firstArg,
       ).to.deep.include({
         projectName: 'github.com/testOrg/testName',
         version: 'myWebsite',
@@ -285,7 +285,7 @@ describe(RealTimeReportsController.name, () => {
 
       // Arrange
       expect(response.body.href).to.deep.include(
-        'baseUrl/reports/github.com/testOrg/testName/main?module=logging&realTime=true'
+        'baseUrl/reports/github.com/testOrg/testName/main?module=logging&realTime=true',
       );
     });
 
@@ -301,7 +301,7 @@ describe(RealTimeReportsController.name, () => {
 
       // Arrange
       expect(response.body.href).to.deep.include(
-        'baseUrl/reports/github.com/testOrg/testName/main?realTime=true'
+        'baseUrl/reports/github.com/testOrg/testName/main?realTime=true',
       );
     });
   });
@@ -309,7 +309,7 @@ describe(RealTimeReportsController.name, () => {
   describe('HTTP DELETE /*', () => {
     it('should return unauthorized when header is not present', async () => {
       const response = await request(app.getHttpServer()).delete(
-        '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
+        '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging',
       );
 
       expect(response.status).to.eq(401);
@@ -319,7 +319,7 @@ describe(RealTimeReportsController.name, () => {
     it('should return unauthorized if ApiKey is invalid', async () => {
       const response = await request(app.getHttpServer())
         .delete(
-          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
+          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging',
         )
         .set('X-Api-Key', 'does-not-exist-abc');
 
@@ -331,7 +331,7 @@ describe(RealTimeReportsController.name, () => {
       responseHandlerForProjectStub.returns(stub);
       const response = await request(app.getHttpServer())
         .delete(
-          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
+          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging',
         )
         .set('X-Api-Key', apiKey);
 
@@ -352,7 +352,7 @@ describe(RealTimeReportsController.name, () => {
       responseHandlerForProjectStub.returns(stub);
       await request(app.getHttpServer())
         .delete(
-          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging'
+          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging',
         )
         .set('X-Api-Key', apiKey);
 
@@ -367,7 +367,7 @@ describe(RealTimeReportsController.name, () => {
       expect(dataAccess.mutationTestingReportService.delete.calledOnce).to.be
         .true;
       expect(dataAccess.mutationTestingReportService.delete).calledWith(
-        expectedId
+        expectedId,
       );
     });
   });

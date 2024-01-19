@@ -57,7 +57,7 @@ describe(AuthController.name, () => {
 
       // Act
       const onGoingRequest = request(app.getHttpServer()).post(
-        '/api/auth/github?code=foo'
+        '/api/auth/github?code=foo',
       );
 
       // Assert

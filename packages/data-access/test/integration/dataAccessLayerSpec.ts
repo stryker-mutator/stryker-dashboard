@@ -34,7 +34,7 @@ describe('Data access layer', () => {
       ]);
       await sut.createStorageIfNotExists();
       const result: TableService.TableResult = await promisify(
-        tableService.doesTableExist
+        tableService.doesTableExist,
       ).apply(tableService, ['Project']);
       expect(result.exists).eq(true);
     });
@@ -49,7 +49,7 @@ describe('Data access layer', () => {
       });
       const actual = await promisify(tableService.retrieveEntity).apply(
         tableService,
-        ['Project', key.PartitionKey, key.RowKey]
+        ['Project', key.PartitionKey, key.RowKey],
       );
       expect(actual).deep.include({
         PartitionKey: { $: 'Edm.String', _: 'partKey' },
@@ -86,7 +86,7 @@ describe('Data access layer', () => {
       const actual = await sut.findAll(
         DashboardQuery.create(Project).wherePartitionKeyEquals({
           owner: key.PartitionKey,
-        })
+        }),
       );
       expect(actual).deep.eq([
         { owner: 'stryker-mutator', name: 'stryker', enabled: true },

@@ -47,7 +47,7 @@ describe('RepositoriesController', () => {
     generateApiKeyStub = sinon.stub(utils, 'generateApiKey');
     generateHashStub = sinon.stub(utils, 'generateHashValue');
     const githubRepositoryService = app.get<GithubRepositoryService>(
-      GithubRepositoryService
+      GithubRepositoryService,
     );
     updateStub = sinon.stub(githubRepositoryService, 'update');
 
@@ -73,7 +73,7 @@ describe('RepositoriesController', () => {
         'foo',
         'bar',
         true,
-        'hashed api key'
+        'hashed api key',
       );
     });
 

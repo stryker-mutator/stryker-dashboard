@@ -32,14 +32,14 @@ export default class UserController {
 
   @Get('/repositories')
   public getRepositories(
-    @Req() request: Express.Request
+    @Req() request: Express.Request,
   ): Promise<contract.Repository[]> {
     return this.#repositoryService.getAllForUser(request.user!);
   }
 
   @Get('/organizations')
   public async getOrganizations(
-    @Req() req: Express.Request
+    @Req() req: Express.Request,
   ): Promise<contract.Login[]> {
     const githubLogins = await this.#agent.getMyOrganizations(req.user!);
     return allToContract(githubLogins);

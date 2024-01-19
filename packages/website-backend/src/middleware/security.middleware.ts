@@ -18,7 +18,7 @@ export const githubStrategy = (config: Configuration): Strategy => {
     accessToken: string,
     _refreshToken: string,
     profile: passport.Profile,
-    done: (error: any, user?: any) => void
+    done: (error: any, user?: any) => void,
   ) => {
     debug('auth')('Processing incoming OAuth 2 tokens');
     const user = {
@@ -57,7 +57,7 @@ export class GithubSecurityMiddleware implements NestMiddleware {
   public use(
     @Req() request: Request,
     @Res() response: Response,
-    @Next() next: NextFunction
+    @Next() next: NextFunction,
   ) {
     this.requestHandler(request, response, next);
   }
@@ -71,7 +71,7 @@ const tokenOptions = Object.freeze({
 } as const);
 export const createToken = (
   user: Authentication,
-  jwtSecret: string
+  jwtSecret: string,
 ): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
     jwt.sign(user, jwtSecret, tokenOptions, (err, encoded) => {
@@ -87,7 +87,7 @@ export const createToken = (
 export function passportAuthenticateGithub(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   return passport.authenticate('github', { session: false })(req, res, next);
 }

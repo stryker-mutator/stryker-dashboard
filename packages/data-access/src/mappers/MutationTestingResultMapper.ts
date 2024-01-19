@@ -16,19 +16,19 @@ export class MutationTestingResultMapper {
   private static readonly CONTAINER_NAME = 'mutation-testing-report';
 
   constructor(
-    private readonly blobService: BlobServiceAsPromised = new BlobServiceAsPromised()
+    private readonly blobService: BlobServiceAsPromised = new BlobServiceAsPromised(),
   ) {}
 
   public createStorageIfNotExists(): Promise<BlobService.ContainerResult> {
     return this.blobService.createContainerIfNotExists(
       MutationTestingResultMapper.CONTAINER_NAME,
-      {}
+      {},
     );
   }
 
   public async insertOrReplace(
     id: ReportIdentifier,
-    result: schema.MutationTestResult | null
+    result: schema.MutationTestResult | null,
   ) {
     try {
       await this.blobService.createBlockBlobFromText(
@@ -40,7 +40,7 @@ export class MutationTestingResultMapper {
             contentType: 'application/json',
             contentEncoding: 'utf8',
           },
-        }
+        },
       );
     } catch (err) {
       if (
@@ -48,7 +48,7 @@ export class MutationTestingResultMapper {
         err.code === additionalErrorCodes.BLOB_HAS_BEEN_MODIFIED
       ) {
         throw new OptimisticConcurrencyError(
-          `Blob "${JSON.stringify(id)}" was modified by another process`
+          `Blob "${JSON.stringify(id)}" was modified by another process`,
         );
       } else {
         throw err; // Oops
@@ -57,15 +57,15 @@ export class MutationTestingResultMapper {
   }
 
   public async findOne(
-    identifier: ReportIdentifier
+    identifier: ReportIdentifier,
   ): Promise<schema.MutationTestResult | null> {
     const blobName = toBlobName(identifier);
     try {
       const result: schema.MutationTestResult = JSON.parse(
         await this.blobService.blobToText(
           MutationTestingResultMapper.CONTAINER_NAME,
-          blobName
-        )
+          blobName,
+        ),
       );
       return result;
     } catch (error) {
@@ -85,7 +85,7 @@ export class MutationTestingResultMapper {
     const blobName = toBlobName(id);
     await this.blobService.deleteBlobIfExists(
       MutationTestingResultMapper.CONTAINER_NAME,
-      blobName
+      blobName,
     );
   }
 }

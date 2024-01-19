@@ -16,14 +16,14 @@ test.describe('Report api', () => {
       const response = await client.uploadReport(
         simpleReportV1(
           'github.com/stryker-mutator-test-organization/hello-org',
-          'feat/report'
-        )
+          'feat/report',
+        ),
       );
 
       const expectedResponse: PutReportResponse = {
         href: new URL(
           '/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report',
-          baseURL
+          baseURL,
         ).toString(),
       };
       expect(response).toEqual(expectedResponse);
@@ -34,18 +34,18 @@ test.describe('Report api', () => {
         simpleReportV2(
           'github.com/stryker-mutator-test-organization/hello-org',
           'feat/report',
-          'module'
-        )
+          'module',
+        ),
       );
 
       const expectedResponse: PutReportResponse = {
         href: new URL(
           '/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report?module=module',
-          baseURL
+          baseURL,
         ).toString(),
         projectHref: new URL(
           '/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report',
-          baseURL
+          baseURL,
         ).toString(),
       };
       expect(response).toEqual(expectedResponse);
@@ -58,18 +58,18 @@ test.describe('Report api', () => {
         simpleReportV1(
           'github.com/stryker-mutator-test-organization/hello-org',
           'feat/report',
-          'fooModule'
-        )
+          'fooModule',
+        ),
       );
 
       const expectedResponse: PutReportResponse = {
         href: new URL(
           '/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report?module=fooModule',
-          baseURL
+          baseURL,
         ).toString(),
         projectHref: new URL(
           '/reports/github.com/stryker-mutator-test-organization/hello-org/feat/report',
-          baseURL
+          baseURL,
         ).toString(),
       };
       expect(response).toEqual(expectedResponse);

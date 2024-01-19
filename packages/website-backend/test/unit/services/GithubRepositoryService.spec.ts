@@ -86,7 +86,7 @@ describe('GithubRepositoryService.js', () => {
 
       const actual = await sut.getAllForOrganization(
         githubFactory.authentication(),
-        'foobarOrg'
+        'foobarOrg',
       );
       expect(actual).deep.eq(expectedRepos);
     });
@@ -98,32 +98,32 @@ describe('GithubRepositoryService.js', () => {
       await sut.getAllForOrganization(user, 'foobarOrg');
       expect(githubAgentMock.getOrganizationRepositories).calledWith(
         user,
-        'foobarOrg'
+        'foobarOrg',
       );
       expect(dataAccessMock.repositoryMapper.findAll).calledWith(
         DashboardQuery.create(Project).wherePartitionKeyEquals({
           owner: 'github.com/foobarOrg',
-        })
+        }),
       );
     });
 
     it('should reject if database is unavailable', () => {
       dataAccessMock.repositoryMapper.findAll.rejects(
-        new Error('database unavailable')
+        new Error('database unavailable'),
       );
       githubAgentMock.getOrganizationRepositories.resolves([]);
       return expect(
-        sut.getAllForOrganization(githubFactory.authentication(), '')
+        sut.getAllForOrganization(githubFactory.authentication(), ''),
       ).rejectedWith('database unavailable');
     });
 
     it('should give internal server error when github is unavailable', () => {
       dataAccessMock.repositoryMapper.findAll.resolves([]);
       githubAgentMock.getOrganizationRepositories.rejects(
-        new Error('github unavailable')
+        new Error('github unavailable'),
       );
       return expect(
-        sut.getAllForOrganization(githubFactory.authentication(), '')
+        sut.getAllForOrganization(githubFactory.authentication(), ''),
       ).rejectedWith('github unavailable');
     });
   });
@@ -138,7 +138,7 @@ describe('GithubRepositoryService.js', () => {
         const httpError = err as HttpException;
         expect(httpError.getStatus()).eq(401);
         expect(httpError.message).eq(
-          `Permission denied. foobar does not have enough permissions for resource / (was "push": false).`
+          `Permission denied. foobar does not have enough permissions for resource / (was "push": false).`,
         );
       }
     });
@@ -156,7 +156,7 @@ describe('GithubRepositoryService.js', () => {
         'owner',
         'name',
         true,
-        'apiKeyHash'
+        'apiKeyHash',
       );
       expect(dataAccessMock.repositoryMapper.insertOrMerge).calledWith({
         apiKeyHash: 'apiKeyHash',

@@ -10,7 +10,7 @@ export function decodeKey(inputWithSemiColons: string) {
 }
 
 export function isStorageError(
-  maybeStorageError: unknown
+  maybeStorageError: unknown,
 ): maybeStorageError is StorageError {
   return (
     maybeStorageError instanceof Error &&

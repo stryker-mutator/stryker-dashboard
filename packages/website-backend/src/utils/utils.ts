@@ -1,6 +1,5 @@
 import { v4 as uuidV4 } from 'uuid';
 import { sha512_256 } from 'js-sha512';
-import fetch from 'node-fetch';
 import { InvalidSlugError, Slug } from '@stryker-mutator/dashboard-common';
 import { NotFoundException } from '@nestjs/common';
 
@@ -42,6 +41,4 @@ export default {
   generateHashValue(value: string): string {
     return sha512_256(value);
   },
-
-  fetch,
 };

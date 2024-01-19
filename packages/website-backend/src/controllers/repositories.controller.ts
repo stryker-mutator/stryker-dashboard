@@ -27,11 +27,11 @@ export default class RepositoriesController {
     @Param('name') name: string,
     @Body() repository: Partial<Repository>,
     @Req() request: express.Request,
-    @Res() response: express.Response
+    @Res() response: express.Response,
   ) {
     if (repository.enabled === undefined) {
       throw new BadRequestException(
-        'PATCH is only allowed for the `enabled` property'
+        'PATCH is only allowed for the `enabled` property',
       );
     } else {
       const authentication: github.Authentication = request.user!;
@@ -43,7 +43,7 @@ export default class RepositoriesController {
           owner,
           name,
           true,
-          apiKeyHash
+          apiKeyHash,
         );
         return response.status(200).send({
           apiKey,
@@ -53,7 +53,7 @@ export default class RepositoriesController {
           authentication,
           owner,
           name,
-          false
+          false,
         );
         response.status(204);
         response.end();

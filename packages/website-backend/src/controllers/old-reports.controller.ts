@@ -5,11 +5,10 @@ import {
 } from '@stryker-mutator/dashboard-common';
 import DataAccess from '../services/DataAccess.js';
 import {
+  BadRequestException,
   Body,
   Controller,
   HttpCode,
-  HttpException,
-  HttpStatus,
   Post,
 } from '@nestjs/common';
 /**
@@ -37,7 +36,7 @@ export class OldReportsController {
     this.verifyRequiredPostScoreReportProperties(report);
     await this.#apiKeyValidator.validateApiKey(
       report.apiKey,
-      report.repositorySlug
+      report.repositorySlug,
     );
     await this.#dal.mutationTestingReportService.saveReport(
       {
@@ -46,7 +45,7 @@ export class OldReportsController {
         version: report.branch,
       },
       report,
-      log
+      log,
     );
     return '';
   }
@@ -54,10 +53,7 @@ export class OldReportsController {
   private verifyRequiredPostScoreReportProperties(body: any) {
     ['apiKey', 'repositorySlug', 'mutationScore'].forEach((prop) => {
       if (body[prop] === undefined) {
-        throw new HttpException(
-          `Missing required property "${prop}"`,
-          HttpStatus.BAD_REQUEST
-        );
+        throw new BadRequestException(`Missing required property "${prop}"`);
       }
     });
   }

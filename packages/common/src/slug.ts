@@ -10,7 +10,7 @@ const NR_OF_PROJECT_NAME_PARTS = 3;
 export class Slug {
   constructor(
     public readonly project: string,
-    public readonly version: string
+    public readonly version: string,
   ) {}
 
   /**
@@ -29,7 +29,7 @@ export class Slug {
       } else {
         return new Slug(
           parts.slice(0, NR_OF_PROJECT_NAME_PARTS).join('/'),
-          parts.slice(NR_OF_PROJECT_NAME_PARTS).join('/')
+          parts.slice(NR_OF_PROJECT_NAME_PARTS).join('/'),
         );
       }
     } else {

@@ -18,10 +18,9 @@ import {
   Delete,
   Get,
   Headers,
-  HttpException,
-  HttpStatus,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -49,7 +48,7 @@ export default class RealTimeReportsController {
     dataAcces: DataAccess,
     mutationEventServerOrchestrator: MutationEventResponseOrchestrator,
     reportValidator: ReportValidator,
-    config: Configuration
+    config: Configuration,
   ) {
     this.#apiKeyValidator = apiKeyValidator;
     this.#reportService = dataAcces.mutationTestingReportService;
@@ -63,7 +62,7 @@ export default class RealTimeReportsController {
   public async getSseEndpointForProject(
     @Param('slug') slug: string,
     @Res() res: Response,
-    @Query('module') moduleName: string | undefined
+    @Query('module') moduleName: string | undefined,
   ) {
     const { project, version } = Slug.parse(slug);
     const id = {
@@ -74,9 +73,8 @@ export default class RealTimeReportsController {
     };
     const report = await this.#reportService.findOne(id);
     if (report === null) {
-      throw new HttpException(
+      throw new NotFoundException(
         `Version "${version}" does not exist for "${project}".`,
-        HttpStatus.NOT_FOUND
       );
     }
 
@@ -90,13 +88,10 @@ export default class RealTimeReportsController {
   public async delete(
     @Param('slug') slug: string,
     @Query('module') moduleName: string | undefined,
-    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined
+    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined,
   ) {
     if (!authorizationHeader) {
-      throw new HttpException(
-        `Provide an "${API_KEY_HEADER}" header`,
-        HttpStatus.UNAUTHORIZED
-      );
+      throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
     }
 
     const { project, version } = Slug.parse(slug);
@@ -122,7 +117,7 @@ export default class RealTimeReportsController {
     @Body()
     mutants: Array<Partial<MutantResult>>,
     @Query('module') moduleName: string | undefined,
-    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined
+    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined,
   ) {
     if (!authorizationHeader) {
       throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
@@ -154,7 +149,7 @@ export default class RealTimeReportsController {
     @Param('slug') slug: string,
     @Body() result: MutationTestResult,
     @Query('module') moduleName: string | undefined,
-    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined
+    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined,
   ): Promise<PutReportResponse> {
     if (!authorizationHeader) {
       throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
@@ -199,9 +194,7 @@ export default class RealTimeReportsController {
   }
 
   #getReportResponse(id: ReportIdentifier): PutReportResponse {
-    const base = `${this.#config.baseUrl}/reports/${id.projectName}/${
-      id.version
-    }`;
+    const base = `${this.#config.baseUrl}/reports/${id.projectName}/${id.version}`;
 
     if (id.moduleName) {
       return {

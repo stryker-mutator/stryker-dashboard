@@ -7,7 +7,7 @@ export function spa(indexFileName: string) {
   return (
     req: Pick<Request, 'url' | 'method'>,
     res: Pick<Response, 'send'>,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     if (
       req.method === 'GET' &&

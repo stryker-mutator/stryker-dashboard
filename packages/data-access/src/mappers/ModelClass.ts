@@ -1,7 +1,7 @@
 export interface ModelClass<
   TModel,
   TPartitionKeyFields extends keyof TModel,
-  TRowKeyFields extends keyof TModel
+  TRowKeyFields extends keyof TModel,
 > {
   new (): TModel;
   createPartitionKey(entity: Pick<TModel, TPartitionKeyFields>): string;
@@ -9,7 +9,7 @@ export interface ModelClass<
   identify(
     entity: Partial<TModel>,
     partitionKeyValue: string,
-    rowKeyValue: string
+    rowKeyValue: string,
   ): void;
   readonly persistedFields: ReadonlyArray<Exclude<keyof TModel, TRowKeyFields>>;
   readonly tableName: string;

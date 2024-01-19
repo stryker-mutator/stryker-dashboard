@@ -29,11 +29,11 @@ export class ReportClient {
               headers: {
                 Authorization: `Bearer ${authToken}`,
               },
-            }
+            },
           );
           const body: EnableRepositoryResponse = await response.json();
           return body.apiKey;
-        })
+        }),
       );
       return this.projectApiKeys.get(slug)!;
     }
@@ -57,7 +57,7 @@ export class ReportClient {
         headers: {
           ['X-Api-Key']: apiKey,
         },
-      }
+      },
     );
     const body = await response.json();
     return body;
@@ -72,7 +72,7 @@ export class ReportClient {
         headers: {
           ['X-Api-Key']: apiKey,
         },
-      }
+      },
     );
     const body = await response.json();
     return body;
