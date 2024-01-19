@@ -2,13 +2,14 @@
   "name": "@stryker-mutator/dashboard-backend",
   "version": "0.13.4",
   "description": "The package which contains the stryker dashboard website backend.",
-  "main": "index.js",
+  "main": "main.js",
   "type": "module",
   "bin": {
     "dashboard-backend": "bin/dashboard-backend.js"
   },
   "scripts": {
     "start": "nest start --watch",
+    "build": "nest build",
     "test": "c8 --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 61 mocha \"dist/test/**/*.js\"",
     "stryker": "stryker run"
   },
