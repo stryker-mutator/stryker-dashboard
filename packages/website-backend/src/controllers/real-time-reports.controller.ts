@@ -22,6 +22,7 @@ import {
   HttpStatus,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -74,9 +75,8 @@ export default class RealTimeReportsController {
     };
     const report = await this.#reportService.findOne(id);
     if (report === null) {
-      throw new HttpException(
+      throw new NotFoundException(
         `Version "${version}" does not exist for "${project}".`,
-        HttpStatus.NOT_FOUND
       );
     }
 
@@ -93,9 +93,8 @@ export default class RealTimeReportsController {
     @Headers(API_KEY_HEADER) authorizationHeader: string | undefined
   ) {
     if (!authorizationHeader) {
-      throw new HttpException(
+      throw new UnauthorizedException(
         `Provide an "${API_KEY_HEADER}" header`,
-        HttpStatus.UNAUTHORIZED
       );
     }
 

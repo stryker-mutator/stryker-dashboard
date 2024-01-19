@@ -5,6 +5,7 @@ import {
 } from '@stryker-mutator/dashboard-common';
 import DataAccess from '../services/DataAccess.js';
 import {
+  BadRequestException,
   Body,
   Controller,
   HttpCode,
@@ -54,9 +55,8 @@ export class OldReportsController {
   private verifyRequiredPostScoreReportProperties(body: any) {
     ['apiKey', 'repositorySlug', 'mutationScore'].forEach((prop) => {
       if (body[prop] === undefined) {
-        throw new HttpException(
-          `Missing required property "${prop}"`,
-          HttpStatus.BAD_REQUEST
+        throw new BadRequestException(
+          `Missing required property "${prop}"`
         );
       }
     });
