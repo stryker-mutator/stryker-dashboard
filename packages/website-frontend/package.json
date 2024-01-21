@@ -43,7 +43,7 @@
     "@angular/cli": "17.1.0",
     "@angular/compiler-cli": "17.0.8",
     "@stryker-mutator/karma-runner": "8.0.0",
-    "@types/jasmine": "~4.3.0",
+    "@types/jasmine": "~4.6.0",
     "@types/node": "^20.0.0",
     "jasmine-core": "~5.1.0",
     "karma": "6.4.2",
