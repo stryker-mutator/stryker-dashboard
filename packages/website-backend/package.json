@@ -52,7 +52,7 @@
     "@types/supertest": "6.0.2",
     "@types/uuid": "9.0.7",
     "mutation-testing-report-schema": "3.0.0",
-    "supertest": "6.3.3"
+    "supertest": "6.3.4"
   },
   "keywords": [],
   "author": "",
