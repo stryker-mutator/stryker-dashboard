@@ -62,7 +62,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_ACCEPTANCE }}
     - name: 'Deploy stryker-mutator-badge-api-acceptance.azurewebsites.net'
-      uses: Azure/functions-action@v1.5.0
+      uses: Azure/functions-action@v1.5.1
       id: fa
       with:
         app-name: stryker-mutator-badge-api-acceptance
