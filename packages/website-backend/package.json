@@ -34,7 +34,7 @@
     "express": "4.18.2",
     "express-jwt": "8.4.1",
     "js-sha512": "0.9.0",
-    "passport": "0.6.0",
+    "passport": "0.7.0",
     "passport-github2": "0.1.12",
     "sha512": "0.0.1",
     "uuid": "9.0.1"
