@@ -41,7 +41,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_DASHBOARD_PRODUCTION }}
     - name: 'Deploy dashboard.stryker-mutator.io'
-      uses: azure/webapps-deploy@v2
+      uses: azure/webapps-deploy@v3
       with:
         app-name: 'stryker-badge'
         images: 'strykermutator/dashboard:latest'

@@ -68,7 +68,7 @@ jobs:
         app-name: stryker-mutator-badge-api-acceptance
         package: 'package'
     - name: 'Deploy stryker-dashboard-acceptance.azurewebsites.net'
-      uses: azure/webapps-deploy@v2
+      uses: azure/webapps-deploy@v3
       with:
         app-name: 'stryker-dashboard-acceptance'
         images: 'strykermutator/dashboard:${{ github.sha }}'
