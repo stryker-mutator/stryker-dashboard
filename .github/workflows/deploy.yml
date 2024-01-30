@@ -9,7 +9,7 @@ jobs:
     name: 'Build and Release'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set NPM Env
       run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
     - name: Install dependencies
@@ -35,7 +35,7 @@ jobs:
     environment: Production
     concurrency: Production Dashboard
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: 'Login via Azure CLI'
       uses: Azure/actions/login@v1
       with:
@@ -56,7 +56,7 @@ jobs:
     concurrency: Production Badge Api
     steps:
     - name: 'Checkout Github Action'
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: 'Login via Azure CLI'
       uses: Azure/actions/login@v1
       with:
