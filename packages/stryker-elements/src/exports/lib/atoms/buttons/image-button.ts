@@ -1,5 +1,5 @@
-import { defineElement } from '../../../define-element';
-import { ImageButton } from '../../../lib/atoms/image-button';
+import { defineElement } from '../../../../define-element';
+import { ImageButton } from '../../../../lib/atoms/buttons/image-button';
 
 declare global {
   interface HTMLElementTagNameMap {

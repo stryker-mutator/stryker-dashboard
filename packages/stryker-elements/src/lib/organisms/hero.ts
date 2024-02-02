@@ -3,7 +3,7 @@ import { map } from 'lit/directives/map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { BaseElement } from '../base-element.js';
 
-import '../../exports/lib/atoms/button.js';
+import '../../exports/lib/atoms/buttons/button.js';
 import '../../exports/lib/atoms/link.js';
 
 interface CloudColors {

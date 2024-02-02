@@ -118,7 +118,10 @@ export class GettingStartedOverview extends BaseElement {
         </div>
       </div>
       <h2 class="mb-3 text-xl font-bold text-white">🔍 View your results</h2>
-      <sme-repository name="your-repository"></sme-repository>
+      <sme-repository
+        mutationScore="83"
+        name="your-repository"
+      ></sme-repository>
     `;
   }
 }

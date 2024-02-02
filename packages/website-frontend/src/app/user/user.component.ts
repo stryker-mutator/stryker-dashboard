@@ -14,8 +14,7 @@ export class UserComponent extends AutoUnsubscribe implements OnInit {
   public expanded = false;
 
   constructor(
-    private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly authService: AuthService
   ) {
     super();
   }

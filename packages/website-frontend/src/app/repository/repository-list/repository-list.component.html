@@ -1,6 +1,0 @@
-<div class="list-group">
-  <stryker-repository *ngFor="let repo of repositories" [repo]="repo"
-    (display)="display($event, modal)" (enable)="enable($event, modal)" (disable)="disable($event, modal)">
-  </stryker-repository>
-</div>
-<stryker-repository-modal #modal></stryker-repository-modal>

@@ -25,7 +25,7 @@ describe(RepositoryPageComponent.name, () => {
   let dashboardServiceMock: JasmineMock<DashboardService>;
   let routeParam$: Subject<{ owner: string | undefined }>;
   let routerMock: JasmineMock<Router>;
-  let organization$: Subject<Login[]>;
+  let organization$: Subject<{ name: string, value: string }[]>;
   let currentUser$: Subject<Login>;
   let repo$: Subject<Repository[]>;
 
@@ -79,8 +79,8 @@ describe(RepositoryPageComponent.name, () => {
     it('should load organizations', async () => {
       // Arrange
       const expectedOrgs = [
-        { avatarUrl: 'org1', name: 'org1' },
-        { avatarUrl: 'org2', name: 'org2' },
+        { name: 'org1', value: 'org1' },
+        { name: 'org2', value: 'org2' },
       ];
 
       // Act
@@ -94,9 +94,9 @@ describe(RepositoryPageComponent.name, () => {
 
     it('should load repositories for current user if that owner is provided in the path', async () => {
       // Arrange
-      const expectedOrganization: Login = {
+      const expectedOrganization = {
         name: 'fooOrg',
-        avatarUrl: 'fooOrg',
+        value: 'fooOrg',
       };
       const expectedRepos = [createRepository()];
 
@@ -116,9 +116,9 @@ describe(RepositoryPageComponent.name, () => {
 
     it('should load repositories for organization if that owner is provided in the path', async () => {
       // Arrange
-      const expectedOrganization: Login = {
+      const expectedOrganization = {
         name: 'fooOrg',
-        avatarUrl: 'fooOrg',
+        value: 'fooOrg',
       };
       const expectedRepos = [createRepository()];
 
@@ -157,8 +157,8 @@ describe(RepositoryPageComponent.name, () => {
       routeParam$.next({ owner: 'fooOrg' });
       currentUser$.next({ name: 'bar', avatarUrl: 'bar' });
       organization$.next([
-        { name: 'fooOrg', avatarUrl: 'fooOrg' },
-        { name: 'barOrg', avatarUrl: 'barOrg' },
+        { name: 'fooOrg', value: 'fooOrg' },
+        { name: 'barOrg', value: 'barOrg' },
       ]);
       repo$.next([createRepository()]);
       await fixture.whenStable();
