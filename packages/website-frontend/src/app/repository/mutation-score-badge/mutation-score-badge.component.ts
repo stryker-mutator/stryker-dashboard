@@ -1,11 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Repository } from '@stryker-mutator/dashboard-contract';
 import { badgeSrc, BadgeStyle } from '../util';
 
 @Component({
   selector: 'stryker-mutation-score-badge',
   templateUrl: './mutation-score-badge.component.html',
-  styleUrls: ['./mutation-score-badge.component.scss'],
 })
 export class MutationScoreBadgeComponent {
   @Input()

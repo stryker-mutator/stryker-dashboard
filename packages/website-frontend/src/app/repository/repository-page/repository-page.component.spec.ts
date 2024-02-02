@@ -14,6 +14,7 @@ import { Subject } from 'rxjs';
 import { Login, Repository } from '@stryker-mutator/dashboard-contract';
 import { ActivatedRoute, Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { RepositoryService } from '../repository.service';
 
 describe(RepositoryPageComponent.name, () => {
   let sut: RepositoryPageComponent;
@@ -25,7 +26,7 @@ describe(RepositoryPageComponent.name, () => {
   let dashboardServiceMock: JasmineMock<DashboardService>;
   let routeParam$: Subject<{ owner: string | undefined }>;
   let routerMock: JasmineMock<Router>;
-  let organization$: Subject<Login[]>;
+  let organization$: Subject<{ name: string, value: string }[]>;
   let currentUser$: Subject<Login>;
   let repo$: Subject<Repository[]>;
 
@@ -53,6 +54,7 @@ describe(RepositoryPageComponent.name, () => {
         { provide: DashboardService, useValue: dashboardServiceMock },
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: Router, useValue: routerMock },
+        { provide: RepositoryService, useValue: mock(RepositoryService) }
       ],
       schemas: [NO_ERRORS_SCHEMA],
     });
@@ -79,8 +81,8 @@ describe(RepositoryPageComponent.name, () => {
     it('should load organizations', async () => {
       // Arrange
       const expectedOrgs = [
-        { avatarUrl: 'org1', name: 'org1' },
-        { avatarUrl: 'org2', name: 'org2' },
+        { name: 'org1', value: 'org1' },
+        { name: 'org2', value: 'org2' },
       ];
 
       // Act
@@ -94,9 +96,9 @@ describe(RepositoryPageComponent.name, () => {
 
     it('should load repositories for current user if that owner is provided in the path', async () => {
       // Arrange
-      const expectedOrganization: Login = {
+      const expectedOrganization = {
         name: 'fooOrg',
-        avatarUrl: 'fooOrg',
+        value: 'fooOrg',
       };
       const expectedRepos = [createRepository()];
 
@@ -116,9 +118,9 @@ describe(RepositoryPageComponent.name, () => {
 
     it('should load repositories for organization if that owner is provided in the path', async () => {
       // Arrange
-      const expectedOrganization: Login = {
+      const expectedOrganization = {
         name: 'fooOrg',
-        avatarUrl: 'fooOrg',
+        value: 'fooOrg',
       };
       const expectedRepos = [createRepository()];
 
@@ -157,8 +159,8 @@ describe(RepositoryPageComponent.name, () => {
       routeParam$.next({ owner: 'fooOrg' });
       currentUser$.next({ name: 'bar', avatarUrl: 'bar' });
       organization$.next([
-        { name: 'fooOrg', avatarUrl: 'fooOrg' },
-        { name: 'barOrg', avatarUrl: 'barOrg' },
+        { name: 'fooOrg', value: 'fooOrg' },
+        { name: 'barOrg', value: 'barOrg' },
       ]);
       repo$.next([createRepository()]);
       await fixture.whenStable();
@@ -183,9 +185,9 @@ describe(RepositoryPageComponent.name, () => {
     it('should change the routeParams if owner changed in the selector', async () => {
       // Arrange
       const ownerSelector = fixture.debugElement.query(
-        By.css('stryker-owner-selector')
+        By.css('#github-organizations')
       );
-      ownerSelector.triggerEventHandler('ownerSelected', 'quxOwner');
+      ownerSelector.triggerEventHandler('dropdownChanged', new CustomEvent('dropdownChanged', { detail: { value: 'quxOwner' } }));
 
       // Act
       await fixture.whenStable();

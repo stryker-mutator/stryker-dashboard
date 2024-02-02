@@ -1,16 +1,40 @@
 // Atoms
 
-export { Button } from './lib/atoms/button';
-import './exports/lib/atoms/button';
+export { Button } from './lib/atoms/buttons/button';
+import './exports/lib/atoms/buttons/button';
 
-export { ImageButton } from './lib/atoms/image-button';
-import './exports/lib/atoms/image-button';
+export { ImageButton } from './lib/atoms/buttons/image-button';
+import './exports/lib/atoms/buttons/image-button';
+
+export { PlainButton } from './lib/atoms/buttons/plain-button';
+import './exports/lib/atoms/buttons/plain-button';
+
+export { PrimaryButton } from './lib/atoms/buttons/primary-button';
+import './exports/lib/atoms/buttons/primary-button';
+
+export { SecondaryButton } from './lib/atoms/buttons/secondary-button';
+import './exports/lib/atoms/buttons/secondary-button';
+
+export { SubtleButton } from './lib/atoms/buttons/subtle-button';
+import './exports/lib/atoms/buttons/subtle-button';
+
+export { ToggleButton } from './lib/atoms/buttons/toggle-button';
+import './exports/lib/atoms/buttons/toggle-button';
+
+export { Dropdown } from './lib/atoms/dropdown';
+import './exports/lib/atoms/dropdown';
+
+export { Hr } from './lib/atoms/hr';
+import './exports/lib/atoms/hr';
 
 export { LabeledContainer } from './lib/atoms/labeled-container';
 import './exports/lib/atoms/labeled-container';
 
 export { Link } from './lib/atoms/link';
 import './exports/lib/atoms/link';
+
+export { Notify } from './lib/atoms/notify';
+import './exports/lib/atoms/notify';
 
 export { ProgressBar } from './lib/atoms/progress-bar';
 import './exports/lib/atoms/progress-bar';
@@ -23,11 +47,17 @@ import './exports/lib/atoms/spatious-layout';
 export { GettingStartedStep } from './lib/molecules/getting-started-step';
 import './exports/lib/molecules/getting-started-step';
 
+export { Modal } from './lib/molecules/modal';
+import './exports/lib/molecules/modal';
+
 export { ProfileButton } from './lib/molecules/profile-button';
 import './exports/lib/molecules/profile-button';
 
 export { Repository } from './lib/molecules/repository';
 import './exports/lib/molecules/repository';
+
+export { ToggleRepository } from './lib/molecules/toggle-repository';
+import './exports/lib/molecules/toggle-repository';
 
 // Organisms
 

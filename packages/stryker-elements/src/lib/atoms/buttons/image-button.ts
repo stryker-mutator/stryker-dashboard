@@ -1,8 +1,8 @@
 import { html } from 'lit';
 import { property } from 'lit/decorators.js';
-import { BaseElement } from '../base-element';
+import { BaseElement } from '../../base-element';
 
-import '../../exports/lib/atoms/button';
+import '../../../exports/lib/atoms/buttons/button';
 
 export class ImageButton extends BaseElement {
   @property({ attribute: true })

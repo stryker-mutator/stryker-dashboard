@@ -1,21 +1,27 @@
-<div class="list-group col-sm-10 offset-sm-1">
-  <div class="row">
-    <div class="col-md-12">
-      <h2 class="display-4">Repositories
-        <stryker-owner-selector (ownerSelected)="changeSelectedOwner($event)" [user]="user"
-          [organizations]="organizations"></stryker-owner-selector>
-      </h2>
-    </div>
+<sme-spatious-layout>
+  <div class="d-flex">
+    <sme-dropdown id="github-organizations" [options]="organizations" (dropdownChanged)="changeOrganization($any($event))"></sme-dropdown>
+    <sme-button class="ms-auto" (click)="openModal()">Toggle repositories</sme-button>
   </div>
-  <p>Below we're showing your public repositories. </p>
-  <div class="row">
-    <div class="col-10 offset-1 col-md-8 offset-md-2">
-      <stryker-short-explanation class="row"></stryker-short-explanation>
-    </div>
-  </div>
+  <sme-hr/>
   <stryker-loading class="row" [showContent]="repositories">
-    <div class="col-12">
-      <stryker-repository-list [repositories]="repositories!"></stryker-repository-list>
+    <div class="col-12 mt-4">
+      <sme-notify 
+        *ngIf="!hasEnabledRepositories()" 
+        message="It appears you do not have any enabled repositories, enable them by clicking on the enable repositories button."
+      />
+      <div class="mb-2" *ngFor="let repository of repositories">
+        <sme-repository *ngIf="repository.enabled" name="{{ repository.name }}"></sme-repository>
+      </div>
     </div>
   </stryker-loading>
-</div>
+</sme-spatious-layout>
+<sme-modal title="Toggle repositories" eventName="toggleRepositoriesModal">
+  <sme-toggle-repository 
+    *ngFor="let repository of repositories" 
+    (repositoryToggled)="toggleRepository($any($event))"
+    [enabled]="repository.enabled"
+    name="{{ repository.name }}" 
+    slug="{{ repository.slug }}" 
+  />
+</sme-modal>

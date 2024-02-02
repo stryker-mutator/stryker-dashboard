@@ -1,10 +1,10 @@
 import { defineElement } from '../../../define-element';
-import { Button } from '../../../lib/atoms/button';
+import { Modal } from '../../../lib/molecules/modal';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'sme-button': Button;
+    'sme-modal': Modal;
   }
 }
 
-defineElement('sme-button', Button);
+defineElement('sme-modal', Modal);
