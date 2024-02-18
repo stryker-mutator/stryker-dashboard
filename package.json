@@ -31,7 +31,7 @@
     "link-parent-bin": "3.0.0",
     "mocha": "10.2.0",
     "node-mocks-http": "1.14.1",
-    "prettier": "3.2.4",
+    "prettier": "3.2.5",
     "prettier-plugin-tailwindcss": "0.5.11",
     "rimraf": "5.0.5",
     "sinon": "17.0.1",
