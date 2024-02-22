@@ -30,7 +30,7 @@
     "@stryker-mutator/dashboard-common": "0.13.4",
     "@stryker-mutator/dashboard-contract": "0.13.4",
     "@stryker-mutator/stryker-elements": "0.13.4",
-    "bootstrap": "5.3.2",
+    "bootstrap": "5.3.3",
     "mutation-testing-elements": "3.0.2",
     "mutation-testing-metrics": "3.0.2",
     "mutation-testing-report-schema": "3.0.2",
