@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@nestjs/common": "10.3.3",
-    "@nestjs/config": "3.1.1",
+    "@nestjs/config": "3.2.0",
     "@nestjs/core": "10.3.3",
     "@nestjs/platform-express": "10.3.3",
     "@stryker-mutator/dashboard-common": "0.13.4",
