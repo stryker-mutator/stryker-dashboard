@@ -37,7 +37,7 @@
     "preview": "vite preview"
   },
   "peerDependencies": {
-    "lit": "^2.7.6"
+    "lit": "^2.7.6 || ^3.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",
