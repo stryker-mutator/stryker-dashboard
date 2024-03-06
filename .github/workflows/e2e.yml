@@ -10,6 +10,10 @@ jobs:
     - uses: actions/checkout@v4
     - name: Set NPM Env
       run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'npm'
     - name: Install dependencies
       run: npm ci
     - name: Choose version
@@ -77,6 +81,10 @@ jobs:
         node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version $(cat version/version.txt)
         node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api $(cat version/version.txt)
  
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'npm'
     - name: Install dependencies
       run: npm ci
     - name: Install browsers

@@ -10,6 +10,7 @@ import {
   passportAuthenticateGithub,
 } from './middleware/security.middleware.js';
 import { ConfigModule } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import AuthController from './controllers/auth.controller.js';
 import UserController from './controllers/user.controller.js';
 import DataAccess from './services/DataAccess.js';
@@ -25,9 +26,19 @@ import ReportsController from './controllers/reports.controller.js';
 import RealTimeReportsController from './controllers/real-time-reports.controller.js';
 import { ReportValidator } from './services/ReportValidator.js';
 import MutationEventResponseOrchestrator from './services/real-time/MutationEventResponseOrchestrator.js';
+import { dist } from '@stryker-mutator/dashboard-frontend';
 
 @Module({
-  imports: [ConfigModule.forRoot()],
+  imports: [
+    ConfigModule.forRoot(),
+    ServeStaticModule.forRoot({
+      rootPath: dist,
+      serveStaticOptions: {
+        immutable: true,
+        maxAge: '1y',
+      },
+    }),
+  ],
   controllers: [
     AuthController,
     OldReportsController,

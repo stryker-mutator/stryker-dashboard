@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  HostListener,
+  Directive,
+  EventEmitter,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, mergeMap, distinctUntilChanged } from 'rxjs/operators';
 import { Observable, combineLatest } from 'rxjs';
@@ -12,9 +19,21 @@ import {
 import { AutoUnsubscribe } from 'src/app/utils/auto-unsubscribe';
 import { MutationTestResult } from 'mutation-testing-report-schema';
 
+import 'mutation-testing-elements';
+
 interface ThemeDetail {
   theme: string;
   themeBackgroundColor: string;
+}
+
+// Wrap the native custom event in a directive so angular can attach an eventListener
+@Directive({ selector: 'mutation-test-report-app', outputs: ['themeChange'] })
+export class MutationTestReportAppTheme {
+  private themeChange = new EventEmitter();
+  @HostListener('theme-changed', ['$event'])
+  themeChanged(event: CustomEvent<ThemeDetail>) {
+    this.themeChange.emit(event);
+  }
 }
 
 @Component({
