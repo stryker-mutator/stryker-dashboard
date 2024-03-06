@@ -4,6 +4,7 @@ junit.xml
 node_modules/
 lerna-debug.log
 .nyc_output
+.nx/cache
 
 # misc
 .DS_Store

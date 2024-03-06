@@ -8,6 +8,9 @@ jobs:
   release:
     name: 'Build and Release'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # to enable use of OIDC for npm provenance
     steps:
     - uses: actions/checkout@v4
     - name: Set NPM Env
@@ -22,6 +25,8 @@ jobs:
       run: npm run build
     - name: Lerna publish
       run: npx lerna publish from-git --yes --no-verify-access
+      env:
+        NPM_CONFIG_PROVENANCE: true
     - name: Docker build & Tag
       run: | # Add a sleep to give npmjs.com the time to get the versions consistent 
         sleep 30s

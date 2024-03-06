@@ -21,8 +21,7 @@
   "dependencies": {
     "@stryker-mutator/dashboard-common": "0.13.4",
     "@stryker-mutator/dashboard-data-access": "0.13.4",
-    "source-map-support": "^0.5.21",
-    "ts-httpexceptions": "^4.1.0"
+    "source-map-support": "^0.5.21"
   },
   "devDependencies": {
     "@azure/functions": "^3.0.0",

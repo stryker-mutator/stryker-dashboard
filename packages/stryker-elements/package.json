@@ -9,6 +9,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stryker-mutator/stryker-dashboard",
+    "directory": "packages/stryker-elements"
+  },
   "module": "./dist/main.mjs",
   "main": "./dist/main.cjs",
   "types": "./dist/main.d.ts",
