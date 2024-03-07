@@ -9,8 +9,7 @@ if (environment.production) {
 }
 
 /* Import preflight styles */
-/* Node resolution inside angular project does not support importing by subpath exports, so we directly import the component export by file */
-import "@stryker-mutator/stryker-elements/dist/main";
+import '@stryker-mutator/stryker-elements';
 
 platformBrowserDynamic()
   .bootstrapModule(AppModule)

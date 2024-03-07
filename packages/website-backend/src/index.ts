@@ -1,9 +1,5 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
-import { spa } from './middleware/spa.middleware.js';
-import path from 'path';
-import express from 'express';
-import { dist } from '@stryker-mutator/dashboard-frontend';
 import passport from 'passport';
 import Configuration from './services/Configuration.js';
 import { githubStrategy } from './middleware/security.middleware.js';
@@ -18,8 +14,6 @@ async function bootstrap() {
   configureAzureStorage(app);
   configurePassport(app);
 
-  app.use(express.static(dist));
-  app.use(spa(path.join(dist, 'index.html')));
   app.use(parser.json({ limit: '100mb' }));
   await app.listen(1337);
 }

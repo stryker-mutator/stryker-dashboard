@@ -6,10 +6,17 @@ jobs:
   build-and-release:
     name: Build and Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # to enable use of OIDC for npm provenance
     steps:
     - uses: actions/checkout@v4
     - name: Set NPM Env
       run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'npm'
     - name: Install dependencies
       run: npm ci
     - name: Choose version
@@ -23,6 +30,8 @@ jobs:
         npx lerna version ${NPM_PACKAGE_VERSION} --no-git-tag-version --no-push --exact --force-publish --yes --no-conventional-commits
         git commit -am "temp-commit"
         npx lerna publish from-package --dist-tag canary --no-git-reset --yes --no-verify-access
+      env:
+        NPM_CONFIG_PROVENANCE: true
     - name: Docker build & Push
       uses: nick-invision/retry@v2.9.0
       with: 
@@ -77,6 +86,10 @@ jobs:
         node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version $(cat version/version.txt)
         node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api $(cat version/version.txt)
  
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'npm'
     - name: Install dependencies
       run: npm ci
     - name: Install browsers

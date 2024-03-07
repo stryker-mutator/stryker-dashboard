@@ -1,6 +1,6 @@
 <stryker-loading class="d-flex justify-content-center" [ngStyle]="{'background': backgroundColor}" [showContent]="doneLoading">
   <div class="col-md-12" *ngIf="id">
-    <mutation-test-report-app (theme-changed)="themeChanged($event)" *ngIf="mutationTestResult" [report]="mutationTestResult" [titlePostfix]="reportTitle" [sse]="sse">
+    <mutation-test-report-app (themeChange)="themeChanged($event)" *ngIf="mutationTestResult" [report]="mutationTestResult" [titlePostfix]="reportTitle" [sse]="sse">
     </mutation-test-report-app>
     <div *ngIf="mutationScoreOnlyResult">
       <h1 class="display-4">{{reportTitle}}</h1>

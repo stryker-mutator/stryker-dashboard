@@ -5,7 +5,7 @@ import { UserService } from 'src/app/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { AutoUnsubscribe } from 'src/app/utils/auto-unsubscribe';
-import { combineLatest, Observable, merge } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, flatMap, filter, tap } from 'rxjs/operators';
 import { notEmpty } from 'src/app/utils/filter';
 import { AuthService } from 'src/app/auth/auth.service';
