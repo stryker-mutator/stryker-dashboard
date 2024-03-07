@@ -1,7 +1,6 @@
-import { v4 as uuidV4 } from 'uuid';
-import { sha512_256 } from 'js-sha512';
 import { InvalidSlugError, Slug } from '@stryker-mutator/dashboard-common';
 import { NotFoundException } from '@nestjs/common';
+import { createHash, randomUUID } from 'crypto';
 
 export function parseSlug(slug: string) {
   try {
@@ -35,10 +34,10 @@ export default {
   },
 
   generateApiKey(): string {
-    return uuidV4();
+    return randomUUID();
   },
 
   generateHashValue(value: string): string {
-    return sha512_256(value);
+    return createHash('sha512-256').update(value).digest('hex');
   },
 };
