@@ -33,7 +33,7 @@ jobs:
       env:
         NPM_CONFIG_PROVENANCE: true
     - name: Docker build & Push
-      uses: nick-invision/retry@v2.9.0
+      uses: nick-invision/retry@v3.0.0
       with: 
         timeout_minutes: 1
         max_attempts: 3
