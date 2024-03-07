@@ -9,8 +9,8 @@
       "args": [
         "--colors",
         "--no-timeouts",
-        "--require",
-        "source-map-support/register",
+        "--node-option",
+        "enable-source-maps",
         "${workspaceFolder}/dist/test/**/*.js"
       ],
       "internalConsoleOptions": "openOnSessionStart"

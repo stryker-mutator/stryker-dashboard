@@ -4,7 +4,7 @@
   "type": "module",
   "description": "This package contains common utilities to be shared between the different dashboard components.",
   "scripts": {
-    "test": "c8 --exclude 'dist/test/**/*.js' --exclude-after-remap false --check-coverage --reporter=html --report-dir=reports/coverage --lines 100 --functions 100 --branches 100 mocha \"dist/test/helpers/**/*.js\" \"dist/test/unit/**/*.js\"",
+    "test": "c8 --exclude 'dist/test/**/*.js' --exclude-after-remap false --check-coverage --reporter=html --report-dir=reports/coverage --lines 100 --functions 100 --branches 100 mocha --node-option enable-source-maps \"dist/test/helpers/**/*.js\" \"dist/test/unit/**/*.js\"",
     "stryker": "stryker run"
   },
   "publishConfig": {
