@@ -4,4 +4,5 @@ declare module '@primer/octicons' {
   }
 
   export const copy: Octicon;
+  export const check: Octicon;
 }
