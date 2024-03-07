@@ -14,14 +14,14 @@
   "keywords": [],
   "author": "Nico Jansen",
   "devDependencies": {
-    "@playwright/test": "^1.25.1",
+    "@playwright/test": "1.42.1",
     "@stryker-mutator/dashboard-common": "0.13.4",
     "@stryker-mutator/dashboard-contract": "0.13.4",
-    "@types/jsonwebtoken": "^9.0.0"
+    "@types/jsonwebtoken": "9.0.6"
   },
   "dependencies": {
-    "azure-storage": "^2.10.3",
-    "jsonwebtoken": "^9.0.0",
+    "azure-storage": "2.10.7",
+    "jsonwebtoken": "9.0.2",
     "mutation-testing-report-schema": "3.0.2"
   },
   "repository": {
