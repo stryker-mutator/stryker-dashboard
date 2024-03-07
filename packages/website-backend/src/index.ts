@@ -6,6 +6,7 @@ import { githubStrategy } from './middleware/security.middleware.js';
 import { INestApplication } from '@nestjs/common';
 import DataAccess from './services/DataAccess.js';
 import parser from 'body-parser';
+import compression from 'compression';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,6 +16,7 @@ async function bootstrap() {
   configurePassport(app);
 
   app.use(parser.json({ limit: '100mb' }));
+  app.use(compression());
   await app.listen(1337);
 }
 
