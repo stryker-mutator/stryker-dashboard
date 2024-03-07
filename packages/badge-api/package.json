@@ -24,6 +24,6 @@
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
-    "@azure/functions": "^3.0.0"
+    "@azure/functions": "3.5.1"
   }
 }
