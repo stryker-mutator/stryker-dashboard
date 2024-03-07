@@ -1,10 +1,18 @@
 import 'source-map-support/register.js';
-import { AzureFunction } from '@azure/functions';
+import { HttpHandler, app } from '@azure/functions';
 import { ShieldMapper } from './ShieldMapper.js';
 import { createMutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
 import { handler } from './handler.js';
 
-const httpTrigger: AzureFunction = handler(
+const httpTrigger: HttpHandler = handler(
   new ShieldMapper(createMutationTestingReportMapper()),
 );
+
+app.http('badge', {
+  methods: ['GET'],
+  authLevel: 'anonymous',
+  route: '{*slug}',
+  handler: httpTrigger,
+});
+
 export default httpTrigger;
