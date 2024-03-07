@@ -46,7 +46,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: 'Login via Azure CLI'
-      uses: Azure/actions/login@v1
+      uses: Azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_DASHBOARD_PRODUCTION }}
     - name: 'Deploy dashboard.stryker-mutator.io'
@@ -67,7 +67,7 @@ jobs:
     - name: 'Checkout Github Action'
       uses: actions/checkout@v4
     - name: 'Login via Azure CLI'
-      uses: Azure/actions/login@v1
+      uses: Azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_PRODUCTION }}
     - name: 'Download & prepare badge-api package'
