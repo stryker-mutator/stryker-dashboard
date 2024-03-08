@@ -5,17 +5,19 @@ import Configuration from './services/Configuration.js';
 import { githubStrategy } from './middleware/security.middleware.js';
 import { INestApplication } from '@nestjs/common';
 import DataAccess from './services/DataAccess.js';
-import parser from 'body-parser';
 import compression from 'compression';
+import helmet from 'helmet';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('/api');
 
+  configureSecurityHeaders(app);
   configureAzureStorage(app);
   configurePassport(app);
 
-  app.use(parser.json({ limit: '100mb' }));
+  app.useBodyParser('json', { limit: '100mb' });
   app.use(compression());
   await app.listen(1337);
 }
@@ -42,6 +44,27 @@ function configurePassport(app: INestApplication) {
   passport.use(githubStrategy(config));
 
   app.use(passport.initialize());
+}
+
+function configureSecurityHeaders(app: INestApplication) {
+  app.enableCors({ origin: true, credentials: true });
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          imgSrc: [
+            `'self'`,
+            'data:',
+            'https://stryker-mutator.io',
+            'avatars.githubusercontent.com',
+            'img.shields.io',
+          ],
+          scriptSrc: [`'self'`, `'unsafe-inline'`],
+          scriptSrcAttr: [`'unsafe-inline'`],
+        },
+      },
+    }),
+  );
 }
 
 bootstrap();

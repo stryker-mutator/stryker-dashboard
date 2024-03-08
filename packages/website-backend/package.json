@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node dist/src/index.js",
+    "start:watch": "node --watch dist/src/index.js",
     "test": "c8 --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 61 mocha --node-option enable-source-maps \"dist/test/**/*.js\"",
     "stryker": "stryker run"
   },
@@ -31,27 +32,22 @@
     "@stryker-mutator/dashboard-frontend": "0.13.4",
     "ajv": "8.12.0",
     "ajv-formats": "2.1.1",
-    "body-parser": "1.20.2",
     "compression": "1.7.4",
     "express": "4.18.3",
     "express-jwt": "8.4.1",
-    "js-sha512": "0.9.0",
+    "helmet": "7.1.0",
     "passport": "0.7.0",
-    "passport-github2": "0.1.12",
-    "sha512": "0.0.1",
-    "uuid": "9.0.1"
+    "passport-github2": "0.1.12"
   },
   "devDependencies": {
     "@nestjs/schematics": "10.1.1",
     "@nestjs/testing": "10.3.3",
-    "@types/body-parser": "1.19.5",
     "@types/compression": "1.7.5",
     "@types/express": "4.17.21",
     "@types/jsonwebtoken": "9.0.6",
     "@types/passport": "1.0.16",
     "@types/passport-github2": "1.2.9",
     "@types/supertest": "6.0.2",
-    "@types/uuid": "9.0.8",
     "mutation-testing-report-schema": "3.0.2",
     "supertest": "6.3.4"
   },

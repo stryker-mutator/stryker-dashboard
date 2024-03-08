@@ -5,7 +5,7 @@
     {
       "label": "🐱‍👤 run server with nodemon",
       "type": "npm",
-      "script": "start",
+      "script": "start:watch",
       "isBackground": true,
       "group": "build",
       "options": {
