@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.13.4...v0.14.0) (2024-03-08)
+
+### Bug Fixes
+
+- **deps:** pin dependency @azure/functions to 4.3.0 ([#532](https://github.com/stryker-mutator/stryker-dashboard/issues/532)) ([5c8e1a7](https://github.com/stryker-mutator/stryker-dashboard/commit/5c8e1a7d8293f4973789d3800115bf2f8b1627e9))
+
+### Features
+
+- **website-frontend:** load mutation-test-report-app component directly instead of via cdn ([#524](https://github.com/stryker-mutator/stryker-dashboard/issues/524)) ([5a133a9](https://github.com/stryker-mutator/stryker-dashboard/commit/5a133a9a27e3e2f9c406902ebb8c0c0c5d1fb112))
+
 ## [0.13.4](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.13.3...v0.13.4) (2023-12-08)
 
 **Note:** Version bump only for package @stryker-mutator/dashboard-badge-api

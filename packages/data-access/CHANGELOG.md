@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.13.4...v0.14.0) (2024-03-08)
+
+### Bug Fixes
+
+- **deps:** update `mutation-testing-elements` to `3.0.1` ([#414](https://github.com/stryker-mutator/stryker-dashboard/issues/414)) ([d7c4b74](https://github.com/stryker-mutator/stryker-dashboard/commit/d7c4b742d8e804ea56cd279d9c3fbcec7bc32d83))
+- **deps:** update mutation-testing-elements monorepo to v3.0.2 ([#440](https://github.com/stryker-mutator/stryker-dashboard/issues/440)) ([8785fb1](https://github.com/stryker-mutator/stryker-dashboard/commit/8785fb190299d03802815f9840f6fe8a952c5bee))
+
+### Features
+
+- **website-frontend:** load mutation-test-report-app component directly instead of via cdn ([#524](https://github.com/stryker-mutator/stryker-dashboard/issues/524)) ([5a133a9](https://github.com/stryker-mutator/stryker-dashboard/commit/5a133a9a27e3e2f9c406902ebb8c0c0c5d1fb112))
+
 ## [0.13.4](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.13.3...v0.13.4) (2023-12-08)
 
 **Note:** Version bump only for package @stryker-mutator/dashboard-data-access

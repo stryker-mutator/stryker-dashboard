@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.13.4...v0.14.0) (2024-03-08)
+
+### Bug Fixes
+
+- **deps:** pin dependency @azure/functions to 4.3.0 ([#532](https://github.com/stryker-mutator/stryker-dashboard/issues/532)) ([5c8e1a7](https://github.com/stryker-mutator/stryker-dashboard/commit/5c8e1a7d8293f4973789d3800115bf2f8b1627e9))
+- **deps:** update `mutation-testing-elements` to `3.0.1` ([#414](https://github.com/stryker-mutator/stryker-dashboard/issues/414)) ([d7c4b74](https://github.com/stryker-mutator/stryker-dashboard/commit/d7c4b742d8e804ea56cd279d9c3fbcec7bc32d83))
+- **deps:** update dependency @nestjs/config to v3.2.0 ([#506](https://github.com/stryker-mutator/stryker-dashboard/issues/506)) ([2111a9c](https://github.com/stryker-mutator/stryker-dashboard/commit/2111a9c04cafe45675a748e2c8ac8c9a7a5da642))
+- **deps:** update dependency bootstrap to v5.3.3 ([#498](https://github.com/stryker-mutator/stryker-dashboard/issues/498)) ([be6a7b8](https://github.com/stryker-mutator/stryker-dashboard/commit/be6a7b8b3f926ad2b4a37196517d51e18e9c3379))
+- **deps:** update dependency express to v4.18.3 ([#517](https://github.com/stryker-mutator/stryker-dashboard/issues/517)) ([f8417f3](https://github.com/stryker-mutator/stryker-dashboard/commit/f8417f3ea93c464320b032ee107071950b4b7154))
+- **deps:** update dependency js-sha512 to v0.9.0 ([#460](https://github.com/stryker-mutator/stryker-dashboard/issues/460)) ([384653e](https://github.com/stryker-mutator/stryker-dashboard/commit/384653efad4fe14a163f1ce728e909407db5fa52))
+- **deps:** update dependency jsonwebtoken to v9.0.2 ([#439](https://github.com/stryker-mutator/stryker-dashboard/issues/439)) ([5a02d45](https://github.com/stryker-mutator/stryker-dashboard/commit/5a02d45b93d39a63b6794168788dbbbd643860c8))
+- **deps:** update dependency passport to v0.7.0 ([#461](https://github.com/stryker-mutator/stryker-dashboard/issues/461)) ([dc7f2b6](https://github.com/stryker-mutator/stryker-dashboard/commit/dc7f2b6999af39b8abf2ed556886f35a80bbe8bf))
+- **deps:** update dependency zone.js to v0.14.4 ([#458](https://github.com/stryker-mutator/stryker-dashboard/issues/458)) ([5051c6b](https://github.com/stryker-mutator/stryker-dashboard/commit/5051c6b00dedcd72082cbe2c2102e7c5d59a20b2))
+- **deps:** update mutation-testing-elements monorepo to v3.0.2 ([#440](https://github.com/stryker-mutator/stryker-dashboard/issues/440)) ([8785fb1](https://github.com/stryker-mutator/stryker-dashboard/commit/8785fb190299d03802815f9840f6fe8a952c5bee))
+- **deps:** update nest monorepo ([#468](https://github.com/stryker-mutator/stryker-dashboard/issues/468)) ([ea09abd](https://github.com/stryker-mutator/stryker-dashboard/commit/ea09abdebc1646852f6ade9926e7407def4dd323))
+- **deps:** update nest monorepo ([#493](https://github.com/stryker-mutator/stryker-dashboard/issues/493)) ([a769f7d](https://github.com/stryker-mutator/stryker-dashboard/commit/a769f7db10619f3b4480de6430152d005c21ada6))
+- **deps:** upgrade Angular to v17 ([#416](https://github.com/stryker-mutator/stryker-dashboard/issues/416)) ([5f94448](https://github.com/stryker-mutator/stryker-dashboard/commit/5f944489bc043336615cb28de400f85d60cfd736))
+- **deps:** use latest node lts ([#415](https://github.com/stryker-mutator/stryker-dashboard/issues/415)) ([ea17536](https://github.com/stryker-mutator/stryker-dashboard/commit/ea175368cd5929c8645966be75cb9e8d4d63a0cc))
+
+### Features
+
+- enable compression ([#533](https://github.com/stryker-mutator/stryker-dashboard/issues/533)) ([5b0e83d](https://github.com/stryker-mutator/stryker-dashboard/commit/5b0e83dac4e289a420ca2458adb0d5621400682c))
+- harden security headers and use crypto module for uuid and hashes ([#535](https://github.com/stryker-mutator/stryker-dashboard/issues/535)) ([6798b9d](https://github.com/stryker-mutator/stryker-dashboard/commit/6798b9ddaa71ab63a040035b806e5dc3bb675592))
+- **website-frontend:** load mutation-test-report-app component directly instead of via cdn ([#524](https://github.com/stryker-mutator/stryker-dashboard/issues/524)) ([5a133a9](https://github.com/stryker-mutator/stryker-dashboard/commit/5a133a9a27e3e2f9c406902ebb8c0c0c5d1fb112))
+
 ## [0.13.4](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.13.3...v0.13.4) (2023-12-08)
 
 ### Bug Fixes
