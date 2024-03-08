@@ -2,7 +2,7 @@
 [![Build Status](https://github.com/stryker-mutator/stryker-dashboard/workflows/CI/badge.svg)](https://github.com/stryker-mutator/stryker-dashboard/actions?workflow=CI)
 [![Slack Chat](https://img.shields.io/badge/slack-chat-brightgreen.svg?logo=slack)](https://join.slack.com/t/stryker-mutator/shared_invite/enQtOTUyMTYyNTg1NDQ0LTU4ODNmZDlmN2I3MmEyMTVhYjZlYmJkOThlNTY3NTM1M2QxYmM5YTM3ODQxYmJjY2YyYzllM2RkMmM1NjNjZjM)
 
-![Stryker](https://raw.githubusercontent.com/stryker-mutator/stryker-mutator.github.io/develop/static/images/stryker.svg)
+<img src="https://raw.githubusercontent.com/stryker-mutator/stryker-mutator.github.io/develop/static/images/stryker.svg" alt="Stryker logo" style="width: 80px" />
 
 # The Stryker dashboard
 
