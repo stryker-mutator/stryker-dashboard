@@ -33,6 +33,7 @@ import { dist } from '@stryker-mutator/dashboard-frontend';
     ConfigModule.forRoot(),
     ServeStaticModule.forRoot({
       rootPath: dist,
+      exclude: ['/api/(.*)'],
       serveStaticOptions: {
         immutable: true,
         maxAge: '1y',
