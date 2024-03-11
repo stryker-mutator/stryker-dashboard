@@ -38,17 +38,9 @@ export class GithubSecurityMiddleware implements NestMiddleware {
 
   constructor(configuration: Configuration) {
     this.requestHandler = expressjwt({
-      getToken(req) {
-        const authHeader = req.header('authorization');
-        if (authHeader) {
-          const [scheme, value] = authHeader.split(' ');
-          if (scheme === 'Bearer') {
-            return value;
-          }
-        }
-        return;
-      },
       algorithms: [tokenOptions.algorithm],
+      audience: tokenOptions.audience,
+      issuer: tokenOptions.issuer,
       secret: configuration.jwtSecret,
       requestProperty: 'user',
     });

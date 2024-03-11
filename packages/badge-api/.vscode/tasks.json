@@ -5,23 +5,15 @@
       "type": "func",
       "command": "host start",
       "problemMatcher": "$func-watch",
-      "isBackground": true,
+      "isBackground": true
       // "dependsOn": "npm build"
     },
     {
       "type": "shell",
       "label": "npm build",
       "command": "npm run build",
-      "dependsOn": [
-        "func: extensions install",
-        "npm install"
-      ],
+      "dependsOn": ["func: extensions install"],
       "problemMatcher": "$tsc"
-    },
-    {
-      "type": "shell",
-      "label": "npm install",
-      "command": "npx lerna bootstrap"
     }
   ]
 }

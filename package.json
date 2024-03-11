@@ -55,9 +55,9 @@
     "clean": "rimraf --glob \"packages/*/{.nyc_output,reports,coverage,dist}\"",
     "lint": "eslint .",
     "lint:fix": "eslint --ext .ts,.js . --fix",
-    "build": "tsc -b && lerna run build",
+    "build": "tsc -b && nx run-many -t build",
     "start:azurite": "rimraf .azurite && mkdir -p .azurite && azurite -l .azurite",
-    "test": "lerna run --ignore e2e test --concurrency 4 --stream"
+    "test": "nx run-many -t test --exclude e2e"
   },
   "version": "0.0.1"
 }
