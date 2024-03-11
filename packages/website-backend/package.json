@@ -7,7 +7,6 @@
     "dashboard-backend": "bin/dashboard-backend.js",
     "dashboard-healthcheck": "bin/healthcheck.js"
   },
-  "main": "dist/src/index.js",
   "scripts": {
     "start": "node dist/src/index.js",
     "start:watch": "node --watch dist/src/index.js",
