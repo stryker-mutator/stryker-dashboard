@@ -1,6 +1,6 @@
 {
   "name": "@stryker-mutator/dashboard-contract",
-  "version": "0.13.2",
+  "version": "0.14.1",
   "type": "module",
   "description": "This package contains the typescript interfaces shared between front end and backend",
   "main": "dist/src/index.js",
@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mutation-testing-report-schema": "2.0.1"
+    "mutation-testing-report-schema": "3.0.2"
   },
   "publishConfig": {
     "access": "public"

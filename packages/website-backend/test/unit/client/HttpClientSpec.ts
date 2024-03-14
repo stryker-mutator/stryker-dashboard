@@ -1,21 +1,19 @@
 import HttpClient, { Response } from '../../../src/client/HttpClient.js';
-import utils from '../../../src/utils.js';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import fetch, { Response as NodeFetchResponse, Headers } from 'node-fetch';
 
 describe('HttpClient', () => {
   let sut: HttpClient;
   let fetchStub: sinon.SinonStubbedMember<typeof fetch>;
 
   beforeEach(() => {
-    fetchStub = sinon.stub(utils, 'fetch');
+    fetchStub = sinon.stub(globalThis, 'fetch');
     sut = new HttpClient();
   });
 
   it('should do the request on `fetchJson`', async () => {
     // Arrange
-    const response = new NodeFetchResponse('{"foo":"bar"}', {
+    const response = new globalThis.Response('{"foo":"bar"}', {
       headers: { foo: 'baz', 'Content-Type': 'application/json' },
     });
     fetchStub.resolves(response);

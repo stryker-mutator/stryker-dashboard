@@ -4,7 +4,7 @@ import {
   type Shield,
   Color,
 } from '../po/badge-api/badge-api.po.js';
-import { simpleReportv1 } from '../actions/report.action.js';
+import { simpleReportV1 } from '../actions/report.action.js';
 import { ReportClient } from '../po/reports/report-client.po.js';
 
 test.describe('badge-api', () => {
@@ -15,10 +15,10 @@ test.describe('badge-api', () => {
     client = new BadgeApiClient();
     reportClient = new ReportClient(request);
     await reportClient.uploadReport(
-      simpleReportv1(
+      simpleReportV1(
         'github.com/stryker-mutator-test-organization/hello-org',
-        'master'
-      )
+        'master',
+      ),
     );
   });
 
@@ -41,7 +41,7 @@ test.describe('badge-api', () => {
       schemaVersion: 1,
     };
     const response = await client.badgeFor(
-      'github.com/stryker-mutator-test-organization/hello-org/master'
+      'github.com/stryker-mutator-test-organization/hello-org/master',
     );
     expect(response.data).toEqual(expected);
   });
@@ -54,13 +54,13 @@ test.describe('badge-api', () => {
       schemaVersion: 1,
     };
     await reportClient.uploadReport(
-      simpleReportv1(
+      simpleReportV1(
         'github.com/stryker-mutator-test-organization/hello-org',
-        'feat/test'
-      )
+        'feat/test',
+      ),
     );
     const response = await client.badgeFor(
-      'github.com/stryker-mutator-test-organization/hello-org/feat/test'
+      'github.com/stryker-mutator-test-organization/hello-org/feat/test',
     );
     expect(response.data).toEqual(expected);
   });

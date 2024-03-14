@@ -8,16 +8,25 @@ jobs:
   release:
     name: 'Build and Release'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # to enable use of OIDC for npm provenance
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set NPM Env
       run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'npm'
     - name: Install dependencies
       run: npm ci
     - name: Build
       run: npm run build
     - name: Lerna publish
       run: npx lerna publish from-git --yes --no-verify-access
+      env:
+        NPM_CONFIG_PROVENANCE: true
     - name: Docker build & Tag
       run: | # Add a sleep to give npmjs.com the time to get the versions consistent 
         sleep 30s
@@ -35,13 +44,13 @@ jobs:
     environment: Production
     concurrency: Production Dashboard
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: 'Login via Azure CLI'
-      uses: Azure/actions/login@v1
+      uses: Azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_DASHBOARD_PRODUCTION }}
     - name: 'Deploy dashboard.stryker-mutator.io'
-      uses: azure/webapps-deploy@v2
+      uses: azure/webapps-deploy@v3
       with:
         app-name: 'stryker-badge'
         images: 'strykermutator/dashboard:latest'
@@ -56,15 +65,15 @@ jobs:
     concurrency: Production Badge Api
     steps:
     - name: 'Checkout Github Action'
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: 'Login via Azure CLI'
-      uses: Azure/actions/login@v1
+      uses: Azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_PRODUCTION }}
     - name: 'Download & prepare badge-api package'
       run: ./tasks/download-badge-api-package.sh ${GITHUB_REF:11}
     - name: 'Deploy badge-api.stryker-mutator.io'
-      uses: Azure/functions-action@v1.5.0
+      uses: Azure/functions-action@v1.5.1
       id: fa
       with:
         app-name: stryker-mutator-badge-api

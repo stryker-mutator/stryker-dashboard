@@ -7,6 +7,7 @@ export interface MutationScoreOnlyResult {
 export interface ReportIdentifier {
   projectName: string;
   moduleName: string | undefined;
+  realTime?: boolean;
   version: string;
 }
 
@@ -18,7 +19,13 @@ export type Report =
   | (ReportIdentifier & MutationScoreOnlyResult & MutationTestResult);
 
 export function isMutationTestResult(
-  report: MutationScoreOnlyResult | MutationTestResult
+  report: MutationScoreOnlyResult | MutationTestResult,
 ): report is MutationTestResult {
   return !!(report as MutationTestResult).files;
+}
+
+export function isPendingReport(report: MutationTestResult) {
+  return Object.values(report.files)
+    .flatMap((file) => file.mutants)
+    .some((mutant) => mutant.status === 'Pending');
 }

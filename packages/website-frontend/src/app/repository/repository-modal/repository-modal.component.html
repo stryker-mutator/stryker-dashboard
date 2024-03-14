@@ -7,73 +7,83 @@
   <div class="modal-body">
     <div *ngIf="enabled; then enablingContent else disablingContent"></div>
     <ng-template #enablingContent>
-      <ngb-accordion #acc="ngbAccordion" activeIds="panel-about-your-api-key" [closeOthers]="true">
-        <ngb-panel title="About your key" id="panel-about-your-api-key">
-          <ng-template ngbPanelContent>
-            <stryker-api-key-generator [mode]="apiKeyMode" [apiKey]="apiKey" (generate)="enableRepository()" [slug]="repository.slug"></stryker-api-key-generator>
-          </ng-template>
-        </ngb-panel>
-        <ngb-panel>
-          <ng-template ngbPanelTitle>
-            <span>Badge
-              <stryker-mutation-score-badge [repo]="repository" [style]="badgeStyle"></stryker-mutation-score-badge>
-            </span>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            <div>
-              This mutation score badge is tailor made for you.
+      <div ngbAccordion activeIds="panel-about-your-api-key" [closeOthers]="true">
+        <div ngbAccordionItem id="panel-about-your-api-key" [collapsed]="false">
+          <h2 ngbAccordionHeader>
+            <button ngbAccordionButton>About your key</button>
+          </h2>
+          <div ngbAccordionCollapse>
+            <div ngbAccordionBody>
+              <stryker-api-key-generator [mode]="apiKeyMode" [apiKey]="apiKey" (generate)="enableRepository()" [slug]="repository.slug"></stryker-api-key-generator>
             </div>
-            <div class="form-inline">
-              <div class="form-group">
-                <label for="styleSelector">Pick a shiny style:</label>
-                <select id="styleSelector" [(ngModel)]="badgeStyle" class="ms-2 my-1 form-control">
-                  <option *ngFor="let style of badgeStyles" [ngValue]="style">{{style}}</option>
-                </select>
-              </div>
-              <div>Examples: <img class="ms-1" [src]="formatExampleBadgeUrl('green', 82.8)"><img class="ms-1"
-                  [src]="formatExampleBadgeUrl('orange', 65.1)"><img class="ms-1"
-                  [src]="formatExampleBadgeUrl('red', 45.6)"></div>
+          </div>
+        </div>
+        
+        <div ngbAccordionItem>
+          <h2 ngbAccordionHeader><button ngbAccordionButton>Badge <stryker-mutation-score-badge class="ms-2" [repo]="repository" [style]="badgeStyle"></stryker-mutation-score-badge></button></h2>
+          <div ngbAccordionCollapse>
+            <div ngbAccordionBody> 
               <div>
-                When you're ready, add this to your readme:
-                <br />
-                <code id="readmeBadgeExample">[![Mutation testing badge]({{ badgeUrl }})]({{ reportUrl }})</code>
-                <stryker-clipboard-copy for="readmeBadgeExample">
-                </stryker-clipboard-copy>
+                This mutation score badge is tailor made for you.
+              </div>
+              <div class="form-inline">
+                <div class="form-group">
+                  <label for="styleSelector">Pick a shiny style:</label>
+                  <select id="styleSelector" [(ngModel)]="badgeStyle" class="ms-2 my-1 form-control">
+                    <option *ngFor="let style of badgeStyles" [ngValue]="style">{{style}}</option>
+                  </select>
+                </div>
+                <div>Examples: <img class="ms-1" [src]="formatExampleBadgeUrl('green', 82.8)"><img class="ms-1"
+                    [src]="formatExampleBadgeUrl('orange', 65.1)"><img class="ms-1"
+                    [src]="formatExampleBadgeUrl('red', 45.6)"></div>
+                <div>
+                  When you're ready, add this to your readme:
+                  <br />
+                  <code id="readmeBadgeExample">[![Mutation testing badge]({{ badgeUrl }})]({{ reportUrl }})</code>
+                  <stryker-clipboard-copy for="readmeBadgeExample">
+                  </stryker-clipboard-copy>
+                </div>
               </div>
             </div>
-          </ng-template>
-        </ngb-panel>
-        <ngb-panel title="Usage">
-          <ng-template ngbPanelContent>
-            <p>
-              See
-              <a href="https://github.com/stryker-mutator/stryker-handbook/blob/master/dashboard.md" target="_blank">the
-                Stryker handbook ↗</a>
-              for an explanation on how you can configure the dashboard reporter or use cURL to send your report to the
-              dashboard.
-            </p>
-            <p>
-              When configuring the <code>STRYKER_DASHBOARD_API_KEY</code> in your CI/CD pipeline, please be sure to
-              encrypt it via encrypted secrets.
-            </p>
-            <ul class="no-list">
-              <li><a
-                  href="https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch#secret-variables"
-                  target="_blank">🔑 Secrets in Azure DevOps ↗</a></li>
-              <li><a href="https://circleci.com/blog/keep-environment-variables-private-with-secret-masking/"
-                  target="_blank">🔑
-                  Secret masking in CircleCI ↗</a></li>
-              <li><a
-                  href="https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets"
-                  target="_blank">🔑 Secrets in GitHub Actions ↗</a></li>
-              <li><a href="https://docs.gitlab.com/ee/ci/variables/" target="_blank">🔑 Secrets in GitLab CI ↗</a></li>
-              <li><a
-                  href="https://docs.travis-ci.com/user/environment-variables/#defining-encrypted-variables-in-travisyml"
-                  target="_blank">🔑 Encrypted variables in Travis ↗</a></li>
-            </ul>
-          </ng-template>
-        </ngb-panel>
-      </ngb-accordion>
+          </div>
+        </div>
+
+        <div ngbAccordionItem>
+          <h2 ngbAccordionHeader>
+            <button ngbAccordionButton>Usage</button>
+          </h2>
+          <div ngbAccordionCollapse>
+            <div ngbAccordionBody>
+              <p>
+                See
+                <a href="https://github.com/stryker-mutator/stryker-handbook/blob/master/dashboard.md" target="_blank">the
+                  Stryker handbook ↗</a>
+                for an explanation on how you can configure the dashboard reporter or use cURL to send your report to the
+                dashboard.
+              </p>
+              <p>
+                When configuring the <code>STRYKER_DASHBOARD_API_KEY</code> in your CI/CD pipeline, please be sure to
+                encrypt it via encrypted secrets.
+              </p>
+              <ul class="no-list">
+                <li><a
+                    href="https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch#secret-variables"
+                    target="_blank">🔑 Secrets in Azure DevOps ↗</a></li>
+                <li><a href="https://circleci.com/blog/keep-environment-variables-private-with-secret-masking/"
+                    target="_blank">🔑
+                    Secret masking in CircleCI ↗</a></li>
+                <li><a
+                    href="https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets"
+                    target="_blank">🔑 Secrets in GitHub Actions ↗</a></li>
+                <li><a href="https://docs.gitlab.com/ee/ci/variables/" target="_blank">🔑 Secrets in GitLab CI ↗</a></li>
+                <li><a
+                    href="https://docs.travis-ci.com/user/environment-variables/#defining-encrypted-variables-in-travisyml"
+                    target="_blank">🔑 Encrypted variables in Travis ↗</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </ng-template>
     <ng-template #disablingContent>
       <p>If you are absolutely sure, you can disable Stryker for your repository now.</p>

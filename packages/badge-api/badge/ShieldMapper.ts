@@ -7,7 +7,7 @@ export class ShieldMapper {
   public async shieldFor(
     projectName: string,
     version: string,
-    moduleName?: string
+    moduleName?: string,
   ): Promise<Shield> {
     const report = await this.reportMapper.findOne({
       projectName,

@@ -1,8 +1,9 @@
-import { Service } from '@tsed/common';
-import util from '../utils.js';
+import util from '../utils/utils.js';
+import { Injectable } from '@nestjs/common';
 
-@Service()
+@Injectable()
 export default class Configuration {
+  public readonly cors: string;
   public readonly githubClientId: string;
   public readonly githubSecret: string;
   public readonly baseUrl: string;
@@ -16,5 +17,7 @@ export default class Configuration {
       util.optionalEnvVar('NODE_ENV', 'production') === 'development'),
       (this.baseUrl = util.requiredEnvVar('STRYKER_DASHBOARD_BASE_URL'));
     this.jwtSecret = util.requiredEnvVar('JWT_SECRET');
+
+    this.cors = util.requiredEnvVar('STRYKER_DASHBOARD_BASE_URL');
   }
 }

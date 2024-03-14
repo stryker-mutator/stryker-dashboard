@@ -6,7 +6,7 @@ describe(Project.name, () => {
     expect(
       Project.createRowKey({
         name: 'fooName',
-      })
+      }),
     ).eq('fooName');
   });
 
@@ -14,7 +14,7 @@ describe(Project.name, () => {
     expect(
       Project.createPartitionKey({
         owner: 'ownerBar',
-      })
+      }),
     ).eq('ownerBar');
   });
 

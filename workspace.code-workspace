@@ -22,6 +22,9 @@
       "path": "packages/e2e"
     },
     {
+      "path": "packages/stryker-elements"
+    },
+    {
       "path": ".",
       "name": "root"
     }
@@ -34,9 +37,14 @@
     ]
   },
   "settings": {
-    "eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
+    "eslint.rules.customizations": [
+      {
+        "rule": "*",
+        "severity": "warn"
+      }
+    ],
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
+      "source.fixAll.eslint": "explicit"
     },
     "search.exclude": {
       "**/node_modules": true,

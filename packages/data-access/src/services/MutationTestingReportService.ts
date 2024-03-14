@@ -20,7 +20,7 @@ import { MutationTestingReport } from '../models/index.js';
 import { OptimisticConcurrencyError } from '../errors/index.js';
 
 function moduleHasResult(
-  tuple: readonly [string, MutationTestResult | null]
+  tuple: readonly [string, MutationTestResult | null],
 ): tuple is [string, MutationTestResult] {
   return !!tuple[1];
 }
@@ -28,7 +28,7 @@ function moduleHasResult(
 export class MutationTestingReportService {
   constructor(
     private readonly resultMapper: MutationTestingResultMapper = new MutationTestingResultMapper(),
-    private readonly mutationScoreMapper: MutationTestingReportMapper = createMutationTestingReportMapper()
+    private readonly mutationScoreMapper: MutationTestingReportMapper = createMutationTestingReportMapper(),
   ) {}
 
   public async createStorageIfNotExists() {
@@ -39,7 +39,7 @@ export class MutationTestingReportService {
   public async saveReport(
     id: ReportIdentifier,
     result: MutationScoreOnlyResult | MutationTestResult,
-    logger: Logger
+    logger: Logger,
   ) {
     const mutationScore = this.calculateMutationScore(result);
 
@@ -49,7 +49,7 @@ export class MutationTestingReportService {
         ...id,
         mutationScore,
       },
-      isMutationTestResult(result) ? result : null
+      isMutationTestResult(result) ? result : null,
     );
     if (isMutationTestResult(result) && id.moduleName) {
       await this.aggregateProjectReport(id.projectName, id.version, logger);
@@ -59,7 +59,7 @@ export class MutationTestingReportService {
   private async aggregateProjectReport(
     projectName: string,
     version: string,
-    logger: Logger
+    logger: Logger,
   ) {
     const id: ReportIdentifier = {
       projectName,
@@ -68,22 +68,21 @@ export class MutationTestingReportService {
     };
 
     while (!(await this.tryAggregateProjectReport(id))) {
-      logger.info({
+      logger.log({
         message: `Optimistic concurrency exception occurred while trying to aggregate the report ${JSON.stringify(
-          id
+          id,
         )}, retrying...`,
       });
     }
   }
 
   private async tryAggregateProjectReport(id: ReportIdentifier) {
-    const projectMutationScoreModel = await this.mutationScoreMapper.findOne(
-      id
-    );
+    const projectMutationScoreModel =
+      await this.mutationScoreMapper.findOne(id);
     const moduleScoreResults = await this.mutationScoreMapper.findAll(
       DashboardQuery.create(MutationTestingReport)
         .wherePartitionKeyEquals(id)
-        .whereRowKeyNotEquals({ moduleName: undefined })
+        .whereRowKeyNotEquals({ moduleName: undefined }),
     );
     const resultsByModule = Object.fromEntries(
       (
@@ -93,10 +92,10 @@ export class MutationTestingReportService {
               [
                 score.model.moduleName!,
                 await this.resultMapper.findOne(score.model),
-              ] as const
-          )
+              ] as const,
+          ),
         )
-      ).filter(moduleHasResult)
+      ).filter(moduleHasResult),
     );
     if (Object.keys(resultsByModule).length) {
       const projectResult = aggregateResultsByModule(resultsByModule);
@@ -109,7 +108,7 @@ export class MutationTestingReportService {
         if (projectMutationScoreModel) {
           await this.mutationScoreMapper.replace(
             projectReport,
-            projectMutationScoreModel.etag
+            projectMutationScoreModel.etag,
           );
         } else {
           await this.mutationScoreMapper.insert(projectReport);
@@ -145,10 +144,14 @@ export class MutationTestingReportService {
     }
   }
 
+  public async delete(id: ReportIdentifier): Promise<void> {
+    await this.resultMapper.delete(id);
+  }
+
   private async insertOrMergeReport(
     id: ReportIdentifier,
     report: MutationTestingReport,
-    result: MutationTestResult | null
+    result: MutationTestResult | null,
   ) {
     await Promise.all([
       this.resultMapper.insertOrReplace(id, result),
@@ -157,7 +160,7 @@ export class MutationTestingReportService {
   }
 
   private calculateMutationScore(
-    result: MutationScoreOnlyResult | MutationTestResult
+    result: MutationScoreOnlyResult | MutationTestResult,
   ) {
     if (isMutationTestResult(result)) {
       return calculateMetrics(result.files).metrics.mutationScore;

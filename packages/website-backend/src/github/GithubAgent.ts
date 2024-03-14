@@ -1,8 +1,8 @@
 import debug from 'debug';
 import { Repository, Login } from './models.js';
 import HttpClient from '../client/HttpClient.js';
-import { Injectable } from '@tsed/di';
 import * as github from '../github/models.js';
+import { Injectable } from '@nestjs/common';
 
 const GITHUB_BACKEND = 'https://api.github.com';
 
@@ -17,7 +17,7 @@ export default class GithubAgent {
   }
 
   public async getMyOrganizations(
-    user: github.Authentication
+    user: github.Authentication,
   ): Promise<Login[]> {
     const logins = await this.get<Login[]>(user, `${GITHUB_BACKEND}/user/orgs`);
     return logins;
@@ -25,41 +25,41 @@ export default class GithubAgent {
 
   public async getOrganizations(
     user: github.Authentication,
-    loginName: string
+    loginName: string,
   ): Promise<Login[]> {
     const logins = await this.get<Login[]>(
       user,
-      `${GITHUB_BACKEND}/users/${loginName}/orgs`
+      `${GITHUB_BACKEND}/users/${loginName}/orgs`,
     );
     return logins;
   }
 
   public getOrganizationRepositories(
     user: github.Authentication,
-    organizationLogin: string
+    organizationLogin: string,
   ): Promise<Repository[]> {
     return this.get<Repository[]>(
       user,
-      `${GITHUB_BACKEND}/orgs/${organizationLogin}/repos?type=member`
+      `${GITHUB_BACKEND}/orgs/${organizationLogin}/repos?type=member`,
     );
   }
 
   public getMyRepositories(user: github.Authentication): Promise<Repository[]> {
     return this.get<Repository[]>(
       user,
-      `${GITHUB_BACKEND}/user/repos?type=owner`
+      `${GITHUB_BACKEND}/user/repos?type=owner`,
     );
   }
 
   public async userHasPushAccess(
     user: github.Authentication,
     owner: string,
-    name: string
+    name: string,
   ): Promise<boolean> {
     // https://developer.github.com/v3/repos/#get
     const repo = await this.get<Repository>(
       user,
-      `${GITHUB_BACKEND}/repos/${owner}/${name}`
+      `${GITHUB_BACKEND}/repos/${owner}/${name}`,
     );
     return repo.permissions && repo.permissions.push;
   }

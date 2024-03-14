@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { MutantStatus } from 'mutation-testing-report-schema';
 import { ReportPage } from '../po/reports/report-page.po.js';
-import { simpleReportv1, scoreOnlyReport } from '../actions/report.action.js';
+import { simpleReportV1, scoreOnlyReport } from '../actions/report.action.js';
 import { ReportClient } from '../po/reports/report-client.po.js';
 
 test.describe('Report page', () => {
@@ -26,14 +25,14 @@ test.describe('Report page', () => {
   test.describe('when a full report exists', async () => {
     test.beforeEach(async () => {
       await client.uploadReport(
-        simpleReportv1(
+        simpleReportV1(
           'github.com/stryker-mutator-test-organization/hello-org',
-          'master'
-        )
+          'master',
+        ),
       );
       await page.navigate(
         'github.com/stryker-mutator-test-organization/hello-org',
-        'master'
+        'master',
       );
     });
 
@@ -49,18 +48,18 @@ test.describe('Report page', () => {
           scoreOnlyReport(
             'github.com/stryker-mutator-test-organization/hello-org',
             'master',
-            42
-          )
+            42,
+          ),
         );
         await page.navigate(
           'github.com/stryker-mutator-test-organization/hello-org',
-          'master'
+          'master',
         );
       });
 
       test('should show the mutation score only', async () => {
         await expect(page.warningAlert).toContainText(
-          'No html report stored for github.com/stryker-mutator-test-organization/hello-org/master'
+          'No html report stored for github.com/stryker-mutator-test-organization/hello-org/master',
         );
         await expect(page.mutationTestReportApp.host).not.toExist();
         await expect(page.mutationScore).toContainText('Mutation score: 42');
@@ -72,47 +71,43 @@ test.describe('Report page', () => {
     test.beforeEach(async () => {
       await Promise.all([
         client.uploadReport(
-          simpleReportv1(
+          simpleReportV1(
             'github.com/stryker-mutator-test-organization/hello-org',
             'feat/modules',
             'one',
-            [MutantStatus.Killed, MutantStatus.Killed, MutantStatus.Killed]
-          )
+            ['Killed', 'Killed', 'Killed'],
+          ),
         ),
         client.uploadReport(
-          simpleReportv1(
+          simpleReportV1(
             'github.com/stryker-mutator-test-organization/hello-org',
             'feat/modules',
             'two',
-            [
-              MutantStatus.Survived,
-              MutantStatus.Survived,
-              MutantStatus.Survived,
-            ]
-          )
+            ['Survived', 'Survived', 'Survived'],
+          ),
         ),
         client.uploadReport(
-          simpleReportv1(
+          simpleReportV1(
             'github.com/stryker-mutator-test-organization/hello-org',
             'feat/modules',
             'three',
-            [MutantStatus.Killed, MutantStatus.Timeout, MutantStatus.NoCoverage]
-          )
+            ['Killed', 'Timeout', 'NoCoverage'],
+          ),
         ),
       ]);
       await page.navigate(
         'github.com/stryker-mutator-test-organization/hello-org',
-        'feat/modules'
+        'feat/modules',
       );
     });
 
     test('should show the aggregated report for the project', async () => {
       await expect(page.mutationTestReportApp.title).toContainText('All files');
       await expect(page.mutationTestReportApp.title).toContainText(
-        'hello-org/feat/modules'
+        'hello-org/feat/modules',
       );
       await expect(page.mutationTestReportApp.title).toContainText(
-        'Stryker Dashboard'
+        'Stryker Dashboard',
       );
       expect(await page.mutationTestReportApp.mutationScore()).toBe(55.56);
       expect(await page.mutationTestReportApp.fileNames()).toEqual([

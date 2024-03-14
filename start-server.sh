@@ -15,4 +15,4 @@ DEBUG=*,-express:* \
     JWT_SECRET="123" \
     PGUSER=stryker \
     PORT=1337 \
-    node packages/website-backend/src/index.js
+    node packages/website-backend/bin/dashboard-backend.js

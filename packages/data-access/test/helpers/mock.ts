@@ -10,7 +10,7 @@ import {
 export function createTableMapperMock<
   A,
   B extends keyof A,
-  C extends keyof A
+  C extends keyof A,
 >(): sinon.SinonStubbedInstance<Mapper<A, B, C>> {
   return {
     createStorageIfNotExists: sinon.stub(),
@@ -23,7 +23,7 @@ export function createTableMapperMock<
 }
 
 export function createMutationTestResult(
-  files: FileResultDictionary = createFileResultDictionary(createFileResult())
+  files: FileResultDictionary = createFileResultDictionary(createFileResult()),
 ): MutationTestResult {
   return {
     files,
@@ -36,7 +36,7 @@ export function createMutationTestResult(
 }
 
 export function createFileResult(
-  mutantStates = [MutantStatus.Killed, MutantStatus.Survived]
+  mutantStates: MutantStatus[] = ['Killed', 'Survived'],
 ): FileResult {
   return {
     language: 'javascript',

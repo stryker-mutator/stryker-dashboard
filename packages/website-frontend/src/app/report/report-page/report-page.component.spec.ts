@@ -14,6 +14,7 @@ import {
 } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Report } from '@stryker-mutator/dashboard-common';
+import { MutationTestResult } from 'mutation-testing-report-schema';
 
 function createUrlSegment(overrides: Partial<UrlSegment>): UrlSegment {
   return {
@@ -78,7 +79,7 @@ describe(ReportPageComponent.name, () => {
   describe('ngOnInit', () => {
     it('should show loading animation', () => {
       const loading = element.querySelector(
-        'stryker-loading'
+        'stryker-loading',
       ) as HTMLElement & { showContent: boolean };
       expect(loading.showContent).toBeFalsy();
     });
@@ -87,7 +88,9 @@ describe(ReportPageComponent.name, () => {
       // Arrange
       url$.next([createUrlSegment({ path: 'someRepo' })]);
       queryParam$.next({ module: null });
-      http.expectOne('/api/reports/someRepo').flush(createFullReport());
+      http
+        .expectOne((r) => r.url.includes('/api/reports/someRepo'))
+        .flush(createFullReport());
 
       // Act
       fixture.detectChanges();
@@ -95,7 +98,7 @@ describe(ReportPageComponent.name, () => {
 
       // Assert
       const loading = element.querySelector(
-        'stryker-loading'
+        'stryker-loading',
       ) as HTMLElement & { showContent: boolean };
       expect(loading.showContent).toBeTruthy();
       expect(loading.querySelector('mutation-test-report-app')).toBeTruthy();
@@ -105,33 +108,39 @@ describe(ReportPageComponent.name, () => {
       // Arrange
       url$.next([createUrlSegment({ path: 'someRepo' })]);
       queryParam$.next({ module: null });
-      http.expectOne('/api/reports/someRepo').flush(createFullReport());
+      http
+        .expectOne((r) => r.url.includes('/api/reports/someRepo'))
+        .flush(createFullReport());
 
       // Act
       url$.next([createUrlSegment({ path: '#mutant' })]);
       queryParam$.next({ module: null });
 
       // Assert
-      http.expectNone('/api/reports/someRepo');
+      http.expectNone((r) => r.url.includes('/api/reports/someRepo'));
     });
 
     it('should get the report if the path changes', async () => {
       // Arrange
       url$.next([createUrlSegment({ path: 'someRepo' })]);
       queryParam$.next({ module: null });
-      http.expectOne('/api/reports/someRepo').flush(createFullReport());
+      http
+        .expectOne((r) => r.url.includes('/api/reports/someRepo'))
+        .flush(createFullReport());
 
       // Act
       url$.next([createUrlSegment({ path: 'someOtherRepo' })]);
       queryParam$.next({ module: null });
 
       // Assert
-      http.expectOne('/api/reports/someOtherRepo').flush(createFullReport());
+      http
+        .expectOne((r) => r.url.includes('/api/reports/someOtherRepo'))
+        .flush(createFullReport());
     });
 
     it('should retrieve the correct report and bind it on the correct component', async () => {
       // Arrange
-      const expectedReport = createFullReport();
+      const expectedReport = createFullReport() as MutationTestResult;
       url$.next([
         createUrlSegment({ path: 'github' }),
         createUrlSegment({ path: 'stryker-mutator' }),
@@ -140,8 +149,10 @@ describe(ReportPageComponent.name, () => {
       ]);
       queryParam$.next({ module: 'core' });
       http
-        .expectOne(
-          '/api/reports/github/stryker-mutator/stryker/master?module=core'
+        .expectOne((r) =>
+          r.url.includes(
+            '/api/reports/github/stryker-mutator/stryker/master?module=core',
+          ),
         )
         .flush(expectedReport);
 
@@ -151,8 +162,8 @@ describe(ReportPageComponent.name, () => {
 
       // Assert
       const mutationTestingReportApp = element.querySelector(
-        'mutation-test-report-app'
-      ) as HTMLElement & { report: typeof expectedReport };
+        'mutation-test-report-app',
+      )!;
       expect(mutationTestingReportApp.report).toBe(expectedReport);
     });
 
@@ -161,7 +172,7 @@ describe(ReportPageComponent.name, () => {
       url$.next([createUrlSegment({ path: 'someRepo' })]);
       queryParam$.next({ module: null });
       http
-        .expectOne('/api/reports/someRepo')
+        .expectOne((r) => r.url.includes('/api/reports/someRepo'))
         .flush(null, { statusText: 'Not found', status: 404 });
 
       // Act
@@ -170,7 +181,7 @@ describe(ReportPageComponent.name, () => {
 
       // Assert
       const loading = element.querySelector(
-        'stryker-loading'
+        'stryker-loading',
       ) as HTMLElement & { showContent: boolean };
       const alert = loading.querySelector('.alert');
       expect(loading.showContent).toBeTruthy();
@@ -183,7 +194,7 @@ describe(ReportPageComponent.name, () => {
       url$.next([createUrlSegment({ path: 'someRepo' })]);
       queryParam$.next({ module: null });
       http
-        .expectOne('/api/reports/someRepo')
+        .expectOne((r) => r.url.includes('/api/reports/someRepo'))
         .flush(createMutationScoreOnlyReport(83));
 
       // Act
@@ -192,13 +203,13 @@ describe(ReportPageComponent.name, () => {
 
       // Assert
       const loading = element.querySelector(
-        'stryker-loading'
+        'stryker-loading',
       ) as HTMLElement & { showContent: boolean };
       const alert = loading.querySelector('.alert');
       expect(loading.showContent).toBeTruthy();
       expect(alert).toBeTruthy();
       expect(alert!.textContent).toEqual(
-        'No html report stored for github/stryker-mutator/stryker/1/core'
+        'No html report stored for github/stryker-mutator/stryker/1/core',
       );
       expect(element.textContent).toContain('Mutation score: 83');
     });
@@ -208,7 +219,7 @@ describe(ReportPageComponent.name, () => {
       url$.next([createUrlSegment({ path: 'someRepo' })]);
       queryParam$.next({ module: null });
       http
-        .expectOne('/api/reports/someRepo')
+        .expectOne((r) => r.url.includes('/api/reports/someRepo'))
         .flush(null, { status: 500, statusText: 'Internal Server Error' });
 
       // Act

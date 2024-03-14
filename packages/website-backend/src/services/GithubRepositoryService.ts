@@ -1,14 +1,13 @@
-import { Service } from '@tsed/common';
 import DataAccess from './DataAccess.js';
 import GithubAgent from '../github/GithubAgent.js';
 import * as dal from '@stryker-mutator/dashboard-data-access';
 import * as contract from '@stryker-mutator/dashboard-contract';
 import * as github from '../github/models.js';
-import { Unauthorized } from 'ts-httpexceptions';
 import {
   DashboardQuery,
   Project,
 } from '@stryker-mutator/dashboard-data-access';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 /**
  * Prefix a github login name with "github.com/" in order to put it in the database
@@ -18,38 +17,41 @@ function prefixGithub(slug: string) {
   return `github.com/${slug}`;
 }
 
-@Service()
+@Injectable()
 export default class GithubRepositoryService {
   private readonly projectMapper: dal.ProjectMapper;
 
-  constructor(dataAccess: DataAccess, private agent: GithubAgent) {
+  constructor(
+    dataAccess: DataAccess,
+    private agent: GithubAgent,
+  ) {
     this.projectMapper = dataAccess.repositoryMapper;
   }
 
   public async getAllForUser(
-    auth: github.Authentication
+    auth: github.Authentication,
   ): Promise<contract.Repository[]> {
     const githubRepos = this.agent.getMyRepositories(auth);
     const repoEntities = this.projectMapper.findAll(
       DashboardQuery.create(Project).wherePartitionKeyEquals({
         owner: prefixGithub(auth.username),
-      })
+      }),
     );
     return this.matchRepositories(githubRepos, repoEntities);
   }
 
   public async getAllForOrganization(
     auth: github.Authentication,
-    organizationLogin: string
+    organizationLogin: string,
   ): Promise<contract.Repository[]> {
     const githubRepos = this.agent.getOrganizationRepositories(
       auth,
-      organizationLogin
+      organizationLogin,
     );
     const repoEntities = this.projectMapper.findAll(
       DashboardQuery.create(Project).wherePartitionKeyEquals({
         owner: prefixGithub(organizationLogin),
-      })
+      }),
     );
     return this.matchRepositories(githubRepos, repoEntities);
   }
@@ -59,7 +61,7 @@ export default class GithubRepositoryService {
     owner: string,
     name: string,
     enabled: boolean,
-    apiKeyHash = ''
+    apiKeyHash = '',
   ) {
     await this.guardUserHasAccess(auth, owner, name);
     await this.projectMapper.insertOrMerge({
@@ -73,25 +75,26 @@ export default class GithubRepositoryService {
   private async guardUserHasAccess(
     auth: github.Authentication,
     owner: string,
-    name: string
+    name: string,
   ): Promise<void> {
     const hasPushAccess = await this.agent.userHasPushAccess(auth, owner, name);
     if (!hasPushAccess) {
-      throw new Unauthorized(
-        `Permission denied. ${auth.username} does not have enough permissions for resource ${owner}/${name} (was "push": false).`
+      throw new HttpException(
+        `Permission denied. ${auth.username} does not have enough permissions for resource ${owner}/${name} (was "push": false).`,
+        HttpStatus.UNAUTHORIZED,
       );
     }
   }
 
   private async matchRepositories(
     githubReposPromise: Promise<github.Repository[]>,
-    repositoryEntitiesPromise: Promise<dal.Result<dal.Project>[]>
+    repositoryEntitiesPromise: Promise<dal.Result<dal.Project>[]>,
   ): Promise<contract.Repository[]> {
     const githubRepos = await githubReposPromise;
     const repositoryEntities = await repositoryEntitiesPromise;
     return githubRepos.map((githubRepo) => {
       const projectEntity = repositoryEntities.find(
-        (dalRepo) => dalRepo.model.name === githubRepo.name
+        (dalRepo) => dalRepo.model.name === githubRepo.name,
       );
       const repository: contract.Repository = {
         enabled: !!(projectEntity && projectEntity.model.enabled),

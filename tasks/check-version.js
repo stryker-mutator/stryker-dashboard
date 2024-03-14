@@ -23,13 +23,13 @@ if ((url && expectedVersion && type === 'dashboard') || type === 'badge-api') {
 } else {
   console.info(
     `Usage: node ${path.basename(
-      fileURLToPath(import.meta.url)
-    )} [badge-api/dashboard] url version`
+      fileURLToPath(import.meta.url),
+    )} [badge-api/dashboard] url version`,
   );
   console.info(
     `Example: node ${path.basename(
-      fileURLToPath(import.meta.url)
-    )} dashboard https://dashboard.stryker-mutator.io/api/version 1.0.0\``
+      fileURLToPath(import.meta.url),
+    )} dashboard https://dashboard.stryker-mutator.io/api/version 1.0.0\``,
   );
   process.exitCode = 1;
 }
@@ -85,8 +85,8 @@ function verifyDashboardVersion(resp) {
         ) {
           throw new Error(
             `Expected ${JSON.stringify(actual)} to equal ${JSON.stringify(
-              expected
-            )}`
+              expected,
+            )}`,
           );
         }
         res();

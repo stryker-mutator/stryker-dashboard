@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { MutantStatus } from 'mutation-testing-report-schema';
 import sinon from 'sinon';
 import { MutationTestingReport } from '../../../src/models/index.js';
 import {
@@ -30,7 +29,7 @@ describe(MutationTestingReportService.name, () => {
   beforeEach(() => {
     logger = {
       debug: sinon.stub(),
-      info: sinon.stub(),
+      log: sinon.stub(),
       warn: sinon.stub(),
       error: sinon.stub(),
     };
@@ -38,7 +37,7 @@ describe(MutationTestingReportService.name, () => {
     resultMapperMock = sinon.createStubInstance(MutationTestingResultMapper);
     sut = new MutationTestingReportService(
       resultMapperMock as unknown as MutationTestingResultMapper,
-      reportMapperMock
+      reportMapperMock,
     );
   });
 
@@ -54,9 +53,7 @@ describe(MutationTestingReportService.name, () => {
     it('should update the expected report using the score from metrics', async () => {
       // Arrange
       const expectedResult = createMutationTestResult(
-        createFileResultDictionary(
-          createFileResult([MutantStatus.Killed, MutantStatus.Survived])
-        )
+        createFileResultDictionary(createFileResult(['Killed', 'Survived'])),
       );
       const reportIdentifier = {
         version: 'feat/dashboard',
@@ -73,11 +70,11 @@ describe(MutationTestingReportService.name, () => {
 
       // Assert
       expect(reportMapperMock.insertOrMerge).calledWith(
-        expectedMutationTestingReport
+        expectedMutationTestingReport,
       );
       expect(resultMapperMock.insertOrReplace).calledWith(
         reportIdentifier,
-        expectedResult
+        expectedResult,
       );
     });
 
@@ -87,7 +84,7 @@ describe(MutationTestingReportService.name, () => {
         createMutationTestResult({
           ['a/b/c/d']: createFileResult(),
           ['a/b/e/f']: createFileResult(),
-        })
+        }),
       );
       const reportIdentifier = {
         version: 'feat/dashboard',
@@ -101,7 +98,7 @@ describe(MutationTestingReportService.name, () => {
       // Assert
       expect(resultMapperMock.insertOrReplace).calledWith(
         reportIdentifier,
-        rawResult
+        rawResult,
       );
     });
 
@@ -128,11 +125,11 @@ describe(MutationTestingReportService.name, () => {
         projectName: 'github.com/testOrg/testName',
       };
       expect(reportMapperMock.insertOrMerge).calledWith(
-        expectedMutationTestingReport
+        expectedMutationTestingReport,
       );
       expect(resultMapperMock.insertOrReplace).calledWith(
         reportIdentifier,
-        null
+        null,
       );
     });
 
@@ -142,10 +139,10 @@ describe(MutationTestingReportService.name, () => {
         const projectName = 'github.com/testOrg/testName';
         const version = 'feat/something';
         const coreResult = createMutationTestResult({
-          'a/b': createFileResult([MutantStatus.Killed]),
+          'a/b': createFileResult(['Killed']),
         });
         const apiResult = createMutationTestResult({
-          'a/b': createFileResult([MutantStatus.NoCoverage]),
+          'a/b': createFileResult(['NoCoverage']),
         });
         const coreReport: MutationTestingReport = {
           moduleName: 'core',
@@ -193,11 +190,11 @@ describe(MutationTestingReportService.name, () => {
         }; // one killed and one noCoverage
         expect(resultMapperMock.insertOrReplace).calledWith(
           expectedProjectId,
-          expectedProjectResult
+          expectedProjectResult,
         );
         expect(reportMapperMock.replace).calledWith(
           expectedMutationTestingReport,
-          'old-project-etag'
+          'old-project-etag',
         );
       });
 
@@ -206,7 +203,7 @@ describe(MutationTestingReportService.name, () => {
         const projectName = 'github.com/testOrg/testName';
         const version = 'feat/something';
         const moduleResult = createMutationTestResult({
-          'a/b': createFileResult([MutantStatus.Killed]),
+          'a/b': createFileResult(['Killed']),
         });
         const moduleReport: MutationTestingReport = {
           moduleName: 'core',
@@ -232,8 +229,8 @@ describe(MutationTestingReportService.name, () => {
           .onFirstCall()
           .rejects(
             new OptimisticConcurrencyError(
-              'OptimisticConcurrencyError for testing'
-            )
+              'OptimisticConcurrencyError for testing',
+            ),
           )
           .onSecondCall()
           .resolves();
@@ -256,16 +253,16 @@ describe(MutationTestingReportService.name, () => {
         };
         expect(resultMapperMock.insertOrReplace).calledWith(
           expectedProjectId,
-          expectedProjectResult
+          expectedProjectResult,
         );
         expect(reportMapperMock.replace).calledTwice;
         expect(reportMapperMock.replace).calledWith(
           expectedMutationTestingReport,
-          'new-project-etag'
+          'new-project-etag',
         );
-        expect(logger.info).calledWith({
+        expect(logger.log).calledWith({
           message: `Optimistic concurrency exception occurred while trying to aggregate the report ${JSON.stringify(
-            expectedProjectId
+            expectedProjectId,
           )}, retrying...`,
         });
       });
@@ -275,7 +272,7 @@ describe(MutationTestingReportService.name, () => {
         const projectName = 'github.com/testOrg/testName';
         const version = 'feat/something';
         const moduleResult = createMutationTestResult({
-          'a/b': createFileResult([MutantStatus.Killed]),
+          'a/b': createFileResult(['Killed']),
         });
         const moduleReport: MutationTestingReport = {
           moduleName: 'core',
@@ -319,12 +316,12 @@ describe(MutationTestingReportService.name, () => {
         expect(resultMapperMock.insertOrReplace).calledThrice;
         expect(resultMapperMock.insertOrReplace).calledWith(
           expectedProjectId,
-          expectedProjectResult
+          expectedProjectResult,
         );
         expect(reportMapperMock.replace).calledOnce;
         expect(reportMapperMock.replace).calledWith(
           expectedMutationTestingReport,
-          'project-etag'
+          'project-etag',
         );
       });
     });
@@ -387,6 +384,28 @@ describe(MutationTestingReportService.name, () => {
 
       // Assert
       expect(actual).null;
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete the blob', () => {
+      // Arrange
+      const id = {
+        moduleName: 'm',
+        projectName: 'p',
+        version: 'v',
+      };
+
+      // Act
+      sut.delete(id);
+
+      // Assert
+      expect(resultMapperMock.delete.calledOnce).to.be.true;
+      expect(resultMapperMock.delete).calledWith({
+        moduleName: 'm',
+        projectName: 'p',
+        version: 'v',
+      });
     });
   });
 });

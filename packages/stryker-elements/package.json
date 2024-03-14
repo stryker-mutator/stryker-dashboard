@@ -1,0 +1,54 @@
+{
+  "name": "@stryker-mutator/stryker-elements",
+  "version": "0.14.1",
+  "type": "module",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stryker-mutator/stryker-dashboard",
+    "directory": "packages/stryker-elements"
+  },
+  "module": "./dist/main.mjs",
+  "main": "./dist/main.cjs",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    ".": {
+      "module": "./dist/main.mjs",
+      "main": "./dist/main.cjs",
+      "types": "./dist/main.d.ts"
+    },
+    "./*": {
+      "module": "./dist/exports/*",
+      "main": "./dist/exports/*",
+      "types": "./dist/exports/*"
+    },
+    "./dist/style.css": "./dist/style.css",
+    "./components/*": {
+      "module": "./dist/components/*",
+      "main": "./dist/components/*",
+      "types": "./dist/components/*"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "lit": "^2.7.6"
+  },
+  "devDependencies": {
+    "autoprefixer": "10.4.18",
+    "postcss": "8.4.35",
+    "tailwindcss": "3.4.1",
+    "vite": "4.5.2",
+    "vite-plugin-dts": "3.7.3"
+  }
+}

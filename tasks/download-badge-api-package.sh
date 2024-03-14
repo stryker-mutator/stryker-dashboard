@@ -21,4 +21,4 @@ fi
 
 tar -xzf dashboard-badge-api-${NPM_PACKAGE_VERSION}.tgz
 cd package
-npm install --production
+npm install --omit=dev

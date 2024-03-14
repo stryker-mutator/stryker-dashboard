@@ -1,10 +1,8 @@
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fstryker-mutator%2Fstryker-dashboard%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/stryker-mutator/stryker-dashboard/master)
 [![Build Status](https://github.com/stryker-mutator/stryker-dashboard/workflows/CI/badge.svg)](https://github.com/stryker-mutator/stryker-dashboard/actions?workflow=CI)
-[![Gitter](https://badges.gitter.im/stryker-mutator/stryker.svg)](https://gitter.im/stryker-mutator/stryker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![Dependency Status](https://img.shields.io/david/stryker-mutator/stryker-badge.svg)](https://david-dm.org/stryker-mutator/stryker-badge)
-[![devDependency Status](https://img.shields.io/david/dev/stryker-mutator/stryker-badge.svg)](https://david-dm.org/stryker-mutator/stryker-badge#info=devDependencies)
+[![Slack Chat](https://img.shields.io/badge/slack-chat-brightgreen.svg?logo=slack)](https://join.slack.com/t/stryker-mutator/shared_invite/enQtOTUyMTYyNTg1NDQ0LTU4ODNmZDlmN2I3MmEyMTVhYjZlYmJkOThlNTY3NTM1M2QxYmM5YTM3ODQxYmJjY2YyYzllM2RkMmM1NjNjZjM)
 
-![Stryker](https://github.com/stryker-mutator/stryker/raw/master/stryker-80x80.png)
+<img src="https://raw.githubusercontent.com/stryker-mutator/stryker-mutator.github.io/develop/static/images/stryker.svg" alt="Stryker logo" style="width: 80px" />
 
 # The Stryker dashboard
 
@@ -17,6 +15,8 @@ First things first, there's always something before you can start.
 To make our life easier, we use [NPM](https://www.npmjs.com/) a lot. Make sure you have it installed.
 
 Our application runs in [Docker](https://www.docker.com/). If you don't already use it, now would be the time. Make sure the Docker daemon is up and running.
+
+### Azure Storage
 
 We store our data in [Azure Storage](https://azure.microsoft.com/en-us/free/services/storage/), so you need to be able to do so as well. On Windows, you can use the [Azure Storage Emulator](https://docs.microsoft.com/en-gb/azure/storage/common/storage-use-emulator). For Mac users, we recommend creating a free [Azure account](https://azure.microsoft.com/en-us/free/services/storage/).
 
@@ -49,7 +49,7 @@ Next, you need to define the following environment variables in a Docker [enviro
 
 ### Start the application
 
-To start the application, you can now simply run `docker run --env-file env.list -p 1337:1337 stryker/dashboard`. This will spin-up a Docker container with the image that was build earlier; provide it with your environment variables set in the `env-list` file; and open port 1337 so you can access it on your local machine.
+To start the application, you can now simply run `docker run --env-file env.list -p 1337:1337 strykermutator/dashboard`. This will spin-up a Docker container with the image that was build earlier; provide it with your environment variables set in the `env-list` file; and open port 1337 so you can access it on your local machine.
 
 Stryker Dashboard should now be available at [http://localhost:1337](http://localhost:1337).
 

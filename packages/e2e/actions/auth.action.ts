@@ -24,7 +24,7 @@ export function generateAuthToken(): string {
       username: 'strykermutator-test-account',
     },
     getJwtSecret(),
-    tokenOptions
+    tokenOptions,
   );
   return authToken;
 }

@@ -8,6 +8,9 @@ if (environment.production) {
   enableProdMode();
 }
 
+/* Import preflight styles */
+import '@stryker-mutator/stryker-elements';
+
 platformBrowserDynamic()
   .bootstrapModule(AppModule)
   .catch((err) => console.error(err));

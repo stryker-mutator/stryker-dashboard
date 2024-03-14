@@ -16,16 +16,20 @@ export class MutationTestingReport implements ReportIdentifier {
    * For example 'schema'
    */
   public moduleName: string | undefined;
+  /**
+   * Indicates whether this report is real-time.
+   */
+  public realTime?: boolean;
   public mutationScore: number;
 
   public static createRowKey(
-    identifier: Pick<MutationTestingReport, 'moduleName'>
+    identifier: Pick<MutationTestingReport, 'moduleName'>,
   ) {
     return identifier.moduleName;
   }
 
   public static createPartitionKey(
-    identifier: Pick<MutationTestingReport, 'version' | 'projectName'>
+    identifier: Pick<MutationTestingReport, 'version' | 'projectName'>,
   ) {
     return `${identifier.projectName}/${identifier.version}`;
   }
@@ -33,7 +37,7 @@ export class MutationTestingReport implements ReportIdentifier {
   public static identify(
     entity: Partial<MutationTestingReport>,
     partitionKeyValue: string,
-    rowKeyValue: string
+    rowKeyValue: string,
   ) {
     const versionSplit = partitionKeyValue.lastIndexOf('/');
     entity.projectName = partitionKeyValue.substr(0, versionSplit);

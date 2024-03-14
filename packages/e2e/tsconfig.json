@@ -7,7 +7,6 @@
       "node"
     ],
     "outDir": "dist",
-    "importsNotUsedAsValues": "error"
   },
   "references": [
     {

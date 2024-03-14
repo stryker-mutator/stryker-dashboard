@@ -1,23 +1,36 @@
-import { Component, Input, ElementRef, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import '@github/clipboard-copy-element';
-import { copy } from '@primer/octicons';
+import { copy as copySvg, check as checkSvg } from '@primer/octicons';
 
 @Component({
   selector: 'stryker-clipboard-copy',
-  template: `<clipboard-copy [attr.for]="for"> </clipboard-copy>`,
+  template: `<clipboard-copy
+    [attr.for]="for"
+    [innerHtml]="inner"
+    (clipboard-copy)="setCheck()"
+  ></clipboard-copy>`,
   host: {
     class: 'btn btn-sm pt-0',
   },
 })
-export class ClipboardCopyComponent implements OnInit {
+export class ClipboardCopyComponent {
   @Input()
   public for: string | undefined;
+  public copy: SafeHtml;
+  public check: SafeHtml;
+  public inner: SafeHtml;
 
-  constructor(private readonly elementRef: ElementRef) {}
+  constructor(sanitizer: DomSanitizer) {
+    this.copy = sanitizer.bypassSecurityTrustHtml(copySvg.toSVG());
+    this.check = sanitizer.bypassSecurityTrustHtml(checkSvg.toSVG());
+    this.inner = this.copy;
+  }
 
-  public ngOnInit(): void {
-    const el: HTMLElement = this.elementRef.nativeElement;
-    const svg = copy.toSVG();
-    el.querySelector('clipboard-copy')!.innerHTML = svg;
+  setCheck() {
+    this.inner = this.check;
+    setTimeout(() => {
+      this.inner = this.copy;
+    }, 2000);
   }
 }

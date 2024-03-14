@@ -41,7 +41,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "1.6mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -111,5 +111,7 @@
       }
     }
   },
-  "defaultProject": "@stryker-mutator/dashboard-frontend"
+  "cli": {
+    "analytics": false
+  }
 }

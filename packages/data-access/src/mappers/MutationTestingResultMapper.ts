@@ -1,6 +1,6 @@
 import { BlobServiceAsPromised } from '../services/BlobServiceAsPromised.js';
 import { BlobService, Constants } from 'azure-storage';
-import { encodeKey, isStorageError } from '../utils.js';
+import { isStorageError, toBlobName } from '../utils.js';
 import * as schema from 'mutation-testing-report-schema';
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 import { OptimisticConcurrencyError } from '../errors/index.js';
@@ -16,31 +16,31 @@ export class MutationTestingResultMapper {
   private static readonly CONTAINER_NAME = 'mutation-testing-report';
 
   constructor(
-    private readonly blobService: BlobServiceAsPromised = new BlobServiceAsPromised()
+    private readonly blobService: BlobServiceAsPromised = new BlobServiceAsPromised(),
   ) {}
 
   public createStorageIfNotExists(): Promise<BlobService.ContainerResult> {
     return this.blobService.createContainerIfNotExists(
       MutationTestingResultMapper.CONTAINER_NAME,
-      {}
+      {},
     );
   }
 
   public async insertOrReplace(
     id: ReportIdentifier,
-    result: schema.MutationTestResult | null
+    result: schema.MutationTestResult | null,
   ) {
     try {
       await this.blobService.createBlockBlobFromText(
         MutationTestingResultMapper.CONTAINER_NAME,
-        this.toBlobName(id),
+        toBlobName(id),
         JSON.stringify(result),
         {
           contentSettings: {
             contentType: 'application/json',
             contentEncoding: 'utf8',
           },
-        }
+        },
       );
     } catch (err) {
       if (
@@ -48,7 +48,7 @@ export class MutationTestingResultMapper {
         err.code === additionalErrorCodes.BLOB_HAS_BEEN_MODIFIED
       ) {
         throw new OptimisticConcurrencyError(
-          `Blob "${JSON.stringify(id)}" was modified by another process`
+          `Blob "${JSON.stringify(id)}" was modified by another process`,
         );
       } else {
         throw err; // Oops
@@ -57,15 +57,15 @@ export class MutationTestingResultMapper {
   }
 
   public async findOne(
-    identifier: ReportIdentifier
+    identifier: ReportIdentifier,
   ): Promise<schema.MutationTestResult | null> {
-    const blobName = this.toBlobName(identifier);
+    const blobName = toBlobName(identifier);
     try {
       const result: schema.MutationTestResult = JSON.parse(
         await this.blobService.blobToText(
           MutationTestingResultMapper.CONTAINER_NAME,
-          blobName
-        )
+          blobName,
+        ),
       );
       return result;
     } catch (error) {
@@ -81,8 +81,11 @@ export class MutationTestingResultMapper {
     }
   }
 
-  private toBlobName({ projectName, version, moduleName }: ReportIdentifier) {
-    const slug = [projectName, version, moduleName].filter(Boolean).join('/');
-    return encodeKey(slug);
+  public async delete(id: ReportIdentifier): Promise<void> {
+    const blobName = toBlobName(id);
+    await this.blobService.deleteBlobIfExists(
+      MutationTestingResultMapper.CONTAINER_NAME,
+      blobName,
+    );
   }
 }

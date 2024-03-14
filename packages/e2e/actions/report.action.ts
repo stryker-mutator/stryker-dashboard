@@ -1,10 +1,10 @@
-import { MutantStatus } from 'mutation-testing-report-schema';
+import type { MutantStatus } from 'mutation-testing-report-schema';
 import type { Report } from '@stryker-mutator/dashboard-common';
 
 export function scoreOnlyReport(
   projectName: string,
   version: string,
-  mutationScore: number
+  mutationScore: number,
 ): Report {
   return {
     mutationScore,
@@ -14,11 +14,11 @@ export function scoreOnlyReport(
   };
 }
 
-export function simpleReportv1(
+export function simpleReportV1(
   projectName: string,
   version: string,
   moduleName?: string,
-  states = [MutantStatus.Survived, MutantStatus.Survived, MutantStatus.Killed]
+  states: MutantStatus[] = ['Survived', 'Survived', 'Killed'],
 ): Report {
   return {
     projectName,
@@ -89,16 +89,11 @@ export function simpleReportv1(
   };
 }
 
-export function simpleReportv2(
+export function simpleReportV2(
   projectName: string,
   version: string,
   moduleName?: string,
-  states = [
-    MutantStatus.Survived,
-    MutantStatus.Survived,
-    MutantStatus.Killed,
-    MutantStatus.Pending,
-  ]
+  states: MutantStatus[] = ['Survived', 'Survived', 'Killed'],
 ): Report {
   return {
     projectName,
@@ -181,4 +176,13 @@ export function simpleReportv2(
       },
     },
   };
+}
+
+export function pendingReport(
+  projectName: string,
+  version: string,
+  moduleName?: string,
+  states: MutantStatus[] = ['Pending', 'Pending', 'Pending'],
+): Report {
+  return simpleReportV2(projectName, version, moduleName, states);
 }

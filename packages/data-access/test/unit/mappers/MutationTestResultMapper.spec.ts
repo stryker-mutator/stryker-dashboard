@@ -16,6 +16,9 @@ describe(MutationTestingResultMapper.name, () => {
       blobToText: sinon.stub(),
       createBlockBlobFromText: sinon.stub(),
       createContainerIfNotExists: sinon.stub(),
+      createAppendBlobFromText: sinon.stub(),
+      appendBlockFromText: sinon.stub(),
+      deleteBlobIfExists: sinon.stub(),
     };
     sut = new MutationTestingResultMapper(blobMock);
   });
@@ -30,7 +33,7 @@ describe(MutationTestingResultMapper.name, () => {
       const result = createMutationTestResult();
       await sut.insertOrReplace(
         { moduleName: 'core', projectName: 'project', version: 'version' },
-        result
+        result,
       );
       expect(blobMock.createBlockBlobFromText).calledWith(
         'mutation-testing-report',
@@ -41,19 +44,43 @@ describe(MutationTestingResultMapper.name, () => {
             contentType: 'application/json',
             contentEncoding: 'utf8',
           },
-        }
+        },
+      );
+    });
+
+    it('should encode real-time when given as option', async () => {
+      const result = createMutationTestResult();
+      await sut.insertOrReplace(
+        {
+          moduleName: 'core',
+          projectName: 'project',
+          version: 'version',
+          realTime: true,
+        },
+        result,
+      );
+      expect(blobMock.createBlockBlobFromText).calledWith(
+        'mutation-testing-report',
+        'project;version;core;real-time',
+        JSON.stringify(result),
+        {
+          contentSettings: {
+            contentType: 'application/json',
+            contentEncoding: 'utf8',
+          },
+        },
       );
     });
 
     it('should throw OptimisticConcurrencyError "BlobHasBeenModified" is thrown', async () => {
       blobMock.createBlockBlobFromText.rejects(
-        new StorageError('BlobHasBeenModified')
+        new StorageError('BlobHasBeenModified'),
       );
       await expect(
         sut.insertOrReplace(
           { moduleName: 'core', projectName: 'project', version: 'version' },
-          null
-        )
+          null,
+        ),
       ).rejectedWith(OptimisticConcurrencyError);
     });
   });
@@ -69,14 +96,14 @@ describe(MutationTestingResultMapper.name, () => {
       });
       expect(blobMock.blobToText).calledWith(
         'mutation-testing-report',
-        'project;version;core'
+        'project;version;core',
       );
       expect(actual).deep.eq(expected);
     });
 
     it('should return null when "BlobNotFound" is thrown', async () => {
       blobMock.blobToText.rejects(
-        new StorageError(Constants.BlobErrorCodeStrings.BLOB_NOT_FOUND)
+        new StorageError(Constants.BlobErrorCodeStrings.BLOB_NOT_FOUND),
       );
       const actual = await sut.findOne({
         moduleName: 'core',
@@ -84,6 +111,24 @@ describe(MutationTestingResultMapper.name, () => {
         version: 'version',
       });
       expect(actual).null;
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete the blob', () => {
+      const identifier = {
+        moduleName: 'core',
+        projectName: 'project',
+        version: 'version',
+      };
+
+      sut.delete(identifier);
+
+      expect(blobMock.deleteBlobIfExists.calledOnce).to.be.true;
+      expect(blobMock.deleteBlobIfExists).calledWith(
+        'mutation-testing-report',
+        'project;version;core',
+      );
     });
   });
 });

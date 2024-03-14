@@ -1,11 +1,15 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
+  "extends": ["config:js-app", "group:linters", "group:test"],
   "configMigration": true,
   "gitAuthor": "Renovatebot <renovatebot@stryker-mutator.io>",
   "platformCommit": false,
   "platformAutomerge": true,
   "packageRules": [
+    {
+      "matchPackagePrefixes": ["@angular"],
+      "groupName": "Angular packages"
+    },
     {
       "matchDepTypes": ["devDependencies"],
       "automerge": true

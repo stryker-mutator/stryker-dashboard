@@ -6,6 +6,7 @@ import type {
   Repository,
 } from '@stryker-mutator/dashboard-contract';
 import { generateAuthToken } from '../../actions/auth.action.js';
+import type { MutantResult } from 'mutation-testing-report-schema';
 
 export class ReportClient {
   private projectApiKeys = new Map<string, Promise<string>>();
@@ -28,11 +29,11 @@ export class ReportClient {
               headers: {
                 Authorization: `Bearer ${authToken}`,
               },
-            }
+            },
           );
           const body: EnableRepositoryResponse = await response.json();
           return body.apiKey;
-        })
+        }),
       );
       return this.projectApiKeys.get(slug)!;
     }
@@ -50,17 +51,55 @@ export class ReportClient {
   async uploadReport(result: Report): Promise<PutReportResponse> {
     const apiKey = await this.enableRepository(result.projectName);
     const response = await this.request.put(
-      `/api/reports/${result.projectName}/${result.version}${
-        result.moduleName ? `?module=${result.moduleName}` : ''
-      }`,
+      this.#getUrl('/api/reports', result),
       {
         data: result,
         headers: {
           ['X-Api-Key']: apiKey,
         },
-      }
+      },
     );
     const body = await response.json();
     return body;
+  }
+
+  async uploadPendingReport(result: Report): Promise<PutReportResponse> {
+    const apiKey = await this.enableRepository(result.projectName);
+    const response = await this.request.put(
+      this.#getUrl('/api/real-time', result),
+      {
+        data: result,
+        headers: {
+          ['X-Api-Key']: apiKey,
+        },
+      },
+    );
+    const body = await response.json();
+    return body;
+  }
+
+  async postMutantBatch(result: Report, mutants: Array<Partial<MutantResult>>) {
+    const apiKey = await this.enableRepository(result.projectName);
+    return await this.request.post(this.#getUrl('/api/real-time', result), {
+      data: mutants,
+      headers: {
+        ['X-Api-Key']: apiKey,
+      },
+    });
+  }
+
+  async deletePendingReport(result: Report) {
+    const apiKey = await this.enableRepository(result.projectName);
+    return await this.request.delete(this.#getUrl('/api/real-time', result), {
+      headers: {
+        ['X-Api-Key']: apiKey,
+      },
+    });
+  }
+
+  #getUrl(base: string, result: Report) {
+    return `${base}/${result.projectName}/${result.version}${
+      result.moduleName ? `?module=${result.moduleName}` : ''
+    }`;
   }
 }

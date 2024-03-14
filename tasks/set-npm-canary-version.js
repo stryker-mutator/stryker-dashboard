@@ -12,7 +12,7 @@ import semver from 'semver';
 import fs from 'fs';
 
 const { version: currentVersion } = JSON.parse(
-  fs.readFileSync(new URL('../lerna.json', import.meta.url), 'utf-8')
+  fs.readFileSync(new URL('../lerna.json', import.meta.url), 'utf-8'),
 );
 
 determineNextCanaryVersion().catch((err) => {
