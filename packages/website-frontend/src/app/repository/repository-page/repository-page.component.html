@@ -1,7 +1,7 @@
 <sme-spatious-layout>
   <div class="d-flex">
     <sme-dropdown id="github-organizations" [options]="organizations" (dropdownChanged)="changeOrganization($any($event))"></sme-dropdown>
-    <sme-button class="ms-auto" (click)="openModal()">Enable repositories</sme-button>
+    <sme-button class="ms-auto" (click)="openModal()">Toggle repositories</sme-button>
   </div>
   <sme-hr/>
   <stryker-loading class="row" [showContent]="repositories">
@@ -16,7 +16,7 @@
     </div>
   </stryker-loading>
 </sme-spatious-layout>
-<sme-modal title="Enable repositories" eventName="toggleRepositoriesModal">
+<sme-modal title="Toggle repositories" eventName="toggleRepositoriesModal">
   <sme-toggle-repository 
     *ngFor="let repository of repositories" 
     (repositoryToggled)="toggleRepository($any($event))"
