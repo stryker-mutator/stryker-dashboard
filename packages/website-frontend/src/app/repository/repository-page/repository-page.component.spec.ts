@@ -14,6 +14,7 @@ import { Subject } from 'rxjs';
 import { Login, Repository } from '@stryker-mutator/dashboard-contract';
 import { ActivatedRoute, Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { RepositoryService } from '../repository.service';
 
 describe(RepositoryPageComponent.name, () => {
   let sut: RepositoryPageComponent;
@@ -53,6 +54,7 @@ describe(RepositoryPageComponent.name, () => {
         { provide: DashboardService, useValue: dashboardServiceMock },
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: Router, useValue: routerMock },
+        { provide: RepositoryService, useValue: mock(RepositoryService) }
       ],
       schemas: [NO_ERRORS_SCHEMA],
     });
@@ -183,9 +185,9 @@ describe(RepositoryPageComponent.name, () => {
     it('should change the routeParams if owner changed in the selector', async () => {
       // Arrange
       const ownerSelector = fixture.debugElement.query(
-        By.css('stryker-owner-selector')
+        By.css('#github-organizations')
       );
-      ownerSelector.triggerEventHandler('ownerSelected', 'quxOwner');
+      ownerSelector.triggerEventHandler('dropdownChanged', new CustomEvent('dropdownChanged', { detail: { value: 'quxOwner' } }));
 
       // Act
       await fixture.whenStable();
