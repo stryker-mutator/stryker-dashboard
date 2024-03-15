@@ -1,5 +1,4 @@
 import {
-  DynamicModule,
   MiddlewareConsumer,
   Module,
   NestModule,
@@ -39,7 +38,7 @@ import { dist } from '@stryker-mutator/dashboard-frontend';
         immutable: true,
         maxAge: '1y',
       },
-    })
+    }),
   ],
   controllers: [
     AuthController,
