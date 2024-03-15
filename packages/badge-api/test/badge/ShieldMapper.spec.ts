@@ -42,7 +42,7 @@ describe(ShieldMapper.name, () => {
       message: 'unknown',
       color: Color.Grey,
       namedLogo: 'stryker',
-      logoColor: 'whitesmoke',
+      logoColor: Color.WhiteSmoke,
     };
     expect(actualShield).deep.eq(expectedShield);
   });

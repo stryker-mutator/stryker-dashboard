@@ -8,7 +8,7 @@ export interface Shield {
   message: string;
   color: Color;
   namedLogo: 'stryker';
-  logoColor: 'whitesmoke';
+  logoColor: Color;
 }
 
 export enum Color {
@@ -17,4 +17,5 @@ export enum Color {
   Orange = 'orange',
   Green = 'green',
   BrightGreen = 'brightgreen',
+  WhiteSmoke = 'whitesmoke',
 }

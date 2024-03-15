@@ -23,7 +23,7 @@ export class ShieldMapper {
         message: `${score}%`,
         color: scoreColor,
         namedLogo: 'stryker',
-        logoColor: 'whitesmoke',
+        logoColor: Color.WhiteSmoke,
       };
     } else {
       return {
@@ -32,7 +32,7 @@ export class ShieldMapper {
         message: 'unknown',
         color: Color.Grey,
         namedLogo: 'stryker',
-        logoColor: 'whitesmoke',
+        logoColor: Color.WhiteSmoke,
       };
     }
   }

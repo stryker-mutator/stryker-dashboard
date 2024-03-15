@@ -30,7 +30,7 @@ describe(handler.name, () => {
       message: '80%',
       color: Color.Green,
       namedLogo: 'stryker',
-      logoColor: 'whitesmoke',
+      logoColor: Color.WhiteSmoke,
     };
     shieldMapperStub.shieldFor.resolves(expectedShield);
     const context = createContext();
