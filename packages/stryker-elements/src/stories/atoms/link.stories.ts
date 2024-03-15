@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/web-components'
 
-import '../exports/lib/atoms/link'
+import '../../exports/lib/atoms/link'
 import { html } from 'lit'
 
 export default {
-  title: 'Link Element',
+  title: 'Atoms/Link',
 } as Meta
 
 export const Default: StoryObj = {
