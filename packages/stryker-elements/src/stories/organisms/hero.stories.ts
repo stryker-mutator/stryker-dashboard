@@ -1,10 +1,10 @@
-import { Meta, StoryObj } from '@storybook/web-components'
+import { Meta, StoryObj } from '@storybook/web-components';
 
-import '../../exports/lib/organisms/hero'
+import '../../exports/lib/organisms/hero';
 
 export default {
   title: 'Organisms/Hero',
   component: 'sme-hero',
-} as Meta
+} as Meta;
 
-export const Default: StoryObj = { }
+export const Default: StoryObj = {};

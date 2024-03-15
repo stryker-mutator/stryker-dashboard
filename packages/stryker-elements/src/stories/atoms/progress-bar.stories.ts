@@ -1,7 +1,7 @@
-import { Meta, StoryObj } from '@storybook/web-components'
+import { Meta, StoryObj } from '@storybook/web-components';
 
-import '../../exports/lib/atoms/progress-bar'
-import { html } from 'lit'
+import '../../exports/lib/atoms/progress-bar';
+import { html } from 'lit';
 
 export default {
   title: 'Atoms/Progress Bar',
@@ -13,7 +13,7 @@ export default {
       totalSteps="${totalSteps}"
     ></progress-bar>
   `,
-} as Meta
+} as Meta;
 
 export const Default: StoryObj = {
   name: 'Progress Bar Passing',
@@ -21,7 +21,7 @@ export const Default: StoryObj = {
     currentStep: 900,
     totalSteps: 1000,
   },
-}
+};
 
 export const Warning: StoryObj = {
   name: 'Progress Bar Warning',
@@ -29,7 +29,7 @@ export const Warning: StoryObj = {
     currentStep: 700,
     totalSteps: 1000,
   },
-}
+};
 
 export const Failing: StoryObj = {
   name: 'Progress Bar Failing',
@@ -37,4 +37,4 @@ export const Failing: StoryObj = {
     currentStep: 100,
     totalSteps: 1000,
   },
-}
+};
