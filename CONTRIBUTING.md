@@ -11,7 +11,7 @@ Do you have an idea for a feature or have you found a bug? Please create an issu
 New features are welcome! Either as requests or proposals.
 
 1. Please create an issue first, so we know what to expect from you.
-2. Create a fork on your github account.
+2. Create a fork on your GitHub account.
 4. Please create or edit unit tests or integration tests.
 5. Run the tests and verify they pass.
 6. Update documentation.
