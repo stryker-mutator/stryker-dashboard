@@ -21,7 +21,7 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": [
         "run",
-        "start:nest",
+        "start",
         "--",
         "--inspect-brk"
       ],
