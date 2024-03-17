@@ -23,12 +23,10 @@
       "type": "node",
       "request": "launch",
       "name": "🎭 E2E tests (local)",
-      "program": "${workspaceFolder}/node_modules/playwright-core/cli.js",
-      "cwd": "${workspaceFolder}",
-      "args": [
-        "test",
-        "--project",
-        "local"
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "test:local"
       ],
       "envFile": "${workspaceFolder}/.local.env",
       "internalConsoleOptions": "openOnSessionStart",
