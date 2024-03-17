@@ -3,7 +3,7 @@ import { html } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import '../../exports/lib/atoms/button.js';
+import '../../exports/lib/atoms/buttons/button.js';
 import '../../exports/lib/atoms/link.js';
 
 export class ProfileButton extends BaseElement {
@@ -52,15 +52,15 @@ export class ProfileButton extends BaseElement {
           unStyled
         >
           My repositories
-      </sme-link>
-        <sme-button
+        </sme-link>
+        <sme-plain-button
           @click="${this.#dispatchSignOut}"
           class="${directionClasses} border-b2 h-10 border-neutral-600 text-white transition-all"
           align="right"
           unStyled
         >
           Sign out
-      </sme-link>
+        </sme-plain-button>
       </div>`;
   }
 }

@@ -1,11 +1,14 @@
 {
-    "files": [],
-    "references": [
-      {
-        "path": "src"
-      },
-      {
-        "path": "test"
-      }
-    ]
+  "exclude": [
+    ".env.example"
+  ],
+  "files": [],
+  "references": [
+    {
+      "path": "src"
+    },
+    {
+      "path": "test"
+    }
+  ]
 }

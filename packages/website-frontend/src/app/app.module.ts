@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -40,6 +40,7 @@ import { AppRouterModule } from './app-router.module';
       useClass: AuthHeaderInterceptor,
       multi: true,
     },
+    HttpClient,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], /* Lit won't work otherwise */
 })

@@ -1,5 +1,5 @@
 import { property } from 'lit/decorators.js';
-import { BaseElement } from '../base-element';
+import { BaseElement } from '../base-element.js';
 import { html } from 'lit';
 
 import '../../exports/lib/atoms/progress-bar';
@@ -9,10 +9,10 @@ export class Repository extends BaseElement {
   name = '';
 
   @property({ type: Number })
-  currentStep = 907;
+  mutationScore = 0;
 
   @property({ type: Number })
-  totalSteps = 1000;
+  totalSteps = 100;
 
   render() {
     return html`
@@ -20,7 +20,7 @@ export class Repository extends BaseElement {
         <span class="col-span-1 text-white">${this.name}</span>
         <progress-bar
           class="col-span-2"
-          currentStep="${this.currentStep}"
+          currentStep="${this.mutationScore}"
           totalSteps="${this.totalSteps}"
         ></progress-bar>
       </div>
