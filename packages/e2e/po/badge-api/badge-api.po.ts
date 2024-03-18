@@ -18,6 +18,8 @@ export interface Shield {
   label: string;
   message: string;
   color: Color;
+  namedLogo: 'stryker';
+  logoColor: Color;
 }
 
 export enum Color {
@@ -25,4 +27,6 @@ export enum Color {
   Red = 'red',
   Orange = 'orange',
   Green = 'green',
+  BrightGreen = 'brightgreen',
+  WhiteSmoke = 'whitesmoke',
 }

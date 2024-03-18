@@ -27,6 +27,8 @@ test.describe('badge-api', () => {
       color: Color.Grey,
       label: 'Mutation score',
       message: 'unknown',
+      logoColor: Color.WhiteSmoke,
+      namedLogo: 'stryker',
       schemaVersion: 1,
     };
     const response = await client.badgeFor('a/b/c/master');
@@ -38,6 +40,8 @@ test.describe('badge-api', () => {
       color: Color.Red,
       label: 'Mutation score',
       message: '33.3%',
+      logoColor: Color.WhiteSmoke,
+      namedLogo: 'stryker',
       schemaVersion: 1,
     };
     const response = await client.badgeFor(
@@ -51,6 +55,8 @@ test.describe('badge-api', () => {
       color: Color.Red,
       label: 'Mutation score',
       message: '33.3%',
+      logoColor: Color.WhiteSmoke,
+      namedLogo: 'stryker',
       schemaVersion: 1,
     };
     await reportClient.uploadReport(
