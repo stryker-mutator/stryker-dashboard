@@ -27,10 +27,12 @@ test.describe('badge-api', () => {
       color: Color.Grey,
       label: 'Mutation score',
       message: 'unknown',
+      logoColor: Color.WhiteSmoke,
+      namedLogo: 'stryker',
       schemaVersion: 1,
     };
     const response = await client.badgeFor('a/b/c/master');
-    expect(response.data).toEqual(expected);
+    expect(response).toEqual(expected);
   });
 
   test('should show the correct score and color for an existing report', async () => {
@@ -38,12 +40,14 @@ test.describe('badge-api', () => {
       color: Color.Red,
       label: 'Mutation score',
       message: '33.3%',
+      logoColor: Color.WhiteSmoke,
+      namedLogo: 'stryker',
       schemaVersion: 1,
     };
     const response = await client.badgeFor(
       'github.com/stryker-mutator-test-organization/hello-org/master',
     );
-    expect(response.data).toEqual(expected);
+    expect(response).toEqual(expected);
   });
 
   test('should allow slashes in version name', async () => {
@@ -51,6 +55,8 @@ test.describe('badge-api', () => {
       color: Color.Red,
       label: 'Mutation score',
       message: '33.3%',
+      logoColor: Color.WhiteSmoke,
+      namedLogo: 'stryker',
       schemaVersion: 1,
     };
     await reportClient.uploadReport(
@@ -62,6 +68,6 @@ test.describe('badge-api', () => {
     const response = await client.badgeFor(
       'github.com/stryker-mutator-test-organization/hello-org/feat/test',
     );
-    expect(response.data).toEqual(expected);
+    expect(response).toEqual(expected);
   });
 });
