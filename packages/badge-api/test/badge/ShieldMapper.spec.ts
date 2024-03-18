@@ -38,9 +38,11 @@ describe(ShieldMapper.name, () => {
     const actualShield = await sut.shieldFor('foo', 'bar', 'baz');
     const expectedShield: Shield = {
       schemaVersion: 1,
-      color: Color.Grey,
       label: 'Mutation score',
       message: 'unknown',
+      color: Color.Grey,
+      namedLogo: 'stryker',
+      logoColor: Color.WhiteSmoke,
     };
     expect(actualShield).deep.eq(expectedShield);
   });
