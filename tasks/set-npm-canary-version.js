@@ -7,7 +7,6 @@
  * Unfortunately Lerna itself doesn't support this
  */
 import core from '@actions/core';
-import axios from 'axios';
 import semver from 'semver';
 import fs from 'fs';
 
@@ -24,9 +23,9 @@ async function determineNextCanaryVersion() {
   const ref = determineRef();
   const preId = sanitize(ref);
   const nextPatchVersion = semver.inc(currentVersion, 'patch');
-  const { versions } = (
-    await axios('https://registry.npmjs.org/@stryker-mutator/dashboard-backend')
-  ).data;
+  const { versions } = await (
+    await fetch('https://registry.npmjs.org/@stryker-mutator/dashboard-backend')
+  ).json();
   const revision = determineNextFreeRevision(nextPatchVersion, preId, versions);
   const npmVersion = formatVersion(nextPatchVersion, preId, revision);
   core.exportVariable('NPM_PACKAGE_VERSION', npmVersion);

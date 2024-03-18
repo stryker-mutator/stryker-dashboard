@@ -30,7 +30,7 @@ test.describe('badge-api', () => {
       schemaVersion: 1,
     };
     const response = await client.badgeFor('a/b/c/master');
-    expect(response.data).toEqual(expected);
+    expect(response).toEqual(expected);
   });
 
   test('should show the correct score and color for an existing report', async () => {
@@ -43,7 +43,7 @@ test.describe('badge-api', () => {
     const response = await client.badgeFor(
       'github.com/stryker-mutator-test-organization/hello-org/master',
     );
-    expect(response.data).toEqual(expected);
+    expect(response).toEqual(expected);
   });
 
   test('should allow slashes in version name', async () => {
@@ -62,6 +62,6 @@ test.describe('badge-api', () => {
     const response = await client.badgeFor(
       'github.com/stryker-mutator-test-organization/hello-org/feat/test',
     );
-    expect(response.data).toEqual(expected);
+    expect(response).toEqual(expected);
   });
 });
