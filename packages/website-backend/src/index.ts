@@ -50,16 +50,19 @@ function configureSecurityHeaders(app: INestApplication) {
   app.enableCors({ origin: true, credentials: true });
   app.use(
     helmet({
+      strictTransportSecurity: {
+        maxAge: 31536000,
+        preload: true,
+      },
       contentSecurityPolicy: {
         directives: {
           imgSrc: [
             `'self'`,
             'data:',
             'https://stryker-mutator.io',
-            'avatars.githubusercontent.com',
-            'img.shields.io',
+            'https://avatars.githubusercontent.com',
+            'https://img.shields.io',
           ],
-          scriptSrc: [`'self'`, `'unsafe-inline'`],
           scriptSrcAttr: [`'unsafe-inline'`],
         },
       },
