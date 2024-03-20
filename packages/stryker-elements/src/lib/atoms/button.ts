@@ -16,7 +16,7 @@ export class Button extends BaseElement {
       'justify-end': this.align === 'right',
     });
 
-    return html`<button class="${classes} flex h-full w-full items-center">
+    return html` <button class="${classes} flex h-full w-full items-center">
       <slot></slot>
     </button>`;
   }
