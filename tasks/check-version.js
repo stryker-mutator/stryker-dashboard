@@ -73,12 +73,12 @@ function verifyDashboardVersion(resp) {
     let data = '';
     resp.on('data', (chunk) => (data += chunk));
     resp.on('end', () => {
-      const actual = JSON.parse(data);
-      const expected = {
-        dashboard: expectedVersion,
-        frontend: expectedVersion,
-      };
       try {
+        const actual = JSON.parse(data);
+        const expected = {
+          dashboard: expectedVersion,
+          frontend: expectedVersion,
+        };
         if (
           actual.dashboard !== expected.dashboard ||
           actual.frontend !== expected.frontend
