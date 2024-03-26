@@ -34,7 +34,7 @@
     "ajv": "8.12.0",
     "ajv-formats": "2.1.1",
     "compression": "1.7.4",
-    "express": "4.18.3",
+    "express": "4.19.2",
     "express-jwt": "8.4.1",
     "helmet": "7.1.0",
     "passport": "0.7.0",
