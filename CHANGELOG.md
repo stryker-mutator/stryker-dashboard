@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.2](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.14.1...v0.14.2) (2024-03-26)
+
+### Bug Fixes
+
+- add healthcheck to docker image ([#536](https://github.com/stryker-mutator/stryker-dashboard/issues/536)) ([813f564](https://github.com/stryker-mutator/stryker-dashboard/commit/813f5646413202b3f2d9233e2ba7096c64fd338e))
+- **deps:** update dependency @nestjs/config to v3.2.1 ([#572](https://github.com/stryker-mutator/stryker-dashboard/issues/572)) ([75d73dd](https://github.com/stryker-mutator/stryker-dashboard/commit/75d73dd1274f2418ceeacb2bf22de2d2eb885ff8))
+- **deps:** update dependency @primer/octicons to v19.9.0 ([#563](https://github.com/stryker-mutator/stryker-dashboard/issues/563)) ([d5e73eb](https://github.com/stryker-mutator/stryker-dashboard/commit/d5e73ebee81a52bc1dab4dd2fe26c9ca4a270af5))
+- **deps:** update dependency express to v4.19.2 [security] ([#577](https://github.com/stryker-mutator/stryker-dashboard/issues/577)) ([5e83589](https://github.com/stryker-mutator/stryker-dashboard/commit/5e83589663ac1ff3832e455394ebf31452c855ed))
+- **deps:** update nest monorepo to v10.3.4 ([#554](https://github.com/stryker-mutator/stryker-dashboard/issues/554)) ([0bc28e5](https://github.com/stryker-mutator/stryker-dashboard/commit/0bc28e5b920df375723ddc7816445051bd7aee52))
+- **deps:** update nest monorepo to v10.3.5 ([#574](https://github.com/stryker-mutator/stryker-dashboard/issues/574)) ([c265572](https://github.com/stryker-mutator/stryker-dashboard/commit/c26557261d8fa46ce55c910ce2d41c1dd0abe305))
+- update security headers ([#564](https://github.com/stryker-mutator/stryker-dashboard/issues/564)) ([1835cf3](https://github.com/stryker-mutator/stryker-dashboard/commit/1835cf3de090c8d3570bc7e264525cffbb81d20e))
+
+### Features
+
+- add the Stryker logo to the badge ([#384](https://github.com/stryker-mutator/stryker-dashboard/issues/384)) ([ab4e8e0](https://github.com/stryker-mutator/stryker-dashboard/commit/ab4e8e03acc240fdf72df957591109924ee7f5e9))
+- **stryker-elements:** Add Storybook ([#548](https://github.com/stryker-mutator/stryker-dashboard/issues/548)) ([ac25d53](https://github.com/stryker-mutator/stryker-dashboard/commit/ac25d538ff4246a94ee70552a23aa8fd6d539b04))
+
 ## [0.14.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.14.0...v0.14.1) (2024-03-08)
 
 ### Bug Fixes
