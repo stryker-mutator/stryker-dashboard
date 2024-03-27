@@ -7,6 +7,8 @@ describe('HttpClient', () => {
   let fetchStub: sinon.SinonStubbedMember<typeof fetch>;
 
   beforeEach(() => {
+    // For some reason we have to call globalThis.fetch before stubbing it. Since node 20.12.0
+    globalThis.fetch;
     fetchStub = sinon.stub(globalThis, 'fetch');
     sut = new HttpClient();
   });
