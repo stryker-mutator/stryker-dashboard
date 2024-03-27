@@ -1,4 +1,7 @@
-on: ['pull_request']
+on:
+  pull_request:
+    types: [synchronize, opened, reopened]
+  merge_group:
 
 name: e2e
 
