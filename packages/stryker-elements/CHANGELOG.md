@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.2](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.14.1...v0.14.2) (2024-03-26)
+
+### Features
+
+- **stryker-elements:** Add Storybook ([#548](https://github.com/stryker-mutator/stryker-dashboard/issues/548)) ([ac25d53](https://github.com/stryker-mutator/stryker-dashboard/commit/ac25d538ff4246a94ee70552a23aa8fd6d539b04))
+
 ## [0.14.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.14.0...v0.14.1) (2024-03-08)
 
 **Note:** Version bump only for package @stryker-mutator/stryker-elements

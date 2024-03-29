@@ -5,10 +5,22 @@
   "gitAuthor": "Renovatebot <renovatebot@stryker-mutator.io>",
   "platformCommit": false,
   "platformAutomerge": true,
+  "automergeStrategy": "squash",
+  "lockFileMaintenance": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "matchPackagePrefixes": ["@angular"],
       "groupName": "Angular packages"
+    },
+    {
+      "matchPackagePrefixes": ["@nestjs"],
+      "groupName": "NestJS packages"
+    },
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "lockFileMaintenance"],
+      "automerge": true
     },
     {
       "matchDepTypes": ["devDependencies"],

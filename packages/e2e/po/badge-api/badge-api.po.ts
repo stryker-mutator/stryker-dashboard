@@ -1,17 +1,15 @@
 import { getEnvVariable } from '../../actions/helpers.action.js';
-import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 
 export class BadgeApiClient {
-  private readonly httpClient: AxiosInstance;
-
+  private baseURL: URL;
   constructor() {
-    this.httpClient = axios.create({
-      baseURL: getEnvVariable('E2E_BADGE_API_BASE_URL'),
-    });
+    this.baseURL = new URL(getEnvVariable('E2E_BADGE_API_BASE_URL'));
   }
 
-  public badgeFor(slug: string): Promise<AxiosResponse<Shield>> {
-    return this.httpClient.get<Shield>(`/${slug}`);
+  public async badgeFor(slug: string): Promise<Shield> {
+    return (
+      await fetch(new URL(`/${slug}`, this.baseURL))
+    ).json() as Promise<Shield>;
   }
 }
 
@@ -20,6 +18,8 @@ export interface Shield {
   label: string;
   message: string;
   color: Color;
+  namedLogo: 'stryker';
+  logoColor: Color;
 }
 
 export enum Color {
@@ -27,4 +27,6 @@ export enum Color {
   Red = 'red',
   Orange = 'orange',
   Green = 'green',
+  BrightGreen = 'brightgreen',
+  WhiteSmoke = 'whitesmoke',
 }

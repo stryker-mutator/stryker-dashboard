@@ -2,12 +2,11 @@
 // @ts-check
 
 /**
- * This file will determine the next canary version number, setting it in the NPM_PACKAGE_VERSION variable for all next actions to use.
+ * This file will determine the next canary version number, setting it in the npm-package-version output variable for all next actions to use.
  * Instead of Lerna's algorithm, it validates that the next version does not yet exist.
  * Unfortunately Lerna itself doesn't support this
  */
 import core from '@actions/core';
-import axios from 'axios';
 import semver from 'semver';
 import fs from 'fs';
 
@@ -16,7 +15,7 @@ const { version: currentVersion } = JSON.parse(
 );
 
 determineNextCanaryVersion().catch((err) => {
-  console.error(err);
+  core.error(err);
   process.exitCode = 1;
 });
 
@@ -24,13 +23,14 @@ async function determineNextCanaryVersion() {
   const ref = determineRef();
   const preId = sanitize(ref);
   const nextPatchVersion = semver.inc(currentVersion, 'patch');
-  const { versions } = (
-    await axios('https://registry.npmjs.org/@stryker-mutator/dashboard-backend')
-  ).data;
+  const { versions } = await (
+    await fetch('https://registry.npmjs.org/@stryker-mutator/dashboard-backend')
+  ).json();
   const revision = determineNextFreeRevision(nextPatchVersion, preId, versions);
   const npmVersion = formatVersion(nextPatchVersion, preId, revision);
-  core.exportVariable('NPM_PACKAGE_VERSION', npmVersion);
-  console.log(npmVersion);
+  core.setOutput('npm-package-version', npmVersion);
+  core.info(npmVersion);
+  core.notice(`Next canary version is ${npmVersion}`);
 }
 
 /**

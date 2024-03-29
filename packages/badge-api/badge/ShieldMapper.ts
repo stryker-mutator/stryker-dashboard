@@ -18,17 +18,21 @@ export class ShieldMapper {
       const score = Math.round(report.model.mutationScore * 10) / 10;
       const scoreColor = determineColor(score);
       return {
-        color: scoreColor,
+        schemaVersion: 1,
         label: 'Mutation score',
         message: `${score}%`,
-        schemaVersion: 1,
+        color: scoreColor,
+        namedLogo: 'stryker',
+        logoColor: Color.WhiteSmoke,
       };
     } else {
       return {
-        color: Color.Grey,
+        schemaVersion: 1,
         label: 'Mutation score',
         message: 'unknown',
-        schemaVersion: 1,
+        color: Color.Grey,
+        namedLogo: 'stryker',
+        logoColor: Color.WhiteSmoke,
       };
     }
   }

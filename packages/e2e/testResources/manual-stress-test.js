@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 // @ts-check
-import axios from 'axios';
 import { promises as fs } from 'fs';
-const httpClient = axios.create({ baseURL: 'http://localhost:4200' });
+
+const baseURL = new URL('http://localhost:4200');
 
 async function uploadAll() {
   const fileNames = await fs.readdir(
@@ -28,16 +28,20 @@ async function uploadAll() {
         parts[parts.length - 1].indexOf('.'),
       );
       const projectAndVersion = parts.slice(0, parts.length - 1).join('/');
-      const result = await httpClient.put(
-        `/api/reports/${projectAndVersion}?module=${moduleName}`,
-        file.content,
+      const result = await fetch(
+        new URL(
+          `/api/reports/${projectAndVersion}?module=${moduleName}`,
+          baseURL,
+        ),
         {
+          method: 'PUT',
           headers: {
             ['X-Api-Key']: '<API_KEY>',
           },
+          body: file.content,
         },
       );
-      console.log(result.status, result.statusText, result.data);
+      console.log(result.status, result.statusText, await result.json());
     }),
   );
 }

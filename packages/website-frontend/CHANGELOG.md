@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.2](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.14.1...v0.14.2) (2024-03-26)
+
+### Bug Fixes
+
+- **deps:** update dependency @primer/octicons to v19.9.0 ([#563](https://github.com/stryker-mutator/stryker-dashboard/issues/563)) ([d5e73eb](https://github.com/stryker-mutator/stryker-dashboard/commit/d5e73ebee81a52bc1dab4dd2fe26c9ca4a270af5))
+
 ## [0.14.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.14.0...v0.14.1) (2024-03-08)
 
 **Note:** Version bump only for package @stryker-mutator/dashboard-frontend

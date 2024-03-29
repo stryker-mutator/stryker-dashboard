@@ -3,22 +3,24 @@
 
 # Stryker dashboard Badge API
 
-The Badge API azure function that is responsible for delivering the badge structure to shields.io. 
+The Badge API azure function that is responsible for delivering the badge structure to shields.io.
 
-Example of a badge URL: 
+Example of a badge URL:
 https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fstryker-mutator%2Fstryker-dashboard%2Fmaster%3Fmodule%3Dbadge-api
 
 Example of a badge api URL itself:
 
 HTTP GET https://badge-api.stryker-mutator.io/github.com/stryker-mutator/stryker-dashboard/master?module=badge-api
 
-Response: 
+Response:
 
 ```json
 {
-  "color": "orange",
+  "schemaVersion": 1,
   "label": "Mutation score",
   "message": "69.4%",
-  "schemaVersion": 1
+  "color": "orange",
+  "namedLogo": "stryker",
+  "logoColor": "whitesmoke"
 }
 ```

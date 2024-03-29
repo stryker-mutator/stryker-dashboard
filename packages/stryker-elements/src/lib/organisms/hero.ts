@@ -113,7 +113,7 @@ export class Hero extends BaseElement {
             <h1 class="mb-2 text-6xl font-bold text-yellow-400">
               Stryker Dashboard
             </h1>
-            <p class="text-center text-lg text-xl font-bold text-gray-50">
+            <p class="text-center text-xl font-bold text-gray-50">
               See your mutation testing reports from anywhere
             </p>
             <div class="my-8 flex justify-center space-x-4">
