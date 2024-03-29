@@ -63,7 +63,7 @@ function configureSecurityHeaders(app: INestApplication) {
             'https://avatars.githubusercontent.com',
             'https://img.shields.io',
           ],
-          scriptSrcAttr: [`'unsafe-inline'`],
+          scriptSrcAttr: [`'unsafe-inline'`, `'unsafe-eval'`],
         },
       },
     }),
