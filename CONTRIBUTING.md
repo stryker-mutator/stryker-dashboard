@@ -2,9 +2,9 @@
 
 This is the contribution guide for Stryker Dashboard. Great to have you here! Here are a few ways you can help make this project better.
 
-## Creating issues
+## Reporting bugs
 
-Do you have an idea for a feature or have you found a bug? Please create an issue so we can talk about it!
+Did you find a bug? Please [create](https://github.com/stryker-mutator/stryker-dashboard/issues/new) an issue so we can talk about it!
 
 ## Adding new features
 
@@ -26,7 +26,7 @@ Please check out the [README.md](https://github.com/stryker-mutator/stryker-dash
 
 Do you want to contribute to the Stryker Dashboard, but don't know where to start? 
 
-Rest assured, we have prepared a few issues for this purpose. Most of the issues labeled with [`hacktoberfest`](https://github.com/stryker-mutator/stryker-dashboard/issues?q=is%3Aopen+is%3Aissue+label%3Ahacktoberfest) are suited to be picked up by pretty much anyone!
+Rest assured, we have prepared a few issues for this purpose. Most of the issues labeled with [`good-first-issue`](https://github.com/stryker-mutator/stryker-dashboard/labels/good-first-issue) are suited to be picked up by pretty much anyone!
 
 If you are still not sure where to start or if you need help implementing anything, please reach out to us on [Slack](https://join.slack.com/t/stryker-mutator/shared_invite/enQtOTUyMTYyNTg1NDQ0LTU4ODNmZDlmN2I3MmEyMTVhYjZlYmJkOThlNTY3NTM1M2QxYmM5YTM3ODQxYmJjY2YyYzllM2RkMmM1NjNjZjM) or simply comment on the issue that you would like to work on.
 
