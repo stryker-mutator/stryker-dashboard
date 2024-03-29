@@ -12,37 +12,27 @@ New features are welcome! Either as requests or proposals.
 
 1. Please create an issue first, so we know what to expect from you.
 2. Create a fork on your GitHub account.
-4. Please create or edit unit tests or integration tests.
-5. Run the tests and verify they pass.
-6. Update documentation.
+4. Make the changes or additions in your fork.
+5. Please create or edit unit tests or integration tests.
+6. Run the tests and verify they pass.
+7. Update documentation.
+8. [Create](https://github.com/stryker-mutator/stryker-dashboard/compare) a Pull Request.
 
-## Maintainers
+## Running the Stryker Dashboard locally
 
-### Using Milestones
+Please check out the [README.md](https://github.com/stryker-mutator/stryker-dashboard/blob/master/README.md) to help you getting started with running the dasbhoard locally.
 
-Milestones are used to group issues and pull requests together to provide a clear overview of the project's progress. When submitting or reviewing issues, please consider the following guidelines related to milestones:
+## Working on existing issues
 
-1. Assigning Milestones: When creating or reviewing an issue, consider whether it aligns with any existing milestones. If it does, please assign the appropriate milestone to the issue to ensure it is properly tracked.
+Do you want to contribute to the Stryker Dashboard, but don't know where to start? 
 
-2. Creating New Milestones: If you believe that a new milestone is necessary to better organize and track the project's progress, please consult with the project maintainers before creating a new milestone.
+Rest assured, we have prepared a few issues for this purpose. Most of the issues labeled with [`hacktoberfest`](https://github.com/stryker-mutator/stryker-dashboard/issues?q=is%3Aopen+is%3Aissue+label%3Ahacktoberfest) are suited to be picked up by pretty much anyone!
 
-3. Tracking Progress: By utilizing milestones, we can collectively track progress and better understand the project's development roadmap.
-
-4. Prioritizing Issues: Milestones can also help in prioritizing issues and feature requests, providing a clearer picture of what needs to be addressed in each development cycle.
-
-By adhering to these guidelines, we can ensure that the use of milestones enhances the clarity and organization of our project's development process. Once a milestone is complete, we can release the next version.
-
-### Naming conventions
-
-When merging pull requests or creating commits, please conform to the angular commit message style, so our changelog will be updated. Namely in the form `<type>(<scope>): <subject>\n\n[body]`
-
-* Type: feat, fix, docs, style, refactor, test, chore.
-* Scope: the file or group of files (not a strict right or wrong)
-* Subject and body: present tense (~~changed~~change, ~~added~~add) and include motivation and contrasts with previous behavior
+If you are still not sure where to start or if you need help implementing anything, please reach out to us on [Slack](https://join.slack.com/t/stryker-mutator/shared_invite/enQtOTUyMTYyNTg1NDQ0LTU4ODNmZDlmN2I3MmEyMTVhYjZlYmJkOThlNTY3NTM1M2QxYmM5YTM3ODQxYmJjY2YyYzllM2RkMmM1NjNjZjM) or simply comment on the issue that you would like to work on.
 
 ## Community
 
 Do you want to help? Great! These are a few things you can do:
 
-* Evangelize mutation testing. Mutation testing is still relatively new, especially in .NET Core. Please help us get the word out there!
-* Share your stories in blog posts an on social media. Please inform us about it! Did you use Stryker? Your feedback is very valuable to us. Good and bad! Please contact us and let us know what you think
+* Evangelize mutation testing. Mutation testing is still relatively new, please help us get the word out there!
+* Share your stories in blog posts an on social media. Please inform us about it! Did you use Stryker? Your feedback is very valuable to us. Good and bad! Please contact us on [X](https://twitter.com/stryker_mutator) or [Slack](https://join.slack.com/t/stryker-mutator/shared_invite/enQtOTUyMTYyNTg1NDQ0LTU4ODNmZDlmN2I3MmEyMTVhYjZlYmJkOThlNTY3NTM1M2QxYmM5YTM3ODQxYmJjY2YyYzllM2RkMmM1NjNjZjM) and let us know what you think.
