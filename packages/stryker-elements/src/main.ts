@@ -6,18 +6,6 @@ import './exports/lib/atoms/buttons/button';
 export { ImageButton } from './lib/atoms/buttons/image-button';
 import './exports/lib/atoms/buttons/image-button';
 
-export { PlainButton } from './lib/atoms/buttons/plain-button';
-import './exports/lib/atoms/buttons/plain-button';
-
-export { PrimaryButton } from './lib/atoms/buttons/primary-button';
-import './exports/lib/atoms/buttons/primary-button';
-
-export { SecondaryButton } from './lib/atoms/buttons/secondary-button';
-import './exports/lib/atoms/buttons/secondary-button';
-
-export { SubtleButton } from './lib/atoms/buttons/subtle-button';
-import './exports/lib/atoms/buttons/subtle-button';
-
 export { ToggleButton } from './lib/atoms/buttons/toggle-button';
 import './exports/lib/atoms/buttons/toggle-button';
 
@@ -43,6 +31,9 @@ export { SpatiousLayout } from './lib/atoms/spatious-layout';
 import './exports/lib/atoms/spatious-layout';
 
 // Molecules
+
+export { BadgeConfigurator } from './lib/molecules/badge-configurator';
+import './exports/lib/molecules/badge-configurator';
 
 export { GettingStartedStep } from './lib/molecules/getting-started-step';
 import './exports/lib/molecules/getting-started-step';

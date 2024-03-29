@@ -22,6 +22,7 @@ export class RepositoryPageComponent extends AutoUnsubscribe implements OnInit {
   public selectedLogin: string | undefined;
 
   public repositories: Repository[] | null = null;
+  public repositorySlug: string | undefined;
 
   public constructor(
     private readonly organizationsService: OrganizationsService,
@@ -92,6 +93,11 @@ export class RepositoryPageComponent extends AutoUnsubscribe implements OnInit {
 
   public openModal() {
     document.dispatchEvent(new Event('toggleRepositoriesModal'))
+  }
+
+  public openConfigureBadgeModal(event: Repository) {
+    this.repositorySlug = `${event.slug}/${event.defaultBranch}`;
+    document.dispatchEvent(new Event('configureMutationBadgeModal'))
   }
 
   public async toggleRepository(event: CustomEvent) {
