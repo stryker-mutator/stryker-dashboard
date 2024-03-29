@@ -1,18 +1,14 @@
 import { property } from 'lit/decorators.js';
 import { BaseElement } from '../base-element';
-import { css, html } from 'lit';
-
-type carousellItem = {
-  name: string;
-  logo: string;
-  url: string;
-};
+import { html } from 'lit';
+import { type CarousellItemProperties } from '../atoms/carousell-item';
 
 export class Carousell extends BaseElement {
   @property()
-  carousellItems: carousellItem[] = [];
+  carousellItems: CarousellItemProperties[] = [];
 
-  carouselLength: number = 4;
+  @property()
+  nrOfSlidesToShow: number = 4;
 
   next() {
     const firstItem = this.carousellItems.shift();
@@ -27,38 +23,36 @@ export class Carousell extends BaseElement {
     if (lastItem) {
       this.carousellItems.unshift(lastItem);
     }
+
+    this.requestUpdate();
   }
 
   render() {
     return html`
-      <button @click="${this.previous}">👈</button>
-      <button @click="${this.next}">👉</button>
+      <div class="flex justify-between">
+        <sme-fab
+          class="place-self-center"
+          icon="chevron-left"
+          @click="${this.previous}"
+        ></sme-fab>
 
-      <div class="grid grid-cols-4 place-items-center">
         ${this.carousellItems
-          .slice(0, this.carouselLength)
+          .slice(0, this.nrOfSlidesToShow)
           .map(
             (item) =>
-              html`<sme-supported-framework
+              html`<sme-carousell-item
                 name="${item.name}"
                 logo="${item.logo}"
                 url="${item.url}"
-              ></sme-supported-framework>`,
+              ></sme-carousell-item>`,
           )}
+
+        <sme-fab
+          class="place-self-center"
+          icon="chevron-right"
+          @click="${this.next}"
+        ></sme-fab>
       </div>
     `;
   }
-
-  static styles = [
-    ...BaseElement.styles,
-    css`
-      sme-supported-framework {
-        transition: transform 0.5s ease-in-out;
-      }
-
-      sme-supported-framework.moving {
-        transform: translateX(100%);
-      }
-    `,
-  ];
 }
