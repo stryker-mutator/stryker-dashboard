@@ -61,4 +61,12 @@ describe(MutationEventSender.name, () => {
     sinon.assert.calledOnce(responseMock.destroy);
     sinon.assert.calledOnce(spy);
   });
+
+  it('should call flush after every event', () => {
+    sut.sendMutantTested({ id: '1', status: 'Pending' });
+    sinon.assert.calledOnce(responseMock.flush);
+
+    sut.sendFinished();
+    sinon.assert.calledTwice(responseMock.flush);
+  });
 });
