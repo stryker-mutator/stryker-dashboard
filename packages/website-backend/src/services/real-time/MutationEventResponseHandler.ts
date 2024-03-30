@@ -1,7 +1,7 @@
 import { MutationEventSender } from './MutationEventSender.js';
 import { MutantResult } from 'mutation-testing-report-schema';
 import Configuration from '../Configuration.js';
-import { ServerResponse } from 'http';
+import type { Response } from 'express';
 
 export class MutationEventResponseHandler {
   #config: Configuration;
@@ -11,7 +11,7 @@ export class MutationEventResponseHandler {
     this.#config = config;
   }
 
-  public add(res: ServerResponse) {
+  public add(res: Response) {
     const eventSender = new MutationEventSender(res, this.#config.cors);
     eventSender.on('destroyed', () => {
       this.#remove(eventSender);

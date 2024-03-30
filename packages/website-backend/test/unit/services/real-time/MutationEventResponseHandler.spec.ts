@@ -1,12 +1,13 @@
 import { IncomingMessage, ServerResponse } from 'http';
 
 import sinon from 'sinon';
-
+import { Response } from 'express';
 import { MutationEventResponseHandler } from '../../../../src/services/real-time/MutationEventResponseHandler.js';
 import { MutantResult } from 'mutation-testing-report-schema';
 import Configuration from '../../../../src/services/Configuration.js';
 import { expect } from 'chai';
 import { Socket } from 'net';
+import { createResponseStub } from '../../helpers.js';
 
 describe(MutationEventResponseHandler.name, () => {
   const data: Partial<MutantResult> = {
@@ -19,8 +20,8 @@ describe(MutationEventResponseHandler.name, () => {
     mutatorName: 'block statement',
   };
   let config: Configuration;
-  let responseMock: sinon.SinonStubbedInstance<ServerResponse>;
-  let responseMock2: sinon.SinonStubbedInstance<ServerResponse>;
+  let responseMock: sinon.SinonStubbedInstance<Response>;
+  let responseMock2: sinon.SinonStubbedInstance<Response>;
   let sut: MutationEventResponseHandler;
 
   beforeEach(() => {
@@ -32,8 +33,8 @@ describe(MutationEventResponseHandler.name, () => {
       isDevelopment: true,
       jwtSecret: '',
     };
-    responseMock = sinon.createStubInstance(ServerResponse);
-    responseMock2 = sinon.createStubInstance(ServerResponse);
+    responseMock = createResponseStub();
+    responseMock2 = createResponseStub();
     sut = new MutationEventResponseHandler(config);
   });
 
@@ -63,7 +64,9 @@ describe(MutationEventResponseHandler.name, () => {
   });
 
   it('should remove response from set when connection closes', () => {
-    const response = new ServerResponse(new IncomingMessage(new Socket()));
+    const response = new ServerResponse(
+      new IncomingMessage(new Socket()),
+    ) as Response;
     sut.add(response);
     expect(sut.senders).to.eq(1);
 
