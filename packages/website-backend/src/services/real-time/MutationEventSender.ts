@@ -1,11 +1,11 @@
 import { MutantResult } from 'mutation-testing-report-schema';
-import { ServerResponse } from 'http';
+import { Response } from 'express';
 import { EventEmitter } from 'events';
 
 export class MutationEventSender extends EventEmitter {
-  #response: ServerResponse;
+  #response: Response;
 
-  constructor(res: ServerResponse, cors: string) {
+  constructor(res: Response, cors: string) {
     super();
 
     this.#response = res;
@@ -29,6 +29,7 @@ export class MutationEventSender extends EventEmitter {
   #send<T>(event: string, payload: T): void {
     this.#response.write(`event: ${event}\n`);
     this.#response.write(`data: ${JSON.stringify(payload)}\n\n`);
+    this.#response.flush();
   }
 
   #destroy() {

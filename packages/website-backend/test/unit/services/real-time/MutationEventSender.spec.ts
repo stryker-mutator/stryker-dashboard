@@ -1,16 +1,17 @@
 import sinon from 'sinon';
 
 import { MutationEventSender } from '../../../../src/services/real-time/MutationEventSender.js';
-import { ServerResponse } from 'http';
+import { Response } from 'express';
 import { MutantResult } from 'mutation-testing-report-schema';
+import { createResponseStub } from '../../helpers.js';
 
 describe(MutationEventSender.name, () => {
-  let responseMock: sinon.SinonStubbedInstance<ServerResponse>;
+  let responseMock: sinon.SinonStubbedInstance<Response>;
   let cors: string;
   let sut: MutationEventSender;
 
   beforeEach(() => {
-    responseMock = sinon.createStubInstance(ServerResponse);
+    responseMock = createResponseStub();
     cors = 'my-cors';
     sut = new MutationEventSender(responseMock, cors);
   });
@@ -59,5 +60,13 @@ describe(MutationEventSender.name, () => {
     responseMock.on.firstCall.args[1]();
     sinon.assert.calledOnce(responseMock.destroy);
     sinon.assert.calledOnce(spy);
+  });
+
+  it('should call flush after every event', () => {
+    sut.sendMutantTested({ id: '1', status: 'Pending' });
+    sinon.assert.calledOnce(responseMock.flush);
+
+    sut.sendFinished();
+    sinon.assert.calledTwice(responseMock.flush);
   });
 });

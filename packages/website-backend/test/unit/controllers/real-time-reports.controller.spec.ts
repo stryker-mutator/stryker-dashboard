@@ -17,7 +17,7 @@ import DataAccess from '../../../src/services/DataAccess.js';
 import utils from '../../../src/utils/utils.js';
 import { MutationEventResponseHandler } from '../../../src/services/real-time/MutationEventResponseHandler.js';
 import { createMutationTestResult } from '../../helpers/mutants.js';
-import { IncomingMessage, ServerResponse } from 'http';
+import { Response } from 'express';
 
 describe(RealTimeReportsController.name, () => {
   const apiKey = '1346';
@@ -114,7 +114,7 @@ describe(RealTimeReportsController.name, () => {
     });
 
     it('should get events and replay them', async () => {
-      let capturedResponse: ServerResponse<IncomingMessage>;
+      let capturedResponse: Response;
       const stub = sinon.createStubInstance(MutationEventResponseHandler);
       stub.add.restore();
       stub.sendMutantTested.restore();
