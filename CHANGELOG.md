@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.3](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.14.2...v0.14.3) (2024-04-01)
+
+### Bug Fixes
+
+- **deps:** update dependency @nestjs/serve-static to v4.0.2 ([#593](https://github.com/stryker-mutator/stryker-dashboard/issues/593)) ([ade5871](https://github.com/stryker-mutator/stryker-dashboard/commit/ade5871585b14c391c43c169c800c6d631c029ad))
+- **deps:** update nestjs packages to v10.3.6 ([#582](https://github.com/stryker-mutator/stryker-dashboard/issues/582)) ([6fddd04](https://github.com/stryker-mutator/stryker-dashboard/commit/6fddd0470b7093b0fa5020a4da2e66cd996b5d04))
+- **deps:** update nestjs packages to v10.3.7 ([#591](https://github.com/stryker-mutator/stryker-dashboard/issues/591)) ([7960f84](https://github.com/stryker-mutator/stryker-dashboard/commit/7960f846aba752ed923e87f3a15b56fb4c619de4))
+- send `.flush` after every real-time event ([#599](https://github.com/stryker-mutator/stryker-dashboard/issues/599)) ([5fe58f2](https://github.com/stryker-mutator/stryker-dashboard/commit/5fe58f2c9d36bf6c5c260509ef9a8b2ceddd21ff))
+
 ## [0.14.2](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.14.1...v0.14.2) (2024-03-26)
 
 ### Bug Fixes
