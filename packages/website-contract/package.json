@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mutation-testing-report-schema": "3.0.3"
+    "mutation-testing-report-schema": "3.0.4"
   },
   "publishConfig": {
     "access": "public"

@@ -22,7 +22,7 @@
   "dependencies": {
     "azure-storage": "2.10.7",
     "jsonwebtoken": "9.0.2",
-    "mutation-testing-report-schema": "3.0.3"
+    "mutation-testing-report-schema": "3.0.4"
   },
   "repository": {
     "type": "git",
