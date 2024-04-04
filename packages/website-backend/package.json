@@ -49,7 +49,7 @@
     "@types/passport": "1.0.16",
     "@types/passport-github2": "1.2.9",
     "@types/supertest": "6.0.2",
-    "mutation-testing-report-schema": "3.0.2",
+    "mutation-testing-report-schema": "3.0.3",
     "supertest": "6.3.4"
   },
   "keywords": [],
