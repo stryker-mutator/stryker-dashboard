@@ -4,9 +4,7 @@ import { ShieldMapper } from './ShieldMapper.js';
 import { createMutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
 import { handler } from './handler.js';
 
-const httpTrigger: HttpHandler = handler(
-  new ShieldMapper(createMutationTestingReportMapper()),
-);
+const httpTrigger: HttpHandler = handler(new ShieldMapper(createMutationTestingReportMapper()));
 
 app.http('badge', {
   methods: ['GET'],

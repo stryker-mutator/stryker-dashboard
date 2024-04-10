@@ -8,9 +8,7 @@ export class TopBar extends BaseElement {
   logoUrl = '';
 
   render() {
-    return html` <div
-      class="text-l flex h-16 flex-row items-center bg-neutral-800 p-2 text-white"
-    >
+    return html` <div class="text-l flex h-16 flex-row items-center bg-neutral-800 p-2 text-white">
       <img class="h-12 p-2" src="${this.logoUrl}" />
       <h2 class="px-1">
         <a

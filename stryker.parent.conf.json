@@ -2,17 +2,10 @@
   "coverageAnalysis": "perTest",
   "tsconfigFile": "tsconfig.stryker.json",
   "mochaOptions": {
-    "spec": [
-      "dist/test/helpers/**/*.js",
-      "dist/test/unit/**/*.js"
-    ]
+    "spec": ["dist/test/helpers/**/*.js", "dist/test/unit/**/*.js"]
   },
   "testRunner": "mocha",
-  "reporters": [
-    "progress",
-    "html",
-    "dashboard"
-  ],
+  "reporters": ["progress", "html", "dashboard"],
   "concurrency": 4,
   "dashboard": {
     "reportType": "full"

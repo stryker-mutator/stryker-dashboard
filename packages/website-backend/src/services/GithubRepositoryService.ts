@@ -3,10 +3,7 @@ import GithubAgent from '../github/GithubAgent.js';
 import * as dal from '@stryker-mutator/dashboard-data-access';
 import * as contract from '@stryker-mutator/dashboard-contract';
 import * as github from '../github/models.js';
-import {
-  DashboardQuery,
-  Project,
-} from '@stryker-mutator/dashboard-data-access';
+import { DashboardQuery, Project } from '@stryker-mutator/dashboard-data-access';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 /**
@@ -28,9 +25,7 @@ export default class GithubRepositoryService {
     this.projectMapper = dataAccess.repositoryMapper;
   }
 
-  public async getAllForUser(
-    auth: github.Authentication,
-  ): Promise<contract.Repository[]> {
+  public async getAllForUser(auth: github.Authentication): Promise<contract.Repository[]> {
     const githubRepos = this.agent.getMyRepositories(auth);
     const repoEntities = this.projectMapper.findAll(
       DashboardQuery.create(Project).wherePartitionKeyEquals({
@@ -44,10 +39,7 @@ export default class GithubRepositoryService {
     auth: github.Authentication,
     organizationLogin: string,
   ): Promise<contract.Repository[]> {
-    const githubRepos = this.agent.getOrganizationRepositories(
-      auth,
-      organizationLogin,
-    );
+    const githubRepos = this.agent.getOrganizationRepositories(auth, organizationLogin);
     const repoEntities = this.projectMapper.findAll(
       DashboardQuery.create(Project).wherePartitionKeyEquals({
         owner: prefixGithub(organizationLogin),

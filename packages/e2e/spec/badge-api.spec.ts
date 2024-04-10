@@ -1,9 +1,5 @@
 import { test, expect } from '@playwright/test';
-import {
-  BadgeApiClient,
-  type Shield,
-  Color,
-} from '../po/badge-api/badge-api.po.js';
+import { BadgeApiClient, type Shield, Color } from '../po/badge-api/badge-api.po.js';
 import { simpleReportV1 } from '../actions/report.action.js';
 import { ReportClient } from '../po/reports/report-client.po.js';
 
@@ -15,10 +11,7 @@ test.describe('badge-api', () => {
     client = new BadgeApiClient();
     reportClient = new ReportClient(request);
     await reportClient.uploadReport(
-      simpleReportV1(
-        'github.com/stryker-mutator-test-organization/hello-org',
-        'master',
-      ),
+      simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'master'),
     );
   });
 
@@ -60,10 +53,7 @@ test.describe('badge-api', () => {
       schemaVersion: 1,
     };
     await reportClient.uploadReport(
-      simpleReportV1(
-        'github.com/stryker-mutator-test-organization/hello-org',
-        'feat/test',
-      ),
+      simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'feat/test'),
     );
     const response = await client.badgeFor(
       'github.com/stryker-mutator-test-organization/hello-org/feat/test',

@@ -16,21 +16,13 @@ export default class GithubAgent {
     return this.get<Login>(user, `${GITHUB_BACKEND}/user`);
   }
 
-  public async getMyOrganizations(
-    user: github.Authentication,
-  ): Promise<Login[]> {
+  public async getMyOrganizations(user: github.Authentication): Promise<Login[]> {
     const logins = await this.get<Login[]>(user, `${GITHUB_BACKEND}/user/orgs`);
     return logins;
   }
 
-  public async getOrganizations(
-    user: github.Authentication,
-    loginName: string,
-  ): Promise<Login[]> {
-    const logins = await this.get<Login[]>(
-      user,
-      `${GITHUB_BACKEND}/users/${loginName}/orgs`,
-    );
+  public async getOrganizations(user: github.Authentication, loginName: string): Promise<Login[]> {
+    const logins = await this.get<Login[]>(user, `${GITHUB_BACKEND}/users/${loginName}/orgs`);
     return logins;
   }
 
@@ -45,10 +37,7 @@ export default class GithubAgent {
   }
 
   public getMyRepositories(user: github.Authentication): Promise<Repository[]> {
-    return this.get<Repository[]>(
-      user,
-      `${GITHUB_BACKEND}/user/repos?type=owner`,
-    );
+    return this.get<Repository[]>(user, `${GITHUB_BACKEND}/user/repos?type=owner`);
   }
 
   public async userHasPushAccess(
@@ -57,10 +46,7 @@ export default class GithubAgent {
     name: string,
   ): Promise<boolean> {
     // https://developer.github.com/v3/repos/#get
-    const repo = await this.get<Repository>(
-      user,
-      `${GITHUB_BACKEND}/repos/${owner}/${name}`,
-    );
+    const repo = await this.get<Repository>(user, `${GITHUB_BACKEND}/repos/${owner}/${name}`);
     return repo.permissions && repo.permissions.push;
   }
 

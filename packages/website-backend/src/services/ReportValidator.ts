@@ -40,9 +40,7 @@ export class ReportValidator {
     }
   }
 
-  public validateMutants(
-    mutants: Array<Partial<MutantResult>> | null,
-  ): undefined | string {
+  public validateMutants(mutants: Array<Partial<MutantResult>> | null): undefined | string {
     try {
       // Cast the result to a boolean, as the validation should happen synchronously. Weird API of Ajv...
       if (!this.#mutantsValidator.validate(SCHEMA_NAME, mutants)) {

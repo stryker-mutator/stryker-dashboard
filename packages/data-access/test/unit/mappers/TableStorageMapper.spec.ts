@@ -1,37 +1,23 @@
 import TModel from '../../../src/mappers/TableStorageMapper.js';
-import TableServiceAsPromised, {
-  Entity,
-} from '../../../src/services/TableServiceAsPromised.js';
+import TableServiceAsPromised, { Entity } from '../../../src/services/TableServiceAsPromised.js';
 import * as sinon from 'sinon';
 import { expect } from 'chai';
 import { TableQuery, Constants } from 'azure-storage';
 import { StorageError } from '../../helpers/StorageError.js';
-import {
-  Result,
-  OptimisticConcurrencyError,
-  DashboardQuery,
-} from '../../../src/index.js';
+import { Result, OptimisticConcurrencyError, DashboardQuery } from '../../../src/index.js';
 
 export class FooModel {
   public partitionId: string;
   public rowId: string;
   public bar: number;
 
-  public static createPartitionKey(
-    entity: Pick<FooModel, 'partitionId'>,
-  ): string {
+  public static createPartitionKey(entity: Pick<FooModel, 'partitionId'>): string {
     return entity.partitionId;
   }
-  public static createRowKey(
-    entity: Pick<FooModel, 'rowId'>,
-  ): string | undefined {
+  public static createRowKey(entity: Pick<FooModel, 'rowId'>): string | undefined {
     return entity.rowId;
   }
-  public static identify(
-    entity: FooModel,
-    partitionKeyValue: string,
-    rowKeyValue: string,
-  ): void {
+  public static identify(entity: FooModel, partitionKeyValue: string, rowKeyValue: string): void {
     entity.partitionId = partitionKeyValue;
     entity.rowId = rowKeyValue;
   }
@@ -41,15 +27,14 @@ export class FooModel {
 
 describe(TModel.name, () => {
   class TestHelper {
-    public tableServiceAsPromisedMock: sinon.SinonStubbedInstance<TableServiceAsPromised> =
-      {
-        createTableIfNotExists: sinon.stub(),
-        insertOrMergeEntity: sinon.stub(),
-        queryEntities: sinon.stub<any, any>(),
-        retrieveEntity: sinon.stub<any, any>(),
-        insertEntity: sinon.stub(),
-        replaceEntity: sinon.stub(),
-      };
+    public tableServiceAsPromisedMock: sinon.SinonStubbedInstance<TableServiceAsPromised> = {
+      createTableIfNotExists: sinon.stub(),
+      insertOrMergeEntity: sinon.stub(),
+      queryEntities: sinon.stub<any, any>(),
+      retrieveEntity: sinon.stub<any, any>(),
+      insertEntity: sinon.stub(),
+      replaceEntity: sinon.stub(),
+    };
     public sut = new TModel(FooModel, this.tableServiceAsPromisedMock as any);
   }
   let helper: TestHelper;
@@ -62,9 +47,7 @@ describe(TModel.name, () => {
     it('should create table "FooTable"', async () => {
       helper.tableServiceAsPromisedMock.createTableIfNotExists.resolves();
       await helper.sut.createStorageIfNotExists();
-      expect(
-        helper.tableServiceAsPromisedMock.createTableIfNotExists,
-      ).calledWith('FooTable');
+      expect(helper.tableServiceAsPromisedMock.createTableIfNotExists).calledWith('FooTable');
     });
   });
 
@@ -77,15 +60,12 @@ describe(TModel.name, () => {
       };
       helper.tableServiceAsPromisedMock.insertOrMergeEntity.resolves();
       await helper.sut.insertOrMerge(expected);
-      expect(helper.tableServiceAsPromisedMock.insertOrMergeEntity).calledWith(
-        'FooTable',
-        {
-          PartitionKey: 'github;owner',
-          RowKey: 'name',
-          bar: 42,
-          ['.metadata']: {},
-        },
-      );
+      expect(helper.tableServiceAsPromisedMock.insertOrMergeEntity).calledWith('FooTable', {
+        PartitionKey: 'github;owner',
+        RowKey: 'name',
+        bar: 42,
+        ['.metadata']: {},
+      });
       expect(expected.bar).eq(42);
     });
   });
@@ -106,9 +86,7 @@ describe(TModel.name, () => {
     });
 
     it('should return null if it resulted in a 404', async () => {
-      const error = new StorageError(
-        Constants.StorageErrorCodeStrings.RESOURCE_NOT_FOUND,
-      );
+      const error = new StorageError(Constants.StorageErrorCodeStrings.RESOURCE_NOT_FOUND);
       helper.tableServiceAsPromisedMock.retrieveEntity.rejects(error);
       const actualProject = await helper.sut.findOne({
         partitionId: 'github/partKey',
@@ -136,20 +114,14 @@ describe(TModel.name, () => {
 
   describe('findAll', () => {
     it('should query the underlying storage', async () => {
-      const expectedQuery = new TableQuery().where(
-        'PartitionKey eq ?',
-        'github;partKey',
-      );
+      const expectedQuery = new TableQuery().where('PartitionKey eq ?', 'github;partKey');
       helper.tableServiceAsPromisedMock.queryEntities.resolves({ entries: [] });
       await helper.sut.findAll(
         DashboardQuery.create(FooModel).wherePartitionKeyEquals({
           partitionId: 'github/partKey',
         }),
       );
-      expect(helper.tableServiceAsPromisedMock.queryEntities).calledWith(
-        'FooTable',
-        expectedQuery,
-      );
+      expect(helper.tableServiceAsPromisedMock.queryEntities).calledWith('FooTable', expectedQuery);
     });
 
     it('should return the all entities', async () => {
@@ -197,15 +169,10 @@ describe(TModel.name, () => {
 
     it('should throw a OptimisticConcurrencyError if the UPDATE_CONDITION_NOT_SATISFIED is thrown', async () => {
       helper.tableServiceAsPromisedMock.replaceEntity.rejects(
-        new StorageError(
-          Constants.StorageErrorCodeStrings.UPDATE_CONDITION_NOT_SATISFIED,
-        ),
+        new StorageError(Constants.StorageErrorCodeStrings.UPDATE_CONDITION_NOT_SATISFIED),
       );
       await expect(
-        helper.sut.replace(
-          { bar: 24, partitionId: 'part', rowId: 'row' },
-          'prev-etag',
-        ),
+        helper.sut.replace({ bar: 24, partitionId: 'part', rowId: 'row' }, 'prev-etag'),
       ).rejectedWith(OptimisticConcurrencyError);
     });
   });
@@ -237,9 +204,9 @@ describe(TModel.name, () => {
       helper.tableServiceAsPromisedMock.insertEntity.rejects(
         new StorageError(Constants.TableErrorCodeStrings.ENTITY_ALREADY_EXISTS),
       );
-      await expect(
-        helper.sut.insert({ bar: 24, partitionId: 'part', rowId: 'row' }),
-      ).rejectedWith(OptimisticConcurrencyError);
+      await expect(helper.sut.insert({ bar: 24, partitionId: 'part', rowId: 'row' })).rejectedWith(
+        OptimisticConcurrencyError,
+      );
     });
   });
 

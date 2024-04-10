@@ -1,16 +1,7 @@
 import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
-import {
-  Logger,
-  MutationScoreOnlyResult,
-} from '@stryker-mutator/dashboard-common';
+import { Logger, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
 import DataAccess from '../services/DataAccess.js';
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  HttpCode,
-  Post,
-} from '@nestjs/common';
+import { BadRequestException, Body, Controller, HttpCode, Post } from '@nestjs/common';
 /**
  * Represents the 'old' style of report, containing the mutation score calculated at client side
  */
@@ -34,10 +25,7 @@ export class OldReportsController {
   @HttpCode(201)
   public async addNew(@Body() report: ScoreReport, log: Logger) {
     this.verifyRequiredPostScoreReportProperties(report);
-    await this.#apiKeyValidator.validateApiKey(
-      report.apiKey,
-      report.repositorySlug,
-    );
+    await this.#apiKeyValidator.validateApiKey(report.apiKey, report.repositorySlug);
     await this.#dal.mutationTestingReportService.saveReport(
       {
         moduleName: undefined,

@@ -12,20 +12,14 @@ function getConnectionString(): string {
   if (process.env.E2E_AZURE_STORAGE_CONNECTION_STRING) {
     return process.env.E2E_AZURE_STORAGE_CONNECTION_STRING;
   } else {
-    throw new Error(
-      'Please configure the "E2E_AZURE_STORAGE_CONNECTION_STRING" env variable',
-    );
+    throw new Error('Please configure the "E2E_AZURE_STORAGE_CONNECTION_STRING" env variable');
   }
 }
 
 const blobService = createBlobService(getConnectionString());
 const tableService = createTableService(getConnectionString());
-const listBlobsSegmented = promisify(blobService.listBlobsSegmented).bind(
-  blobService,
-);
-const deleteBlobIfExists = promisify(blobService.deleteBlobIfExists).bind(
-  blobService,
-);
+const listBlobsSegmented = promisify(blobService.listBlobsSegmented).bind(blobService);
+const deleteBlobIfExists = promisify(blobService.deleteBlobIfExists).bind(blobService);
 const deleteEntity = promisify(tableService.deleteEntity).bind(tableService);
 const queryEntities = promisify(tableService.queryEntities).bind(tableService);
 
@@ -37,9 +31,7 @@ async function deleteAllEntities(tableName: string) {
   let waitThereIsMore = true;
   while (waitThereIsMore) {
     const result = await queryEntities(tableName, new TableQuery(), firstToken);
-    await Promise.all(
-      result.entries.map((entity) => deleteEntity(tableName, entity)),
-    );
+    await Promise.all(result.entries.map((entity) => deleteEntity(tableName, entity)));
     waitThereIsMore = !!result.continuationToken;
   }
 }
@@ -51,11 +43,7 @@ async function deleteAllBlobs(containerName: string) {
       containerName,
       firstToken,
     )) as BlobService.ListBlobsResult;
-    await Promise.all(
-      result.entries.map((entry) =>
-        deleteBlobIfExists(containerName, entry.name),
-      ),
-    );
+    await Promise.all(result.entries.map((entry) => deleteBlobIfExists(containerName, entry.name)));
     waitThereIsMore = !!result.continuationToken;
   }
 }

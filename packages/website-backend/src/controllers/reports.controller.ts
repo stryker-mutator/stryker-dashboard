@@ -120,15 +120,11 @@ export default class ReportsController {
     if (report) {
       return report;
     } else {
-      throw new NotFoundException(
-        `Version "${version}" does not exist for "${project}".`,
-      );
+      throw new NotFoundException(`Version "${version}" does not exist for "${project}".`);
     }
   }
 
-  private verifyRequiredPutReportProperties(
-    body: MutationScoreOnlyResult | MutationTestResult,
-  ) {
+  private verifyRequiredPutReportProperties(body: MutationScoreOnlyResult | MutationTestResult) {
     const errors = this.#reportValidator.findErrors(body);
     if (errors) {
       const mutationScoreOnlyResult = body as MutationScoreOnlyResult;
@@ -142,9 +138,7 @@ export default class ReportsController {
     }
   }
 
-  private verifyIsCompletedReport(
-    result: MutationScoreOnlyResult | MutationTestResult,
-  ) {
+  private verifyIsCompletedReport(result: MutationScoreOnlyResult | MutationTestResult) {
     if (!isMutationTestResult(result)) {
       return;
     }

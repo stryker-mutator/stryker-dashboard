@@ -10,10 +10,7 @@ export interface Response<T> {
 export default class HttpClient {
   private readonly log = debug(HttpClient.name);
 
-  public async fetchJson<T>(
-    fullUrl: string,
-    requestInit?: RequestInit,
-  ): Promise<Response<T>> {
+  public async fetchJson<T>(fullUrl: string, requestInit?: RequestInit): Promise<Response<T>> {
     this.log(`Performing HTTP GET "${fullUrl}"`);
     const response = await fetch(fullUrl, requestInit);
     if (response.ok) {
@@ -24,9 +21,7 @@ export default class HttpClient {
     } else {
       const { status } = response;
       this.log(`Http GET ${fullUrl} response status: ${status}`);
-      const error = new Error(
-        `Failed request: (${status}), message: ${await response.text()}`,
-      );
+      const error = new Error(`Failed request: (${status}), message: ${await response.text()}`);
       error.name = 'InvalidHttpStatusCode';
       return Promise.reject(error);
     }

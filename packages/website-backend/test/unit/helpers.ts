@@ -7,9 +7,7 @@ import sinon from 'sinon';
  * Probably missing methods compared to the real Response instance, feel free to add them as needed :)
  */
 export function createResponseStub(): sinon.SinonStubbedInstance<Response> {
-  const stub = sinon.createStubInstance(
-    ServerResponse,
-  ) as sinon.SinonStubbedInstance<Response>;
+  const stub = sinon.createStubInstance(ServerResponse) as sinon.SinonStubbedInstance<Response>;
   stub.flush = sinon.stub();
   return stub;
 }

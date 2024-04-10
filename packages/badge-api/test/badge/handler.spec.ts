@@ -50,11 +50,7 @@ describe(handler.name, () => {
       params: { slug: 'foo/bar/baz/qux' },
     });
     await sut(...context);
-    expect(shieldMapperStub.shieldFor).calledWith(
-      'foo/bar/baz',
-      'qux',
-      undefined,
-    );
+    expect(shieldMapperStub.shieldFor).calledWith('foo/bar/baz', 'qux', undefined);
   });
 
   it('should use module query string argument when it is presented', async () => {
@@ -71,11 +67,7 @@ describe(handler.name, () => {
       params: { slug: 'foo/bar/baz/qux/' },
     });
     await sut(...context);
-    expect(shieldMapperStub.shieldFor).calledWith(
-      'foo/bar/baz',
-      'qux',
-      undefined,
-    );
+    expect(shieldMapperStub.shieldFor).calledWith('foo/bar/baz', 'qux', undefined);
   });
 
   it('should return BadRequest when the slug is missing', async () => {
@@ -154,10 +146,7 @@ describe(handler.name, () => {
     };
 
     const requestDefaults: HttpRequest = {
-      params: { slug: 'github.com/stryker-mutator/stryker/master' } as Record<
-        string,
-        string
-      >,
+      params: { slug: 'github.com/stryker-mutator/stryker/master' } as Record<string, string>,
       query: new URLSearchParams(),
     } as HttpRequest;
     const request: HttpRequest = {
@@ -169,10 +158,7 @@ describe(handler.name, () => {
   }
 
   function createLogStub(): SinonStubbedInstance<
-    Pick<
-      InvocationContext,
-      'log' | 'debug' | 'info' | 'error' | 'warn' | 'trace'
-    >
+    Pick<InvocationContext, 'log' | 'debug' | 'info' | 'error' | 'warn' | 'trace'>
   > {
     return {
       trace: sinon.stub(),

@@ -5,11 +5,7 @@ import { Test } from '@nestjs/testing';
 import { AppModule } from '../../../src/app.module.js';
 import * as github from '../../../src/github/models.js';
 import Configuration from '../../../src/services/Configuration.js';
-import {
-  DataAccessMock,
-  config,
-  createAuthorizationHeader,
-} from '../../helpers/TestServer.js';
+import { DataAccessMock, config, createAuthorizationHeader } from '../../helpers/TestServer.js';
 import { INestApplication } from '@nestjs/common';
 import utils from '../../../src/utils/utils.js';
 import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
@@ -18,9 +14,7 @@ import DataAccess from '../../../src/services/DataAccess.js';
 
 describe('RepositoriesController', () => {
   let app: INestApplication;
-  let generateHashStub: sinon.SinonStubbedMember<
-    typeof utils.generateHashValue
-  >;
+  let generateHashStub: sinon.SinonStubbedMember<typeof utils.generateHashValue>;
   let generateApiKeyStub: sinon.SinonStubbedMember<typeof utils.generateApiKey>;
   let updateStub: sinon.SinonStubbedMember<GithubRepositoryService['update']>;
   let auth: github.Authentication;
@@ -46,9 +40,7 @@ describe('RepositoriesController', () => {
     authToken = await createAuthorizationHeader(auth);
     generateApiKeyStub = sinon.stub(utils, 'generateApiKey');
     generateHashStub = sinon.stub(utils, 'generateHashValue');
-    const githubRepositoryService = app.get<GithubRepositoryService>(
-      GithubRepositoryService,
-    );
+    const githubRepositoryService = app.get<GithubRepositoryService>(GithubRepositoryService);
     updateStub = sinon.stub(githubRepositoryService, 'update');
 
     await app.init();
@@ -68,13 +60,7 @@ describe('RepositoriesController', () => {
         .expect({ apiKey: 'foobar-api-key' });
 
       expect(generateHashStub).calledWith('foobar-api-key');
-      expect(updateStub).calledWithMatch(
-        auth,
-        'foo',
-        'bar',
-        true,
-        'hashed api key',
-      );
+      expect(updateStub).calledWithMatch(auth, 'foo', 'bar', true, 'hashed api key');
     });
 
     it('should disable the repository if enabled = false', async () => {

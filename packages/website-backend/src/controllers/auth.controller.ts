@@ -14,16 +14,8 @@ export default class AuthController {
   }
 
   @Get('/github')
-  public get(
-    @Req() request: Request,
-    @Res() response: Response,
-    @Next() next: NextFunction,
-  ) {
-    passport.authenticate('github', { scope: ['user:email', 'read:org'] })(
-      request,
-      response,
-      next,
-    );
+  public get(@Req() request: Request, @Res() response: Response, @Next() next: NextFunction) {
+    passport.authenticate('github', { scope: ['user:email', 'read:org'] })(request, response, next);
   }
 
   @Post('/github')

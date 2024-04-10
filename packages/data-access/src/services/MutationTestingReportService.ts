@@ -1,8 +1,5 @@
 import { MutationTestResult } from 'mutation-testing-report-schema';
-import {
-  aggregateResultsByModule,
-  calculateMetrics,
-} from 'mutation-testing-metrics';
+import { aggregateResultsByModule, calculateMetrics } from 'mutation-testing-metrics';
 import { MutationTestingResultMapper } from '../mappers/MutationTestingResultMapper.js';
 import {
   MutationTestingReportMapper,
@@ -56,11 +53,7 @@ export class MutationTestingReportService {
     }
   }
 
-  private async aggregateProjectReport(
-    projectName: string,
-    version: string,
-    logger: Logger,
-  ) {
+  private async aggregateProjectReport(projectName: string, version: string, logger: Logger) {
     const id: ReportIdentifier = {
       projectName,
       version,
@@ -77,8 +70,7 @@ export class MutationTestingReportService {
   }
 
   private async tryAggregateProjectReport(id: ReportIdentifier) {
-    const projectMutationScoreModel =
-      await this.mutationScoreMapper.findOne(id);
+    const projectMutationScoreModel = await this.mutationScoreMapper.findOne(id);
     const moduleScoreResults = await this.mutationScoreMapper.findAll(
       DashboardQuery.create(MutationTestingReport)
         .wherePartitionKeyEquals(id)
@@ -89,10 +81,7 @@ export class MutationTestingReportService {
         await Promise.all(
           moduleScoreResults.map(
             async (score) =>
-              [
-                score.model.moduleName!,
-                await this.resultMapper.findOne(score.model),
-              ] as const,
+              [score.model.moduleName!, await this.resultMapper.findOne(score.model)] as const,
           ),
         )
       ).filter(moduleHasResult),
@@ -106,10 +95,7 @@ export class MutationTestingReportService {
       try {
         await this.resultMapper.insertOrReplace(id, projectResult);
         if (projectMutationScoreModel) {
-          await this.mutationScoreMapper.replace(
-            projectReport,
-            projectMutationScoreModel.etag,
-          );
+          await this.mutationScoreMapper.replace(projectReport, projectMutationScoreModel.etag);
         } else {
           await this.mutationScoreMapper.insert(projectReport);
         }
@@ -159,9 +145,7 @@ export class MutationTestingReportService {
     ]);
   }
 
-  private calculateMutationScore(
-    result: MutationScoreOnlyResult | MutationTestResult,
-  ) {
+  private calculateMutationScore(result: MutationScoreOnlyResult | MutationTestResult) {
     if (isMutationTestResult(result)) {
       return calculateMetrics(result.files).metrics.mutationScore;
     } else {

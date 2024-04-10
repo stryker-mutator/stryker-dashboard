@@ -2,10 +2,7 @@
   "extends": "../../tsconfig.settings.json",
   "compilerOptions": {
     "target": "es2017",
-    "types": [
-      "node",
-      "mocha"
-    ],
+    "types": ["node", "mocha"],
     "outDir": "dist"
   },
   "references": [
@@ -14,6 +11,6 @@
     },
     {
       "path": "../common/src"
-    },
+    }
   ]
 }

@@ -10,11 +10,7 @@
       "name": "🎭 E2E tests (acceptance)",
       "program": "${workspaceFolder}/node_modules/playwright-core/cli.js",
       "cwd": "${workspaceFolder}",
-      "args": [
-        "test",
-        "--project",
-        "acceptance"
-      ],
+      "args": ["test", "--project", "acceptance"],
       "envFile": "${workspaceFolder}/acc.env",
       "internalConsoleOptions": "openOnSessionStart",
       "outputCapture": "std"
@@ -25,11 +21,7 @@
       "name": "🎭 E2E tests (local)",
       "program": "${workspaceFolder}/node_modules/playwright-core/cli.js",
       "cwd": "${workspaceFolder}",
-      "args": [
-        "test",
-        "--project",
-        "local"
-      ],
+      "args": ["test", "--project", "local"],
       "envFile": "${workspaceFolder}/.local.env",
       "internalConsoleOptions": "openOnSessionStart",
       "outputCapture": "std"

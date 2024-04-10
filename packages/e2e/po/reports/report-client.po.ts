@@ -22,15 +22,12 @@ export class ReportClient {
         Promise.resolve().then(async () => {
           const patchBody: Partial<Repository> = { enabled: true };
           const authToken = generateAuthToken();
-          const response = await this.request.patch(
-            `/api/repositories/${slug}`,
-            {
-              data: patchBody,
-              headers: {
-                Authorization: `Bearer ${authToken}`,
-              },
+          const response = await this.request.patch(`/api/repositories/${slug}`, {
+            data: patchBody,
+            headers: {
+              Authorization: `Bearer ${authToken}`,
             },
-          );
+          });
           const body: EnableRepositoryResponse = await response.json();
           return body.apiKey;
         }),
@@ -50,30 +47,24 @@ export class ReportClient {
 
   async uploadReport(result: Report): Promise<PutReportResponse> {
     const apiKey = await this.enableRepository(result.projectName);
-    const response = await this.request.put(
-      this.#getUrl('/api/reports', result),
-      {
-        data: result,
-        headers: {
-          ['X-Api-Key']: apiKey,
-        },
+    const response = await this.request.put(this.#getUrl('/api/reports', result), {
+      data: result,
+      headers: {
+        ['X-Api-Key']: apiKey,
       },
-    );
+    });
     const body = await response.json();
     return body;
   }
 
   async uploadPendingReport(result: Report): Promise<PutReportResponse> {
     const apiKey = await this.enableRepository(result.projectName);
-    const response = await this.request.put(
-      this.#getUrl('/api/real-time', result),
-      {
-        data: result,
-        headers: {
-          ['X-Api-Key']: apiKey,
-        },
+    const response = await this.request.put(this.#getUrl('/api/real-time', result), {
+      data: result,
+      headers: {
+        ['X-Api-Key']: apiKey,
       },
-    );
+    });
     const body = await response.json();
     return body;
   }

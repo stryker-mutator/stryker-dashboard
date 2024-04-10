@@ -14,10 +14,7 @@ test.describe('Report api', () => {
   test.describe('HTTP put', () => {
     test('should respond with the correct href', async ({ baseURL }) => {
       const response = await client.uploadReport(
-        simpleReportV1(
-          'github.com/stryker-mutator-test-organization/hello-org',
-          'feat/report',
-        ),
+        simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'feat/report'),
       );
 
       const expectedResponse: PutReportResponse = {
