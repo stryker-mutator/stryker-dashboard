@@ -25,7 +25,7 @@
     "c8": "9.1.0",
     "chai": "4.4.1",
     "chai-as-promised": "7.1.1",
-    "concurrently": "^8.2.2",
+    "concurrently": "8.2.2",
     "lerna": "8.1.2",
     "mocha": "10.4.0",
     "prettier": "3.2.5",
