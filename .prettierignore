@@ -1,0 +1,9 @@
+node_modules
+packages/*/dist
+packages/*/reports
+.angular
+.nx
+coverage/
+.stryker-tmp
+packages/website-frontend
+packages/e2e/testResources
