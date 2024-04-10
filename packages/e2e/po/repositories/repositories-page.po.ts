@@ -10,9 +10,7 @@ export class RepositoriesPage extends DashboardPage {
   public readonly modalDialog = new RepositoryModalDialogPageObject(
     this.page.locator('ngb-modal-window'),
   );
-  public readonly ownerSelector = new SelectPageObject(
-    this.page.locator('stryker-owner-selector'),
-  );
+  public readonly ownerSelector = new SelectPageObject(this.page.locator('stryker-owner-selector'));
 
   public async navigate() {
     await this.page.goto('/repos/strykermutator-test-account');

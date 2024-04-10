@@ -56,15 +56,10 @@ test.describe('Real-time api', () => {
   });
 
   function createPendingReport(): Report {
-    return pendingReport(
-      'github.com/stryker-mutator-test-organization/hello-org',
-      'main',
-    );
+    return pendingReport('github.com/stryker-mutator-test-organization/hello-org', 'main');
   }
 
-  async function uploadPendingReport(
-    report: Report,
-  ): Promise<PutReportResponse> {
+  async function uploadPendingReport(report: Report): Promise<PutReportResponse> {
     return await client.uploadPendingReport(report);
   }
 });

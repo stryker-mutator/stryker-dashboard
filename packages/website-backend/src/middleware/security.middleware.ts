@@ -46,11 +46,7 @@ export class GithubSecurityMiddleware implements NestMiddleware {
     });
   }
 
-  public use(
-    @Req() request: Request,
-    @Res() response: Response,
-    @Next() next: NextFunction,
-  ) {
+  public use(@Req() request: Request, @Res() response: Response, @Next() next: NextFunction) {
     this.requestHandler(request, response, next);
   }
 }
@@ -61,10 +57,7 @@ const tokenOptions = Object.freeze({
   expiresIn: '30m',
   issuer: 'stryker',
 } as const);
-export const createToken = (
-  user: Authentication,
-  jwtSecret: string,
-): Promise<string> => {
+export const createToken = (user: Authentication, jwtSecret: string): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
     jwt.sign(user, jwtSecret, tokenOptions, (err, encoded) => {
       if (err) {
@@ -76,10 +69,6 @@ export const createToken = (
   });
 };
 
-export function passportAuthenticateGithub(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
+export function passportAuthenticateGithub(req: Request, res: Response, next: NextFunction) {
   return passport.authenticate('github', { session: false })(req, res, next);
 }

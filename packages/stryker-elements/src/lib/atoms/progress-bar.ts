@@ -59,10 +59,7 @@ export class ProgressBar extends BaseElement {
     `;
 
     const progressBar = html`
-      <div
-        class="h-4 w-full rounded-full bg-neutral-600"
-        ?hidden="${this.hideProgressBar}"
-      >
+      <div class="h-4 w-full rounded-full bg-neutral-600" ?hidden="${this.hideProgressBar}">
         <div
           class="${this.backgroundColors[this.getIndex()]} h-4 rounded-full"
           style="${styleMap({

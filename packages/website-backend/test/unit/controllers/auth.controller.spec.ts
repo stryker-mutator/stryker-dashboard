@@ -4,11 +4,7 @@ import request from 'supertest';
 import * as sinon from 'sinon';
 import * as github from '../../../src/github/models.js';
 import { githubFactory } from '../../helpers/producers.js';
-import {
-  DataAccessMock,
-  config,
-  createToken,
-} from '../../helpers/TestServer.js';
+import { DataAccessMock, config, createToken } from '../../helpers/TestServer.js';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../../../src/app.module.js';
 import { INestApplication } from '@nestjs/common';
@@ -56,9 +52,7 @@ describe(AuthController.name, () => {
       const token = await createToken(user);
 
       // Act
-      const onGoingRequest = request(app.getHttpServer()).post(
-        '/api/auth/github?code=foo',
-      );
+      const onGoingRequest = request(app.getHttpServer()).post('/api/auth/github?code=foo');
 
       // Assert
       const response = await onGoingRequest.expect(201);

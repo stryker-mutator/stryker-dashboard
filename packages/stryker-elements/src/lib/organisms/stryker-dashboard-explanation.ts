@@ -11,9 +11,7 @@ export class StrykerDashboardExplanation extends BaseElement {
         <div class="flex justify-center space-x-5">
           <div class="flex rounded border border-red-800 bg-red-800/50">
             <p class="bg-red-800 p-1 text-lg">🌐</p>
-            <p class="px-2 py-1 text-base text-white">
-              Your reports available, from anywhere
-            </p>
+            <p class="px-2 py-1 text-base text-white">Your reports available, from anywhere</p>
           </div>
           <div class="flex rounded border border-red-800 bg-red-800/50">
             <p class="bg-red-800 p-1 text-lg">♾️</p>
@@ -21,9 +19,7 @@ export class StrykerDashboardExplanation extends BaseElement {
           </div>
           <div class="flex rounded border border-red-800 bg-red-800/50">
             <p class="bg-red-800 p-1 text-lg">⭐</p>
-            <p class="px-2 py-1 text-base text-white">
-              Showcase your test effectiveness
-            </p>
+            <p class="px-2 py-1 text-base text-white">Showcase your test effectiveness</p>
           </div>
         </div>
       </div>

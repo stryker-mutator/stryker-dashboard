@@ -22,9 +22,7 @@ export interface PlaywrightMatchers<R> {
   toExist: AsyncMatcherFn<typeof toExist, R>;
 }
 
-function assertIsLocator(
-  maybeLocator: unknown,
-): asserts maybeLocator is Locator {
+function assertIsLocator(maybeLocator: unknown): asserts maybeLocator is Locator {
   const isLocator =
     typeof maybeLocator === 'object' &&
     maybeLocator &&

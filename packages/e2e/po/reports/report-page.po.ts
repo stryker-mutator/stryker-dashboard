@@ -2,10 +2,7 @@ import { DashboardPage } from '../shared/dashboard-page.po.js';
 import { MutationTestingReportAppPageObject } from './mutation-testing-report-app.po.js';
 
 export class ReportPage extends DashboardPage {
-  public async navigate(
-    repositorySlug: string,
-    version: string,
-  ): Promise<void> {
+  public async navigate(repositorySlug: string, version: string): Promise<void> {
     await this.page.goto(`/reports/${repositorySlug}/${version}`);
   }
 

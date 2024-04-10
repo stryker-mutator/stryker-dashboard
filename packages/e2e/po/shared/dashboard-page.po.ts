@@ -7,9 +7,7 @@ export abstract class DashboardPage {
   async logOn() {
     const authToken = generateAuthToken();
     await this.page.goto('/');
-    await this.page.evaluate(
-      `window.sessionStorage.setItem('authToken', '${authToken}');`,
-    );
+    await this.page.evaluate(`window.sessionStorage.setItem('authToken', '${authToken}');`);
   }
 
   async logOff() {

@@ -3,10 +3,8 @@
   "compilerOptions": {
     "target": "es2017",
     "noEmit": true,
-    "types": [
-      "node"
-    ],
-    "outDir": "dist",
+    "types": ["node"],
+    "outDir": "dist"
   },
   "references": [
     {

@@ -64,9 +64,7 @@ describe(MutationEventResponseHandler.name, () => {
   });
 
   it('should remove response from set when connection closes', () => {
-    const response = new ServerResponse(
-      new IncomingMessage(new Socket()),
-    ) as Response;
+    const response = new ServerResponse(new IncomingMessage(new Socket())) as Response;
     sut.add(response);
     expect(sut.senders).to.eq(1);
 

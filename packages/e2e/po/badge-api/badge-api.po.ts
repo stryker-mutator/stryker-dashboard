@@ -7,9 +7,7 @@ export class BadgeApiClient {
   }
 
   public async badgeFor(slug: string): Promise<Shield> {
-    return (
-      await fetch(new URL(`/${slug}`, this.baseURL))
-    ).json() as Promise<Shield>;
+    return (await fetch(new URL(`/${slug}`, this.baseURL))).json() as Promise<Shield>;
   }
 }
 

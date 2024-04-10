@@ -6,10 +6,7 @@ import GithubAgent from '../../../src/github/GithubAgent.js';
 import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import {
-  DashboardQuery,
-  Project,
-} from '@stryker-mutator/dashboard-data-access';
+import { DashboardQuery, Project } from '@stryker-mutator/dashboard-data-access';
 import { DataAccessMock } from '../../helpers/TestServer.js';
 import { HttpException } from '@nestjs/common';
 
@@ -84,10 +81,7 @@ describe('GithubRepositoryService.js', () => {
       githubAgentMock.getOrganizationRepositories.resolves(repos);
       dataAccessMock.repositoryMapper.findAll.resolves(projectEntities);
 
-      const actual = await sut.getAllForOrganization(
-        githubFactory.authentication(),
-        'foobarOrg',
-      );
+      const actual = await sut.getAllForOrganization(githubFactory.authentication(), 'foobarOrg');
       expect(actual).deep.eq(expectedRepos);
     });
 
@@ -96,10 +90,7 @@ describe('GithubRepositoryService.js', () => {
       dataAccessMock.repositoryMapper.findAll.resolves([]);
       const user = githubFactory.authentication({ accessToken: '213ASDcs' });
       await sut.getAllForOrganization(user, 'foobarOrg');
-      expect(githubAgentMock.getOrganizationRepositories).calledWith(
-        user,
-        'foobarOrg',
-      );
+      expect(githubAgentMock.getOrganizationRepositories).calledWith(user, 'foobarOrg');
       expect(dataAccessMock.repositoryMapper.findAll).calledWith(
         DashboardQuery.create(Project).wherePartitionKeyEquals({
           owner: 'github.com/foobarOrg',
@@ -108,23 +99,19 @@ describe('GithubRepositoryService.js', () => {
     });
 
     it('should reject if database is unavailable', () => {
-      dataAccessMock.repositoryMapper.findAll.rejects(
-        new Error('database unavailable'),
-      );
+      dataAccessMock.repositoryMapper.findAll.rejects(new Error('database unavailable'));
       githubAgentMock.getOrganizationRepositories.resolves([]);
-      return expect(
-        sut.getAllForOrganization(githubFactory.authentication(), ''),
-      ).rejectedWith('database unavailable');
+      return expect(sut.getAllForOrganization(githubFactory.authentication(), '')).rejectedWith(
+        'database unavailable',
+      );
     });
 
     it('should give internal server error when github is unavailable', () => {
       dataAccessMock.repositoryMapper.findAll.resolves([]);
-      githubAgentMock.getOrganizationRepositories.rejects(
-        new Error('github unavailable'),
+      githubAgentMock.getOrganizationRepositories.rejects(new Error('github unavailable'));
+      return expect(sut.getAllForOrganization(githubFactory.authentication(), '')).rejectedWith(
+        'github unavailable',
       );
-      return expect(
-        sut.getAllForOrganization(githubFactory.authentication(), ''),
-      ).rejectedWith('github unavailable');
     });
   });
 
@@ -151,13 +138,7 @@ describe('GithubRepositoryService.js', () => {
 
     it('should update the repository entity', async () => {
       githubAgentMock.userHasPushAccess.resolves(true);
-      await sut.update(
-        githubFactory.authentication(),
-        'owner',
-        'name',
-        true,
-        'apiKeyHash',
-      );
+      await sut.update(githubFactory.authentication(), 'owner', 'name', true, 'apiKeyHash');
       expect(dataAccessMock.repositoryMapper.insertOrMerge).calledWith({
         apiKeyHash: 'apiKeyHash',
         enabled: true,

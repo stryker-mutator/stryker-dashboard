@@ -9,9 +9,7 @@ describe(constructApiUri.name, () => {
       realTime: undefined,
     });
 
-    expect(uri).to.eq(
-      'http://stryker-website/api/reports/github.com/user/project',
-    );
+    expect(uri).to.eq('http://stryker-website/api/reports/github.com/user/project');
   });
 
   it('should also ignore null values', () => {
@@ -20,9 +18,7 @@ describe(constructApiUri.name, () => {
       realTime: null as unknown as undefined,
     });
 
-    expect(uri).to.eq(
-      'http://stryker-website/api/reports/github.com/user/project',
-    );
+    expect(uri).to.eq('http://stryker-website/api/reports/github.com/user/project');
   });
 
   it('should return the API uri with the module as query param', () => {
@@ -42,9 +38,7 @@ describe(constructApiUri.name, () => {
       realTime: 'true',
     });
 
-    expect(uri).to.eq(
-      'http://stryker-website/api/reports/github.com/user/project?realTime=true',
-    );
+    expect(uri).to.eq('http://stryker-website/api/reports/github.com/user/project?realTime=true');
   });
 
   it('should return the API uri with both the module and realTime query param', () => {

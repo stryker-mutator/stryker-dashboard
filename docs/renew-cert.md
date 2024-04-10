@@ -7,12 +7,12 @@ As of the moment of writing this we have 4 tls enabled websites.
 1. badge.stryker-mutator.io
 1. badge-api.stryker-mutator.io
 
-All 4 are protected using [let's encrypt](https://letsencrypt.org/). 
+All 4 are protected using [let's encrypt](https://letsencrypt.org/).
 The root domain (stryker-mutator.io) is automatically renewed. Others are hosted on azure and need our attention from time to time.
 
 ## One time setup
 
-*Note: these instructions only work on linux or mac. For windows users, you can use the [Windows subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
+\*Note: these instructions only work on linux or mac. For windows users, you can use the [Windows subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 
 Install the `certbot`(https://certbot.eff.org/).
 Install the `certbot-cloudflare-plugin` (https://certbot-dns-cloudflare.readthedocs.io/en/stable/ and https://www.eigenmagic.com/2018/03/14/howto-use-certbot-with-lets-encrypt-wildcard-certificates/)
@@ -28,7 +28,7 @@ dns_cloudflare_api_key = 0123456789abcdef0123456789abcdef01234567
 
 ## Renew
 
-Login to azure: 
+Login to azure:
 
 ```
 az login --tenant fcd9bd9d-b04d-4d4f-993d-b6a6ec4a3b57

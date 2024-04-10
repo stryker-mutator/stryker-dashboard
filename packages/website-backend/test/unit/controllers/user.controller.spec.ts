@@ -9,11 +9,7 @@ import { AppModule } from '../../../src/app.module.js';
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { contractFactory, githubFactory } from '../../helpers/producers.js';
-import {
-  DataAccessMock,
-  config,
-  createAuthorizationHeader,
-} from '../../helpers/TestServer.js';
+import { DataAccessMock, config, createAuthorizationHeader } from '../../helpers/TestServer.js';
 import Configuration from '../../../src/services/Configuration.js';
 import UserController from '../../../src/controllers/user.controller.js';
 import DataAccess from '../../../src/services/DataAccess.js';
@@ -26,15 +22,9 @@ describe(UserController.name, () => {
   let auth: Authentication;
   let authToken: string;
 
-  let getCurrentUserStub: sinon.SinonStubbedMember<
-    GithubAgent['getCurrentUser']
-  >;
-  let getAllForUserStub: sinon.SinonStubbedMember<
-    GithubRepositoryService['getAllForUser']
-  >;
-  let getMyOrganizationsStub: sinon.SinonStubbedMember<
-    GithubAgent['getMyOrganizations']
-  >;
+  let getCurrentUserStub: sinon.SinonStubbedMember<GithubAgent['getCurrentUser']>;
+  let getAllForUserStub: sinon.SinonStubbedMember<GithubRepositoryService['getAllForUser']>;
+  let getMyOrganizationsStub: sinon.SinonStubbedMember<GithubAgent['getMyOrganizations']>;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -50,9 +40,7 @@ describe(UserController.name, () => {
     app.setGlobalPrefix('/api');
 
     const githubAgent = app.get<GithubAgent>(GithubAgent);
-    const githubRepositoryService = app.get<GithubRepositoryService>(
-      GithubRepositoryService,
-    );
+    const githubRepositoryService = app.get<GithubRepositoryService>(GithubRepositoryService);
 
     getCurrentUserStub = sinon.stub(githubAgent, 'getCurrentUser');
     getAllForUserStub = sinon.stub(githubRepositoryService, 'getAllForUser');

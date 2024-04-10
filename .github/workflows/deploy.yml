@@ -12,52 +12,52 @@ jobs:
       contents: read
       id-token: write # to enable use of OIDC for npm provenance
     steps:
-    - uses: actions/checkout@v4
-    - name: Set NPM Env
-      run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-    - uses: actions/setup-node@v4
-      with:
-        node-version-file: '.nvmrc'
-        cache: 'npm'
-    - name: Install dependencies
-      run: npm ci
-    - name: Build
-      run: npm run build
-    - name: Lerna publish
-      run: npx lerna publish from-git --yes --no-verify-access
-      env:
-        NPM_CONFIG_PROVENANCE: true
+      - uses: actions/checkout@v4
+      - name: Set NPM Env
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Lerna publish
+        run: npx lerna publish from-git --yes --no-verify-access
+        env:
+          NPM_CONFIG_PROVENANCE: true
 
-    # Add a sleep to give npmjs.com the time to get the versions consistent 
-    - run: sleep 15s
-    - name: Log in to the Container registry
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+      # Add a sleep to give npmjs.com the time to get the versions consistent
+      - run: sleep 15s
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    - name: Extract metadata (tags, labels) for Docker
-      id: meta
-      uses: docker/metadata-action@v5
-      with:
-        images: strykermutator/dashboard
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: strykermutator/dashboard
 
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v5
-      id: build
-      with:
-        context: ./docker
-        push: true
-        build-args: 'version=${{ steps.meta.outputs.version }}'
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
-        annotations: ${{ steps.meta.outputs.annotations }}
-        platforms: linux/amd64,linux/arm64/v8
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        id: build
+        with:
+          context: ./docker
+          push: true
+          build-args: 'version=${{ steps.meta.outputs.version }}'
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          annotations: ${{ steps.meta.outputs.annotations }}
+          platforms: linux/amd64,linux/arm64/v8
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   deploy-dashboard:
     name: 'Deploy Dashboard'
@@ -66,18 +66,18 @@ jobs:
     environment: Production
     concurrency: Production Dashboard
     steps:
-    - uses: actions/checkout@v4
-    - name: 'Login via Azure CLI'
-      uses: Azure/login@v2
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_DASHBOARD_PRODUCTION }}
-    - name: 'Deploy dashboard.stryker-mutator.io'
-      uses: azure/webapps-deploy@v3
-      with:
-        app-name: 'stryker-badge'
-        images: 'strykermutator/dashboard:latest'
-    - name: 'Verify deployment'
-      run: node tasks/check-version dashboard https://dashboard.stryker-mutator.io/api/version ${GITHUB_REF:11}
+      - uses: actions/checkout@v4
+      - name: 'Login via Azure CLI'
+        uses: Azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS_DASHBOARD_PRODUCTION }}
+      - name: 'Deploy dashboard.stryker-mutator.io'
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'stryker-badge'
+          images: 'strykermutator/dashboard:latest'
+      - name: 'Verify deployment'
+        run: node tasks/check-version dashboard https://dashboard.stryker-mutator.io/api/version ${GITHUB_REF:11}
 
   deploy-badge-api:
     name: 'Deploy badge-api.stryker-mutator.io'
@@ -86,19 +86,19 @@ jobs:
     environment: Production
     concurrency: Production Badge Api
     steps:
-    - name: 'Checkout Github Action'
-      uses: actions/checkout@v4
-    - name: 'Login via Azure CLI'
-      uses: Azure/login@v2
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_PRODUCTION }}
-    - name: 'Download & prepare badge-api package'
-      run: ./tasks/download-badge-api-package.sh ${GITHUB_REF:11}
-    - name: 'Deploy badge-api.stryker-mutator.io'
-      uses: Azure/functions-action@v1.5.1
-      id: fa
-      with:
-        app-name: stryker-mutator-badge-api
-        package: 'package'
-    - name: 'Verify deployment'
-      run: node tasks/check-version badge-api https://badge-api.stryker-mutator.io/api/ ${GITHUB_REF:11}
+      - name: 'Checkout Github Action'
+        uses: actions/checkout@v4
+      - name: 'Login via Azure CLI'
+        uses: Azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS_PRODUCTION }}
+      - name: 'Download & prepare badge-api package'
+        run: ./tasks/download-badge-api-package.sh ${GITHUB_REF:11}
+      - name: 'Deploy badge-api.stryker-mutator.io'
+        uses: Azure/functions-action@v1.5.1
+        id: fa
+        with:
+          app-name: stryker-mutator-badge-api
+          package: 'package'
+      - name: 'Verify deployment'
+        run: node tasks/check-version badge-api https://badge-api.stryker-mutator.io/api/ ${GITHUB_REF:11}

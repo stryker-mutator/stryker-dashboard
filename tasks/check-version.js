@@ -79,14 +79,9 @@ function verifyDashboardVersion(resp) {
           dashboard: expectedVersion,
           frontend: expectedVersion,
         };
-        if (
-          actual.dashboard !== expected.dashboard ||
-          actual.frontend !== expected.frontend
-        ) {
+        if (actual.dashboard !== expected.dashboard || actual.frontend !== expected.frontend) {
           throw new Error(
-            `Expected ${JSON.stringify(actual)} to equal ${JSON.stringify(
-              expected,
-            )}`,
+            `Expected ${JSON.stringify(actual)} to equal ${JSON.stringify(expected)}`,
           );
         }
         res();

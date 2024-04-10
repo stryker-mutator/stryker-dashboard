@@ -1,11 +1,11 @@
 {
-    "files": [],
-    "references": [
-      {
-        "path": "src"
-      },
-      {
-        "path": "test"
-      }
-    ]
+  "files": [],
+  "references": [
+    {
+      "path": "src"
+    },
+    {
+      "path": "test"
+    }
+  ]
 }

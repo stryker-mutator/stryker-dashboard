@@ -22,9 +22,7 @@ export class MutationTestingReport implements ReportIdentifier {
   public realTime?: boolean;
   public mutationScore: number;
 
-  public static createRowKey(
-    identifier: Pick<MutationTestingReport, 'moduleName'>,
-  ) {
+  public static createRowKey(identifier: Pick<MutationTestingReport, 'moduleName'>) {
     return identifier.moduleName;
   }
 

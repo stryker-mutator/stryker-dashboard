@@ -3,8 +3,7 @@ import * as dal from '@stryker-mutator/dashboard-data-access';
 import * as contract from '@stryker-mutator/dashboard-contract';
 
 function factoryMethod<T>(defaultsFactory: () => T) {
-  return (overrides?: Partial<T>) =>
-    Object.assign({}, defaultsFactory(), overrides);
+  return (overrides?: Partial<T>) => Object.assign({}, defaultsFactory(), overrides);
 }
 
 const githubLogin = factoryMethod<github.Login>(() => ({

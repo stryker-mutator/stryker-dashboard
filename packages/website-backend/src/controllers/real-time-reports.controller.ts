@@ -73,9 +73,7 @@ export default class RealTimeReportsController {
     };
     const report = await this.#reportService.findOne(id);
     if (report === null) {
-      throw new NotFoundException(
-        `Version "${version}" does not exist for "${project}".`,
-      );
+      throw new NotFoundException(`Version "${version}" does not exist for "${project}".`);
     }
 
     const data = await this.#blobService.getReport(id);

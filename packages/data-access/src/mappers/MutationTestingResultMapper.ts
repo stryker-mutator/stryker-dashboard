@@ -15,9 +15,7 @@ const additionalErrorCodes = Object.freeze({
 export class MutationTestingResultMapper {
   private static readonly CONTAINER_NAME = 'mutation-testing-report';
 
-  constructor(
-    private readonly blobService: BlobServiceAsPromised = new BlobServiceAsPromised(),
-  ) {}
+  constructor(private readonly blobService: BlobServiceAsPromised = new BlobServiceAsPromised()) {}
 
   public createStorageIfNotExists(): Promise<BlobService.ContainerResult> {
     return this.blobService.createContainerIfNotExists(
@@ -26,10 +24,7 @@ export class MutationTestingResultMapper {
     );
   }
 
-  public async insertOrReplace(
-    id: ReportIdentifier,
-    result: schema.MutationTestResult | null,
-  ) {
+  public async insertOrReplace(id: ReportIdentifier, result: schema.MutationTestResult | null) {
     try {
       await this.blobService.createBlockBlobFromText(
         MutationTestingResultMapper.CONTAINER_NAME,
@@ -43,10 +38,7 @@ export class MutationTestingResultMapper {
         },
       );
     } catch (err) {
-      if (
-        isStorageError(err) &&
-        err.code === additionalErrorCodes.BLOB_HAS_BEEN_MODIFIED
-      ) {
+      if (isStorageError(err) && err.code === additionalErrorCodes.BLOB_HAS_BEEN_MODIFIED) {
         throw new OptimisticConcurrencyError(
           `Blob "${JSON.stringify(id)}" was modified by another process`,
         );
@@ -56,23 +48,15 @@ export class MutationTestingResultMapper {
     }
   }
 
-  public async findOne(
-    identifier: ReportIdentifier,
-  ): Promise<schema.MutationTestResult | null> {
+  public async findOne(identifier: ReportIdentifier): Promise<schema.MutationTestResult | null> {
     const blobName = toBlobName(identifier);
     try {
       const result: schema.MutationTestResult = JSON.parse(
-        await this.blobService.blobToText(
-          MutationTestingResultMapper.CONTAINER_NAME,
-          blobName,
-        ),
+        await this.blobService.blobToText(MutationTestingResultMapper.CONTAINER_NAME, blobName),
       );
       return result;
     } catch (error) {
-      if (
-        isStorageError(error) &&
-        error.code === Constants.BlobErrorCodeStrings.BLOB_NOT_FOUND
-      ) {
+      if (isStorageError(error) && error.code === Constants.BlobErrorCodeStrings.BLOB_NOT_FOUND) {
         return null;
       } else {
         // Oops
@@ -83,9 +67,6 @@ export class MutationTestingResultMapper {
 
   public async delete(id: ReportIdentifier): Promise<void> {
     const blobName = toBlobName(id);
-    await this.blobService.deleteBlobIfExists(
-      MutationTestingResultMapper.CONTAINER_NAME,
-      blobName,
-    );
+    await this.blobService.deleteBlobIfExists(MutationTestingResultMapper.CONTAINER_NAME, blobName);
   }
 }

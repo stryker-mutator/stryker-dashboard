@@ -8,9 +8,7 @@
       "name": "🐱‍👤 Attach to server",
       "port": 9229,
       "request": "attach",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "restart": true,
       "type": "pwa-node"
     },
@@ -19,17 +17,12 @@
       "request": "launch",
       "name": "Debug Nest Framework",
       "runtimeExecutable": "npm",
-      "runtimeArgs": [
-        "run",
-        "start:nest",
-        "--",
-        "--inspect-brk"
-      ],
+      "runtimeArgs": ["run", "start:nest", "--", "--inspect-brk"],
       "autoAttachChildProcesses": true,
       "restart": true,
       "sourceMaps": true,
       "stopOnEntry": false,
-      "console": "integratedTerminal",
+      "console": "integratedTerminal"
     },
     {
       "type": "node",
@@ -46,9 +39,7 @@
       "env": {
         "AZURE_STORAGE_CONNECTION_STRING": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;;"
       },
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "internalConsoleOptions": "openOnSessionStart"
     }
   ]

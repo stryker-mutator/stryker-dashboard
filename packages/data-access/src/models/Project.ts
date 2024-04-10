@@ -13,11 +13,7 @@ export class Project {
     return identifier.owner;
   }
 
-  public static identify(
-    entity: Partial<Project>,
-    partitionKeyValue: string,
-    rowKeyValue: string,
-  ) {
+  public static identify(entity: Partial<Project>, partitionKeyValue: string, rowKeyValue: string) {
     entity.name = rowKeyValue;
     entity.owner = partitionKeyValue;
   }

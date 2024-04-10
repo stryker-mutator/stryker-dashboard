@@ -13,11 +13,7 @@ export class DashboardQuery<
   TRowKeyFields extends keyof TModel,
 > {
   private constructor(
-    protected ModelClass: ModelClass<
-      TModel,
-      TPartitionKeyFields,
-      TRowKeyFields
-    >,
+    protected ModelClass: ModelClass<TModel, TPartitionKeyFields, TRowKeyFields>,
     private readonly whereConditions: WhereCondition[],
   ) {}
 
@@ -28,10 +24,7 @@ export class DashboardQuery<
       condition: 'not(RowKey eq ?)',
       params: [encodeKey(this.ModelClass.createRowKey(rowKey) || '')],
     };
-    return new DashboardQuery(this.ModelClass, [
-      ...this.whereConditions,
-      whereCondition,
-    ]);
+    return new DashboardQuery(this.ModelClass, [...this.whereConditions, whereCondition]);
   }
 
   public wherePartitionKeyEquals(
@@ -41,10 +34,7 @@ export class DashboardQuery<
       condition: 'PartitionKey eq ?',
       params: [encodeKey(this.ModelClass.createPartitionKey(partitionKey))],
     };
-    return new DashboardQuery(this.ModelClass, [
-      ...this.whereConditions,
-      whereCondition,
-    ]);
+    return new DashboardQuery(this.ModelClass, [...this.whereConditions, whereCondition]);
   }
 
   public static create<
@@ -60,10 +50,7 @@ export class DashboardQuery<
   public build(): TableQuery {
     return this.whereConditions.reduce((tableQuery, whereCondition, index) => {
       if (index === 0) {
-        return tableQuery.where(
-          whereCondition.condition,
-          ...whereCondition.params,
-        );
+        return tableQuery.where(whereCondition.condition, ...whereCondition.params);
       } else {
         return tableQuery.and(whereCondition.condition, whereCondition.params);
       }

@@ -36,10 +36,7 @@ describe(MutationEventSender.name, () => {
 
     sinon.assert.calledTwice(responseMock.write);
     sinon.assert.calledWith(responseMock.write, 'event: mutant-tested\n');
-    sinon.assert.calledWith(
-      responseMock.write,
-      'data: {"id":"1","status":"Pending"}\n\n',
-    );
+    sinon.assert.calledWith(responseMock.write, 'data: {"id":"1","status":"Pending"}\n\n');
   });
 
   it('should write correctly when sending a finished event', () => {

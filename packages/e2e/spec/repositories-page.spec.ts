@@ -91,9 +91,7 @@ test.describe.serial('Repositories page', () => {
     });
 
     test('should show the api key', async () => {
-      await expect(page.modalDialog.apiKeyGenerator.apiKey).toHaveText(
-        API_KEY_REGEX,
-      );
+      await expect(page.modalDialog.apiKeyGenerator.apiKey).toHaveText(API_KEY_REGEX);
     });
 
     test('should show an explanation "About your key"', async () => {
@@ -124,9 +122,7 @@ test.describe.serial('Repositories page', () => {
         'src',
         createContainsRegExp(encodeURIComponent(repository.slug)),
       );
-      await expect(
-        repositoryPageObject.mutationScoreBadge.link,
-      ).toHaveAttribute(
+      await expect(repositoryPageObject.mutationScoreBadge.link).toHaveAttribute(
         'href',
         createContainsRegExp(`reports/${repository.slug}`),
       );
@@ -137,16 +133,12 @@ test.describe.serial('Repositories page', () => {
         await repositoryPageObject.display();
       });
       test('should hide the API key', async () => {
-        await expect(page.modalDialog.apiKeyGenerator.apiKey).toContainText(
-          '•••••••••••••••••••',
-        );
+        await expect(page.modalDialog.apiKeyGenerator.apiKey).toContainText('•••••••••••••••••••');
       });
 
       test('should generate a new api key if "Generate new" is clicked', async () => {
         await page.modalDialog.apiKeyGenerator.generateNew();
-        await expect(page.modalDialog.apiKeyGenerator.apiKey).toHaveText(
-          API_KEY_REGEX,
-        );
+        await expect(page.modalDialog.apiKeyGenerator.apiKey).toHaveText(API_KEY_REGEX);
       });
     });
   });

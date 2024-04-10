@@ -1,68 +1,61 @@
 {
   "folders": [
     {
-      "path": "packages/common"
+      "path": "packages/common",
     },
     {
-      "path": "packages/data-access"
+      "path": "packages/data-access",
     },
     {
-      "path": "packages/badge-api"
+      "path": "packages/badge-api",
     },
     {
-      "path": "packages/website-backend"
+      "path": "packages/website-backend",
     },
     {
-      "path": "packages/website-frontend"
+      "path": "packages/website-frontend",
     },
     {
-      "path": "packages/website-contract"
+      "path": "packages/website-contract",
     },
     {
-      "path": "packages/e2e"
+      "path": "packages/e2e",
     },
     {
-      "path": "packages/stryker-elements"
+      "path": "packages/stryker-elements",
     },
     {
       "path": ".",
-      "name": "root"
-    }
+      "name": "root",
+    },
   ],
   "extensions": {
     "recommendations": [
       "angular.ng-template",
       // https://marketplace.visualstudio.com/items?itemName=Azurite.azurite
-      "Azurite.azurite"
-    ]
+      "Azurite.azurite",
+    ],
   },
   "settings": {
     "eslint.rules.customizations": [
       {
         "rule": "*",
-        "severity": "warn"
-      }
+        "severity": "warn",
+      },
     ],
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit"
+      "source.fixAll.eslint": "explicit",
     },
     "search.exclude": {
       "**/node_modules": true,
       "**/bower_components": true,
       "**/*.code-search": true,
-      "**/dist": true
+      "**/dist": true,
     },
     "typescript.tsdk": "stryker-dashboard\\node_modules\\typescript\\lib",
-    "cSpell.words": [
-      "Clazz",
-      "clippy",
-      "etag",
-      "fdescribe",
-      "gitlab",
-      "Testabilities"
-    ],
+    "cSpell.words": ["Clazz", "clippy", "etag", "fdescribe", "gitlab", "Testabilities"],
     "task.autoDetect": "off",
     "azurite.location": "root/.azurite",
-    "azureFunctions.showExtensionsCsprojWarning": false
-  }
+    "azureFunctions.showExtensionsCsprojWarning": false,
+  },
 }

@@ -41,10 +41,7 @@ export class GettingStartedOverview extends BaseElement {
           <a class="text-red-600 underline" href="/api/auth/github">sign in</a>
           through GitHub.
         </p>
-        <p>
-          After signing in, you should see a list of all your public
-          repositories.
-        </p>
+        <p>After signing in, you should see a list of all your public repositories.</p>
       `,
     },
     {
@@ -55,8 +52,8 @@ export class GettingStartedOverview extends BaseElement {
           <i>Stryker Dashboard</i>.
         </p>
         <p>
-          A token is shown that will be used to upload your report later. Don't
-          worry if you lose it though, you can always regenerate it.
+          A token is shown that will be used to upload your report later. Don't worry if you lose it
+          though, you can always regenerate it.
         </p>
       `,
     },
@@ -73,9 +70,8 @@ export class GettingStartedOverview extends BaseElement {
           steps to be able to upload to <i>Stryker Dashboard</i>.
         </p>
         <p>
-          Not using Stryker? No problem! Instead, use your favourite supported
-          mutation testing framework to generate a report and to automatically
-          upload it to <i>Stryker Dashboard</i>.
+          Not using Stryker? No problem! Instead, use your favourite supported mutation testing
+          framework to generate a report and to automatically upload it to <i>Stryker Dashboard</i>.
         </p>
       `,
     },
@@ -87,35 +83,20 @@ export class GettingStartedOverview extends BaseElement {
         Getting started with Stryker dashboard
       </h2>
       <div class="grid-template grid">
-        <sme-getting-started-step
-          class="col-span-2 self-center"
-          title="${this.steps[0].title}"
-        >
+        <sme-getting-started-step class="col-span-2 self-center" title="${this.steps[0].title}">
           ${this.steps[0].description}
         </sme-getting-started-step>
-        <div class="trail-one col-span-3 self-center">
-          ${unsafeSVG(TrailOne)}
-        </div>
+        <div class="trail-one col-span-3 self-center">${unsafeSVG(TrailOne)}</div>
 
-        <div class="trail-two col-span-3 place-self-end self-center">
-          ${unsafeSVG(TrailTwo)}
-        </div>
-        <sme-getting-started-step
-          class="col-span-2 self-center"
-          title="${this.steps[1].title}"
-        >
+        <div class="trail-two col-span-3 place-self-end self-center">${unsafeSVG(TrailTwo)}</div>
+        <sme-getting-started-step class="col-span-2 self-center" title="${this.steps[1].title}">
           ${this.steps[1].description}
         </sme-getting-started-step>
 
-        <sme-getting-started-step
-          class="col-span-2"
-          title="${this.steps[2].title}"
-        >
+        <sme-getting-started-step class="col-span-2" title="${this.steps[2].title}">
           ${this.steps[2].description}
         </sme-getting-started-step>
-        <div class="trail-three col-span-3 self-center">
-          ${unsafeSVG(TrailThree)}
-        </div>
+        <div class="trail-three col-span-3 self-center">${unsafeSVG(TrailThree)}</div>
       </div>
       <h2 class="mb-3 text-xl font-bold text-white">🔍 View your results</h2>
       <sme-repository name="your-repository"></sme-repository>
