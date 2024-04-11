@@ -1,4 +1,4 @@
-FROM node:20.12.1-alpine as base
+FROM node:20.12.2-alpine as base
 ENV NODE_ENV production
 USER node
 
