@@ -12,7 +12,7 @@
   ],
   "devDependencies": {
     "@actions/core": "1.10.1",
-    "@eslint/js": "9.1.1",
+    "@eslint/js": "9.2.0",
     "@stryker-mutator/core": "8.2.6",
     "@stryker-mutator/mocha-runner": "8.2.6",
     "@types/chai": "4.3.15",
