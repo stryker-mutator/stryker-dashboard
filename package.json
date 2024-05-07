@@ -31,7 +31,7 @@
     "prettier": "3.2.5",
     "prettier-plugin-tailwindcss": "0.5.14",
     "rimraf": "5.0.5",
-    "sinon": "17.0.1",
+    "sinon": "17.0.2",
     "sinon-chai": "3.7.0",
     "typescript": "5.3.3",
     "typescript-eslint": "7.8.0"
