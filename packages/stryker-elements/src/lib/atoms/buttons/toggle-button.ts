@@ -24,8 +24,6 @@ export class ToggleButton extends BaseElement {
 
   #onChange() {
     this.checked = !this.checked;
-    this.dispatchEvent(
-      new CustomEvent('stateChanged', { detail: { checked: this.checked } }),
-    );
+    this.dispatchEvent(new CustomEvent('stateChanged', { detail: { checked: this.checked } }));
   }
 }

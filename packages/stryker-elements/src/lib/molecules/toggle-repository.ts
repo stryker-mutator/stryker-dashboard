@@ -54,9 +54,7 @@ export class ToggleRepository extends BaseElement {
   #renderApiKey() {
     return html` <div class="align-content-center flex">
       <p class="ms-auto font-bold">
-        ${this.apiKey}<span
-          class="ms-2 cursor-pointer"
-          @click="${this.#copyApiKeyToClipboard}"
+        ${this.apiKey}<span class="ms-2 cursor-pointer" @click="${this.#copyApiKeyToClipboard}"
           >📋</span
         >
       </p>
@@ -66,9 +64,15 @@ export class ToggleRepository extends BaseElement {
   #copyApiKeyToClipboard() {
     window.navigator.clipboard.writeText(this.apiKey!);
     this.hasCopied = true;
+    this.apiKey = '';
   }
 
   #toggleRepository(event: CustomEvent) {
+    if (event.detail.checked) {
+      this.apiKey = '';
+      this.hasCopied = false;
+    }
+
     this.loading = true;
     this.dispatchEvent(
       new CustomEvent('repositoryToggled', {

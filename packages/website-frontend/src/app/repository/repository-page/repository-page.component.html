@@ -1,7 +1,7 @@
 <sme-spatious-layout>
   <div class="d-flex">
     <sme-dropdown id="github-organizations" [options]="organizations" (dropdownChanged)="changeOrganization($any($event))"></sme-dropdown>
-    <sme-button class="ms-auto" (click)="openModal()">Toggle repositories</sme-button>
+    <sme-button id="toggle-repositories" class="ms-auto" (click)="openModal()">Toggle repositories</sme-button>
   </div>
   <sme-hr/>
   <stryker-loading class="row" [showContent]="repositories">

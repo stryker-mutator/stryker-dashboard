@@ -18,8 +18,7 @@ export class Dropdown extends BaseElement {
     >
       ${map(
         this.options,
-        (option) =>
-          html`<option value="${option.value}">${option.name}</option>`,
+        (option) => html`<option value="${option.value}">${option.name}</option>`,
       )}
     </select>`;
   }

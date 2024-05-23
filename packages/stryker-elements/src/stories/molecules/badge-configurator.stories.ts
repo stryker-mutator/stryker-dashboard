@@ -9,7 +9,5 @@ export default {
 } as Meta;
 
 export const Default: StoryObj = {
-  render: () => html`
-    <sme-badge-configurator/>
-  `,
+  render: () => html` <sme-badge-configurator /> `,
 };

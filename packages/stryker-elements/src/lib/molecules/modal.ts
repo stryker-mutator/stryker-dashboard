@@ -26,9 +26,7 @@ export class Modal extends BaseElement {
     }
 
     return html`
-      <div
-        class="fixed top-0 z-30 flex h-full w-full items-center justify-center bg-black/50 p-2"
-      >
+      <div class="fixed top-0 z-30 flex h-full w-full items-center justify-center bg-black/50 p-2">
         <div
           class="flex h-full max-h-[48rem] w-[36rem] flex-col rounded bg-neutral-800 p-6 lg:w-[48rem]"
         >
@@ -38,9 +36,7 @@ export class Modal extends BaseElement {
             <slot></slot>
           </div>
           <div class="mt-auto flex pt-6">
-            <sme-button class="ms-auto" @click="${() => (this.isOpen = false)}"
-              >Close</sme-button
-            >
+            <sme-button class="ms-auto" @click="${() => (this.isOpen = false)}">Close</sme-button>
           </div>
         </div>
       </div>
