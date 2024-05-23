@@ -15,9 +15,7 @@ describe(MutationEventResponseOrchestrator.name, () => {
       moduleName: 'logger',
       realTime: true,
     };
-    orchestrator = new MutationEventResponseOrchestrator(
-      new ConfigurationStub(),
-    );
+    orchestrator = new MutationEventResponseOrchestrator(new ConfigurationStub());
   });
 
   it('should have no handlers on initialization', () => {

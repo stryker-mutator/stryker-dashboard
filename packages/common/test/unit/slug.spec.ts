@@ -4,9 +4,7 @@ import { Slug, InvalidSlugError } from '../../src/slug.js';
 describe(Slug.name, () => {
   describe('parse', () => {
     it('should parse project name and version correctly', () => {
-      expect(Slug.parse('a/b/c/dds%20ds')).deep.eq(
-        new Slug('a/b/c', 'dds%20ds'),
-      );
+      expect(Slug.parse('a/b/c/dds%20ds')).deep.eq(new Slug('a/b/c', 'dds%20ds'));
     });
 
     it('should remove trailing and leading slashes', () => {
@@ -14,9 +12,7 @@ describe(Slug.name, () => {
     });
 
     it('should allow a version with slashes', () => {
-      expect(
-        Slug.parse('github.com/stryker-mutator/stryker/feat/support/slashes'),
-      ).deep.eq(
+      expect(Slug.parse('github.com/stryker-mutator/stryker/feat/support/slashes')).deep.eq(
         new Slug('github.com/stryker-mutator/stryker', 'feat/support/slashes'),
       );
     });

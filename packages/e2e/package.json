@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "e2e",
-  "version": "0.14.2",
+  "version": "0.14.3",
   "type": "module",
   "description": "The end to end tests for the Stryker Dashboard",
   "main": "index.js",
@@ -14,15 +14,15 @@
   "keywords": [],
   "author": "Nico Jansen",
   "devDependencies": {
-    "@playwright/test": "1.42.1",
-    "@stryker-mutator/dashboard-common": "0.14.2",
-    "@stryker-mutator/dashboard-contract": "0.14.2",
+    "@playwright/test": "1.44.0",
+    "@stryker-mutator/dashboard-common": "0.14.3",
+    "@stryker-mutator/dashboard-contract": "0.14.3",
     "@types/jsonwebtoken": "9.0.6"
   },
   "dependencies": {
     "azure-storage": "2.10.7",
     "jsonwebtoken": "9.0.2",
-    "mutation-testing-report-schema": "3.0.2"
+    "mutation-testing-report-schema": "3.1.0"
   },
   "repository": {
     "type": "git",

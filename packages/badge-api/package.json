@@ -2,7 +2,7 @@
   "name": "@stryker-mutator/dashboard-badge-api",
   "description": "The stryker dashboard badge-api serverless app",
   "type": "module",
-  "version": "0.14.2",
+  "version": "0.14.3",
   "main": "badge/start.mjs",
   "publishConfig": {
     "access": "public"
@@ -20,12 +20,12 @@
     "stryker": "stryker run"
   },
   "dependencies": {
-    "@azure/functions": "4.3.0",
-    "@stryker-mutator/dashboard-common": "0.14.2",
-    "@stryker-mutator/dashboard-data-access": "0.14.2",
+    "@azure/functions": "4.5.0",
+    "@stryker-mutator/dashboard-common": "0.14.3",
+    "@stryker-mutator/dashboard-data-access": "0.14.3",
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
-    "azure-functions-core-tools": "4.0.5611"
+    "azure-functions-core-tools": "4.0.5801"
   }
 }

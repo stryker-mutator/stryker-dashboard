@@ -1,8 +1,4 @@
-import {
-  createProjectMapper,
-  Project,
-  DashboardQuery,
-} from '../../src/index.js';
+import { createProjectMapper, Project, DashboardQuery } from '../../src/index.js';
 import azure, { TableService } from 'azure-storage';
 import { promisify } from 'util';
 import { expect } from 'chai';
@@ -22,20 +18,17 @@ describe('Data access layer', () => {
     let sut: Mapper<Project, 'owner', 'name'>;
     beforeEach(async () => {
       sut = createProjectMapper();
-      await promisify(tableService.deleteTableIfExists).apply(tableService, [
-        'Project',
-      ]);
+      await promisify(tableService.deleteTableIfExists).apply(tableService, ['Project']);
       await sut.createStorageIfNotExists();
     });
 
     it('should create the Project table', async () => {
-      await promisify(tableService.deleteTableIfExists).apply(tableService, [
-        'Project',
-      ]);
+      await promisify(tableService.deleteTableIfExists).apply(tableService, ['Project']);
       await sut.createStorageIfNotExists();
-      const result: TableService.TableResult = await promisify(
-        tableService.doesTableExist,
-      ).apply(tableService, ['Project']);
+      const result: TableService.TableResult = await promisify(tableService.doesTableExist).apply(
+        tableService,
+        ['Project'],
+      );
       expect(result.exists).eq(true);
     });
 
@@ -47,10 +40,11 @@ describe('Data access layer', () => {
         enabled: true,
         apiKeyHash: 'someApiHash',
       });
-      const actual = await promisify(tableService.retrieveEntity).apply(
-        tableService,
-        ['Project', key.PartitionKey, key.RowKey],
-      );
+      const actual = await promisify(tableService.retrieveEntity).apply(tableService, [
+        'Project',
+        key.PartitionKey,
+        key.RowKey,
+      ]);
       expect(actual).deep.include({
         PartitionKey: { $: 'Edm.String', _: 'partKey' },
         RowKey: { $: 'Edm.String', _: 'rowKey' },

@@ -1,9 +1,4 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import Configuration from './services/Configuration.js';
 import {
   GithubSecurityMiddleware,
@@ -67,8 +62,6 @@ export class AppModule implements NestModule {
       .apply(passportAuthenticateGithub)
       .forRoutes({ path: 'auth/github', method: RequestMethod.POST });
 
-    consumer
-      .apply(GithubSecurityMiddleware)
-      .forRoutes('organizations', 'repositories', 'user');
+    consumer.apply(GithubSecurityMiddleware).forRoutes('organizations', 'repositories', 'user');
   }
 }

@@ -1,7 +1,7 @@
 name: Mutation testing
 
 on:
-  push: 
+  push:
     branches: [master]
   workflow_dispatch:
 
@@ -9,29 +9,29 @@ jobs:
   website-frontend:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version-file: '.nvmrc'
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build
-    - name: Mutation testing
-      run: npx nx run @stryker-mutator/dashboard-frontend:stryker
-      env:
-        STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - name: Mutation testing
+        run: npx nx run @stryker-mutator/dashboard-frontend:stryker
+        env:
+          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
-  non-frontend: 
+  non-frontend:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version-file: '.nvmrc'
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build
-    - name: Mutation testing
-      run: npx nx run-many --parallel 1 --exclude @stryker-mutator/dashboard-frontend -t stryker
-      env:
-        STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - name: Mutation testing
+        run: npx nx run-many --parallel 1 --exclude @stryker-mutator/dashboard-frontend -t stryker
+        env:
+          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}

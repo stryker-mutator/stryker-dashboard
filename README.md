@@ -49,7 +49,7 @@ Next, you need to define the following environment variables in a Docker [enviro
 
 ### Start the application
 
-To start the application, you can now simply run `docker run --env-file env.list -p 1337:1337 strykermutator/dashboard`. This will spin-up a Docker container with the image that was build earlier; provide it with your environment variables set in the `env-list` file; and open port 1337 so you can access it on your local machine.
+To start the application, you can now simply run `docker run --env-file env.list -p 1337:1337 ghcr.io/stryker-mutator/dashboard`. This will spin-up a Docker container with the image that was build earlier; provide it with your environment variables set in the `env-list` file; and open port 1337 so you can access it on your local machine.
 
 Stryker Dashboard should now be available at [http://localhost:1337](http://localhost:1337).
 

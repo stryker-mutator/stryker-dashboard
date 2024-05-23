@@ -19,9 +19,7 @@ describe(TableServiceAsPromised.name, () => {
       await result;
       expect(result).instanceof(Promise);
       expect(tableServiceMock.createTableIfNotExists).calledWith('someTable');
-      expect(tableServiceMock.createTableIfNotExists).calledOn(
-        tableServiceMock,
-      );
+      expect(tableServiceMock.createTableIfNotExists).calledOn(tableServiceMock);
     });
   });
 
@@ -51,10 +49,7 @@ describe(TableServiceAsPromised.name, () => {
       tableServiceMock.queryEntities.callArgOn(3, sut, undefined, ['result ']);
       const actual = await result;
       expect(result).instanceof(Promise);
-      expect(tableServiceMock.queryEntities).calledWith(
-        'foobar',
-        expectedQuery,
-      );
+      expect(tableServiceMock.queryEntities).calledWith('foobar', expectedQuery);
       expect(tableServiceMock.queryEntities).calledOn(tableServiceMock);
       expect(actual).deep.eq(['result ']);
     });

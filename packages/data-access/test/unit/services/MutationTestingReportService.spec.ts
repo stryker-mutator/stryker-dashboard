@@ -1,10 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { MutationTestingReport } from '../../../src/models/index.js';
-import {
-  MutationTestingReportMapper,
-  OptimisticConcurrencyError,
-} from '../../../src/index.js';
+import { MutationTestingReportMapper, OptimisticConcurrencyError } from '../../../src/index.js';
 import { MutationTestingResultMapper } from '../../../src/mappers/MutationTestingResultMapper.js';
 import { MutationTestingReportService } from '../../../src/services/MutationTestingReportService.js';
 import {
@@ -13,11 +10,7 @@ import {
   createFileResult,
   createFileResultDictionary,
 } from '../../helpers/mock.js';
-import {
-  ReportIdentifier,
-  Report,
-  Logger,
-} from '@stryker-mutator/dashboard-common';
+import { ReportIdentifier, Report, Logger } from '@stryker-mutator/dashboard-common';
 import { aggregateResultsByModule } from 'mutation-testing-metrics';
 
 describe(MutationTestingReportService.name, () => {
@@ -69,13 +62,8 @@ describe(MutationTestingReportService.name, () => {
       await sut.saveReport(reportIdentifier, expectedResult, logger);
 
       // Assert
-      expect(reportMapperMock.insertOrMerge).calledWith(
-        expectedMutationTestingReport,
-      );
-      expect(resultMapperMock.insertOrReplace).calledWith(
-        reportIdentifier,
-        expectedResult,
-      );
+      expect(reportMapperMock.insertOrMerge).calledWith(expectedMutationTestingReport);
+      expect(resultMapperMock.insertOrReplace).calledWith(reportIdentifier, expectedResult);
     });
 
     it('should not normalize file names in the report', async () => {
@@ -96,10 +84,7 @@ describe(MutationTestingReportService.name, () => {
       await sut.saveReport(reportIdentifier, rawResult, logger);
 
       // Assert
-      expect(resultMapperMock.insertOrReplace).calledWith(
-        reportIdentifier,
-        rawResult,
-      );
+      expect(resultMapperMock.insertOrReplace).calledWith(reportIdentifier, rawResult);
     });
 
     it('should support a score-only-report', async () => {
@@ -124,13 +109,8 @@ describe(MutationTestingReportService.name, () => {
         moduleName: 'core',
         projectName: 'github.com/testOrg/testName',
       };
-      expect(reportMapperMock.insertOrMerge).calledWith(
-        expectedMutationTestingReport,
-      );
-      expect(resultMapperMock.insertOrReplace).calledWith(
-        reportIdentifier,
-        null,
-      );
+      expect(reportMapperMock.insertOrMerge).calledWith(expectedMutationTestingReport);
+      expect(resultMapperMock.insertOrReplace).calledWith(reportIdentifier, null);
     });
 
     describe('for a module in a project', () => {
@@ -227,11 +207,7 @@ describe(MutationTestingReportService.name, () => {
         resultMapperMock.findOne.withArgs(moduleReport).resolves(moduleResult);
         reportMapperMock.replace
           .onFirstCall()
-          .rejects(
-            new OptimisticConcurrencyError(
-              'OptimisticConcurrencyError for testing',
-            ),
-          )
+          .rejects(new OptimisticConcurrencyError('OptimisticConcurrencyError for testing'))
           .onSecondCall()
           .resolves();
 
@@ -319,10 +295,7 @@ describe(MutationTestingReportService.name, () => {
           expectedProjectResult,
         );
         expect(reportMapperMock.replace).calledOnce;
-        expect(reportMapperMock.replace).calledWith(
-          expectedMutationTestingReport,
-          'project-etag',
-        );
+        expect(reportMapperMock.replace).calledWith(expectedMutationTestingReport, 'project-etag');
       });
     });
   });

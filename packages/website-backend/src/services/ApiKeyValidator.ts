@@ -10,17 +10,11 @@ export class ApiKeyValidator {
     this.projectMapper = repositoryMapper;
   }
 
-  public async validateApiKey(
-    apiKey: string,
-    projectName: string,
-  ): Promise<void> {
+  public async validateApiKey(apiKey: string, projectName: string): Promise<void> {
     const lastDelimiter = projectName.lastIndexOf('/');
     const hash = util.generateHashValue(apiKey);
     if (lastDelimiter === -1) {
-      throw new HttpException(
-        `Repository "${projectName}" is invalid`,
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException(`Repository "${projectName}" is invalid`, HttpStatus.BAD_REQUEST);
     } else {
       const projectPromise = this.projectMapper.findOne({
         owner: projectName.substr(0, lastDelimiter),

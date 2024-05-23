@@ -33,10 +33,7 @@ describe(RealTimeMutantsBlobService.name, () => {
       await sut.createStorageIfNotExists();
 
       expect(blobMock.createContainerIfNotExists.calledOnce).to.be.true;
-      expect(blobMock.createContainerIfNotExists).calledWith(
-        'real-time-mutant-results',
-        {},
-      );
+      expect(blobMock.createContainerIfNotExists).calledWith('real-time-mutant-results', {});
     });
   });
 
@@ -73,9 +70,7 @@ describe(RealTimeMutantsBlobService.name, () => {
   describe('getReport', () => {
     it('should get the events correctly', async () => {
       blobMock.blobToText.returns(
-        Promise.resolve(
-          '{"id":"1","status":"Killed"}\n{"id":"2","status":"Survived"}\n',
-        ),
+        Promise.resolve('{"id":"1","status":"Killed"}\n{"id":"2","status":"Survived"}\n'),
       );
 
       const events = await sut.getReport(id);

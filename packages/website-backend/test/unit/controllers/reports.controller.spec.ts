@@ -15,20 +15,13 @@ import Configuration from '../../../src/services/Configuration.js';
 import { INestApplication } from '@nestjs/common';
 import DataAccess from '../../../src/services/DataAccess.js';
 import { DataAccessMock, config } from '../../helpers/TestServer.js';
-import {
-  createMutationTestResult,
-  createMutationTestingResult,
-} from '../../helpers/mutants.js';
+import { createMutationTestResult, createMutationTestingResult } from '../../helpers/mutants.js';
 import utils from '../../../src/utils/utils.js';
 
 describe(ReportsController.name, () => {
   let app: INestApplication;
-  let findReportStub: sinon.SinonStubbedMember<
-    MutationTestingReportService['findOne']
-  >;
-  let saveReportStub: sinon.SinonStubbedMember<
-    MutationTestingReportService['saveReport']
-  >;
+  let findReportStub: sinon.SinonStubbedMember<MutationTestingReportService['findOne']>;
+  let saveReportStub: sinon.SinonStubbedMember<MutationTestingReportService['saveReport']>;
   let findProjectStub: sinon.SinonStubbedMember<ProjectMapper['findOne']>;
 
   beforeEach(async () => {
@@ -96,9 +89,7 @@ describe(ReportsController.name, () => {
     });
 
     it('should respond with 404 if slug is invalid', async () => {
-      const response = await request(app.getHttpServer()).get(
-        '/api/reports/slugwithoutslash',
-      );
+      const response = await request(app.getHttpServer()).get('/api/reports/slugwithoutslash');
       expect(response.status).eq(404);
       expect(JSON.parse((response.error as HTTPError).text).message).include(
         'Report "slugwithoutslash" does not exist',
@@ -160,9 +151,7 @@ describe(ReportsController.name, () => {
 
       // Act
       await request(app.getHttpServer())
-        .put(
-          '/api/reports/github.com/testOrg/testName/feat/dashboard?module=core',
-        )
+        .put('/api/reports/github.com/testOrg/testName/feat/dashboard?module=core')
         .set('X-Api-Key', apiKey)
         .send(body)
         .expect(200);
@@ -188,9 +177,7 @@ describe(ReportsController.name, () => {
     it("should respond with the href to the project's report when uploading a report with a result for a specific module", async () => {
       // Act
       const response = await request(app.getHttpServer())
-        .put(
-          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging',
-        )
+        .put('/api/reports/github.com/testOrg/testName/myWebsite?module=logging')
         .set('X-Api-Key', apiKey)
         .send(createMutationTestResult());
 
@@ -205,9 +192,7 @@ describe(ReportsController.name, () => {
     it('should not add the project href to the response when the uploaded report is a mutation score only report', async () => {
       // Act
       const response = await request(app.getHttpServer())
-        .put(
-          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging',
-        )
+        .put('/api/reports/github.com/testOrg/testName/myWebsite?module=logging')
         .set('X-Api-Key', apiKey)
         .send({ mutationScore: 25 });
 
@@ -225,9 +210,7 @@ describe(ReportsController.name, () => {
 
       // Act
       const response = await request(app.getHttpServer())
-        .put(
-          '/api/reports/github.com/testOrg/testName/feat/dashboard?module=core',
-        )
+        .put('/api/reports/github.com/testOrg/testName/feat/dashboard?module=core')
         .set('X-Api-Key', apiKey)
         .send(createMutationTestResult());
 
@@ -248,14 +231,10 @@ describe(ReportsController.name, () => {
 
     it("should respond with 401 when the api key doesn't match", async () => {
       const response = await request(app.getHttpServer())
-        .put(
-          '/api/reports/github.com/testOrg/testName/feat/dashboard?module=core',
-        )
+        .put('/api/reports/github.com/testOrg/testName/feat/dashboard?module=core')
         .set('X-Api-Key', 'wrong key');
       expect(response.status).eq(401);
-      expect(JSON.parse((response.error as HTTPError).text).message).include(
-        'Invalid API key',
-      );
+      expect(JSON.parse((response.error as HTTPError).text).message).include('Invalid API key');
     });
 
     it('should respond with 400 when uploading a report that is in-progress', async () => {
@@ -265,9 +244,7 @@ describe(ReportsController.name, () => {
 
       // Act
       const response = await request(app.getHttpServer())
-        .put(
-          '/api/reports/github.com/testOrg/testName/myWebsite?module=logging',
-        )
+        .put('/api/reports/github.com/testOrg/testName/myWebsite?module=logging')
         .set('X-Api-Key', apiKey)
         .send(mutationTestResult);
 

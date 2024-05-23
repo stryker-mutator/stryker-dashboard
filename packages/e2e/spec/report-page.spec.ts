@@ -25,15 +25,9 @@ test.describe('Report page', () => {
   test.describe('when a full report exists', async () => {
     test.beforeEach(async () => {
       await client.uploadReport(
-        simpleReportV1(
-          'github.com/stryker-mutator-test-organization/hello-org',
-          'master',
-        ),
+        simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'master'),
       );
-      await page.navigate(
-        'github.com/stryker-mutator-test-organization/hello-org',
-        'master',
-      );
+      await page.navigate('github.com/stryker-mutator-test-organization/hello-org', 'master');
     });
 
     test('should show the mutation-test-report-app with bound data', async () => {
@@ -45,16 +39,9 @@ test.describe('Report page', () => {
     test.describe('and afterwards it is overridden with a score-only report', async () => {
       test.beforeEach(async () => {
         await client.uploadReport(
-          scoreOnlyReport(
-            'github.com/stryker-mutator-test-organization/hello-org',
-            'master',
-            42,
-          ),
+          scoreOnlyReport('github.com/stryker-mutator-test-organization/hello-org', 'master', 42),
         );
-        await page.navigate(
-          'github.com/stryker-mutator-test-organization/hello-org',
-          'master',
-        );
+        await page.navigate('github.com/stryker-mutator-test-organization/hello-org', 'master');
       });
 
       test('should show the mutation score only', async () => {
@@ -95,20 +82,13 @@ test.describe('Report page', () => {
           ),
         ),
       ]);
-      await page.navigate(
-        'github.com/stryker-mutator-test-organization/hello-org',
-        'feat/modules',
-      );
+      await page.navigate('github.com/stryker-mutator-test-organization/hello-org', 'feat/modules');
     });
 
     test('should show the aggregated report for the project', async () => {
       await expect(page.mutationTestReportApp.title).toContainText('All files');
-      await expect(page.mutationTestReportApp.title).toContainText(
-        'hello-org/feat/modules',
-      );
-      await expect(page.mutationTestReportApp.title).toContainText(
-        'Stryker Dashboard',
-      );
+      await expect(page.mutationTestReportApp.title).toContainText('hello-org/feat/modules');
+      await expect(page.mutationTestReportApp.title).toContainText('Stryker Dashboard');
       expect(await page.mutationTestReportApp.mutationScore()).toBe(55.56);
       expect(await page.mutationTestReportApp.fileNames()).toEqual([
         'one/test.js',

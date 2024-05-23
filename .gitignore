@@ -5,6 +5,7 @@ node_modules/
 lerna-debug.log
 .nyc_output
 .nx/cache
+packages/website-frontend/.angular/cache
 
 # misc
 .DS_Store

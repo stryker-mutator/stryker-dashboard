@@ -17,7 +17,7 @@ import DataAccess from '../../../src/services/DataAccess.js';
 import utils from '../../../src/utils/utils.js';
 import { MutationEventResponseHandler } from '../../../src/services/real-time/MutationEventResponseHandler.js';
 import { createMutationTestResult } from '../../helpers/mutants.js';
-import { IncomingMessage, ServerResponse } from 'http';
+import { Response } from 'express';
 
 describe(RealTimeReportsController.name, () => {
   const apiKey = '1346';
@@ -54,10 +54,9 @@ describe(RealTimeReportsController.name, () => {
       MutationEventResponseOrchestrator,
     );
 
-    removeResponseHandlerStub =
-      orchestrator.removeResponseHandler as sinon.SinonStubbedMember<
-        MutationEventResponseOrchestrator['removeResponseHandler']
-      >;
+    removeResponseHandlerStub = orchestrator.removeResponseHandler as sinon.SinonStubbedMember<
+      MutationEventResponseOrchestrator['removeResponseHandler']
+    >;
     responseHandlerForProjectStub =
       orchestrator.createOrGetResponseHandler as sinon.SinonStubbedMember<
         MutationEventResponseOrchestrator['createOrGetResponseHandler']
@@ -114,7 +113,7 @@ describe(RealTimeReportsController.name, () => {
     });
 
     it('should get events and replay them', async () => {
-      let capturedResponse: ServerResponse<IncomingMessage>;
+      let capturedResponse: Response;
       const stub = sinon.createStubInstance(MutationEventResponseHandler);
       stub.add.restore();
       stub.sendMutantTested.restore();
@@ -224,22 +223,20 @@ describe(RealTimeReportsController.name, () => {
 
       // Act
       const response = await request(app.getHttpServer())
-        .put(
-          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging',
-        )
+        .put('/api/real-time/github.com/testOrg/testName/myWebsite?module=logging')
         .set('X-Api-Key', apiKey)
         .send(mutationTestResult);
 
       // Assert
       expect(response.status).eq(200);
-      expect(
-        dataAccess.mutationTestingReportService.saveReport.firstCall.firstArg,
-      ).to.deep.include({
-        projectName: 'github.com/testOrg/testName',
-        version: 'myWebsite',
-        moduleName: 'logging',
-        realTime: true,
-      });
+      expect(dataAccess.mutationTestingReportService.saveReport.firstCall.firstArg).to.deep.include(
+        {
+          projectName: 'github.com/testOrg/testName',
+          version: 'myWebsite',
+          moduleName: 'logging',
+          realTime: true,
+        },
+      );
     });
 
     it('should create a blob', async () => {
@@ -318,9 +315,7 @@ describe(RealTimeReportsController.name, () => {
 
     it('should return unauthorized if ApiKey is invalid', async () => {
       const response = await request(app.getHttpServer())
-        .delete(
-          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging',
-        )
+        .delete('/api/real-time/github.com/testOrg/testName/myWebsite?module=logging')
         .set('X-Api-Key', 'does-not-exist-abc');
 
       expect(response.status).to.eq(401);
@@ -330,9 +325,7 @@ describe(RealTimeReportsController.name, () => {
       const stub = sinon.createStubInstance(MutationEventResponseHandler);
       responseHandlerForProjectStub.returns(stub);
       const response = await request(app.getHttpServer())
-        .delete(
-          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging',
-        )
+        .delete('/api/real-time/github.com/testOrg/testName/myWebsite?module=logging')
         .set('X-Api-Key', apiKey);
 
       expect(response.status).to.eq(200);
@@ -351,9 +344,7 @@ describe(RealTimeReportsController.name, () => {
       const stub = sinon.createStubInstance(MutationEventResponseHandler);
       responseHandlerForProjectStub.returns(stub);
       await request(app.getHttpServer())
-        .delete(
-          '/api/real-time/github.com/testOrg/testName/myWebsite?module=logging',
-        )
+        .delete('/api/real-time/github.com/testOrg/testName/myWebsite?module=logging')
         .set('X-Api-Key', apiKey);
 
       const expectedId = {
@@ -364,11 +355,8 @@ describe(RealTimeReportsController.name, () => {
       };
       expect(dataAccess.blobService.delete.calledOnce).to.be.true;
       expect(dataAccess.blobService.delete).calledWith(expectedId);
-      expect(dataAccess.mutationTestingReportService.delete.calledOnce).to.be
-        .true;
-      expect(dataAccess.mutationTestingReportService.delete).calledWith(
-        expectedId,
-      );
+      expect(dataAccess.mutationTestingReportService.delete.calledOnce).to.be.true;
+      expect(dataAccess.mutationTestingReportService.delete).calledWith(expectedId);
     });
   });
 });

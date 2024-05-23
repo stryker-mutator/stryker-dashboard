@@ -5,10 +5,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
-    "types": [
-      "node",
-      "mocha"
-    ]
+    "types": ["node", "mocha", "@types/compression"]
   },
   "references": [
     {

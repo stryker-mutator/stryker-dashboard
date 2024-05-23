@@ -2,11 +2,7 @@ import request from 'supertest';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { contractFactory, githubFactory } from '../../helpers/producers.js';
-import {
-  DataAccessMock,
-  config,
-  createAuthorizationHeader,
-} from '../../helpers/TestServer.js';
+import { DataAccessMock, config, createAuthorizationHeader } from '../../helpers/TestServer.js';
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
@@ -56,10 +52,7 @@ describe(OrganizationsController.name, () => {
         .expect(expectedRepos);
 
       // Assert
-      expect(getAllForOrganizationStub).calledWithMatch(
-        expectedUser,
-        'foobarOrg',
-      );
+      expect(getAllForOrganizationStub).calledWithMatch(expectedUser, 'foobarOrg');
     });
   });
 });

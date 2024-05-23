@@ -73,9 +73,7 @@ describe(MutationTestingResultMapper.name, () => {
     });
 
     it('should throw OptimisticConcurrencyError "BlobHasBeenModified" is thrown', async () => {
-      blobMock.createBlockBlobFromText.rejects(
-        new StorageError('BlobHasBeenModified'),
-      );
+      blobMock.createBlockBlobFromText.rejects(new StorageError('BlobHasBeenModified'));
       await expect(
         sut.insertOrReplace(
           { moduleName: 'core', projectName: 'project', version: 'version' },
@@ -94,17 +92,12 @@ describe(MutationTestingResultMapper.name, () => {
         projectName: 'project',
         version: 'version',
       });
-      expect(blobMock.blobToText).calledWith(
-        'mutation-testing-report',
-        'project;version;core',
-      );
+      expect(blobMock.blobToText).calledWith('mutation-testing-report', 'project;version;core');
       expect(actual).deep.eq(expected);
     });
 
     it('should return null when "BlobNotFound" is thrown', async () => {
-      blobMock.blobToText.rejects(
-        new StorageError(Constants.BlobErrorCodeStrings.BLOB_NOT_FOUND),
-      );
+      blobMock.blobToText.rejects(new StorageError(Constants.BlobErrorCodeStrings.BLOB_NOT_FOUND));
       const actual = await sut.findOne({
         moduleName: 'core',
         projectName: 'project',

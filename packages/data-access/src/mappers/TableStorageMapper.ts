@@ -1,7 +1,5 @@
 import { Constants } from 'azure-storage';
-import TableServiceAsPromised, {
-  Entity,
-} from '../services/TableServiceAsPromised.js';
+import TableServiceAsPromised, { Entity } from '../services/TableServiceAsPromised.js';
 import { encodeKey, decodeKey, isStorageError } from '../utils.js';
 import { Mapper, Result } from './Mapper.js';
 import { OptimisticConcurrencyError } from '../errors/index.js';
@@ -15,11 +13,7 @@ export default class TableStorageMapper<
 > implements Mapper<TModel, TPartitionKeyFields, TRowKeyFields>
 {
   constructor(
-    private readonly ModelClass: ModelClass<
-      TModel,
-      TPartitionKeyFields,
-      TRowKeyFields
-    >,
+    private readonly ModelClass: ModelClass<TModel, TPartitionKeyFields, TRowKeyFields>,
     private readonly tableService: TableServiceAsPromised = new TableServiceAsPromised(),
   ) {}
 
@@ -29,10 +23,7 @@ export default class TableStorageMapper<
 
   public async insertOrMerge(model: TModel) {
     const entity = this.toEntity(model);
-    await this.tableService.insertOrMergeEntity(
-      this.ModelClass.tableName,
-      entity,
-    );
+    await this.tableService.insertOrMergeEntity(this.ModelClass.tableName, entity);
   }
 
   public async findOne(
@@ -61,11 +52,9 @@ export default class TableStorageMapper<
   }
 
   public async findAll(
-    query: DashboardQuery<
-      TModel,
-      TPartitionKeyFields,
-      TRowKeyFields
-    > = DashboardQuery.create(this.ModelClass),
+    query: DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> = DashboardQuery.create(
+      this.ModelClass,
+    ),
   ): Promise<Result<TModel>[]> {
     const tableQuery = query.build();
     const results = await this.tableService.queryEntities<
@@ -85,17 +74,12 @@ export default class TableStorageMapper<
     const entity = this.toEntity(model);
     entity['.metadata'].etag = etag;
     try {
-      const result = await this.tableService.replaceEntity(
-        this.ModelClass.tableName,
-        entity,
-        {},
-      );
+      const result = await this.tableService.replaceEntity(this.ModelClass.tableName, entity, {});
       return { model, etag: result['.metadata'].etag };
     } catch (err) {
       if (
         isStorageError(err) &&
-        err.code ===
-          Constants.StorageErrorCodeStrings.UPDATE_CONDITION_NOT_SATISFIED
+        err.code === Constants.StorageErrorCodeStrings.UPDATE_CONDITION_NOT_SATISFIED
       ) {
         throw new OptimisticConcurrencyError(
           `Replace entity with etag ${etag} resulted in ${Constants.StorageErrorCodeStrings.UPDATE_CONDITION_NOT_SATISFIED}`,
@@ -109,11 +93,7 @@ export default class TableStorageMapper<
   public async insert(model: TModel): Promise<Result<TModel>> {
     const entity = this.toEntity(model);
     try {
-      const result = await this.tableService.insertEntity(
-        this.ModelClass.tableName,
-        entity,
-        {},
-      );
+      const result = await this.tableService.insertEntity(this.ModelClass.tableName, entity, {});
       return { model, etag: result['.metadata'].etag };
     } catch (err) {
       if (
@@ -129,15 +109,9 @@ export default class TableStorageMapper<
     }
   }
 
-  private toModel(
-    entity: Entity<TModel, TPartitionKeyFields | TRowKeyFields>,
-  ): Result<TModel> {
+  private toModel(entity: Entity<TModel, TPartitionKeyFields | TRowKeyFields>): Result<TModel> {
     const value = new this.ModelClass();
-    this.ModelClass.identify(
-      value,
-      decodeKey(entity.PartitionKey._),
-      decodeKey(entity.RowKey._),
-    );
+    this.ModelClass.identify(value, decodeKey(entity.PartitionKey._), decodeKey(entity.RowKey._));
     this.ModelClass.persistedFields.forEach(
       (field) => ((value[field] as any) = (entity as any)[field]._),
     );
@@ -147,16 +121,12 @@ export default class TableStorageMapper<
     };
   }
 
-  private toEntity(
-    entity: TModel,
-  ): Entity<TModel, TPartitionKeyFields | TRowKeyFields> {
+  private toEntity(entity: TModel): Entity<TModel, TPartitionKeyFields | TRowKeyFields> {
     const data: any = {
       PartitionKey: encodeKey(this.ModelClass.createPartitionKey(entity)),
       RowKey: encodeKey(this.ModelClass.createRowKey(entity) || ''),
     };
-    this.ModelClass.persistedFields.forEach(
-      (field) => (data[field] = entity[field]),
-    );
+    this.ModelClass.persistedFields.forEach((field) => (data[field] = entity[field]));
     data['.metadata'] = {};
     return data;
   }

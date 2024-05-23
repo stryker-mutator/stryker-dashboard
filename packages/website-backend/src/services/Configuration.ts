@@ -13,8 +13,7 @@ export default class Configuration {
   constructor() {
     this.githubClientId = util.requiredEnvVar('GH_BASIC_CLIENT_ID');
     this.githubSecret = util.requiredEnvVar('GH_BASIC_SECRET_ID');
-    (this.isDevelopment =
-      util.optionalEnvVar('NODE_ENV', 'production') === 'development'),
+    (this.isDevelopment = util.optionalEnvVar('NODE_ENV', 'production') === 'development'),
       (this.baseUrl = util.requiredEnvVar('STRYKER_DASHBOARD_BASE_URL'));
     this.jwtSecret = util.requiredEnvVar('JWT_SECRET');
 

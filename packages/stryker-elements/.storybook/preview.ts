@@ -1,8 +1,8 @@
-import type { Preview } from "@storybook/web-components";
+import type { Preview } from '@storybook/web-components';
 
 // Tailwind CSS
-import "../src/tailwind-styles/global.css";
-import "../src/tailwind-styles/component.css";
+import '../src/tailwind-styles/global.css';
+import '../src/tailwind-styles/component.css';
 
 const preview: Preview = {
   parameters: {
@@ -13,7 +13,7 @@ const preview: Preview = {
       },
     },
 
-    backgrounds: { default: "dark", values: [{ name: 'dark', value: '#262626' }] },
+    backgrounds: { default: 'dark', values: [{ name: 'dark', value: '#262626' }] },
   },
 };
 
