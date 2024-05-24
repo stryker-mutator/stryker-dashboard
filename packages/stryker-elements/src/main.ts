@@ -9,6 +9,9 @@ import './exports/lib/atoms/buttons/image-button';
 export { ToggleButton } from './lib/atoms/buttons/toggle-button';
 import './exports/lib/atoms/buttons/toggle-button';
 
+export { Badge } from './lib/atoms/badge';
+import './exports/lib/atoms/badge';
+
 export { Dropdown } from './lib/atoms/dropdown';
 import './exports/lib/atoms/dropdown';
 

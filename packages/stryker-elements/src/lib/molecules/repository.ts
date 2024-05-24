@@ -2,27 +2,30 @@ import { property } from 'lit/decorators.js';
 import { BaseElement } from '../base-element.js';
 import { html } from 'lit';
 
-import '../../exports/lib/atoms/progress-bar';
+import '../../exports/lib/atoms/badge';
 
 export class Repository extends BaseElement {
-  @property({ type: String })
+  @property()
+  reportLink = 'https://dashboard.stryker-mutator.io/reports/'
+
+  @property()
   name = '';
 
-  @property({ type: Number })
+  @property()
+  slug = '';
+
+  @property()
   mutationScore = 0;
 
-  @property({ type: Number })
+  @property()
   totalSteps = 100;
 
   render() {
     return html`
-      <div class="grid grid-cols-3 rounded-lg border-2 border-neutral-600 p-4">
-        <span class="col-span-1 text-white">${this.name}</span>
-        <progress-bar
-          class="col-span-2"
-          currentStep="${this.mutationScore}"
-          totalSteps="${this.totalSteps}"
-        ></progress-bar>
+      <div class="grid grid-cols-3 rounded-lg border-2 border-neutral-600 p-3">
+        <a class="col-span-1 text-white font-bold underline" href="${this.reportLink}${this.slug}">${this.name}</a>
+        <!-- TODO: replace with progress bar once we have an endpoint for that -->
+        <sme-badge class="col-span-2 ms-auto" slug="${this.slug}"/>
       </div>
     `;
   }

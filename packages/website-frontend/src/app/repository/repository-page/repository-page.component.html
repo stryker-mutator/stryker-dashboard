@@ -10,9 +10,9 @@
         *ngIf="!hasEnabledRepositories()" 
         message="It appears you do not have any enabled repositories, enable them by clicking on the enable repositories button."
       />
-      <div class="mb-2" *ngFor="let repository of repositories">
+      <div class="mb-3" *ngFor="let repository of repositories">
         <div *ngIf="repository.enabled" class="d-flex">
-          <sme-repository class="w-100 me-4" name="{{ repository.name }}"></sme-repository>
+          <sme-repository class="w-100 me-3" name="{{ repository.name }}" slug="{{ repository.slug + '/' + repository.defaultBranch }}"></sme-repository>
           <sme-button (click)="openConfigureBadgeModal(repository)">Badge</sme-button>
         </div>
       </div>
