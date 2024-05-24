@@ -13,7 +13,7 @@
       <div class="mb-3" *ngFor="let repository of repositories">
         <div *ngIf="repository.enabled" class="d-flex">
           <sme-repository class="w-100 me-3" name="{{ repository.name }}" slug="{{ repository.slug + '/' + repository.defaultBranch }}"></sme-repository>
-          <sme-button (click)="openConfigureBadgeModal(repository)">Badge</sme-button>
+          <sme-button padding="rectangle" (click)="openConfigureBadgeModal(repository)">Badge</sme-button>
         </div>
       </div>
     </div>

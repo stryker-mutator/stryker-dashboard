@@ -5,7 +5,7 @@ import '../../exports/lib/atoms/buttons/button';
 import '../../exports/lib/atoms/buttons/toggle-button';
 
 export default {
-  title: 'Atoms/Button',
+  title: 'Atoms/Buttons',
   render: () => html` <sme-button>Click here!</sme-button> `,
 } as Meta;
 
