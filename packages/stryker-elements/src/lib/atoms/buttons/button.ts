@@ -4,12 +4,11 @@ import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 export type ButtonPadding = 'square' | 'rectangle';
-export type ButtonType = 'plain' | 'primary' | 'secondary' | 'subtle';
+export type ButtonType = 'plain' | 'primary' | 'subtle';
 
 const BUTTON_STYLES = {
   plain: '',
   primary: 'bg-red-800 text-white font-bold',
-  secondary: '',
   subtle: 'box-border h-10 border-2 border-solid border-white bg-neutral-800 font-bold',
 };
 

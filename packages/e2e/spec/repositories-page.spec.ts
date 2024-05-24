@@ -5,7 +5,7 @@ import { RepositoriesPage } from '../po/repositories/repositories-page.po.js';
 const API_KEY_REGEX = /^[0-9a-z]{8}-(?:[0-9a-z]{4}-){3}[0-9a-z]{12}$/;
 
 test.describe.serial('Repositories page', () => {
-  let repositoryPage: RepositoriesPage;
+  let repositoriesPage: RepositoriesPage;
   let page: Page;
   let toggleModal: Locator;
 
@@ -27,17 +27,17 @@ test.describe.serial('Repositories page', () => {
   test.beforeAll(async ({ browser }) => {
     const context = await browser.newContext();
     await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-    repositoryPage = new RepositoriesPage(await context.newPage());
-    page = repositoryPage.page;
-    await repositoryPage.logOn();
-    await repositoryPage.navigate();
+    repositoriesPage = new RepositoriesPage(await context.newPage());
+    page = repositoriesPage.page;
+    await repositoriesPage.logOn();
+    await repositoriesPage.navigate();
     await page.waitForSelector('sme-notify');
     toggleModal = page.locator('sme-modal').first();
   });
 
   test.afterAll(async () => {
-    await repositoryPage.logOff();
-    await repositoryPage.close();
+    await repositoriesPage.logOff();
+    await repositoriesPage.close();
   });
 
   test('should show an information box when no repositories are enabled', async () => {
@@ -65,7 +65,7 @@ test.describe.serial('Repositories page', () => {
       await closeToggleDialog();
       const repository = page.locator('sme-repository');
 
-      expect(text.trim()).toMatch(API_KEY_REGEX);
+      expect(text).toMatch(API_KEY_REGEX);
       expect(repository).toContainText('hello-test');
     });
 

@@ -5,22 +5,22 @@ import { classMap } from 'lit/directives/class-map.js';
 
 export class ToggleRepository extends BaseElement {
   @property()
-  name = '';
-
-  @property()
-  slug = '';
+  apiKey = '';
 
   @property()
   enabled = false;
 
-  @property()
-  apiKey: string = '';
-
+  @state()
+  hasCopied = false;
+  
   @property()
   loading = false;
 
-  @state()
-  hasCopied = false;
+  @property()
+  name = '';
+
+  @property()
+  slug = '';
 
   render() {
     return html`
