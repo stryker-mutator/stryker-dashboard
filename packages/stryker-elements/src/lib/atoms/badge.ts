@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { BaseElement } from '../base-element';
 import { property } from 'lit/decorators.js';
 
-export type BadgeStyle = 'flat' | 'flat-square' | 'plastic' | 'for-the-badge' | 'social'
+export type BadgeStyle = 'flat' | 'flat-square' | 'plastic' | 'for-the-badge' | 'social';
 
 const BASE_BADGE_URL = 'https://img.shields.io/endpoint';
 

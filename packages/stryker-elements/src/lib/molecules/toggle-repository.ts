@@ -12,7 +12,7 @@ export class ToggleRepository extends BaseElement {
 
   @state()
   hasCopied = false;
-  
+
   @property()
   loading = false;
 
