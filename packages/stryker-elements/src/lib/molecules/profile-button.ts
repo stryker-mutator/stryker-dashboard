@@ -53,14 +53,14 @@ export class ProfileButton extends BaseElement {
         >
           My repositories
         </sme-link>
-        <sme-plain-button
-          @click="${this.#dispatchSignOut}"
-          class="${directionClasses} border-b2 h-10 border-neutral-600 text-white transition-all"
+        <sme-button
           align="right"
-          unStyled
+          class="${directionClasses} border-b2 h-10 border-neutral-600 text-white transition-all"
+          type="plain"
+          @click="${this.#dispatchSignOut}"
         >
           Sign out
-        </sme-plain-button>
+        </sme-button>
       </div>`;
   }
 }
