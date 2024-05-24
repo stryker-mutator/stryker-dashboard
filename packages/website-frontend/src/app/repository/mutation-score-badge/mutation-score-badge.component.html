@@ -1,9 +1,0 @@
-<span *ngIf="enableLink; then link else withoutLink"></span>
-<ng-template #link>
-  <a [routerLink]="'/reports/' + repo.slug + '/' + repo.defaultBranch">
-    <img [src]="src" [title]="alt" [alt]="alt">
-  </a>
-</ng-template>
-<ng-template #withoutLink>
-  <img [src]="src" [title]="alt" [alt]="alt">
-</ng-template>

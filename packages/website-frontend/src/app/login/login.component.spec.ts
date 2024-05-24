@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 
 import { LoginComponent } from './login.component';
@@ -34,7 +33,7 @@ describe('LoginComponent', () => {
         { provide: RepositoryService, useClass: RepositoryServiceStub },
         { provide: APP_BASE_HREF, useValue: '/' },
       ],
-      imports: [NgbModule, AppModule],
+      imports: [AppModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
