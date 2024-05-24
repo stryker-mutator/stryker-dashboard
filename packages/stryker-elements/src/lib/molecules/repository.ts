@@ -6,7 +6,7 @@ import '../../exports/lib/atoms/badge';
 
 export class Repository extends BaseElement {
   @property()
-  reportLink = 'https://dashboard.stryker-mutator.io/reports/'
+  reportLink = 'https://dashboard.stryker-mutator.io/reports/';
 
   @property()
   name = '';
@@ -23,9 +23,11 @@ export class Repository extends BaseElement {
   render() {
     return html`
       <div class="grid grid-cols-3 rounded-lg border-2 border-neutral-600 p-3">
-        <a class="col-span-1 text-white font-bold underline" href="${this.reportLink}${this.slug}">${this.name}</a>
+        <a class="col-span-1 font-bold text-white underline" href="${this.reportLink}${this.slug}"
+          >${this.name}</a
+        >
         <!-- TODO: replace with progress bar once we have an endpoint for that -->
-        <sme-badge class="col-span-2 ms-auto" slug="${this.slug}"/>
+        <sme-badge class="col-span-2 ms-auto" slug="${this.slug}" />
       </div>
     `;
   }

@@ -2,11 +2,11 @@ import { html } from 'lit';
 import { BaseElement } from '../base-element';
 import { property } from 'lit/decorators.js';
 
-const BASE_BADGE_URL = 'https://img.shields.io/endpoint'
+const BASE_BADGE_URL = 'https://img.shields.io/endpoint';
 
 export class Badge extends BaseElement {
   @property()
-  badgeStyle = 'for-the-badge'
+  badgeStyle = 'for-the-badge';
 
   @property()
   dashboardBadgeUrl = 'https://badge-api.stryker-mutator.io/';

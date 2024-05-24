@@ -16,7 +16,7 @@ export class Button extends BaseElement {
   @property({ attribute: true })
   align: 'left' | 'right' | 'middle' = 'middle';
 
-  @property() 
+  @property()
   small = false;
 
   @property()
