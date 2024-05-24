@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -28,7 +27,6 @@ import { AppRouterModule } from './app-router.module';
   imports: [
     BrowserModule,
     HttpClientModule,
-    NgbModule,
     AppRouterModule,
     RepositoryModule,
     ReportModule,
