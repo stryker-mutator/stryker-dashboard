@@ -8,7 +8,7 @@ export class Dropdown extends BaseElement {
   id: string = '';
 
   @property()
-  options: Array<{ name: string; value: string }> = [];
+  options: { name: string; value: string }[] = [];
 
   render() {
     return html` <select

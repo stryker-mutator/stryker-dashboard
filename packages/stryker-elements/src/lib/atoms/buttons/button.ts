@@ -5,7 +5,7 @@ import { classMap } from 'lit/directives/class-map.js';
 
 export type ButtonType = 'plain' | 'primary' | 'secondary' | 'subtle';
 
-const ButtonStyles = {
+const BUTTON_STYLES = {
   plain: '',
   primary: 'bg-red-800 text-white font-bold',
   secondary: '',
@@ -27,7 +27,7 @@ export class Button extends BaseElement {
       'justify-center': this.align === 'middle',
       'justify-start': this.align === 'left',
       'justify-end': this.align === 'right',
-      [ButtonStyles[this.type]]: true,
+      [BUTTON_STYLES[this.type]]: true,
       'w-full': !this.small,
     });
 
