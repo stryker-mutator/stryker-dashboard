@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -14,32 +14,26 @@ import { SharedModule } from './shared/shared.module';
 import { ReportModule } from './report/report.module';
 import { AppRouterModule } from './app-router.module';
 
-@NgModule({
-  bootstrap: [AppComponent],
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    UserComponent,
-    MenuComponent,
-    WelcomeComponent,
-    AuthComponent,
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRouterModule,
-    RepositoryModule,
-    ReportModule,
-    SharedModule,
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthHeaderInterceptor,
-      multi: true,
-    },
-    HttpClient,
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA], /* Lit won't work otherwise */
-})
+@NgModule({ bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        LoginComponent,
+        UserComponent,
+        MenuComponent,
+        WelcomeComponent,
+        AuthComponent,
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [BrowserModule,
+        AppRouterModule,
+        RepositoryModule,
+        ReportModule,
+        SharedModule], providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthHeaderInterceptor,
+            multi: true,
+        },
+        HttpClient,
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {}

@@ -1,12 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { RepositoryService } from './repository.service';
 import { EnableRepositoryResponse } from '@stryker-mutator/dashboard-contract';
 import { Type } from '@angular/core';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('RepositoryService', () => {
   let repositoryService: RepositoryService;
@@ -38,13 +36,13 @@ describe('RepositoryService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [RepositoryService],
-    });
-    repositoryService = TestBed.get(
+    imports: [],
+    providers: [RepositoryService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
+    repositoryService = TestBed.inject(
       RepositoryService as Type<RepositoryService>
     );
-    httpMock = TestBed.get(
+    httpMock = TestBed.inject(
       HttpTestingController as Type<HttpTestingController>
     );
   });

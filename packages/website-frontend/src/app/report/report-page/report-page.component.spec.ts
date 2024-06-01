@@ -2,10 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReportPageComponent } from './report-page.component';
 import { CUSTOM_ELEMENTS_SCHEMA, Type } from '@angular/core';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import {
   ActivatedRoute,
   Params,
@@ -15,6 +12,7 @@ import {
 import { Subject } from 'rxjs';
 import { Report } from '@stryker-mutator/dashboard-common';
 import { MutationTestResult } from 'mutation-testing-report-schema';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 function createUrlSegment(overrides: Partial<UrlSegment>): UrlSegment {
   return {
@@ -64,12 +62,12 @@ describe(ReportPageComponent.name, () => {
       url: url$,
     };
     await TestBed.configureTestingModule({
-      declarations: [ReportPageComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [{ provide: ActivatedRoute, useValue: routeMock }],
-      imports: [HttpClientTestingModule],
-    }).compileComponents();
-    http = TestBed.get(HttpTestingController as Type<HttpTestingController>);
+    declarations: [ReportPageComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [],
+    providers: [{ provide: ActivatedRoute, useValue: routeMock }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
+    http = TestBed.inject(HttpTestingController as Type<HttpTestingController>);
     fixture = TestBed.createComponent(ReportPageComponent);
     element = fixture.nativeElement;
     fixture.detectChanges();
