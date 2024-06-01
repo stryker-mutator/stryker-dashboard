@@ -21,7 +21,8 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": {
-              "base": "dist/stryker-mutator/dashboard-frontend"
+              "browser": "dashboard-frontend",
+              "base": "dist/stryker-mutator"
             },
             "index": "src/index.html",
             "polyfills": [
