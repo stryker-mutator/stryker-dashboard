@@ -50,8 +50,7 @@ export class ProgressBar extends BaseElement {
         class="${classMap({
           'pr-3': !this.hideProgressBar,
           [this.textColors[this.getIndex()]]: true,
-        })}
-          font-bold"
+        })} font-bold"
         ?hidden="${this.hideProgressText}"
       >
         ${Math.round((this.currentStep / this.totalSteps) * 1000) / 10}%

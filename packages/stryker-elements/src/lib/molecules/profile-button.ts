@@ -35,7 +35,7 @@ export class ProfileButton extends BaseElement {
 
     return html`<button
         @click="${this.#handleClick}"
-        class="mr-4 h-10 w-10 overflow-hidden rounded-full border border border-2 border-solid border-neutral-600"
+        class="mr-4 h-10 w-10 overflow-hidden rounded-full border border-2 border-solid border-neutral-600"
       >
         <img class="h-full w-full" src="${this.avatarUrl}" />
       </button>
