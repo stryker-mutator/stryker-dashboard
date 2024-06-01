@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { UserService } from './user.service';
 import { Repository } from '@stryker-mutator/dashboard-contract';
 import { Type } from '@angular/core';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe(UserService.name, () => {
   let userService: UserService;
@@ -36,11 +34,11 @@ describe(UserService.name, () => {
   ];
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [UserService],
-    });
-    userService = TestBed.get(UserService as Type<UserService>);
-    httpMock = TestBed.get(
+    imports: [],
+    providers: [UserService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
+    userService = TestBed.inject(UserService as Type<UserService>);
+    httpMock = TestBed.inject(
       HttpTestingController as Type<HttpTestingController>
     );
   });

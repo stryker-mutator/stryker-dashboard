@@ -6,13 +6,13 @@
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "esModuleInterop": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
@@ -24,7 +24,6 @@
       "dom"
     ],
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
   },
   "angularCompilerOptions": {
     "emitDecoratorMetadata": true,
