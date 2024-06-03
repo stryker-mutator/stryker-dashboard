@@ -31,7 +31,7 @@
     "@stryker-mutator/dashboard-contract": "0.14.3",
     "@stryker-mutator/dashboard-data-access": "0.14.3",
     "@stryker-mutator/dashboard-frontend": "0.14.3",
-    "ajv": "8.14.0",
+    "ajv": "8.15.0",
     "ajv-formats": "3.0.1",
     "compression": "1.7.4",
     "express": "4.19.2",
