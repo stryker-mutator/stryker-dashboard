@@ -1,17 +1,14 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
       "type": "node",
       "request": "launch",
       "name": "🎭 E2E tests (acceptance)",
-      "program": "${workspaceFolder}/node_modules/playwright-core/cli.js",
+      "program": "${workspaceFolder}/../../node_modules/@playwright/test/cli.js",
       "cwd": "${workspaceFolder}",
       "args": ["test", "--project", "acceptance"],
-      "envFile": "${workspaceFolder}/acc.env",
+      "envFile": "${workspaceFolder}/.acc.env",
       "internalConsoleOptions": "openOnSessionStart",
       "outputCapture": "std"
     },
@@ -19,7 +16,7 @@
       "type": "node",
       "request": "launch",
       "name": "🎭 E2E tests (local)",
-      "program": "${workspaceFolder}/node_modules/playwright-core/cli.js",
+      "program": "${workspaceFolder}/../../node_modules/@playwright/test/cli.js",
       "cwd": "${workspaceFolder}",
       "args": ["test", "--project", "local"],
       "envFile": "${workspaceFolder}/.local.env",
