@@ -4,7 +4,7 @@ junit.xml
 node_modules/
 lerna-debug.log
 .nyc_output
-.nx/cache
+.nx/
 packages/website-frontend/.angular/cache
 
 # misc
