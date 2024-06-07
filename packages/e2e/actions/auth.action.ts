@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { getEnvVariable } from './helpers.action.js';
+import { getEnvVariable, getOptionalEnvVariable } from './helpers.action.js';
 
 function getJwtSecret() {
   return getEnvVariable('E2E_JWT_SECRET');
@@ -21,7 +21,7 @@ export function generateAuthToken(): string {
       accessToken: getAccessToken(),
       displayName: null,
       id: 56148018,
-      username: 'strykermutator-test-account',
+      username: getOptionalEnvVariable('E2E_GITHUB_USER_NAME', 'strykermutator-test-account'),
     },
     getJwtSecret(),
     tokenOptions,
