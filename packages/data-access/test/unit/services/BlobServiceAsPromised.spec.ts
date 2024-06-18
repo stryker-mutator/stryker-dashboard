@@ -20,10 +20,10 @@ describe(BlobServiceAsPromised.name, () => {
       blobServiceMock.createContainerIfNotExists.callArg(2);
       await result;
       expect(result).instanceof(Promise);
-      expect(blobServiceMock.createContainerIfNotExists).calledWith('some-blob-storage', {
+      sinon.assert.calledWith(blobServiceMock.createContainerIfNotExists, 'some-blob-storage', {
         publicAccessLevel: 'container',
       });
-      expect(blobServiceMock.createContainerIfNotExists).calledOn(blobServiceMock);
+      sinon.assert.calledOn(blobServiceMock.createContainerIfNotExists, blobServiceMock);
     });
   });
 
@@ -35,10 +35,10 @@ describe(BlobServiceAsPromised.name, () => {
       blobServiceMock.createBlockBlobFromText.callArg(4);
       await result;
       expect(result).instanceof(Promise);
-      expect(blobServiceMock.createBlockBlobFromText).calledWith('foo', 'bar', 'baz', {
+      sinon.assert.calledWith(blobServiceMock.createBlockBlobFromText, 'foo', 'bar', 'baz', {
         contentSettings: { contentEncoding: 'utf8' },
       });
-      expect(blobServiceMock.createBlockBlobFromText).calledOn(blobServiceMock);
+      sinon.assert.calledOn(blobServiceMock.createBlockBlobFromText, blobServiceMock);
     });
   });
 
@@ -48,7 +48,7 @@ describe(BlobServiceAsPromised.name, () => {
 
       const methodUnderTest = blobServiceMock.getBlobToText;
       expect(methodUnderTest.calledOnce).to.be.true;
-      expect(methodUnderTest).calledWith('foo', 'bar');
+      sinon.assert.calledWith(methodUnderTest, 'foo', 'bar');
     });
   });
 
@@ -58,7 +58,7 @@ describe(BlobServiceAsPromised.name, () => {
 
       const methodUnderTest = blobServiceMock.createAppendBlobFromText;
       expect(methodUnderTest.calledOnce).to.be.true;
-      expect(methodUnderTest).calledWith('foo', 'bar', 'baz');
+      sinon.assert.calledWith(methodUnderTest, 'foo', 'bar', 'baz');
     });
   });
 
@@ -68,7 +68,7 @@ describe(BlobServiceAsPromised.name, () => {
 
       const methodUnderTest = blobServiceMock.appendBlockFromText;
       expect(methodUnderTest.calledOnce).to.be.true;
-      expect(methodUnderTest).calledWith('foo', 'bar', 'baz');
+      sinon.assert.calledWith(methodUnderTest, 'foo', 'bar', 'baz');
     });
   });
 });

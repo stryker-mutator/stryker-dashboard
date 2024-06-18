@@ -71,7 +71,7 @@ describe(ReportsController.name, () => {
       await request(app.getHttpServer()).get(
         '/api/reports/github.com/test/name/feat/dashboard?module=core',
       );
-      expect(findReportStub).calledWith({
+      sinon.assert.calledWith(findReportStub, {
         projectName: 'github.com/test/name',
         version: 'feat/dashboard',
         moduleName: 'core',
@@ -157,7 +157,7 @@ describe(ReportsController.name, () => {
         .expect(200);
 
       // Assert
-      expect(saveReportStub).calledWith(expectedId, body);
+      sinon.assert.calledWith(saveReportStub, expectedId, body);
     });
 
     it('should respond with the href link to the report', async () => {

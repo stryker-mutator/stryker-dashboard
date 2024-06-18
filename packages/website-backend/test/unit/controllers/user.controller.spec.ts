@@ -73,7 +73,7 @@ describe(UserController.name, () => {
         .expect(200)
         .expect(expectedResult);
 
-      expect(getCurrentUserStub).called;
+      sinon.assert.called(getCurrentUserStub);
     });
   });
 

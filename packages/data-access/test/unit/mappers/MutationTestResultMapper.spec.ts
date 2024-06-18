@@ -25,7 +25,7 @@ describe(MutationTestingResultMapper.name, () => {
 
   it('should create container when createStorageIfNotExists is called', async () => {
     await sut.createStorageIfNotExists();
-    expect(blobMock.createContainerIfNotExists).called;
+    sinon.assert.called(blobMock.createContainerIfNotExists);
   });
 
   describe('insertOrReplace', () => {
@@ -35,7 +35,8 @@ describe(MutationTestingResultMapper.name, () => {
         { moduleName: 'core', projectName: 'project', version: 'version' },
         result,
       );
-      expect(blobMock.createBlockBlobFromText).calledWith(
+      sinon.assert.calledWith(
+        blobMock.createBlockBlobFromText,
         'mutation-testing-report',
         'project;version;core',
         JSON.stringify(result),
@@ -59,7 +60,8 @@ describe(MutationTestingResultMapper.name, () => {
         },
         result,
       );
-      expect(blobMock.createBlockBlobFromText).calledWith(
+      sinon.assert.calledWith(
+        blobMock.createBlockBlobFromText,
         'mutation-testing-report',
         'project;version;core;real-time',
         JSON.stringify(result),
@@ -92,7 +94,11 @@ describe(MutationTestingResultMapper.name, () => {
         projectName: 'project',
         version: 'version',
       });
-      expect(blobMock.blobToText).calledWith('mutation-testing-report', 'project;version;core');
+      sinon.assert.calledWith(
+        blobMock.blobToText,
+        'mutation-testing-report',
+        'project;version;core',
+      );
       expect(actual).deep.eq(expected);
     });
 
@@ -118,7 +124,8 @@ describe(MutationTestingResultMapper.name, () => {
       sut.delete(identifier);
 
       expect(blobMock.deleteBlobIfExists.calledOnce).to.be.true;
-      expect(blobMock.deleteBlobIfExists).calledWith(
+      sinon.assert.calledWith(
+        blobMock.deleteBlobIfExists,
         'mutation-testing-report',
         'project;version;core',
       );
