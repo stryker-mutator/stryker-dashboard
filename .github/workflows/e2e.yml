@@ -60,7 +60,7 @@ jobs:
       # Add a sleep to give npmjs.com the time to get the versions consistent
       - run: sleep 15s
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         id: build
         with:
           context: ./docker
