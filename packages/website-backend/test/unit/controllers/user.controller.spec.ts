@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import request from 'supertest';
 import * as contract from '@stryker-mutator/dashboard-contract';
 import sinon from 'sinon';

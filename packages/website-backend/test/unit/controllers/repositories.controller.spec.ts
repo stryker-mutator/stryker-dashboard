@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import request from 'supertest';
 import sinon from 'sinon';
 import { Test } from '@nestjs/testing';
