@@ -1,4 +1,5 @@
-import chai from 'chai';
+import { use, config } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-chai.use(chaiAsPromised);
-chai.config.truncateThreshold = 0;
+
+use(chaiAsPromised);
+config.truncateThreshold = 0;
