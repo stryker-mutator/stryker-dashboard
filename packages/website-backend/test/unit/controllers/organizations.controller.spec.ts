@@ -1,5 +1,4 @@
 import request from 'supertest';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import { contractFactory, githubFactory } from '../../helpers/producers.js';
 import { DataAccessMock, config, createAuthorizationHeader } from '../../helpers/TestServer.js';
