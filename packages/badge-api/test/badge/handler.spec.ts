@@ -50,7 +50,7 @@ describe(handler.name, () => {
       params: { slug: 'foo/bar/baz/qux' },
     });
     await sut(...context);
-    expect(shieldMapperStub.shieldFor).calledWith('foo/bar/baz', 'qux', undefined);
+    sinon.assert.calledWith(shieldMapperStub.shieldFor, 'foo/bar/baz', 'qux', undefined);
   });
 
   it('should use module query string argument when it is presented', async () => {
@@ -59,7 +59,7 @@ describe(handler.name, () => {
       query: new URLSearchParams({ module: 'quux' }),
     });
     await sut(...context);
-    expect(shieldMapperStub.shieldFor).calledWith('foo/bar/baz', 'qux', 'quux');
+    sinon.assert.calledWith(shieldMapperStub.shieldFor, 'foo/bar/baz', 'qux', 'quux');
   });
 
   it('should remove trailing slash from url', async () => {
@@ -67,7 +67,7 @@ describe(handler.name, () => {
       params: { slug: 'foo/bar/baz/qux/' },
     });
     await sut(...context);
-    expect(shieldMapperStub.shieldFor).calledWith('foo/bar/baz', 'qux', undefined);
+    sinon.assert.calledWith(shieldMapperStub.shieldFor, 'foo/bar/baz', 'qux', undefined);
   });
 
   it('should return BadRequest when the slug is missing', async () => {
@@ -89,7 +89,8 @@ describe(handler.name, () => {
       query: new URLSearchParams({ invocationId: '' }),
     });
     await sut(...context);
-    expect(context[1].info).calledWith(
+    sinon.assert.calledWith(
+      context[1].info as sinon.SinonStub,
       'Handling invalid request: ',
       sinon.match.instanceOf(InvalidSlugError),
     );

@@ -90,8 +90,9 @@ describe('GithubRepositoryService.js', () => {
       dataAccessMock.repositoryMapper.findAll.resolves([]);
       const user = githubFactory.authentication({ accessToken: '213ASDcs' });
       await sut.getAllForOrganization(user, 'foobarOrg');
-      expect(githubAgentMock.getOrganizationRepositories).calledWith(user, 'foobarOrg');
-      expect(dataAccessMock.repositoryMapper.findAll).calledWith(
+      sinon.assert.calledWith(githubAgentMock.getOrganizationRepositories, user, 'foobarOrg');
+      sinon.assert.calledWith(
+        dataAccessMock.repositoryMapper.findAll,
         DashboardQuery.create(Project).wherePartitionKeyEquals({
           owner: 'github.com/foobarOrg',
         }),
@@ -133,13 +134,13 @@ describe('GithubRepositoryService.js', () => {
     it(`should allow if user has "push" permission`, async () => {
       githubAgentMock.userHasPushAccess.resolves(true);
       await sut.update(githubFactory.authentication(), 'owner', 'name', true);
-      expect(dataAccessMock.repositoryMapper.insertOrMerge).called;
+      sinon.assert.called(dataAccessMock.repositoryMapper.insertOrMerge);
     });
 
     it('should update the repository entity', async () => {
       githubAgentMock.userHasPushAccess.resolves(true);
       await sut.update(githubFactory.authentication(), 'owner', 'name', true, 'apiKeyHash');
-      expect(dataAccessMock.repositoryMapper.insertOrMerge).calledWith({
+      sinon.assert.calledWith(dataAccessMock.repositoryMapper.insertOrMerge, {
         apiKeyHash: 'apiKeyHash',
         enabled: true,
         name: 'name',

@@ -59,8 +59,8 @@ describe('RepositoriesController', () => {
         .expect(200)
         .expect({ apiKey: 'foobar-api-key' });
 
-      expect(generateHashStub).calledWith('foobar-api-key');
-      expect(updateStub).calledWithMatch(auth, 'foo', 'bar', true, 'hashed api key');
+      sinon.assert.calledWith(generateHashStub, 'foobar-api-key');
+      sinon.assert.calledWithMatch(updateStub, auth, 'foo', 'bar', true, 'hashed api key');
     });
 
     it('should disable the repository if enabled = false', async () => {
@@ -72,8 +72,8 @@ describe('RepositoriesController', () => {
         .send({ enabled: false })
         .expect(204);
 
-      expect(generateApiKeyStub).not.called;
-      expect(updateStub).calledWithMatch(auth, 'foo', 'bar', false);
+      sinon.assert.notCalled(generateApiKeyStub);
+      sinon.assert.calledWithMatch(updateStub, auth, 'foo', 'bar', false);
     });
 
     it('should result in 400 when enabled is not present', async () => {

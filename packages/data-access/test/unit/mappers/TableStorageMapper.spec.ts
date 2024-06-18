@@ -47,7 +47,7 @@ describe(TModel.name, () => {
     it('should create table "FooTable"', async () => {
       helper.tableServiceAsPromisedMock.createTableIfNotExists.resolves();
       await helper.sut.createStorageIfNotExists();
-      expect(helper.tableServiceAsPromisedMock.createTableIfNotExists).calledWith('FooTable');
+      sinon.assert.calledWith(helper.tableServiceAsPromisedMock.createTableIfNotExists, 'FooTable');
     });
   });
 
@@ -60,7 +60,7 @@ describe(TModel.name, () => {
       };
       helper.tableServiceAsPromisedMock.insertOrMergeEntity.resolves();
       await helper.sut.insertOrMerge(expected);
-      expect(helper.tableServiceAsPromisedMock.insertOrMergeEntity).calledWith('FooTable', {
+      sinon.assert.calledWith(helper.tableServiceAsPromisedMock.insertOrMergeEntity, 'FooTable', {
         PartitionKey: 'github;owner',
         RowKey: 'name',
         bar: 42,
@@ -78,7 +78,8 @@ describe(TModel.name, () => {
         partitionId: 'github/partKey',
         rowId: 'row/key',
       });
-      expect(helper.tableServiceAsPromisedMock.retrieveEntity).calledWith(
+      sinon.assert.calledWith(
+        helper.tableServiceAsPromisedMock.retrieveEntity,
         'FooTable',
         'github;partKey',
         'row;key',
@@ -121,7 +122,11 @@ describe(TModel.name, () => {
           partitionId: 'github/partKey',
         }),
       );
-      expect(helper.tableServiceAsPromisedMock.queryEntities).calledWith('FooTable', expectedQuery);
+      sinon.assert.calledWith(
+        helper.tableServiceAsPromisedMock.queryEntities,
+        'FooTable',
+        expectedQuery,
+      );
     });
 
     it('should return the all entities', async () => {
@@ -160,7 +165,8 @@ describe(TModel.name, () => {
       const result = await helper.sut.replace(expected, 'prev-etag');
       expect(result).deep.eq(expectedResult);
       const expectedEntity = createRawEntity(expected, 'prev-etag');
-      expect(helper.tableServiceAsPromisedMock.replaceEntity).calledWith(
+      sinon.assert.calledWith(
+        helper.tableServiceAsPromisedMock.replaceEntity,
         FooModel.tableName,
         expectedEntity,
         {},
@@ -193,7 +199,8 @@ describe(TModel.name, () => {
       };
       const result = await helper.sut.insert(expected);
       expect(result).deep.eq(expectedResult);
-      expect(helper.tableServiceAsPromisedMock.insertEntity).calledWith(
+      sinon.assert.calledWith(
+        helper.tableServiceAsPromisedMock.insertEntity,
         FooModel.tableName,
         createRawEntity(expected),
         {},

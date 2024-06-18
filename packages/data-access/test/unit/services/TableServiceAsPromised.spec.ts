@@ -18,8 +18,8 @@ describe(TableServiceAsPromised.name, () => {
       tableServiceMock.createTableIfNotExists.callArg(1);
       await result;
       expect(result).instanceof(Promise);
-      expect(tableServiceMock.createTableIfNotExists).calledWith('someTable');
-      expect(tableServiceMock.createTableIfNotExists).calledOn(tableServiceMock);
+      sinon.assert.calledWith(tableServiceMock.createTableIfNotExists, 'someTable');
+      sinon.assert.calledOn(tableServiceMock.createTableIfNotExists, tableServiceMock);
     });
   });
 
@@ -33,12 +33,12 @@ describe(TableServiceAsPromised.name, () => {
       tableServiceMock.insertOrMergeEntity.callArg(2);
       await result;
       expect(result).instanceof(Promise);
-      expect(tableServiceMock.insertOrMergeEntity).calledWith('foobar', {
+      sinon.assert.calledWith(tableServiceMock.insertOrMergeEntity, 'foobar', {
         foo: 'foo',
         bar: 'bar',
         enabled: true,
       });
-      expect(tableServiceMock.insertOrMergeEntity).calledOn(tableServiceMock);
+      sinon.assert.calledOn(tableServiceMock.insertOrMergeEntity, tableServiceMock);
     });
   });
 
@@ -49,8 +49,8 @@ describe(TableServiceAsPromised.name, () => {
       tableServiceMock.queryEntities.callArgOn(3, sut, undefined, ['result ']);
       const actual = await result;
       expect(result).instanceof(Promise);
-      expect(tableServiceMock.queryEntities).calledWith('foobar', expectedQuery);
-      expect(tableServiceMock.queryEntities).calledOn(tableServiceMock);
+      sinon.assert.calledWith(tableServiceMock.queryEntities, 'foobar', expectedQuery);
+      sinon.assert.calledOn(tableServiceMock.queryEntities, tableServiceMock);
       expect(actual).deep.eq(['result ']);
     });
   });

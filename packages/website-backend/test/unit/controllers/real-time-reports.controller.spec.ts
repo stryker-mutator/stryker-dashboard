@@ -147,7 +147,7 @@ describe(RealTimeReportsController.name, () => {
         '/api/real-time/github.com/user/does-not-exist/master',
       );
 
-      expect(dataAccess.blobService.getReport).calledWith({
+      sinon.assert.calledWith(dataAccess.blobService.getReport, {
         projectName: 'github.com/user/does-not-exist',
         version: 'master',
         moduleName: undefined,
@@ -251,7 +251,7 @@ describe(RealTimeReportsController.name, () => {
         .send(mutationTestResult);
 
       // Assert
-      expect(dataAccess.blobService.createReport).calledWith({
+      sinon.assert.calledWith(dataAccess.blobService.createReport, {
         projectName: 'github.com/testOrg/testName',
         version: 'main',
         moduleName: 'logging',
@@ -330,7 +330,7 @@ describe(RealTimeReportsController.name, () => {
 
       expect(response.status).to.eq(200);
       expect(responseHandlerForProjectStub.calledOnce).to.be.true;
-      expect(responseHandlerForProjectStub).calledWith({
+      sinon.assert.calledWith(responseHandlerForProjectStub, {
         projectName: 'github.com/testOrg/testName',
         version: 'myWebsite',
         moduleName: 'logging',
@@ -354,9 +354,9 @@ describe(RealTimeReportsController.name, () => {
         realTime: true,
       };
       expect(dataAccess.blobService.delete.calledOnce).to.be.true;
-      expect(dataAccess.blobService.delete).calledWith(expectedId);
+      sinon.assert.calledWith(dataAccess.blobService.delete, expectedId);
       expect(dataAccess.mutationTestingReportService.delete.calledOnce).to.be.true;
-      expect(dataAccess.mutationTestingReportService.delete).calledWith(expectedId);
+      sinon.assert.calledWith(dataAccess.mutationTestingReportService.delete, expectedId);
     });
   });
 });

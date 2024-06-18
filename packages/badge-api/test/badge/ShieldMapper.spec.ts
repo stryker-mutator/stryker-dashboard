@@ -30,7 +30,7 @@ describe(ShieldMapper.name, () => {
       version: 'barVersion',
       moduleName: 'bazModule',
     };
-    expect(mutationTestingReportStub.findOne).calledWith(expected);
+    sinon.assert.calledWith(mutationTestingReportStub.findOne, expected);
   });
 
   it('should map to an "unknown" shield if mutation score is not found', async () => {

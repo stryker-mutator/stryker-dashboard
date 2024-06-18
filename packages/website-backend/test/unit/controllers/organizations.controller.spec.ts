@@ -52,7 +52,7 @@ describe(OrganizationsController.name, () => {
         .expect(expectedRepos);
 
       // Assert
-      expect(getAllForOrganizationStub).calledWithMatch(expectedUser, 'foobarOrg');
+      sinon.assert.calledWithMatch(getAllForOrganizationStub, expectedUser, 'foobarOrg');
     });
   });
 });

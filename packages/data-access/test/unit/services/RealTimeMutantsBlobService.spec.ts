@@ -33,7 +33,7 @@ describe(RealTimeMutantsBlobService.name, () => {
       await sut.createStorageIfNotExists();
 
       expect(blobMock.createContainerIfNotExists.calledOnce).to.be.true;
-      expect(blobMock.createContainerIfNotExists).calledWith('real-time-mutant-results', {});
+      sinon.assert.calledWith(blobMock.createContainerIfNotExists, 'real-time-mutant-results', {});
     });
   });
 
@@ -42,7 +42,8 @@ describe(RealTimeMutantsBlobService.name, () => {
       await sut.createReport(id);
 
       expect(blobMock.createAppendBlobFromText.calledOnce).to.be.true;
-      expect(blobMock.createAppendBlobFromText).calledWith(
+      sinon.assert.calledWith(
+        blobMock.createAppendBlobFromText,
         'real-time-mutant-results',
         'abc;main;real-time',
         '',
@@ -59,7 +60,8 @@ describe(RealTimeMutantsBlobService.name, () => {
       await sut.appendToReport(id, mutants);
 
       expect(blobMock.appendBlockFromText.calledOnce).to.be.true;
-      expect(blobMock.appendBlockFromText).calledWith(
+      sinon.assert.calledWith(
+        blobMock.appendBlockFromText,
         'real-time-mutant-results',
         'abc;main;real-time',
         '{"id":"1","status":"Killed"}\n{"id":"2","status":"Survived"}\n',
@@ -104,7 +106,8 @@ describe(RealTimeMutantsBlobService.name, () => {
       sut.delete(identifier);
 
       expect(blobMock.deleteBlobIfExists.calledOnce).to.be.true;
-      expect(blobMock.deleteBlobIfExists).calledWith(
+      sinon.assert.calledWith(
+        blobMock.deleteBlobIfExists,
         'real-time-mutant-results',
         'project;version;core',
       );
