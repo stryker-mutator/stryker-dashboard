@@ -8,8 +8,8 @@ There a few things necessary for running the tests successfully, these are liste
 
 ### Setting environment variables
 
-We need to gather a few values for the variables defined in the template [file](./.env.template). 
-Most of these are already prefilled for local environments, but the `E2E_JWT_SECRET` and `E2E_ACCESS_TOKEN` are not. 
+We need to gather a few values for the variables defined in the template [file](./.env.template).
+Most of these are already prefilled for local environments, but the `E2E_JWT_SECRET` and `E2E_ACCESS_TOKEN` are not.
 For the `E2E_JWT_SECRET`, we can fill in any value so long as it equals the value what is put in the environment file in the `website-backend`.
 
 The `E2E_ACCESS_TOKEN` is a bit trickier to get. It normally requires access to our 'dummy' account: [strykermutator-test-account](https://github.com/strykermutator-test-account) (which is what the test defaults to).

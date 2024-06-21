@@ -6,6 +6,8 @@ export class RepositoriesPage extends DashboardPage {
   public readonly ownerSelector = new SelectPageObject(this.page.locator('stryker-owner-selector'));
 
   public async navigate() {
-    await this.page.goto(`/repos/${getOptionalEnvVariable('E2E_GITHUB_USER_NAME', 'strykermutator-test-account')}`);
+    await this.page.goto(
+      `/repos/${getOptionalEnvVariable('E2E_GITHUB_USER_NAME', 'strykermutator-test-account')}`,
+    );
   }
 }
