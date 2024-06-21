@@ -18,4 +18,3 @@ A storybook server will start on [localhost:6006](http://localhost:6006).
 We use the heroicons icon pack made by the makers of tailwindcss. You can find the icons at [heroicons.com](https://heroicons.com/).
 
 An example of how to use the icons can be found in `carousell.ts`.
-

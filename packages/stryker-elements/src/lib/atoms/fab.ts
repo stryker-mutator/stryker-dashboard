@@ -15,11 +15,7 @@ export class FAB extends BaseElement {
     class="inline-block h-6 w-6"
     id="chevron-left"
   >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      d="M15.75 19.5 8.25 12l7.5-7.5"
-    />
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
   </svg>`;
   chevronRight = html`<svg
     xmlns="http://www.w3.org/2000/svg"
@@ -29,11 +25,7 @@ export class FAB extends BaseElement {
     stroke="currentColor"
     class="h-6 w-6"
   >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      d="m8.25 4.5 7.5 7.5-7.5 7.5"
-    />
+    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
   </svg>`;
 
   render() {

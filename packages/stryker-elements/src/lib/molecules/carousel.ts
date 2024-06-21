@@ -30,11 +30,7 @@ export class Carousel extends BaseElement {
   render() {
     return html`
       <div class="flex justify-between">
-        <sme-fab
-          class="place-self-center"
-          icon="chevron-left"
-          @click="${this.previous}"
-        ></sme-fab>
+        <sme-fab class="place-self-center" icon="chevron-left" @click="${this.previous}"></sme-fab>
 
         ${this.carouselItems
           .slice(0, this.nrOfSlidesToShow)
@@ -47,11 +43,7 @@ export class Carousel extends BaseElement {
               ></sme-carousel-item>`,
           )}
 
-        <sme-fab
-          class="place-self-center"
-          icon="chevron-right"
-          @click="${this.next}"
-        ></sme-fab>
+        <sme-fab class="place-self-center" icon="chevron-right" @click="${this.next}"></sme-fab>
       </div>
     `;
   }
