@@ -1,10 +1,10 @@
 # E2E testing guide for Stryker Dashboard
 
-A few steps are needed to run end to end tests for Stryker Dashboard. This guide is meant for running these tests locally.
+A few steps are needed to set up end to end tests for Stryker Dashboard. This guide is meant for running these tests locally.
 
 ## Before running the tests
 
-There a few things necessary for running the tests successfully, these are listed below.
+There are a few things necessary for running the tests successfully, these are listed below.
 
 ### Setting environment variables
 
