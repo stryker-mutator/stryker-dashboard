@@ -6,3 +6,7 @@ export function getEnvVariable(variableName: string): string {
     throw new Error(`Missing ${variableName} env variable.`);
   }
 }
+
+export function getOptionalEnvVariable(variableName: string, defaultValue = '') {
+  return process.env[variableName] ?? defaultValue;
+}
