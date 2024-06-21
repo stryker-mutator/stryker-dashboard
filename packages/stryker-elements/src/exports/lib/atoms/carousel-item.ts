@@ -1,5 +1,5 @@
 import { defineElement } from '../../../define-element';
-import { CarousellItem } from '../../../lib/atoms/carousell-item';
+import { CarousellItem } from '../../../lib/atoms/carousel-item';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -7,4 +7,4 @@ declare global {
   }
 }
 
-defineElement('sme-carousell-item', CarousellItem);
+defineElement('sme-carousel-item', CarousellItem);

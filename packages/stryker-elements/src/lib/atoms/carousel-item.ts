@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { BaseElement } from '../base-element.js';
 import { property } from 'lit/decorators.js';
 
-export type CarousellItemProperties = {
+export type CarouselItemProperties = {
   name: string;
   logo: string;
   url: string;

@@ -1,27 +1,27 @@
 import { property } from 'lit/decorators.js';
 import { BaseElement } from '../base-element';
 import { html } from 'lit';
-import { type CarousellItemProperties } from '../atoms/carousell-item';
+import { type CarouselItemProperties } from '../atoms/carousel-item';
 
-export class Carousell extends BaseElement {
+export class Carousel extends BaseElement {
   @property()
-  carousellItems: CarousellItemProperties[] = [];
+  carouselItems: CarouselItemProperties[] = [];
 
   @property()
   nrOfSlidesToShow: number = 4;
 
   next() {
-    const firstItem = this.carousellItems.shift();
+    const firstItem = this.carouselItems.shift();
     if (firstItem) {
-      this.carousellItems.push(firstItem);
+      this.carouselItems.push(firstItem);
     }
     this.requestUpdate();
   }
 
   previous() {
-    const lastItem = this.carousellItems.pop();
+    const lastItem = this.carouselItems.pop();
     if (lastItem) {
-      this.carousellItems.unshift(lastItem);
+      this.carouselItems.unshift(lastItem);
     }
 
     this.requestUpdate();
@@ -36,15 +36,15 @@ export class Carousell extends BaseElement {
           @click="${this.previous}"
         ></sme-fab>
 
-        ${this.carousellItems
+        ${this.carouselItems
           .slice(0, this.nrOfSlidesToShow)
           .map(
             (item) =>
-              html`<sme-carousell-item
+              html`<sme-carousel-item
                 name="${item.name}"
                 logo="${item.logo}"
                 url="${item.url}"
-              ></sme-carousell-item>`,
+              ></sme-carousel-item>`,
           )}
 
         <sme-fab

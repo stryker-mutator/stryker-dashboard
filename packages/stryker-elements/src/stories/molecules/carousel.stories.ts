@@ -1,18 +1,18 @@
 import { Meta, StoryObj } from '@storybook/web-components';
 
-import '../../exports/lib/molecules/carousell';
-import '../../exports/lib/atoms/carousell-item';
+import '../../exports/lib/molecules/carousel';
+import '../../exports/lib/atoms/carousel-item';
 import '../../exports/lib/atoms/fab';
 
 export default {
-  title: 'Molecules/Carousell',
-  component: 'sme-carousell',
+  title: 'Molecules/Carousel',
+  component: 'sme-carousel',
 } as Meta;
 
 export const Default: StoryObj = {
   args: {
     nrOfSlidesToShow: 4,
-    carousellItems: [
+    carouselItems: [
       {
         name: 'StrykerJS',
         logo: 'https://stryker-mutator.io/images/stryker.svg',
@@ -32,7 +32,6 @@ export const Default: StoryObj = {
         name: 'Infection',
         logo: 'https://stryker-mutator.io/images/stryker.svg',
         url: 'https://github.com/stryker-mutator/stryker-js',
-        hoi: 'hoi',
       },
     ],
   },
