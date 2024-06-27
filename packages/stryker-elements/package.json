@@ -58,7 +58,7 @@
     "postcss": "8.4.38",
     "storybook": "8.1.11",
     "tailwindcss": "3.4.4",
-    "vite": "5.3.1",
+    "vite": "5.3.2",
     "vite-plugin-dts": "3.9.1"
   }
 }
