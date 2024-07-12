@@ -28,7 +28,7 @@
     "@angular/platform-browser-dynamic": "18.0.6",
     "@angular/router": "18.0.6",
     "@github/clipboard-copy-element": "1.3.0",
-    "@primer/octicons": "19.10.0",
+    "@primer/octicons": "19.11.0",
     "@stryker-mutator/dashboard-common": "0.14.3",
     "@stryker-mutator/dashboard-contract": "0.14.3",
     "@stryker-mutator/karma-runner": "8.2.6",
