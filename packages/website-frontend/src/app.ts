@@ -1,6 +1,9 @@
 import { LitElement, css, html } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 
+/* Import preflight styles */
+import '@stryker-mutator/stryker-elements';
+
 /**
  * An example element.
  *
@@ -23,21 +26,11 @@ export class MyElement extends LitElement {
 
   override render() {
     return html`
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://lit.dev" target="_blank">
-          <img  class="logo lit" alt="Lit logo" />
-        </a>
-      </div>
-      <slot></slot>
-      <div class="card">
-        <button @click=${this._onClick} part="button">
-          count is ${this.count}
-        </button>
-      </div>
-      <p class="read-the-docs">${this.docsHint}</p>
+      <sme-hero></sme-hero>
+      <sme-stryker-dashboard-explanation></sme-stryker-dashboard-explanation>
+      <sme-spatious-layout>
+        <sme-getting-started-overview id="getting-started"></sme-getting-started-overview>
+      </sme-spatious-layout>
     `
   }
 

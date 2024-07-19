@@ -2,12 +2,7 @@
   "name": "@stryker-mutator/dashboard-frontend",
   "version": "0.14.3",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test --watch false --code-coverage",
-    "test:watch": "ng test",
+    "start": "vite serve ./src",
     "stryker": "stryker run"
   },
   "publishConfig": {
