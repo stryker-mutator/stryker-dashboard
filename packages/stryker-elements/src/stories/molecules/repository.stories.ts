@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/web-components';
 
-import '../../exports/lib/molecules/repository';
+import '../../lib/molecules/repository';
 
 export default {
   title: 'Molecules/Repository',

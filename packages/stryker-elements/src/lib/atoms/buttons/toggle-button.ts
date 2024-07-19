@@ -1,9 +1,11 @@
-import { property } from 'lit/decorators.js';
-import { BaseElement } from '../../base-element';
 import { html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
+import { BaseElement } from '../../base-element';
+
+@customElement('sme-toggle-button')
 export class ToggleButton extends BaseElement {
-  @property()
+  @property({ type: Boolean, reflect: true })
   checked = false;
 
   render() {
@@ -12,7 +14,7 @@ export class ToggleButton extends BaseElement {
         <input
           type="checkbox"
           class="peer sr-only"
-          .checked="${this.checked}"
+          ?checked="${this.checked}"
           @change="${this.#onChange}"
         />
         <div
@@ -25,5 +27,11 @@ export class ToggleButton extends BaseElement {
   #onChange() {
     this.checked = !this.checked;
     this.dispatchEvent(new CustomEvent('stateChanged', { detail: { checked: this.checked } }));
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-toggle-button': ToggleButton;
   }
 }

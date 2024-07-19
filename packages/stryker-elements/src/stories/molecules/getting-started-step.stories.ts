@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/web-components';
-
-import '../../exports/lib/molecules/getting-started-step';
 import { html } from 'lit';
+
+import '../../lib/molecules/getting-started-step';
 
 export default {
   title: 'Molecules/Getting Started Step',

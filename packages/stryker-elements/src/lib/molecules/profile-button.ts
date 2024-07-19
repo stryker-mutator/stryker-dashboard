@@ -1,11 +1,10 @@
-import { BaseElement } from '../base-element.js';
 import { html } from 'lit';
-import { property, state } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import '../../exports/lib/atoms/buttons/button.js';
-import '../../exports/lib/atoms/link.js';
+import { BaseElement } from '../base-element.js';
 
+@customElement('sme-profile-button')
 export class ProfileButton extends BaseElement {
   @property()
   direction: 'left' | 'right' = 'right';
@@ -17,15 +16,7 @@ export class ProfileButton extends BaseElement {
   avatarUrl = '';
 
   @state()
-  clicked = false;
-
-  #handleClick = () => {
-    this.clicked = !this.clicked;
-  };
-
-  #dispatchSignOut() {
-    this.dispatchEvent(new Event('sign-out', { bubbles: true }));
-  }
+  menuOpened = false;
 
   render() {
     const directionClasses = classMap({
@@ -34,16 +25,17 @@ export class ProfileButton extends BaseElement {
     });
 
     return html`<button
-        @click="${this.#handleClick}"
-        class="mr-4 h-10 w-10 overflow-hidden rounded-full border border-2 border-solid border-neutral-600"
+        @mouseenter="${this.#openMenu}"
+        class="profile mr-4 h-10 w-10 overflow-hidden rounded-full border border-2 border-solid border-neutral-600"
       >
         <img class="h-full w-full" src="${this.avatarUrl}" />
       </button>
       <div
+        @mouseleave="${this.#closeMenu}"
         class="${classMap({
-          hidden: !this.clicked,
+          'opacity-100': this.menuOpened,
           '-translate-x-40': this.direction === 'right',
-        })} align-center absolute z-[999] flex w-48 translate-y-4 flex-col overflow-hidden rounded-md border border-2 border-neutral-600 bg-neutral-800"
+        })} align-center absolute z-[999] flex w-48 translate-y-4 flex-col overflow-hidden rounded-md border-2 border-neutral-600 bg-neutral-800 opacity-0 transition"
       >
         <sme-link
           href="/repos/${this.name}"
@@ -62,5 +54,23 @@ export class ProfileButton extends BaseElement {
           Sign out
         </sme-button>
       </div>`;
+  }
+
+  #openMenu() {
+    this.menuOpened = true;
+  }
+
+  #closeMenu() {
+    this.menuOpened = false;
+  }
+
+  #dispatchSignOut() {
+    this.dispatchEvent(new Event('sign-out', { bubbles: true }));
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-profile-button': ProfileButton;
   }
 }

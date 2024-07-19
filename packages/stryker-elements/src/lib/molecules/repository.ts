@@ -1,9 +1,9 @@
-import { property } from 'lit/decorators.js';
-import { BaseElement } from '../base-element.js';
 import { html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
-import '../../exports/lib/atoms/badge';
+import { BaseElement } from '../base-element.js';
 
+@customElement('sme-repository')
 export class Repository extends BaseElement {
   @property()
   reportLink = 'https://dashboard.stryker-mutator.io/reports/';
@@ -14,10 +14,10 @@ export class Repository extends BaseElement {
   @property()
   slug = '';
 
-  @property()
+  @property({ type: Number })
   mutationScore = 0;
 
-  @property()
+  @property({ type: Number })
   totalSteps = 100;
 
   render() {
@@ -26,8 +26,14 @@ export class Repository extends BaseElement {
         <a class="col-span-1 font-bold text-white underline" href="${this.reportLink}${this.slug}"
           >${this.name}</a
         >
-        <sme-badge class="col-span-2 ms-auto" slug="${this.slug}" />
+        <sme-badge class="col-span-2 ms-auto" slug="${this.slug}"></sme-badge>
       </div>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-repository': Repository;
   }
 }

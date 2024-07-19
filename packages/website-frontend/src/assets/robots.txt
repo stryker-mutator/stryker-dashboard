@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: /repos/
-Disallow: /reports/
-Disallow: /auth/

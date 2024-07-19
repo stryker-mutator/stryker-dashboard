@@ -1,7 +1,9 @@
 import { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
 
-import '../../exports/lib/molecules/profile-button';
+import '../../lib/atoms/buttons/button';
+import '../../lib/atoms/link';
+import '../../lib/molecules/profile-button';
 
 export default {
   title: 'Molecules/Profile Button',

@@ -1,8 +1,10 @@
 import { html } from 'lit';
-import { BaseElement } from '../base-element.js';
-import { property } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 
+import { BaseElement } from '../base-element.js';
+
+@customElement('sme-status-overview')
 export class StatusOverview extends BaseElement {
   @property({ type: Array })
   boxes: { value: string; label: string; color: string }[] = [
@@ -33,5 +35,11 @@ export class StatusOverview extends BaseElement {
         </div>
       </div>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-status-overview': StatusOverview;
   }
 }

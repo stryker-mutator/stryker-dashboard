@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/web-components';
-
-import '../../exports/lib/atoms/labeled-container';
 import { html } from 'lit';
+
+import '../../lib/atoms/labeled-container';
 
 export default {
   title: 'Atoms/Labeled Container',

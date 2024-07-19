@@ -1,0 +1,64 @@
+{
+  "mutationScore": 50,
+  "thresholds": {
+    "high": 80,
+    "low": 60
+  },
+  "projectRoot": "/src/project",
+  "files": {
+    "test.js": {
+      "language": "javascript",
+      "source": "\"use strict\";\nfunction add(a, b) {\n  return a + b;\n}",
+      "mutants": [
+        {
+          "id": "3",
+          "location": {
+            "start": {
+              "column": 1,
+              "line": 1
+            },
+            "end": {
+              "column": 13,
+              "line": 1
+            }
+          },
+          "replacement": "\"\"",
+          "mutatorName": "String Literal",
+          "status": "Survived"
+        },
+        {
+          "id": "1",
+          "mutatorName": "Arithmetic Operator",
+          "replacement": "-",
+          "location": {
+            "start": {
+              "line": 3,
+              "column": 12
+            },
+            "end": {
+              "line": 3,
+              "column": 13
+            }
+          },
+          "status": "Survived"
+        },
+        {
+          "id": "2",
+          "mutatorName": "Block Statement",
+          "replacement": "{}",
+          "location": {
+            "start": {
+              "line": 2,
+              "column": 20
+            },
+            "end": {
+              "line": 4,
+              "column": 1
+            }
+          },
+          "status": "Killed"
+        }
+      ]
+    }
+  }
+}

@@ -1,9 +1,11 @@
-import { BaseElement } from '../base-element.js';
 import { html, nothing } from 'lit';
-import { property } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
+import { BaseElement } from '../base-element.js';
+
+@customElement('sme-progress-bar')
 export class ProgressBar extends BaseElement {
   @property({ type: Number })
   currentStep = 0;
@@ -80,5 +82,11 @@ export class ProgressBar extends BaseElement {
         </div>
       </div>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'progress-bar': ProgressBar;
   }
 }

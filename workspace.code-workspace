@@ -31,7 +31,7 @@
   ],
   "extensions": {
     "recommendations": [
-      "angular.ng-template",
+      "runem.lit-plugin",
       // https://marketplace.visualstudio.com/items?itemName=Azurite.azurite
       "Azurite.azurite",
     ],

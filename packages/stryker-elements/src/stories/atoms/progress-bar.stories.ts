@@ -1,17 +1,17 @@
 import { Meta, StoryObj } from '@storybook/web-components';
-
-import '../../exports/lib/atoms/progress-bar';
 import { html } from 'lit';
+
+import '../../lib/atoms/progress-bar';
 
 export default {
   title: 'Atoms/Progress Bar',
   component: 'sme-progress-bar',
   render: ({ currentStep, totalSteps }) => html`
-    <progress-bar
+    <sme-progress-bar
       class="col-span-2"
       currentStep="${currentStep}"
       totalSteps="${totalSteps}"
-    ></progress-bar>
+    ></sme-progress-bar>
   `,
 } as Meta;
 

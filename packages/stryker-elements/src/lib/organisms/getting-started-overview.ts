@@ -1,14 +1,13 @@
-import { BaseElement } from '../base-element.js';
 import { TemplateResult, css, html } from 'lit';
+import { customElement } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 
-import '../../exports/lib/molecules/getting-started-step.js';
-import '../../exports/lib/molecules/repository.js';
-
+import { BaseElement } from '../base-element.js';
 import TrailOne from '../../assets/trail-1.svg?raw';
 import TrailTwo from '../../assets/trail-2.svg?raw';
 import TrailThree from '../../assets/trail-3.svg?raw';
 
+@customElement('sme-getting-started-overview')
 export class GettingStartedOverview extends BaseElement {
   static styles = [
     ...BaseElement.styles,
@@ -99,7 +98,16 @@ export class GettingStartedOverview extends BaseElement {
         <div class="trail-three col-span-3 self-center">${unsafeSVG(TrailThree)}</div>
       </div>
       <h2 class="mb-3 text-xl font-bold text-white">🔍 View your results</h2>
-      <sme-repository mutationScore="83" name="your-repository"></sme-repository>
+      <sme-repository
+        name="Stryker.NET"
+        slug="github.com/stryker-mutator/stryker-net/master"
+      ></sme-repository>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-getting-started-overview': GettingStartedOverview;
   }
 }

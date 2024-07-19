@@ -1,20 +1,14 @@
-import { BaseElement } from '../base-element.js';
 import { html } from 'lit';
-import { property, state } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
+import { customElement, property } from 'lit/decorators.js';
+import { when } from 'lit/directives/when.js';
 
+import { BaseElement } from '../base-element.js';
+import { Button } from '../atoms/buttons/button.js';
+
+@customElement('sme-toggle-repository')
 export class ToggleRepository extends BaseElement {
-  @property()
-  apiKey = '';
-
-  @property()
+  @property({ type: Boolean, reflect: true })
   enabled = false;
-
-  @state()
-  hasCopied = false;
-
-  @property()
-  loading = false;
 
   @property()
   name = '';
@@ -25,62 +19,53 @@ export class ToggleRepository extends BaseElement {
   render() {
     return html`
       <div
-        class="${classMap({
-          'animate-pulse': this.loading,
-        })}grid grid-cols-2 rounded-lg border-2 border-neutral-600 p-3"
+        @click="${this.#handleClick}"
+        class="grid cursor-pointer grid-cols-2 rounded-lg border-2 border-neutral-600 p-2"
       >
-        <span class="font-bold text-white">${this.name}</span>
-        ${this.#apiKeyCopiedOrNoApiKeyAvailable()
-          ? this.#renderToggleButton()
-          : this.#renderApiKey()}
+        <span class="ms-2 flex items-center text-lg font-bold text-white">${this.name}</span>
+        ${this.#renderToggleButton()}
       </div>
     `;
   }
 
-  #apiKeyCopiedOrNoApiKeyAvailable() {
-    return this.apiKey === '' || this.hasCopied;
+  #handleClick(e: MouseEvent) {
+    if (e.target instanceof Button) {
+      return;
+    }
+
+    this.dispatchEvent(new CustomEvent('repositoryClicked'));
   }
 
   #renderToggleButton() {
-    return html` <div class="flex">
-      <sme-toggle-button
-        class="ms-auto flex"
-        .checked="${this.enabled}"
-        @stateChanged="${this.#toggleRepository}"
-      />
-    </div>`;
+    return html`
+      <div class="flex">
+        <div class="ms-auto flex">
+          ${when(
+            this.enabled,
+            () => html`<sme-badge class="me-6 flex items-center" slug="${this.slug}"></sme-badge>`,
+          )}
+          <sme-button class="flex" @click="${this.#toggleRepository}">
+            ${this.enabled ? 'Disable' : 'Enable'}
+          </sme-button>
+        </div>
+      </div>
+    `;
   }
 
-  #renderApiKey() {
-    return html` <div class="align-content-center flex">
-      <p class="ms-auto font-bold">
-        ${this.apiKey}<span class="ms-2 cursor-pointer" @click="${this.#copyApiKeyToClipboard}"
-          >📋</span
-        >
-      </p>
-    </div>`;
-  }
-
-  #copyApiKeyToClipboard() {
-    window.navigator.clipboard.writeText(this.apiKey!);
-    this.hasCopied = true;
-    this.apiKey = '';
-  }
-
-  #toggleRepository(event: CustomEvent) {
-    if (event.detail.checked) {
-      this.apiKey = '';
-      this.hasCopied = false;
-    }
-
-    this.loading = true;
+  #toggleRepository() {
     this.dispatchEvent(
       new CustomEvent('repositoryToggled', {
         detail: {
           slug: this.slug,
-          checked: event.detail.checked,
+          checked: !this.enabled,
         },
       }),
     );
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-toggle-repository': ToggleRepository;
   }
 }

@@ -1,6 +1,9 @@
 import { html } from 'lit';
+import { customElement } from 'lit/decorators.js';
+
 import { BaseElement } from '../base-element';
 
+@customElement('sme-stryker-dashboard-explanation')
 export class StrykerDashboardExplanation extends BaseElement {
   render() {
     return html`
@@ -24,5 +27,11 @@ export class StrykerDashboardExplanation extends BaseElement {
         </div>
       </div>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-stryker-dashboard-explanation': StrykerDashboardExplanation;
   }
 }

@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
 
-import '../../exports/lib/atoms/badge';
+import '../../lib/atoms/badge';
 
 export default {
   title: 'Atoms/Badge',

@@ -1,7 +1,8 @@
 import { html } from 'lit';
 import { BaseElement } from '../base-element.js';
-import { property } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 
+@customElement('sme-labeled-container')
 export class LabeledContainer extends BaseElement {
   @property({ type: String })
   label = '';
@@ -15,5 +16,11 @@ export class LabeledContainer extends BaseElement {
         <slot></slot>
       </div>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-labeled-container': LabeledContainer;
   }
 }

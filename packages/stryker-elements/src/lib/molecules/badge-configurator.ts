@@ -1,7 +1,8 @@
-import { BaseElement } from '../base-element.js';
 import { html } from 'lit';
-import { property, state } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
+
+import { BaseElement } from '../base-element.js';
 
 const finalBadgeUrl = 'https://img.shields.io/endpoint';
 const exampleImageBaseUrl = 'https://img.shields.io/badge/mutation score';
@@ -12,6 +13,7 @@ const badgeExamples = [
   `${exampleImageBaseUrl}-45.6%-red`,
 ];
 
+@customElement('sme-badge-configurator')
 export class BadgeConfigurator extends BaseElement {
   @property()
   dashboardBadgeApiUrl = 'https://badge-api.stryker-mutator.io/';
@@ -39,7 +41,7 @@ export class BadgeConfigurator extends BaseElement {
             .small="${true}"
             type="primary"
             @click="${this.#copyToClipboard}"
-            >${this.isCopied ? 'Copied!' : 'Copy badge'}</sme-button
+            >${this.isCopied ? 'Copied!' : 'Copy markdown'}</sme-button
           >
         </div>
       </div>
@@ -83,5 +85,11 @@ export class BadgeConfigurator extends BaseElement {
     setTimeout(() => {
       this.isCopied = false;
     }, 2000);
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-badge-configurator': BadgeConfigurator;
   }
 }
