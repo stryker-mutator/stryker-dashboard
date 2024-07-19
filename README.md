@@ -1,10 +1,10 @@
+<img src="https://raw.githubusercontent.com/stryker-mutator/stryker-mutator.github.io/develop/static/images/stryker.svg" alt="Stryker logo" style="width: 80px" />
+
+# Stryker dashboard
+
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fstryker-mutator%2Fstryker-dashboard%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/stryker-mutator/stryker-dashboard/master)
 [![Build Status](https://github.com/stryker-mutator/stryker-dashboard/workflows/CI/badge.svg)](https://github.com/stryker-mutator/stryker-dashboard/actions?workflow=CI)
 [![Slack Chat](https://img.shields.io/badge/slack-chat-brightgreen.svg?logo=slack)](https://join.slack.com/t/stryker-mutator/shared_invite/enQtOTUyMTYyNTg1NDQ0LTU4ODNmZDlmN2I3MmEyMTVhYjZlYmJkOThlNTY3NTM1M2QxYmM5YTM3ODQxYmJjY2YyYzllM2RkMmM1NjNjZjM)
-
-<img src="https://raw.githubusercontent.com/stryker-mutator/stryker-mutator.github.io/develop/static/images/stryker.svg" alt="Stryker logo" style="width: 80px" />
-
-# The Stryker dashboard
 
 ## Local development
 
@@ -14,29 +14,23 @@ First things first, there's always something before you can start.
 
 To make our life easier, we use [NPM](https://www.npmjs.com/) a lot. Make sure you have it installed.
 
-Our application runs in [Docker](https://www.docker.com/). If you don't already use it, now would be the time. Make sure the Docker daemon is up and running.
-
 ### Azure Storage
 
-We store our data in [Azure Storage](https://azure.microsoft.com/en-us/free/services/storage/), so you need to be able to do so as well. On Windows, you can use the [Azure Storage Emulator](https://docs.microsoft.com/en-gb/azure/storage/common/storage-use-emulator). For Mac users, we recommend creating a free [Azure account](https://azure.microsoft.com/en-us/free/services/storage/).
+We store our data in [Azure Storage](https://azure.microsoft.com/en-us/free/services/storage/), so you need to be able to do so as well. For local development (Windows, Mac and Linux), you can use [Azurite](https://github.com/Azure/Azurite).
 
 ### GitHub OAuth application
 
 [Register](https://github.com/settings/applications/new) a new OAuth application. This will allow users to connect to their GitHub account.
 
-> Make sure you set the `Authorization callback URL` to `http://localhost:1337/auth/github/callback` (you can also use your preferred port).
+> Depending on what you are doing, use the port `1337` (backend port) or `4200` (frontend port) in the `Authorization callback URL`: `http://localhost:{preferred_port}/auth/github/callback`.
 
 ### Build the application
 
 Building the application is easy. First run `npm install && npm run build`, to build the application.
 
-> If you run into problems with building using npm, this is likely caused by our use of `lerna` combined with some of the latest `node` features. A solution is to only use the npm install and build command in the `packages/website-frontend` directory.
-
 ### Configuration
 
-Next, you need to define the following environment variables in a Docker [enviroment variables file](https://docs.docker.com/engine/reference/commandline/run/#set-environment-variables--e-env-env-file):
-
-> You can also enter these in the commandline, but we recommend using a separate file because it contains sensitive information.
+Next, you need to define the following environment variables in a `.env` file. An example file is located in the [packages/website-backend](./packages/website-backend/.env.example) folder.
 
 | Variable                          | Example                       | Explanation                                                                                                                        | Required |
 | --------------------------------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
@@ -45,20 +39,57 @@ Next, you need to define the following environment variables in a Docker [enviro
 | `GH_BASIC_SECRET_ID`              | `1234567890...abcdef1`        | GitHub-issued Client Secret.                                                                                                       | Yes      |
 | `JWT_SECRET`                      | `u7apm8MrMBe8Fwrx4uMH`        | The secret for the HMAC algorithm that creates the signature of the [JWT](https://tools.ietf.org/html/rfc7519).                    | Yes      |
 | `NODE_ENV`                        | `development`                 | Node setting for production environment. Used by us for some SSL settings. Can be either: `production` (default) or `development`. | No       |
-| `PORT`                            | `1337`                        | Port on which Stryker Dashboard will listen for connections.                                                                       | No       |
 
-### Start the application
+### Start the backend
 
-To start the application, you can now simply run `docker run --env-file env.list -p 1337:1337 ghcr.io/stryker-mutator/dashboard`. This will spin-up a Docker container with the image that was build earlier; provide it with your environment variables set in the `env-list` file; and open port 1337 so you can access it on your local machine.
+Before running the backend, start Azurite first to emulate Azure storage:
 
-Stryker Dashboard should now be available at [http://localhost:1337](http://localhost:1337).
+1. `npm run start:azurite` (in the root of the project).
 
-### (Optional) Front-end development
+To start the backend, navigate to the `website-backend` package first:
 
-Building and re-running the Docker image everytime you make a small front-end change is a bit too much work. We use a proxy config file `packages/website-frontend/proxy.config.json`, to redirect requests from the frontend running locally (served by running `npm start`) to the backend running in a Docker container.
+2. `cd packages/website-backend`.
+
+After doing this, simply run the backend by running the following command:
+
+3. `npm run start` or `npm run start:watch` (to automatically refresh the backend when making changes).
+
+The backend should now be available at [http://localhost:1337](http://localhost:1337).
+
+### (Optional) Start the frontend
+
+> Note: it is expected that the backend is running.
+
+To start the front-end, navigate to the `website-frontend` package first:
+
+1. `cd packages/website-frontend`.
+
+After doing this, simply run the frontend by running the following command:
+
+2. `npm run watch`
+
+The frontend should now be availabe at [http://localhost:4200](http://localhost:4200).
+
+### (Optional) Start storybook
+
+We use [Lit](https://lit.dev/) for most of our components. These components are defined in the `stryker-elements` package. To develop these components, we use Storybook.
+
+To run Storybook, navigate to the `packages/stryker-elements` first:
+
+1. `cd packages/stryker-elements`.
+
+Before running Storybook, run Vite first:
+
+2. `npm run build:watch`.
+
+To run storybook, use the following command:
+
+3. `npm run start`.
+
+### (Optional) Running End to End tests
+
+See [`e2e/README.md`](./packages/e2e/README.md).
 
 ## Contributing
 
-Pull requests are welcome!
-See the [list of open issues](https://github.com/stryker-mutator/stryker-badge/issues) to get an idea of what you could work on.
-Or, if you have an awesome idea, please [create a new issue](https://github.com/stryker-mutator/stryker-badge/issues/new) or [discuss it on Gitter](https://gitter.im/stryker-mutator/stryker).
+See [`CONTRIBUTING.md`](./CONTRIBUTING.md).

@@ -29,4 +29,4 @@ Run both the `website-frontend` and `website-backend` package. Optionally run th
 
 ## Running E2E tests
 
-To run the E2E tests, use the "Run and Debug" functionality in Visual Studio Code. The configuration that should be run is called "🎭 E2E tests (local)"
+To run the E2E tests, use the "Run and Debug" functionality in Visual Studio Code. The configuration that should be run is called "🎭 E2E tests (local)".
