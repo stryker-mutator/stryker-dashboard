@@ -1,4 +1,4 @@
-import type { Expect, Locator } from '@playwright/test';
+import type { ExpectMatcherState, Locator } from '@playwright/test';
 
 export const matchers = {
   toExist,
@@ -33,11 +33,7 @@ function assertIsLocator(maybeLocator: unknown): asserts maybeLocator is Locator
   }
 }
 
-async function toExist(
-  this: ReturnType<Expect['getState']>,
-  locator: unknown,
-  options?: { timeout?: number },
-) {
+async function toExist(this: ExpectMatcherState, locator: unknown, options?: { timeout?: number }) {
   assertIsLocator(locator);
   const timeout = options?.timeout ?? 5000;
   const before = new Date();
