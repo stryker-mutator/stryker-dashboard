@@ -16,9 +16,9 @@
   "main": "main.js",
   "typings": "main.d.ts",
   "devDependencies": {
-    "@angular-devkit/build-angular": "18.1.1",
+    "@angular-devkit/build-angular": "18.1.2",
     "@angular/animations": "18.1.1",
-    "@angular/cli": "18.1.1",
+    "@angular/cli": "18.1.2",
     "@angular/common": "18.1.1",
     "@angular/compiler": "18.1.1",
     "@angular/compiler-cli": "18.1.1",
