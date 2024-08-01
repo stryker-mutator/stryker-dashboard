@@ -38,8 +38,8 @@ export class OldReportsController {
     return '';
   }
 
-  private verifyRequiredPostScoreReportProperties(body: any) {
-    ['apiKey', 'repositorySlug', 'mutationScore'].forEach((prop) => {
+  private verifyRequiredPostScoreReportProperties(body: ScoreReport) {
+    (['apiKey', 'repositorySlug', 'mutationScore'] as const).forEach((prop) => {
       if (body[prop] === undefined) {
         throw new BadRequestException(`Missing required property "${prop}"`);
       }

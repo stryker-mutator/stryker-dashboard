@@ -8,6 +8,7 @@ describe('HttpClient', () => {
 
   beforeEach(() => {
     // For some reason we have to call globalThis.fetch before stubbing it. Since node 20.12.0
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     globalThis.fetch;
     fetchStub = sinon.stub(globalThis, 'fetch');
     sut = new HttpClient();

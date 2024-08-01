@@ -64,7 +64,7 @@ export default class GithubAgent {
     if (nextLink && Array.isArray(response.body)) {
       this.log(`Retrieving next page: ${nextLink[1]}`);
       const next = await this.get<T>(user, nextLink[1]);
-      return (response.body as any).concat(next);
+      return (response.body as unknown[]).concat(next) as T;
     } else {
       return Promise.resolve(response.body);
     }

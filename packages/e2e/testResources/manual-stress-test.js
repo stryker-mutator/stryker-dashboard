@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-// @ts-check
+ // @ts-check
 import { promises as fs } from 'fs';
 
 const baseURL = new URL('http://localhost:4200');
