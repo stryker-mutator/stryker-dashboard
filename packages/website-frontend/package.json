@@ -31,7 +31,7 @@
     "@primer/octicons": "19.11.0",
     "@stryker-mutator/dashboard-common": "0.14.3",
     "@stryker-mutator/dashboard-contract": "0.14.3",
-    "@stryker-mutator/karma-runner": "8.2.6",
+    "@stryker-mutator/karma-runner": "8.3.0",
     "@stryker-mutator/stryker-elements": "0.14.3",
     "@types/jasmine": "5.1.4",
     "bootstrap": "5.3.3",
