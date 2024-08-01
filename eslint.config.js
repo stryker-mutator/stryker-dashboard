@@ -18,6 +18,9 @@ export default [
         },
       ],
     },
+    linterOptions: {
+      reportUnusedDisableDirectives: 'error',
+    },
     languageOptions: {
       globals: {
         fetch: true,
@@ -27,6 +30,20 @@ export default [
     },
   },
   {
-    ignores: ['node_modules', 'packages/*/dist', 'packages/website-frontend'],
+    // Test-specific rules
+    files: ['test/**/*.ts', '**/*.test.ts', '**/*.spec.ts'],
+    rules: {
+      '@typescript-eslint/no-unused-expressions': 'off',
+    },
+  },
+  {
+    ignores: [
+      'node_modules',
+      'packages/*/dist',
+      'packages/website-frontend',
+      'dist',
+      '.stryker-tmp',
+      'reports',
+    ],
   },
 ];

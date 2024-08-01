@@ -13,7 +13,7 @@ describe('GithubClient', () => {
 
   beforeEach(() => {
     httpClientMock = sinon.createStubInstance(HttpClient);
-    sut = new GithubAgent(httpClientMock as any);
+    sut = new GithubAgent(httpClientMock);
     user = githubFactory.authentication({ accessToken: '1234' });
     expectedHeaders = { Authorization: 'Bearer 1234' };
   });

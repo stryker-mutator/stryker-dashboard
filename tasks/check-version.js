@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 /**
  * This task checks if the version of the badge-api or dashboard is correct according to the expectation.
  */

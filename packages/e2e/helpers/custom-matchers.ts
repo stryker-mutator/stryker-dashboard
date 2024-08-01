@@ -70,7 +70,7 @@ async function toExist(this: ExpectMatcherState, locator: unknown, options?: { t
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace PlaywrightTest {
-    // eslint-disable-next-line @typescript-eslint/no-empty-interface
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
     interface Matchers<R> extends PlaywrightMatchers<R> {}
   }
 }
