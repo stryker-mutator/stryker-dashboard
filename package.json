@@ -15,7 +15,7 @@
     "@eslint/js": "9.8.0",
     "@stryker-mutator/core": "8.2.6",
     "@stryker-mutator/mocha-runner": "8.2.6",
-    "@types/chai": "4.3.16",
+    "@types/chai": "4.3.17",
     "@types/chai-as-promised": "7.1.8",
     "@types/mocha": "10.0.7",
     "@types/node": "20.14.13",
