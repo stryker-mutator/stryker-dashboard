@@ -10,12 +10,12 @@ export class HomePage extends LitElement{
       <sme-spatious-layout>
         <sme-getting-started-overview id="getting-started"></sme-getting-started-overview>
       </sme-spatious-layout>
-    `
+    `;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'stryker-dashboard-homepage': HomePage
+    'stryker-dashboard-home-page': HomePage
   }
 }

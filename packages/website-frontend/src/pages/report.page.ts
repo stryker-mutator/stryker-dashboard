@@ -13,7 +13,6 @@ export class ReportPage extends LitElement {
     }
 }
 
-
 declare global {
   interface HTMLElementTagNameMap {
     'stryker-dashboard-report-page': ReportPage

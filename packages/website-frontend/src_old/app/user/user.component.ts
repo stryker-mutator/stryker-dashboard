@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Login } from '@stryker-mutator/dashboard-contract';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
 import { AutoUnsubscribe } from '../utils/auto-unsubscribe';

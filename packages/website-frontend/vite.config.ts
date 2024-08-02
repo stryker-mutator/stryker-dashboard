@@ -1,2 +1,7 @@
 // vite.config.ts
-export default {}
+export default {
+  server: {
+    host: 'localhost',
+    port: 4200
+  }
+}

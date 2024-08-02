@@ -24,6 +24,7 @@
       "dom"
     ],
     "resolveJsonModule": true,
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "emitDecoratorMetadata": true,
