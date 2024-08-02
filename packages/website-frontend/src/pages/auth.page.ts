@@ -8,9 +8,10 @@ export class HomePage extends LitElement {
     const url = new URL(document.location.toString()).searchParams;
     const code = url.get('code')!;
 
-    authService.authenticate("github", code).then(() => {
-      window.location.href = '/';
-    });
+    authService.authenticate("github", code)
+      .then(() => {
+        window.location.href = '/';
+      });
   }
 
   override render() {

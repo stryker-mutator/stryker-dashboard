@@ -53,7 +53,7 @@ export class AuthService {
     const response = await fetch(`${baseUrl}/api/auth/${provider}?code=${code}`, { method: "POST" });
     const json = await response.json() as AuthenticateResponse;
     this.#sessionStorageService.setItem(AUTH_TOKEN_SESSION_KEY, json.jwt);
-
+    console.log(json, fetch);
     const user = await this.getUser();
     if (user) {
       this.#user = user;

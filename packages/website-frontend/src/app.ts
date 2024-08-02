@@ -3,6 +3,7 @@ import { Login } from '@stryker-mutator/dashboard-contract';
 import { LitElement, html } from 'lit'
 import { customElement, state } from 'lit/decorators.js'
 
+import { baseUrl } from './contract/constants';
 import { authService, AuthService } from './services/auth.service';
 
 import './pages/auth.page';
@@ -12,7 +13,6 @@ import './pages/repositories.page';
 
 /* Import preflight styles */
 import '@stryker-mutator/stryker-elements';
-import { baseUrl } from './contract/constants';
 
 @customElement('stryker-dashboard')
 export class StrykerDashboard extends LitElement {

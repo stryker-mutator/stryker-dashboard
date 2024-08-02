@@ -3,6 +3,8 @@
   "version": "0.14.3",
   "scripts": {
     "start": "vite --host",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
     "stryker": "stryker run"
   },
   "publishConfig": {
@@ -15,19 +17,14 @@
     "@stryker-mutator/dashboard-contract": "0.14.3",
     "@stryker-mutator/karma-runner": "8.2.6",
     "@stryker-mutator/stryker-elements": "0.14.3",
-    "@types/jasmine": "5.1.4",
     "@vaadin/router": "1.7.5",
-    "jasmine-core": "5.1.2",
-    "karma": "6.4.3",
-    "karma-chrome-launcher": "3.2.0",
-    "karma-coverage": "2.2.1",
-    "karma-jasmine": "5.1.0",
-    "karma-jasmine-html-reporter": "2.1.0",
     "mutation-testing-elements": "3.1.1",
     "mutation-testing-metrics": "3.1.1",
     "mutation-testing-report-schema": "3.1.1",
     "rxjs": "7.8.1",
-    "vite": "5.3.4"
+    "vite": "5.3.4",
+    "vitest": "2.0.5",
+    "vitest-fetch-mock": "0.3.0"
   },
   "repository": {
     "type": "git",
