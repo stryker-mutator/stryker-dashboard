@@ -3,21 +3,29 @@ import {
   Login,
 } from '@stryker-mutator/dashboard-contract';
 
+import { sessionStorageService, SessionStorageService } from './session-storage.service';
+import { baseUrl } from '../contract/constants';
+
 const AUTH_TOKEN_SESSION_KEY = 'authToken';
 
 export class AuthService {
+  #sessionStorageService;
   #user: Login | null = null;
 
+  constructor(sessionStorageService: SessionStorageService) {
+    this.#sessionStorageService = sessionStorageService;
+  }
+
   public get currentBearerToken(): string | null {
-    return window.sessionStorage.getItem(AUTH_TOKEN_SESSION_KEY);
+    return this.#sessionStorageService.getItem(AUTH_TOKEN_SESSION_KEY);
   }
 
   public get currentUser(): Login | null {
     return this.#user;
   }
 
-  public logOut() {
-    window.sessionStorage.removeItem(AUTH_TOKEN_SESSION_KEY);
+  public signOut() {
+    this.#sessionStorageService.removeItem(AUTH_TOKEN_SESSION_KEY);
   }
 
   public async getUser(): Promise<Login | null> {
@@ -29,7 +37,7 @@ export class AuthService {
       return this.#user;
     }
 
-    const response = await fetch('http://localhost:1337/api/user', { 
+    const response = await fetch(`${baseUrl}/api/user`, { 
       headers: {
         Authorization: `Bearer ${this.currentBearerToken}`
       }
@@ -42,9 +50,9 @@ export class AuthService {
   }
 
   public async authenticate(provider: string, code: string) {
-    const response = await fetch(`http://localhost:1337/api/auth/${provider}?code=${code}`, { method: "POST" });
+    const response = await fetch(`${baseUrl}/api/auth/${provider}?code=${code}`, { method: "POST" });
     const json = await response.json() as AuthenticateResponse;
-    window.sessionStorage.setItem(AUTH_TOKEN_SESSION_KEY, json.jwt);
+    this.#sessionStorageService.setItem(AUTH_TOKEN_SESSION_KEY, json.jwt);
 
     const user = await this.getUser();
     if (user) {
@@ -56,5 +64,4 @@ export class AuthService {
   }
 }
 
-// We will use typed-inject for this, but for now I need to use it with this.
-export const TheAuthService = new AuthService();
+export const authService = new AuthService(sessionStorageService);

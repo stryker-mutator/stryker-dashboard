@@ -1,11 +1,9 @@
+import { Router } from '@vaadin/router';
+import { Login } from '@stryker-mutator/dashboard-contract';
 import { LitElement, html } from 'lit'
 import { customElement, state } from 'lit/decorators.js'
-import { Router } from '@vaadin/router';
-import {
-  Login,
-} from '@stryker-mutator/dashboard-contract';
 
-import { AuthService, TheAuthService } from './services/auth.service';
+import { authService, AuthService } from './services/auth.service';
 
 import './pages/auth.page';
 import './pages/home.page';
@@ -14,29 +12,29 @@ import './pages/repositories.page';
 
 /* Import preflight styles */
 import '@stryker-mutator/stryker-elements';
+import { baseUrl } from './contract/constants';
 
 @customElement('stryker-dashboard')
 export class StrykerDashboard extends LitElement {
   #authService: AuthService
+  #router: Router | null;
   
-  @state()
-  isCopied = false;
-
   @state()
   user: Login | null;
 
   constructor() {
     super();
     
-    this.#authService = TheAuthService;
+    this.#authService = authService;
+    this.#router = null;
+
     this.user = null;
   }
 
   protected override firstUpdated(): void {
     
-    const router = new Router(this.shadowRoot!.querySelector('#outlet'));
-  
-    router.setRoutes([
+    this.#router = new Router(this.shadowRoot!.querySelector('#outlet'));
+    this.#router.setRoutes([
       { path: '/', component: 'stryker-dashboard-home-page' },
       { path: '/repos/:name', component: 'stryker-dashboard-repository-page' },
       { path: '/reports/*', component: 'stryker-dashboard-report-page' },
@@ -44,9 +42,10 @@ export class StrykerDashboard extends LitElement {
       { path: '(.*)', redirect: '/' },
     ]);
 
-    this.#authService.getUser().then((user) => {
-      this.user = user;
-    });
+    this.#authService.getUser()
+      .then((user) => {
+        this.user = user;
+      });
   }
 
   override render() {
@@ -60,9 +59,31 @@ export class StrykerDashboard extends LitElement {
 
   #renderProfileButtonOrSignInButton() {
     if (this.user !== null) {
-      return html`<sme-profile-button avatarUrl="${this.user.avatarUrl}" name="${this.user.name}" slot="right-side"></sme-profile-button>`;
+      return html`
+        <sme-profile-button
+          @sign-out="${this.#signOut}"
+          avatarUrl="${this.user.avatarUrl}" 
+          name="${this.user.name}" 
+          slot="right-side">
+        </sme-profile-button>`;
     }
-    return html`<sme-link href="http://localhost:1337/api/auth/github" slot="right-side" router-ignore>Sign in with GitHub</sme-link>`;
+    
+    return html`
+      <sme-button
+        @click="${this.#signIn}"
+        type="subtle" 
+        slot="right-side">
+        Sign in with GitHub
+      </sme-link>`;
+  }
+
+  #signIn() {
+    window.location.href = `${baseUrl}/api/auth/github`;
+  }
+
+  #signOut() {
+    this.#authService.signOut();
+    window.location.reload();
   }
 }
 
