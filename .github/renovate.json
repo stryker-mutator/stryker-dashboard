@@ -3,7 +3,7 @@
   "extends": ["config:js-app", "group:linters", "group:test"],
   "configMigration": true,
   "gitAuthor": "Renovatebot <renovatebot@stryker-mutator.io>",
-  "platformCommit": false,
+  "platformCommit": "disabled",
   "platformAutomerge": true,
   "automergeStrategy": "squash",
   "lockFileMaintenance": {
@@ -11,12 +11,12 @@
   },
   "packageRules": [
     {
-      "matchPackagePrefixes": ["@angular"],
-      "groupName": "Angular packages"
+      "groupName": "Angular packages",
+      "matchPackageNames": ["@angular{/,}**"]
     },
     {
-      "matchPackagePrefixes": ["@nestjs"],
-      "groupName": "NestJS packages"
+      "groupName": "NestJS packages",
+      "matchPackageNames": ["@nestjs{/,}**"]
     },
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest", "lockFileMaintenance"],
