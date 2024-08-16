@@ -30,6 +30,14 @@ Rest assured, we have prepared a few issues for this purpose. Most of the issues
 
 If you are still not sure where to start or if you need help implementing anything, please reach out to us on [Slack](https://join.slack.com/t/stryker-mutator/shared_invite/enQtOTUyMTYyNTg1NDQ0LTU4ODNmZDlmN2I3MmEyMTVhYjZlYmJkOThlNTY3NTM1M2QxYmM5YTM3ODQxYmJjY2YyYzllM2RkMmM1NjNjZjM) or simply comment on the issue that you would like to work on.
 
+## Releasing
+
+To release a new version of the Stryker Dashboard, please follow these steps:
+
+- Set your `GH_TOKEN` environment variable to a GitHub token that has access to the repository. You can use the github CLI: `export GH_TOKEN=$(gh auth token)`
+- Run `npx lerna version`, check the changes and confirm the version bump. This will create a new version and push the changes to the repository.
+- This will trigger a GitHub action that will publish and deploy the new version of the Stryker Dashboard.
+
 ## Community
 
 Do you want to help? Great! These are a few things you can do:
