@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/web-components';
 
-import '../../exports/lib/atoms/carousel-item';
+import '../../exports/lib/atoms/supported-framework';
 
 export default {
-  title: 'Atoms/Carousel Item',
-  component: 'sme-carousel-item',
+  title: 'Atoms/Supported Framework',
+  component: 'sme-supported-framework',
 } as Meta;
 
 export const Default: StoryObj = {

@@ -2,13 +2,13 @@ import { html } from 'lit';
 import { BaseElement } from '../base-element.js';
 import { property } from 'lit/decorators.js';
 
-export type CarouselItemProperties = {
+export type SupportedFrameworkProperties = {
   name: string;
   logo: string;
   url: string;
 };
 
-export class CarousellItem extends BaseElement {
+export class SupportedFramework extends BaseElement {
   @property({ type: String })
   name: string = '';
 

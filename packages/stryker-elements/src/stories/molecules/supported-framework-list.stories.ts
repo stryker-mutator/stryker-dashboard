@@ -1,18 +1,22 @@
-import { Meta, StoryObj } from '@storybook/web-components';
+import { StoryObj } from "@storybook/web-components";
 
-import '../../exports/lib/molecules/carousel';
-import '../../exports/lib/atoms/carousel-item';
-import '../../exports/lib/atoms/fab';
+import '../../exports/lib/molecules/supported-framework-list';
 
 export default {
-  title: 'Molecules/Carousel',
-  component: 'sme-carousel',
-} as Meta;
+  title: 'Molecules/Supported Framework List',
+  component: 'sme-supported-framework-list',
+  
+};
 
 export const Default: StoryObj = {
+  argTypes: {
+    spacing: {
+      options: ['between', 'around'],
+      control: { type: 'select' },
+    },
+  },
   args: {
-    nrOfSlidesToShow: 4,
-    carouselItems: [
+    supportedFrameworks: [
       {
         name: 'StrykerJS',
         logo: 'https://stryker-mutator.io/images/stryker.svg',
@@ -34,5 +38,6 @@ export const Default: StoryObj = {
         url: 'https://github.com/stryker-mutator/stryker-js',
       },
     ],
+    
   },
 };
