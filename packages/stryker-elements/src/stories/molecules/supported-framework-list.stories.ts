@@ -34,8 +34,8 @@ export const Default: StoryObj = {
       },
       {
         name: 'Infection',
-        logo: 'https://stryker-mutator.io/images/stryker.svg',
-        url: 'https://github.com/stryker-mutator/stryker-js',
+        logo: 'https://infection.github.io/images/logo.png',
+        url: 'https://infection.github.io/',
       },
     ],
     
