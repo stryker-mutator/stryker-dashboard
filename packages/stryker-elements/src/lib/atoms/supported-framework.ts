@@ -21,7 +21,7 @@ export class SupportedFramework extends BaseElement {
   render() {
     return html`
       <a href="${this.url}" target="_blank" class="grid w-20 grid-cols-1 gap-1 grayscale">
-        <img class="h-16 place-self-center" src="${this.logo}" alt="${this.name} logo" />
+        <img class="h-16 place-self-center rounded" src="${this.logo}" alt="${this.name} logo" />
         <span class="text-center font-bold text-white">${this.name}</span>
       </a>
     `;
