@@ -2,7 +2,8 @@ import GithubAgent from '../github/GithubAgent.js';
 import * as contract from '@stryker-mutator/dashboard-contract';
 import * as github from '../github/models.js';
 import GithubRepositoryService from '../services/GithubRepositoryService.js';
-import { Controller, Get, Req } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guard.js';
 
 function toContract(githubLogin: github.Login): contract.Login {
   return {
@@ -16,6 +17,7 @@ function allToContract(githubLogins: github.Login[]): contract.Login[] {
 }
 
 @Controller('/user')
+@UseGuards(JwtAuthGuard)
 export default class UserController {
   #repositoryService: GithubRepositoryService;
   #agent: GithubAgent;

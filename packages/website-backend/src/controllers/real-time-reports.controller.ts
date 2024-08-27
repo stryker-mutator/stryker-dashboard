@@ -28,7 +28,7 @@ import {
   Res,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Response } from 'express';
+import type { Response } from 'express';
 import { parseSlug } from '../utils/utils.js';
 
 const API_KEY_HEADER = 'X-Api-Key';

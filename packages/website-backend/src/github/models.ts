@@ -1,7 +1,7 @@
 export interface Authentication {
   accessToken: string;
   displayName: string;
-  id: number;
+  id: string;
   username: string;
 }
 

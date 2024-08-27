@@ -1,9 +1,5 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import Configuration from './services/Configuration.js';
-import {
-  GithubSecurityMiddleware,
-  passportAuthenticateGithub,
-} from './middleware/security.middleware.js';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import AuthController from './controllers/auth.controller.js';
@@ -22,6 +18,10 @@ import RealTimeReportsController from './controllers/real-time-reports.controlle
 import { ReportValidator } from './services/ReportValidator.js';
 import MutationEventResponseOrchestrator from './services/real-time/MutationEventResponseOrchestrator.js';
 import { dist } from '@stryker-mutator/dashboard-frontend';
+import { GithubStrategy } from './github/Strategy.js';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtConfigService } from './services/JwtConfigService.js';
+import { JwtStrategy } from './services/JwtStrategy.js';
 
 @Module({
   imports: [
@@ -33,6 +33,10 @@ import { dist } from '@stryker-mutator/dashboard-frontend';
         immutable: true,
         maxAge: '1y',
       },
+    }),
+    JwtModule.registerAsync({
+      useClass: JwtConfigService,
+      extraProviders: [Configuration],
     }),
   ],
   controllers: [
@@ -54,14 +58,8 @@ import { dist } from '@stryker-mutator/dashboard-frontend';
     HttpClient,
     MutationEventResponseOrchestrator,
     ReportValidator,
+    GithubStrategy,
+    JwtStrategy,
   ],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(passportAuthenticateGithub)
-      .forRoutes({ path: 'auth/github', method: RequestMethod.POST });
-
-    consumer.apply(GithubSecurityMiddleware).forRoutes('organizations', 'repositories', 'user');
-  }
-}
+export class AppModule {}

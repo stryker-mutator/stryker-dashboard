@@ -1,7 +1,6 @@
 import { expect } from 'chai';
-import passport from 'passport';
 import request from 'supertest';
-import * as sinon from 'sinon';
+import sinon from 'sinon';
 import * as github from '../../../src/github/models.js';
 import { githubFactory } from '../../helpers/producers.js';
 import { DataAccessMock, config, createToken } from '../../helpers/TestServer.js';
@@ -11,27 +10,17 @@ import { INestApplication } from '@nestjs/common';
 import Configuration from '../../../src/services/Configuration.js';
 import AuthController from '../../../src/controllers/auth.controller.js';
 import DataAccess from '../../../src/services/DataAccess.js';
+import { Strategy } from 'passport-github2';
 
 describe(AuthController.name, () => {
   let app: INestApplication;
-  let logoutStub: sinon.SinonStub;
-  let authenticateStub: sinon.SinonStubbedMember<typeof passport.authenticate>;
-  let authenticateMiddleware: sinon.SinonStub;
   let user: github.Authentication;
 
   beforeEach(async () => {
-    authenticateStub = sinon.stub(passport, 'authenticate');
-    authenticateMiddleware = sinon.stub();
-    logoutStub = sinon.stub();
-    authenticateStub.returns(authenticateMiddleware);
     user = githubFactory.authentication({ username: 'dummy' });
-    const passThroughMiddleware = (req: any, _res: any, next: any) => {
-      req.user = user;
-      req.logout = logoutStub;
-      next();
-    };
-    authenticateMiddleware.callsFake(passThroughMiddleware);
-
+    sinon.stub(Strategy.prototype, 'authenticate').callsFake(function (this: Strategy) {
+      this.success(user);
+    });
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
     })

@@ -16,7 +16,7 @@ export const githubFactory = {
   authentication: factoryMethod<github.Authentication>(() => ({
     accessToken: '23123415fdDSf',
     displayName: 'Foobar display',
-    id: 23134,
+    id: '23134',
     username: 'foobar',
   })),
   login: githubLogin,

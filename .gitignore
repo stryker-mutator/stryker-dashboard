@@ -24,6 +24,7 @@ yarn-error.log*
 *.tsbuildinfo
 *.map
 .stryker-tmp
-/.azurite
+.azurite
+__azurite_*
 
 packages/*/reports

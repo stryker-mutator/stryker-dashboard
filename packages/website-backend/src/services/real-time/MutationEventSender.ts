@@ -1,5 +1,5 @@
 import { MutantResult } from 'mutation-testing-report-schema';
-import { Response } from 'express';
+import type { Response } from 'express';
 import { EventEmitter } from 'events';
 
 export class MutationEventSender extends EventEmitter {
