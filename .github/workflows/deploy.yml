@@ -72,7 +72,9 @@ jobs:
     name: 'Deploy Dashboard'
     runs-on: ubuntu-latest
     needs: release
-    environment: Production
+    environment:
+      name: Production
+      url: https://dashboard.stryker-mutator.io
     concurrency: Production Dashboard
     steps:
       - uses: actions/checkout@v4

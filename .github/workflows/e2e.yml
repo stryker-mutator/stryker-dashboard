@@ -77,7 +77,9 @@ jobs:
     name: Deploy to Acceptance and run E2E tests
     needs: build-and-release
     runs-on: ubuntu-latest
-    environment: Acceptance
+    environment:
+      name: Acceptance
+      url: https://stryker-dashboard-acceptance.azurewebsites.net/
     concurrency:
       group: Acceptance
     steps:
