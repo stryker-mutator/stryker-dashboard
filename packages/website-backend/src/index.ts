@@ -1,8 +1,5 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
-import passport from 'passport';
-import Configuration from './services/Configuration.js';
-import { githubStrategy } from './middleware/security.middleware.js';
 import { INestApplication } from '@nestjs/common';
 import DataAccess from './services/DataAccess.js';
 import compression from 'compression';
@@ -15,7 +12,6 @@ async function bootstrap() {
 
   configureSecurityHeaders(app);
   configureAzureStorage(app);
-  configurePassport(app);
 
   app.useBodyParser('json', { limit: '100mb' });
   app.use(compression());
@@ -28,22 +24,6 @@ function configureAzureStorage(app: INestApplication) {
   dataAccess.blobService.createStorageIfNotExists();
   dataAccess.mutationTestingReportService.createStorageIfNotExists();
   dataAccess.repositoryMapper.createStorageIfNotExists();
-}
-
-function configurePassport(app: INestApplication) {
-  const config = app.get<Configuration>(Configuration);
-
-  passport.serializeUser((user, done) => {
-    return done(null, user);
-  });
-
-  passport.deserializeUser((user, done) => {
-    return done(null, user as Express.User);
-  });
-
-  passport.use(githubStrategy(config));
-
-  app.use(passport.initialize());
 }
 
 function configureSecurityHeaders(app: INestApplication) {

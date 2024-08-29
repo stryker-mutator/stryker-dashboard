@@ -1,26 +1,27 @@
-import { NextFunction, Request, Response } from 'express';
-import Configuration from '../services/Configuration.js';
-import { Controller, Get, Logger, Next, Post, Req, Res } from '@nestjs/common';
-import passport from 'passport';
-import { createToken } from '../middleware/security.middleware.js';
+import type { Request } from 'express';
+import { Controller, Get, Logger, Post, Req, UseGuards } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { GithubAuthGuard } from '../auth/guard.js';
 
 @Controller('/auth')
 export default class AuthController {
   #logger = new Logger(AuthController.name);
-  #config: Configuration;
+  #jwtService: JwtService;
 
-  constructor(config: Configuration) {
-    this.#config = config;
+  constructor(jwtService: JwtService) {
+    this.#jwtService = jwtService;
   }
 
   @Get('/github')
-  public get(@Req() request: Request, @Res() response: Response, @Next() next: NextFunction) {
-    passport.authenticate('github', { scope: ['user:email', 'read:org'] })(request, response, next);
+  @UseGuards(GithubAuthGuard)
+  public get() {
+    // This route will redirect to the GitHub auth, using the AuthGuard, no implementation needed
   }
 
   @Post('/github')
-  public async post(@Req() request: Request) {
-    const jwt = await createToken(request.user!, this.#config.jwtSecret);
+  @UseGuards(GithubAuthGuard)
+  public post(@Req() request: Request) {
+    const jwt = this.#jwtService.sign(request.user!, {});
     this.#logger.log(`Generated JWT for user ${request.user!.username}`);
     return {
       jwt,

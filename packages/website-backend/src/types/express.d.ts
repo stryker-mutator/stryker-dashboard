@@ -3,7 +3,7 @@ namespace Express {
   interface User {
     accessToken: string;
     displayName: string;
-    id: number;
+    id: string;
     username: string;
   }
 }

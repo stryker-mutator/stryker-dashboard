@@ -1,11 +1,22 @@
 import { Repository } from '@stryker-mutator/dashboard-contract';
-import express from 'express';
+import type express from 'express';
 import * as github from '../github/models.js';
 import GithubRepositoryService from '../services/GithubRepositoryService.js';
 import util from '../utils/utils.js';
-import { BadRequestException, Body, Controller, Param, Patch, Req, Res } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Param,
+  Patch,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guard.js';
 
 @Controller('/repositories')
+@UseGuards(JwtAuthGuard)
 export default class RepositoriesController {
   #repositoryService: GithubRepositoryService;
 
