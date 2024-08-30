@@ -80,7 +80,7 @@ test.describe.serial('Repositories page', () => {
       expect(await disabledRepositories.last().isHidden()).toBe(false);
 
       await disableRepository();
-      await page.waitForTimeout(250);
+      await page.waitForTimeout(500);
 
       enabledRepositories = page.locator('sme-list#enabled-repositories > sme-toggle-repository');
       expect(await enabledRepositories.first().isHidden()).toBe(true); // first one was enabled
