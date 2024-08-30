@@ -118,7 +118,7 @@ export class RepositoriesPage extends LitElement {
           `,
           () => html`
             <sme-collapsible id='api-key-collapsible' title="API Key" opened>
-              <sme-text>Here's your API key: <sme-copy-text>${this.repositoryToToggle?.apiKey}</sme-copy-text></sme-text>
+              <sme-text>Here's your API key: <sme-copy-text id="copy-key">${this.repositoryToToggle?.apiKey}</sme-copy-text></sme-text>
               <sme-text>
                 This is your key. It is unique and special made for "${this.repositoryToToggle?.instance.slug}".
                 This is the last time we'll be showing it to you (although you can create new ones at any time).

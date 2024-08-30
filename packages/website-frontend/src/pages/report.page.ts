@@ -60,6 +60,9 @@ export class ReportPage extends LitElement {
     if (this.scoreOnlyReport) {
       return html `
         <sme-spatious-layout>
+          <sme-notify type="info">
+            No html report stored for ${this.#slug}
+          </sme-notify>
           <sme-text>Mutation score: ${this.scoreOnlyReport.mutationScore}</sme-text>
         </sme-spatious-layout>
       `;
@@ -100,7 +103,6 @@ export class ReportPage extends LitElement {
     const location = locationService.getLocation();
     const searchParams = new URLSearchParams(location.search);
     const module = searchParams.get('module');
-    console.log(module);
 
     let slugWithoutProviderAndOrganization = this.#baseSlug.split('/').slice(2).join('/');
     let baseTitle = ' - Stryker Dashboard';

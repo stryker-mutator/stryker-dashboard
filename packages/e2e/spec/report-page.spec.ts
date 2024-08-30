@@ -18,7 +18,7 @@ test.describe('Report page', () => {
     });
 
     test('should show an error message', async () => {
-      await expect(page.errorAlert).toContainText('Report does not exist');
+      await expect(page.errorAlert).toContainText('Report could not be found...');
     });
   });
 
