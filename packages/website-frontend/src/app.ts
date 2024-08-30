@@ -105,7 +105,7 @@ export class StrykerDashboard extends LitElement {
 
   #signOut() {
     this.#authService.signOut();
-    window.location.reload();
+    locationService.getLocation().reload();
   }
 }
 
