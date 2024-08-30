@@ -1,11 +1,12 @@
 import { constructApiUri, Report } from "@stryker-mutator/dashboard-common";
-import { authService } from "./auth.service";
-import { baseUrl } from "../contract/constants";
 import { MutationTestResult } from "mutation-testing-report-schema";
+
+import { authService } from "./auth.service";
+import { locationService } from "./location.service";
 
 export class ReportService {
   async getReport(slug: string, moduleName?: string, realTime?: string): Promise<MutationTestResult | undefined> {
-    const uri = constructApiUri(baseUrl, slug, { module: moduleName, realTime: realTime });
+    const uri = constructApiUri(locationService.getLocation().origin, slug, { module: moduleName, realTime: realTime });
     const response = await fetch(`${uri}`, {
       headers: {
         Authorization: `Bearer ${authService.currentBearerToken}`

@@ -4,8 +4,8 @@ import { LitElement, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 
-import { baseUrl } from './contract/constants';
 import { authService, AuthService } from './services/auth.service';
+import { locationService } from './services/location.service';
 
 import './pages/auth.page';
 import './pages/home.page';
@@ -99,7 +99,8 @@ export class StrykerDashboard extends LitElement {
   }
 
   #signIn() {
-    window.location.href = `${baseUrl}/api/auth/github`;
+    const location = locationService.getLocation();
+    location.href = `${location.origin}/api/auth/github`;
   }
 
   #signOut() {

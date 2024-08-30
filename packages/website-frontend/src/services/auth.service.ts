@@ -4,7 +4,6 @@ import {
 } from '@stryker-mutator/dashboard-contract';
 
 import { sessionStorageService, SessionStorageService } from './session-storage.service';
-import { baseUrl } from '../contract/constants';
 
 const AUTH_TOKEN_SESSION_KEY = 'authToken';
 
@@ -37,7 +36,7 @@ export class AuthService {
       return this.#user;
     }
 
-    const response = await fetch(`${baseUrl}/api/user`, { 
+    const response = await fetch(`/api/user`, { 
       headers: {
         Authorization: `Bearer ${this.currentBearerToken}`
       }
@@ -50,7 +49,7 @@ export class AuthService {
   }
 
   public async authenticate(provider: string, code: string) {
-    const response = await fetch(`${baseUrl}/api/auth/${provider}?code=${code}`, { method: "POST" });
+    const response = await fetch(`/api/auth/${provider}?code=${code}`, { method: "POST" });
     const json = await response.json() as AuthenticateResponse;
     this.#sessionStorageService.setItem(AUTH_TOKEN_SESSION_KEY, json.jwt);
     const user = await this.getUser();
