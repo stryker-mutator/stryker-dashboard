@@ -10,9 +10,9 @@ export default {
 
 export const Default: StoryObj = {
   render: () => html`
-    <sme-button @click="${() => document.dispatchEvent(new Event('modal-open'))}"
-      >Open modal</sme-button
-    >
+    <sme-button @click="${() => document.dispatchEvent(new Event('modal-open'))}">
+      Open modal
+    </sme-button>
     <sme-modal></sme-modal>
   `,
 };

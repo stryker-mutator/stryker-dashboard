@@ -65,7 +65,7 @@ test.describe.serial('Repositories page', () => {
       expect(await enabledRepositories.first().isHidden()).toBe(false); // first one was enabled
       expect(await enabledRepositories.last().isHidden()).toBe(true);
 
-      let disabledRepositories = repositoriesPage.disabledRepositories
+      let disabledRepositories = repositoriesPage.disabledRepositories;
       expect(await disabledRepositories.first().isHidden()).toBe(true);
       expect(await disabledRepositories.last().isHidden()).toBe(false);
 
