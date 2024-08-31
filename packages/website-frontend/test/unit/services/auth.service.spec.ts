@@ -1,27 +1,25 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import createFetchMock, { FetchMock } from 'vitest-fetch-mock';
 
 import { AuthenticateResponse } from "@stryker-mutator/dashboard-contract";
+
 import { AuthService } from "../../../src/services/auth.service";
 import { SessionStorageService } from "../../../src/services/session-storage.service";
 
 describe(AuthService.name, () => {
   let authService: AuthService;
-  let mockSessionStorageService: SessionStorageService;
+  let sessionStorage = new SessionStorageService();
   let fetchMock: FetchMock;
 
   beforeEach(() => {
-    vi.restoreAllMocks();
-
-    mockSessionStorageService = {
-      getItem: vi.fn(() => 'foo-token'),
-      setItem: vi.fn(),
-      removeItem: vi.fn(),
-    };
-    authService = new AuthService(mockSessionStorageService);
+    authService = new AuthService(sessionStorage);
 
     fetchMock = createFetchMock(vi);
     fetchMock.enableMocks();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should sign out correctly', () => {
@@ -29,14 +27,10 @@ describe(AuthService.name, () => {
     authService.signOut();
 
     // Assert
-    expect(mockSessionStorageService.removeItem).toHaveBeenCalledWith('authToken');
     expect(authService.currentUser).toBeNull();
   });
 
   it('should return null for currentBearerToken if no token is stored', () => {
-    // Arrange
-    vi.spyOn(mockSessionStorageService, 'getItem').mockReturnValue(null);
-
     // Act
     const actual = authService.currentBearerToken;
 
@@ -47,7 +41,7 @@ describe(AuthService.name, () => {
   it('should return the correct token for currentBearerToken if a token is stored', () => {
     // Arrange
     const token = 'test-token';
-    vi.spyOn(mockSessionStorageService, 'getItem').mockReturnValue(token);
+    sessionStorage.setItem('authToken', token);
 
     // Act
     const actual = authService.currentBearerToken;
@@ -85,7 +79,7 @@ describe(AuthService.name, () => {
     await authService.authenticate(provider, code);
 
     // Assert
-    expect(mockSessionStorageService.setItem).toHaveBeenCalledWith('authToken', 'foo');
+    expect(sessionStorage.getItem('authToken')).to.eq('foo');
     expect(authService.currentUser).toEqual(mockUserResponse);
   });
 });

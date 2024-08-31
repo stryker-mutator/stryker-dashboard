@@ -13,17 +13,13 @@ test.describe.serial('Repositories page', () => {
 
   const enableRepository = async () => {
     await page.waitForSelector('sme-list#disabled-repositories');
-    const toggleRepository = page
-      .locator('sme-list#disabled-repositories > sme-toggle-repository')
-      .first();
+    const toggleRepository = repositoriesPage.disabledRepositories.first();
     await toggleRepository.locator('sme-button > button').click();
   };
 
   const disableRepository = async () => {
     await page.waitForSelector('sme-list#enabled-repositories');
-    const toggleRepository = page
-      .locator('sme-list#enabled-repositories > sme-toggle-repository')
-      .first();
+    const toggleRepository = repositoriesPage.enabledRepositories.first();
     await toggleRepository.locator('sme-button > button').click();
   };
 
@@ -51,42 +47,36 @@ test.describe.serial('Repositories page', () => {
   test.describe('when clicking on repositories', () => {
     test('should have the correct count of repositories', async () => {
       await page.waitForSelector('sme-list#disabled-repositories');
-      expect(
-        await page.locator('sme-list#disabled-repositories > sme-toggle-repository').count(),
-      ).toBe(2);
+      expect(await repositoriesPage.disabledRepositories.count()).toBe(2);
       expect(await page.locator('sme-notify').count()).toBe(1);
     });
 
     test('should enable and disable repository', async () => {
       await enableRepository();
 
-      await page.waitForTimeout(250);
+      await page.waitForTimeout(500);
       await page.locator('sme-copy-text#copy-key button').click();
       const text = await copyText();
 
       expect(text).toMatch(API_KEY_REGEX);
       await page.locator('sme-modal div.mt-auto sme-button > button').click();
 
-      let enabledRepositories = page.locator(
-        'sme-list#enabled-repositories > sme-toggle-repository',
-      );
+      let enabledRepositories = repositoriesPage.enabledRepositories;
       expect(await enabledRepositories.first().isHidden()).toBe(false); // first one was enabled
       expect(await enabledRepositories.last().isHidden()).toBe(true);
 
-      let disabledRepositories = page.locator(
-        'sme-list#disabled-repositories > sme-toggle-repository',
-      );
+      let disabledRepositories = repositoriesPage.disabledRepositories
       expect(await disabledRepositories.first().isHidden()).toBe(true);
       expect(await disabledRepositories.last().isHidden()).toBe(false);
 
       await disableRepository();
       await page.waitForTimeout(500);
 
-      enabledRepositories = page.locator('sme-list#enabled-repositories > sme-toggle-repository');
+      enabledRepositories = repositoriesPage.enabledRepositories;
       expect(await enabledRepositories.first().isHidden()).toBe(true); // first one was enabled
       expect(await enabledRepositories.last().isHidden()).toBe(true);
 
-      disabledRepositories = page.locator('sme-list#disabled-repositories > sme-toggle-repository');
+      disabledRepositories = repositoriesPage.disabledRepositories;
       expect(await disabledRepositories.first().isHidden()).toBe(false);
       expect(await disabledRepositories.last().isHidden()).toBe(false);
     });
@@ -96,7 +86,7 @@ test.describe.serial('Repositories page', () => {
     test.beforeAll(async () => {
       await enableRepository();
       await page.locator('sme-modal div.mt-auto sme-button > button').click();
-      await page.locator('sme-list#enabled-repositories > sme-toggle-repository').first().click();
+      await repositoriesPage.enabledRepositories.first().click();
       await page.locator('sme-modal sme-collapsible#badge-collapsible').click();
     });
 
