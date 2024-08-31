@@ -1,6 +1,7 @@
 import { LitElement, html } from 'lit'
 import { customElement, state } from 'lit/decorators.js'
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { when } from 'lit/directives/when.js';
 
 import { MutationTestResult } from 'mutation-testing-report-schema';
 import 'mutation-testing-elements';
@@ -35,12 +36,12 @@ export class ReportPage extends LitElement {
 
         if (isMutationTestResult(report)) {
           document.body.style.backgroundColor = 'rgb(24, 24, 27)';
-          this.report = report;
 
           if (isPendingReport(report)) {
             this.sse = `/api/real-time/${this.#sseSlug}`;
           }
 
+          this.report = report;
           return;
         }
 
@@ -69,12 +70,16 @@ export class ReportPage extends LitElement {
     }
 
     return html `
-      <mutation-test-report-app
-        .titlePostfix="${this.#title}"
-        .report="${this.report}" 
-        @theme-changed=${this.#handleThemeChange} 
-        sse="${ifDefined(this.sse)}"
-      ></mutation-test-report-app>
+      <sme-loader ?doneWithLoading="${!!this.report}">
+        ${when(this.report, () => html`
+          <mutation-test-report-app
+            @theme-changed=${this.#handleThemeChange} 
+            .titlePostfix="${this.#title}"
+            .report="${this.report}"
+            sse="${ifDefined(this.sse)}"
+          ></mutation-test-report-app>
+        `)}
+      </sme-loader>
     `;
   }
 
