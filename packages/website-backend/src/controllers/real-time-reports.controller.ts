@@ -188,7 +188,7 @@ export default class RealTimeReportsController {
   }
 
   async #createRealTimeBlob(id: ReportIdentifier) {
-    this.#blobService.createReport(id);
+    await this.#blobService.createReport(id);
   }
 
   #getReportResponse(id: ReportIdentifier): PutReportResponse {

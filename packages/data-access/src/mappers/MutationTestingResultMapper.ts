@@ -1,12 +1,17 @@
-import { BlobServiceAsPromised } from '../services/BlobServiceAsPromised.js';
-import { BlobService, Constants } from 'azure-storage';
-import { isStorageError, toBlobName } from '../utils.js';
+import { hasErrorCode, toBlobName } from '../utils.js';
 import * as schema from 'mutation-testing-report-schema';
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 import { OptimisticConcurrencyError } from '../errors/index.js';
+import {
+  BlobServiceClient,
+  ContainerClient,
+  ContainerCreateIfNotExistsResponse,
+} from '@azure/storage-blob';
+import { createBlobServiceClient } from '../services/BlobServiceClient.js';
 
-const additionalErrorCodes = Object.freeze({
+const errCodes = Object.freeze({
   BLOB_HAS_BEEN_MODIFIED: 'BlobHasBeenModified',
+  BLOB_NOT_FOUND: 'BlobNotFound',
 });
 
 /**
@@ -15,30 +20,30 @@ const additionalErrorCodes = Object.freeze({
 export class MutationTestingResultMapper {
   private static readonly CONTAINER_NAME = 'mutation-testing-report';
 
-  constructor(private readonly blobService: BlobServiceAsPromised = new BlobServiceAsPromised()) {}
+  #containerClient: ContainerClient;
 
-  public createStorageIfNotExists(): Promise<BlobService.ContainerResult> {
-    return this.blobService.createContainerIfNotExists(
+  constructor(blobService: BlobServiceClient = createBlobServiceClient()) {
+    this.#containerClient = blobService.getContainerClient(
       MutationTestingResultMapper.CONTAINER_NAME,
-      {},
     );
+  }
+
+  public createStorageIfNotExists(): Promise<ContainerCreateIfNotExistsResponse> {
+    return this.#containerClient.createIfNotExists({});
   }
 
   public async insertOrReplace(id: ReportIdentifier, result: schema.MutationTestResult | null) {
     try {
-      await this.blobService.createBlockBlobFromText(
-        MutationTestingResultMapper.CONTAINER_NAME,
-        toBlobName(id),
-        JSON.stringify(result),
-        {
-          contentSettings: {
-            contentType: 'application/json',
-            contentEncoding: 'utf8',
+      await this.#containerClient
+        .getBlockBlobClient(toBlobName(id))
+        .uploadData(Buffer.from(JSON.stringify(result), 'utf-8'), {
+          blobHTTPHeaders: {
+            blobContentType: 'application/json',
+            blobContentEncoding: 'utf8',
           },
-        },
-      );
+        });
     } catch (err) {
-      if (isStorageError(err) && err.code === additionalErrorCodes.BLOB_HAS_BEEN_MODIFIED) {
+      if (hasErrorCode(err, errCodes.BLOB_HAS_BEEN_MODIFIED)) {
         throw new OptimisticConcurrencyError(
           `Blob "${JSON.stringify(id)}" was modified by another process`,
         );
@@ -52,11 +57,13 @@ export class MutationTestingResultMapper {
     const blobName = toBlobName(identifier);
     try {
       const result: schema.MutationTestResult = JSON.parse(
-        await this.blobService.blobToText(MutationTestingResultMapper.CONTAINER_NAME, blobName),
+        (await this.#containerClient.getBlockBlobClient(blobName).downloadToBuffer()).toString(
+          'utf-8',
+        ),
       );
       return result;
     } catch (error) {
-      if (isStorageError(error) && error.code === Constants.BlobErrorCodeStrings.BLOB_NOT_FOUND) {
+      if (hasErrorCode(error, errCodes.BLOB_NOT_FOUND)) {
         return null;
       } else {
         // Oops
@@ -67,6 +74,6 @@ export class MutationTestingResultMapper {
 
   public async delete(id: ReportIdentifier): Promise<void> {
     const blobName = toBlobName(id);
-    await this.blobService.deleteBlobIfExists(MutationTestingResultMapper.CONTAINER_NAME, blobName);
+    await this.#containerClient.getBlockBlobClient(blobName).deleteIfExists();
   }
 }

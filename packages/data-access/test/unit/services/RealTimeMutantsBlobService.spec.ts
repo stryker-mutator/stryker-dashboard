@@ -1,9 +1,9 @@
-import sinon from 'sinon';
-import { BlobServiceAsPromised } from '../../../src/services/BlobServiceAsPromised.js';
-import { expect } from 'chai';
-import { RealTimeMutantsBlobService } from '../../../src/services/RealTimeMutantsBlobService.js';
-import { MutantResult } from 'mutation-testing-report-schema/api';
+import { AppendBlobClient, BlobServiceClient, ContainerClient } from '@azure/storage-blob';
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
+import { expect } from 'chai';
+import { MutantResult } from 'mutation-testing-report-schema/api';
+import sinon from 'sinon';
+import { RealTimeMutantsBlobService } from '../../../src/services/RealTimeMutantsBlobService.js';
 
 describe(RealTimeMutantsBlobService.name, () => {
   const id: ReportIdentifier = {
@@ -13,27 +13,28 @@ describe(RealTimeMutantsBlobService.name, () => {
     realTime: true,
   };
 
-  let blobMock: sinon.SinonStubbedInstance<BlobServiceAsPromised>;
+  let containerClient: sinon.SinonStubbedInstance<ContainerClient>;
+  let appendClient: sinon.SinonStubbedInstance<AppendBlobClient>;
   let sut: RealTimeMutantsBlobService;
 
   beforeEach(() => {
-    blobMock = {
-      blobToText: sinon.stub(),
-      createBlockBlobFromText: sinon.stub(),
-      createContainerIfNotExists: sinon.stub(),
-      createAppendBlobFromText: sinon.stub(),
-      appendBlockFromText: sinon.stub(),
-      deleteBlobIfExists: sinon.stub(),
-    };
-    sut = new RealTimeMutantsBlobService(blobMock);
+    const blobServiceClientStub = sinon.createStubInstance(BlobServiceClient);
+    containerClient = sinon.createStubInstance(ContainerClient);
+    appendClient = sinon.createStubInstance(AppendBlobClient);
+
+    blobServiceClientStub.getContainerClient.returns(containerClient);
+    containerClient.getAppendBlobClient.returns(appendClient);
+
+    sut = new RealTimeMutantsBlobService(blobServiceClientStub);
+    sinon.assert.calledWith(blobServiceClientStub.getContainerClient, 'real-time-mutant-results');
   });
 
   describe('createStorageIfNotExists', () => {
     it('should create a container', async () => {
       await sut.createStorageIfNotExists();
 
-      expect(blobMock.createContainerIfNotExists.calledOnce).to.be.true;
-      sinon.assert.calledWith(blobMock.createContainerIfNotExists, 'real-time-mutant-results', {});
+      expect(containerClient.createIfNotExists.calledOnce).to.be.true;
+      sinon.assert.calledWith(containerClient.createIfNotExists, {});
     });
   });
 
@@ -41,13 +42,8 @@ describe(RealTimeMutantsBlobService.name, () => {
     it('should create an append blob', async () => {
       await sut.createReport(id);
 
-      expect(blobMock.createAppendBlobFromText.calledOnce).to.be.true;
-      sinon.assert.calledWith(
-        blobMock.createAppendBlobFromText,
-        'real-time-mutant-results',
-        'abc;main;real-time',
-        '',
-      );
+      sinon.assert.calledOnceWithExactly(containerClient.getAppendBlobClient, 'abc;main;real-time');
+      sinon.assert.called(appendClient.create);
     });
   });
 
@@ -59,11 +55,9 @@ describe(RealTimeMutantsBlobService.name, () => {
       ];
       await sut.appendToReport(id, mutants);
 
-      expect(blobMock.appendBlockFromText.calledOnce).to.be.true;
+      sinon.assert.calledWith(containerClient.getAppendBlobClient, 'abc;main;real-time');
       sinon.assert.calledWith(
-        blobMock.appendBlockFromText,
-        'real-time-mutant-results',
-        'abc;main;real-time',
+        appendClient.appendBlock,
         '{"id":"1","status":"Killed"}\n{"id":"2","status":"Survived"}\n',
       );
     });
@@ -71,11 +65,13 @@ describe(RealTimeMutantsBlobService.name, () => {
 
   describe('getReport', () => {
     it('should get the events correctly', async () => {
-      blobMock.blobToText.returns(
-        Promise.resolve('{"id":"1","status":"Killed"}\n{"id":"2","status":"Survived"}\n'),
+      appendClient.downloadToBuffer.resolves(
+        Buffer.from('{"id":"1","status":"Killed"}\n{"id":"2","status":"Survived"}\n', 'utf-8'),
       );
 
       const events = await sut.getReport(id);
+
+      sinon.assert.calledWith(containerClient.getAppendBlobClient, 'abc;main;real-time');
       expect(events.length).to.eq(2);
       expect(events[0]).to.deep.include({
         id: '1',
@@ -88,7 +84,7 @@ describe(RealTimeMutantsBlobService.name, () => {
     });
 
     it('should return an empty array if the blob is empty', async () => {
-      blobMock.blobToText.returns(Promise.resolve(''));
+      appendClient.downloadToBuffer.resolves(Buffer.from('', 'utf-8'));
 
       const events = await sut.getReport(id);
       expect(events.length).to.eq(0);
@@ -105,12 +101,8 @@ describe(RealTimeMutantsBlobService.name, () => {
 
       sut.delete(identifier);
 
-      expect(blobMock.deleteBlobIfExists.calledOnce).to.be.true;
-      sinon.assert.calledWith(
-        blobMock.deleteBlobIfExists,
-        'real-time-mutant-results',
-        'project;version;core',
-      );
+      sinon.assert.calledWith(containerClient.getAppendBlobClient, 'project;version;core');
+      expect(appendClient.deleteIfExists.calledOnce).to.be.true;
     });
   });
 });

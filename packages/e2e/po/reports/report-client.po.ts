@@ -23,6 +23,7 @@ export class ReportClient {
           const patchBody: Partial<Repository> = { enabled: true };
           const authToken = generateAuthToken();
           const response = await this.request.patch(`/api/repositories/${slug}`, {
+            failOnStatusCode: true,
             data: patchBody,
             headers: {
               Authorization: `Bearer ${authToken}`,
@@ -39,6 +40,7 @@ export class ReportClient {
   async getUserRepositories(): Promise<Repository[]> {
     const auth = generateAuthToken();
     const response = await this.request.get('api/user/repositories', {
+      failOnStatusCode: true,
       headers: { Authorization: `Bearer ${auth}` },
     });
     const body = await response.json();
@@ -48,6 +50,7 @@ export class ReportClient {
   async uploadReport(result: Report): Promise<PutReportResponse> {
     const apiKey = await this.enableRepository(result.projectName);
     const response = await this.request.put(this.#getUrl('/api/reports', result), {
+      failOnStatusCode: true,
       data: result,
       headers: {
         ['X-Api-Key']: apiKey,
@@ -60,6 +63,7 @@ export class ReportClient {
   async uploadPendingReport(result: Report): Promise<PutReportResponse> {
     const apiKey = await this.enableRepository(result.projectName);
     const response = await this.request.put(this.#getUrl('/api/real-time', result), {
+      failOnStatusCode: true,
       data: result,
       headers: {
         ['X-Api-Key']: apiKey,
@@ -82,6 +86,7 @@ export class ReportClient {
   async deletePendingReport(result: Report) {
     const apiKey = await this.enableRepository(result.projectName);
     return await this.request.delete(this.#getUrl('/api/real-time', result), {
+      failOnStatusCode: true,
       headers: {
         ['X-Api-Key']: apiKey,
       },
