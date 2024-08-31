@@ -1,12 +1,5 @@
-import {
-  createBlobService,
-  createTableService,
-  TableService,
-  TableQuery,
-  type common,
-  type BlobService,
-} from 'azure-storage';
-import { promisify } from 'util';
+import { TableClient } from '@azure/data-tables';
+import { BlobServiceClient } from '@azure/storage-blob';
 
 function getConnectionString(): string {
   if (process.env.E2E_AZURE_STORAGE_CONNECTION_STRING) {
@@ -16,35 +9,23 @@ function getConnectionString(): string {
   }
 }
 
-const blobService = createBlobService(getConnectionString());
-const tableService = createTableService(getConnectionString());
-const listBlobsSegmented = promisify(blobService.listBlobsSegmented).bind(blobService);
-const deleteBlobIfExists = promisify(blobService.deleteBlobIfExists).bind(blobService);
-const deleteEntity = promisify(tableService.deleteEntity).bind(tableService);
-const queryEntities = promisify(tableService.queryEntities).bind(tableService);
-
-// TypeScript types don't support strict null checks
-const firstToken = null as unknown as TableService.TableContinuationToken &
-  common.ContinuationToken;
+const blobService = BlobServiceClient.fromConnectionString(getConnectionString());
 
 async function deleteAllEntities(tableName: string) {
-  let waitThereIsMore = true;
-  while (waitThereIsMore) {
-    const result = await queryEntities(tableName, new TableQuery(), firstToken);
-    await Promise.all(result.entries.map((entity) => deleteEntity(tableName, entity)));
-    waitThereIsMore = !!result.continuationToken;
+  const tableClient = TableClient.fromConnectionString(getConnectionString(), tableName, {
+    allowInsecureConnection: true,
+  });
+
+  for await (const entity of tableClient.listEntities()) {
+    await tableClient.deleteEntity(entity.partitionKey!, entity.rowKey!);
   }
 }
 
 async function deleteAllBlobs(containerName: string) {
-  let waitThereIsMore = true;
-  while (waitThereIsMore) {
-    const result = (await listBlobsSegmented(
-      containerName,
-      firstToken,
-    )) as BlobService.ListBlobsResult;
-    await Promise.all(result.entries.map((entry) => deleteBlobIfExists(containerName, entry.name)));
-    waitThereIsMore = !!result.continuationToken;
+  const containerClient = blobService.getContainerClient(containerName);
+
+  for await (const blob of containerClient.listBlobsFlat()) {
+    await containerClient.getBlobClient(blob.name).deleteIfExists();
   }
 }
 

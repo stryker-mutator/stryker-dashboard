@@ -1,31 +1,29 @@
 import sinon from 'sinon';
 import { MutationTestingResultMapper } from '../../../src/mappers/MutationTestingResultMapper.js';
-import { BlobServiceAsPromised } from '../../../src/services/BlobServiceAsPromised.js';
 import { expect } from 'chai';
 import { createMutationTestResult } from '../../helpers/mock.js';
 import { StorageError } from '../../helpers/StorageError.js';
 import { OptimisticConcurrencyError } from '../../../src/index.js';
-import { Constants } from 'azure-storage';
+import { BlobServiceClient, BlockBlobClient, ContainerClient } from '@azure/storage-blob';
 
 describe(MutationTestingResultMapper.name, () => {
   let sut: MutationTestingResultMapper;
-  let blobMock: sinon.SinonStubbedInstance<BlobServiceAsPromised>;
+  let blobServiceMock: sinon.SinonStubbedInstance<BlobServiceClient>;
+  let containerMock: sinon.SinonStubbedInstance<ContainerClient>;
+  let blockBlobClient: sinon.SinonStubbedInstance<BlockBlobClient>;
 
   beforeEach(() => {
-    blobMock = {
-      blobToText: sinon.stub(),
-      createBlockBlobFromText: sinon.stub(),
-      createContainerIfNotExists: sinon.stub(),
-      createAppendBlobFromText: sinon.stub(),
-      appendBlockFromText: sinon.stub(),
-      deleteBlobIfExists: sinon.stub(),
-    };
-    sut = new MutationTestingResultMapper(blobMock);
+    blobServiceMock = sinon.createStubInstance(BlobServiceClient);
+    containerMock = sinon.createStubInstance(ContainerClient);
+    blockBlobClient = sinon.createStubInstance(BlockBlobClient);
+    blobServiceMock.getContainerClient.returns(containerMock);
+    containerMock.getBlockBlobClient.returns(blockBlobClient);
+    sut = new MutationTestingResultMapper(blobServiceMock);
   });
 
   it('should create container when createStorageIfNotExists is called', async () => {
     await sut.createStorageIfNotExists();
-    sinon.assert.called(blobMock.createContainerIfNotExists);
+    sinon.assert.called(containerMock.createIfNotExists);
   });
 
   describe('insertOrReplace', () => {
@@ -35,15 +33,14 @@ describe(MutationTestingResultMapper.name, () => {
         { moduleName: 'core', projectName: 'project', version: 'version' },
         result,
       );
+      sinon.assert.calledWith(containerMock.getBlockBlobClient, 'project;version;core');
       sinon.assert.calledWith(
-        blobMock.createBlockBlobFromText,
-        'mutation-testing-report',
-        'project;version;core',
-        JSON.stringify(result),
+        blockBlobClient.uploadData,
+        Buffer.from(JSON.stringify(result), 'utf-8'),
         {
-          contentSettings: {
-            contentType: 'application/json',
-            contentEncoding: 'utf8',
+          blobHTTPHeaders: {
+            blobContentType: 'application/json',
+            blobContentEncoding: 'utf8',
           },
         },
       );
@@ -60,22 +57,22 @@ describe(MutationTestingResultMapper.name, () => {
         },
         result,
       );
+      sinon.assert.calledWith(containerMock.getBlockBlobClient, 'project;version;core;real-time');
       sinon.assert.calledWith(
-        blobMock.createBlockBlobFromText,
-        'mutation-testing-report',
-        'project;version;core;real-time',
-        JSON.stringify(result),
+        blockBlobClient.uploadData,
+        Buffer.from(JSON.stringify(result), 'utf-8'),
         {
-          contentSettings: {
-            contentType: 'application/json',
-            contentEncoding: 'utf8',
+          blobHTTPHeaders: {
+            blobContentType: 'application/json',
+            blobContentEncoding: 'utf8',
           },
         },
       );
     });
 
     it('should throw OptimisticConcurrencyError "BlobHasBeenModified" is thrown', async () => {
-      blobMock.createBlockBlobFromText.rejects(new StorageError('BlobHasBeenModified'));
+      blockBlobClient.uploadData.rejects(new StorageError('BlobHasBeenModified'));
+
       await expect(
         sut.insertOrReplace(
           { moduleName: 'core', projectName: 'project', version: 'version' },
@@ -88,22 +85,19 @@ describe(MutationTestingResultMapper.name, () => {
   describe('findOne', () => {
     it('should return the result', async () => {
       const expected = createMutationTestResult();
-      blobMock.blobToText.resolves(JSON.stringify(expected));
+      const buffer = Buffer.from(JSON.stringify(expected), 'utf-8');
+      blockBlobClient.downloadToBuffer.resolves(buffer);
       const actual = await sut.findOne({
         moduleName: 'core',
         projectName: 'project',
         version: 'version',
       });
-      sinon.assert.calledWith(
-        blobMock.blobToText,
-        'mutation-testing-report',
-        'project;version;core',
-      );
+      sinon.assert.calledWith(containerMock.getBlockBlobClient, 'project;version;core');
       expect(actual).deep.eq(expected);
     });
 
     it('should return null when "BlobNotFound" is thrown', async () => {
-      blobMock.blobToText.rejects(new StorageError(Constants.BlobErrorCodeStrings.BLOB_NOT_FOUND));
+      blockBlobClient.downloadToBuffer.rejects(new StorageError('BlobNotFound'));
       const actual = await sut.findOne({
         moduleName: 'core',
         projectName: 'project',
@@ -123,12 +117,8 @@ describe(MutationTestingResultMapper.name, () => {
 
       sut.delete(identifier);
 
-      expect(blobMock.deleteBlobIfExists.calledOnce).to.be.true;
-      sinon.assert.calledWith(
-        blobMock.deleteBlobIfExists,
-        'mutation-testing-report',
-        'project;version;core',
-      );
+      sinon.assert.calledWith(containerMock.getBlockBlobClient, 'project;version;core');
+      sinon.assert.calledOnce(blockBlobClient.deleteIfExists);
     });
   });
 });

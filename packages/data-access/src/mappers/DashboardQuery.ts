@@ -1,11 +1,6 @@
 import { ModelClass } from './ModelClass.js';
-import { TableQuery } from 'azure-storage';
 import { encodeKey } from '../utils.js';
-
-interface WhereCondition {
-  condition: string;
-  params: unknown[];
-}
+import { TableEntityQueryOptions, odata } from '@azure/data-tables';
 
 export class DashboardQuery<
   TModel,
@@ -14,26 +9,21 @@ export class DashboardQuery<
 > {
   private constructor(
     protected ModelClass: ModelClass<TModel, TPartitionKeyFields, TRowKeyFields>,
-    private readonly whereConditions: WhereCondition[],
+    private readonly whereConditions: string[],
   ) {}
 
   public whereRowKeyNotEquals(
     rowKey: Pick<TModel, TRowKeyFields>,
   ): DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> {
-    const whereCondition: WhereCondition = {
-      condition: 'not(RowKey eq ?)',
-      params: [encodeKey(this.ModelClass.createRowKey(rowKey) || '')],
-    };
+    const whereCondition: string = odata`RowKey ne ${encodeKey(this.ModelClass.createRowKey(rowKey) || '')}`;
+
     return new DashboardQuery(this.ModelClass, [...this.whereConditions, whereCondition]);
   }
 
   public wherePartitionKeyEquals(
     partitionKey: Pick<TModel, TPartitionKeyFields>,
   ): DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> {
-    const whereCondition: WhereCondition = {
-      condition: 'PartitionKey eq ?',
-      params: [encodeKey(this.ModelClass.createPartitionKey(partitionKey))],
-    };
+    const whereCondition: string = odata`PartitionKey eq ${encodeKey(this.ModelClass.createPartitionKey(partitionKey))}`;
     return new DashboardQuery(this.ModelClass, [...this.whereConditions, whereCondition]);
   }
 
@@ -47,13 +37,16 @@ export class DashboardQuery<
     return new DashboardQuery(ModelClass, []);
   }
 
-  public build(): TableQuery {
-    return this.whereConditions.reduce((tableQuery, whereCondition, index) => {
-      if (index === 0) {
-        return tableQuery.where(whereCondition.condition, ...whereCondition.params);
-      } else {
-        return tableQuery.and(whereCondition.condition, whereCondition.params);
-      }
-    }, new TableQuery());
+  public build(): TableEntityQueryOptions {
+    return this.whereConditions.reduce<TableEntityQueryOptions>(
+      (tableQuery, whereCondition, index) => {
+        if (index === 0) {
+          return { filter: whereCondition };
+        } else {
+          return { filter: `${tableQuery.filter} and ${whereCondition}` };
+        }
+      },
+      {},
+    );
   }
 }

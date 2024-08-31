@@ -1,11 +1,11 @@
-FROM node:20.17.0-alpine as base
-ENV NODE_ENV production
+FROM node:20.17.0-alpine AS base
+ENV NODE_ENV=production
 USER node
 
 WORKDIR /app
 
 # Separate build stage to cache npm install and not include npm cache in the final image
-FROM base as build
+FROM base AS build
 ARG version=latest
 RUN npm init --yes
 RUN --mount=type=cache,id=npm,target=/root/.npm npm install @stryker-mutator/dashboard-backend@$version
