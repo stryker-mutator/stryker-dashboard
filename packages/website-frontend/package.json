@@ -1,6 +1,6 @@
 {
   "name": "@stryker-mutator/dashboard-frontend",
-  "version": "0.14.3",
+  "version": "0.15.0",
   "scripts": {
     "start": "vite --host",
     "build": "vite build",
@@ -13,9 +13,9 @@
   "main": "main.js",
   "typings": "main.d.ts",
   "devDependencies": {
-    "@stryker-mutator/dashboard-common": "0.14.3",
-    "@stryker-mutator/dashboard-contract": "0.14.3",
-    "@stryker-mutator/stryker-elements": "0.14.3",
+    "@stryker-mutator/dashboard-common": "0.15.0",
+    "@stryker-mutator/dashboard-contract": "0.15.0",
+    "@stryker-mutator/stryker-elements": "0.15.0",
     "@vaadin/router": "1.7.5",
     "@vitest/browser": "2.0.5",
     "lit": "3.2.0",

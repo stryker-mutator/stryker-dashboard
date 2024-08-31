@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.14.3...v0.15.0) (2024-08-31)
+
+### Bug Fixes
+
+- **deps:** update dependency @nestjs/config to v3.2.2 ([#609](https://github.com/stryker-mutator/stryker-dashboard/issues/609)) ([8316d77](https://github.com/stryker-mutator/stryker-dashboard/commit/8316d77d2b6522ad37920e38ea4f024a5726cb98))
+- **deps:** update dependency @nestjs/config to v3.2.3 ([b71109a](https://github.com/stryker-mutator/stryker-dashboard/commit/b71109af0f82c0c19db61c19c52b26dcc89d6acc))
+- **deps:** update dependency ajv to v8.13.0 ([04f6276](https://github.com/stryker-mutator/stryker-dashboard/commit/04f6276c610079cb47c41a49ae2bb2c899a3b73f))
+- **deps:** update dependency ajv to v8.14.0 ([1fc1bd3](https://github.com/stryker-mutator/stryker-dashboard/commit/1fc1bd3ee3e1f6d8c83fdfca776a8ff1e5c65009))
+- **deps:** update dependency ajv to v8.15.0 ([e934647](https://github.com/stryker-mutator/stryker-dashboard/commit/e9346471bfc28502615b425ef84a755b87616564))
+- **deps:** update dependency ajv to v8.16.0 ([5a8ebcb](https://github.com/stryker-mutator/stryker-dashboard/commit/5a8ebcb1f67e1f87bf13782db493348632ef291c))
+- **deps:** update dependency ajv to v8.17.1 ([01f72fd](https://github.com/stryker-mutator/stryker-dashboard/commit/01f72fdd75588d83e4306179fcc439ffda2e9dcf))
+- **deps:** update dependency ajv-formats to v3 ([#598](https://github.com/stryker-mutator/stryker-dashboard/issues/598)) ([3d29d82](https://github.com/stryker-mutator/stryker-dashboard/commit/3d29d82df55a9dee078b69c5517d55bcb0264cb4))
+- **deps:** update nestjs packages to v10.3.10 ([0a72f50](https://github.com/stryker-mutator/stryker-dashboard/commit/0a72f5039379b8be41d8e7dd9780949b26c4b574))
+- **deps:** update nestjs packages to v10.3.8 ([844a20c](https://github.com/stryker-mutator/stryker-dashboard/commit/844a20c8d4f28de1fd6ccb70f44ec87dc2cda110))
+- **deps:** update nestjs packages to v10.3.9 ([c49242d](https://github.com/stryker-mutator/stryker-dashboard/commit/c49242d70c67de0c84a77d6fe77dc230d1d08f27))
+- **deps:** update nestjs packages to v10.4.0 ([b37d36b](https://github.com/stryker-mutator/stryker-dashboard/commit/b37d36b1387124f6e45fa63659935bca7a39de69))
+- **deps:** update nestjs packages to v10.4.1 ([b73fc62](https://github.com/stryker-mutator/stryker-dashboard/commit/b73fc626736e7e650b28c8028efa8043fa71b8a5))
+- potentially resolve version conflict ([f13bd55](https://github.com/stryker-mutator/stryker-dashboard/commit/f13bd5549ee571fdbb0a7815fa0dbbe1ab8ae57e))
+- revert ajv ([96dacef](https://github.com/stryker-mutator/stryker-dashboard/commit/96daceff481d610443a33c49c28f2363075ddefb))
+
+### Features
+
+- **website-frontend:** add new repositories page ([#519](https://github.com/stryker-mutator/stryker-dashboard/issues/519)) ([29b65dd](https://github.com/stryker-mutator/stryker-dashboard/commit/29b65ddc77cfa5988aaab17e3c45fdd58ac84d61))
+
 ## [0.14.3](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.14.2...v0.14.3) (2024-04-01)
 
 ### Bug Fixes
