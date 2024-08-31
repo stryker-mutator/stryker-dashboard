@@ -4,9 +4,9 @@ import dts from 'vite-plugin-dts';
 
 const SOURCE_DIR = resolve(__dirname, 'src');
 const BUILD_DIR = resolve(__dirname, 'dist');
-// const TYPES_DIR = resolve(__dirname, 'dist');
+const TYPES_DIR = resolve(__dirname, 'dist');
 // const TYPES_DIR = resolve(__dirname, 'types'); /* This is kind of better, but the node resolution angular project does not support it */
-const TYPES_DIR = BUILD_DIR;
+// const TYPES_DIR = BUILD_DIR;
 
 export default defineConfig({
   plugins: [

@@ -1,7 +1,9 @@
-import { property } from 'lit/decorators.js';
-import { BaseElement } from '../base-element.js';
 import { html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
+import { BaseElement } from '../base-element.js';
+
+@customElement('sme-getting-started-step')
 export class GettingStartedStep extends BaseElement {
   @property({ type: String })
   title = '';
@@ -15,5 +17,11 @@ export class GettingStartedStep extends BaseElement {
         </div>
       </div>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-getting-started-step': GettingStartedStep;
   }
 }

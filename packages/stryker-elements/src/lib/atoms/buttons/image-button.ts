@@ -1,9 +1,9 @@
 import { html } from 'lit';
-import { property } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
+
 import { BaseElement } from '../../base-element';
 
-import '../../../exports/lib/atoms/buttons/button';
-
+@customElement('sme-image-button')
 export class ImageButton extends BaseElement {
   @property({ attribute: true })
   direction: 'left' | 'right' = 'left';
@@ -19,5 +19,11 @@ export class ImageButton extends BaseElement {
         ${this.direction === 'right' && html`<img src="${this.src}" />`}
       </div>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-image-button': ImageButton;
   }
 }

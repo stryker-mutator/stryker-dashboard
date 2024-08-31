@@ -6,10 +6,10 @@ export class ReportPage extends DashboardPage {
     await this.page.goto(`/reports/${repositorySlug}/${version}`);
   }
 
-  public errorAlert = this.page.locator('.alert-danger');
-  public warningAlert = this.page.locator('.alert-warning');
+  public errorAlert = this.page.locator('sme-notify');
+  public warningAlert = this.page.locator('sme-notify');
   public mutationTestReportApp = new MutationTestingReportAppPageObject(
     this.page.locator('mutation-test-report-app'),
   );
-  public mutationScore = this.page.locator('.stryker-mutation-score');
+  public mutationScore = this.page.locator('sme-text');
 }

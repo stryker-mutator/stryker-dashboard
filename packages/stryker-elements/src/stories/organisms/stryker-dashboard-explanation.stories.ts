@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/web-components';
 
-import '../../exports/lib/organisms/stryker-dashboard-explanation';
+import '../../lib/organisms/stryker-dashboard-explanation';
 
 export default {
   title: 'Organisms/Stryker Dashboard Explanation',

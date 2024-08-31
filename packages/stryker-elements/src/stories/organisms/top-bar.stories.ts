@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/web-components';
 
-import '../../exports/lib/organisms/top-bar';
+import '../../lib/organisms/top-bar';
 
 export default {
   title: 'Organisms/Top Bar',

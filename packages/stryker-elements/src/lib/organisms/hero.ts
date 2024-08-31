@@ -1,10 +1,9 @@
 import { css, html } from 'lit';
+import { customElement } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import { BaseElement } from '../base-element.js';
 
-import '../../exports/lib/atoms/buttons/button.js';
-import '../../exports/lib/atoms/link.js';
+import { BaseElement } from '../base-element.js';
 
 interface CloudColors {
   darkest: string;
@@ -30,6 +29,7 @@ const cloudColors: CloudColors = {
   light: 'bg-cyan-600',
 };
 
+@customElement('sme-hero')
 export class Hero extends BaseElement {
   #myClouds: CloudConfig[];
 

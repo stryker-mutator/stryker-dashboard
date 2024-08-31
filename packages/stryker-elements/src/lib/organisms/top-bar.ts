@@ -1,8 +1,9 @@
 import { html } from 'lit';
-import { property } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 
 import { BaseElement } from '../base-element';
 
+@customElement('sme-top-bar')
 export class TopBar extends BaseElement {
   @property({ type: String })
   logoUrl = '';
@@ -20,5 +21,11 @@ export class TopBar extends BaseElement {
       </h2>
       <div class="ml-auto"><slot name="right-side"></slot></div>
     </div>`;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-top-bar': TopBar;
   }
 }

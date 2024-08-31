@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/web-components';
-
-import '../../exports/lib/atoms/link';
 import { html } from 'lit';
+
+import '../../lib/atoms/link';
 
 export default {
   title: 'Atoms/Link',
@@ -13,6 +13,6 @@ export const Default: StoryObj = {
 };
 
 export const Secondary: StoryObj = {
-  name: 'Primary Link',
+  name: 'Secondary Link',
   render: () => html` <sme-link secondary>Go Here!</sme-link> `,
 };

@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/web-components';
 
-import '../../exports/lib/organisms/status-overview';
+import '../../lib/organisms/status-overview';
 
 export default {
   title: 'Organisms/Status Overview',

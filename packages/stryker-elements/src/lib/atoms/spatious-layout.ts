@@ -1,6 +1,9 @@
 import { html } from 'lit';
+import { customElement } from 'lit/decorators.js';
+
 import { BaseElement } from '../base-element.js';
 
+@customElement('sme-spatious-layout')
 export class SpatiousLayout extends BaseElement {
   render() {
     return html`
@@ -8,5 +11,11 @@ export class SpatiousLayout extends BaseElement {
         <slot></slot>
       </div>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-spatious-layout': SpatiousLayout;
   }
 }

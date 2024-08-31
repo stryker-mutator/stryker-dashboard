@@ -1,4 +1,4 @@
-import { test, expect, Page, Locator } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 import { RepositoriesPage } from '../po/repositories/repositories-page.po.js';
 
 // Example: 0527de29-6436-4564-9c5f-34f417ec68c0
@@ -7,21 +7,20 @@ const API_KEY_REGEX = /^[0-9a-z]{8}-(?:[0-9a-z]{4}-){3}[0-9a-z]{12}$/;
 test.describe.serial('Repositories page', () => {
   let repositoriesPage: RepositoriesPage;
   let page: Page;
-  let toggleModal: Locator;
 
   const copyText: () => Promise<string> = async () =>
     await page.evaluate('navigator.clipboard.readText()');
 
-  const closeToggleDialog = async () => {
-    await toggleModal.getByText('Close').click();
+  const enableRepository = async () => {
+    await page.waitForSelector('sme-list#disabled-repositories');
+    const toggleRepository = repositoriesPage.disabledRepositories.first();
+    await toggleRepository.locator('sme-button > button').click();
   };
 
-  const openToggleDialog = async () => {
-    await page.locator('sme-spatious-layout').locator('#toggle-repositories').click();
-  };
-
-  const openBadgeDialog = async () => {
-    await page.locator('sme-button').getByText('Badge', { exact: true }).click();
+  const disableRepository = async () => {
+    await page.waitForSelector('sme-list#enabled-repositories');
+    const toggleRepository = repositoriesPage.enabledRepositories.first();
+    await toggleRepository.locator('sme-button > button').click();
   };
 
   test.beforeAll(async ({ browser }) => {
@@ -32,7 +31,6 @@ test.describe.serial('Repositories page', () => {
     await repositoriesPage.logOn();
     await repositoriesPage.navigate();
     await page.waitForSelector('sme-notify');
-    toggleModal = page.locator('sme-modal').first();
   });
 
   test.afterAll(async () => {
@@ -42,72 +40,71 @@ test.describe.serial('Repositories page', () => {
 
   test('should show an information box when no repositories are enabled', async () => {
     expect(page.locator('sme-spatious-layout')).toContainText(
-      'It appears you do not have any enabled repositories, enable them by clicking on the enable repositories button.',
+      'There are no enabled repositories. You can enable them below.',
     );
   });
 
-  test.describe('when opening the toggle dialog', () => {
-    test.beforeAll(async () => {
-      await openToggleDialog();
+  test.describe('when clicking on repositories', () => {
+    test('should have the correct count of repositories', async () => {
+      await page.waitForSelector('sme-list#disabled-repositories');
+      expect(await repositoriesPage.disabledRepositories.count()).toBe(2);
+      expect(await page.locator('sme-notify').count()).toBe(1);
     });
 
-    test('should open modal and show all available repositories', async () => {
-      expect(toggleModal).toContainText('Toggle repositories');
-      expect(await toggleModal.locator('sme-toggle-repository').count()).toBe(2);
-    });
+    test('should enable and disable repository', async () => {
+      await enableRepository();
 
-    test('should enable repository', async () => {
-      const toggleRepository = toggleModal.locator('sme-toggle-repository').first();
-      await toggleRepository.locator('sme-toggle-button').click();
-      await toggleRepository.getByText('📋').click();
+      await page.waitForTimeout(500);
+      await page.locator('sme-copy-text#copy-key button').click();
       const text = await copyText();
 
-      await closeToggleDialog();
-      const repository = page.locator('sme-repository');
-
       expect(text).toMatch(API_KEY_REGEX);
-      expect(repository).toContainText('hello-test');
-    });
+      await page.locator('sme-modal div.mt-auto sme-button > button').click();
 
-    test('should disable repository', async () => {
-      await openToggleDialog();
+      let enabledRepositories = repositoriesPage.enabledRepositories;
+      expect(await enabledRepositories.first().isHidden()).toBe(false); // first one was enabled
+      expect(await enabledRepositories.last().isHidden()).toBe(true);
 
-      const toggleRepository = toggleModal.locator('sme-toggle-repository').first();
-      await toggleRepository.locator('sme-toggle-button').click();
-      await closeToggleDialog();
-      await page.waitForSelector('sme-notify');
+      let disabledRepositories = repositoriesPage.disabledRepositories;
+      expect(await disabledRepositories.first().isHidden()).toBe(true);
+      expect(await disabledRepositories.last().isHidden()).toBe(false);
 
-      const repository = page.locator('sme-repository');
-      expect(repository).not.toBeVisible();
+      await disableRepository();
+      await page.waitForTimeout(500);
+
+      enabledRepositories = repositoriesPage.enabledRepositories;
+      expect(await enabledRepositories.first().isHidden()).toBe(true); // first one was enabled
+      expect(await enabledRepositories.last().isHidden()).toBe(true);
+
+      disabledRepositories = repositoriesPage.disabledRepositories;
+      expect(await disabledRepositories.first().isHidden()).toBe(false);
+      expect(await disabledRepositories.last().isHidden()).toBe(false);
     });
   });
 
-  test.describe('when opening the badge dialog', async () => {
-    let modal: Locator;
-
+  test.describe('when clicking on the repository', async () => {
     test.beforeAll(async () => {
-      await openToggleDialog();
-      const toggleRepository = toggleModal.locator('sme-toggle-repository').first();
-      await toggleRepository.locator('sme-toggle-button').click();
-      await toggleRepository.getByText('📋').click();
-      await closeToggleDialog();
+      await enableRepository();
+      await page.locator('sme-modal div.mt-auto sme-button > button').click();
+      await repositoriesPage.enabledRepositories.first().click();
+      await page.locator('sme-modal sme-collapsible#badge-collapsible').click();
+    });
 
-      await openBadgeDialog();
-      modal = page.locator('sme-modal').filter({ hasText: 'Configure mutation badge' });
+    test.afterAll(async () => {
+      await page.locator('sme-modal div.mt-auto sme-button > button').click();
+      await disableRepository();
     });
 
     test('should open modal and copy mutation badge', async () => {
-      await modal.getByText('Copy badge').click();
+      await page.locator('sme-modal sme-badge-configurator sme-button > button').click();
 
       const copiedText = await copyText();
       expect(copiedText).toContain('style=flat');
-      expect(modal).toContainText('Choose from the following styles');
     });
 
     test('should copy mutation badge with differing style', async () => {
-      await modal.locator('sme-badge-configurator').getByLabel('plastic').click();
-
-      await modal.getByText('Copy badge').click();
+      await page.locator('sme-modal sme-badge-configurator').getByLabel('plastic').click();
+      await page.locator('sme-modal').getByText('Copy markdown').click();
 
       const copiedText = await copyText();
       expect(copiedText).toContain('style=plastic');

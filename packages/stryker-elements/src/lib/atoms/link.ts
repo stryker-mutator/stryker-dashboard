@@ -1,9 +1,11 @@
 import { html } from 'lit';
-import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import { customElement, property } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 import { BaseElement } from '../base-element';
 
+@customElement('sme-link')
 export class Link extends BaseElement {
   @property({ type: Boolean })
   primary = false;
@@ -17,6 +19,9 @@ export class Link extends BaseElement {
   @property({ attribute: true })
   align: 'left' | 'right' | 'middle' = 'middle';
 
+  @property({ type: Boolean, reflect: true })
+  inline = false;
+
   render() {
     const classes = classMap({
       'bg-red-800': this.primary && !this.unStyled,
@@ -25,12 +30,19 @@ export class Link extends BaseElement {
       'justify-center': this.align === 'middle',
       'justify-start': this.align === 'left',
       'justify-end': this.align === 'right',
+      'h-full w-full flex items-center': !this.inline,
     });
 
     return html`
-      <a class="${classes} flex h-full w-full items-center" href="${this.href}">
+      <a class="${classes}" href="${ifDefined(this.href)}">
         <slot></slot>
       </a>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-link': Link;
   }
 }
