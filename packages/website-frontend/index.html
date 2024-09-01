@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Stryker Dashboard</title>
     <script type="module" src="./src/app.ts"></script>
+    <style>
+      html, body, stryker-dashboard {
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
+
+      stryker-dashboard {
+        display: flex;
+        flex-direction: column;
+      }
+
+      stryker-dashboard #outlet {
+        flex-grow: 1;
+      }
+    </style>
   </head>
   <body style="background-color: rgb(38, 38, 38); margin: 0">
     <stryker-dashboard></stryker-dashboard>
