@@ -26,10 +26,11 @@ describe(AuthPage.name, () => {
     expect(sut.element).to.be.instanceOf(AuthPage);
   });
 
-  it('should redirect to / after authentication', async () => {
+  it('should redirect to /repos/user after authentication', async () => {
     // Arrange
     const mockLocation = { toString: () => 'http://localhost:8080/auth?code=123', href: '' } as Location;
     locationService.getLocation = vi.fn(() => mockLocation);
+    authService.getUser = vi.fn(() => Promise.resolve({ name: 'user' } as unknown as Login));
     authService.authenticate = vi.fn(() => Promise.resolve(undefined as unknown as Login));
 
     // Act
@@ -37,7 +38,7 @@ describe(AuthPage.name, () => {
     await sut.whenStable();
 
     // Assert
-    expect(locationService.getLocation().href).to.eq('/');
+    expect(locationService.getLocation().href).to.eq('/repos/user');
     expect(authService.authenticate).toHaveBeenCalledWith('github', '123');
     expect(
       sut.element.shadowRoot
