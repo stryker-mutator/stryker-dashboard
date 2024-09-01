@@ -1,5 +1,3 @@
-import { beforeEach, it, describe, expect } from 'vitest';
-
 import '@stryker-mutator/stryker-elements';
 
 import { HomePage } from '../../../src/pages/home.page';

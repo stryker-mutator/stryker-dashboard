@@ -1,5 +1,3 @@
-import { expect, vi } from 'vitest';
-
 import { CustomElementFixture } from '../helpers/custom-element-fixture';
 import { StrykerDashboard } from '../../src/app';
 import { authService } from '../../src/services/auth.service';

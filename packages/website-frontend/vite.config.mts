@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
+import { defineConfig } from 'vite';
 
-export default {
+export default defineConfig({
   build: {
     target: 'esnext',
   },
@@ -37,4 +38,4 @@ export default {
       screenshotFailures: false,
     },
   },
-};
+});

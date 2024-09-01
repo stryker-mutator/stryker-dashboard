@@ -1,5 +1,4 @@
 import { SessionStorageService } from '../../../src/services/session-storage.service';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe(SessionStorageService.name, () => {
   let sut: SessionStorageService;

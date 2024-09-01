@@ -101,7 +101,7 @@ export class RepositoriesPage extends LitElement {
     )}`;
   }
 
-  #renderRepository(repository: Repository, shouldHide: Function) {
+  #renderRepository(repository: Repository, shouldHide: () => boolean) {
     return html`
       <sme-toggle-repository
         ?hidden="${shouldHide()}"

@@ -115,6 +115,7 @@ export default class TableStorageMapper<
   }
 
   private toEntity(entity: TModel): TableEntity<TModel> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data: TableEntity<any> = {
       partitionKey: encodeKey(this.ModelClass.createPartitionKey(entity)),
       rowKey: encodeKey(this.ModelClass.createRowKey(entity) || ''),

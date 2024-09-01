@@ -8,15 +8,6 @@ export default [
   {
     rules: {
       '@typescript-eslint/no-non-null-assertion': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        {
-          argsIgnorePattern: '^_*',
-          ignoreRestSiblings: true,
-          varsIgnorePattern: '^_',
-        },
-      ],
     },
     linterOptions: {
       reportUnusedDisableDirectives: 'error',
@@ -34,9 +25,18 @@ export default [
     files: ['test/**/*.ts', '**/*.test.ts', '**/*.spec.ts'],
     rules: {
       '@typescript-eslint/no-unused-expressions': 'off',
+      '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
     },
   },
   {
-    ignores: ['node_modules', 'packages/*/dist', 'packages/website-frontend', 'dist', '.stryker-tmp', 'reports'],
+    ignores: [
+      'node_modules',
+      'packages/*/dist',
+      'dist',
+      '.stryker-tmp',
+      'packages/*/reports',
+      'test-results',
+      'playwright-report',
+    ],
   },
 ];

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ExpectMatcherState, Locator } from '@playwright/test';
 
 export const matchers = {

@@ -17,7 +17,7 @@ describe(ShieldMapper.name, () => {
       replace: sinon.stub(),
       insert: sinon.stub(),
     };
-    sut = new ShieldMapper(mutationTestingReportStub as any);
+    sut = new ShieldMapper(mutationTestingReportStub);
   });
 
   it('should find the correct mutation testing report', async () => {

@@ -1,5 +1,3 @@
-import { beforeEach, it, describe, expect, vi, afterEach, MockInstance } from 'vitest';
-
 import { Login } from '@stryker-mutator/dashboard-contract';
 import '@stryker-mutator/stryker-elements';
 

@@ -1,4 +1,3 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
 import createFetchMock, { FetchMock } from 'vitest-fetch-mock';
 
 import { AuthenticateResponse } from '@stryker-mutator/dashboard-contract';
@@ -8,7 +7,7 @@ import { SessionStorageService } from '../../../src/services/session-storage.ser
 
 describe(AuthService.name, () => {
   let authService: AuthService;
-  let sessionStorage = new SessionStorageService();
+  const sessionStorage = new SessionStorageService();
   let fetchMock: FetchMock;
 
   beforeEach(() => {

@@ -4,7 +4,8 @@
     "outDir": "../dist/src",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "types": ["node"]
   },
   "references": [
     {

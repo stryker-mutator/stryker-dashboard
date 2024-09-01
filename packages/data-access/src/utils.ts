@@ -16,6 +16,7 @@ export function isStorageError(maybeStorageError: unknown): maybeStorageError is
 export function hasErrorCode(err: unknown, code: string): boolean {
   if (!isStorageError(err)) return false;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const details = err.details as any;
   return (
     typeof details === 'object' && details !== null && (details.errorCode === code || details.odataError?.code === code)

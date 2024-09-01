@@ -1,5 +1,3 @@
-import { beforeEach, it, describe, expect, vi } from 'vitest';
-
 import { MutationTestResult } from 'mutation-testing-report-schema';
 
 import '@stryker-mutator/stryker-elements';

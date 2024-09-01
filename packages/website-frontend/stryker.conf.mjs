@@ -1,4 +1,3 @@
-/* eslint-disable */
 // @ts-check
 import fs from 'fs';
 import { URL } from 'url';

@@ -104,8 +104,8 @@ export class ReportPage extends LitElement {
     const searchParams = new URLSearchParams(location.search);
     const module = searchParams.get('module');
 
-    let slugWithoutProviderAndOrganization = this.#baseSlug.split('/').slice(2).join('/');
-    let baseTitle = ' - Stryker Dashboard';
+    const slugWithoutProviderAndOrganization = this.#baseSlug.split('/').slice(2).join('/');
+    const baseTitle = ' - Stryker Dashboard';
     if (module) {
       return `${slugWithoutProviderAndOrganization}/${module}${baseTitle}`;
     }
