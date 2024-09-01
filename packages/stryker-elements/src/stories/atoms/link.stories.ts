@@ -9,10 +9,10 @@ export default {
 
 export const Default: StoryObj = {
   name: 'Primary Link',
-  render: () => html` <sme-link primary>Go Here!</sme-link> `,
+  render: () => html`<sme-link primary>Go Here!</sme-link>`,
 };
 
 export const Secondary: StoryObj = {
   name: 'Secondary Link',
-  render: () => html` <sme-link secondary>Go Here!</sme-link> `,
+  render: () => html`<sme-link secondary>Go Here!</sme-link>`,
 };

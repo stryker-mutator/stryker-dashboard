@@ -145,11 +145,7 @@ describe(MutationTestingReportService.name, () => {
           model: coreReport /* not used */,
         });
         const module1Identifier = { version, moduleName: 'core', projectName };
-        resultMapperMock.findOne
-          .withArgs(coreReport)
-          .resolves(coreResult)
-          .withArgs(apiReport)
-          .resolves(apiResult);
+        resultMapperMock.findOne.withArgs(coreReport).resolves(coreResult).withArgs(apiReport).resolves(apiResult);
 
         // Act
         await sut.saveReport(module1Identifier, coreResult, logger);
@@ -168,16 +164,8 @@ describe(MutationTestingReportService.name, () => {
           ...expectedProjectId,
           mutationScore: 50,
         }; // one killed and one noCoverage
-        sinon.assert.calledWith(
-          resultMapperMock.insertOrReplace,
-          expectedProjectId,
-          expectedProjectResult,
-        );
-        sinon.assert.calledWith(
-          reportMapperMock.replace,
-          expectedMutationTestingReport,
-          'old-project-etag',
-        );
+        sinon.assert.calledWith(resultMapperMock.insertOrReplace, expectedProjectId, expectedProjectResult);
+        sinon.assert.calledWith(reportMapperMock.replace, expectedMutationTestingReport, 'old-project-etag');
       });
 
       it('should retry the projects report when an OptimisticConcurrencyError occurs', async () => {
@@ -229,17 +217,9 @@ describe(MutationTestingReportService.name, () => {
           ...expectedProjectId,
           mutationScore: 100,
         };
-        sinon.assert.calledWith(
-          resultMapperMock.insertOrReplace,
-          expectedProjectId,
-          expectedProjectResult,
-        );
+        sinon.assert.calledWith(resultMapperMock.insertOrReplace, expectedProjectId, expectedProjectResult);
         sinon.assert.calledTwice(reportMapperMock.replace);
-        sinon.assert.calledWith(
-          reportMapperMock.replace,
-          expectedMutationTestingReport,
-          'new-project-etag',
-        );
+        sinon.assert.calledWith(reportMapperMock.replace, expectedMutationTestingReport, 'new-project-etag');
         sinon.assert.calledWith(logger.log, {
           message: `Optimistic concurrency exception occurred while trying to aggregate the report ${JSON.stringify(
             expectedProjectId,
@@ -294,17 +274,9 @@ describe(MutationTestingReportService.name, () => {
           mutationScore: 100,
         };
         sinon.assert.calledThrice(resultMapperMock.insertOrReplace);
-        sinon.assert.calledWith(
-          resultMapperMock.insertOrReplace,
-          expectedProjectId,
-          expectedProjectResult,
-        );
+        sinon.assert.calledWith(resultMapperMock.insertOrReplace, expectedProjectId, expectedProjectResult);
         sinon.assert.calledOnce(reportMapperMock.replace);
-        sinon.assert.calledWith(
-          reportMapperMock.replace,
-          expectedMutationTestingReport,
-          'project-etag',
-        );
+        sinon.assert.calledWith(reportMapperMock.replace, expectedMutationTestingReport, 'project-etag');
       });
     });
   });

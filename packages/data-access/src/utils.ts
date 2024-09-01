@@ -18,15 +18,11 @@ export function hasErrorCode(err: unknown, code: string): boolean {
 
   const details = err.details as any;
   return (
-    typeof details === 'object' &&
-    details !== null &&
-    (details.errorCode === code || details.odataError?.code === code)
+    typeof details === 'object' && details !== null && (details.errorCode === code || details.odataError?.code === code)
   );
 }
 
 export function toBlobName({ projectName, version, moduleName, realTime }: ReportIdentifier) {
-  const slug = [projectName, version, moduleName, realTime ? 'real-time' : realTime]
-    .filter(Boolean)
-    .join('/');
+  const slug = [projectName, version, moduleName, realTime ? 'real-time' : realTime].filter(Boolean).join('/');
   return encodeKey(slug);
 }

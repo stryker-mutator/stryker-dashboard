@@ -51,8 +51,8 @@ export class GettingStartedOverview extends BaseElement {
           <i>Stryker Dashboard</i>.
         </p>
         <p>
-          A token is shown that will be used to upload your report later. Don't worry if you lose it
-          though, you can always regenerate it.
+          A token is shown that will be used to upload your report later. Don't worry if you lose it though, you can
+          always regenerate it.
         </p>
       `,
     },
@@ -69,8 +69,8 @@ export class GettingStartedOverview extends BaseElement {
           steps to be able to upload to <i>Stryker Dashboard</i>.
         </p>
         <p>
-          Not using Stryker? No problem! Instead, use your favourite supported mutation testing
-          framework to generate a report and to automatically upload it to <i>Stryker Dashboard</i>.
+          Not using Stryker? No problem! Instead, use your favourite supported mutation testing framework to generate a
+          report and to automatically upload it to <i>Stryker Dashboard</i>.
         </p>
       `,
     },
@@ -78,9 +78,7 @@ export class GettingStartedOverview extends BaseElement {
 
   render() {
     return html`
-      <h2 class="text-center text-2xl font-bold text-white">
-        Getting started with Stryker dashboard
-      </h2>
+      <h2 class="text-center text-2xl font-bold text-white">Getting started with Stryker dashboard</h2>
       <div class="grid-template grid">
         <sme-getting-started-step class="col-span-2 self-center" title="${this.steps[0].title}">
           ${this.steps[0].description}
@@ -98,10 +96,7 @@ export class GettingStartedOverview extends BaseElement {
         <div class="trail-three col-span-3 self-center">${unsafeSVG(TrailThree)}</div>
       </div>
       <h2 class="mb-3 text-xl font-bold text-white">🔍 View your results</h2>
-      <sme-repository
-        name="Stryker.NET"
-        slug="github.com/stryker-mutator/stryker-net/master"
-      ></sme-repository>
+      <sme-repository name="Stryker.NET" slug="github.com/stryker-mutator/stryker-net/master"></sme-repository>
     `;
   }
 }

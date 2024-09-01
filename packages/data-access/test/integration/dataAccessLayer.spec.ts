@@ -13,10 +13,9 @@ describe('Data access layer', () => {
 
   beforeEach(async () => {
     tableClient = createTableClient('Project');
-    tableServiceClient = TableServiceClient.fromConnectionString(
-      process.env.AZURE_STORAGE_CONNECTION_STRING!,
-      { allowInsecureConnection: true },
-    );
+    tableServiceClient = TableServiceClient.fromConnectionString(process.env.AZURE_STORAGE_CONNECTION_STRING!, {
+      allowInsecureConnection: true,
+    });
   });
 
   describe('ProjectMapper', () => {

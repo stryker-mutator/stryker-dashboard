@@ -10,7 +10,11 @@ describe(StrykerDashboard.name, () => {
   let sut: CustomElementFixture<StrykerDashboard>;
 
   beforeEach(async () => {
-    locationMock = { href: 'http://localhost:8080/', origin: 'foo-bar', reload: () => {}} as Location;
+    locationMock = {
+      href: 'http://localhost:8080/',
+      origin: 'foo-bar',
+      reload: () => {},
+    } as Location;
     locationService.getLocation = vi.fn(() => locationMock);
     sut = new CustomElementFixture('stryker-dashboard', { autoConnect: false });
   });
@@ -42,8 +46,10 @@ describe(StrykerDashboard.name, () => {
 
   it('should render the top-bar differently when the user is logged in', async () => {
     // Arrange
-    authService.getUser = vi.fn(() => Promise.resolve({ name: 'John Doe', avatarUrl: 'https://example.com/avatar.png' }));
-    
+    authService.getUser = vi.fn(() =>
+      Promise.resolve({ name: 'John Doe', avatarUrl: 'https://example.com/avatar.png' }),
+    );
+
     // Act
     sut.connect();
     await sut.whenStable();
@@ -57,8 +63,10 @@ describe(StrykerDashboard.name, () => {
   it('should sign in when sign-in is clicked', async () => {
     // Arrange
     authService.getUser = vi.fn(() => Promise.resolve(null));
-    authService.authenticate = vi.fn(() => Promise.resolve({ name: 'John Doe', avatarUrl: 'https://example.com/avatar.png' }));
-    
+    authService.authenticate = vi.fn(() =>
+      Promise.resolve({ name: 'John Doe', avatarUrl: 'https://example.com/avatar.png' }),
+    );
+
     // Act
     sut.connect();
     await sut.whenStable();
@@ -73,10 +81,12 @@ describe(StrykerDashboard.name, () => {
 
   it('should sign out when sign-out is clicked', async () => {
     // Arrange
-    authService.getUser = vi.fn(() => Promise.resolve({ name: 'John Doe', avatarUrl: 'https://example.com/avatar.png' }));
+    authService.getUser = vi.fn(() =>
+      Promise.resolve({ name: 'John Doe', avatarUrl: 'https://example.com/avatar.png' }),
+    );
     authService.signOut = vi.fn(() => Promise.resolve());
     locationMock.reload = vi.fn();
-    
+
     // Act
     sut.connect();
     await sut.whenStable();

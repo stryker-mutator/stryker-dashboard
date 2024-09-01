@@ -25,10 +25,7 @@ test.describe('Real-time api', () => {
           'reports/github.com/stryker-mutator-test-organization/hello-org/main?realTime=true',
           baseURL,
         ).toString(),
-        projectHref: new URL(
-          'reports/github.com/stryker-mutator-test-organization/hello-org/main',
-          baseURL,
-        ).toString(),
+        projectHref: new URL('reports/github.com/stryker-mutator-test-organization/hello-org/main', baseURL).toString(),
       };
 
       expect(response).toEqual(expectedResponse);

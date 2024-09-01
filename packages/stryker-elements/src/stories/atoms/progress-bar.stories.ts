@@ -7,11 +7,7 @@ export default {
   title: 'Atoms/Progress Bar',
   component: 'sme-progress-bar',
   render: ({ currentStep, totalSteps }) => html`
-    <sme-progress-bar
-      class="col-span-2"
-      currentStep="${currentStep}"
-      totalSteps="${totalSteps}"
-    ></sme-progress-bar>
+    <sme-progress-bar class="col-span-2" currentStep="${currentStep}" totalSteps="${totalSteps}"></sme-progress-bar>
   `,
 } as Meta;
 

@@ -1,11 +1,7 @@
 import type { MutantStatus } from 'mutation-testing-report-schema';
 import type { Report } from '@stryker-mutator/dashboard-common';
 
-export function scoreOnlyReport(
-  projectName: string,
-  version: string,
-  mutationScore: number,
-): Report {
+export function scoreOnlyReport(projectName: string, version: string, mutationScore: number): Report {
   return {
     mutationScore,
     moduleName: undefined,

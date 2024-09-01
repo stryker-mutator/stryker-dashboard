@@ -77,8 +77,7 @@ export class ProgressBar extends BaseElement {
             'flex space-y-1': !this.hideProgressText,
           })} w-full"
         >
-          ${!this.hideProgressText ? progressText : nothing}
-          ${!this.hideProgressBar ? progressBar : nothing}
+          ${!this.hideProgressText ? progressText : nothing} ${!this.hideProgressBar ? progressBar : nothing}
         </div>
       </div>
     `;

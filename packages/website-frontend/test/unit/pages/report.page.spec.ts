@@ -32,7 +32,7 @@ describe(ReportPage.name, () => {
 
   it('should render correctly when no report is found', async () => {
     // Arrange
-    locationService.getLocation = vi.fn(() => ({ pathname: '/reports/provider/org/my-repo/branch' } as Location));
+    locationService.getLocation = vi.fn(() => ({ pathname: '/reports/provider/org/my-repo/branch' }) as Location);
     reportService.getReport = vi.fn(() => Promise.resolve(undefined));
 
     // Act
@@ -42,10 +42,7 @@ describe(ReportPage.name, () => {
     // Assert
     expect(sut.element.didNotFindReport).to.be.true;
     expect(
-      sut.element.shadowRoot
-        ?.querySelector('sme-spatious-layout')
-        ?.querySelector('sme-notify')
-        ?.textContent
+      sut.element.shadowRoot?.querySelector('sme-spatious-layout')?.querySelector('sme-notify')?.textContent,
     ).to.eq('Report could not be found...');
 
     expect(reportService.getReport).toHaveBeenCalledWith('provider/org/my-repo/branch');
@@ -53,7 +50,7 @@ describe(ReportPage.name, () => {
 
   it('should render correctly when a full report is found', async () => {
     // Arrange
-    locationService.getLocation = vi.fn(() => ({ pathname: '/reports/provider/org/my-repo/branch' } as Location));
+    locationService.getLocation = vi.fn(() => ({ pathname: '/reports/provider/org/my-repo/branch' }) as Location);
     reportService.getReport = vi.fn(() => Promise.resolve(simpleReport as unknown as MutationTestResult));
 
     // Act
@@ -63,7 +60,7 @@ describe(ReportPage.name, () => {
 
     // Assert
     const reportElement = sut.element.shadowRoot?.querySelector('mutation-test-report-app');
-    expect(reportElement?.shadowRoot?.textContent).to.contain('my-repo/branch - Stryker Dashboard')
+    expect(reportElement?.shadowRoot?.textContent).to.contain('my-repo/branch - Stryker Dashboard');
 
     expect(sut.element.didNotFindReport).to.be.false;
     expect(sut.element.shadowRoot?.querySelector('sme-spatious-layout')).to.be.null;
@@ -72,7 +69,13 @@ describe(ReportPage.name, () => {
 
   it('should have the correct title when a module is specified', async () => {
     // Arrange
-    locationService.getLocation = vi.fn(() => ({ pathname: '/reports/provider/org/my-repo/branch', search: '?module=my-module' } as Location));
+    locationService.getLocation = vi.fn(
+      () =>
+        ({
+          pathname: '/reports/provider/org/my-repo/branch',
+          search: '?module=my-module',
+        }) as Location,
+    );
     reportService.getReport = vi.fn(() => Promise.resolve(simpleReport as unknown as MutationTestResult));
 
     // Act
@@ -82,7 +85,7 @@ describe(ReportPage.name, () => {
 
     // Assert
     const reportElement = sut.element.shadowRoot?.querySelector('mutation-test-report-app');
-    expect(reportElement?.shadowRoot?.textContent).to.contain('my-repo/branch/my-module - Stryker Dashboard') ;
+    expect(reportElement?.shadowRoot?.textContent).to.contain('my-repo/branch/my-module - Stryker Dashboard');
     expect(reportService.getReport).toHaveBeenCalled();
   });
 
@@ -103,12 +106,20 @@ describe(ReportPage.name, () => {
 
   it('should render correctly when a pending report is found', async () => {
     // Arrange
-    locationService.getLocation = vi.fn(() => ({ pathname: '/reports/provider/org/my-repo/branch', search: '?realTime=true' } as Location));
+    locationService.getLocation = vi.fn(
+      () =>
+        ({
+          pathname: '/reports/provider/org/my-repo/branch',
+          search: '?realTime=true',
+        }) as Location,
+    );
     reportService.getReport = vi.fn(() => Promise.resolve(pendingReport as unknown as MutationTestResult));
 
     // Act
     sut.connect();
-    await sut.waitFor(() => sut.element.shadowRoot?.querySelector('mutation-test-report-app')?.getAttribute('sse') !== undefined);
+    await sut.waitFor(
+      () => sut.element.shadowRoot?.querySelector('mutation-test-report-app')?.getAttribute('sse') !== undefined,
+    );
 
     // Assert
     expect(sut.element.didNotFindReport).to.be.false;
@@ -116,6 +127,6 @@ describe(ReportPage.name, () => {
     const reportElement = sut.element.shadowRoot?.querySelector('mutation-test-report-app');
     expect(reportElement).to.not.be.null;
     expect(reportElement?.getAttribute('sse')).to.eq('/api/real-time/provider/org/my-repo/branch');
-    expect(reportService.getReport).toHaveBeenCalledWith("provider/org/my-repo/branch?realTime=true");
+    expect(reportService.getReport).toHaveBeenCalledWith('provider/org/my-repo/branch?realTime=true');
   });
 });

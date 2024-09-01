@@ -37,13 +37,6 @@ export default [
     },
   },
   {
-    ignores: [
-      'node_modules',
-      'packages/*/dist',
-      'packages/website-frontend',
-      'dist',
-      '.stryker-tmp',
-      'reports',
-    ],
+    ignores: ['node_modules', 'packages/*/dist', 'packages/website-frontend', 'dist', '.stryker-tmp', 'reports'],
   },
 ];

@@ -1,7 +1,7 @@
 export class LocationService {
-    public getLocation(): Location {
-        return window.location;
-    }
+  public getLocation(): Location {
+    return window.location;
+  }
 }
 
 export const locationService = new LocationService();

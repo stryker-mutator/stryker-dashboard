@@ -12,9 +12,7 @@ export class RealTimeMutantsBlobService {
   #containerClient: ContainerClient;
 
   constructor(blobService: BlobServiceClient = createBlobServiceClient()) {
-    this.#containerClient = blobService.getContainerClient(
-      RealTimeMutantsBlobService.CONTAINER_NAME,
-    );
+    this.#containerClient = blobService.getContainerClient(RealTimeMutantsBlobService.CONTAINER_NAME);
   }
 
   public async createStorageIfNotExists() {

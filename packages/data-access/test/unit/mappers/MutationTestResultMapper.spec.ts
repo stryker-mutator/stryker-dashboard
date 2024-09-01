@@ -29,21 +29,14 @@ describe(MutationTestingResultMapper.name, () => {
   describe('insertOrReplace', () => {
     it('should create the blob from text using application/json content type', async () => {
       const result = createMutationTestResult();
-      await sut.insertOrReplace(
-        { moduleName: 'core', projectName: 'project', version: 'version' },
-        result,
-      );
+      await sut.insertOrReplace({ moduleName: 'core', projectName: 'project', version: 'version' }, result);
       sinon.assert.calledWith(containerMock.getBlockBlobClient, 'project;version;core');
-      sinon.assert.calledWith(
-        blockBlobClient.uploadData,
-        Buffer.from(JSON.stringify(result), 'utf-8'),
-        {
-          blobHTTPHeaders: {
-            blobContentType: 'application/json',
-            blobContentEncoding: 'utf8',
-          },
+      sinon.assert.calledWith(blockBlobClient.uploadData, Buffer.from(JSON.stringify(result), 'utf-8'), {
+        blobHTTPHeaders: {
+          blobContentType: 'application/json',
+          blobContentEncoding: 'utf8',
         },
-      );
+      });
     });
 
     it('should encode real-time when given as option', async () => {
@@ -58,26 +51,19 @@ describe(MutationTestingResultMapper.name, () => {
         result,
       );
       sinon.assert.calledWith(containerMock.getBlockBlobClient, 'project;version;core;real-time');
-      sinon.assert.calledWith(
-        blockBlobClient.uploadData,
-        Buffer.from(JSON.stringify(result), 'utf-8'),
-        {
-          blobHTTPHeaders: {
-            blobContentType: 'application/json',
-            blobContentEncoding: 'utf8',
-          },
+      sinon.assert.calledWith(blockBlobClient.uploadData, Buffer.from(JSON.stringify(result), 'utf-8'), {
+        blobHTTPHeaders: {
+          blobContentType: 'application/json',
+          blobContentEncoding: 'utf8',
         },
-      );
+      });
     });
 
     it('should throw OptimisticConcurrencyError "BlobHasBeenModified" is thrown', async () => {
       blockBlobClient.uploadData.rejects(new StorageError('BlobHasBeenModified'));
 
       await expect(
-        sut.insertOrReplace(
-          { moduleName: 'core', projectName: 'project', version: 'version' },
-          null,
-        ),
+        sut.insertOrReplace({ moduleName: 'core', projectName: 'project', version: 'version' }, null),
       ).rejectedWith(OptimisticConcurrencyError);
     });
   });

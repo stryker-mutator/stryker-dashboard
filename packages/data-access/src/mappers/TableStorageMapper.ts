@@ -36,9 +36,7 @@ export default class TableStorageMapper<
     await this.#tableClient.upsertEntity(entity, 'Merge');
   }
 
-  public async findOne(
-    identity: Pick<TModel, TPartitionKeyFields | TRowKeyFields>,
-  ): Promise<Result<TModel> | null> {
+  public async findOne(identity: Pick<TModel, TPartitionKeyFields | TRowKeyFields>): Promise<Result<TModel> | null> {
     try {
       const result = await this.#tableClient.getEntity<TModel>(
         encodeKey(this.ModelClass.createPartitionKey(identity)),
@@ -56,9 +54,7 @@ export default class TableStorageMapper<
   }
 
   public async findAll(
-    query: DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> = DashboardQuery.create(
-      this.ModelClass,
-    ),
+    query: DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> = DashboardQuery.create(this.ModelClass),
   ): Promise<Result<TModel>[]> {
     const tableQuery = query.build();
     const entities = this.#tableClient.listEntities<TModel>({ queryOptions: tableQuery });

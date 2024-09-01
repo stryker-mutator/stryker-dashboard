@@ -40,10 +40,7 @@ export class ToggleRepository extends BaseElement {
     return html`
       <div class="flex">
         <div class="ms-auto flex">
-          ${when(
-            this.enabled,
-            () => html`<sme-badge class="me-6 flex items-center" slug="${this.slug}"></sme-badge>`,
-          )}
+          ${when(this.enabled, () => html`<sme-badge class="me-6 flex items-center" slug="${this.slug}"></sme-badge>`)}
           <sme-button class="flex" @click="${this.#toggleRepository}">
             ${this.enabled ? 'Disable' : 'Enable'}
           </sme-button>

@@ -8,12 +8,9 @@ function sleep(n: number) {
   return new Promise((res) => setTimeout(res, n));
 }
 
-type MatchParameters<T extends (...args: any) => any> =
-  Parameters<T> extends [any, ...infer R] ? R : never;
+type MatchParameters<T extends (...args: any) => any> = Parameters<T> extends [any, ...infer R] ? R : never;
 
-type AsyncMatcherFn<T extends (...args: any) => any, R> = (
-  ...args: MatchParameters<T>
-) => Promise<R>;
+type AsyncMatcherFn<T extends (...args: any) => any, R> = (...args: MatchParameters<T>) => Promise<R>;
 
 export interface PlaywrightMatchers<R> {
   /**
@@ -24,10 +21,7 @@ export interface PlaywrightMatchers<R> {
 
 function assertIsLocator(maybeLocator: unknown): asserts maybeLocator is Locator {
   const isLocator =
-    typeof maybeLocator === 'object' &&
-    maybeLocator &&
-    'elementHandles' in maybeLocator &&
-    'waitFor' in maybeLocator;
+    typeof maybeLocator === 'object' && maybeLocator && 'elementHandles' in maybeLocator && 'waitFor' in maybeLocator;
   if (!isLocator) {
     throw new Error(`${maybeLocator} does not appear to be a locator`);
   }

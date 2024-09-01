@@ -1,11 +1,7 @@
 import { MutationTestResult } from 'mutation-testing-report-schema';
 import { aggregateResultsByModule, calculateMetrics } from 'mutation-testing-metrics';
 import { MutationTestingResultMapper } from '../mappers/MutationTestingResultMapper.js';
-import {
-  MutationTestingReportMapper,
-  createMutationTestingReportMapper,
-  DashboardQuery,
-} from '../mappers/index.js';
+import { MutationTestingReportMapper, createMutationTestingReportMapper, DashboardQuery } from '../mappers/index.js';
 import {
   MutationScoreOnlyResult,
   isMutationTestResult,
@@ -16,9 +12,7 @@ import {
 import { MutationTestingReport } from '../models/index.js';
 import { OptimisticConcurrencyError } from '../errors/index.js';
 
-function moduleHasResult(
-  tuple: readonly [string, MutationTestResult | null],
-): tuple is [string, MutationTestResult] {
+function moduleHasResult(tuple: readonly [string, MutationTestResult | null]): tuple is [string, MutationTestResult] {
   return !!tuple[1];
 }
 
@@ -33,11 +27,7 @@ export class MutationTestingReportService {
     await this.mutationScoreMapper.createStorageIfNotExists();
   }
 
-  public async saveReport(
-    id: ReportIdentifier,
-    result: MutationScoreOnlyResult | MutationTestResult,
-    logger: Logger,
-  ) {
+  public async saveReport(id: ReportIdentifier, result: MutationScoreOnlyResult | MutationTestResult, logger: Logger) {
     const mutationScore = this.calculateMutationScore(result);
 
     await this.insertOrMergeReport(
@@ -80,8 +70,7 @@ export class MutationTestingReportService {
       (
         await Promise.all(
           moduleScoreResults.map(
-            async (score) =>
-              [score.model.moduleName!, await this.resultMapper.findOne(score.model)] as const,
+            async (score) => [score.model.moduleName!, await this.resultMapper.findOne(score.model)] as const,
           ),
         )
       ).filter(moduleHasResult),
@@ -139,10 +128,7 @@ export class MutationTestingReportService {
     report: MutationTestingReport,
     result: MutationTestResult | null,
   ) {
-    await Promise.all([
-      this.resultMapper.insertOrReplace(id, result),
-      this.mutationScoreMapper.insertOrMerge(report),
-    ]);
+    await Promise.all([this.resultMapper.insertOrReplace(id, result), this.mutationScoreMapper.insertOrMerge(report)]);
   }
 
   private calculateMutationScore(result: MutationScoreOnlyResult | MutationTestResult) {

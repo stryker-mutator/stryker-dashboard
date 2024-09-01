@@ -1,10 +1,7 @@
 import { MutantResult } from '@stryker-mutator/api/core';
 import { ReportIdentifier, Slug } from '@stryker-mutator/dashboard-common';
 import DataAccess from '../services/DataAccess.js';
-import {
-  MutationTestingReportService,
-  RealTimeMutantsBlobService,
-} from '@stryker-mutator/dashboard-data-access';
+import { MutationTestingReportService, RealTimeMutantsBlobService } from '@stryker-mutator/dashboard-data-access';
 import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
 import MutationEventResponseOrchestrator from '../services/real-time/MutationEventResponseOrchestrator.js';
 import { MutationTestResult } from 'mutation-testing-report-schema';

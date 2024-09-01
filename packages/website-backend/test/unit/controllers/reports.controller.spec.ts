@@ -1,10 +1,6 @@
 import request from 'supertest';
 import { HTTPError } from 'superagent';
-import {
-  MutationTestingReportService,
-  Project,
-  ProjectMapper,
-} from '@stryker-mutator/dashboard-data-access';
+import { MutationTestingReportService, Project, ProjectMapper } from '@stryker-mutator/dashboard-data-access';
 import { expect } from 'chai';
 import { Report } from '@stryker-mutator/dashboard-common';
 import sinon from 'sinon';
@@ -58,9 +54,7 @@ describe(ReportsController.name, () => {
       findReportStub.resolves(expected);
 
       // Act
-      const response = await request(app.getHttpServer()).get(
-        '/api/reports/github.com/owner/name/version',
-      );
+      const response = await request(app.getHttpServer()).get('/api/reports/github.com/owner/name/version');
 
       // Assert
       expect(response.status).eq(200);
@@ -68,9 +62,7 @@ describe(ReportsController.name, () => {
     });
 
     it('should call dissect the correct slug, version and module', async () => {
-      await request(app.getHttpServer()).get(
-        '/api/reports/github.com/test/name/feat/dashboard?module=core',
-      );
+      await request(app.getHttpServer()).get('/api/reports/github.com/test/name/feat/dashboard?module=core');
       sinon.assert.calledWith(findReportStub, {
         projectName: 'github.com/test/name',
         version: 'feat/dashboard',
@@ -79,9 +71,7 @@ describe(ReportsController.name, () => {
     });
 
     it('should respond with 404 if the report could not be found', async () => {
-      const response = await request(app.getHttpServer()).get(
-        '/api/reports/github.com/owner/name/version',
-      );
+      const response = await request(app.getHttpServer()).get('/api/reports/github.com/owner/name/version');
       expect(response.status).eq(404);
       expect(JSON.parse((response.error as HTTPError).text).message).includes(
         'Version "version" does not exist for "github.com/owner/name".',
@@ -224,9 +214,7 @@ describe(ReportsController.name, () => {
         '/api/reports/github.com/testOrg/testName/feat/dashboard',
       );
       expect(response.status).eq(401);
-      expect(JSON.parse((response.error as HTTPError).text).message).include(
-        'Provide an "X-Api-Key" header',
-      );
+      expect(JSON.parse((response.error as HTTPError).text).message).include('Provide an "X-Api-Key" header');
     });
 
     it("should respond with 401 when the api key doesn't match", async () => {

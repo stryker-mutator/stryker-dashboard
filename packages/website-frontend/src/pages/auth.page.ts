@@ -1,5 +1,5 @@
-import { LitElement, html } from 'lit'
-import { customElement } from 'lit/decorators.js'
+import { LitElement, html } from 'lit';
+import { customElement } from 'lit/decorators.js';
 
 import { authService } from '../services/auth.service';
 import { locationService } from '../services/location.service';
@@ -13,11 +13,10 @@ export class AuthPage extends LitElement {
     const url = new URL(location.toString()).searchParams;
     const code = url.get('code')!;
 
-    authService.authenticate("github", code)
-      .then(async () => {
-        const user = await authService.getUser();
-        location.href = `/repos/${user!.name}`;
-      });
+    authService.authenticate('github', code).then(async () => {
+      const user = await authService.getUser();
+      location.href = `/repos/${user!.name}`;
+    });
   }
 
   override render() {
@@ -31,6 +30,6 @@ export class AuthPage extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'stryker-dashboard-auth-page': AuthPage
+    'stryker-dashboard-auth-page': AuthPage;
   }
 }

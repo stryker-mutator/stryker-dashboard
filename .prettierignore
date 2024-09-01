@@ -5,5 +5,5 @@ packages/*/reports
 .nx
 coverage/
 .stryker-tmp
-packages/website-frontend
+
 packages/e2e/testResources

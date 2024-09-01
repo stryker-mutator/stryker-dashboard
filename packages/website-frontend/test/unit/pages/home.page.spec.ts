@@ -31,7 +31,7 @@ describe(HomePage.name, () => {
 
     const gettingStarted = sut.element
       .querySelector('sme-spatious-layout')
-      ?.querySelector('sme-getting-started-overview')
+      ?.querySelector('sme-getting-started-overview');
 
     expect(gettingStarted).to.not.be.null;
     expect(gettingStarted).to.not.be.undefined;
@@ -45,6 +45,6 @@ describe(HomePage.name, () => {
     const link = sut.element.querySelector('sme-hero')?.shadowRoot?.querySelector('sme-link');
 
     // Assert
-    expect(link?.href).to.eq('#getting-started')
+    expect(link?.href).to.eq('#getting-started');
   });
 });

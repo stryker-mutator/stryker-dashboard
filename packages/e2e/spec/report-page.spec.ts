@@ -24,9 +24,7 @@ test.describe('Report page', () => {
 
   test.describe('when a full report exists', async () => {
     test.beforeEach(async () => {
-      await client.uploadReport(
-        simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'master'),
-      );
+      await client.uploadReport(simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'master'));
       await page.navigate('github.com/stryker-mutator-test-organization/hello-org', 'master');
     });
 
@@ -58,28 +56,25 @@ test.describe('Report page', () => {
     test.beforeEach(async () => {
       await Promise.all([
         client.uploadReport(
-          simpleReportV1(
-            'github.com/stryker-mutator-test-organization/hello-org',
-            'feat/modules',
-            'one',
-            ['Killed', 'Killed', 'Killed'],
-          ),
+          simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'feat/modules', 'one', [
+            'Killed',
+            'Killed',
+            'Killed',
+          ]),
         ),
         client.uploadReport(
-          simpleReportV1(
-            'github.com/stryker-mutator-test-organization/hello-org',
-            'feat/modules',
-            'two',
-            ['Survived', 'Survived', 'Survived'],
-          ),
+          simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'feat/modules', 'two', [
+            'Survived',
+            'Survived',
+            'Survived',
+          ]),
         ),
         client.uploadReport(
-          simpleReportV1(
-            'github.com/stryker-mutator-test-organization/hello-org',
-            'feat/modules',
-            'three',
-            ['Killed', 'Timeout', 'NoCoverage'],
-          ),
+          simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'feat/modules', 'three', [
+            'Killed',
+            'Timeout',
+            'NoCoverage',
+          ]),
         ),
       ]);
       await page.navigate('github.com/stryker-mutator-test-organization/hello-org', 'feat/modules');
@@ -90,11 +85,7 @@ test.describe('Report page', () => {
       await expect(page.mutationTestReportApp.title).toContainText('hello-org/feat/modules');
       await expect(page.mutationTestReportApp.title).toContainText('Stryker Dashboard');
       expect(await page.mutationTestReportApp.mutationScore()).toBe(55.56);
-      expect(await page.mutationTestReportApp.fileNames()).toEqual([
-        'one/test.js',
-        'three/test.js',
-        'two/test.js',
-      ]);
+      expect(await page.mutationTestReportApp.fileNames()).toEqual(['one/test.js', 'three/test.js', 'two/test.js']);
     });
   });
 });

@@ -2,11 +2,7 @@ import { ModelClass } from './ModelClass.js';
 import { encodeKey } from '../utils.js';
 import { TableEntityQueryOptions, odata } from '@azure/data-tables';
 
-export class DashboardQuery<
-  TModel,
-  TPartitionKeyFields extends keyof TModel,
-  TRowKeyFields extends keyof TModel,
-> {
+export class DashboardQuery<TModel, TPartitionKeyFields extends keyof TModel, TRowKeyFields extends keyof TModel> {
   private constructor(
     protected ModelClass: ModelClass<TModel, TPartitionKeyFields, TRowKeyFields>,
     private readonly whereConditions: string[],
@@ -27,26 +23,19 @@ export class DashboardQuery<
     return new DashboardQuery(this.ModelClass, [...this.whereConditions, whereCondition]);
   }
 
-  public static create<
-    TModel,
-    TPartitionKeyFields extends keyof TModel,
-    TRowKeyFields extends keyof TModel,
-  >(
+  public static create<TModel, TPartitionKeyFields extends keyof TModel, TRowKeyFields extends keyof TModel>(
     ModelClass: ModelClass<TModel, TPartitionKeyFields, TRowKeyFields>,
   ): DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> {
     return new DashboardQuery(ModelClass, []);
   }
 
   public build(): TableEntityQueryOptions {
-    return this.whereConditions.reduce<TableEntityQueryOptions>(
-      (tableQuery, whereCondition, index) => {
-        if (index === 0) {
-          return { filter: whereCondition };
-        } else {
-          return { filter: `${tableQuery.filter} and ${whereCondition}` };
-        }
-      },
-      {},
-    );
+    return this.whereConditions.reduce<TableEntityQueryOptions>((tableQuery, whereCondition, index) => {
+      if (index === 0) {
+        return { filter: whereCondition };
+      } else {
+        return { filter: `${tableQuery.filter} and ${whereCondition}` };
+      }
+    }, {});
   }
 }

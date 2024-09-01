@@ -1,1 +1,1 @@
-export default { DEV: import.meta.env.DEV }
+export default { DEV: import.meta.env.DEV };

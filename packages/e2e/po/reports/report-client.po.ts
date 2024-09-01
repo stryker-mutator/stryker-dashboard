@@ -1,10 +1,6 @@
 import type { APIRequestContext } from '@playwright/test';
 import type { Report } from '@stryker-mutator/dashboard-common';
-import type {
-  EnableRepositoryResponse,
-  PutReportResponse,
-  Repository,
-} from '@stryker-mutator/dashboard-contract';
+import type { EnableRepositoryResponse, PutReportResponse, Repository } from '@stryker-mutator/dashboard-contract';
 import { generateAuthToken } from '../../actions/auth.action.js';
 import type { MutantResult } from 'mutation-testing-report-schema';
 
@@ -94,8 +90,6 @@ export class ReportClient {
   }
 
   #getUrl(base: string, result: Report) {
-    return `${base}/${result.projectName}/${result.version}${
-      result.moduleName ? `?module=${result.moduleName}` : ''
-    }`;
+    return `${base}/${result.projectName}/${result.version}${result.moduleName ? `?module=${result.moduleName}` : ''}`;
   }
 }

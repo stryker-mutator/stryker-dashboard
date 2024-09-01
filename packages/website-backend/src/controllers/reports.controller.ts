@@ -64,11 +64,7 @@ export default class ReportsController {
     this.verifyRequiredPutReportProperties(result);
     this.verifyIsCompletedReport(result);
     try {
-      await this.#reportService.saveReport(
-        { projectName: project, version, moduleName },
-        result,
-        this.#logger,
-      );
+      await this.#reportService.saveReport({ projectName: project, version, moduleName }, result, this.#logger);
 
       if (moduleName && isMutationTestResult(result)) {
         return {
@@ -77,9 +73,7 @@ export default class ReportsController {
         };
       } else {
         return {
-          href: `${this.#config.baseUrl}/reports/${project}/${version}${
-            moduleName ? `?module=${moduleName}` : ''
-          }`,
+          href: `${this.#config.baseUrl}/reports/${project}/${version}${moduleName ? `?module=${moduleName}` : ''}`,
         };
       }
     } catch (error) {
@@ -144,9 +138,7 @@ export default class ReportsController {
     }
 
     if (isPendingReport(result)) {
-      throw new BadRequestException(
-        'Submitting pending reports to the completed reports endpoint is not allowed.',
-      );
+      throw new BadRequestException('Submitting pending reports to the completed reports endpoint is not allowed.');
     }
   }
 }

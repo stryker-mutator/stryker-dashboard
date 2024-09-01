@@ -8,8 +8,7 @@ test.describe.serial('Repositories page', () => {
   let repositoriesPage: RepositoriesPage;
   let page: Page;
 
-  const copyText: () => Promise<string> = async () =>
-    await page.evaluate('navigator.clipboard.readText()');
+  const copyText: () => Promise<string> = async () => await page.evaluate('navigator.clipboard.readText()');
 
   const enableRepository = async () => {
     await page.waitForSelector('sme-list#disabled-repositories');

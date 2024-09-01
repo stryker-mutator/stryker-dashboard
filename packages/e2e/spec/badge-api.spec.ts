@@ -10,9 +10,7 @@ test.describe('badge-api', () => {
   test.beforeEach(async ({ request }) => {
     client = new BadgeApiClient();
     reportClient = new ReportClient(request);
-    await reportClient.uploadReport(
-      simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'master'),
-    );
+    await reportClient.uploadReport(simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'master'));
   });
 
   test('should show "unknown" if the badge doesn\'t exist', async () => {
@@ -37,9 +35,7 @@ test.describe('badge-api', () => {
       namedLogo: 'stryker',
       schemaVersion: 1,
     };
-    const response = await client.badgeFor(
-      'github.com/stryker-mutator-test-organization/hello-org/master',
-    );
+    const response = await client.badgeFor('github.com/stryker-mutator-test-organization/hello-org/master');
     expect(response).toEqual(expected);
   });
 
@@ -55,9 +51,7 @@ test.describe('badge-api', () => {
     await reportClient.uploadReport(
       simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'feat/test'),
     );
-    const response = await client.badgeFor(
-      'github.com/stryker-mutator-test-organization/hello-org/feat/test',
-    );
+    const response = await client.badgeFor('github.com/stryker-mutator-test-organization/hello-org/feat/test');
     expect(response).toEqual(expected);
   });
 });
