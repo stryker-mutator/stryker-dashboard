@@ -14,8 +14,9 @@ export class AuthPage extends LitElement {
     const code = url.get('code')!;
 
     authService.authenticate("github", code)
-      .then(() => {
-        location.href = '/';
+      .then(async () => {
+        const user = await authService.getUser();
+        location.href = `/repos/${user!.name}`;
       });
   }
 
