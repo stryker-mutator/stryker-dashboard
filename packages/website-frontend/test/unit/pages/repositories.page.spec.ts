@@ -52,7 +52,7 @@ describe(RepositoriesPage.name, () => {
       // Assert
       const loader = sut.element.shadowRoot?.querySelector('sme-loader');
       // The property exists but has no value (boolean property)
-      expect(loader?.getAttribute('doneWithLoading')).to.eq('');
+      expect(loader).toHaveAttribute('doneWithLoading', '');
     });
   });
 
@@ -79,7 +79,7 @@ describe(RepositoriesPage.name, () => {
 
       // Assert
       const dropdown = sut.element.shadowRoot?.querySelector('sme-dropdown');
-      expect(dropdown?.shadowRoot?.querySelectorAll('select > option').length).to.eq(3);
+      expect(dropdown?.shadowRoot?.querySelectorAll('select > option')).toHaveLength(3);
     });
 
     it('should get new repositories when the dropdown changes', async () => {
@@ -138,10 +138,10 @@ describe(RepositoriesPage.name, () => {
       const enabledRepositories = loader?.querySelectorAll('sme-list#enabled-repositories > sme-toggle-repository');
       const disabledRepositories = loader?.querySelectorAll('sme-list#disabled-repositories > sme-toggle-repository');
 
-      expect(enabledRepositories?.length).to.eq(2);
+      expect(enabledRepositories).toHaveLength(2);
       expect(enabledRepositories![0].getAttribute('hidden')).to.be.null;
       expect(enabledRepositories![1].getAttribute('hidden')).to.eq('');
-      expect(disabledRepositories?.length).to.eq(2);
+      expect(disabledRepositories).toHaveLength(2);
       expect(disabledRepositories![0].getAttribute('hidden')).to.eq('');
       expect(disabledRepositories![1].getAttribute('hidden')).to.be.null;
     });
@@ -161,12 +161,12 @@ describe(RepositoriesPage.name, () => {
       const noEnabledRepositoriesNotification = loader?.querySelector('sme-notify#no-enabled-repositories');
       const noRepositoriesToEnableNotification = loader?.querySelector('sme-notify#no-repositories-to-enable');
 
-      expect(noEnabledRepositoriesNotification?.getAttribute('type')).to.eq('info');
-      expect(noEnabledRepositoriesNotification?.textContent).to.eq(
+      expect(noEnabledRepositoriesNotification).toHaveAttribute('type', 'info');
+      expect(noEnabledRepositoriesNotification).toHaveTextContent(
         'There are no enabled repositories. You can enable them below.',
       );
-      expect(noRepositoriesToEnableNotification?.getAttribute('type')).to.eq('info');
-      expect(noRepositoriesToEnableNotification?.textContent).to.eq("You don't have any repositories to enable.");
+      expect(noRepositoriesToEnableNotification).toHaveAttribute('type', 'info');
+      expect(noRepositoriesToEnableNotification).toHaveTextContent("You don't have any repositories to enable.");
     });
 
     it('should disable an enabled repository when it is clicked', async () => {
@@ -188,7 +188,7 @@ describe(RepositoriesPage.name, () => {
       await sut.whenStable();
 
       // Assert
-      expect(loader.querySelector('sme-notify#no-enabled-repositories')).to.not.be.null;
+      expect(loader.querySelector('sme-notify#no-enabled-repositories')).toBeInTheDocument();
       expect(repositoriesService.enableRepository).toHaveBeenCalledWith('foo1/bar/baz/1', false);
     });
 
@@ -215,12 +215,12 @@ describe(RepositoriesPage.name, () => {
       const badgeCollapsible = modal.querySelector('sme-collapsible#badge-collapsible')!;
       const usageCollapsible = modal.querySelector('sme-collapsible#usage-collapsible')!;
 
-      expect(apiKeyCollapsible.textContent).to.contain("Here's your API key: foo-bar-baz");
-      expect(badgeCollapsible.querySelector('sme-badge-configurator')).to.not.be.null;
-      expect(usageCollapsible.textContent).to.contain('See the Stryker dashboard documentation ↗');
+      expect(apiKeyCollapsible).toHaveTextContent("Here's your API key:foo-bar-baz");
+      expect(badgeCollapsible.querySelector('sme-badge-configurator')).toBeInTheDocument();
+      expect(usageCollapsible).toHaveTextContent('See the Stryker dashboard documentation ↗');
 
       const noEnabledRepositoriesNotification = loader?.querySelector('sme-notify#no-repositories-to-enable');
-      expect(noEnabledRepositoriesNotification?.textContent).to.eq("You don't have any repositories to enable.");
+      expect(noEnabledRepositoriesNotification).toHaveTextContent("You don't have any repositories to enable.");
     });
 
     it('should open the modal when an enabled repository is clicked', async () => {
@@ -240,7 +240,7 @@ describe(RepositoriesPage.name, () => {
       const modal = sut.element.shadowRoot?.querySelector('sme-modal')!;
       const apiKeyCollapsible = modal.querySelector('sme-collapsible#no-api-key-collapsible')!;
 
-      expect(apiKeyCollapsible.textContent).to.contain(
+      expect(apiKeyCollapsible).toHaveTextContent(
         'Your api key should already have been copied. If you need a new one, re-enable this repository.',
       );
     });

@@ -41,8 +41,8 @@ describe(AuthPage.name, () => {
     // Assert
     expect(locationService.getLocation().href).to.eq('/repos/user');
     expect(authService.authenticate).toHaveBeenCalledWith('github', '123');
-    expect(
-      sut.element.shadowRoot?.querySelector('sme-spatious-layout')?.querySelector('sme-notify')?.textContent,
-    ).to.eq('Authenticating, hold on for a moment...');
+    expect(sut.element.shadowRoot?.querySelector('sme-spatious-layout')?.querySelector('sme-notify')).toHaveTextContent(
+      'Authenticating, hold on for a moment...',
+    );
   });
 });

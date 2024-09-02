@@ -36,10 +36,10 @@ describe(StrykerDashboard.name, () => {
 
     // Assert
     const signInButton = sut.element.querySelector('sme-top-bar')?.querySelector('sme-button');
-    expect(signInButton?.textContent).to.contain('Sign in with GitHub');
+    expect(signInButton).toHaveTextContent('Sign in with GitHub');
 
     const outlet = sut.element.querySelector('#outlet');
-    expect(outlet).to.not.be.null;
+    expect(outlet).toBeInTheDocument();
   });
 
   it('should render the top-bar differently when the user is logged in', async () => {
