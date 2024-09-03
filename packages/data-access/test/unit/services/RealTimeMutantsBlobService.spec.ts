@@ -92,14 +92,14 @@ describe(RealTimeMutantsBlobService.name, () => {
   });
 
   describe('delete', () => {
-    it('should delete the blob', () => {
+    it('should delete the blob', async () => {
       const identifier = {
         moduleName: 'core',
         projectName: 'project',
         version: 'version',
       };
 
-      sut.delete(identifier);
+      await sut.delete(identifier);
 
       sinon.assert.calledWith(containerClient.getAppendBlobClient, 'project;version;core');
       expect(appendClient.deleteIfExists.calledOnce).to.be.true;

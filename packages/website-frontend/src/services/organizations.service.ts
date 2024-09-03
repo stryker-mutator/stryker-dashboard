@@ -9,7 +9,7 @@ export class OrganizationsService {
         Authorization: `Bearer ${authService.currentBearerToken}`,
       },
     });
-    return await response.json();
+    return response.json() as Promise<Repository[]>;
   }
 }
 

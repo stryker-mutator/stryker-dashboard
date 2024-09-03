@@ -15,7 +15,7 @@ import { MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
 describe(ReportPage.name, () => {
   let sut: CustomElementFixture<ReportPage>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     sut = new CustomElementFixture('stryker-dashboard-report-page', { autoConnect: false });
   });
 
@@ -24,7 +24,7 @@ describe(ReportPage.name, () => {
     sut.dispose();
   });
 
-  it('should be of the correct instance', async () => {
+  it('should be of the correct instance', () => {
     expect(sut.element).to.be.instanceOf(ReportPage);
   });
 

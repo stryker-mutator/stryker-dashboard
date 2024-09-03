@@ -6,14 +6,14 @@ export class UserService {
     const response = await fetch(`/api/user/organizations`, {
       headers: { Authorization: `Bearer ${authService.currentBearerToken}` },
     });
-    return response.json();
+    return response.json() as Promise<Login[]>;
   }
 
   public async getRepositories(): Promise<Repository[]> {
     const response = await fetch(`/api/user/repositories`, {
       headers: { Authorization: `Bearer ${authService.currentBearerToken}` },
     });
-    return response.json();
+    return response.json() as Promise<Repository[]>;
   }
 }
 

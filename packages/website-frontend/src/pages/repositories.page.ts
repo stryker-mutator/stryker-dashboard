@@ -14,7 +14,7 @@ import { organizationsService } from '../services/organizations.service';
 @customElement('stryker-dashboard-repositories-page')
 export class RepositoriesPage extends LitElement {
   @state()
-  userRepositoryName: string = '';
+  userRepositoryName = '';
 
   @state()
   repositories: Repository[] = [];
@@ -36,12 +36,12 @@ export class RepositoriesPage extends LitElement {
 
     this.userRepositoryName = locationService.getLocation().pathname.split('/repos/').join('');
 
-    userService.getRepositories().then((repositories) => {
+    void userService.getRepositories().then((repositories) => {
       this.repositories = repositories;
       this.done.partOne = true;
     });
 
-    userService.organizations().then((organizations) => {
+    void userService.organizations().then((organizations) => {
       const organizationNames = organizations.map((o) => o.name);
       organizationNames.unshift(this.userRepositoryName);
 
@@ -106,7 +106,8 @@ export class RepositoriesPage extends LitElement {
       <sme-toggle-repository
         ?hidden="${shouldHide()}"
         @repositoryClicked="${() => this.#handleRepositoryClick(repository)}"
-        @repositoryToggled="${(event: CustomEvent) => this.#handleRepositoryToggled(event, repository)}"
+        @repositoryToggled="${(event: CustomEvent<{ checked: boolean }>) =>
+          this.#handleRepositoryToggled(event, repository)}"
         .enabled="${repository.enabled}"
         name="${repository.name}"
         slug="${this.#getSlugWithDefaultBranch(repository)}"
@@ -172,7 +173,7 @@ export class RepositoriesPage extends LitElement {
     return `${repository.slug}/${repository.defaultBranch}`;
   }
 
-  async #handleRepositoryToggled(event: CustomEvent, repository: Repository) {
+  async #handleRepositoryToggled(event: CustomEvent<{ checked: boolean }>, repository: Repository) {
     const response = await repositoriesService.enableRepository(repository.slug, event.detail.checked);
     repository.enabled = response === null ? false : true;
     if (repository.enabled) {
@@ -190,7 +191,7 @@ export class RepositoriesPage extends LitElement {
     return this.repositories.some((r) => r.enabled);
   }
 
-  async #handleDropDownChanged(event: CustomEvent) {
+  async #handleDropDownChanged(event: CustomEvent<{ value: string }>) {
     this.done = { ...this.done, repositories: false };
     if (event.detail.value === this.userRepositoryName) {
       this.repositories = await userService.getRepositories();

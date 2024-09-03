@@ -11,9 +11,10 @@ import Configuration from '../../../src/services/Configuration.js';
 import AuthController from '../../../src/controllers/auth.controller.js';
 import DataAccess from '../../../src/services/DataAccess.js';
 import { Strategy } from 'passport-github2';
+import { App } from 'supertest/types.js';
 
 describe(AuthController.name, () => {
-  let app: INestApplication;
+  let app: INestApplication<App>;
   let user: github.Authentication;
 
   beforeEach(async () => {

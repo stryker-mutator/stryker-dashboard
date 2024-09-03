@@ -5,7 +5,7 @@
     "start": "vite --host",
     "build": "tsc -b && vite build",
     "test": "HEADLESS=true vitest",
-    "stryker": "stryker run"
+    "stryker": "HEADLESS=true stryker run"
   },
   "publishConfig": {
     "access": "public"

@@ -102,15 +102,14 @@ export default class RealTimeReportsController {
     server.sendFinished();
 
     this.#orchestrator.removeResponseHandler(id);
-    this.#blobService.delete(id);
-    this.#reportService.delete(id);
+    await Promise.all([this.#blobService.delete(id), this.#reportService.delete(id)]);
   }
 
   @Post('/:slug(*)')
   public async appendBatch(
     @Param('slug') slug: string,
     @Body()
-    mutants: Array<Partial<MutantResult>>,
+    mutants: Partial<MutantResult>[],
     @Query('module') moduleName: string | undefined,
     @Headers(API_KEY_HEADER) authorizationHeader: string | undefined,
   ) {

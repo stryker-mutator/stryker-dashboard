@@ -9,9 +9,10 @@ import { AppModule } from '../../../src/app.module.js';
 import Configuration from '../../../src/services/Configuration.js';
 import OrganizationsController from '../../../src/controllers/organizations.controller.js';
 import DataAccess from '../../../src/services/DataAccess.js';
+import { App } from 'supertest/types.js';
 
 describe(OrganizationsController.name, () => {
-  let app: INestApplication;
+  let app: INestApplication<App>;
   const repositoryStub = sinon.createStubInstance(GithubRepositoryService);
 
   beforeEach(async () => {

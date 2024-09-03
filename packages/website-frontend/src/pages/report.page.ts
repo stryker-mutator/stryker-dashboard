@@ -27,7 +27,7 @@ export class ReportPage extends LitElement {
   override connectedCallback(): void {
     super.connectedCallback();
 
-    reportService.getReport(this.#slug).then((report) => {
+    void reportService.getReport(this.#slug).then((report) => {
       if (report == undefined) {
         this.didNotFindReport = true;
         return;
@@ -96,7 +96,7 @@ export class ReportPage extends LitElement {
     const searchParams = new URLSearchParams(location.search);
     searchParams.delete('realTime');
 
-    return searchParams.has('module') ? `${this.#baseSlug}?${searchParams}` : this.#baseSlug;
+    return searchParams.has('module') ? `${this.#baseSlug}?${searchParams.toString()}` : this.#baseSlug;
   }
 
   get #title(): string {
@@ -113,7 +113,7 @@ export class ReportPage extends LitElement {
     return `${slugWithoutProviderAndOrganization}${baseTitle}`;
   }
 
-  #handleThemeChange(event: CustomEvent): void {
+  #handleThemeChange(event: CustomEvent<{ themeBackgroundColor: string }>): void {
     document.body.style.backgroundColor = event.detail.themeBackgroundColor;
   }
 }

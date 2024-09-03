@@ -14,7 +14,7 @@ export abstract class PageObject {
 
   static async selectAll<T extends PageObject>(
     host: Locator,
-    PageObject: { new (locator: Locator): T },
+    PageObject: new (locator: Locator) => T,
     expectedCount: number,
   ) {
     await expect(host).toHaveCount(expectedCount);

@@ -3,8 +3,10 @@
   "compilerOptions": {
     "target": "es2017",
     "types": ["node", "mocha"],
-    "outDir": "dist"
+    "outDir": "dist",
+    "allowJs": true
   },
+  "include": ["badge/**/*.ts", "badge/**/*.mjs", "test/**/*.ts"],
   "references": [
     {
       "path": "../data-access/src"

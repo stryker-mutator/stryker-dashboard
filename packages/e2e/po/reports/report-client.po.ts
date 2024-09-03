@@ -25,7 +25,7 @@ export class ReportClient {
               Authorization: `Bearer ${authToken}`,
             },
           });
-          const body: EnableRepositoryResponse = await response.json();
+          const body = (await response.json()) as EnableRepositoryResponse;
           return body.apiKey;
         }),
       );
@@ -39,8 +39,7 @@ export class ReportClient {
       failOnStatusCode: true,
       headers: { Authorization: `Bearer ${auth}` },
     });
-    const body = await response.json();
-    return body;
+    return response.json() as Promise<Repository[]>;
   }
 
   async uploadReport(result: Report): Promise<PutReportResponse> {
@@ -52,8 +51,7 @@ export class ReportClient {
         ['X-Api-Key']: apiKey,
       },
     });
-    const body = await response.json();
-    return body;
+    return response.json() as Promise<PutReportResponse>;
   }
 
   async uploadPendingReport(result: Report): Promise<PutReportResponse> {
@@ -65,11 +63,10 @@ export class ReportClient {
         ['X-Api-Key']: apiKey,
       },
     });
-    const body = await response.json();
-    return body;
+    return response.json() as Promise<PutReportResponse>;
   }
 
-  async postMutantBatch(result: Report, mutants: Array<Partial<MutantResult>>) {
+  async postMutantBatch(result: Report, mutants: Partial<MutantResult>[]) {
     const apiKey = await this.enableRepository(result.projectName);
     return await this.request.post(this.#getUrl('/api/real-time', result), {
       data: mutants,

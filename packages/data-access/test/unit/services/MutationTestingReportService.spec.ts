@@ -342,7 +342,7 @@ describe(MutationTestingReportService.name, () => {
   });
 
   describe('delete', () => {
-    it('should delete the blob', () => {
+    it('should delete the blob', async () => {
       // Arrange
       const id = {
         moduleName: 'm',
@@ -351,7 +351,7 @@ describe(MutationTestingReportService.name, () => {
       };
 
       // Act
-      sut.delete(id);
+      await sut.delete(id);
 
       // Assert
       expect(resultMapperMock.delete.calledOnce).to.be.true;

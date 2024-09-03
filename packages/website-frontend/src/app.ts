@@ -38,9 +38,9 @@ export class StrykerDashboard extends LitElement {
   override connectedCallback(): void {
     super.connectedCallback();
 
-    this.#authService.getUser().then((user) => {
+    void this.#authService.getUser().then(async (user) => {
       this.user = user;
-      this.#configureRouting();
+      await this.#configureRouting();
       this.done = true;
     });
   }
@@ -49,9 +49,9 @@ export class StrykerDashboard extends LitElement {
     return this;
   }
 
-  #configureRouting() {
+  async #configureRouting() {
     this.#router = new Router(this.querySelector('#outlet'));
-    this.#router.setRoutes([
+    await this.#router.setRoutes([
       { path: '/', component: 'stryker-dashboard-home-page' },
       {
         action: () => {

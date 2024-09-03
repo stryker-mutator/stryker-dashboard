@@ -11,19 +11,21 @@ async function bootstrap() {
   app.setGlobalPrefix('/api');
 
   configureSecurityHeaders(app);
-  configureAzureStorage(app);
+  await configureAzureStorage(app);
 
   app.useBodyParser('json', { limit: '100mb' });
   app.use(compression());
   await app.listen(1337);
 }
 
-function configureAzureStorage(app: INestApplication) {
+async function configureAzureStorage(app: INestApplication) {
   const dataAccess = app.get<DataAccess>(DataAccess);
 
-  dataAccess.blobService.createStorageIfNotExists();
-  dataAccess.mutationTestingReportService.createStorageIfNotExists();
-  dataAccess.repositoryMapper.createStorageIfNotExists();
+  await Promise.all([
+    dataAccess.blobService.createStorageIfNotExists(),
+    dataAccess.mutationTestingReportService.createStorageIfNotExists(),
+    dataAccess.repositoryMapper.createStorageIfNotExists(),
+  ]);
 }
 
 function configureSecurityHeaders(app: INestApplication) {
@@ -50,4 +52,7 @@ function configureSecurityHeaders(app: INestApplication) {
   );
 }
 
-bootstrap();
+bootstrap().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

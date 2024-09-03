@@ -16,7 +16,7 @@ export class RepositoriesService {
       return null;
     }
 
-    return await response.json();
+    return (await response.json()) as Promise<EnableRepositoryResponse>;
   }
 }
 

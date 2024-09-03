@@ -107,7 +107,7 @@ export default class ReportsController {
       report = await this.#reportService.findOne({ ...id, realTime: true });
     }
 
-    if (!report || !isMutationTestResult(report!)) {
+    if (!report || !isMutationTestResult(report)) {
       report = await this.#reportService.findOne(id);
     }
 

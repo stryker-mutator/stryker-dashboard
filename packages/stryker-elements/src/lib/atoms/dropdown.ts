@@ -6,7 +6,7 @@ import { map } from 'lit/directives/map.js';
 @customElement('sme-dropdown')
 export class Dropdown extends BaseElement {
   @property()
-  id: string = '';
+  id = '';
 
   @property({ type: Array })
   options: { name: string; value: string }[] = [];

@@ -11,7 +11,7 @@ import { userService } from '../../../src/services/user.service';
 describe(RepositoriesPage.name, () => {
   let sut: CustomElementFixture<RepositoriesPage>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     locationService.getLocation = vi.fn(() => ({ pathname: '/repos/user' }) as Location);
     sut = new CustomElementFixture('stryker-dashboard-repositories-page', { autoConnect: false });
   });
@@ -21,7 +21,7 @@ describe(RepositoriesPage.name, () => {
     sut.dispose();
   });
 
-  it('should be of the correct instance', async () => {
+  it('should be of the correct instance', () => {
     expect(sut.element).to.be.instanceOf(RepositoriesPage);
   });
 
@@ -178,7 +178,7 @@ describe(RepositoriesPage.name, () => {
       await sut.whenStable();
       await sut.whenStable();
 
-      const loader = sut.element.shadowRoot?.querySelector('sme-loader')!;
+      const loader = sut.element.shadowRoot!.querySelector('sme-loader')!;
       const enabledRepository = loader.querySelector(
         'sme-list#enabled-repositories > sme-toggle-repository:not([hidden])',
       );
@@ -201,7 +201,7 @@ describe(RepositoriesPage.name, () => {
       await sut.whenStable();
       await sut.whenStable();
 
-      const loader = sut.element.shadowRoot?.querySelector('sme-loader')!;
+      const loader = sut.element.shadowRoot!.querySelector('sme-loader')!;
       const disabledRepository = loader.querySelector(
         'sme-list#disabled-repositories > sme-toggle-repository:not([hidden])',
       );
@@ -210,7 +210,7 @@ describe(RepositoriesPage.name, () => {
 
       // Assert
       await sut.waitFor(() => sut.element.shadowRoot?.querySelector('sme-modal') !== null);
-      const modal = sut.element.shadowRoot?.querySelector('sme-modal')!;
+      const modal = sut.element.shadowRoot!.querySelector('sme-modal')!;
       const apiKeyCollapsible = modal.querySelector('sme-collapsible#api-key-collapsible')!;
       const badgeCollapsible = modal.querySelector('sme-collapsible#badge-collapsible')!;
       const usageCollapsible = modal.querySelector('sme-collapsible#usage-collapsible')!;
@@ -229,7 +229,7 @@ describe(RepositoriesPage.name, () => {
       await sut.whenStable();
       await sut.whenStable();
 
-      const loader = sut.element.shadowRoot?.querySelector('sme-loader')!;
+      const loader = sut.element.shadowRoot!.querySelector('sme-loader')!;
       const disabledRepository = loader.querySelector(
         'sme-list#enabled-repositories > sme-toggle-repository:not([hidden])',
       )!;
@@ -237,7 +237,7 @@ describe(RepositoriesPage.name, () => {
 
       // Assert
       await sut.waitFor(() => sut.element.shadowRoot?.querySelector('sme-modal') !== null);
-      const modal = sut.element.shadowRoot?.querySelector('sme-modal')!;
+      const modal = sut.element.shadowRoot!.querySelector('sme-modal')!;
       const apiKeyCollapsible = modal.querySelector('sme-collapsible#no-api-key-collapsible')!;
 
       expect(apiKeyCollapsible).toHaveTextContent(

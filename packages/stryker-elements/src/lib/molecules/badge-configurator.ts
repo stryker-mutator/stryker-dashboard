@@ -68,10 +68,10 @@ export class BadgeConfigurator extends BaseElement {
     `;
   }
 
-  #copyToClipboard() {
+  async #copyToClipboard() {
     const badgeUrl = encodeURIComponent(`${this.dashboardBadgeApiUrl}${this.projectName}`);
     const reportUrl = `${this.dashboardReportUrl}${this.projectName}`;
-    navigator.clipboard.writeText(
+    await navigator.clipboard.writeText(
       `[![Mutation testing badge](${finalBadgeUrl}?style=${this.selectedStyle}&url=${badgeUrl})](${reportUrl})`,
     );
 

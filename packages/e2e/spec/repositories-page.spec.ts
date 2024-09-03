@@ -38,7 +38,7 @@ test.describe.serial('Repositories page', () => {
   });
 
   test('should show an information box when no repositories are enabled', async () => {
-    expect(page.locator('sme-spatious-layout')).toContainText(
+    await expect(page.locator('sme-spatious-layout')).toContainText(
       'There are no enabled repositories. You can enable them below.',
     );
   });
@@ -81,7 +81,7 @@ test.describe.serial('Repositories page', () => {
     });
   });
 
-  test.describe('when clicking on the repository', async () => {
+  test.describe('when clicking on the repository', () => {
     test.beforeAll(async () => {
       await enableRepository();
       await page.locator('sme-modal div.mt-auto sme-button > button').click();

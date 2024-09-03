@@ -22,7 +22,7 @@ test.describe('Report page', () => {
     });
   });
 
-  test.describe('when a full report exists', async () => {
+  test.describe('when a full report exists', () => {
     test.beforeEach(async () => {
       await client.uploadReport(simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'master'));
       await page.navigate('github.com/stryker-mutator-test-organization/hello-org', 'master');
@@ -34,7 +34,7 @@ test.describe('Report page', () => {
       expect(await app.mutationScore()).toBe(33.33);
     });
 
-    test.describe('and afterwards it is overridden with a score-only report', async () => {
+    test.describe('and afterwards it is overridden with a score-only report', () => {
       test.beforeEach(async () => {
         await client.uploadReport(
           scoreOnlyReport('github.com/stryker-mutator-test-organization/hello-org', 'master', 42),

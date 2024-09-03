@@ -26,7 +26,7 @@ export class ProfileButton extends BaseElement {
 
     return html`<button
         @mouseenter="${this.#openMenu}"
-        class="profile mr-4 h-10 w-10 overflow-hidden rounded-full border border-2 border-solid border-neutral-600"
+        class="profile mr-4 h-10 w-10 overflow-hidden rounded-full border-2 border-solid border-neutral-600"
       >
         <img class="h-full w-full" src="${this.avatarUrl}" />
       </button>
