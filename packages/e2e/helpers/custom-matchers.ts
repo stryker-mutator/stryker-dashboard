@@ -24,7 +24,7 @@ function assertIsLocator(maybeLocator: unknown): asserts maybeLocator is Locator
   const isLocator =
     typeof maybeLocator === 'object' && maybeLocator && 'elementHandles' in maybeLocator && 'waitFor' in maybeLocator;
   if (!isLocator) {
-    throw new Error(`${maybeLocator} does not appear to be a locator`);
+    throw new Error(`${String(maybeLocator)} does not appear to be a locator`);
   }
 }
 
@@ -36,7 +36,7 @@ async function toExist(this: ExpectMatcherState, locator: unknown, options?: { t
   do {
     const elements = await locator.elementHandles();
     if (elements.length > 1) {
-      throw new Error(`Found ${elements.length} elements matching ${locator}`);
+      throw new Error(`Found ${elements.length} elements matching ${String(locator)}`);
     }
     pass = (elements.length === 1) != this.isNot;
     if (!pass) {
@@ -57,7 +57,7 @@ async function toExist(this: ExpectMatcherState, locator: unknown, options?: { t
         promise: this.promise,
       });
 
-      return hint + '\n\n' + `Expected locator to${not} exist: ${locator}`;
+      return hint + '\n\n' + `Expected locator to${not} exist: ${String(locator)}`;
     },
   };
 }

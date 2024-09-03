@@ -15,6 +15,7 @@
     "@eslint/js": "9.9.1",
     "@stryker-mutator/core": "8.5.0",
     "@stryker-mutator/mocha-runner": "8.5.0",
+    "@stryker-mutator/vitest-runner": "8.5.0",
     "@types/chai": "4.3.19",
     "@types/chai-as-promised": "8.0.0",
     "@types/mocha": "10.0.7",
@@ -42,7 +43,7 @@
     "url": "https://github.com/stryker-mutator/stryker-dashboard"
   },
   "scripts": {
-    "all": "npm run lint && npm run clean && npm run build && npm run test",
+    "all": "npm run clean && npm run build && npm run lint && npm run test",
     "clean": "rimraf --glob \"packages/*/{.nyc_output,reports,coverage,dist}\"",
     "lint": "concurrently -c auto \"npm:lint:*(!fix)\"",
     "lint:prettier": "prettier --check .",

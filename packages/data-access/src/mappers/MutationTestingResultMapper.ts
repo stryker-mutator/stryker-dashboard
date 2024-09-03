@@ -48,9 +48,9 @@ export class MutationTestingResultMapper {
   public async findOne(identifier: ReportIdentifier): Promise<schema.MutationTestResult | null> {
     const blobName = toBlobName(identifier);
     try {
-      const result: schema.MutationTestResult = JSON.parse(
+      const result = JSON.parse(
         (await this.#containerClient.getBlockBlobClient(blobName).downloadToBuffer()).toString('utf-8'),
-      );
+      ) as schema.MutationTestResult;
       return result;
     } catch (error) {
       if (hasErrorCode(error, errCodes.BLOB_NOT_FOUND)) {

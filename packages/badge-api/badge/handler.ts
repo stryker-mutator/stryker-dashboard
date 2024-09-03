@@ -4,7 +4,9 @@ import { Slug, InvalidSlugError } from '@stryker-mutator/dashboard-common';
 import { ShieldMapper } from './ShieldMapper.js';
 
 const headers = {
-  ['X-Badge-Api-Version']: JSON.parse(fs.readFileSync(new URL('../../package.json', import.meta.url), 'utf-8')).version,
+  ['X-Badge-Api-Version']: (
+    JSON.parse(fs.readFileSync(new URL('../../package.json', import.meta.url), 'utf-8')) as { version: string }
+  ).version,
 };
 
 export function handler(mapper: ShieldMapper): HttpHandler {

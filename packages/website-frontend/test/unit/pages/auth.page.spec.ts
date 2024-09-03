@@ -20,7 +20,7 @@ describe(AuthPage.name, () => {
     sut.dispose();
   });
 
-  it('should be of the correct instance', async () => {
+  it('should be of the correct instance', () => {
     expect(sut.element).to.be.instanceOf(AuthPage);
   });
 

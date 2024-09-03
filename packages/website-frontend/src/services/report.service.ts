@@ -23,7 +23,7 @@ export class ReportService {
       return undefined;
     }
 
-    return await response.json();
+    return response.json() as Promise<MutationTestResult | MutationScoreOnlyResult>;
   }
 }
 

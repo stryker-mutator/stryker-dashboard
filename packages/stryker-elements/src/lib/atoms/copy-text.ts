@@ -52,13 +52,13 @@ export class CopyText extends BaseElement {
     `;
   }
 
-  #handleCopyText() {
+  async #handleCopyText() {
     if (!navigator?.clipboard?.writeText) {
       console.warn('Clipboard API is not supported');
       return;
     }
 
-    navigator.clipboard.writeText(this.innerText ?? 'text could not be copied...');
+    await navigator.clipboard.writeText(this.innerText ?? 'text could not be copied...');
     this.copiedText = true;
 
     setTimeout(() => {

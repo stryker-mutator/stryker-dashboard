@@ -14,11 +14,12 @@ import utils from '../../../src/utils/utils.js';
 import { MutationEventResponseHandler } from '../../../src/services/real-time/MutationEventResponseHandler.js';
 import { createMutationTestResult } from '../../helpers/mutants.js';
 import { Response } from 'express';
+import { App } from 'supertest/types.js';
 
 describe(RealTimeReportsController.name, () => {
   const apiKey = '1346';
 
-  let app: INestApplication;
+  let app: INestApplication<App>;
   let dataAccess: DataAccessMock;
   let removeResponseHandlerStub: sinon.SinonStubbedMember<MutationEventResponseOrchestrator['removeResponseHandler']>;
   let responseHandlerForProjectStub: sinon.SinonStubbedMember<

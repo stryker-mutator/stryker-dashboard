@@ -13,9 +13,10 @@ import DataAccess from '../../../src/services/DataAccess.js';
 import { DataAccessMock, config } from '../../helpers/TestServer.js';
 import { createMutationTestResult, createMutationTestingResult } from '../../helpers/mutants.js';
 import utils from '../../../src/utils/utils.js';
+import { App } from 'supertest/types.js';
 
 describe(ReportsController.name, () => {
-  let app: INestApplication;
+  let app: INestApplication<App>;
   let findReportStub: sinon.SinonStubbedMember<MutationTestingReportService['findOne']>;
   let saveReportStub: sinon.SinonStubbedMember<MutationTestingReportService['saveReport']>;
   let findProjectStub: sinon.SinonStubbedMember<ProjectMapper['findOne']>;

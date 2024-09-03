@@ -7,11 +7,11 @@ describe(StrykerDashboard.name, () => {
   let locationMock: Location;
   let sut: CustomElementFixture<StrykerDashboard>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     locationMock = {
       href: 'http://localhost:8080/',
       origin: 'foo-bar',
-      reload: () => {},
+      reload: () => undefined,
     } as Location;
     locationService.getLocation = vi.fn(() => locationMock);
     sut = new CustomElementFixture('stryker-dashboard', { autoConnect: false });
@@ -22,7 +22,7 @@ describe(StrykerDashboard.name, () => {
     sut.dispose();
   });
 
-  it('should be of the correct instance', async () => {
+  it('should be of the correct instance', () => {
     expect(sut.element).to.be.instanceOf(StrykerDashboard);
   });
 
@@ -82,7 +82,7 @@ describe(StrykerDashboard.name, () => {
     authService.getUser = vi.fn(() =>
       Promise.resolve({ name: 'John Doe', avatarUrl: 'https://example.com/avatar.png' }),
     );
-    authService.signOut = vi.fn(() => Promise.resolve());
+    authService.signOut = vi.fn();
     locationMock.reload = vi.fn();
 
     // Act

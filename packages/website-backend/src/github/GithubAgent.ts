@@ -37,7 +37,7 @@ export default class GithubAgent {
   public async userHasPushAccess(user: github.Authentication, owner: string, name: string): Promise<boolean> {
     // https://developer.github.com/v3/repos/#get
     const repo = await this.get<Repository>(user, `${GITHUB_BACKEND}/repos/${owner}/${name}`);
-    return repo.permissions && repo.permissions.push;
+    return !!repo.permissions?.push;
   }
 
   private async get<T>(user: github.Authentication, url: string): Promise<T> {
@@ -48,7 +48,7 @@ export default class GithubAgent {
     // Status: 200 OK
     // Link: <https://api.github.com/resource?page=2>; rel="next",
     //       <https://api.github.com/resource?page=5>; rel="last"
-    const link = response.headers.get('link') as string;
+    const link = response.headers.get('link')!;
     const nextLinkTest = /<(.*?)>; rel="next"/;
     const nextLink = nextLinkTest.exec(link);
     if (nextLink && Array.isArray(response.body)) {

@@ -11,7 +11,7 @@ describe('Data access layer', () => {
   let tableClient: TableClient;
   let tableServiceClient: TableServiceClient;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     tableClient = createTableClient('Project');
     tableServiceClient = TableServiceClient.fromConnectionString(process.env.AZURE_STORAGE_CONNECTION_STRING!, {
       allowInsecureConnection: true,

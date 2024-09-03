@@ -10,9 +10,10 @@ import utils from '../../../src/utils/utils.js';
 import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
 import { githubFactory } from '../../helpers/producers.js';
 import DataAccess from '../../../src/services/DataAccess.js';
+import { App } from 'supertest/types.js';
 
 describe('RepositoriesController', () => {
-  let app: INestApplication;
+  let app: INestApplication<App>;
   let generateHashStub: sinon.SinonStubbedMember<typeof utils.generateHashValue>;
   let generateApiKeyStub: sinon.SinonStubbedMember<typeof utils.generateApiKey>;
   let updateStub: sinon.SinonStubbedMember<GithubRepositoryService['update']>;

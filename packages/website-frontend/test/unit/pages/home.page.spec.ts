@@ -6,7 +6,7 @@ import { CustomElementFixture } from '../../helpers/custom-element-fixture';
 describe(HomePage.name, () => {
   let sut: CustomElementFixture<HomePage>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     sut = new CustomElementFixture('stryker-dashboard-home-page', { autoConnect: true });
   });
 

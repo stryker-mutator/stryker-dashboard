@@ -94,14 +94,14 @@ describe(MutationTestingResultMapper.name, () => {
   });
 
   describe('delete', () => {
-    it('should delete the blob', () => {
+    it('should delete the blob', async () => {
       const identifier = {
         moduleName: 'core',
         projectName: 'project',
         version: 'version',
       };
 
-      sut.delete(identifier);
+      await sut.delete(identifier);
 
       sinon.assert.calledWith(containerMock.getBlockBlobClient, 'project;version;core');
       sinon.assert.calledOnce(blockBlobClient.deleteIfExists);

@@ -1,5 +1,5 @@
 import * as sinon from 'sinon';
 
-afterEach(async () => {
+afterEach(() => {
   sinon.restore();
 });

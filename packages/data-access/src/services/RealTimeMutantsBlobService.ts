@@ -23,14 +23,14 @@ export class RealTimeMutantsBlobService {
     await this.#containerClient.getAppendBlobClient(toBlobName(id)).create();
   }
 
-  public async appendToReport(id: ReportIdentifier, mutants: Array<Partial<MutantResult>>) {
+  public async appendToReport(id: ReportIdentifier, mutants: Partial<MutantResult>[]) {
     const blobName = toBlobName(id);
     const data = mutants.map((mutant) => `${JSON.stringify(mutant)}\n`).join('');
 
     await this.#containerClient.getAppendBlobClient(blobName).appendBlock(data, data.length);
   }
 
-  public async getReport(id: ReportIdentifier): Promise<Array<Partial<MutantResult>>> {
+  public async getReport(id: ReportIdentifier): Promise<Partial<MutantResult>[]> {
     const data = await this.#containerClient.getAppendBlobClient(toBlobName(id)).downloadToBuffer();
 
     return (
@@ -40,7 +40,7 @@ export class RealTimeMutantsBlobService {
         // Since every line has a newline it will produce an empty string in the list.
         // Remove it, so nothing breaks.
         .filter((row) => row !== '')
-        .map((mutant) => JSON.parse(mutant))
+        .map((mutant) => JSON.parse(mutant) as Partial<MutantResult>)
     );
   }
 

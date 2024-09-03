@@ -120,8 +120,9 @@ export default class TableStorageMapper<
       partitionKey: encodeKey(this.ModelClass.createPartitionKey(entity)),
       rowKey: encodeKey(this.ModelClass.createRowKey(entity) || ''),
     };
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.ModelClass.persistedFields.forEach((field) => (data[field] = entity[field]));
 
-    return data;
+    return data as TableEntity<TModel>;
   }
 }

@@ -22,12 +22,12 @@ export class ProgressBar extends BaseElement {
   thresholdLow = 60;
   thresholdHigh = 80;
 
-  backgroundColors: { [index: number]: string } = {
+  backgroundColors: Record<number, string> = {
     0: 'bg-red-600',
     1: 'bg-yellow-400',
     2: 'bg-green-600',
   };
-  textColors: { [index: number]: string } = {
+  textColors: Record<number, string> = {
     0: 'text-red-600',
     1: 'text-yellow-400',
     2: 'text-green-600',

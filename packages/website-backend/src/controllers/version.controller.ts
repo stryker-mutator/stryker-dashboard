@@ -2,8 +2,8 @@ import fs from 'fs/promises';
 import { version as frontendVersion } from '@stryker-mutator/dashboard-frontend';
 import { Controller, Get } from '@nestjs/common';
 
-const dashboardVersion = JSON.parse(
-  await fs.readFile(new URL('../../../package.json', import.meta.url), 'utf-8'),
+const dashboardVersion = (
+  JSON.parse(await fs.readFile(new URL('../../../package.json', import.meta.url), 'utf-8')) as { version: string }
 ).version;
 
 @Controller('/version')

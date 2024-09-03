@@ -12,12 +12,13 @@ import { DataAccessMock, config, createAuthorizationHeader } from '../../helpers
 import Configuration from '../../../src/services/Configuration.js';
 import UserController from '../../../src/controllers/user.controller.js';
 import DataAccess from '../../../src/services/DataAccess.js';
+import { App } from 'supertest/types.js';
 
 describe(UserController.name, () => {
   const expectedUsername = 'foobar username';
   const expectedAccessToken = 'foobar access token';
 
-  let app: INestApplication;
+  let app: INestApplication<App>;
   let auth: Authentication;
   let authToken: string;
 
