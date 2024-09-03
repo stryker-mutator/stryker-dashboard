@@ -1,14 +1,13 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
 import createFetchMock, { FetchMock } from 'vitest-fetch-mock';
 
-import { AuthenticateResponse } from "@stryker-mutator/dashboard-contract";
+import { AuthenticateResponse } from '@stryker-mutator/dashboard-contract';
 
-import { AuthService } from "../../../src/services/auth.service";
-import { SessionStorageService } from "../../../src/services/session-storage.service";
+import { AuthService } from '../../../src/services/auth.service';
+import { SessionStorageService } from '../../../src/services/session-storage.service';
 
 describe(AuthService.name, () => {
   let authService: AuthService;
-  let sessionStorage = new SessionStorageService();
+  const sessionStorage = new SessionStorageService();
   let fetchMock: FetchMock;
 
   beforeEach(() => {
@@ -64,16 +63,14 @@ describe(AuthService.name, () => {
     const code = 'test-code';
 
     const mockJwtResponse: AuthenticateResponse = {
-      jwt: 'foo'
+      jwt: 'foo',
     };
     const mockUserResponse = {
       name: 'foo',
       avatarUrl: 'bar',
     };
 
-    fetchMock
-      .once(JSON.stringify(mockJwtResponse))
-      .once(JSON.stringify(mockUserResponse));
+    fetchMock.once(JSON.stringify(mockJwtResponse)).once(JSON.stringify(mockUserResponse));
 
     // Act
     await authService.authenticate(provider, code);

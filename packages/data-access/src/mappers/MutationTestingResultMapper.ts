@@ -2,11 +2,7 @@ import { hasErrorCode, toBlobName } from '../utils.js';
 import * as schema from 'mutation-testing-report-schema';
 import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 import { OptimisticConcurrencyError } from '../errors/index.js';
-import {
-  BlobServiceClient,
-  ContainerClient,
-  ContainerCreateIfNotExistsResponse,
-} from '@azure/storage-blob';
+import { BlobServiceClient, ContainerClient, ContainerCreateIfNotExistsResponse } from '@azure/storage-blob';
 import { createBlobServiceClient } from '../services/BlobServiceClient.js';
 
 const errCodes = Object.freeze({
@@ -23,9 +19,7 @@ export class MutationTestingResultMapper {
   #containerClient: ContainerClient;
 
   constructor(blobService: BlobServiceClient = createBlobServiceClient()) {
-    this.#containerClient = blobService.getContainerClient(
-      MutationTestingResultMapper.CONTAINER_NAME,
-    );
+    this.#containerClient = blobService.getContainerClient(MutationTestingResultMapper.CONTAINER_NAME);
   }
 
   public createStorageIfNotExists(): Promise<ContainerCreateIfNotExistsResponse> {
@@ -44,9 +38,7 @@ export class MutationTestingResultMapper {
         });
     } catch (err) {
       if (hasErrorCode(err, errCodes.BLOB_HAS_BEEN_MODIFIED)) {
-        throw new OptimisticConcurrencyError(
-          `Blob "${JSON.stringify(id)}" was modified by another process`,
-        );
+        throw new OptimisticConcurrencyError(`Blob "${JSON.stringify(id)}" was modified by another process`);
       } else {
         throw err; // Oops
       }
@@ -57,9 +49,7 @@ export class MutationTestingResultMapper {
     const blobName = toBlobName(identifier);
     try {
       const result: schema.MutationTestResult = JSON.parse(
-        (await this.#containerClient.getBlockBlobClient(blobName).downloadToBuffer()).toString(
-          'utf-8',
-        ),
+        (await this.#containerClient.getBlockBlobClient(blobName).downloadToBuffer()).toString('utf-8'),
       );
       return result;
     } catch (error) {

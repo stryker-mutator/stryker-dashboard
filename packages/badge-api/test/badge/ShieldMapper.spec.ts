@@ -1,9 +1,6 @@
 import { ShieldMapper } from '../../badge/ShieldMapper.js';
 import * as sinon from 'sinon';
-import {
-  MutationTestingReport,
-  MutationTestingReportMapper,
-} from '@stryker-mutator/dashboard-data-access';
+import { MutationTestingReport, MutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
 import { expect } from 'chai';
 import { Shield, Color } from '../../badge/Shield.js';
 
@@ -20,7 +17,7 @@ describe(ShieldMapper.name, () => {
       replace: sinon.stub(),
       insert: sinon.stub(),
     };
-    sut = new ShieldMapper(mutationTestingReportStub as any);
+    sut = new ShieldMapper(mutationTestingReportStub);
   });
 
   it('should find the correct mutation testing report', async () => {

@@ -8,9 +8,8 @@ import { expect } from 'chai';
 import { InvalidSlugError } from '@stryker-mutator/dashboard-common';
 
 const headers = {
-  ['X-Badge-Api-Version']: JSON.parse(
-    fs.readFileSync(new URL('../../../package.json', import.meta.url), 'utf-8'),
-  ).version,
+  ['X-Badge-Api-Version']: JSON.parse(fs.readFileSync(new URL('../../../package.json', import.meta.url), 'utf-8'))
+    .version,
 };
 
 describe(handler.name, () => {

@@ -42,9 +42,7 @@ export class Button extends BaseElement {
       'w-full': !this.small,
     });
 
-    return html`<button
-      class="${classes} flex h-full items-center rounded-lg p-2 transition duration-150"
-    >
+    return html`<button class="${classes} flex h-full items-center rounded-lg p-2 transition duration-150">
       <slot></slot>
     </button>`;
   }

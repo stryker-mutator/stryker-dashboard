@@ -9,5 +9,5 @@ export default {
 
 export const Default: StoryObj = {
   name: 'Default',
-  render: () => html` <sme-labeled-container>Go Here!</sme-labeled-container> `,
+  render: () => html`<sme-labeled-container>Go Here!</sme-labeled-container>`,
 };

@@ -21,8 +21,6 @@ describe(createTableClient.name, () => {
 
   it('should throw an error when AZURE_STORAGE_CONNECTION_STRING is not set', () => {
     delete process.env.AZURE_STORAGE_CONNECTION_STRING;
-    expect(() => createTableClient('tableName')).to.throw(
-      'AZURE_STORAGE_CONNECTION_STRING is not set',
-    );
+    expect(() => createTableClient('tableName')).to.throw('AZURE_STORAGE_CONNECTION_STRING is not set');
   });
 });

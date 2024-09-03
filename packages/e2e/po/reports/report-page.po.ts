@@ -8,8 +8,6 @@ export class ReportPage extends DashboardPage {
 
   public errorAlert = this.page.locator('sme-notify');
   public warningAlert = this.page.locator('sme-notify');
-  public mutationTestReportApp = new MutationTestingReportAppPageObject(
-    this.page.locator('mutation-test-report-app'),
-  );
+  public mutationTestReportApp = new MutationTestingReportAppPageObject(this.page.locator('mutation-test-report-app'));
   public mutationScore = this.page.locator('sme-text');
 }

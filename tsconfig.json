@@ -10,7 +10,6 @@
     {
       "path": "./packages/badge-api"
     },
-    // Skipping website-frontend, since it's an angular project
     {
       "path": "./packages/website-backend"
     },

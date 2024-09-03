@@ -3,7 +3,7 @@
   "version": "0.15.0",
   "scripts": {
     "start": "vite --host",
-    "build": "vite build",
+    "build": "tsc -b && vite build",
     "test": "HEADLESS=true vitest",
     "stryker": "stryker run"
   },

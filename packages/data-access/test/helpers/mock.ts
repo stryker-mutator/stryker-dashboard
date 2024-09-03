@@ -1,17 +1,10 @@
 import sinon from 'sinon';
 import { Mapper } from '../../src/index.js';
-import {
-  MutantStatus,
-  FileResultDictionary,
-  MutationTestResult,
-  FileResult,
-} from 'mutation-testing-report-schema/api';
+import { MutantStatus, FileResultDictionary, MutationTestResult, FileResult } from 'mutation-testing-report-schema/api';
 
-export function createTableMapperMock<
-  A,
-  B extends keyof A,
-  C extends keyof A,
->(): sinon.SinonStubbedInstance<Mapper<A, B, C>> {
+export function createTableMapperMock<A, B extends keyof A, C extends keyof A>(): sinon.SinonStubbedInstance<
+  Mapper<A, B, C>
+> {
   return {
     createStorageIfNotExists: sinon.stub(),
     findOne: sinon.stub(),
@@ -35,9 +28,7 @@ export function createMutationTestResult(
   };
 }
 
-export function createFileResult(
-  mutantStates: MutantStatus[] = ['Killed', 'Survived'],
-): FileResult {
+export function createFileResult(mutantStates: MutantStatus[] = ['Killed', 'Survived']): FileResult {
   return {
     language: 'javascript',
     source: '+',

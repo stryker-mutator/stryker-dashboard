@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import Ajv from 'ajv';
-import addFormats from 'ajv-formats';
+import { Ajv } from 'ajv';
 import { MutantResult, schema } from 'mutation-testing-report-schema';
+import _addFormats from 'ajv-formats';
+// https://github.com/ajv-validator/ajv-formats/issues/85#issuecomment-2262652443
+const addFormats = _addFormats as unknown as typeof _addFormats.default;
 
 const SCHEMA_NAME = 'http://stryker-mutator.io/report.schema.json';
 

@@ -17,7 +17,7 @@ import '@stryker-mutator/stryker-elements';
 
 @customElement('stryker-dashboard')
 export class StrykerDashboard extends LitElement {
-  #authService: AuthService
+  #authService: AuthService;
   #router: Router | null;
 
   @state()
@@ -38,12 +38,11 @@ export class StrykerDashboard extends LitElement {
   override connectedCallback(): void {
     super.connectedCallback();
 
-    this.#authService.getUser()
-      .then((user) => {
-        this.user = user;
-        this.#configureRouting();
-        this.done = true;
-      });
+    this.#authService.getUser().then((user) => {
+      this.user = user;
+      this.#configureRouting();
+      this.done = true;
+    });
   }
 
   override createRenderRoot() {
@@ -61,7 +60,7 @@ export class StrykerDashboard extends LitElement {
           }
         },
         path: '/repos/(.*)',
-        component: 'stryker-dashboard-repositories-page'
+        component: 'stryker-dashboard-repositories-page',
       },
       { path: '/reports/(.*)', component: 'stryker-dashboard-report-page' },
       { path: '/auth/github/callback', component: 'stryker-dashboard-auth-page' },
@@ -79,23 +78,19 @@ export class StrykerDashboard extends LitElement {
   }
 
   #renderProfileButtonOrSignInButton() {
-    return html`
-      <sme-loader slot="right-side" ?doneWithLoading=${this.done}>
-        ${when(
-          this.user !== null,
-          () => html`
-            <sme-profile-button
-              @sign-out="${this.#signOut}"
-              avatarUrl="${this.user!.avatarUrl}"
-              name="${this.user!.name}">
-            </sme-profile-button>`,
-          () => html`
-            <sme-button
-              @click="${this.#signIn}"
-              type="subtle">
-              Sign in with GitHub
-            </sme-button>`)}
-      </sme-loader>`;
+    return html`<sme-loader slot="right-side" ?doneWithLoading=${this.done}>
+      ${when(
+        this.user !== null,
+        () =>
+          html`<sme-profile-button
+            @sign-out="${this.#signOut}"
+            avatarUrl="${this.user!.avatarUrl}"
+            name="${this.user!.name}"
+          >
+          </sme-profile-button>`,
+        () => html`<sme-button @click="${this.#signIn}" type="subtle">Sign in with GitHub</sme-button>`,
+      )}
+    </sme-loader>`;
   }
 
   #signIn() {
@@ -111,6 +106,6 @@ export class StrykerDashboard extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'stryker-dashboard': StrykerDashboard
+    'stryker-dashboard': StrykerDashboard;
   }
 }

@@ -28,11 +28,7 @@ test.describe('Report api', () => {
 
     test('should accept v2 reports', async ({ baseURL }) => {
       const response = await client.uploadReport(
-        simpleReportV2(
-          'github.com/stryker-mutator-test-organization/hello-org',
-          'feat/report',
-          'module',
-        ),
+        simpleReportV2('github.com/stryker-mutator-test-organization/hello-org', 'feat/report', 'module'),
       );
 
       const expectedResponse: PutReportResponse = {
@@ -48,15 +44,9 @@ test.describe('Report api', () => {
       expect(response).toEqual(expectedResponse);
     });
 
-    test('should respond the correct href and project href when uploading for a module', async ({
-      baseURL,
-    }) => {
+    test('should respond the correct href and project href when uploading for a module', async ({ baseURL }) => {
       const response = await client.uploadReport(
-        simpleReportV1(
-          'github.com/stryker-mutator-test-organization/hello-org',
-          'feat/report',
-          'fooModule',
-        ),
+        simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'feat/report', 'fooModule'),
       );
 
       const expectedResponse: PutReportResponse = {

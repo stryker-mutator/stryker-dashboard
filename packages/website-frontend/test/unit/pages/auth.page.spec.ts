@@ -1,5 +1,3 @@
-import { beforeEach, it, describe, expect, vi, afterEach, MockInstance } from 'vitest';
-
 import { Login } from '@stryker-mutator/dashboard-contract';
 import '@stryker-mutator/stryker-elements';
 
@@ -28,7 +26,10 @@ describe(AuthPage.name, () => {
 
   it('should redirect to /repos/user after authentication', async () => {
     // Arrange
-    const mockLocation = { toString: () => 'http://localhost:8080/auth?code=123', href: '' } as Location;
+    const mockLocation = {
+      toString: () => 'http://localhost:8080/auth?code=123',
+      href: '',
+    } as Location;
     locationService.getLocation = vi.fn(() => mockLocation);
     authService.getUser = vi.fn(() => Promise.resolve({ name: 'user' } as unknown as Login));
     authService.authenticate = vi.fn(() => Promise.resolve(undefined as unknown as Login));
@@ -40,11 +41,8 @@ describe(AuthPage.name, () => {
     // Assert
     expect(locationService.getLocation().href).to.eq('/repos/user');
     expect(authService.authenticate).toHaveBeenCalledWith('github', '123');
-    expect(
-      sut.element.shadowRoot
-        ?.querySelector('sme-spatious-layout')
-        ?.querySelector('sme-notify')
-        ?.textContent
-    ).to.eq('Authenticating, hold on for a moment...');
+    expect(sut.element.shadowRoot?.querySelector('sme-spatious-layout')?.querySelector('sme-notify')).toHaveTextContent(
+      'Authenticating, hold on for a moment...',
+    );
   });
 });

@@ -2,11 +2,7 @@ import { Mapper } from './Mapper.js';
 import { MutationTestingReport, Project } from '../models/index.js';
 import TableStorageMapper from './TableStorageMapper.js';
 
-export type MutationTestingReportMapper = Mapper<
-  MutationTestingReport,
-  'projectName' | 'version',
-  'moduleName'
->;
+export type MutationTestingReportMapper = Mapper<MutationTestingReport, 'projectName' | 'version', 'moduleName'>;
 
 export type ProjectMapper = Mapper<Project, 'owner', 'name'>;
 

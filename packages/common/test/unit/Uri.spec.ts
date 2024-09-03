@@ -27,9 +27,7 @@ describe(constructApiUri.name, () => {
       realTime: undefined,
     });
 
-    expect(uri).to.eq(
-      'http://stryker-website/api/reports/github.com/user/project?module=project-submodule',
-    );
+    expect(uri).to.eq('http://stryker-website/api/reports/github.com/user/project?module=project-submodule');
   });
 
   it('should return the API uri with realTime as query param', () => {

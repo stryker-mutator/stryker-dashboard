@@ -1,5 +1,3 @@
-import { beforeEach, it, describe, expect, vi } from 'vitest';
-
 import { Login } from '@stryker-mutator/dashboard-contract';
 import '@stryker-mutator/stryker-elements';
 
@@ -14,7 +12,7 @@ describe(RepositoriesPage.name, () => {
   let sut: CustomElementFixture<RepositoriesPage>;
 
   beforeEach(async () => {
-    locationService.getLocation = vi.fn(() => ({ pathname: '/repos/user' } as Location));
+    locationService.getLocation = vi.fn(() => ({ pathname: '/repos/user' }) as Location);
     sut = new CustomElementFixture('stryker-dashboard-repositories-page', { autoConnect: false });
   });
 
@@ -30,13 +28,13 @@ describe(RepositoriesPage.name, () => {
   describe('loader', () => {
     it('should be loading when fetch calls are not complete yet', async () => {
       // Arrange
-      userService.getRepositories = () => new Promise(() => ([]));
-      userService.organizations = () => new Promise(() => ([]));
-  
+      userService.getRepositories = () => new Promise(() => []);
+      userService.organizations = () => new Promise(() => []);
+
       // Act
       sut.connect();
       await sut.whenStable();
-  
+
       // Assert
       const loader = sut.element.shadowRoot?.querySelector('sme-loader');
       expect(loader?.getAttribute('doneWithLoading')).to.be.null;
@@ -46,15 +44,15 @@ describe(RepositoriesPage.name, () => {
       // Arrange
       userService.getRepositories = vi.fn(() => Promise.resolve([]));
       userService.organizations = vi.fn(() => Promise.resolve([]));
-  
+
       // Act
       sut.connect();
       await sut.whenStable();
-  
+
       // Assert
       const loader = sut.element.shadowRoot?.querySelector('sme-loader');
       // The property exists but has no value (boolean property)
-      expect(loader?.getAttribute('doneWithLoading')).to.eq('');
+      expect(loader).toHaveAttribute('doneWithLoading', '');
     });
   });
 
@@ -62,23 +60,26 @@ describe(RepositoriesPage.name, () => {
     let organizations: Login[];
 
     beforeEach(() => {
-      organizations = [{ name: 'foo', avatarUrl: 'foo' }, { name: 'bar',  avatarUrl: 'bar' }];
+      organizations = [
+        { name: 'foo', avatarUrl: 'foo' },
+        { name: 'bar', avatarUrl: 'bar' },
+      ];
     });
 
     it('should have the correct options', async () => {
       // Arrange
       userService.getRepositories = vi.fn(() => Promise.resolve([]));
       userService.organizations = vi.fn(() => Promise.resolve(organizations));
-  
+
       // Act
       sut.connect();
       await sut.whenStable();
       // Allow it to render the options
       await sut.whenStable();
-  
+
       // Assert
       const dropdown = sut.element.shadowRoot?.querySelector('sme-dropdown');
-      expect(dropdown?.shadowRoot?.querySelectorAll('select > option').length).to.eq(3);
+      expect(dropdown?.shadowRoot?.querySelectorAll('select > option')).toHaveLength(3);
     });
 
     it('should get new repositories when the dropdown changes', async () => {
@@ -86,7 +87,7 @@ describe(RepositoriesPage.name, () => {
       userService.getRepositories = vi.fn(() => Promise.resolve([]));
       userService.organizations = vi.fn(() => Promise.resolve(organizations));
       organizationsService.getRepositories = vi.fn(() => Promise.resolve([]));
-  
+
       // Act
       sut.connect();
       await sut.whenStable();
@@ -103,10 +104,26 @@ describe(RepositoriesPage.name, () => {
 
   describe('repositories', () => {
     beforeEach(() => {
-      userService.getRepositories = vi.fn(() => Promise.resolve([
-        { name: 'foo1', slug: 'foo1/bar/baz/1', defaultBranch: 'main', enabled: true, owner: 'baz', origin: 'foo' },
-        { name: 'foo2', slug: 'foo2/bar/baz/2', defaultBranch: 'main', enabled: false, owner: 'baz', origin: 'foo' },
-      ]));
+      userService.getRepositories = vi.fn(() =>
+        Promise.resolve([
+          {
+            name: 'foo1',
+            slug: 'foo1/bar/baz/1',
+            defaultBranch: 'main',
+            enabled: true,
+            owner: 'baz',
+            origin: 'foo',
+          },
+          {
+            name: 'foo2',
+            slug: 'foo2/bar/baz/2',
+            defaultBranch: 'main',
+            enabled: false,
+            owner: 'baz',
+            origin: 'foo',
+          },
+        ]),
+      );
       userService.organizations = vi.fn(() => Promise.resolve([]));
     });
 
@@ -115,16 +132,16 @@ describe(RepositoriesPage.name, () => {
       sut.connect();
       await sut.whenStable();
       await sut.whenStable();
-  
+
       // Assert
       const loader = sut.element.shadowRoot?.querySelector('sme-loader');
       const enabledRepositories = loader?.querySelectorAll('sme-list#enabled-repositories > sme-toggle-repository');
       const disabledRepositories = loader?.querySelectorAll('sme-list#disabled-repositories > sme-toggle-repository');
 
-      expect(enabledRepositories?.length).to.eq(2);
+      expect(enabledRepositories).toHaveLength(2);
       expect(enabledRepositories![0].getAttribute('hidden')).to.be.null;
       expect(enabledRepositories![1].getAttribute('hidden')).to.eq('');
-      expect(disabledRepositories?.length).to.eq(2);
+      expect(disabledRepositories).toHaveLength(2);
       expect(disabledRepositories![0].getAttribute('hidden')).to.eq('');
       expect(disabledRepositories![1].getAttribute('hidden')).to.be.null;
     });
@@ -138,16 +155,18 @@ describe(RepositoriesPage.name, () => {
       sut.connect();
       await sut.whenStable();
       await sut.whenStable();
-      
+
       // Assert
       const loader = sut.element.shadowRoot?.querySelector('sme-loader');
       const noEnabledRepositoriesNotification = loader?.querySelector('sme-notify#no-enabled-repositories');
       const noRepositoriesToEnableNotification = loader?.querySelector('sme-notify#no-repositories-to-enable');
 
-      expect(noEnabledRepositoriesNotification?.getAttribute('type')).to.eq('info');
-      expect(noEnabledRepositoriesNotification?.textContent).to.eq('There are no enabled repositories. You can enable them below.');
-      expect(noRepositoriesToEnableNotification?.getAttribute('type')).to.eq('info');
-      expect(noRepositoriesToEnableNotification?.textContent).to.eq('You don\'t have any repositories to enable.');
+      expect(noEnabledRepositoriesNotification).toHaveAttribute('type', 'info');
+      expect(noEnabledRepositoriesNotification).toHaveTextContent(
+        'There are no enabled repositories. You can enable them below.',
+      );
+      expect(noRepositoriesToEnableNotification).toHaveAttribute('type', 'info');
+      expect(noRepositoriesToEnableNotification).toHaveTextContent("You don't have any repositories to enable.");
     });
 
     it('should disable an enabled repository when it is clicked', async () => {
@@ -160,14 +179,16 @@ describe(RepositoriesPage.name, () => {
       await sut.whenStable();
 
       const loader = sut.element.shadowRoot?.querySelector('sme-loader')!;
-      const enabledRepository = loader.querySelector('sme-list#enabled-repositories > sme-toggle-repository:not([hidden])');
+      const enabledRepository = loader.querySelector(
+        'sme-list#enabled-repositories > sme-toggle-repository:not([hidden])',
+      );
       const button = enabledRepository?.shadowRoot?.querySelector('sme-button');
       button?.click();
 
       await sut.whenStable();
 
       // Assert
-      expect(loader.querySelector('sme-notify#no-enabled-repositories')).to.not.be.null;
+      expect(loader.querySelector('sme-notify#no-enabled-repositories')).toBeInTheDocument();
       expect(repositoriesService.enableRepository).toHaveBeenCalledWith('foo1/bar/baz/1', false);
     });
 
@@ -181,7 +202,9 @@ describe(RepositoriesPage.name, () => {
       await sut.whenStable();
 
       const loader = sut.element.shadowRoot?.querySelector('sme-loader')!;
-      const disabledRepository = loader.querySelector('sme-list#disabled-repositories > sme-toggle-repository:not([hidden])');
+      const disabledRepository = loader.querySelector(
+        'sme-list#disabled-repositories > sme-toggle-repository:not([hidden])',
+      );
       const button = disabledRepository?.shadowRoot?.querySelector('sme-button');
       button?.click();
 
@@ -192,12 +215,12 @@ describe(RepositoriesPage.name, () => {
       const badgeCollapsible = modal.querySelector('sme-collapsible#badge-collapsible')!;
       const usageCollapsible = modal.querySelector('sme-collapsible#usage-collapsible')!;
 
-      expect(apiKeyCollapsible.textContent).to.contain('Here\'s your API key: foo-bar-baz');
-      expect(badgeCollapsible.querySelector('sme-badge-configurator')).to.not.be.null;
-      expect(usageCollapsible.textContent).to.contain('See the Stryker dashboard documentation ↗');
-      
+      expect(apiKeyCollapsible).toHaveTextContent("Here's your API key:foo-bar-baz");
+      expect(badgeCollapsible.querySelector('sme-badge-configurator')).toBeInTheDocument();
+      expect(usageCollapsible).toHaveTextContent('See the Stryker dashboard documentation ↗');
+
       const noEnabledRepositoriesNotification = loader?.querySelector('sme-notify#no-repositories-to-enable');
-      expect(noEnabledRepositoriesNotification?.textContent).to.eq('You don\'t have any repositories to enable.');
+      expect(noEnabledRepositoriesNotification).toHaveTextContent("You don't have any repositories to enable.");
     });
 
     it('should open the modal when an enabled repository is clicked', async () => {
@@ -207,7 +230,9 @@ describe(RepositoriesPage.name, () => {
       await sut.whenStable();
 
       const loader = sut.element.shadowRoot?.querySelector('sme-loader')!;
-      const disabledRepository = loader.querySelector('sme-list#enabled-repositories > sme-toggle-repository:not([hidden])')!;
+      const disabledRepository = loader.querySelector(
+        'sme-list#enabled-repositories > sme-toggle-repository:not([hidden])',
+      )!;
       disabledRepository.dispatchEvent(new Event('repositoryClicked'));
 
       // Assert
@@ -215,7 +240,9 @@ describe(RepositoriesPage.name, () => {
       const modal = sut.element.shadowRoot?.querySelector('sme-modal')!;
       const apiKeyCollapsible = modal.querySelector('sme-collapsible#no-api-key-collapsible')!;
 
-      expect(apiKeyCollapsible.textContent).to.contain('Your api key should already have been copied. If you need a new one, re-enable this repository.');
+      expect(apiKeyCollapsible).toHaveTextContent(
+        'Your api key should already have been copied. If you need a new one, re-enable this repository.',
+      );
     });
   });
 });

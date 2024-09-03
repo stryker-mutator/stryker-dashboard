@@ -1,7 +1,12 @@
 {
   "extends": "../../../tsconfig.settings.json",
   "compilerOptions": {
-    "outDir": "../dist/src"
+    "outDir": "../dist/src",
+    "types": ["node"]
   },
-  "references": [{ "path": "../../common/src" }]
+  "references": [
+    {
+      "path": "../../common/src"
+    }
+  ]
 }

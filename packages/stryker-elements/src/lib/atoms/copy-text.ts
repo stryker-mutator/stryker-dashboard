@@ -18,7 +18,7 @@ export class CopyText extends BaseElement {
           ${when(
             !this.copiedText,
             () =>
-              html` <svg
+              html`<svg
                 class="size-5 stroke-white stroke-2"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

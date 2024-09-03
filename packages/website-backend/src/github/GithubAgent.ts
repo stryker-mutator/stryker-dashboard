@@ -26,25 +26,15 @@ export default class GithubAgent {
     return logins;
   }
 
-  public getOrganizationRepositories(
-    user: github.Authentication,
-    organizationLogin: string,
-  ): Promise<Repository[]> {
-    return this.get<Repository[]>(
-      user,
-      `${GITHUB_BACKEND}/orgs/${organizationLogin}/repos?type=member`,
-    );
+  public getOrganizationRepositories(user: github.Authentication, organizationLogin: string): Promise<Repository[]> {
+    return this.get<Repository[]>(user, `${GITHUB_BACKEND}/orgs/${organizationLogin}/repos?type=member`);
   }
 
   public getMyRepositories(user: github.Authentication): Promise<Repository[]> {
     return this.get<Repository[]>(user, `${GITHUB_BACKEND}/user/repos?type=owner`);
   }
 
-  public async userHasPushAccess(
-    user: github.Authentication,
-    owner: string,
-    name: string,
-  ): Promise<boolean> {
+  public async userHasPushAccess(user: github.Authentication, owner: string, name: string): Promise<boolean> {
     // https://developer.github.com/v3/repos/#get
     const repo = await this.get<Repository>(user, `${GITHUB_BACKEND}/repos/${owner}/${name}`);
     return repo.permissions && repo.permissions.push;

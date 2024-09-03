@@ -9,7 +9,7 @@ export default {
 
 export const Default: StoryObj = {
   name: 'When loading',
-  render: () => html` <sme-loader><h1>Hello world!</h1></sme-loader>`,
+  render: () => html`<sme-loader><h1>Hello world!</h1></sme-loader>`,
 };
 
 export const Loaded: StoryObj = {

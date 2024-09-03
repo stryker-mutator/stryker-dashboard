@@ -102,17 +102,13 @@ describe('GithubRepositoryService.js', () => {
     it('should reject if database is unavailable', () => {
       dataAccessMock.repositoryMapper.findAll.rejects(new Error('database unavailable'));
       githubAgentMock.getOrganizationRepositories.resolves([]);
-      return expect(sut.getAllForOrganization(githubFactory.authentication(), '')).rejectedWith(
-        'database unavailable',
-      );
+      return expect(sut.getAllForOrganization(githubFactory.authentication(), '')).rejectedWith('database unavailable');
     });
 
     it('should give internal server error when github is unavailable', () => {
       dataAccessMock.repositoryMapper.findAll.resolves([]);
       githubAgentMock.getOrganizationRepositories.rejects(new Error('github unavailable'));
-      return expect(sut.getAllForOrganization(githubFactory.authentication(), '')).rejectedWith(
-        'github unavailable',
-      );
+      return expect(sut.getAllForOrganization(githubFactory.authentication(), '')).rejectedWith('github unavailable');
     });
   });
 

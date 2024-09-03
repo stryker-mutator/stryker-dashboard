@@ -9,9 +9,7 @@ import core from '@actions/core';
 import semver from 'semver';
 import fs from 'fs';
 
-const { version: currentVersion } = JSON.parse(
-  fs.readFileSync(new URL('../lerna.json', import.meta.url), 'utf-8'),
-);
+const { version: currentVersion } = JSON.parse(fs.readFileSync(new URL('../lerna.json', import.meta.url), 'utf-8'));
 
 determineNextCanaryVersion().catch((err) => {
   core.error(err);
@@ -22,9 +20,7 @@ async function determineNextCanaryVersion() {
   const ref = determineRef();
   const preId = sanitize(ref);
   const nextPatchVersion = semver.inc(currentVersion, 'patch');
-  const { versions } = await (
-    await fetch('https://registry.npmjs.org/@stryker-mutator/dashboard-backend')
-  ).json();
+  const { versions } = await (await fetch('https://registry.npmjs.org/@stryker-mutator/dashboard-backend')).json();
   const revision = determineNextFreeRevision(nextPatchVersion, preId, versions);
   const npmVersion = formatVersion(nextPatchVersion, preId, revision);
   core.setOutput('npm-package-version', npmVersion);

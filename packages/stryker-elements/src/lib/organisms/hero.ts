@@ -104,19 +104,13 @@ export class Hero extends BaseElement {
     return html`
       <div class="relative overflow-hidden">
         <div class="hero absolute top-0 w-full">${map(this.#myClouds, this.#renderCloud)}</div>
-        <div
-          class="hero flex w-full content-center justify-center bg-gradient-to-b from-cyan-950 to-sky-950"
-        >
+        <div class="hero flex w-full content-center justify-center bg-gradient-to-b from-cyan-950 to-sky-950">
           <div class="z-20 my-auto">
             <h1 class="mb-2 text-6xl font-bold text-yellow-400">Stryker Dashboard</h1>
-            <p class="text-center text-xl font-bold text-gray-50">
-              See your mutation testing reports from anywhere
-            </p>
+            <p class="text-center text-xl font-bold text-gray-50">See your mutation testing reports from anywhere</p>
             <div class="my-8 flex justify-center space-x-4">
               <sme-link primary href="#getting-started">Get started</sme-link>
-              <sme-link href="https://stryker-mutator.io/docs/" secondary
-                >What is Stryker?</sme-link
-              >
+              <sme-link href="https://stryker-mutator.io/docs/" secondary>What is Stryker?</sme-link>
             </div>
           </div>
         </div>
@@ -136,18 +130,9 @@ export class Hero extends BaseElement {
     return html`
       <div style="${style}" class="cloud-container absolute animate-flow opacity-0">
         <div style="transform: scale(${config.scale})" class="absolute">
-          <div
-            class="cloud ${config.color} h-25 w-25 absolute rounded-full"
-            style="left: 35px; top: 2px;"
-          ></div>
-          <div
-            class="cloud-small ${config.color} h-25 w-25 absolute rounded-full"
-            style="left: 15px; top: 10px;"
-          ></div>
-          <div
-            class="cloud-pill ${config.color} h-25 w-25 absolute rounded-full"
-            style="top: 25px;"
-          ></div>
+          <div class="cloud ${config.color} h-25 w-25 absolute rounded-full" style="left: 35px; top: 2px;"></div>
+          <div class="cloud-small ${config.color} h-25 w-25 absolute rounded-full" style="left: 15px; top: 10px;"></div>
+          <div class="cloud-pill ${config.color} h-25 w-25 absolute rounded-full" style="top: 25px;"></div>
         </div>
       </div>
     `;

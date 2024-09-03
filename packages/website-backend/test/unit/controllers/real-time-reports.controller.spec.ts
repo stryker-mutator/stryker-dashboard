@@ -5,11 +5,7 @@ import { expect } from 'chai';
 import RealTimeReportsController from '../../../src/controllers/real-time-reports.controller.js';
 import { INestApplication } from '@nestjs/common';
 import MutationEventResponseOrchestrator from '../../../src/services/real-time/MutationEventResponseOrchestrator.js';
-import {
-  DataAccessMock,
-  MutationEventResponseOrchestratorMock,
-  config,
-} from '../../helpers/TestServer.js';
+import { DataAccessMock, MutationEventResponseOrchestratorMock, config } from '../../helpers/TestServer.js';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../../../src/app.module.js';
 import Configuration from '../../../src/services/Configuration.js';
@@ -24,9 +20,7 @@ describe(RealTimeReportsController.name, () => {
 
   let app: INestApplication;
   let dataAccess: DataAccessMock;
-  let removeResponseHandlerStub: sinon.SinonStubbedMember<
-    MutationEventResponseOrchestrator['removeResponseHandler']
-  >;
+  let removeResponseHandlerStub: sinon.SinonStubbedMember<MutationEventResponseOrchestrator['removeResponseHandler']>;
   let responseHandlerForProjectStub: sinon.SinonStubbedMember<
     MutationEventResponseOrchestrator['createOrGetResponseHandler']
   >;
@@ -50,17 +44,14 @@ describe(RealTimeReportsController.name, () => {
     dataAccess = app.get<DataAccessMock>(DataAccess);
     dataAccess.blobService.getReport.returns(Promise.resolve([]));
 
-    const orchestrator = app.get<MutationEventResponseOrchestratorMock>(
-      MutationEventResponseOrchestrator,
-    );
+    const orchestrator = app.get<MutationEventResponseOrchestratorMock>(MutationEventResponseOrchestrator);
 
     removeResponseHandlerStub = orchestrator.removeResponseHandler as sinon.SinonStubbedMember<
       MutationEventResponseOrchestrator['removeResponseHandler']
     >;
-    responseHandlerForProjectStub =
-      orchestrator.createOrGetResponseHandler as sinon.SinonStubbedMember<
-        MutationEventResponseOrchestrator['createOrGetResponseHandler']
-      >;
+    responseHandlerForProjectStub = orchestrator.createOrGetResponseHandler as sinon.SinonStubbedMember<
+      MutationEventResponseOrchestrator['createOrGetResponseHandler']
+    >;
 
     project = new Project();
     project.enabled = true;
@@ -79,9 +70,7 @@ describe(RealTimeReportsController.name, () => {
     it('should return not found when project does not exist', async () => {
       dataAccess.mutationTestingReportService.findOne.resolves(null);
 
-      const response = await request(app.getHttpServer()).get(
-        '/api/real-time/github.com/user/does-not-exist/master',
-      );
+      const response = await request(app.getHttpServer()).get('/api/real-time/github.com/user/does-not-exist/master');
 
       expect(response.status).to.eq(404);
     });
@@ -103,9 +92,7 @@ describe(RealTimeReportsController.name, () => {
         mutationScore: 89,
       });
 
-      const response = await request(app.getHttpServer()).get(
-        '/api/real-time/github.com/user/does-not-exist/master',
-      );
+      const response = await request(app.getHttpServer()).get('/api/real-time/github.com/user/does-not-exist/master');
 
       expect(response.status).to.eq(200);
       expect(responseHandlerForProjectStub.calledOnce).to.be.true;
@@ -143,9 +130,7 @@ describe(RealTimeReportsController.name, () => {
         ]),
       );
 
-      await request(app.getHttpServer()).get(
-        '/api/real-time/github.com/user/does-not-exist/master',
-      );
+      await request(app.getHttpServer()).get('/api/real-time/github.com/user/does-not-exist/master');
 
       sinon.assert.calledWith(dataAccess.blobService.getReport, {
         projectName: 'github.com/user/does-not-exist',
@@ -166,9 +151,7 @@ describe(RealTimeReportsController.name, () => {
     });
 
     it('should return unauthorized if the `X-Api-key` header is not set', async () => {
-      const response = await request(app.getHttpServer()).post(
-        '/api/real-time/github.com/user/does-exist/master',
-      );
+      const response = await request(app.getHttpServer()).post('/api/real-time/github.com/user/does-exist/master');
 
       expect(response.status).to.eq(401);
     });
@@ -229,14 +212,12 @@ describe(RealTimeReportsController.name, () => {
 
       // Assert
       expect(response.status).eq(200);
-      expect(dataAccess.mutationTestingReportService.saveReport.firstCall.firstArg).to.deep.include(
-        {
-          projectName: 'github.com/testOrg/testName',
-          version: 'myWebsite',
-          moduleName: 'logging',
-          realTime: true,
-        },
-      );
+      expect(dataAccess.mutationTestingReportService.saveReport.firstCall.firstArg).to.deep.include({
+        projectName: 'github.com/testOrg/testName',
+        version: 'myWebsite',
+        moduleName: 'logging',
+        realTime: true,
+      });
     });
 
     it('should create a blob', async () => {
@@ -297,9 +278,7 @@ describe(RealTimeReportsController.name, () => {
         .send(report);
 
       // Arrange
-      expect(response.body.href).to.deep.include(
-        'baseUrl/reports/github.com/testOrg/testName/main?realTime=true',
-      );
+      expect(response.body.href).to.deep.include('baseUrl/reports/github.com/testOrg/testName/main?realTime=true');
     });
   });
 

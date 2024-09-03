@@ -15,9 +15,7 @@ export const Default: StoryObj = {
   render: () => {
     return html`
       <div style="display: flex; justify-content: flex-end;">
-        <sme-profile-button
-          avatarUrl="https://stryker-mutator.io/images/stryker.svg"
-        ></sme-profile-button>
+        <sme-profile-button avatarUrl="https://stryker-mutator.io/images/stryker.svg"></sme-profile-button>
       </div>
     `;
   },

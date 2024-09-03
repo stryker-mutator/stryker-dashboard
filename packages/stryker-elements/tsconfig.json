@@ -1,25 +1,5 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "experimentalDecorators": true,
-    "useDefineForClassFields": false,
-    "module": "ESNext",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "declaration": true,
-    "declarationMap": true,
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
-  },
+  "extends": "../../tsconfig.bundler.settings.json",
   "include": ["src"],
   "exclude": ["src/**/*.stories.ts"]
 }

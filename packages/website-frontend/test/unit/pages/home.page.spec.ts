@@ -1,5 +1,3 @@
-import { beforeEach, it, describe, expect } from 'vitest';
-
 import '@stryker-mutator/stryker-elements';
 
 import { HomePage } from '../../../src/pages/home.page';
@@ -26,15 +24,14 @@ describe(HomePage.name, () => {
     await sut.whenStable();
 
     // Assert
-    expect(sut.element.querySelector('sme-hero')).to.not.be.null;
-    expect(sut.element.querySelector('sme-stryker-dashboard-explanation')).to.not.be.null;
+    expect(sut.element.querySelector('sme-hero')).toBeInTheDocument();
+    expect(sut.element.querySelector('sme-stryker-dashboard-explanation')).toBeInTheDocument();
 
     const gettingStarted = sut.element
       .querySelector('sme-spatious-layout')
-      ?.querySelector('sme-getting-started-overview')
+      ?.querySelector('sme-getting-started-overview');
 
-    expect(gettingStarted).to.not.be.null;
-    expect(gettingStarted).to.not.be.undefined;
+    expect(gettingStarted).toBeInTheDocument();
   });
 
   it('should navigate to overview when clicking on "getting started"', async () => {
@@ -45,6 +42,6 @@ describe(HomePage.name, () => {
     const link = sut.element.querySelector('sme-hero')?.shadowRoot?.querySelector('sme-link');
 
     // Assert
-    expect(link?.href).to.eq('#getting-started')
+    expect(link).toHaveAttribute('href', '#getting-started');
   });
 });

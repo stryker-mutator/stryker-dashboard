@@ -9,5 +9,5 @@ export default {
 
 export const ToggleButton: StoryObj = {
   name: 'Default',
-  render: () => html` <sme-copy-text>foobar, this should be copied</sme-copy-text> `,
+  render: () => html`<sme-copy-text>foobar, this should be copied</sme-copy-text>`,
 };

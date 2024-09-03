@@ -113,17 +113,13 @@ describe(TModel.name, () => {
         { rowId: 'rowKey', partitionId: 'partKey', bar: 142 },
         { rowId: 'rowKey2', partitionId: 'partKey2', bar: 25 },
       ];
-      tableClient.listEntities.returns(
-        createAsyncIterable(...expectedEntities.map((entity) => createEntity(entity))),
-      );
+      tableClient.listEntities.returns(createAsyncIterable(...expectedEntities.map((entity) => createEntity(entity))));
       const actualProjects = await sut.findAll(
         DashboardQuery.create(FooModel).wherePartitionKeyEquals({
           partitionId: 'github/partKey',
         }),
       );
-      expect(actualProjects).deep.eq(
-        expectedEntities.map((model) => ({ model, etag: 'foo-etag' })),
-      );
+      expect(actualProjects).deep.eq(expectedEntities.map((model) => ({ model, etag: 'foo-etag' })));
     });
   });
 
@@ -149,9 +145,9 @@ describe(TModel.name, () => {
 
     it('should throw a OptimisticConcurrencyError if the UPDATE_CONDITION_NOT_SATISFIED is thrown', async () => {
       tableClient.updateEntity.rejects(new StorageError('UpdateConditionNotSatisfied'));
-      await expect(
-        sut.replace({ bar: 24, partitionId: 'part', rowId: 'row' }, 'prev-etag'),
-      ).rejectedWith(OptimisticConcurrencyError);
+      await expect(sut.replace({ bar: 24, partitionId: 'part', rowId: 'row' }, 'prev-etag')).rejectedWith(
+        OptimisticConcurrencyError,
+      );
     });
   });
 
@@ -174,16 +170,11 @@ describe(TModel.name, () => {
 
     it('should throw an OptimisticConcurrencyError if the entity already exists', async () => {
       tableClient.createEntity.rejects(new StorageError('EntityAlreadyExists'));
-      await expect(sut.insert({ bar: 24, partitionId: 'part', rowId: 'row' })).rejectedWith(
-        OptimisticConcurrencyError,
-      );
+      await expect(sut.insert({ bar: 24, partitionId: 'part', rowId: 'row' })).rejectedWith(OptimisticConcurrencyError);
     });
   });
 
-  function createRawEntity(
-    overrides?: Partial<FooModel>,
-    etag?: string,
-  ): TableEntity<Pick<FooModel, 'bar'>> {
+  function createRawEntity(overrides?: Partial<FooModel>, etag?: string): TableEntity<Pick<FooModel, 'bar'>> {
     const foo: Pick<FooModel, 'bar'> = {
       bar: overrides?.bar ?? 42,
     };
@@ -204,10 +195,7 @@ describe(TModel.name, () => {
     };
   }
 
-  function createEntity(
-    overrides?: Partial<FooModel>,
-    etag = 'foo-etag',
-  ): TableEntityResult<FooModel> {
+  function createEntity(overrides?: Partial<FooModel>, etag = 'foo-etag'): TableEntityResult<FooModel> {
     const foo: FooModel = {
       bar: 42,
       partitionId: 'partKey',

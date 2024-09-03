@@ -16,17 +16,14 @@ export function isStorageError(maybeStorageError: unknown): maybeStorageError is
 export function hasErrorCode(err: unknown, code: string): boolean {
   if (!isStorageError(err)) return false;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const details = err.details as any;
   return (
-    typeof details === 'object' &&
-    details !== null &&
-    (details.errorCode === code || details.odataError?.code === code)
+    typeof details === 'object' && details !== null && (details.errorCode === code || details.odataError?.code === code)
   );
 }
 
 export function toBlobName({ projectName, version, moduleName, realTime }: ReportIdentifier) {
-  const slug = [projectName, version, moduleName, realTime ? 'real-time' : realTime]
-    .filter(Boolean)
-    .join('/');
+  const slug = [projectName, version, moduleName, realTime ? 'real-time' : realTime].filter(Boolean).join('/');
   return encodeKey(slug);
 }

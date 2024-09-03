@@ -32,7 +32,9 @@ export class CustomElementFixture<TCustomElement extends LitElement> {
    */
   public connect() {
     if (this.isConnected) {
-      throw new Error(`Element ${this.customElementName} is already connected to the DOM. Cannot connect a second time.`);
+      throw new Error(
+        `Element ${this.customElementName} is already connected to the DOM. Cannot connect a second time.`,
+      );
     }
     document.body.appendChild(this.element);
     this.isConnected = true;
@@ -74,12 +76,14 @@ export class CustomElementFixture<TCustomElement extends LitElement> {
     return this.element.remove();
   }
 
-
   public async catchNativeEvent(eventType: string, act: () => Promise<void> | void): Promise<Event | undefined> {
     return this.catchEvent(eventType, act);
   }
 
-  private async catchEvent<TEvent extends Event = Event>(eventType: string, act: () => Promise<void> | void): Promise<TEvent | undefined> {
+  private async catchEvent<TEvent extends Event = Event>(
+    eventType: string,
+    act: () => Promise<void> | void,
+  ): Promise<TEvent | undefined> {
     let actual: Event | undefined;
     const eventListener = (evt: Event) => (actual = evt);
     this.element.addEventListener(eventType, eventListener);

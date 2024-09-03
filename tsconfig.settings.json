@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "module": "ES2022",
-    "moduleResolution": "node",
+    "module": "Node16",
+    "moduleResolution": "node16",
     "esModuleInterop": true,
     "composite": true,
     "forceConsistentCasingInFileNames": false,
-    "lib": ["es5", "es2015"],
-    "types": ["node"],
+    "lib": ["DOM", "ES2023"],
+    "types": [],
     "noImplicitReturns": true,
     "noUnusedLocals": false, // verified using eslint
     "skipLibCheck": true,
@@ -14,7 +14,7 @@
     "declaration": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es2017",
+    "target": "ES2022",
     "strictPropertyInitialization": false // TODO
   }
 }

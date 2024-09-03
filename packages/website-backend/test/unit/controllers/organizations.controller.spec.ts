@@ -39,9 +39,7 @@ describe(OrganizationsController.name, () => {
       });
       const authorizeToken = await createAuthorizationHeader(expectedUser);
       const expectedRepos = [contractFactory.repository({ slug: 'some repo' })];
-      const getAllForOrganizationStub = sinon
-        .stub(repositoryStub, 'getAllForOrganization')
-        .resolves(expectedRepos);
+      const getAllForOrganizationStub = sinon.stub(repositoryStub, 'getAllForOrganization').resolves(expectedRepos);
 
       // Act
       await request(app.getHttpServer())

@@ -20,11 +20,7 @@ console.log(`Validating ${url} for version ${expectedVersion}`);
 if ((url && expectedVersion && type === 'dashboard') || type === 'badge-api') {
   tryCheckVersion();
 } else {
-  console.info(
-    `Usage: node ${path.basename(
-      fileURLToPath(import.meta.url),
-    )} [badge-api/dashboard] url version`,
-  );
+  console.info(`Usage: node ${path.basename(fileURLToPath(import.meta.url))} [badge-api/dashboard] url version`);
   console.info(
     `Example: node ${path.basename(
       fileURLToPath(import.meta.url),
@@ -79,9 +75,7 @@ function verifyDashboardVersion(resp) {
           frontend: expectedVersion,
         };
         if (actual.dashboard !== expected.dashboard || actual.frontend !== expected.frontend) {
-          throw new Error(
-            `Expected ${JSON.stringify(actual)} to equal ${JSON.stringify(expected)}`,
-          );
+          throw new Error(`Expected ${JSON.stringify(actual)} to equal ${JSON.stringify(expected)}`);
         }
         res();
       } catch (err) {

@@ -48,13 +48,7 @@ export default class GithubRepositoryService {
     return this.matchRepositories(githubRepos, repoEntities);
   }
 
-  public async update(
-    auth: github.Authentication,
-    owner: string,
-    name: string,
-    enabled: boolean,
-    apiKeyHash = '',
-  ) {
+  public async update(auth: github.Authentication, owner: string, name: string, enabled: boolean, apiKeyHash = '') {
     await this.guardUserHasAccess(auth, owner, name);
     await this.projectMapper.insertOrMerge({
       apiKeyHash,
@@ -64,11 +58,7 @@ export default class GithubRepositoryService {
     });
   }
 
-  private async guardUserHasAccess(
-    auth: github.Authentication,
-    owner: string,
-    name: string,
-  ): Promise<void> {
+  private async guardUserHasAccess(auth: github.Authentication, owner: string, name: string): Promise<void> {
     const hasPushAccess = await this.agent.userHasPushAccess(auth, owner, name);
     if (!hasPushAccess) {
       throw new HttpException(
@@ -85,9 +75,7 @@ export default class GithubRepositoryService {
     const githubRepos = await githubReposPromise;
     const repositoryEntities = await repositoryEntitiesPromise;
     return githubRepos.map((githubRepo) => {
-      const projectEntity = repositoryEntities.find(
-        (dalRepo) => dalRepo.model.name === githubRepo.name,
-      );
+      const projectEntity = repositoryEntities.find((dalRepo) => dalRepo.model.name === githubRepo.name);
       const repository: contract.Repository = {
         enabled: !!(projectEntity && projectEntity.model.enabled),
         name: githubRepo.name,

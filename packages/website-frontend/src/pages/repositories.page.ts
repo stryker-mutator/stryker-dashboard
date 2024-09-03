@@ -1,5 +1,5 @@
-import { LitElement, html, nothing } from 'lit'
-import { customElement, state } from 'lit/decorators.js'
+import { LitElement, html, nothing } from 'lit';
+import { customElement, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
@@ -20,13 +20,13 @@ export class RepositoriesPage extends LitElement {
   repositories: Repository[] = [];
 
   @state()
-  organizations: { name: string, value: string }[] = [];
+  organizations: { name: string; value: string }[] = [];
 
   @state()
   done = { partOne: false, partTwo: false, repositories: true };
 
   @state()
-  repositoryToToggle: { instance: Repository, apiKey: string | null } | null = null;
+  repositoryToToggle: { instance: Repository; apiKey: string | null } | null = null;
 
   @state()
   modalOpen = false;
@@ -42,11 +42,13 @@ export class RepositoriesPage extends LitElement {
     });
 
     userService.organizations().then((organizations) => {
-      const organizationNames = organizations.map(o => o.name);
+      const organizationNames = organizations.map((o) => o.name);
       organizationNames.unshift(this.userRepositoryName);
 
-      this.organizations = organizationNames
-        .map(organization => ({ name: organization, value: organization }));
+      this.organizations = organizationNames.map((organization) => ({
+        name: organization,
+        value: organization,
+      }));
 
       this.done.partTwo = true;
     });
@@ -56,20 +58,29 @@ export class RepositoriesPage extends LitElement {
     return html`
       <sme-loader ?doneWithLoading=${this.done.partOne && this.done.partTwo}>
         <sme-spatious-layout>
-          <sme-dropdown @dropdownChanged="${this.#handleDropDownChanged}" .options="${this.organizations}"></sme-dropdown>
+          <sme-dropdown
+            @dropdownChanged="${this.#handleDropDownChanged}"
+            .options="${this.organizations}"
+          ></sme-dropdown>
           <sme-hr></sme-hr>
           <sme-loader ?doneWithLoading=${this.done.repositories}>
             <sme-title>Enabled repositories</sme-title>
             ${when(
               this.#determineIfThereAreEnabledRepositories,
-              () => html`<sme-list id='enabled-repositories'>${this.#renderEnabledRepostories()}</sme-list>`,
-              () => html`<sme-notify id='no-enabled-repositories' type="info">There are no enabled repositories. You can enable them below.</sme-notify>`
+              () => html`<sme-list id="enabled-repositories">${this.#renderEnabledRepostories()}</sme-list>`,
+              () =>
+                html`<sme-notify id="no-enabled-repositories" type="info"
+                  >There are no enabled repositories. You can enable them below.</sme-notify
+                >`,
             )}
             <sme-title>Disabled repositories</sme-title>
             ${when(
               this.#determineIfThereAreDisabledRepositories,
-              () => html`<sme-list id='disabled-repositories'>${this.#renderDisabledRepositories()}</sme-list>`,
-              () => html`<sme-notify id='no-repositories-to-enable' type="info">You don't have any repositories to enable.</sme-notify>`
+              () => html`<sme-list id="disabled-repositories">${this.#renderDisabledRepositories()}</sme-list>`,
+              () =>
+                html`<sme-notify id="no-repositories-to-enable" type="info"
+                  >You don't have any repositories to enable.</sme-notify
+                >`,
             )}
           </sme-loader>
         </sme-spatious-layout>
@@ -79,14 +90,18 @@ export class RepositoriesPage extends LitElement {
   }
 
   #renderEnabledRepostories() {
-    return html`${map(this.repositories, (repository) => this.#renderRepository(repository, () => !repository.enabled))}`;
+    return html`${map(this.repositories, (repository) =>
+      this.#renderRepository(repository, () => !repository.enabled),
+    )}`;
   }
 
   #renderDisabledRepositories() {
-    return html`${map(this.repositories, (repository) => this.#renderRepository(repository, () => repository.enabled))}`;
+    return html`${map(this.repositories, (repository) =>
+      this.#renderRepository(repository, () => repository.enabled),
+    )}`;
   }
 
-  #renderRepository(repository: Repository, shouldHide: Function) {
+  #renderRepository(repository: Repository, shouldHide: () => boolean) {
     return html`
       <sme-toggle-repository
         ?hidden="${shouldHide()}"
@@ -94,7 +109,8 @@ export class RepositoriesPage extends LitElement {
         @repositoryToggled="${(event: CustomEvent) => this.#handleRepositoryToggled(event, repository)}"
         .enabled="${repository.enabled}"
         name="${repository.name}"
-        slug="${this.#getSlugWithDefaultBranch(repository)}">
+        slug="${this.#getSlugWithDefaultBranch(repository)}"
+      >
       </sme-toggle-repository>
     `;
   }
@@ -112,27 +128,40 @@ export class RepositoriesPage extends LitElement {
         ${when(
           this.repositoryToToggle?.apiKey === null,
           () => html`
-            <sme-collapsible id='no-api-key-collapsible' title="API Key" opened>
-              <sme-notify type="info">Your api key should already have been copied. If you need a new one, re-enable this repository.</sme-notify>
+            <sme-collapsible id="no-api-key-collapsible" title="API Key" opened>
+              <sme-notify type="info"
+                >Your api key should already have been copied. If you need a new one, re-enable this
+                repository.</sme-notify
+              >
             </sme-collapsible>
           `,
           () => html`
-            <sme-collapsible id='api-key-collapsible' title="API Key" opened>
-              <sme-text>Here's your API key: <sme-copy-text id="copy-key">${this.repositoryToToggle?.apiKey}</sme-copy-text></sme-text>
+            <sme-collapsible id="api-key-collapsible" title="API Key" opened>
+              <sme-text
+                >Here's your API key:<sme-copy-text id="copy-key"
+                  >${this.repositoryToToggle?.apiKey}</sme-copy-text
+                ></sme-text
+              >
               <sme-text>
-                This is your key. It is unique and special made for "${this.repositoryToToggle?.instance.slug}".
-                This is the last time we'll be showing it to you (although you can create new ones at any time).
+                This is your key. It is unique and special made for "${this.repositoryToToggle?.instance.slug}". This is
+                the last time we'll be showing it to you (although you can create new ones at any time).
               </sme-text>
             </sme-collapsible>
           `,
         )}
-        <sme-collapsible id='badge-collapsible' title="Badge">
-          <sme-badge-configurator projectName="${ifDefined(this.repositoryToToggle?.instance.name)}"></sme-badge-configurator>
+        <sme-collapsible id="badge-collapsible" title="Badge">
+          <sme-badge-configurator
+            projectName="${ifDefined(this.repositoryToToggle?.instance.name)}"
+          ></sme-badge-configurator>
         </sme-collapsible>
-        <sme-collapsible id='usage-collapsible' title="Usage">
+        <sme-collapsible id="usage-collapsible" title="Usage">
           <sme-text>
-            See the <sme-link href="https://stryker-mutator.io/docs/General/dashboard/" inline unStyled><b><u>Stryker dashboard documentation ↗</u></b></sme-link>
-            for an explanation on how you can configure the dashboard reporter or use cURL to send your report to the dashboard.
+            See the
+            <sme-link href="https://stryker-mutator.io/docs/General/dashboard/" inline unStyled
+              ><b><u>Stryker dashboard documentation ↗</u></b></sme-link
+            >
+            for an explanation on how you can configure the dashboard reporter or use cURL to send your report to the
+            dashboard.
           </sme-text>
         </sme-collapsible>
       </sme-modal>
@@ -154,11 +183,11 @@ export class RepositoriesPage extends LitElement {
   }
 
   get #determineIfThereAreDisabledRepositories() {
-    return this.repositories.some(r => !r.enabled);
+    return this.repositories.some((r) => !r.enabled);
   }
 
   get #determineIfThereAreEnabledRepositories() {
-    return this.repositories.some(r => r.enabled);
+    return this.repositories.some((r) => r.enabled);
   }
 
   async #handleDropDownChanged(event: CustomEvent) {
@@ -177,7 +206,7 @@ export class RepositoriesPage extends LitElement {
       return;
     }
 
-    this.#openModal(repository)
+    this.#openModal(repository);
   }
 
   #openModal(repository: Repository, apiKey: string | null = null) {
@@ -204,6 +233,6 @@ export class RepositoriesPage extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'stryker-dashboard-repositories-page': RepositoriesPage
+    'stryker-dashboard-repositories-page': RepositoriesPage;
   }
 }

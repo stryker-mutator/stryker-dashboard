@@ -1,12 +1,12 @@
-import { LitElement, html } from 'lit'
-import { customElement } from 'lit/decorators.js'
+import { LitElement, html } from 'lit';
+import { customElement } from 'lit/decorators.js';
 
 @customElement('stryker-dashboard-home-page')
 export class HomePage extends LitElement {
   override createRenderRoot() {
     return this;
   }
-  
+
   override render() {
     return html`
       <sme-hero></sme-hero>
@@ -20,6 +20,6 @@ export class HomePage extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'stryker-dashboard-home-page': HomePage
+    'stryker-dashboard-home-page': HomePage;
   }
 }

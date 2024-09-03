@@ -36,20 +36,14 @@ export class BadgeConfigurator extends BaseElement {
         <h3 class="mb-2 text-xl text-white">Choose from the following styles:</h3>
         <div class="mb-4">
           ${map(badgeStyles, (style) => this.#renderBadge(style))}
-          <sme-button
-            class="mt-2 block"
-            .small="${true}"
-            type="primary"
-            @click="${this.#copyToClipboard}"
+          <sme-button class="mt-2 block" .small="${true}" type="primary" @click="${this.#copyToClipboard}"
             >${this.isCopied ? 'Copied!' : 'Copy markdown'}</sme-button
           >
         </div>
       </div>
       <div>
         <h3 class="mb-2 text-xl text-white">Examples</h3>
-        ${map(badgeExamples, (example) =>
-          this.#renderImage(encodeURI(`${example}?style=${this.selectedStyle}`)),
-        )}
+        ${map(badgeExamples, (example) => this.#renderImage(encodeURI(`${example}?style=${this.selectedStyle}`)))}
       </div>
     `;
   }
