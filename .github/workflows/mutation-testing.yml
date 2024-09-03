@@ -16,6 +16,7 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build
+      - run: npx playwright install chromium --with-deps
       - name: Mutation testing
         run: npx nx run @stryker-mutator/dashboard-frontend:stryker
         env:
