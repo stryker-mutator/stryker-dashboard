@@ -6,7 +6,7 @@
     "outDir": "dist",
     "allowJs": true
   },
-  "include": ["badge/**/*.ts", "badge/**/*.mjs", "test/**/*.ts"],
+  "include": ["badge", "test"],
   "references": [
     {
       "path": "../data-access/src"
