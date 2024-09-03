@@ -1,6 +1,6 @@
 {
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
   "coverageAnalysis": "perTest",
-  "tsconfigFile": "tsconfig.stryker.json",
   "mochaOptions": {
     "spec": ["dist/test/helpers/**/*.js", "dist/test/unit/**/*.js"]
   },
@@ -9,5 +9,7 @@
   "concurrency": 4,
   "dashboard": {
     "reportType": "full"
-  }
+  },
+  "buildCommand": "tsc -b",
+  "thresholds": { "break": 50 }
 }
