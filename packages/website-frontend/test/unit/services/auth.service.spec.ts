@@ -22,11 +22,15 @@ describe(AuthService.name, () => {
   });
 
   it('should sign out correctly', () => {
+    // Arrange
+    window.sessionStorage.setItem('authToken', 'token');
+
     // Act
     authService.signOut();
 
     // Assert
     expect(authService.currentUser).toBeNull();
+    expect(window.sessionStorage.getItem('authToken')).to.eq(null);
   });
 
   it('should return null for currentBearerToken if no token is stored', () => {
