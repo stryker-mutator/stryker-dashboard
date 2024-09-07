@@ -76,14 +76,6 @@ export class ReportPage extends LitElement {
 
     return html`
       <sme-loader ?doneWithLoading="${!!this.report}">
-        ${when(this.report, () => html`
-          <mutation-test-report-app
-            @theme-changed=${this.#handleThemeChange}
-            .titlePostfix="${this.#title}"
-            .report="${this.report}"
-            sse="${ifDefined(this.sse)}"
-          ></mutation-test-report-app>
-        `)}
         ${when(
           this.report,
           () =>
@@ -104,9 +96,6 @@ export class ReportPage extends LitElement {
 
   get #slug() {
     const location = locationService.getLocation();
-    return location.search
-      ? this.#baseSlug + location.search
-      : this.#baseSlug;
     return location.search ? this.#baseSlug + location.search : this.#baseSlug;
   }
 
@@ -114,10 +103,6 @@ export class ReportPage extends LitElement {
     const location = locationService.getLocation();
     const searchParams = new URLSearchParams(location.search);
     searchParams.delete('realTime');
-
-    return searchParams.has('module')
-      ? `${this.#baseSlug}?${searchParams}`
-      : this.#baseSlug;
 
     return searchParams.has('module') ? `${this.#baseSlug}?${searchParams.toString()}` : this.#baseSlug;
   }
@@ -132,8 +117,6 @@ export class ReportPage extends LitElement {
     if (module) {
       return `${slugWithoutProviderAndOrganization}/${module}${baseTitle}`;
     }
-
-    return `${slugWithoutProviderAndOrganization}${baseTitle}`
 
     return `${slugWithoutProviderAndOrganization}${baseTitle}`;
   }
