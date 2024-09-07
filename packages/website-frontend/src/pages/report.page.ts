@@ -49,9 +49,11 @@ export class ReportPage extends LitElement {
   }
 
   #prepareStyling() {
-    this.style.display = 'flex';
-    this.style.flexDirection = 'column';
-    this.style.height = '100%';
+    this.style.cssText = `
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    `;
   }
 
   override render() {

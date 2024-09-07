@@ -4,24 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Try out the Stryker dashboard, home for your test quality">
-    <link rel="icon" type="image/svg+xml" href="/src/assets/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.ico" />
+    <link rel="stylesheet" href="/src/main.css" />
     <title>Stryker Dashboard</title>
     <script type="module" src="./src/app.ts"></script>
-    <style>
-      html, body, stryker-dashboard {
-        height: 100%;
-        width: 100%;
-      }
-
-      stryker-dashboard {
-        display: flex;
-        flex-direction: column;
-      }
-
-      stryker-dashboard #outlet {
-        flex-grow: 1;
-      }
-    </style>
   </head>
   <body style="background-color: rgb(38, 38, 38); margin: 0">
     <stryker-dashboard></stryker-dashboard>

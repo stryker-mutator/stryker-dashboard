@@ -1,0 +1,14 @@
+html, body, stryker-dashboard {
+  height: 100%;
+  width: 100%;
+}
+
+stryker-dashboard {
+  display: flex;
+  flex-direction: column;
+}
+
+stryker-dashboard #outlet {
+  flex-grow: 1;
+}
+
