@@ -33,8 +33,8 @@ export class ReportPage extends LitElement {
         return;
       }
 
-        if (isMutationTestResult(report)) {
-          this.#prepareStyling();
+      if (isMutationTestResult(report)) {
+        this.#prepareStyling();
 
         if (isPendingReport(report)) {
           this.sse = `/api/real-time/${this.#sseSlug}`;
