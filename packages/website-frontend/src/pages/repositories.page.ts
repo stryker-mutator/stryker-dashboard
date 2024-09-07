@@ -6,10 +6,11 @@ import { when } from 'lit/directives/when.js';
 
 import { Repository } from '@stryker-mutator/dashboard-contract';
 
-import { locationService } from '../services/location.service';
-import { userService } from '../services/user.service';
-import { repositoriesService } from '../services/repositories.service';
+import { authService } from '../services/auth.service';
+import { historyService } from '../services/history.service';
 import { organizationsService } from '../services/organizations.service';
+import { repositoriesService } from '../services/repositories.service';
+import { userService } from '../services/user.service';
 
 @customElement('stryker-dashboard-repositories-page')
 export class RepositoriesPage extends LitElement {
@@ -34,7 +35,8 @@ export class RepositoriesPage extends LitElement {
   override connectedCallback(): void {
     super.connectedCallback();
 
-    this.userRepositoryName = locationService.getLocation().pathname.split('/repos/').join('');
+    this.userRepositoryName = authService.currentUser!.name;
+    this.#reflectOrganizationOrUserInUrl(this.userRepositoryName);
 
     void userService.getRepositories().then((repositories) => {
       this.repositories = repositories;
@@ -199,6 +201,7 @@ export class RepositoriesPage extends LitElement {
       this.repositories = await organizationsService.getRepositories(event.detail.value);
     }
 
+    this.#reflectOrganizationOrUserInUrl(event.detail.value);
     this.done = { ...this.done, repositories: true };
   }
 
@@ -229,6 +232,10 @@ export class RepositoriesPage extends LitElement {
 
       this.requestUpdate();
     }, 300);
+  }
+
+  #reflectOrganizationOrUserInUrl(orgOrUser: string) {
+    historyService.getHistory().pushState({}, '', `/repos/${orgOrUser}`);
   }
 }
 

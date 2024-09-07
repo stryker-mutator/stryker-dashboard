@@ -3,16 +3,24 @@ import '@stryker-mutator/stryker-elements';
 
 import { CustomElementFixture } from '../../helpers/custom-element-fixture';
 import { RepositoriesPage } from '../../../src/pages/repositories.page';
-import { locationService } from '../../../src/services/location.service';
+import { authService } from '../../../src/services/auth.service';
+import { historyService } from '../../../src/services/history.service';
 import { organizationsService } from '../../../src/services/organizations.service';
 import { repositoriesService } from '../../../src/services/repositories.service';
 import { userService } from '../../../src/services/user.service';
+import { Mock } from 'vitest';
 
 describe(RepositoriesPage.name, () => {
   let sut: CustomElementFixture<RepositoriesPage>;
+  let pushStateMock: Mock;
 
   beforeEach(() => {
-    locationService.getLocation = vi.fn(() => ({ pathname: '/repos/user' }) as Location);
+    vi.spyOn(authService, 'currentUser', 'get').mockReturnValue({
+      avatarUrl: 'foo',
+      name: 'mockUser',
+    });
+    pushStateMock = vi.fn();
+    historyService.getHistory = vi.fn(() => ({ pushState: pushStateMock }) as unknown as History);
     sut = new CustomElementFixture('stryker-dashboard-repositories-page', { autoConnect: false });
   });
 
@@ -38,6 +46,7 @@ describe(RepositoriesPage.name, () => {
       // Assert
       const loader = sut.element.shadowRoot?.querySelector('sme-loader');
       expect(loader?.getAttribute('doneWithLoading')).to.be.null;
+      expect(pushStateMock).toHaveBeenCalledWith({}, '', '/repos/mockUser');
     });
 
     it('should be done loading when fetch calls are complete', async () => {
@@ -99,6 +108,7 @@ describe(RepositoriesPage.name, () => {
 
       // Assert
       expect(organizationsService.getRepositories).toHaveBeenCalledWith('foo');
+      expect(pushStateMock).toHaveBeenCalledWith({}, '', '/repos/foo');
     });
   });
 

@@ -42,7 +42,8 @@ export class AuthService {
       return null;
     }
 
-    return response.json() as Promise<Login>;
+    this.#user = (await response.json()) as Login;
+    return this.#user;
   }
 
   public async authenticate(provider: string, code: string) {
