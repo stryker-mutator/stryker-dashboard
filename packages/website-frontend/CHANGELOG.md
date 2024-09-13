@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.15.0...v0.15.1) (2024-09-13)
+
+### Bug Fixes
+
+- redirect to repositories page after logging in ([#900](https://github.com/stryker-mutator/stryker-dashboard/issues/900)) ([d758402](https://github.com/stryker-mutator/stryker-dashboard/commit/d7584025bde3d44992a1fb741dc8166c0d12832a))
+- **website-frontend:** background color staying the same after viewing report ([#899](https://github.com/stryker-mutator/stryker-dashboard/issues/899)) ([0954989](https://github.com/stryker-mutator/stryker-dashboard/commit/0954989ae57d19d5b28e0fd18ae56497321d91ed))
+- **website-frontend:** switching org not reflected in URL ([#916](https://github.com/stryker-mutator/stryker-dashboard/issues/916)) ([3b8ce2e](https://github.com/stryker-mutator/stryker-dashboard/commit/3b8ce2e8ebbb87baade8ed17261894be6cbf02f4))
+
 # [0.15.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.14.3...v0.15.0) (2024-08-31)
 
 ### Bug Fixes

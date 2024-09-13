@@ -1,6 +1,6 @@
 {
   "name": "@stryker-mutator/dashboard-backend",
-  "version": "0.15.0",
+  "version": "0.15.1",
   "description": "The package which contains the stryker dashboard website backend.",
   "type": "module",
   "bin": {
@@ -29,10 +29,10 @@
     "@nestjs/passport": "10.0.3",
     "@nestjs/platform-express": "10.4.1",
     "@nestjs/serve-static": "4.0.2",
-    "@stryker-mutator/dashboard-common": "0.15.0",
-    "@stryker-mutator/dashboard-contract": "0.15.0",
-    "@stryker-mutator/dashboard-data-access": "0.15.0",
-    "@stryker-mutator/dashboard-frontend": "0.15.0",
+    "@stryker-mutator/dashboard-common": "0.15.1",
+    "@stryker-mutator/dashboard-contract": "0.15.1",
+    "@stryker-mutator/dashboard-data-access": "0.15.1",
+    "@stryker-mutator/dashboard-frontend": "0.15.1",
     "ajv": "8.17.1",
     "ajv-formats": "3.0.1",
     "compression": "1.7.4",
