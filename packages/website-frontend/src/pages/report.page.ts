@@ -34,7 +34,7 @@ export class ReportPage extends LitElement {
       }
 
       if (isMutationTestResult(report)) {
-        document.body.style.backgroundColor = 'rgb(24, 24, 27)';
+        this.#prepareStyling();
 
         if (isPendingReport(report)) {
           this.sse = `/api/real-time/${this.#sseSlug}`;
@@ -46,6 +46,14 @@ export class ReportPage extends LitElement {
 
       this.scoreOnlyReport = report;
     });
+  }
+
+  #prepareStyling() {
+    this.style.cssText = `
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    `;
   }
 
   override render() {
@@ -114,7 +122,7 @@ export class ReportPage extends LitElement {
   }
 
   #handleThemeChange(event: CustomEvent<{ themeBackgroundColor: string }>): void {
-    document.body.style.backgroundColor = event.detail.themeBackgroundColor;
+    this.style.backgroundColor = event.detail.themeBackgroundColor;
   }
 }
 

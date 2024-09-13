@@ -16,3 +16,11 @@ Run `npm run build` to build the project. The build artifacts will be stored in 
 ## Running tests
 
 Run `npm run test` to execute the tests via [Vitest](https://vitest.dev/) and [Playwright](https://playwright.dev/).
+
+## Adding a report to the dashboard
+
+If you need to add a report quickly to the report, please use the following link:
+
+https://stryker-mutator.io/docs/General/dashboard/#send-a-report-via-curl
+
+An example report can be found [here](./test/unit/testResources/simple-report.json).
