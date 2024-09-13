@@ -20,7 +20,7 @@ describe(RepositoriesPage.name, () => {
       name: 'mockUser',
     });
     pushStateMock = vi.fn();
-    historyService.getHistory = vi.fn(() => ({ pushState: pushStateMock }) as unknown as History);
+    // historyService.getHistory = vi.fn(() => ({ pushState: pushStateMock }) as unknown as History);
     sut = new CustomElementFixture('stryker-dashboard-repositories-page', { autoConnect: false });
   });
 
@@ -46,7 +46,7 @@ describe(RepositoriesPage.name, () => {
       // Assert
       const loader = sut.element.shadowRoot?.querySelector('sme-loader');
       expect(loader?.getAttribute('doneWithLoading')).to.be.null;
-      expect(pushStateMock).toHaveBeenCalledWith({}, '', '/repos/mockUser');
+      expect(window.location.pathname).to.eq('/repos/mockUser');
     });
 
     it('should be done loading when fetch calls are complete', async () => {
@@ -108,7 +108,7 @@ describe(RepositoriesPage.name, () => {
 
       // Assert
       expect(organizationsService.getRepositories).toHaveBeenCalledWith('foo');
-      expect(pushStateMock).toHaveBeenCalledWith({}, '', '/repos/foo');
+      expect(window.location.pathname).to.eq('/repos/foo');
     });
   });
 
