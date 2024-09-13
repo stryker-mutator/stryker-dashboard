@@ -4,22 +4,18 @@ import '@stryker-mutator/stryker-elements';
 import { CustomElementFixture } from '../../helpers/custom-element-fixture';
 import { RepositoriesPage } from '../../../src/pages/repositories.page';
 import { authService } from '../../../src/services/auth.service';
-import { historyService } from '../../../src/services/history.service';
 import { organizationsService } from '../../../src/services/organizations.service';
 import { repositoriesService } from '../../../src/services/repositories.service';
 import { userService } from '../../../src/services/user.service';
-import { Mock } from 'vitest';
 
 describe(RepositoriesPage.name, () => {
   let sut: CustomElementFixture<RepositoriesPage>;
-  let pushStateMock: Mock;
 
   beforeEach(() => {
     vi.spyOn(authService, 'currentUser', 'get').mockReturnValue({
       avatarUrl: 'foo',
       name: 'mockUser',
     });
-    pushStateMock = vi.fn();
     // historyService.getHistory = vi.fn(() => ({ pushState: pushStateMock }) as unknown as History);
     sut = new CustomElementFixture('stryker-dashboard-repositories-page', { autoConnect: false });
   });
