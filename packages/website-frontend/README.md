@@ -19,77 +19,8 @@ Run `npm run test` to execute the tests via [Vitest](https://vitest.dev/) and [P
 
 ## Adding a report to the dashboard
 
-If you need to add a report quickly to the report, here is a simple CURL command that uploads one:
+If you need to add a report quickly to the report, please use the following link:
 
-```curl
+https://stryker-mutator.io/docs/General/dashboard/#send-a-report-via-curl
 
-curl -X PUT \
-  http://localhost:1337/api/reports/github.com/{ORG}/{REPOSITORY}/{VERSION} \
-  -H 'Content-Type: application/json' \
-  -H 'X-Api-Key: {API_KEY}' \
-  -d '{
-  "mutationScore": 50,
-  "thresholds": {
-    "high": 80,
-    "low": 60
-  },
-  "projectRoot": "/src/project",
-  "files": {
-    "test.js": {
-      "language": "javascript",
-      "source": "\"use strict\";\nfunction add(a, b) {\n  return a + b;\n}",
-      "mutants": [
-        {
-          "id": "3",
-          "location": {
-            "start": {
-              "column": 1,
-              "line": 1
-            },
-            "end": {
-              "column": 13,
-              "line": 1
-            }
-          },
-          "replacement": "\"\"",
-          "mutatorName": "String Literal",
-          "status": "Survived"
-        },
-        {
-          "id": "1",
-          "mutatorName": "Arithmetic Operator",
-          "replacement": "-",
-          "location": {
-            "start": {
-              "line": 3,
-              "column": 12
-            },
-            "end": {
-              "line": 3,
-              "column": 13
-            }
-          },
-          "status": "Survived"
-        },
-        {
-          "id": "2",
-          "mutatorName": "Block Statement",
-          "replacement": "{}",
-          "location": {
-            "start": {
-              "line": 2,
-              "column": 20
-            },
-            "end": {
-              "line": 4,
-              "column": 1
-            }
-          },
-          "status": "Killed"
-        }
-      ]
-    }
-  }
-}'
-
-```
+An example report can be found [here](./test/unit/testResources/simple-report.json).
