@@ -19,7 +19,7 @@
     "@types/chai": "5.0.0",
     "@types/chai-as-promised": "8.0.1",
     "@types/mocha": "10.0.8",
-    "@types/node": "20.16.8",
+    "@types/node": "20.16.9",
     "@types/sinon": "17.0.3",
     "azurite": "3.32.0",
     "c8": "10.1.2",
