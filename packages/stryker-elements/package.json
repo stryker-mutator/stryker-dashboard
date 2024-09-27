@@ -54,6 +54,7 @@
     "@storybook/theming": "8.4.5",
     "@storybook/web-components": "8.4.5",
     "@storybook/web-components-vite": "8.4.5",
+    "@stryker-mutator/dashboard-common": "0.15.1",
     "autoprefixer": "10.4.20",
     "postcss": "8.4.49",
     "storybook": "8.4.5",

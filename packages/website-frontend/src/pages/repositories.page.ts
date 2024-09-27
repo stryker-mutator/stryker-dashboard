@@ -4,6 +4,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
 
+import { ToggleRepository } from '@stryker-mutator/stryker-elements';
 import { Repository } from '@stryker-mutator/dashboard-contract';
 
 import { authService } from '../services/auth.service';
@@ -107,8 +108,8 @@ export class RepositoriesPage extends LitElement {
     return html`
       <sme-toggle-repository
         ?hidden="${shouldHide()}"
-        @repositoryClicked="${() => this.#handleRepositoryClick(repository)}"
-        @repositoryToggled="${(event: CustomEvent<{ checked: boolean }>) =>
+        @openRepositorySettings="${() => this.#handleRepositoryClick(repository)}"
+        @repositoryToggled="${(event: CustomEvent<{ checked: boolean; ref: ToggleRepository }>) =>
           this.#handleRepositoryToggled(event, repository)}"
         .enabled="${repository.enabled}"
         name="${repository.name}"
@@ -160,9 +161,9 @@ export class RepositoriesPage extends LitElement {
         <sme-collapsible id="usage-collapsible" title="Usage">
           <sme-text>
             See the
-            <sme-link href="https://stryker-mutator.io/docs/General/dashboard/" inline unStyled
-              ><b><u>Stryker dashboard documentation ↗</u></b></sme-link
-            >
+            <sme-link href="https://stryker-mutator.io/docs/General/dashboard/" inline unStyled>
+              <b><u>Stryker dashboard documentation ↗</u></b>
+            </sme-link>
             for an explanation on how you can configure the dashboard reporter or use cURL to send your report to the
             dashboard.
           </sme-text>
@@ -175,8 +176,12 @@ export class RepositoriesPage extends LitElement {
     return `${repository.slug}/${repository.defaultBranch}`;
   }
 
-  async #handleRepositoryToggled(event: CustomEvent<{ checked: boolean }>, repository: Repository) {
+  async #handleRepositoryToggled(
+    event: CustomEvent<{ checked: boolean; ref: ToggleRepository }>,
+    repository: Repository,
+  ) {
     const response = await repositoriesService.enableRepository(repository.slug, event.detail.checked);
+    event.detail.ref.isToggling = false;
     repository.enabled = response === null ? false : true;
     if (repository.enabled) {
       this.#openModal(repository, response!.apiKey);

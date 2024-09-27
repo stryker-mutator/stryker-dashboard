@@ -13,13 +13,13 @@ test.describe.serial('Repositories page', () => {
   const enableRepository = async () => {
     await page.waitForSelector('sme-list#disabled-repositories');
     const toggleRepository = repositoriesPage.disabledRepositories.first();
-    await toggleRepository.locator('sme-button > button').click();
+    await toggleRepository.locator('button[title="Enable repository"]').click();
   };
 
   const disableRepository = async () => {
     await page.waitForSelector('sme-list#enabled-repositories');
     const toggleRepository = repositoriesPage.enabledRepositories.first();
-    await toggleRepository.locator('sme-button > button').click();
+    await toggleRepository.locator('button[title="Disable repository"]').click();
   };
 
   test.beforeAll(async ({ browser }) => {

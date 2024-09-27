@@ -1,6 +1,9 @@
 import { html } from 'lit';
-import { BaseElement } from '../base-element';
 import { customElement, property } from 'lit/decorators.js';
+
+import { buildReportUrl } from '@stryker-mutator/dashboard-common';
+
+import { BaseElement } from '../base-element';
 
 export type BadgeStyle = 'flat' | 'flat-square' | 'plastic' | 'for-the-badge' | 'social';
 
@@ -18,11 +21,7 @@ export class Badge extends BaseElement {
   slug = '';
 
   render() {
-    return html`<a href="${this.#buildReportUrl()}"><img src="${this.#buildBadgeUrl()}" /></a>`;
-  }
-
-  #buildReportUrl() {
-    return `${window.location.origin}/reports/${this.slug}`;
+    return html`<a href="${buildReportUrl(this.slug)}"><img src="${this.#buildBadgeUrl()}" /></a>`;
   }
 
   #buildBadgeUrl() {
