@@ -51,3 +51,7 @@ function sanitize(rawSlug: string | undefined) {
     return rawSlug;
   }
 }
+
+export function buildReportUrl(slug: string) {
+  return `${window.location.origin}/reports/${slug}`;
+}
