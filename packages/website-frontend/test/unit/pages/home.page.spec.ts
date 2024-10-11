@@ -59,6 +59,6 @@ describe(HomePage.name, () => {
     expect(supportedFrameworks?.querySelectorAll('sme-supported-framework')[0]).toHaveTextContent('StrykerJS');
     expect(supportedFrameworks?.querySelectorAll('sme-supported-framework')[1]).toHaveTextContent('Stryker.NET');
     expect(supportedFrameworks?.querySelectorAll('sme-supported-framework')[2]).toHaveTextContent('Stryker4s');
-    expect(supportedFrameworks?.querySelectorAll('sme-supported-framework')[3]).toHaveTextContent
+    expect(supportedFrameworks?.querySelectorAll('sme-supported-framework')[3]).toHaveTextContent;
   });
 });

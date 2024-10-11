@@ -28,7 +28,7 @@ export class SupportedFrameworkList extends BaseElement {
     {
       name: 'Infection',
       logo: 'https://infection.github.io/images/logo.png',
-      url: 'https://infection.github.io/',
+      url: 'infection-logo.png',
     },
   ];
 

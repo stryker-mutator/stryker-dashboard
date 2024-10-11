@@ -13,4 +13,4 @@ export const Default: StoryObj = {
     logo: 'https://stryker-mutator.io/images/stryker.svg',
     url: 'https://github.com/stryker-mutator/stryker-js',
   },
-}
+};

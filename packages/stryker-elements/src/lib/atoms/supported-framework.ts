@@ -6,7 +6,7 @@ export interface SupportedFrameworkProps {
   name: string;
   logo: string;
   url: string;
-};
+}
 
 @customElement('sme-supported-framework')
 export class SupportedFramework extends BaseElement {
@@ -17,7 +17,7 @@ export class SupportedFramework extends BaseElement {
   logo = '';
 
   @property({ type: String })
-  url= '';
+  url = '';
 
   render() {
     return html`
