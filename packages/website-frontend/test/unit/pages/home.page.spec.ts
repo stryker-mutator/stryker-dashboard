@@ -44,4 +44,21 @@ describe(HomePage.name, () => {
     // Assert
     expect(link).toHaveAttribute('href', '#getting-started');
   });
+
+  // Test if the names of the supported frameworks are displayed
+  it('should display all supported frameworks', async () => {
+    // Arrange
+    await sut.whenStable();
+
+    // Act
+    const supportedFrameworks = sut.element.querySelector('sme-supported-framework-list');
+
+    // Assert
+    expect(supportedFrameworks).toBeInTheDocument();
+    expect(supportedFrameworks?.querySelectorAll('sme-supported-framework')).toHaveLength(4);
+    expect(supportedFrameworks?.querySelectorAll('sme-supported-framework')[0]).toHaveTextContent('StrykerJS');
+    expect(supportedFrameworks?.querySelectorAll('sme-supported-framework')[1]).toHaveTextContent('Stryker.NET');
+    expect(supportedFrameworks?.querySelectorAll('sme-supported-framework')[2]).toHaveTextContent('Stryker4s');
+    expect(supportedFrameworks?.querySelectorAll('sme-supported-framework')[3]).toHaveTextContent
+  });
 });
