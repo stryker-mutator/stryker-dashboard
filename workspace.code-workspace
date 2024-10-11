@@ -34,6 +34,7 @@
       "runem.lit-plugin",
       // https://marketplace.visualstudio.com/items?itemName=Azurite.azurite
       "Azurite.azurite",
+      "bierner.lit-html",
     ],
   },
   "settings": {

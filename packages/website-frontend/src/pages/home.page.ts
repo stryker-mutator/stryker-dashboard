@@ -11,9 +11,8 @@ export class HomePage extends LitElement {
     return html`
       <sme-hero></sme-hero>
       <sme-stryker-dashboard-explanation></sme-stryker-dashboard-explanation>
-      <sme-spatious-layout>
-        <sme-getting-started-overview id="getting-started"></sme-getting-started-overview>
-      </sme-spatious-layout>
+      <sme-getting-started-overview id="getting-started"></sme-getting-started-overview>
+      <sme-supported-framework-list></sme-supported-framework-list>
     `;
   }
 }
