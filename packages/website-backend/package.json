@@ -41,7 +41,7 @@
     "passport-jwt": "4.0.1"
   },
   "devDependencies": {
-    "@nestjs/schematics": "10.2.0",
+    "@nestjs/schematics": "10.2.1",
     "@nestjs/testing": "10.4.5",
     "@types/compression": "1.7.5",
     "@types/express": "5.0.0",
