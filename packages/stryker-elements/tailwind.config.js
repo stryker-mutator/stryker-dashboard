@@ -7,6 +7,9 @@ export default {
         background: '#242526',
         hero_background: '#22323D',
       },
+      spacing: {
+        split: 'calc(50% - 9.5px)',
+      },
       keyframes: {
         something: {
           '0%': { opacity: 0, transform: 'translateX(0px)' },

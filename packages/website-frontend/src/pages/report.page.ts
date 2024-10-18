@@ -9,6 +9,7 @@ import 'mutation-testing-elements';
 import { reportService } from '../services/report.service';
 import { locationService } from '../services/location.service';
 import { isMutationTestResult, isPendingReport, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
+import { VersionService, versionsService } from '../services/version.service';
 
 @customElement('stryker-dashboard-report-page')
 export class ReportPage extends LitElement {
@@ -23,6 +24,9 @@ export class ReportPage extends LitElement {
 
   @state()
   sse: string | undefined;
+
+  @state()
+  versions: { name: string, value: string }[] = [];
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -45,6 +49,10 @@ export class ReportPage extends LitElement {
       }
 
       this.scoreOnlyReport = report;
+    });
+
+    void versionsService.versions(this.#baseSlug).then((versions) => {
+      this.versions = versions.map(version => ({ name: version, value: version }));
     });
   }
 
@@ -76,17 +84,48 @@ export class ReportPage extends LitElement {
 
     return html`
       <sme-loader ?doneWithLoading="${!!this.report}">
-        ${when(
-          this.report,
-          () =>
-            html`<mutation-test-report-app
-              @theme-changed=${this.#handleThemeChange}
-              .titlePostfix="${this.#title}"
-              .report="${this.report}"
-              sse="${ifDefined(this.sse)}"
-            ></mutation-test-report-app>`,
-        )}
+        ${when(this.report, () => { 
+          return html`
+            <sme-tab-panels 
+              .tabs="${["Report", "Compare"]}" 
+              .panels="${[this.#renderReport(), this.#renderCompareView()]}"
+            ></sme-tab-panels>
+          `;
+        })}
       </sme-loader>
+    `;
+  }
+
+  #renderReport() {
+    return html`
+      <mutation-test-report-app
+        @theme-changed=${this.#handleThemeChange}
+        .titlePostfix="${this.#title}"
+        .report="${this.report}"
+        sse="${ifDefined(this.sse)}"
+      ></mutation-test-report-app>`;
+  }
+
+  #renderCompareView() {
+    return html`
+      <sme-split-layout>
+        <div slot="left">
+          <sme-dropdown .options="${this.versions}"></sme-dropdown>
+          <mutation-test-report-app
+            @theme-changed=${this.#handleThemeChange}
+            .report="${this.report}"
+            sse="${ifDefined(this.sse)}"
+          ></mutation-test-report-app>
+        </div>
+        <div slot="right">
+          <sme-dropdown .options="${this.versions}"></sme-dropdown>
+          <mutation-test-report-app
+            @theme-changed=${this.#handleThemeChange}
+            .report="${this.report}"
+            sse="${ifDefined(this.sse)}"
+          ></mutation-test-report-app>
+        </div>
+      </sme-split-layout>
     `;
   }
 
