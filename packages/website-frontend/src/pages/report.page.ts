@@ -1,16 +1,21 @@
-import 'mutation-testing-elements';
-
-import type { MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
-import { isMutationTestResult, isPendingReport } from '@stryker-mutator/dashboard-common';
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
-import type { ThemeChangedEvent } from 'mutation-testing-elements';
-import type { MutationTestResult } from 'mutation-testing-report-schema';
 
-import { locationService } from '../services/location.service';
+import { isMutationTestResult, isPendingReport, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
+import type { ThemeChangedEvent } from 'mutation-testing-elements';
+import 'mutation-testing-elements';
+import { MutationTestResult } from 'mutation-testing-report-schema';
 import { reportService } from '../services/report.service';
+import { locationService } from '../services/location.service';
+import { versionService } from '../services/version.service';
+
+type Reports = { 
+  main: MutationTestResult | undefined, 
+  left: MutationTestResult | undefined, 
+  right: MutationTestResult | undefined 
+};
 
 @customElement('stryker-dashboard-report-page')
 export class ReportPage extends LitElement {
@@ -18,13 +23,26 @@ export class ReportPage extends LitElement {
   didNotFindReport = false;
 
   @state()
+  loaded = { left: true, right: true }
+
+  @state()
+  reports: Reports = {
+    main: undefined,
+    left: undefined,
+    right: undefined
+  };
+
+  @state()
   scoreOnlyReport: MutationScoreOnlyResult | undefined;
 
   @state()
-  report: MutationTestResult | undefined;
+  selection = { left: '', right: '' };
 
   @state()
   sse: string | undefined;
+
+  @state()
+  versions: { name: string, value: string }[] = [];
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -42,11 +60,18 @@ export class ReportPage extends LitElement {
           this.sse = `/api/real-time/${this.#sseSlug}`;
         }
 
-        this.report = report;
+        this.reports.main = report;
+        // For comparing, initialize the left side with the main report
+        this.reports = { ...this.reports, left: report };
+        this.selection.left = this.#version;
         return;
       }
 
       this.scoreOnlyReport = report;
+    });
+
+    void versionService.versions(this.#baseSlug).then((versions) => {
+      this.versions = versions.map(version => ({ name: version, value: version }));
     });
   }
 
@@ -77,19 +102,89 @@ export class ReportPage extends LitElement {
     }
 
     return html`
-      <sme-loader useSpinner .loading="${!this.report}">
-        ${when(
-          this.report,
-          () =>
-            html`<mutation-test-report-app
-              @theme-changed=${this.#handleThemeChange}
-              .titlePostfix="${this.#title}"
-              .report="${this.report}"
-              sse="${ifDefined(this.sse)}"
-            ></mutation-test-report-app>`,
-        )}
+      <sme-loader useSpinner .loading="${!this.reports.main}">
+        ${when(this.reports.main, () => { 
+          return html`
+            <sme-tab-panels 
+              .tabs="${["Report", "Compare"]}" 
+              .panels="${[this.#renderReport(), this.#renderCompareView()]}"
+            ></sme-tab-panels>
+          `;
+        })}
       </sme-loader>
     `;
+  }
+
+  #renderReport() {
+    return html`
+      <mutation-test-report-app
+        @theme-changed=${this.#handleThemeChange}
+        .titlePostfix="${this.#title}"
+        .report="${this.reports.main}"
+        sse="${ifDefined(this.sse)}"
+      ></mutation-test-report-app>`;
+  }
+
+  #renderCompareView() {
+    return html`
+      <sme-split-layout withBackground>
+        <div slot="left">
+          <sme-dropdown 
+            @dropdownChanged="${(e: CustomEvent) => this.#handleLeftVersionChange(e)}" 
+            .options="${this.versions}"
+            .selectedOption="${this.selection.left}"
+          ></sme-dropdown>
+          <sme-loader useSpinner .loading="${this.loaded.left}">
+            <mutation-test-report-app
+              .report="${this.reports.left}"
+              sse="${ifDefined(this.sse)}"
+            ></mutation-test-report-app>
+          </sme-loader>
+        </div>
+        <div slot="right">
+          <sme-dropdown 
+            @dropdownChanged="${(e: CustomEvent) => this.#handleRightVersionChange(e)}" 
+            .options="${this.versions}"
+            .selectedOption="${this.selection.right}"
+            ?withDisabledEmtpyOption="${this.selection.right !== undefined}"
+          ></sme-dropdown>
+          <sme-loader ?doneWithLoading="${this.loaded.right}">
+            <mutation-test-report-app
+              .report="${this.reports.right}"
+              sse="${ifDefined(this.sse)}"
+            ></mutation-test-report-app>
+          </sme-loader>
+        </div>
+      </sme-split-layout>
+    `;
+  }
+
+  async #handleLeftVersionChange(event: CustomEvent<{ value: string }>) {
+    this.selection = { ...this.selection, left: event.detail.value };
+    await this.#handleVersionChange(event, 'left');
+  }
+
+  async #handleRightVersionChange(event: CustomEvent<{ value: string }>) {
+    this.selection = { ...this.selection, right: event.detail.value };
+    await this.#handleVersionChange(event, 'right');
+  }
+
+  async #handleVersionChange(event: CustomEvent<{ value: string }>, direction: 'left' | 'right') {
+    this.loaded = { ...this.loaded, [direction]: false };
+
+    const report = await reportService.getReport(this.#configureSlugWithVersion(event.detail.value))
+    if (report == undefined) {
+      return;
+    }
+
+    if (!isMutationTestResult(report)) {
+      return;
+    }
+
+    setTimeout(() => {
+      this.reports = { ...this.reports, [direction]: report };
+      this.loaded = { ...this.loaded, [direction]: true };  
+    }, 250);
   }
 
   get #baseSlug() {
@@ -121,6 +216,18 @@ export class ReportPage extends LitElement {
     }
 
     return `${slugWithoutProviderAndOrganization}${baseTitle}`;
+  }
+
+  get #version(): string {
+    return this.#slug.split('/').pop() ?? '';
+  }
+
+  get #slugWithoutVersion() {
+    return this.#slug.split('/').slice(0, -1).join('/');
+  }
+
+  #configureSlugWithVersion(version: string) {
+    return `${this.#slugWithoutVersion}/${version}`;
   }
 
   #handleThemeChange(event: ThemeChangedEvent): void {

@@ -6,6 +6,10 @@ export default {
       colors: {
         background: '#242526',
         hero_background: '#22323D',
+        elementsDark: '#18181b',
+      },
+      spacing: {
+        split: 'calc(50% - 9.5px)',
       },
       keyframes: {
         something: {

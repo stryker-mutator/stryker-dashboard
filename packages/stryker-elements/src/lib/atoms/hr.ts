@@ -1,12 +1,25 @@
 import { html } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 import { BaseElement } from '../base-element';
 
 @customElement('sme-hr')
 export class Hr extends BaseElement {
+  @property()
+  direction: 'horizontal' | 'vertical' = 'horizontal';
+
+  @property()
+  color: 'normal' | 'bright' = 'normal';
+
   render() {
-    return html`<hr class="my-2 rounded border-t-[3px] border-neutral-700" />`;
+    const color = classMap({ 'bg-neutral-700': this.color === 'normal', 'bg-neutral-400': this.color === 'bright' });
+
+    if (this.direction === 'vertical') {
+      return html`<hr class="${color} w-[3px] rounded h-full" />`;
+    }
+
+    return html`<hr class="${color} my-2 rounded border-t-[3px]" />`;
   }
 }
 
