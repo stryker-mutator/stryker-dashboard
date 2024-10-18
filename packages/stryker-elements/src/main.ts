@@ -26,6 +26,8 @@ export { GettingStartedStep } from './lib/molecules/getting-started-step';
 export { Modal } from './lib/molecules/modal';
 export { ProfileButton } from './lib/molecules/profile-button';
 export { Repository } from './lib/molecules/repository';
+export { SplitLayout } from './lib/molecules/split-layout';
+export { TabPanels } from './lib/molecules/tab-panels';
 export { ToggleRepository } from './lib/molecules/toggle-repository';
 export { SupportedFrameworkList } from './lib/molecules/supported-framework-list';
 
