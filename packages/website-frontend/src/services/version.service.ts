@@ -9,4 +9,4 @@ export class VersionService {
   }
 }
 
-export const versionsService = new VersionService();
+export const versionService = new VersionService();

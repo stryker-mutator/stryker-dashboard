@@ -50,7 +50,6 @@ export class TabPanels extends BaseElement {
   #handleTabChange(e: Event) {
     const target = e.target as HTMLElement;
     const index = this.tabs.indexOf(target.innerText);
-    console.log(index);
     this.activeTab = index;
   }
 }

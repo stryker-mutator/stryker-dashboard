@@ -3,13 +3,19 @@ import { customElement, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 
+import { isMutationTestResult, isPendingReport, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
 import { MutationTestResult } from 'mutation-testing-report-schema';
 import 'mutation-testing-elements';
 
 import { reportService } from '../services/report.service';
 import { locationService } from '../services/location.service';
-import { isMutationTestResult, isPendingReport, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
-import { VersionService, versionsService } from '../services/version.service';
+import { versionService } from '../services/version.service';
+
+type Reports = { 
+  main: MutationTestResult | undefined, 
+  left: MutationTestResult | undefined, 
+  right: MutationTestResult | undefined 
+};
 
 @customElement('stryker-dashboard-report-page')
 export class ReportPage extends LitElement {
@@ -17,10 +23,20 @@ export class ReportPage extends LitElement {
   didNotFindReport = false;
 
   @state()
+  loaded = { left: true, right: true }
+
+  @state()
+  reports: Reports = {
+    main: undefined,
+    left: undefined,
+    right: undefined
+  };
+
+  @state()
   scoreOnlyReport: MutationScoreOnlyResult | undefined;
 
   @state()
-  report: MutationTestResult | undefined;
+  selection = { left: '', right: '' };
 
   @state()
   sse: string | undefined;
@@ -44,14 +60,17 @@ export class ReportPage extends LitElement {
           this.sse = `/api/real-time/${this.#sseSlug}`;
         }
 
-        this.report = report;
+        this.reports.main = report;
+        // For comparing, initialize the left side with the main report
+        this.reports = { ...this.reports, left: report };
+        this.selection.left = this.#version;
         return;
       }
 
       this.scoreOnlyReport = report;
     });
 
-    void versionsService.versions(this.#baseSlug).then((versions) => {
+    void versionService.versions(this.#baseSlug).then((versions) => {
       this.versions = versions.map(version => ({ name: version, value: version }));
     });
   }
@@ -83,8 +102,8 @@ export class ReportPage extends LitElement {
     }
 
     return html`
-      <sme-loader ?doneWithLoading="${!!this.report}">
-        ${when(this.report, () => { 
+      <sme-loader ?doneWithLoading="${!!this.reports.main}">
+        ${when(this.reports.main, () => { 
           return html`
             <sme-tab-panels 
               .tabs="${["Report", "Compare"]}" 
@@ -101,32 +120,71 @@ export class ReportPage extends LitElement {
       <mutation-test-report-app
         @theme-changed=${this.#handleThemeChange}
         .titlePostfix="${this.#title}"
-        .report="${this.report}"
+        .report="${this.reports.main}"
         sse="${ifDefined(this.sse)}"
       ></mutation-test-report-app>`;
   }
 
   #renderCompareView() {
     return html`
-      <sme-split-layout>
+      <sme-split-layout withBackground>
         <div slot="left">
-          <sme-dropdown .options="${this.versions}"></sme-dropdown>
-          <mutation-test-report-app
-            @theme-changed=${this.#handleThemeChange}
-            .report="${this.report}"
-            sse="${ifDefined(this.sse)}"
-          ></mutation-test-report-app>
+          <sme-dropdown 
+            @dropdownChanged="${(e: CustomEvent) => this.#handleLeftVersionChange(e)}" 
+            .options="${this.versions}"
+            .selectedOption="${this.selection.left}"
+          ></sme-dropdown>
+          <sme-loader ?doneWithLoading="${this.loaded.left}">
+            <mutation-test-report-app
+              .report="${this.reports.left}"
+              sse="${ifDefined(this.sse)}"
+            ></mutation-test-report-app>
+          </sme-loader>
         </div>
         <div slot="right">
-          <sme-dropdown .options="${this.versions}"></sme-dropdown>
-          <mutation-test-report-app
-            @theme-changed=${this.#handleThemeChange}
-            .report="${this.report}"
-            sse="${ifDefined(this.sse)}"
-          ></mutation-test-report-app>
+          <sme-dropdown 
+            @dropdownChanged="${(e: CustomEvent) => this.#handleRightVersionChange(e)}" 
+            .options="${this.versions}"
+            .selectedOption="${this.selection.right}"
+            ?withDisabledEmtpyOption="${this.selection.right !== undefined}"
+          ></sme-dropdown>
+          <sme-loader ?doneWithLoading="${this.loaded.right}">
+            <mutation-test-report-app
+              .report="${this.reports.right}"
+              sse="${ifDefined(this.sse)}"
+            ></mutation-test-report-app>
+          </sme-loader>
         </div>
       </sme-split-layout>
     `;
+  }
+
+  async #handleLeftVersionChange(event: CustomEvent<{ value: string }>) {
+    this.selection = { ...this.selection, left: event.detail.value };
+    await this.#handleVersionChange(event, 'left');
+  }
+
+  async #handleRightVersionChange(event: CustomEvent<{ value: string }>) {
+    this.selection = { ...this.selection, right: event.detail.value };
+    await this.#handleVersionChange(event, 'right');
+  }
+
+  async #handleVersionChange(event: CustomEvent<{ value: string }>, direction: 'left' | 'right') {
+    this.loaded = { ...this.loaded, [direction]: false };
+
+    const report = await reportService.getReport(this.#configureSlugWithVersion(event.detail.value))
+    if (report == undefined) {
+      return;
+    }
+
+    if (!isMutationTestResult(report)) {
+      return;
+    }
+
+    setTimeout(() => {
+      this.reports = { ...this.reports, [direction]: report };
+      this.loaded = { ...this.loaded, [direction]: true };  
+    }, 250);
   }
 
   get #baseSlug() {
@@ -158,6 +216,18 @@ export class ReportPage extends LitElement {
     }
 
     return `${slugWithoutProviderAndOrganization}${baseTitle}`;
+  }
+
+  get #version(): string {
+    return this.#slug.split('/').pop() ?? '';
+  }
+
+  get #slugWithoutVersion() {
+    return this.#slug.split('/').slice(0, -1).join('/');
+  }
+
+  #configureSlugWithVersion(version: string) {
+    return `${this.#slugWithoutVersion}/${version}`;
   }
 
   #handleThemeChange(event: CustomEvent<{ themeBackgroundColor: string }>): void {
