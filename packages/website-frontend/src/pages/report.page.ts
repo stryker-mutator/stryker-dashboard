@@ -1,14 +1,14 @@
-import { LitElement, html } from 'lit';
+import { isMutationTestResult, isPendingReport, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
+import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
-
+import type { ThemeChangedEvent } from 'mutation-testing-elements';
 import { MutationTestResult } from 'mutation-testing-report-schema';
-import 'mutation-testing-elements';
-
-import { reportService } from '../services/report.service';
 import { locationService } from '../services/location.service';
-import { isMutationTestResult, isPendingReport, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
+import { reportService } from '../services/report.service';
+
+import 'mutation-testing-elements';
 
 @customElement('stryker-dashboard-report-page')
 export class ReportPage extends LitElement {
@@ -121,7 +121,7 @@ export class ReportPage extends LitElement {
     return `${slugWithoutProviderAndOrganization}${baseTitle}`;
   }
 
-  #handleThemeChange(event: CustomEvent<{ themeBackgroundColor: string }>): void {
+  #handleThemeChange(event: ThemeChangedEvent): void {
     this.style.backgroundColor = event.detail.themeBackgroundColor;
   }
 }
