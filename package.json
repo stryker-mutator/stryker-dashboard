@@ -23,7 +23,7 @@
     "@types/sinon": "17.0.3",
     "azurite": "3.32.0",
     "c8": "10.1.2",
-    "chai": "5.1.1",
+    "chai": "5.1.2",
     "chai-as-promised": "8.0.0",
     "concurrently": "9.0.1",
     "lerna": "8.1.8",
