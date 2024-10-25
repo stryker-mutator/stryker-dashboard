@@ -27,9 +27,7 @@ describe(HomePage.name, () => {
     expect(sut.element.querySelector('sme-hero')).toBeInTheDocument();
     expect(sut.element.querySelector('sme-stryker-dashboard-explanation')).toBeInTheDocument();
 
-    const gettingStarted = sut.element
-      .querySelector('sme-spatious-layout')
-      ?.querySelector('sme-getting-started-overview');
+    const gettingStarted = sut.element.querySelector('sme-getting-started-overview');
 
     expect(gettingStarted).toBeInTheDocument();
   });
@@ -51,14 +49,15 @@ describe(HomePage.name, () => {
     await sut.whenStable();
 
     // Act
-    const supportedFrameworks = sut.element.querySelector('sme-supported-framework-list');
+    const supportedFrameworkList = sut.element.querySelector('sme-supported-framework-list');
 
     // Assert
-    expect(supportedFrameworks).toBeInTheDocument();
-    expect(supportedFrameworks?.querySelectorAll('sme-supported-framework')).toHaveLength(4);
-    expect(supportedFrameworks?.querySelectorAll('sme-supported-framework')[0]).toHaveTextContent('StrykerJS');
-    expect(supportedFrameworks?.querySelectorAll('sme-supported-framework')[1]).toHaveTextContent('Stryker.NET');
-    expect(supportedFrameworks?.querySelectorAll('sme-supported-framework')[2]).toHaveTextContent('Stryker4s');
-    expect(supportedFrameworks?.querySelectorAll('sme-supported-framework')[3]).toHaveTextContent;
+    expect(supportedFrameworkList).toBeInTheDocument();
+    const supportedFrameworks = supportedFrameworkList?.shadowRoot?.querySelectorAll('sme-supported-framework')
+    expect(supportedFrameworks).toHaveLength(4);
+    expect(supportedFrameworks?.[0]).toHaveAttribute('name', 'StrykerJS');
+    expect(supportedFrameworks?.[1]).toHaveAttribute('name', 'Stryker.NET');
+    expect(supportedFrameworks?.[2]).toHaveAttribute('name', 'Stryker4s');
+    expect(supportedFrameworks?.[3]).toHaveAttribute('name', 'Infection');
   });
 });
