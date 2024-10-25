@@ -12,17 +12,17 @@ export class HomePage extends LitElement {
       {
         name: 'StrykerJS',
         logo: 'https://stryker-mutator.io/images/stryker.svg',
-        url: 'https://github.com/stryker-mutator/stryker-js',
+        url: 'https://stryker-mutator.io/docs/stryker-js/introduction/',
       },
       {
         name: 'Stryker.NET',
         logo: 'https://stryker-mutator.io/images/stryker.svg',
-        url: 'https://github.com/stryker-mutator/stryker-js',
+        url: 'https://stryker-mutator.io/docs/stryker-net/introduction/',
       },
       {
         name: 'Stryker4s',
         logo: 'https://stryker-mutator.io/images/stryker.svg',
-        url: 'https://github.com/stryker-mutator/stryker-js',
+        url: 'https://stryker-mutator.io/docs/stryker4s/getting-started/',
       },
       {
         name: 'Infection',
