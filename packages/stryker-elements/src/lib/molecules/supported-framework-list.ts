@@ -9,28 +9,7 @@ import '../atoms/supported-framework';
 @customElement('sme-supported-framework-list')
 export class SupportedFrameworkList extends BaseElement {
   @property({ type: Array })
-  supportedFrameworks: SupportedFrameworkProps[] = [
-    {
-      name: 'StrykerJS',
-      logo: 'https://stryker-mutator.io/images/stryker.svg',
-      url: 'https://github.com/stryker-mutator/stryker-js',
-    },
-    {
-      name: 'Stryker.NET',
-      logo: 'https://stryker-mutator.io/images/stryker.svg',
-      url: 'https://github.com/stryker-mutator/stryker-js',
-    },
-    {
-      name: 'Stryker4s',
-      logo: 'https://stryker-mutator.io/images/stryker.svg',
-      url: 'https://github.com/stryker-mutator/stryker-js',
-    },
-    {
-      name: 'Infection',
-      logo: 'https://infection.github.io/images/logo.png',
-      url: 'infection-logo.png',
-    },
-  ];
+  supportedFrameworks: SupportedFrameworkProps[] = [];
 
   @property()
   spacing: 'around' | 'between' = 'around';
