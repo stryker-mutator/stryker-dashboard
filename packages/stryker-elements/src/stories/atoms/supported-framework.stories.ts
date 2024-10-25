@@ -1,4 +1,5 @@
 import { StoryObj } from '@storybook/web-components';
+
 import '../../lib/atoms/supported-framework';
 
 export default {

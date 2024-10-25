@@ -14,9 +14,9 @@ export { Loader } from './lib/atoms/loader';
 export { Notify } from './lib/atoms/notify';
 export { ProgressBar } from './lib/atoms/progress-bar';
 export { SpatiousLayout } from './lib/atoms/spatious-layout';
+export { SupportedFramework } from './lib/atoms/supported-framework';
 export { Text } from './lib/atoms/text';
 export { Title } from './lib/atoms/title';
-export { SupportedFramework } from './lib/atoms/supported-framework';
 
 // Molecules
 

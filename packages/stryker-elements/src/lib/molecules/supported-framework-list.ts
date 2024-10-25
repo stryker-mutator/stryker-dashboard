@@ -1,10 +1,10 @@
-import { customElement, property } from 'lit/decorators.js';
-import { BaseElement } from '../base-element';
-import { SupportedFrameworkProps } from '../atoms/supported-framework';
-import { classMap } from 'lit/directives/class-map.js';
 import { html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 
+import { SupportedFrameworkProps } from '../atoms/supported-framework';
 import '../atoms/supported-framework';
+import { BaseElement } from '../base-element';
 
 @customElement('sme-supported-framework-list')
 export class SupportedFrameworkList extends BaseElement {
