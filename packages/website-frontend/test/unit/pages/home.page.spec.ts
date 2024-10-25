@@ -53,7 +53,7 @@ describe(HomePage.name, () => {
 
     // Assert
     expect(supportedFrameworkList).toBeInTheDocument();
-    const supportedFrameworks = supportedFrameworkList?.shadowRoot?.querySelectorAll('sme-supported-framework')
+    const supportedFrameworks = supportedFrameworkList?.shadowRoot?.querySelectorAll('sme-supported-framework');
     expect(supportedFrameworks).toHaveLength(4);
     expect(supportedFrameworks?.[0]).toHaveAttribute('name', 'StrykerJS');
     expect(supportedFrameworks?.[1]).toHaveAttribute('name', 'Stryker.NET');
