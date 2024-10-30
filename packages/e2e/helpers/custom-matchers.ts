@@ -36,6 +36,7 @@ async function toExist(this: ExpectMatcherState, locator: unknown, options?: { t
   do {
     const elements = await locator.elementHandles();
     if (elements.length > 1) {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       throw new Error(`Found ${elements.length} elements matching ${String(locator)}`);
     }
     pass = (elements.length === 1) != this.isNot;
