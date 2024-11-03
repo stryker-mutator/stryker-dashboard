@@ -58,6 +58,7 @@ async function toExist(this: ExpectMatcherState, locator: unknown, options?: { t
         promise: this.promise,
       });
 
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       return hint + '\n\n' + `Expected locator to${not} exist: ${String(locator)}`;
     },
   };
