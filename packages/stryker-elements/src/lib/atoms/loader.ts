@@ -8,7 +8,7 @@ import { classMap } from 'lit/directives/class-map.js';
 
 @customElement('sme-loader')
 export class Loader extends BaseElement {
-  private _doneWithLoading = false;
+  #doneWithLoading = false;
 
   @property({ type: Boolean, reflect: true })
   get doneWithLoading() {
