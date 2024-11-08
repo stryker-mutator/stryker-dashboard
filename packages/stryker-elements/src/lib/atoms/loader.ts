@@ -12,12 +12,12 @@ export class Loader extends BaseElement {
 
   @property({ type: Boolean, reflect: true })
   get doneWithLoading() {
-    return this._doneWithLoading;
+    return this.#doneWithLoading;
   }
 
   set doneWithLoading(value: boolean) {
-    const oldValue = this._doneWithLoading;
-    this._doneWithLoading = value;
+    const oldValue = this.#doneWithLoading;
+    this.#doneWithLoading = value;
     this.requestUpdate('doneWithLoading', oldValue);
     this.onDoneWithLoadingChanged(value);
   }
