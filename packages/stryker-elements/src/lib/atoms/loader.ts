@@ -6,16 +6,16 @@ import { html } from 'lit';
 
 @customElement('sme-loader')
 export class Loader extends BaseElement {
-  #doneWithLoading = false;
+  private _doneWithLoading = false;
 
   @property({ type: Boolean, reflect: true })
   get doneWithLoading() {
-    return this.#doneWithLoading;
+    return this._doneWithLoading;
   }
 
   set doneWithLoading(value: boolean) {
-    const oldValue = this.#doneWithLoading;
-    this.#doneWithLoading = value;
+    const oldValue = this._doneWithLoading;
+    this._doneWithLoading = value;
     this.requestUpdate('doneWithLoading', oldValue);
     this.onDoneWithLoadingChanged(value);
   }
