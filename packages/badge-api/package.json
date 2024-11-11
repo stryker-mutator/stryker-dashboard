@@ -26,6 +26,6 @@
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
-    "azure-functions-core-tools": "4.0.6543"
+    "azure-functions-core-tools": "4.0.6594"
   }
 }
