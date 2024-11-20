@@ -18,7 +18,7 @@
     "@stryker-mutator/vitest-runner": "8.6.0",
     "@types/chai": "5.0.1",
     "@types/chai-as-promised": "8.0.1",
-    "@types/mocha": "10.0.9",
+    "@types/mocha": "10.0.10",
     "@types/node": "22.9.1",
     "@types/sinon": "17.0.3",
     "azurite": "3.33.0",
