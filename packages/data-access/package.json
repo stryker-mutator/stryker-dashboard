@@ -23,7 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "@azure/data-tables": "13.3.0",
-    "@azure/storage-blob": "12.25.0",
+    "@azure/storage-blob": "12.26.0",
     "@stryker-mutator/dashboard-common": "0.15.1",
     "mutation-testing-metrics": "3.3.0",
     "mutation-testing-report-schema": "3.3.0"
