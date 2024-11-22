@@ -11,7 +11,7 @@ test.describe('Report api', () => {
     client = new ReportClient(request);
   });
 
-  test.afterAll(async () => {
+  test.afterEach(async () => {
     await client.disableRepository('github.com/stryker-mutator-test-organization/hello-org');
   });
 

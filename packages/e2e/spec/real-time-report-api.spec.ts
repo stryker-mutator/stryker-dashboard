@@ -15,9 +15,6 @@ test.describe('Real-time api', () => {
 
   test.afterEach(async () => {
     await client.deletePendingReport(report);
-  });
-
-  test.afterAll(async () => {
     await client.disableRepository('github.com/stryker-mutator-test-organization/hello-org');
   });
 
