@@ -7,15 +7,16 @@ import { isMutationTestResult, isPendingReport, MutationScoreOnlyResult } from '
 import type { ThemeChangedEvent } from 'mutation-testing-elements';
 import 'mutation-testing-elements';
 import { MutationTestResult } from 'mutation-testing-report-schema';
+
 import { reportService } from '../services/report.service';
 import { locationService } from '../services/location.service';
 import { versionService } from '../services/version.service';
 
-type Reports = { 
-  main: MutationTestResult | undefined, 
-  left: MutationTestResult | undefined, 
-  right: MutationTestResult | undefined 
-};
+interface Reports {
+  main: MutationTestResult | undefined;
+  left: MutationTestResult | undefined;
+  right: MutationTestResult | undefined;
+}
 
 @customElement('stryker-dashboard-report-page')
 export class ReportPage extends LitElement {
@@ -23,13 +24,13 @@ export class ReportPage extends LitElement {
   didNotFindReport = false;
 
   @state()
-  loaded = { left: true, right: true }
+  loaded = { left: true, right: true };
 
   @state()
   reports: Reports = {
     main: undefined,
     left: undefined,
-    right: undefined
+    right: undefined,
   };
 
   @state()
@@ -42,7 +43,7 @@ export class ReportPage extends LitElement {
   sse: string | undefined;
 
   @state()
-  versions: { name: string, value: string }[] = [];
+  versions: { name: string; value: string }[] = [];
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -71,7 +72,7 @@ export class ReportPage extends LitElement {
     });
 
     void versionService.versions(this.#baseSlug).then((versions) => {
-      this.versions = versions.map(version => ({ name: version, value: version }));
+      this.versions = versions.map((version) => ({ name: version, value: version }));
     });
   }
 
@@ -105,8 +106,8 @@ export class ReportPage extends LitElement {
       <sme-loader useSpinner .loading="${!this.reports.main}">
         ${when(this.reports.main, () => { 
           return html`
-            <sme-tab-panels 
-              .tabs="${["Report", "Compare"]}" 
+            <sme-tab-panels
+              .tabs="${['Report', 'Compare']}"
               .panels="${[this.#renderReport(), this.#renderCompareView()]}"
             ></sme-tab-panels>
           `;
@@ -116,21 +117,20 @@ export class ReportPage extends LitElement {
   }
 
   #renderReport() {
-    return html`
-      <mutation-test-report-app
-        @theme-changed=${this.#handleThemeChange}
-        .titlePostfix="${this.#title}"
-        .report="${this.reports.main}"
-        sse="${ifDefined(this.sse)}"
-      ></mutation-test-report-app>`;
+    return html` <mutation-test-report-app
+      @theme-changed=${this.#handleThemeChange}
+      .titlePostfix="${this.#title}"
+      .report="${this.reports.main}"
+      sse="${ifDefined(this.sse)}"
+    ></mutation-test-report-app>`;
   }
 
   #renderCompareView() {
     return html`
       <sme-split-layout withBackground>
         <div slot="left">
-          <sme-dropdown 
-            @dropdownChanged="${(e: CustomEvent) => this.#handleLeftVersionChange(e)}" 
+          <sme-dropdown
+            @dropdownChanged="${(e: CustomEvent<{ value: string }>) => this.#handleLeftVersionChange(e)}"
             .options="${this.versions}"
             .selectedOption="${this.selection.left}"
           ></sme-dropdown>
@@ -142,8 +142,8 @@ export class ReportPage extends LitElement {
           </sme-loader>
         </div>
         <div slot="right">
-          <sme-dropdown 
-            @dropdownChanged="${(e: CustomEvent) => this.#handleRightVersionChange(e)}" 
+          <sme-dropdown
+            @dropdownChanged="${(e: CustomEvent<{ value: string }>) => this.#handleRightVersionChange(e)}"
             .options="${this.versions}"
             .selectedOption="${this.selection.right}"
             ?withDisabledEmtpyOption="${this.selection.right !== undefined}"
@@ -172,7 +172,7 @@ export class ReportPage extends LitElement {
   async #handleVersionChange(event: CustomEvent<{ value: string }>, direction: 'left' | 'right') {
     this.loaded = { ...this.loaded, [direction]: false };
 
-    const report = await reportService.getReport(this.#configureSlugWithVersion(event.detail.value))
+    const report = await reportService.getReport(this.#configureSlugWithVersion(event.detail.value));
     if (report == undefined) {
       return;
     }
@@ -183,7 +183,7 @@ export class ReportPage extends LitElement {
 
     setTimeout(() => {
       this.reports = { ...this.reports, [direction]: report };
-      this.loaded = { ...this.loaded, [direction]: true };  
+      this.loaded = { ...this.loaded, [direction]: true };
     }, 250);
   }
 

@@ -1,8 +1,14 @@
+import fs from 'fs/promises';
 import { Controller, Get, Param } from '@nestjs/common';
+
+import {
+  createMutationTestingReportMapper,
+  DashboardQuery,
+  MutationTestingReport,
+  MutationTestingReportMapper,
+} from '@stryker-mutator/dashboard-data-access';
 import { version as frontendVersion } from '@stryker-mutator/dashboard-frontend';
 import { parseSlug } from '../utils/utils.js';
-import { createMutationTestingReportMapper, DashboardQuery, MutationTestingReport, MutationTestingReportMapper, Project, ProjectMapper } from '@stryker-mutator/dashboard-data-access';
-import fs from 'fs/promises';
 
 const dashboardVersion = (
   JSON.parse(await fs.readFile(new URL('../../../package.json', import.meta.url), 'utf-8')) as { version: string }
@@ -26,11 +32,13 @@ export default class VersionController {
       frontend: frontendVersion,
     };
   }
-  
-  @Get("/:slug(*)")
+
+  @Get('/:slug(*)')
   public async getVersionsForReport(@Param('slug') slug: string): Promise<string[]> {
     const { project } = parseSlug(slug);
-    const reports = await this.#reportMapper.findAll(DashboardQuery.create(MutationTestingReport).findPartitionKeyRange(project));
+    const reports = await this.#reportMapper.findAll(
+      DashboardQuery.create(MutationTestingReport).findPartitionKeyRange(project),
+    );
     return reports.map((project) => project.model.version);
   }
 }

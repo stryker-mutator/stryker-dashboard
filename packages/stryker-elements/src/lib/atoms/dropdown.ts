@@ -12,7 +12,7 @@ export class Dropdown extends BaseElement {
   @property({ type: Array })
   options: { name: string; value: string }[] = [];
 
-  @property({ type: String	})
+  @property({ type: String })
   selectedOption = '';
 
   @property({ type: Boolean })
@@ -26,13 +26,16 @@ export class Dropdown extends BaseElement {
         @change="${this.#handleChange}"
       >
         ${when(
-          this.withDisabledEmtpyOption, 
-          () => html`<option value="" disabled selected>Select an option</option>`, 
-          () => nothing
+          this.withDisabledEmtpyOption,
+          () => html`<option value="" disabled selected>Select an option</option>`,
+          () => nothing,
         )}
-        ${map(this.options, (option) => html`
-          <option value="${option.value}" ?selected="${option.value === this.selectedOption}">${option.name}</option>
-        `)}
+        ${map(
+          this.options,
+          (option) => html`
+            <option value="${option.value}" ?selected="${option.value === this.selectedOption}">${option.name}</option>
+          `,
+        )}
       </select>
     `;
   }

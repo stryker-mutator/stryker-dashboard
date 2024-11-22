@@ -11,7 +11,7 @@ export class SplitLayout extends BaseElement {
 
   render() {
     return html`
-      <div class="flex p-4 ${classMap({ 'bg-elementsDark': this.withBackground })}">
+      <div class="${classMap({ 'bg-elementsDark': this.withBackground })} flex p-4">
         <div class="max-w-split">
           <slot name="left"></slot>
         </div>

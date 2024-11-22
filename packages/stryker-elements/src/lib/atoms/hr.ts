@@ -16,7 +16,7 @@ export class Hr extends BaseElement {
     const color = classMap({ 'bg-neutral-700': this.color === 'normal', 'bg-neutral-400': this.color === 'bright' });
 
     if (this.direction === 'vertical') {
-      return html`<hr class="${color} w-[3px] rounded h-full" />`;
+      return html`<hr class="${color} h-full w-[3px] rounded" />`;
     }
 
     return html`<hr class="${color} my-2 rounded border-t-[3px]" />`;

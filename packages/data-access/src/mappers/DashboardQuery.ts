@@ -25,9 +25,7 @@ export class DashboardQuery<TModel, TPartitionKeyFields extends keyof TModel, TR
     return new DashboardQuery(this.ModelClass, [...this.whereConditions, whereCondition]);
   }
 
-  public findPartitionKeyRange(
-    start: string
-  ): DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> {
+  public findPartitionKeyRange(start: string): DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> {
     const whereCondition: string = odata`PartitionKey ge ${start}`;
     return new DashboardQuery(this.ModelClass, [...this.whereConditions, whereCondition]);
   }
