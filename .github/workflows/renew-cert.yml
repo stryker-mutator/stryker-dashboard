@@ -1,0 +1,56 @@
+name: Renew Certificates
+
+on:
+  push:
+    branches:
+      - feat/renew-cert-automatically
+  schedule:
+    - cron: '0 0 1 * *' # Runs at midnight on the first day of every month
+  workflow_dispatch: # Allows manual triggering of the workflow
+
+jobs:
+  renew:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get install -y snapd
+          sudo snap install core
+          sudo snap install --classic certbot
+          sudo ln -s /snap/bin/certbot /usr/bin/certbot
+          sudo snap set certbot trust-plugin-with-root=ok
+          sudo snap install certbot-dns-cloudflare
+
+      - name: 'Login via Azure CLI'
+        uses: Azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS_DASHBOARD_PRODUCTION }}
+
+      - name: Renew certificates
+        run: |
+          PASSWORD=$(openssl rand -base64 16)
+
+          echo "dns_cloudflare_api_token = ${{ secrets.CLOUDFLARE_API_KEY }}" >> cloudflare.ini
+
+          sudo certbot certonly --dns-cloudflare --dns-cloudflare-credentials ./cloudflare.ini -d dashboard.stryker-mutator.io -d badge.stryker-mutator.io -d badge-api.stryker-mutator.io --dns-cloudflare-propagation-seconds 60 -m ${{ secrets.CLOUDFLARE_EMAIL }} --agree-tos
+          sudo openssl pkcs12 -export -out stryker.pfx -inkey /etc/letsencrypt/live/dashboard.stryker-mutator.io/privkey.pem -in /etc/letsencrypt/live/dashboard.stryker-mutator.io/cert.pem -certfile /etc/letsencrypt/live/dashboard.stryker-mutator.io/chain.pem -password pass:$PASSWORD
+          sudo chown $USER:$USER stryker.pfx
+
+          az webapp config ssl upload --certificate-file ./stryker.pfx --certificate-password $PASSWORD --name stryker-badge --resource-group strykermutator-badge-website
+          az webapp config ssl upload --certificate-file ./stryker.pfx --certificate-password $PASSWORD --name stryker-mutator-badge-api --resource-group stryker-dashboard-production
+
+          THUMBPRINT=$(az webapp config ssl list --resource-group stryker-dashboard-production --query 'reverse(sort_by([], &expirationDate))[0].thumbprint' | tr -d '"')
+
+          az webapp config ssl bind --certificate-thumbprint $THUMBPRINT --ssl-type SNI --name stryker-badge --resource-group strykermutator-badge-website
+          az webapp config ssl bind --certificate-thumbprint $THUMBPRINT --ssl-type SNI --name stryker-mutator-badge-api --resource-group stryker-dashboard-production
+
+          rm stryker.pfx
+          rm cloudflare.ini
