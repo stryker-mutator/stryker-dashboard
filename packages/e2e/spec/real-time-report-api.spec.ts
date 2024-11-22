@@ -17,6 +17,10 @@ test.describe('Real-time api', () => {
     await client.deletePendingReport(report);
   });
 
+  test.afterAll(async () => {
+    await client.disableRepository('github.com/stryker-mutator-test-organization/hello-org');
+  });
+
   test.describe('HTTP PUT', () => {
     test('should accept pending reports', async ({ baseURL }) => {
       const response = await uploadPendingReport(report);
