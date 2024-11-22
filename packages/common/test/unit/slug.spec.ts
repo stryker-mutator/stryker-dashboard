@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Slug, InvalidSlugError } from '../../src/slug.js';
+import { Slug, InvalidSlugError, buildReportUrl } from '../../src/slug.js';
 
 describe(Slug.name, () => {
   describe('parse', () => {
@@ -33,6 +33,16 @@ describe(Slug.name, () => {
       expect(() => Slug.parse(undefined))
         .throws(InvalidSlugError)
         .property('message', 'Missing slug');
+    });
+  });
+
+  describe('buildReportUrl', () => {
+    it('should build a correct url', () => {
+      global.window = { location: { origin: 'http://localhost' } } as Window & typeof globalThis;
+
+      expect(buildReportUrl('github.com/stryker-mutator/stryker/master')).eq(
+        `${window.location.origin}/reports/github.com/stryker-mutator/stryker/master`,
+      );
     });
   });
 });

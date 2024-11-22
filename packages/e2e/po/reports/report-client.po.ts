@@ -33,6 +33,18 @@ export class ReportClient {
     }
   }
 
+  async disableRepository(slug: string): Promise<void> {
+    const patchBody: Partial<Repository> = { enabled: true };
+    const authToken = generateAuthToken();
+    await this.request.patch(`/api/repositories/${slug}`, {
+      failOnStatusCode: true,
+      data: patchBody,
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+  }
+
   async getUserRepositories(): Promise<Repository[]> {
     const auth = generateAuthToken();
     const response = await this.request.get('api/user/repositories', {

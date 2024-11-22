@@ -188,7 +188,7 @@ describe(RepositoriesPage.name, () => {
       const enabledRepository = loader.querySelector(
         'sme-list#enabled-repositories > sme-toggle-repository:not([hidden])',
       );
-      const button = enabledRepository?.shadowRoot?.querySelector('sme-button');
+      const button = enabledRepository?.shadowRoot?.querySelectorAll('button')[1];
       button?.click();
 
       await sut.whenStable();
@@ -211,7 +211,7 @@ describe(RepositoriesPage.name, () => {
       const disabledRepository = loader.querySelector(
         'sme-list#disabled-repositories > sme-toggle-repository:not([hidden])',
       );
-      const button = disabledRepository?.shadowRoot?.querySelector('sme-button');
+      const button = disabledRepository?.shadowRoot?.querySelector('button');
       button?.click();
 
       // Assert
@@ -229,7 +229,7 @@ describe(RepositoriesPage.name, () => {
       expect(noEnabledRepositoriesNotification).toHaveTextContent("You don't have any repositories to enable.");
     });
 
-    it('should open the modal when an enabled repository is clicked', async () => {
+    it('should open the modal when an configure repository button is clicked', async () => {
       // Act
       sut.connect();
       await sut.whenStable();
@@ -239,7 +239,8 @@ describe(RepositoriesPage.name, () => {
       const disabledRepository = loader.querySelector(
         'sme-list#enabled-repositories > sme-toggle-repository:not([hidden])',
       )!;
-      disabledRepository.dispatchEvent(new Event('repositoryClicked'));
+      const configureButton = disabledRepository.shadowRoot!.querySelector('button') as HTMLElement;
+      configureButton.click();
 
       // Assert
       await sut.waitFor(() => sut.element.shadowRoot?.querySelector('sme-modal') !== null);
