@@ -12,10 +12,6 @@ test.describe('Report page', () => {
     client = new ReportClient(request);
   });
 
-  test.afterEach(async () => {
-    await client.disableRepository('github.com/stryker-mutator-test-organization/hello-org');
-  });
-
   test.describe('when report does not exist', () => {
     test.beforeEach(async () => {
       await page.navigate('a/b/c', 'd');

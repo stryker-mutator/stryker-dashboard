@@ -23,6 +23,7 @@ export default defineConfig({
     {
       name: 'local',
       use: {
+        headless: false,
         baseURL: 'http://localhost:4200',
         trace: 'retain-on-failure',
       },

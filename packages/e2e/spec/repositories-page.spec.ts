@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 import { RepositoriesPage } from '../po/repositories/repositories-page.po.js';
+import { ReportClient } from '../po/reports/report-client.po.js';
 
 // Example: 0527de29-6436-4564-9c5f-34f417ec68c0
 const API_KEY_REGEX = /^[0-9a-z]{8}-(?:[0-9a-z]{4}-){3}[0-9a-z]{12}$/;
@@ -7,6 +8,7 @@ const API_KEY_REGEX = /^[0-9a-z]{8}-(?:[0-9a-z]{4}-){3}[0-9a-z]{12}$/;
 test.describe.serial('Repositories page', () => {
   let repositoriesPage: RepositoriesPage;
   let page: Page;
+  let client: ReportClient;
 
   const copyText: () => Promise<string> = async () => await page.evaluate('navigator.clipboard.readText()');
 
@@ -22,10 +24,13 @@ test.describe.serial('Repositories page', () => {
     await toggleRepository.locator('button[title="Disable repository"]').click();
   };
 
-  test.beforeAll(async ({ browser }) => {
+  test.beforeAll(async ({ browser, request }) => {
     const context = await browser.newContext();
     await context.grantPermissions(['clipboard-read', 'clipboard-write']);
     repositoriesPage = new RepositoriesPage(await context.newPage());
+    client = new ReportClient(request);
+
+    await client.disableRepository('github.com/stryker-mutator-test-organization/hello-org');
     page = repositoriesPage.page;
     await repositoriesPage.logOn();
     await repositoriesPage.navigate();
@@ -85,7 +90,7 @@ test.describe.serial('Repositories page', () => {
     test.beforeAll(async () => {
       await enableRepository();
       await page.locator('sme-modal div.mt-auto sme-button > button').click();
-      await repositoriesPage.enabledRepositories.first().click();
+      await repositoriesPage.enabledRepositories.first().locator('button').first().click();
       await page.locator('sme-modal sme-collapsible#badge-collapsible').click();
     });
 

@@ -13,10 +13,6 @@ test.describe('badge-api', () => {
     await reportClient.uploadReport(simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'master'));
   });
 
-  test.afterEach(async () => {
-    await reportClient.disableRepository('github.com/stryker-mutator-test-organization/hello-org');
-  });
-
   test('should show "unknown" if the badge doesn\'t exist', async () => {
     const expected: Shield = {
       color: Color.Grey,

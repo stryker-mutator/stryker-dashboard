@@ -104,7 +104,6 @@ export class ToggleRepository extends BaseElement {
   }
 
   #openRepositorySettings() {
-    console.log('foo');
     this.dispatchEvent(new CustomEvent('openRepositorySettings', { detail: { name: this.name } }));
   }
 

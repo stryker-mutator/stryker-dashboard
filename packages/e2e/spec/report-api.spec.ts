@@ -11,10 +11,6 @@ test.describe('Report api', () => {
     client = new ReportClient(request);
   });
 
-  test.afterEach(async () => {
-    await client.disableRepository('github.com/stryker-mutator-test-organization/hello-org');
-  });
-
   test.describe('HTTP put', () => {
     test('should respond with the correct href', async ({ baseURL }) => {
       const response = await client.uploadReport(
