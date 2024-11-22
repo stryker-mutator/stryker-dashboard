@@ -11,6 +11,9 @@ export default {
 export const Default: StoryObj = {
   name: 'Default',
   render: () => {
-    return html`<sme-tab-panels .tabs="${["Report", "Compare"]}" .panels="${[html`<div>report</div>`, html`<div>compare</div>`]}"></sme-tab-panels>`;
+    return html`<sme-tab-panels
+      .tabs="${['Report', 'Compare']}"
+      .panels="${[html`<div>report</div>`, html`<div>compare</div>`]}"
+    ></sme-tab-panels>`;
   },
 };

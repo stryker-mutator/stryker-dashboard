@@ -7,7 +7,7 @@ export default {
   title: 'Atoms/Hr',
 } as Meta;
 
-export const Default: StoryObj = {  
+export const Default: StoryObj = {
   name: 'Default',
   render: () => html`<sme-hr></sme-hr>`,
 };
