@@ -1,9 +1,6 @@
 name: Renew Certificates
 
 on:
-  push:
-    branches:
-      - feat/renew-cert-automatically
   schedule:
     - cron: '0 0 1 * *' # Runs at midnight on the first day of every month
   workflow_dispatch: # Allows manual triggering of the workflow
