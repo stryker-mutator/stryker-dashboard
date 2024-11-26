@@ -1,8 +1,9 @@
 import type { APIRequestContext } from '@playwright/test';
 import type { Report } from '@stryker-mutator/dashboard-common';
 import type { EnableRepositoryResponse, PutReportResponse, Repository } from '@stryker-mutator/dashboard-contract';
-import { generateAuthToken } from '../../actions/auth.action.js';
 import type { MutantResult } from 'mutation-testing-report-schema';
+
+import { generateAuthToken } from '../../actions/auth.action.js';
 
 export class ReportClient {
   private projectApiKeys = new Map<string, Promise<string>>();

@@ -1,4 +1,4 @@
-import { MutantStatus, MutationTestResult } from 'mutation-testing-report-schema';
+import type { MutantStatus, MutationTestResult } from 'mutation-testing-report-schema';
 
 export function createMutationTestResult(
   mutantStates: MutantStatus[] = ['Killed', 'Killed', 'Survived'],

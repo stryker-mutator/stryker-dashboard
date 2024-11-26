@@ -21,10 +21,12 @@ export class Modal extends BaseElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    document.addEventListener(MODAL_OPEN_EVENT, () => {
-      this.isOpen = !this.isOpen;
-      setTimeout(() => (this.isAnimating = true), 100);
-    });
+    document.addEventListener(MODAL_OPEN_EVENT, this.#handleModalOpen);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    // document.removeEventListener(MODAL_OPEN_EVENT, this.#handleModalOpen);
   }
 
   render() {
@@ -53,6 +55,11 @@ export class Modal extends BaseElement {
       </div>
     `;
   }
+
+  #handleModalOpen = () => {
+    this.isOpen = !this.isOpen;
+    setTimeout(() => (this.isAnimating = true), 100);
+  };
 
   #handleClose() {
     this.isAnimating = false;

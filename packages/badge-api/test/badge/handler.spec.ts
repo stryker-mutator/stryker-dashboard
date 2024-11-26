@@ -1,11 +1,14 @@
-import { handler } from '../../badge/handler.js';
-import { ShieldMapper } from '../../badge/ShieldMapper.js';
-import sinon, { SinonStubbedInstance } from 'sinon';
-import fs from 'fs';
-import { HttpHandler, HttpRequest, InvocationContext } from '@azure/functions';
-import { Color, Shield } from '../../badge/Shield.js';
-import { expect } from 'chai';
+import type { HttpHandler, HttpRequest, InvocationContext } from '@azure/functions';
 import { InvalidSlugError } from '@stryker-mutator/dashboard-common';
+import { expect } from 'chai';
+import fs from 'fs';
+import type { SinonStubbedInstance } from 'sinon';
+import sinon from 'sinon';
+
+import { handler } from '../../badge/handler.js';
+import type { Shield } from '../../badge/Shield.js';
+import { Color } from '../../badge/Shield.js';
+import { ShieldMapper } from '../../badge/ShieldMapper.js';
 
 const headers = {
   ['X-Badge-Api-Version']: (

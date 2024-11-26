@@ -1,5 +1,6 @@
-import util from '../utils/utils.js';
 import { Injectable } from '@nestjs/common';
+
+import util from '../utils/utils.js';
 
 @Injectable()
 export default class Configuration {

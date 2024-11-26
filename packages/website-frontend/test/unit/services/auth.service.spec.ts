@@ -1,6 +1,6 @@
-import createFetchMock, { FetchMock } from 'vitest-fetch-mock';
-
-import { AuthenticateResponse } from '@stryker-mutator/dashboard-contract';
+import type { AuthenticateResponse } from '@stryker-mutator/dashboard-contract';
+import type { FetchMock } from 'vitest-fetch-mock';
+import createFetchMock from 'vitest-fetch-mock';
 
 import { AuthService } from '../../../src/services/auth.service';
 import { SessionStorageService } from '../../../src/services/session-storage.service';

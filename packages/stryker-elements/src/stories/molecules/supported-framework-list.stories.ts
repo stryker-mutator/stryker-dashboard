@@ -1,6 +1,6 @@
-import { StoryObj } from '@storybook/web-components';
-
 import '../../lib/molecules/supported-framework-list';
+
+import type { StoryObj } from '@storybook/web-components';
 
 export default {
   title: 'Molecules/Supported Framework List',

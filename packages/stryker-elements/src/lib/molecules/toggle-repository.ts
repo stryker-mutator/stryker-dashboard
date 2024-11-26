@@ -1,13 +1,12 @@
+import { buildReportUrl } from '@stryker-mutator/dashboard-common';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { when } from 'lit/directives/when.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { when } from 'lit/directives/when.js';
 
-import { buildReportUrl } from '@stryker-mutator/dashboard-common';
-
-import { BaseElement } from '../base-element.js';
 import { Button } from '../atoms/buttons/button.js';
+import { BaseElement } from '../base-element.js';
 import { MinusIcon, PlusIcon, SettingsIcon } from '../icons/svg-icons.js';
 
 @customElement('sme-toggle-repository')

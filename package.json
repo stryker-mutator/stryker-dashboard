@@ -26,6 +26,11 @@
     "chai": "5.1.2",
     "chai-as-promised": "8.0.1",
     "concurrently": "9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import-x": "^4.4.3",
+    "eslint-plugin-lit": "^1.15.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-wc": "^2.2.0",
     "lerna": "8.1.9",
     "mocha": "10.8.2",
     "prettier": "3.3.3",
@@ -53,5 +58,6 @@
     "start:azurite": "rimraf .azurite && mkdir -p .azurite && azurite -l .azurite",
     "test": "nx run-many -t test --exclude e2e"
   },
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "packageManager": "npm@10.9.1"
 }

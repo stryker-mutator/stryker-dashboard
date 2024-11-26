@@ -1,4 +1,4 @@
-import { locationService, LocationService } from '../../../src/services/location.service';
+import { LocationService, locationService } from '../../../src/services/location.service';
 
 describe(LocationService.name, () => {
   it('should return an instance of Location', () => {

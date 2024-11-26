@@ -1,6 +1,7 @@
-import { expect } from 'chai';
-import { createBlobServiceClient } from '../../../src/services/BlobServiceClient.js';
 import { BlobServiceClient } from '@azure/storage-blob';
+import { expect } from 'chai';
+
+import { createBlobServiceClient } from '../../../src/services/BlobServiceClient.js';
 
 describe(createBlobServiceClient.name, () => {
   let originalEnv: string | undefined;

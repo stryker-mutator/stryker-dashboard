@@ -1,8 +1,11 @@
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { TableClient, TableEntity, TableEntityResult } from '@azure/data-tables';
+import type { TableEntity, TableEntityResult } from '@azure/data-tables';
+import { TableClient } from '@azure/data-tables';
 import { expect } from 'chai';
-import * as sinon from 'sinon';
-import { DashboardQuery, OptimisticConcurrencyError, Result } from '../../../src/index.js';
+import sinon from 'sinon';
+
+import type { Result } from '../../../src/index.js';
+import { DashboardQuery, OptimisticConcurrencyError } from '../../../src/index.js';
 import TModel from '../../../src/mappers/TableStorageMapper.js';
 import { StorageError } from '../../helpers/StorageError.js';
 

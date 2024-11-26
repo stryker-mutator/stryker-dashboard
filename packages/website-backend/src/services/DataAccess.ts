@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import {
-  ProjectMapper,
   createProjectMapper,
   MutationTestingReportService,
+  ProjectMapper,
   RealTimeMutantsBlobService,
 } from '@stryker-mutator/dashboard-data-access';
 

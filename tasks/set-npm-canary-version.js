@@ -5,9 +5,9 @@
  * Instead of Lerna's algorithm, it validates that the next version does not yet exist.
  * Unfortunately Lerna itself doesn't support this
  */
-import core from '@actions/core';
-import semver from 'semver';
+import * as core from '@actions/core';
 import fs from 'fs';
+import semver from 'semver';
 
 const { version: currentVersion } = JSON.parse(fs.readFileSync(new URL('../lerna.json', import.meta.url), 'utf-8'));
 

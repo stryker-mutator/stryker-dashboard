@@ -1,5 +1,6 @@
-import { MutationTestingReport } from '../../../src/index.js';
 import { expect } from 'chai';
+
+import { MutationTestingReport } from '../../../src/index.js';
 
 describe(MutationTestingReport.name, () => {
   it('should retrieve the `moduleName` when `createRowKey` is called', () => {

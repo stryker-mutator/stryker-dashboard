@@ -1,6 +1,8 @@
-import HttpClient, { Response } from '../../../src/client/HttpClient.js';
 import { expect } from 'chai';
 import sinon from 'sinon';
+
+import type { Response } from '../../../src/client/HttpClient.js';
+import HttpClient from '../../../src/client/HttpClient.js';
 
 describe('HttpClient', () => {
   let sut: HttpClient;

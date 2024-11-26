@@ -1,10 +1,11 @@
-import { encodeKey, decodeKey, hasErrorCode } from '../utils.js';
-import { Mapper, Result } from './Mapper.js';
+import type { TableClient, TableEntity, TableEntityResult } from '@azure/data-tables';
+
 import { OptimisticConcurrencyError } from '../errors/index.js';
-import { ModelClass } from './ModelClass.js';
-import { DashboardQuery } from './DashboardQuery.js';
-import { TableClient, TableEntity, TableEntityResult } from '@azure/data-tables';
 import { createTableClient } from '../services/TableClient.js';
+import { decodeKey, encodeKey, hasErrorCode } from '../utils.js';
+import { DashboardQuery } from './DashboardQuery.js';
+import type { Mapper, Result } from './Mapper.js';
+import type { ModelClass } from './ModelClass.js';
 
 const errCodes = Object.freeze({
   UPDATE_CONDITION_NOT_SATISFIED: 'UpdateConditionNotSatisfied',

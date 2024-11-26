@@ -1,7 +1,8 @@
-import { MutationEventSender } from './MutationEventSender.js';
-import { MutantResult } from 'mutation-testing-report-schema';
-import Configuration from '../Configuration.js';
 import type { Response } from 'express';
+import type { MutantResult } from 'mutation-testing-report-schema';
+
+import type Configuration from '../Configuration.js';
+import { MutationEventSender } from './MutationEventSender.js';
 
 export class MutationEventResponseHandler {
   #config: Configuration;

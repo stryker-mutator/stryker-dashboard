@@ -1,5 +1,6 @@
-import { DashboardQuery } from '../../../src/index.js';
 import { expect } from 'chai';
+
+import { DashboardQuery } from '../../../src/index.js';
 import { FooModel } from './TableStorageMapper.spec.js';
 
 describe(DashboardQuery.name, () => {

@@ -1,5 +1,5 @@
-import { InvalidSlugError, Slug } from '@stryker-mutator/dashboard-common';
 import { NotFoundException } from '@nestjs/common';
+import { InvalidSlugError, Slug } from '@stryker-mutator/dashboard-common';
 import { createHash, randomUUID } from 'crypto';
 
 export function parseSlug(slug: string) {

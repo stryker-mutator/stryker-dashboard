@@ -1,5 +1,6 @@
-import { Project } from '../../../src/index.js';
 import { expect } from 'chai';
+
+import { Project } from '../../../src/index.js';
 
 describe(Project.name, () => {
   it('should retrieve the `name` when `createRowKey` is called', () => {

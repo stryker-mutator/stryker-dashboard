@@ -1,6 +1,7 @@
-import { expect } from 'chai';
-import { createTableClient } from '../../../src/services/TableClient.js';
 import { TableClient } from '@azure/data-tables';
+import { expect } from 'chai';
+
+import { createTableClient } from '../../../src/services/TableClient.js';
 
 describe(createTableClient.name, () => {
   let originalEnv: string | undefined;

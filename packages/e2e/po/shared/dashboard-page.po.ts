@@ -1,4 +1,5 @@
 import type { Page } from '@playwright/test';
+
 import { generateAuthToken } from '../../actions/auth.action.js';
 
 export abstract class DashboardPage {

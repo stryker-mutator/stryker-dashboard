@@ -1,6 +1,12 @@
+import type {
+  FileResult,
+  FileResultDictionary,
+  MutantStatus,
+  MutationTestResult,
+} from 'mutation-testing-report-schema/api';
 import sinon from 'sinon';
-import { Mapper } from '../../src/index.js';
-import { MutantStatus, FileResultDictionary, MutationTestResult, FileResult } from 'mutation-testing-report-schema/api';
+
+import type { Mapper } from '../../src/index.js';
 
 export function createTableMapperMock<A, B extends keyof A, C extends keyof A>(): sinon.SinonStubbedInstance<
   Mapper<A, B, C>

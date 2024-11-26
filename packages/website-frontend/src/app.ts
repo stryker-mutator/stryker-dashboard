@@ -1,19 +1,19 @@
-import { Router } from '@vaadin/router';
-import { Login } from '@stryker-mutator/dashboard-contract';
-import { LitElement, html } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
-import { when } from 'lit/directives/when.js';
-
-import { authService, AuthService } from './services/auth.service';
-import { locationService } from './services/location.service';
-
 import './pages/auth.page';
 import './pages/home.page';
 import './pages/report.page';
 import './pages/repositories.page';
-
 /* Import preflight styles */
 import '@stryker-mutator/stryker-elements';
+
+import type { Login } from '@stryker-mutator/dashboard-contract';
+import { Router } from '@vaadin/router';
+import { html, LitElement } from 'lit';
+import { customElement, state } from 'lit/decorators.js';
+import { when } from 'lit/directives/when.js';
+
+import type { AuthService } from './services/auth.service';
+import { authService } from './services/auth.service';
+import { locationService } from './services/location.service';
 
 @customElement('stryker-dashboard')
 export class StrykerDashboard extends LitElement {
@@ -55,7 +55,7 @@ export class StrykerDashboard extends LitElement {
       { path: '/', component: 'stryker-dashboard-home-page' },
       {
         action: () => {
-          if (this.user == null) {
+          if (!this.user) {
             this.#signIn();
           }
         },

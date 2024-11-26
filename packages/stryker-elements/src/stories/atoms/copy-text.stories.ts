@@ -1,7 +1,7 @@
-import { Meta, StoryObj } from '@storybook/web-components';
-import { html } from 'lit';
-
 import '../../lib/atoms/copy-text';
+
+import type { Meta, StoryObj } from '@storybook/web-components';
+import { html } from 'lit';
 
 export default {
   title: 'Atoms/Copy Text',

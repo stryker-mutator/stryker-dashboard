@@ -1,5 +1,5 @@
-import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 import { RestError } from '@azure/storage-blob';
+import type { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 
 export function encodeKey(inputWithSlashes: string) {
   return inputWithSlashes.replace(/\//g, ';');

@@ -1,4 +1,4 @@
-import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
+import type { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 
 export class MutationTestingReport implements ReportIdentifier {
   /**

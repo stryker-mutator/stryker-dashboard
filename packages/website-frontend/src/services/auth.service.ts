@@ -1,6 +1,7 @@
-import { AuthenticateResponse, Login } from '@stryker-mutator/dashboard-contract';
+import type { AuthenticateResponse, Login } from '@stryker-mutator/dashboard-contract';
 
-import { sessionStorageService, SessionStorageService } from './session-storage.service';
+import type { SessionStorageService } from './session-storage.service';
+import { sessionStorageService } from './session-storage.service';
 
 const AUTH_TOKEN_SESSION_KEY = 'authToken';
 
@@ -38,7 +39,7 @@ export class AuthService {
         Authorization: `Bearer ${this.currentBearerToken}`,
       },
     });
-    if (response.status != 200) {
+    if (response.status !== 200) {
       return null;
     }
 

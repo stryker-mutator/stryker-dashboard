@@ -1,7 +1,8 @@
-import { MutationEventResponseHandler as MutationEventResponseHandler } from './MutationEventResponseHandler.js';
-import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
-import Configuration from '../Configuration.js';
 import { Injectable } from '@nestjs/common';
+import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
+
+import Configuration from '../Configuration.js';
+import { MutationEventResponseHandler as MutationEventResponseHandler } from './MutationEventResponseHandler.js';
 
 @Injectable()
 export default class MutationEventResponseOrchestrator {

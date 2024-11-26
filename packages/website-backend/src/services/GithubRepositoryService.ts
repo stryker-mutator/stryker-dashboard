@@ -1,10 +1,11 @@
-import DataAccess from './DataAccess.js';
-import GithubAgent from '../github/GithubAgent.js';
-import * as dal from '@stryker-mutator/dashboard-data-access';
-import * as contract from '@stryker-mutator/dashboard-contract';
-import * as github from '../github/models.js';
-import { DashboardQuery, Project } from '@stryker-mutator/dashboard-data-access';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import * as contract from '@stryker-mutator/dashboard-contract';
+import * as dal from '@stryker-mutator/dashboard-data-access';
+import { DashboardQuery, Project } from '@stryker-mutator/dashboard-data-access';
+
+import GithubAgent from '../github/GithubAgent.js';
+import * as github from '../github/models.js';
+import DataAccess from './DataAccess.js';
 
 /**
  * Prefix a github login name with "github.com/" in order to put it in the database

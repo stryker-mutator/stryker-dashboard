@@ -1,11 +1,12 @@
-import { TemplateResult, css, html } from 'lit';
+import type { TemplateResult } from 'lit';
+import { css, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 
-import { BaseElement } from '../base-element.js';
 import TrailOne from '../../assets/trail-1.svg?raw';
 import TrailTwo from '../../assets/trail-2.svg?raw';
 import TrailThree from '../../assets/trail-3.svg?raw';
+import { BaseElement } from '../base-element.js';
 
 @customElement('sme-getting-started-overview')
 export class GettingStartedOverview extends BaseElement {

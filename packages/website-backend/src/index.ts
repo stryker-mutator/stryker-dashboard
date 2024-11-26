@@ -1,10 +1,11 @@
+import type { INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module.js';
-import { INestApplication } from '@nestjs/common';
-import DataAccess from './services/DataAccess.js';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import compression from 'compression';
 import helmet from 'helmet';
-import { NestExpressApplication } from '@nestjs/platform-express';
+
+import { AppModule } from './app.module.js';
+import DataAccess from './services/DataAccess.js';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);

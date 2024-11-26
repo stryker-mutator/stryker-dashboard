@@ -1,4 +1,4 @@
-import { Repository } from '@stryker-mutator/dashboard-contract';
+import type { Repository } from '@stryker-mutator/dashboard-contract';
 
 import { authService } from './auth.service';
 

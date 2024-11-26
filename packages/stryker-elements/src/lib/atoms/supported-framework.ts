@@ -1,6 +1,7 @@
-import { customElement, property } from 'lit/decorators.js';
-import { BaseElement } from '../base-element';
 import { html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+
+import { BaseElement } from '../base-element';
 
 export interface SupportedFrameworkProps {
   name: string;

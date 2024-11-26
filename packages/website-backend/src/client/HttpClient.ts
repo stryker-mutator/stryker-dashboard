@@ -1,5 +1,5 @@
-import debug from 'debug';
 import { Injectable } from '@nestjs/common';
+import debug from 'debug';
 
 export interface Response<T> {
   body: T;

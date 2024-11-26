@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import type { Response } from 'express';
 import { ServerResponse } from 'http';
 import sinon from 'sinon';
 

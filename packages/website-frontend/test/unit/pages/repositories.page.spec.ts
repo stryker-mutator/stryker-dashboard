@@ -1,12 +1,13 @@
-import { Login } from '@stryker-mutator/dashboard-contract';
 import '@stryker-mutator/stryker-elements';
 
-import { CustomElementFixture } from '../../helpers/custom-element-fixture';
+import type { Login } from '@stryker-mutator/dashboard-contract';
+
 import { RepositoriesPage } from '../../../src/pages/repositories.page';
 import { authService } from '../../../src/services/auth.service';
 import { organizationsService } from '../../../src/services/organizations.service';
 import { repositoriesService } from '../../../src/services/repositories.service';
 import { userService } from '../../../src/services/user.service';
+import { CustomElementFixture } from '../../helpers/custom-element-fixture';
 
 describe(RepositoriesPage.name, () => {
   let sut: CustomElementFixture<RepositoriesPage>;

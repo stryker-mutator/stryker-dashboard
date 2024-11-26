@@ -1,12 +1,12 @@
-import { IncomingMessage, ServerResponse } from 'http';
-
-import sinon from 'sinon';
-import { Response } from 'express';
-import { MutationEventResponseHandler } from '../../../../src/services/real-time/MutationEventResponseHandler.js';
-import { MutantResult } from 'mutation-testing-report-schema';
-import Configuration from '../../../../src/services/Configuration.js';
 import { expect } from 'chai';
+import type { Response } from 'express';
+import { IncomingMessage, ServerResponse } from 'http';
+import type { MutantResult } from 'mutation-testing-report-schema';
 import { Socket } from 'net';
+import sinon from 'sinon';
+
+import type Configuration from '../../../../src/services/Configuration.js';
+import { MutationEventResponseHandler } from '../../../../src/services/real-time/MutationEventResponseHandler.js';
 import { createResponseStub } from '../../helpers.js';
 
 describe(MutationEventResponseHandler.name, () => {

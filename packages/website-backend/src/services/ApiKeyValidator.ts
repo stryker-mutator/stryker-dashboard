@@ -1,7 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ProjectMapper } from '@stryker-mutator/dashboard-data-access';
+
 import util from '../utils/utils.js';
 import DataAccess from './DataAccess.js';
-import { ProjectMapper } from '@stryker-mutator/dashboard-data-access';
 
 @Injectable()
 export class ApiKeyValidator {

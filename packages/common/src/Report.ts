@@ -1,4 +1,4 @@
-import { MutationTestResult } from 'mutation-testing-report-schema';
+import type { MutationTestResult } from 'mutation-testing-report-schema';
 
 export interface MutationScoreOnlyResult {
   mutationScore: number;

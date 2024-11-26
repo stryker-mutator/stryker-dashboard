@@ -1,8 +1,8 @@
-import type { Preview } from '@storybook/web-components';
-
 // Tailwind CSS
 import '../src/tailwind-styles/global.css';
 import '../src/tailwind-styles/component.css';
+
+import type { Preview } from '@storybook/web-components';
 
 const preview: Preview = {
   parameters: {

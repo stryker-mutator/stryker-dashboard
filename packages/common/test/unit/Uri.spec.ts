@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+
 import { constructApiUri } from '../../src/Uri.js';
 
 describe(constructApiUri.name, () => {

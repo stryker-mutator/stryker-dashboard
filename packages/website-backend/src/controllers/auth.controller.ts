@@ -1,6 +1,7 @@
-import type { Request } from 'express';
 import { Controller, Get, Logger, Post, Req, UseGuards } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import type { Request } from 'express';
+
 import { GithubAuthGuard } from '../auth/guard.js';
 
 @Controller('/auth')

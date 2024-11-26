@@ -1,6 +1,7 @@
-import { test, expect } from '@playwright/test';
-import { BadgeApiClient, type Shield, Color } from '../po/badge-api/badge-api.po.js';
+import { expect, test } from '@playwright/test';
+
 import { simpleReportV1 } from '../actions/report.action.js';
+import { BadgeApiClient, Color, type Shield } from '../po/badge-api/badge-api.po.js';
 import { ReportClient } from '../po/reports/report-client.po.js';
 
 test.describe('badge-api', () => {

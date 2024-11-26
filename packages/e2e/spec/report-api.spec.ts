@@ -1,6 +1,7 @@
-import { test, expect } from '@playwright/test';
-import { URL } from 'url';
+import { expect, test } from '@playwright/test';
 import type { PutReportResponse } from '@stryker-mutator/dashboard-contract';
+import { URL } from 'url';
+
 import { simpleReportV1, simpleReportV2 } from '../actions/report.action.js';
 import { ReportClient } from '../po/reports/report-client.po.js';
 
