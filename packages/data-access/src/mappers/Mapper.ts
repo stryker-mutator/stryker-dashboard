@@ -1,4 +1,4 @@
-import { DashboardQuery } from './DashboardQuery.js';
+import type { DashboardQuery } from './DashboardQuery.js';
 
 export interface Result<TModel> {
   etag: string;

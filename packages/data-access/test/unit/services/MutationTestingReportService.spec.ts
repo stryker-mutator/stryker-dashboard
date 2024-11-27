@@ -1,17 +1,19 @@
+import type { Logger, Report, ReportIdentifier } from '@stryker-mutator/dashboard-common';
 import { expect } from 'chai';
+import { aggregateResultsByModule } from 'mutation-testing-metrics';
 import sinon from 'sinon';
-import { MutationTestingReport } from '../../../src/models/index.js';
-import { MutationTestingReportMapper, OptimisticConcurrencyError } from '../../../src/index.js';
+
+import type { MutationTestingReportMapper } from '../../../src/index.js';
+import { OptimisticConcurrencyError } from '../../../src/index.js';
 import { MutationTestingResultMapper } from '../../../src/mappers/MutationTestingResultMapper.js';
+import type { MutationTestingReport } from '../../../src/models/index.js';
 import { MutationTestingReportService } from '../../../src/services/MutationTestingReportService.js';
 import {
-  createTableMapperMock,
-  createMutationTestResult,
   createFileResult,
   createFileResultDictionary,
+  createMutationTestResult,
+  createTableMapperMock,
 } from '../../helpers/mock.js';
-import { ReportIdentifier, Report, Logger } from '@stryker-mutator/dashboard-common';
-import { aggregateResultsByModule } from 'mutation-testing-metrics';
 
 describe(MutationTestingReportService.name, () => {
   let sut: MutationTestingReportService;

@@ -1,6 +1,8 @@
-import { test, expect, Page } from '@playwright/test';
-import { RepositoriesPage } from '../po/repositories/repositories-page.po.js';
+import type { Page } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+
 import { ReportClient } from '../po/reports/report-client.po.js';
+import { RepositoriesPage } from '../po/repositories/repositories-page.po.js';
 
 // Example: 0527de29-6436-4564-9c5f-34f417ec68c0
 const API_KEY_REGEX = /^[0-9a-z]{8}-(?:[0-9a-z]{4}-){3}[0-9a-z]{12}$/;

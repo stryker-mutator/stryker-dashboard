@@ -1,7 +1,9 @@
-import { createProjectMapper, Project, DashboardQuery } from '../../src/index.js';
+import type { TableClient } from '@azure/data-tables';
+import { TableServiceClient } from '@azure/data-tables';
 import { expect } from 'chai';
-import { Mapper } from '../../src/index.js';
-import { TableClient, TableServiceClient } from '@azure/data-tables';
+
+import type { Mapper } from '../../src/index.js';
+import { createProjectMapper, DashboardQuery, Project } from '../../src/index.js';
 import { createTableClient } from '../../src/services/TableClient.js';
 
 /**

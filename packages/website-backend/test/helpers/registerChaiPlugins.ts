@@ -1,4 +1,4 @@
-import { use, config } from 'chai';
+import { config, use } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 
 use(chaiAsPromised);

@@ -1,18 +1,19 @@
-import request from 'supertest';
-import * as contract from '@stryker-mutator/dashboard-contract';
-import sinon from 'sinon';
-import { Authentication } from '../../../src/github/models.js';
-import GithubAgent from '../../../src/github/GithubAgent.js';
-import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
-import { AppModule } from '../../../src/app.module.js';
+import type { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import { contractFactory, githubFactory } from '../../helpers/producers.js';
-import { DataAccessMock, config, createAuthorizationHeader } from '../../helpers/TestServer.js';
-import Configuration from '../../../src/services/Configuration.js';
+import type * as contract from '@stryker-mutator/dashboard-contract';
+import sinon from 'sinon';
+import request from 'supertest';
+import type { App } from 'supertest/types.js';
+
+import { AppModule } from '../../../src/app.module.js';
 import UserController from '../../../src/controllers/user.controller.js';
+import GithubAgent from '../../../src/github/GithubAgent.js';
+import type { Authentication } from '../../../src/github/models.js';
+import Configuration from '../../../src/services/Configuration.js';
 import DataAccess from '../../../src/services/DataAccess.js';
-import { App } from 'supertest/types.js';
+import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
+import { contractFactory, githubFactory } from '../../helpers/producers.js';
+import { config, createAuthorizationHeader, DataAccessMock } from '../../helpers/TestServer.js';
 
 describe(UserController.name, () => {
   const expectedUsername = 'foobar username';

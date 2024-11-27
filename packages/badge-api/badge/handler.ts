@@ -1,7 +1,8 @@
+import type { HttpHandler } from '@azure/functions';
+import { InvalidSlugError, Slug } from '@stryker-mutator/dashboard-common';
 import fs from 'fs';
-import { HttpHandler } from '@azure/functions';
-import { Slug, InvalidSlugError } from '@stryker-mutator/dashboard-common';
-import { ShieldMapper } from './ShieldMapper.js';
+
+import type { ShieldMapper } from './ShieldMapper.js';
 
 const headers = {
   ['X-Badge-Api-Version']: (

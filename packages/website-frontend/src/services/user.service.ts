@@ -1,4 +1,5 @@
-import { Login, Repository } from '@stryker-mutator/dashboard-contract';
+import type { Login, Repository } from '@stryker-mutator/dashboard-contract';
+
 import { authService } from './auth.service';
 
 export class UserService {

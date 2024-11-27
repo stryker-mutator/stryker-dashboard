@@ -1,8 +1,11 @@
 import 'source-map-support/register.js';
-import { HttpHandler, app } from '@azure/functions';
-import { ShieldMapper } from './ShieldMapper.js';
+
+import type { HttpHandler } from '@azure/functions';
+import { app } from '@azure/functions';
 import { createMutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
+
 import { handler } from './handler.js';
+import { ShieldMapper } from './ShieldMapper.js';
 
 const httpTrigger: HttpHandler = handler(new ShieldMapper(createMutationTestingReportMapper()));
 

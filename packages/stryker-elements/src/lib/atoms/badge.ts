@@ -1,7 +1,6 @@
+import { buildReportUrl } from '@stryker-mutator/dashboard-common';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-
-import { buildReportUrl } from '@stryker-mutator/dashboard-common';
 
 import { BaseElement } from '../base-element';
 

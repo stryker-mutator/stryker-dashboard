@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+
 import utils from '../../../src/utils/utils.js';
 
 describe('utils', () => {

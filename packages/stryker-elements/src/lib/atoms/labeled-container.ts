@@ -1,6 +1,7 @@
 import { html } from 'lit';
-import { BaseElement } from '../base-element.js';
 import { customElement, property } from 'lit/decorators.js';
+
+import { BaseElement } from '../base-element.js';
 
 @customElement('sme-labeled-container')
 export class LabeledContainer extends BaseElement {

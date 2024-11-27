@@ -1,9 +1,10 @@
-import { hasErrorCode, toBlobName } from '../utils.js';
-import * as schema from 'mutation-testing-report-schema';
-import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
+import type { BlobServiceClient, ContainerClient, ContainerCreateIfNotExistsResponse } from '@azure/storage-blob';
+import type { ReportIdentifier } from '@stryker-mutator/dashboard-common';
+import type * as schema from 'mutation-testing-report-schema';
+
 import { OptimisticConcurrencyError } from '../errors/index.js';
-import { BlobServiceClient, ContainerClient, ContainerCreateIfNotExistsResponse } from '@azure/storage-blob';
 import { createBlobServiceClient } from '../services/BlobServiceClient.js';
+import { hasErrorCode, toBlobName } from '../utils.js';
 
 const errCodes = Object.freeze({
   BLOB_HAS_BEEN_MODIFIED: 'BlobHasBeenModified',

@@ -1,8 +1,9 @@
 import { AppendBlobClient, BlobServiceClient, ContainerClient } from '@azure/storage-blob';
-import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
+import type { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 import { expect } from 'chai';
-import { MutantResult } from 'mutation-testing-report-schema/api';
+import type { MutantResult } from 'mutation-testing-report-schema/api';
 import sinon from 'sinon';
+
 import { RealTimeMutantsBlobService } from '../../../src/services/RealTimeMutantsBlobService.js';
 
 describe(RealTimeMutantsBlobService.name, () => {

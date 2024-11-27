@@ -1,4 +1,5 @@
-import { EnableRepositoryResponse } from '@stryker-mutator/dashboard-contract';
+import type { EnableRepositoryResponse } from '@stryker-mutator/dashboard-contract';
+
 import { authService } from './auth.service';
 
 export class RepositoriesService {

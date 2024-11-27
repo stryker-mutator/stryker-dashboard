@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+
 import { getEnvVariable, getOptionalEnvVariable } from './helpers.action.js';
 
 function getJwtSecret() {

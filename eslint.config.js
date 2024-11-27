@@ -1,15 +1,44 @@
 import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import importX from 'eslint-plugin-import-x';
+import { configs as litConfigs } from 'eslint-plugin-lit';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import { configs as wcConfigs } from 'eslint-plugin-wc';
 import globals from 'globals';
+import { config, configs as tsConfigs } from 'typescript-eslint';
 
-export default tseslint.config(
+export default config(
   eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  ...tseslint.configs.stylisticTypeChecked,
+  ...tsConfigs.recommendedTypeChecked,
+  ...tsConfigs.stylisticTypeChecked,
+  wcConfigs['flat/best-practice'],
+  litConfigs['flat/recommended'],
+  importX.flatConfigs.recommended,
+  importX.flatConfigs.typescript,
   {
     rules: {
+      '@typescript-eslint/consistent-type-imports': 'error',
       '@typescript-eslint/unbound-method': 'off',
       '@typescript-eslint/prefer-nullish-coalescing': 'off',
+
+      'import-x/newline-after-import': 'error',
+      'import-x/no-deprecated': 'error',
+      'import-x/default': 'off',
+      'import-x/no-named-as-default-member': 'off',
+
+      'simple-import-sort/exports': 'error',
+      'simple-import-sort/imports': 'error',
+
+      'wc/guard-super-call': 'off',
+      'wc/no-method-prefixed-with-on': 'error',
+
+      'lit/lifecycle-super': 'error',
+      'lit/no-legacy-imports': 'error',
+      'lit/no-this-assign-in-render': 'error',
+      'lit/no-useless-template-literals': 'error',
+      'lit/no-value-attribute': 'error',
+      'lit/prefer-nothing': 'error',
+
+      eqeqeq: 'error',
     },
     linterOptions: {
       reportUnusedDisableDirectives: 'error',
@@ -25,6 +54,12 @@ export default tseslint.config(
         ...globals.node,
       },
     },
+    plugins: {
+      'simple-import-sort': simpleImportSort,
+    },
+    settings: {
+      elementBaseClasses: ['LitElement', 'BaseElement'],
+    },
   },
   {
     files: [
@@ -37,7 +72,7 @@ export default tseslint.config(
       'packages/*/.storybook/*.ts',
       'packages/*/testResources/**/*',
     ],
-    ...tseslint.configs.disableTypeChecked,
+    ...tsConfigs.disableTypeChecked,
   },
   {
     // Test-specific rules

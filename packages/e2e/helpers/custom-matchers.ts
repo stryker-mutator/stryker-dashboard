@@ -39,7 +39,7 @@ async function toExist(this: ExpectMatcherState, locator: unknown, options?: { t
       // eslint-disable-next-line @typescript-eslint/no-base-to-string
       throw new Error(`Found ${elements.length} elements matching ${String(locator)}`);
     }
-    pass = (elements.length === 1) != this.isNot;
+    pass = (elements.length === 1) !== this.isNot;
     if (!pass) {
       const n = 100;
       await sleep(n);
@@ -50,7 +50,7 @@ async function toExist(this: ExpectMatcherState, locator: unknown, options?: { t
   } while (!pass);
 
   return {
-    pass: pass != this.isNot,
+    pass: pass !== this.isNot,
     message: () => {
       const not = this.isNot ? ' not' : '';
       const hint = this.utils.matcherHint('toExist', undefined, undefined, {

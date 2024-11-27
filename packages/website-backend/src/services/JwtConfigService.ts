@@ -1,6 +1,7 @@
-import { JwtOptionsFactory, JwtModuleOptions } from '@nestjs/jwt';
-import Configuration from './Configuration.js';
 import { Injectable } from '@nestjs/common';
+import { JwtModuleOptions, JwtOptionsFactory } from '@nestjs/jwt';
+
+import Configuration from './Configuration.js';
 
 const tokenOptions = Object.freeze({
   algorithm: 'HS512',

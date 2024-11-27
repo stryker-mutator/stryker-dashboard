@@ -1,10 +1,11 @@
-import sinon from 'sinon';
-import { MutationTestingResultMapper } from '../../../src/mappers/MutationTestingResultMapper.js';
+import { BlobServiceClient, BlockBlobClient, ContainerClient } from '@azure/storage-blob';
 import { expect } from 'chai';
+import sinon from 'sinon';
+
+import { OptimisticConcurrencyError } from '../../../src/index.js';
+import { MutationTestingResultMapper } from '../../../src/mappers/MutationTestingResultMapper.js';
 import { createMutationTestResult } from '../../helpers/mock.js';
 import { StorageError } from '../../helpers/StorageError.js';
-import { OptimisticConcurrencyError } from '../../../src/index.js';
-import { BlobServiceClient, BlockBlobClient, ContainerClient } from '@azure/storage-blob';
 
 describe(MutationTestingResultMapper.name, () => {
   let sut: MutationTestingResultMapper;

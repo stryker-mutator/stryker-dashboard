@@ -1,10 +1,11 @@
-import { Login } from '@stryker-mutator/dashboard-contract';
 import '@stryker-mutator/stryker-elements';
 
-import { CustomElementFixture } from '../../helpers/custom-element-fixture';
+import type { Login } from '@stryker-mutator/dashboard-contract';
+
 import { AuthPage } from '../../../src/pages/auth.page';
 import { authService } from '../../../src/services/auth.service';
 import { locationService } from '../../../src/services/location.service';
+import { CustomElementFixture } from '../../helpers/custom-element-fixture';
 
 describe(AuthPage.name, () => {
   let sut: CustomElementFixture<AuthPage>;

@@ -1,7 +1,8 @@
-import Configuration from '../../../src/services/Configuration.js';
 import { expect } from 'chai';
-import utils from '../../../src/utils/utils.js';
 import sinon from 'sinon';
+
+import Configuration from '../../../src/services/Configuration.js';
+import utils from '../../../src/utils/utils.js';
 
 describe('Configuration', () => {
   let requiredEnvVarStub: sinon.SinonStub<[string], string>;

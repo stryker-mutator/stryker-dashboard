@@ -1,7 +1,8 @@
-import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
-import { Logger, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
-import DataAccess from '../services/DataAccess.js';
 import { BadRequestException, Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Logger, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
+
+import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
+import DataAccess from '../services/DataAccess.js';
 /**
  * Represents the 'old' style of report, containing the mutation score calculated at client side
  */

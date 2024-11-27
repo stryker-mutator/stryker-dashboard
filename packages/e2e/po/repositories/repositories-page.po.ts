@@ -1,5 +1,5 @@
-import { DashboardPage } from '../shared/dashboard-page.po.js';
 import { getOptionalEnvVariable } from '../../actions/helpers.action.js';
+import { DashboardPage } from '../shared/dashboard-page.po.js';
 
 export class RepositoriesPage extends DashboardPage {
   public disabledRepositories = this.page.locator('sme-list#disabled-repositories > sme-toggle-repository');

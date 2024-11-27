@@ -1,7 +1,8 @@
-import { test, expect } from '@playwright/test';
-import { ReportPage } from '../po/reports/report-page.po.js';
-import { simpleReportV1, scoreOnlyReport } from '../actions/report.action.js';
+import { expect, test } from '@playwright/test';
+
+import { scoreOnlyReport, simpleReportV1 } from '../actions/report.action.js';
 import { ReportClient } from '../po/reports/report-client.po.js';
+import { ReportPage } from '../po/reports/report-page.po.js';
 
 test.describe('Report page', () => {
   let page: ReportPage;

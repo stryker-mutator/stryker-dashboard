@@ -1,15 +1,16 @@
-import request from 'supertest';
-import sinon from 'sinon';
-import { contractFactory, githubFactory } from '../../helpers/producers.js';
-import { DataAccessMock, config, createAuthorizationHeader } from '../../helpers/TestServer.js';
-import { INestApplication } from '@nestjs/common';
+import type { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
+import sinon from 'sinon';
+import request from 'supertest';
+import type { App } from 'supertest/types.js';
+
 import { AppModule } from '../../../src/app.module.js';
-import Configuration from '../../../src/services/Configuration.js';
 import OrganizationsController from '../../../src/controllers/organizations.controller.js';
+import Configuration from '../../../src/services/Configuration.js';
 import DataAccess from '../../../src/services/DataAccess.js';
-import { App } from 'supertest/types.js';
+import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
+import { contractFactory, githubFactory } from '../../helpers/producers.js';
+import { config, createAuthorizationHeader, DataAccessMock } from '../../helpers/TestServer.js';
 
 describe(OrganizationsController.name, () => {
   let app: INestApplication<App>;

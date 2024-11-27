@@ -1,7 +1,8 @@
-import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
+import type { BlobServiceClient, ContainerClient } from '@azure/storage-blob';
+import type { ReportIdentifier } from '@stryker-mutator/dashboard-common';
+import type { MutantResult } from 'mutation-testing-report-schema';
+
 import { toBlobName } from '../utils.js';
-import { MutantResult } from 'mutation-testing-report-schema';
-import { BlobServiceClient, ContainerClient } from '@azure/storage-blob';
 import { createBlobServiceClient } from './BlobServiceClient.js';
 
 // To make resource delete themselves automatically, this should be managed from within Azure:

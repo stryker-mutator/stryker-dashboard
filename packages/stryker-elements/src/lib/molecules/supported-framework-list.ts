@@ -1,9 +1,10 @@
+import '../atoms/supported-framework';
+
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { SupportedFrameworkProps } from '../atoms/supported-framework';
-import '../atoms/supported-framework';
+import type { SupportedFrameworkProps } from '../atoms/supported-framework';
 import { BaseElement } from '../base-element';
 
 @customElement('sme-supported-framework-list')
@@ -16,8 +17,8 @@ export class SupportedFrameworkList extends BaseElement {
 
   render() {
     const classes = classMap({
-      'justify-around': this.spacing == 'around',
-      'justify-between': this.spacing == 'between',
+      'justify-around': this.spacing === 'around',
+      'justify-between': this.spacing === 'between',
     });
     return html`
       <div class="bg-neutral-900/50 p-8">

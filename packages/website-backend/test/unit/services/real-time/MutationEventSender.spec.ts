@@ -1,8 +1,8 @@
+import type { Response } from 'express';
+import type { MutantResult } from 'mutation-testing-report-schema';
 import sinon from 'sinon';
 
 import { MutationEventSender } from '../../../../src/services/real-time/MutationEventSender.js';
-import { Response } from 'express';
-import { MutantResult } from 'mutation-testing-report-schema';
 import { createResponseStub } from '../../helpers.js';
 
 describe(MutationEventSender.name, () => {

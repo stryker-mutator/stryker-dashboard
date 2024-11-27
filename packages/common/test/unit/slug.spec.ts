@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { Slug, InvalidSlugError, buildReportUrl } from '../../src/slug.js';
+
+import { buildReportUrl, InvalidSlugError, Slug } from '../../src/slug.js';
 
 describe(Slug.name, () => {
   describe('parse', () => {

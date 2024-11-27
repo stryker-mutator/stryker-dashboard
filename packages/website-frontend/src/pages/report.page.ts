@@ -1,14 +1,16 @@
-import { isMutationTestResult, isPendingReport, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
+import 'mutation-testing-elements';
+
+import type { MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
+import { isMutationTestResult, isPendingReport } from '@stryker-mutator/dashboard-common';
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 import type { ThemeChangedEvent } from 'mutation-testing-elements';
-import { MutationTestResult } from 'mutation-testing-report-schema';
+import type { MutationTestResult } from 'mutation-testing-report-schema';
+
 import { locationService } from '../services/location.service';
 import { reportService } from '../services/report.service';
-
-import 'mutation-testing-elements';
 
 @customElement('stryker-dashboard-report-page')
 export class ReportPage extends LitElement {
@@ -28,7 +30,7 @@ export class ReportPage extends LitElement {
     super.connectedCallback();
 
     void reportService.getReport(this.#slug).then((report) => {
-      if (report == undefined) {
+      if (!report) {
         this.didNotFindReport = true;
         return;
       }

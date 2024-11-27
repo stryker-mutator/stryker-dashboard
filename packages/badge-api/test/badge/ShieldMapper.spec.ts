@@ -1,8 +1,10 @@
-import { ShieldMapper } from '../../badge/ShieldMapper.js';
-import * as sinon from 'sinon';
-import { MutationTestingReport, MutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
+import type { MutationTestingReport, MutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
 import { expect } from 'chai';
-import { Shield, Color } from '../../badge/Shield.js';
+import sinon from 'sinon';
+
+import type { Shield } from '../../badge/Shield.js';
+import { Color } from '../../badge/Shield.js';
+import { ShieldMapper } from '../../badge/ShieldMapper.js';
 
 describe(ShieldMapper.name, () => {
   let sut: ShieldMapper;

@@ -1,7 +1,7 @@
-import { CustomElementFixture } from '../helpers/custom-element-fixture';
 import { StrykerDashboard } from '../../src/app';
 import { authService } from '../../src/services/auth.service';
 import { locationService } from '../../src/services/location.service';
+import { CustomElementFixture } from '../helpers/custom-element-fixture';
 
 describe(StrykerDashboard.name, () => {
   let locationMock: Location;

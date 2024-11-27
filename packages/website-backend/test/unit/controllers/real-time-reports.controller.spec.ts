@@ -1,20 +1,21 @@
-import request from 'supertest';
-import sinon from 'sinon';
+import type { INestApplication } from '@nestjs/common';
+import { Test } from '@nestjs/testing';
 import { Project } from '@stryker-mutator/dashboard-data-access';
 import { expect } from 'chai';
-import RealTimeReportsController from '../../../src/controllers/real-time-reports.controller.js';
-import { INestApplication } from '@nestjs/common';
-import MutationEventResponseOrchestrator from '../../../src/services/real-time/MutationEventResponseOrchestrator.js';
-import { DataAccessMock, MutationEventResponseOrchestratorMock, config } from '../../helpers/TestServer.js';
-import { Test } from '@nestjs/testing';
+import type { Response } from 'express';
+import sinon from 'sinon';
+import request from 'supertest';
+import type { App } from 'supertest/types.js';
+
 import { AppModule } from '../../../src/app.module.js';
+import RealTimeReportsController from '../../../src/controllers/real-time-reports.controller.js';
 import Configuration from '../../../src/services/Configuration.js';
 import DataAccess from '../../../src/services/DataAccess.js';
-import utils from '../../../src/utils/utils.js';
 import { MutationEventResponseHandler } from '../../../src/services/real-time/MutationEventResponseHandler.js';
+import MutationEventResponseOrchestrator from '../../../src/services/real-time/MutationEventResponseOrchestrator.js';
+import utils from '../../../src/utils/utils.js';
 import { createMutationTestResult } from '../../helpers/mutants.js';
-import { Response } from 'express';
-import { App } from 'supertest/types.js';
+import { config, DataAccessMock, MutationEventResponseOrchestratorMock } from '../../helpers/TestServer.js';
 
 describe(RealTimeReportsController.name, () => {
   const apiKey = '1346';

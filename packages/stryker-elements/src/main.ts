@@ -1,9 +1,9 @@
 // Atoms
 
+export { Badge } from './lib/atoms/badge';
 export { Button } from './lib/atoms/buttons/button';
 export { ImageButton } from './lib/atoms/buttons/image-button';
 export { ToggleButton } from './lib/atoms/buttons/toggle-button';
-export { Badge } from './lib/atoms/badge';
 export { CopyText } from './lib/atoms/copy-text';
 export { Dropdown } from './lib/atoms/dropdown';
 export { Hr } from './lib/atoms/hr';
@@ -26,8 +26,8 @@ export { GettingStartedStep } from './lib/molecules/getting-started-step';
 export { Modal } from './lib/molecules/modal';
 export { ProfileButton } from './lib/molecules/profile-button';
 export { Repository } from './lib/molecules/repository';
-export { ToggleRepository } from './lib/molecules/toggle-repository';
 export { SupportedFrameworkList } from './lib/molecules/supported-framework-list';
+export { ToggleRepository } from './lib/molecules/toggle-repository';
 
 // Organisms
 

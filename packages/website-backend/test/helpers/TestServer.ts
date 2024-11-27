@@ -1,10 +1,11 @@
+import type { ProjectMapper } from '@stryker-mutator/dashboard-data-access';
 import * as dal from '@stryker-mutator/dashboard-data-access';
-import * as github from '../../src/github/models.js';
 import jwt from 'jsonwebtoken';
-import Configuration from '../../src/services/Configuration.js';
-import DataAccess from '../../src/services/DataAccess.js';
 import sinon from 'sinon';
-import { ProjectMapper } from '@stryker-mutator/dashboard-data-access';
+
+import type * as github from '../../src/github/models.js';
+import type Configuration from '../../src/services/Configuration.js';
+import type DataAccess from '../../src/services/DataAccess.js';
 
 export function createToken(user: github.Authentication): Promise<string> {
   return new Promise<string>((resolve, reject) => {

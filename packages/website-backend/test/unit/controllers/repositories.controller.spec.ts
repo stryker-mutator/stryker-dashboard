@@ -1,16 +1,17 @@
-import request from 'supertest';
-import sinon from 'sinon';
+import type { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
+import sinon from 'sinon';
+import request from 'supertest';
+import type { App } from 'supertest/types.js';
+
 import { AppModule } from '../../../src/app.module.js';
-import * as github from '../../../src/github/models.js';
+import type * as github from '../../../src/github/models.js';
 import Configuration from '../../../src/services/Configuration.js';
-import { DataAccessMock, config, createAuthorizationHeader } from '../../helpers/TestServer.js';
-import { INestApplication } from '@nestjs/common';
-import utils from '../../../src/utils/utils.js';
-import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
-import { githubFactory } from '../../helpers/producers.js';
 import DataAccess from '../../../src/services/DataAccess.js';
-import { App } from 'supertest/types.js';
+import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
+import utils from '../../../src/utils/utils.js';
+import { githubFactory } from '../../helpers/producers.js';
+import { config, createAuthorizationHeader, DataAccessMock } from '../../helpers/TestServer.js';
 
 describe('RepositoriesController', () => {
   let app: INestApplication<App>;

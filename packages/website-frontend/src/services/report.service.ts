@@ -1,5 +1,6 @@
-import { constructApiUri, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
-import { MutationTestResult } from 'mutation-testing-report-schema';
+import type { MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
+import { constructApiUri } from '@stryker-mutator/dashboard-common';
+import type { MutationTestResult } from 'mutation-testing-report-schema';
 
 import { authService } from './auth.service';
 import { locationService } from './location.service';

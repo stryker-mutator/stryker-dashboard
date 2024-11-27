@@ -1,6 +1,6 @@
-import { StoryObj } from '@storybook/web-components';
-
 import '../../lib/atoms/supported-framework';
+
+import type { StoryObj } from '@storybook/web-components';
 
 export default {
   title: 'Atoms/Supported Framework',

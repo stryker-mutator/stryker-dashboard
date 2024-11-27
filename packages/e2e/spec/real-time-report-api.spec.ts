@@ -1,8 +1,9 @@
-import { test, expect } from '@playwright/test';
-import { ReportClient } from '../po/reports/report-client.po.js';
-import { pendingReport } from '../actions/report.action.js';
-import type { PutReportResponse } from '@stryker-mutator/dashboard-contract';
+import { expect, test } from '@playwright/test';
 import type { Report } from '@stryker-mutator/dashboard-common';
+import type { PutReportResponse } from '@stryker-mutator/dashboard-contract';
+
+import { pendingReport } from '../actions/report.action.js';
+import { ReportClient } from '../po/reports/report-client.po.js';
 
 test.describe('Real-time api', () => {
   let client: ReportClient;

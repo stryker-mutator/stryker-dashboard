@@ -1,6 +1,6 @@
 import { html } from 'lit';
-import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
 import { BaseElement } from '../base-element';

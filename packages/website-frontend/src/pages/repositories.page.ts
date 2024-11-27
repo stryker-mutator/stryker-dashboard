@@ -1,11 +1,10 @@
-import { LitElement, html, nothing } from 'lit';
+import type { Repository } from '@stryker-mutator/dashboard-contract';
+import type { ToggleRepository } from '@stryker-mutator/stryker-elements';
+import { html, LitElement, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
-
-import { ToggleRepository } from '@stryker-mutator/stryker-elements';
-import { Repository } from '@stryker-mutator/dashboard-contract';
 
 import { authService } from '../services/auth.service';
 import { historyService } from '../services/history.service';

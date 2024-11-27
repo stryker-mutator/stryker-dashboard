@@ -1,10 +1,11 @@
+import { BadRequestException, Body, Controller, Param, Patch, Req, Res, UseGuards } from '@nestjs/common';
 import { Repository } from '@stryker-mutator/dashboard-contract';
 import type express from 'express';
+
+import { JwtAuthGuard } from '../auth/guard.js';
 import * as github from '../github/models.js';
 import GithubRepositoryService from '../services/GithubRepositoryService.js';
 import util from '../utils/utils.js';
-import { BadRequestException, Body, Controller, Param, Patch, Req, Res, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guard.js';
 
 @Controller('/repositories')
 @UseGuards(JwtAuthGuard)

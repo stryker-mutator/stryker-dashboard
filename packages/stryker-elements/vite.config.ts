@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 
 const SOURCE_DIR = resolve(__dirname, 'src');

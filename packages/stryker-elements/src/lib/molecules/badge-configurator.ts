@@ -59,7 +59,7 @@ export class BadgeConfigurator extends BaseElement {
           type="radio"
           id="${style}"
           name="style"
-          value="${style}"
+          .value="${style}"
           ?checked="${this.selectedStyle === style}"
           @change="${() => (this.selectedStyle = style)}"
         />

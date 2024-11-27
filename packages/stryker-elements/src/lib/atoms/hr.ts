@@ -1,6 +1,7 @@
 import { html } from 'lit';
-import { BaseElement } from '../base-element';
 import { customElement } from 'lit/decorators.js';
+
+import { BaseElement } from '../base-element';
 
 @customElement('sme-hr')
 export class Hr extends BaseElement {

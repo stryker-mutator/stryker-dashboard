@@ -1,5 +1,7 @@
-import { MutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
-import { Shield, Color } from './Shield.js';
+import type { MutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
+
+import type { Shield } from './Shield.js';
+import { Color } from './Shield.js';
 
 export class ShieldMapper {
   constructor(private readonly reportMapper: MutationTestingReportMapper) {}

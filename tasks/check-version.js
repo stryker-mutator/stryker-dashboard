@@ -2,9 +2,9 @@
  * This task checks if the version of the badge-api or dashboard is correct according to the expectation.
  */
 
-import path from 'path';
 import http from 'http';
 import https from 'https';
+import path from 'path';
 import { fileURLToPath } from 'url';
 
 function httpClient() {

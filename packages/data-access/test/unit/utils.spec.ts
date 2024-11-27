@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { encodeKey, decodeKey, toBlobName } from '../../src/utils.js';
+
+import { decodeKey, encodeKey, toBlobName } from '../../src/utils.js';
 
 describe('utils', () => {
   describe(encodeKey.name, () => {

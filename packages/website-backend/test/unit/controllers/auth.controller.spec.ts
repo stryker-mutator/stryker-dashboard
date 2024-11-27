@@ -1,17 +1,18 @@
-import { expect } from 'chai';
-import request from 'supertest';
-import sinon from 'sinon';
-import * as github from '../../../src/github/models.js';
-import { githubFactory } from '../../helpers/producers.js';
-import { DataAccessMock, config, createToken } from '../../helpers/TestServer.js';
+import type { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { AppModule } from '../../../src/app.module.js';
-import { INestApplication } from '@nestjs/common';
-import Configuration from '../../../src/services/Configuration.js';
-import AuthController from '../../../src/controllers/auth.controller.js';
-import DataAccess from '../../../src/services/DataAccess.js';
+import { expect } from 'chai';
 import { Strategy } from 'passport-github2';
-import { App } from 'supertest/types.js';
+import sinon from 'sinon';
+import request from 'supertest';
+import type { App } from 'supertest/types.js';
+
+import { AppModule } from '../../../src/app.module.js';
+import AuthController from '../../../src/controllers/auth.controller.js';
+import type * as github from '../../../src/github/models.js';
+import Configuration from '../../../src/services/Configuration.js';
+import DataAccess from '../../../src/services/DataAccess.js';
+import { githubFactory } from '../../helpers/producers.js';
+import { config, createToken, DataAccessMock } from '../../helpers/TestServer.js';
 
 describe(AuthController.name, () => {
   let app: INestApplication<App>;

@@ -1,14 +1,15 @@
-import { dalFactory, githubFactory } from '../../helpers/producers.js';
-import * as dal from '@stryker-mutator/dashboard-data-access';
-import * as contract from '@stryker-mutator/dashboard-contract';
-import * as github from '../../../src/github/models.js';
-import GithubAgent from '../../../src/github/GithubAgent.js';
-import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
+import type { HttpException } from '@nestjs/common';
+import type * as contract from '@stryker-mutator/dashboard-contract';
+import type * as dal from '@stryker-mutator/dashboard-data-access';
+import { DashboardQuery, Project } from '@stryker-mutator/dashboard-data-access';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DashboardQuery, Project } from '@stryker-mutator/dashboard-data-access';
+
+import GithubAgent from '../../../src/github/GithubAgent.js';
+import type * as github from '../../../src/github/models.js';
+import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
+import { dalFactory, githubFactory } from '../../helpers/producers.js';
 import { DataAccessMock } from '../../helpers/TestServer.js';
-import { HttpException } from '@nestjs/common';
 
 describe('GithubRepositoryService.js', () => {
   let githubAgentMock: sinon.SinonStubbedInstance<GithubAgent>;

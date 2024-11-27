@@ -1,5 +1,7 @@
-import { expect, defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices, expect } from '@playwright/test';
+
 import { matchers } from './helpers/custom-matchers.js';
+
 expect.extend(matchers);
 
 export default defineConfig({

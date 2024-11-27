@@ -1,16 +1,13 @@
-import { MutationTestResult } from 'mutation-testing-report-schema';
+import type { Logger, MutationScoreOnlyResult, Report, ReportIdentifier } from '@stryker-mutator/dashboard-common';
+import { isMutationTestResult } from '@stryker-mutator/dashboard-common';
 import { aggregateResultsByModule, calculateMetrics } from 'mutation-testing-metrics';
-import { MutationTestingResultMapper } from '../mappers/MutationTestingResultMapper.js';
-import { MutationTestingReportMapper, createMutationTestingReportMapper, DashboardQuery } from '../mappers/index.js';
-import {
-  MutationScoreOnlyResult,
-  isMutationTestResult,
-  ReportIdentifier,
-  Report,
-  Logger,
-} from '@stryker-mutator/dashboard-common';
-import { MutationTestingReport } from '../models/index.js';
+import type { MutationTestResult } from 'mutation-testing-report-schema';
+
 import { OptimisticConcurrencyError } from '../errors/index.js';
+import type { MutationTestingReportMapper } from '../mappers/index.js';
+import { createMutationTestingReportMapper, DashboardQuery } from '../mappers/index.js';
+import { MutationTestingResultMapper } from '../mappers/MutationTestingResultMapper.js';
+import { MutationTestingReport } from '../models/index.js';
 
 function moduleHasResult(tuple: readonly [string, MutationTestResult | null]): tuple is [string, MutationTestResult] {
   return !!tuple[1];

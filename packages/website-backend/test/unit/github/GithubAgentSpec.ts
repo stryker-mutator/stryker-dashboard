@@ -1,9 +1,11 @@
 import { expect } from 'chai';
-import GithubAgent from '../../../src/github/GithubAgent.js';
-import HttpClient, { Response } from '../../../src/client/HttpClient.js';
-import * as github from '../../../src/github/models.js';
-import { githubFactory } from '../../helpers/producers.js';
 import sinon from 'sinon';
+
+import type { Response } from '../../../src/client/HttpClient.js';
+import HttpClient from '../../../src/client/HttpClient.js';
+import GithubAgent from '../../../src/github/GithubAgent.js';
+import type * as github from '../../../src/github/models.js';
+import { githubFactory } from '../../helpers/producers.js';
 
 describe('GithubClient', () => {
   let httpClientMock: sinon.SinonStubbedInstance<HttpClient>;

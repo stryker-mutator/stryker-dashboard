@@ -1,19 +1,21 @@
-import request from 'supertest';
-import { HTTPError } from 'superagent';
-import { MutationTestingReportService, Project, ProjectMapper } from '@stryker-mutator/dashboard-data-access';
-import { expect } from 'chai';
-import { Report } from '@stryker-mutator/dashboard-common';
-import sinon from 'sinon';
-import ReportsController from '../../../src/controllers/reports.controller.js';
+import type { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
+import type { Report } from '@stryker-mutator/dashboard-common';
+import type { MutationTestingReportService, ProjectMapper } from '@stryker-mutator/dashboard-data-access';
+import { Project } from '@stryker-mutator/dashboard-data-access';
+import { expect } from 'chai';
+import sinon from 'sinon';
+import type { HTTPError } from 'superagent';
+import request from 'supertest';
+import type { App } from 'supertest/types.js';
+
 import { AppModule } from '../../../src/app.module.js';
+import ReportsController from '../../../src/controllers/reports.controller.js';
 import Configuration from '../../../src/services/Configuration.js';
-import { INestApplication } from '@nestjs/common';
 import DataAccess from '../../../src/services/DataAccess.js';
-import { DataAccessMock, config } from '../../helpers/TestServer.js';
-import { createMutationTestResult, createMutationTestingResult } from '../../helpers/mutants.js';
 import utils from '../../../src/utils/utils.js';
-import { App } from 'supertest/types.js';
+import { createMutationTestingResult, createMutationTestResult } from '../../helpers/mutants.js';
+import { config, DataAccessMock } from '../../helpers/TestServer.js';
 
 describe(ReportsController.name, () => {
   let app: INestApplication<App>;

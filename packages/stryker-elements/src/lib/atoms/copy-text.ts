@@ -1,7 +1,8 @@
 import { html } from 'lit';
-import { BaseElement } from '../base-element';
-import { when } from 'lit/directives/when.js';
 import { customElement, property } from 'lit/decorators.js';
+import { when } from 'lit/directives/when.js';
+
+import { BaseElement } from '../base-element';
 
 const COPY_RESET_TIMING = 2000;
 
@@ -25,7 +26,6 @@ export class CopyText extends BaseElement {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="size-6"
               >
                 <path
                   stroke-linecap="round"
@@ -41,7 +41,6 @@ export class CopyText extends BaseElement {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="size-6"
               >
                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
               </svg>

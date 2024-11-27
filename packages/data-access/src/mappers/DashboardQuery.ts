@@ -1,6 +1,8 @@
-import { ModelClass } from './ModelClass.js';
+import type { TableEntityQueryOptions } from '@azure/data-tables';
+import { odata } from '@azure/data-tables';
+
 import { encodeKey } from '../utils.js';
-import { TableEntityQueryOptions, odata } from '@azure/data-tables';
+import type { ModelClass } from './ModelClass.js';
 
 export class DashboardQuery<TModel, TPartitionKeyFields extends keyof TModel, TRowKeyFields extends keyof TModel> {
   private constructor(
