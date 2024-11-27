@@ -92,15 +92,11 @@ export class RepositoriesPage extends LitElement {
   }
 
   #renderEnabledRepostories() {
-    return html`${map(this.repositories, (repository) =>
-      this.#renderRepository(repository, () => !repository.enabled),
-    )}`;
+    return html`${map(this.repositories, (repository) => this.#renderRepository(repository, () => !repository.enabled))}`;
   }
 
   #renderDisabledRepositories() {
-    return html`${map(this.repositories, (repository) =>
-      this.#renderRepository(repository, () => repository.enabled),
-    )}`;
+    return html`${map(this.repositories, (repository) => this.#renderRepository(repository, () => repository.enabled))}`;
   }
 
   #renderRepository(repository: Repository, shouldHide: () => boolean) {
