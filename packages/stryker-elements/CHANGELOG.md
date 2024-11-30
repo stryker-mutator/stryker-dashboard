@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.16.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.15.1...v0.16.0) (2024-11-30)
+
+### Features
+
+- **website-frontend:** add supported frameworks ([#988](https://github.com/stryker-mutator/stryker-dashboard/issues/988)) ([241151d](https://github.com/stryker-mutator/stryker-dashboard/commit/241151d782eff3391ec81cfccfc1724f6a71f1dc))
+- **website-frontend:** improve repository page based on UX feedback ([#966](https://github.com/stryker-mutator/stryker-dashboard/issues/966)) ([3934885](https://github.com/stryker-mutator/stryker-dashboard/commit/3934885e1b28b0c39a32e333b8d8625d4249d215))
+
 ## [0.15.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.15.0...v0.15.1) (2024-09-13)
 
 **Note:** Version bump only for package @stryker-mutator/stryker-elements
