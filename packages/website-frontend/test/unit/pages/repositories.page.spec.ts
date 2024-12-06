@@ -45,7 +45,7 @@ describe(RepositoriesPage.name, () => {
       expect(window.location.pathname).to.eq('/repos/mockUser');
     });
 
-    it.only('should be done loading when fetch calls are complete', async () => {
+    it('should be done loading when fetch calls are complete', async () => {
       // Arrange
       userService.getRepositories = vi.fn(() => Promise.resolve([]));
       userService.organizations = vi.fn(() => Promise.resolve([]));
