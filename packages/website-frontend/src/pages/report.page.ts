@@ -77,7 +77,7 @@ export class ReportPage extends LitElement {
     }
 
     return html`
-      <sme-loader ?doneWithLoading="${!!this.report}">
+      <sme-loader useSpinner .loading="${!this.report}">
         ${when(
           this.report,
           () =>

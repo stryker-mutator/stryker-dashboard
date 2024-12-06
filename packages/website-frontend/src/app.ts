@@ -78,7 +78,7 @@ export class StrykerDashboard extends LitElement {
   }
 
   #renderProfileButtonOrSignInButton() {
-    return html`<sme-loader slot="right-side" ?doneWithLoading=${this.done}>
+    return html`<sme-loader slot="right-side" .loading=${!this.done}>
       ${when(
         this.user !== null,
         () =>
