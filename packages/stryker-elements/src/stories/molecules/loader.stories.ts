@@ -1,10 +1,10 @@
-import '../../lib/atoms/loader';
-
-import type { Meta, StoryObj } from '@storybook/web-components';
+import { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
 
+import '../../lib/molecules/loader';
+
 export default {
-  title: 'Atoms/Loader',
+  title: 'Molecules/Loader',
   component: 'sme-loader',
 } as Meta;
 
