@@ -6,7 +6,7 @@ import { BaseElement } from '../base-element';
 export class Spinner extends BaseElement {
   render() {
     return html`
-      <div class="w-100 m-6 grid place-items-center">
+      <div class="m-6 grid place-items-center">
         <img class="h-12 animate-spin" src="https://stryker-mutator.io/images/stryker.svg" />
       </div>
     `;

@@ -1,70 +1,57 @@
 import './spinner';
 import { BaseElement } from '../base-element';
-import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
 import { html } from 'lit';
+import { classMap } from 'lit/directives/class-map.js';
 
 @customElement('sme-loader')
 export class Loader extends BaseElement {
-  private _doneWithLoading = false;
+  @property({ type: Boolean, reflect: true })
+  useSpinner = false;
 
   @property({ type: Boolean, reflect: true })
-  get doneWithLoading() {
-    return this._doneWithLoading;
-  }
+  loading = true;
 
-  set doneWithLoading(value: boolean) {
-    const oldValue = this._doneWithLoading;
-    this._doneWithLoading = value;
-    this.requestUpdate('doneWithLoading', oldValue);
-    this.onDoneWithLoadingChanged(value);
-  }
+  #showSpinner = false;
+  #showSpinnerDelay = 1000;
 
-  @property({ type: Boolean })
-  showSpinner = false;
-
-  @property({ type: Number })
-  spinnerDelay = 1000;
-
-  @property({ type: Boolean })
-  showContent = false;
-
-  onDoneWithLoadingChanged(value: boolean) {
-    if (value) {
-      this.showSpinner = false;
-      this.showContent = true;
-    }
-  }
-
-  connectedCallback(): void {
-    super.connectedCallback();
-
+  firstUpdated() {
     setTimeout(() => {
-      if (this.doneWithLoading) return;
-
-      this.showSpinner = true;
-    }, this.spinnerDelay);
+      if (!this.loading) return;
+      this.#showSpinner = true;
+      this.requestUpdate();
+    }, this.#showSpinnerDelay);
   }
 
   render() {
-    const contentClasses = classMap({
-      'opacity-0': !this.showContent,
-      'opacity-100': this.showContent,
+    const loadingClassMap = classMap({
+      display: this.loading ? 'block' : 'none',
+      'opacity-0': !this.loading || !this.#showSpinner,
+      'opacity-100': this.loading && this.#showSpinner,
+      'pointer-events-none': !this.loading,
     });
 
-    const spinnerClasses = classMap({
-      'opacity-0': !this.showSpinner,
-      'opacity-100': this.showSpinner,
+    const contentClassMap = classMap({
+      display: this.loading ? 'none' : 'block',
+      'opacity-0': this.loading,
+      'opacity-100': !this.loading,
+      'pointer-events-none': this.loading,
     });
 
-    return html`
-      <div class="${spinnerClasses} absolute mx-auto w-full transition duration-300">
-        <sme-spinner></sme-spinner>
-      </div>
-      <div class="${contentClasses} transition duration-300">
-        <slot></slot>
-      </div>
-    `;
+    return this.useSpinner
+      ? html`<div class="">
+          <div class="${contentClassMap}  transition duration-300">
+            <slot></slot>
+          </div>
+          <div class="${loadingClassMap}  transition duration-300">
+            <sme-spinner></sme-spinner>
+          </div>
+        </div>`
+      : html`
+          <div class="${contentClassMap} transition duration-300">
+            <slot></slot>
+          </div>
+        `;
   }
 }
 

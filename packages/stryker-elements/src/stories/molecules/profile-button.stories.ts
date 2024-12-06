@@ -1,5 +1,6 @@
 import '../../lib/atoms/buttons/button';
 import '../../lib/atoms/link';
+import '../../lib/atoms/loader';
 import '../../lib/molecules/profile-button';
 
 import type { Meta, StoryObj } from '@storybook/web-components';
@@ -26,5 +27,19 @@ export const LeftAlignment: StoryObj = {
   args: {
     avatarUrl: 'https://stryker-mutator.io/images/stryker.svg',
     direction: 'left',
+  },
+};
+
+export const Loading: StoryObj = {
+  name: 'Loading',
+  args: {
+    loading: true,
+  },
+  render: ({ loading }) => {
+    return html`
+      <sme-loader slot="right-side" ?loading=${loading}>
+        <sme-profile-button avatarUrl="https://stryker-mutator.io/images/stryker.svg"></sme-profile-button>
+      </sme-loader>
+    `;
   },
 };

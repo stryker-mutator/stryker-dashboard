@@ -56,16 +56,21 @@ export class RepositoriesPage extends LitElement {
     });
   }
 
+  loading = true;
   override render() {
+    setTimeout(() => {
+      this.loading = false;
+      this.requestUpdate();
+    }, 5000);
     return html`
-      <sme-loader ?doneWithLoading=${this.done.partOne && this.done.partTwo}>
         <sme-spatious-layout>
+      <sme-loader useSpinner .loading=${this.loading}>
           <sme-dropdown
             @dropdownChanged="${this.#handleDropDownChanged}"
             .options="${this.organizations}"
           ></sme-dropdown>
           <sme-hr></sme-hr>
-          <sme-loader ?doneWithLoading=${this.done.repositories}>
+          <sme-loader useSpinner .loading=${!this.done.repositories}>
             <sme-title>Enabled repositories</sme-title>
             ${when(
               this.#determineIfThereAreEnabledRepositories,
@@ -85,8 +90,8 @@ export class RepositoriesPage extends LitElement {
                 >`,
             )}
           </sme-loader>
-        </sme-spatious-layout>
-      </sme-loader>
+        </sme-loader>
+      </sme-spatious-layout>
       ${this.#renderRepositoryModal()}
     `;
   }

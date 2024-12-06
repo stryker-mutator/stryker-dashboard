@@ -11,13 +11,13 @@ export default {
 export const Default: StoryObj = {
   name: 'When loading',
   render: () =>
-    html`<sme-loader><h2 class="mb-4 text-center text-2xl font-bold text-white">Supported Frameworks</h2></sme-loader>`,
+    html`<sme-loader useSpinner><h2 class="mb-4 text-center text-2xl font-bold text-white">Supported Frameworks</h2></sme-loader>`,
 };
 
 export const Loaded: StoryObj = {
   name: 'When loaded',
   render: () => {
-    return html`<sme-loader ?doneWithLoading=${true}
+    return html`<sme-loader useSpinner .loading=${false}
       ><h2 class="mb-4 text-center text-2xl font-bold text-white">Supported Frameworks</h2></sme-loader
     >`;
   },
@@ -26,10 +26,10 @@ export const Loaded: StoryObj = {
 export const FullCycle: StoryObj = {
   name: 'Full cycle',
   args: {
-    doneWithLoading: false,
+    loading: true,
   },
-  render: ({ doneWithLoading }) => {
-    return html`<sme-loader ?doneWithLoading=${doneWithLoading}
+  render: ({ loading }) => {
+    return html`<sme-loader useSpinner .loading=${loading}
       ><h2 class="mb-4 text-center text-2xl font-bold text-white">Supported Frameworks</h2></sme-loader
     >`;
   },
