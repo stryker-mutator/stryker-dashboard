@@ -4,14 +4,15 @@ on:
   release:
     types: [created]
 
+permissions:
+  id-token: write
+  contents: read
+  packages: write
+
 jobs:
   release:
     name: 'Build and Release'
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write # to enable use of OIDC for npm provenance
-      packages: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -92,7 +93,9 @@ jobs:
       - name: 'Login via Azure CLI'
         uses: Azure/login@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS_DASHBOARD_PRODUCTION }}
+          client-id: ${{ secrets.AZURE_IDENTITY_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_IDENTITY_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_IDENTITY_SUBSCRIPTION_ID }}
 
       - name: 'Deploy dashboard.stryker-mutator.io'
         uses: azure/webapps-deploy@v3
@@ -116,7 +119,9 @@ jobs:
       - name: 'Login via Azure CLI'
         uses: Azure/login@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS_PRODUCTION }}
+          client-id: ${{ secrets.AZURE_IDENTITY_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_IDENTITY_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_IDENTITY_SUBSCRIPTION_ID }}
 
       - name: 'Download & prepare badge-api package'
         run: ./tasks/download-badge-api-package.sh ${GITHUB_REF:11}
