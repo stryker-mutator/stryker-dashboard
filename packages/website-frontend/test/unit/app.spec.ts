@@ -68,7 +68,7 @@ describe(StrykerDashboard.name, () => {
     // Act
     sut.connect();
     await sut.whenStable();
-    const signInButton = sut.element.querySelector('sme-top-bar')?.querySelector('sme-button') as HTMLButtonElement;
+    const signInButton = sut.element.querySelector('sme-top-bar')?.querySelector('sme-button') as unknown as HTMLButtonElement;
     signInButton?.click();
 
     await sut.whenStable();
