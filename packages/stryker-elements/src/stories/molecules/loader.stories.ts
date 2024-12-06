@@ -11,7 +11,9 @@ export default {
 export const Default: StoryObj = {
   name: 'When loading',
   render: () =>
-    html`<sme-loader useSpinner><h2 class="mb-4 text-center text-2xl font-bold text-white">Supported Frameworks</h2></sme-loader>`,
+    html`<sme-loader useSpinner
+      ><h2 class="mb-4 text-center text-2xl font-bold text-white">Supported Frameworks</h2></sme-loader
+    >`,
 };
 
 export const Loaded: StoryObj = {

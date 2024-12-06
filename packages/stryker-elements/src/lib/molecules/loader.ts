@@ -56,20 +56,20 @@ export class Loader extends BaseElement {
 
     return this.useSpinner
       ? html`
-        <div class="relative flex justify-center">
-          <div class="${contentClassMap} w-full transition duration-300">
-            <slot></slot>
-          </div>
-          <div class="${loadingClassMap} absolute top-0 transition duration-300">
+          <div class="relative flex justify-center">
+            <div class="${contentClassMap} w-full transition duration-300">
+              <slot></slot>
+            </div>
+            <div class="${loadingClassMap} absolute top-0 transition duration-300">
               <sme-spinner></sme-spinner>
             </div>
-        </div>
-      `
+          </div>
+        `
       : html`
-        <div class="${contentClassMap} transition duration-300">
-          <slot></slot>
-        </div>
-      `;
+          <div class="${contentClassMap} transition duration-300">
+            <slot></slot>
+          </div>
+        `;
   }
 }
 

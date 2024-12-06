@@ -6,8 +6,6 @@ import '../../lib/molecules/profile-button';
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
 
-
-
 export default {
   title: 'Molecules/Profile Button',
   component: 'sme-profile-button',
