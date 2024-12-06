@@ -1,10 +1,9 @@
 import '../../lib/organisms/top-bar';
 import '../../lib/atoms/buttons/button';
-import '../../lib/atoms/loader';
-
-import { html } from 'lit';
+import '../../lib/molecules/loader';
 
 import type { Meta, StoryObj } from '@storybook/web-components';
+import { html } from 'lit';
 
 export default {
   title: 'Organisms/Top Bar',

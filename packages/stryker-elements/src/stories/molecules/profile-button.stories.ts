@@ -1,10 +1,12 @@
 import '../../lib/atoms/buttons/button';
 import '../../lib/atoms/link';
-import '../../lib/atoms/loader';
+import '../../lib/molecules/loader';
 import '../../lib/molecules/profile-button';
 
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
+
+
 
 export default {
   title: 'Molecules/Profile Button',

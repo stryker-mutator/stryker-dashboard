@@ -56,15 +56,10 @@ export class RepositoriesPage extends LitElement {
     });
   }
 
-  loading = true;
   override render() {
-    setTimeout(() => {
-      this.loading = false;
-      this.requestUpdate();
-    }, 5000);
     return html`
-        <sme-spatious-layout>
-      <sme-loader useSpinner .loading=${this.loading}>
+      <sme-spatious-layout>
+        <sme-loader useSpinner .loading=${this.done.partOne && this.done.partTwo}>
           <sme-dropdown
             @dropdownChanged="${this.#handleDropDownChanged}"
             .options="${this.organizations}"

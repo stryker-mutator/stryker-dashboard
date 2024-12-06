@@ -1,5 +1,6 @@
-import { StoryObj } from '@storybook/web-components';
 import '../../lib/atoms/spinner';
+
+import type { StoryObj } from '@storybook/web-components';
 
 export default {
   title: 'Atoms/Spinner',

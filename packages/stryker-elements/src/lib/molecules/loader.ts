@@ -1,8 +1,10 @@
 import '../atoms/spinner';
-import { BaseElement } from '../base-element';
-import { customElement, property, state } from 'lit/decorators.js';
+
 import { html } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+
+import { BaseElement } from '../base-element';
 
 @customElement('sme-loader')
 export class Loader extends BaseElement {

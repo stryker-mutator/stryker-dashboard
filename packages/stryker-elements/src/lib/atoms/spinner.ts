@@ -1,5 +1,6 @@
 import { html } from 'lit';
 import { customElement } from 'lit/decorators.js';
+
 import { BaseElement } from '../base-element';
 
 @customElement('sme-spinner')
