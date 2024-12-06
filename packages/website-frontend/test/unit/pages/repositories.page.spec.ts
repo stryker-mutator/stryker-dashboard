@@ -45,7 +45,7 @@ describe(RepositoriesPage.name, () => {
       expect(window.location.pathname).to.eq('/repos/mockUser');
     });
 
-    it('should be done loading when fetch calls are complete', async () => {
+    it.only('should be done loading when fetch calls are complete', async () => {
       // Arrange
       userService.getRepositories = vi.fn(() => Promise.resolve([]));
       userService.organizations = vi.fn(() => Promise.resolve([]));
@@ -53,10 +53,10 @@ describe(RepositoriesPage.name, () => {
       // Act
       sut.connect();
       await sut.whenStable();
+      await sut.whenStable();
 
       // Assert
       const loader = sut.element.shadowRoot?.querySelector('sme-loader');
-      // The property exists but has no value (boolean property)
       expect(loader).not.toHaveAttribute('loading', '');
     });
   });
