@@ -59,7 +59,7 @@ export class RepositoriesPage extends LitElement {
   override render() {
     return html`
       <sme-spatious-layout>
-        <sme-loader useSpinner .loading=${this.done.partOne && this.done.partTwo}>
+        <sme-loader useSpinner .loading=${!this.done.partOne && !this.done.partTwo}>
           <sme-dropdown
             @dropdownChanged="${this.#handleDropDownChanged}"
             .options="${this.organizations}"
