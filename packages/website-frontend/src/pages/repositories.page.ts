@@ -58,14 +58,14 @@ export class RepositoriesPage extends LitElement {
 
   override render() {
     return html`
-      <sme-loader ?doneWithLoading=${this.done.partOne && this.done.partTwo}>
-        <sme-spatious-layout>
+      <sme-spatious-layout>
+        <sme-loader useSpinner .loading=${!this.done.partOne && !this.done.partTwo}>
           <sme-dropdown
             @dropdownChanged="${this.#handleDropDownChanged}"
             .options="${this.organizations}"
           ></sme-dropdown>
           <sme-hr></sme-hr>
-          <sme-loader ?doneWithLoading=${this.done.repositories}>
+          <sme-loader useSpinner .loading=${!this.done.repositories}>
             <sme-title>Enabled repositories</sme-title>
             ${when(
               this.#determineIfThereAreEnabledRepositories,
@@ -85,8 +85,8 @@ export class RepositoriesPage extends LitElement {
                 >`,
             )}
           </sme-loader>
-        </sme-spatious-layout>
-      </sme-loader>
+        </sme-loader>
+      </sme-spatious-layout>
       ${this.#renderRepositoryModal()}
     `;
   }

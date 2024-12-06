@@ -17,7 +17,6 @@ describe(RepositoriesPage.name, () => {
       avatarUrl: 'foo',
       name: 'mockUser',
     });
-    // historyService.getHistory = vi.fn(() => ({ pushState: pushStateMock }) as unknown as History);
     sut = new CustomElementFixture('stryker-dashboard-repositories-page', { autoConnect: false });
   });
 
@@ -54,11 +53,11 @@ describe(RepositoriesPage.name, () => {
       // Act
       sut.connect();
       await sut.whenStable();
+      await sut.whenStable();
 
       // Assert
       const loader = sut.element.shadowRoot?.querySelector('sme-loader');
-      // The property exists but has no value (boolean property)
-      expect(loader).toHaveAttribute('doneWithLoading', '');
+      expect(loader).not.toHaveAttribute('loading', '');
     });
   });
 
