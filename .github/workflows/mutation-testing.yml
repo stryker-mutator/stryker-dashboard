@@ -9,14 +9,24 @@ jobs:
   website-frontend:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
-      - run: npm ci
-      - run: npm run build
-      - run: npx playwright install chromium --with-deps
+
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build
+        run: npm run build
+
+      - name: Install chromium
+        run: npx playwright install chromium --with-deps
+
       - name: Mutation testing
         run: npx nx run @stryker-mutator/dashboard-frontend:stryker
         env:
@@ -25,13 +35,20 @@ jobs:
   non-frontend:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
-      - run: npm ci
-      - run: npm run build
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
       - name: Mutation testing
         run: npx nx run-many --parallel 1 --exclude @stryker-mutator/dashboard-frontend -t stryker
         env:
