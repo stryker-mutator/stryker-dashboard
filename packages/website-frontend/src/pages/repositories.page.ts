@@ -1,5 +1,6 @@
 import type { Repository } from '@stryker-mutator/dashboard-contract';
 import type { ToggleRepository } from '@stryker-mutator/stryker-elements';
+import type { PropertyValues } from 'lit';
 import { html, LitElement, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
@@ -54,6 +55,12 @@ export class RepositoriesPage extends LitElement {
 
       this.done.partTwo = true;
     });
+  }
+
+  protected updated(changedProperties: PropertyValues<this>): void {
+    if (changedProperties.has('modalOpen') && this.modalOpen) {
+      document.dispatchEvent(new CustomEvent('modal-open'));
+    }
   }
 
   override render() {
@@ -216,12 +223,6 @@ export class RepositoriesPage extends LitElement {
   #openModal(repository: Repository, apiKey: string | null = null) {
     this.modalOpen = true;
     this.repositoryToToggle = { instance: repository, apiKey };
-
-    setTimeout(() => {
-      // The reason for this timeout is that we first render the (closed) modal
-      // Afterwards we can open it. We do this to ensure the modal is reset every time when closing it.
-      document.dispatchEvent(new CustomEvent('modal-open'));
-    }, 10);
   }
 
   #handleModalClosed() {

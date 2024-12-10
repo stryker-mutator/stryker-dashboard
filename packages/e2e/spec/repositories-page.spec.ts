@@ -53,8 +53,8 @@ test.describe.serial('Repositories page', () => {
   test.describe('when clicking on repositories', () => {
     test('should have the correct count of repositories', async () => {
       await page.waitForSelector('sme-list#disabled-repositories');
-      expect(await repositoriesPage.disabledRepositories.count()).toBe(2);
-      expect(await page.locator('sme-notify').count()).toBe(1);
+      await expect(repositoriesPage.disabledRepositories).toHaveCount(2);
+      await expect(page.locator('sme-notify')).toHaveCount(1);
     });
 
     test('should enable and disable repository', async () => {
