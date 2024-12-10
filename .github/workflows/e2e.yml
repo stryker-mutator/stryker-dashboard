@@ -1,13 +1,9 @@
-name: e2e
-
 on:
   workflow_dispatch:
   pull_request:
     types: [synchronize, opened, reopened]
 
-permissions:
-  id-token: write
-  contents: read
+name: e2e
 
 jobs:
   build-and-release:
@@ -18,30 +14,21 @@ jobs:
     permissions:
       contents: read
       packages: write
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Set NPM Env
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
-
       - name: Install dependencies
         run: npm ci
-
       - name: Choose version
         id: version
         run: 'node tasks/set-npm-canary-version.js'
-
       - name: Build
         run: npm run build
-
       - name: Lerna publish canary version
         run: |
           git config --global user.name "stryker-mutator[bot]"
@@ -70,9 +57,8 @@ jobs:
             type=ref,event=pr
             type=semver,pattern={{version}},value=v${{ steps.version.outputs.npm-package-version }}
 
-      - name: Give npmjs.com time to get versioning consistent
-        run: sleep 90s
-
+      # Add a sleep to give npmjs.com the time to get the versions consistent
+      - run: sleep 15s
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         id: build
@@ -97,57 +83,44 @@ jobs:
     concurrency:
       group: Acceptance
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Download & install badge-api package
         run: ./tasks/download-badge-api-package.sh ${{ needs.build-and-release.outputs.npm-package-version }}
-
-      - name: Azure login
-        uses: Azure/login@v2
+      - uses: azure/login@v2
+        name: Azure login
         with:
-          client-id: ${{ secrets.AZURE_IDENTITY_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_IDENTITY_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_IDENTITY_SUBSCRIPTION_ID }}
-
+          creds: ${{ secrets.AZURE_CREDENTIALS_ACCEPTANCE }}
       - name: 'Deploy stryker-dashboard-acceptance.azurewebsites.net'
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'stryker-dashboard-acceptance'
           images: 'ghcr.io/stryker-mutator/dashboard:${{ needs.build-and-release.outputs.npm-package-version }}'
-
       - name: 'Deploy stryker-mutator-badge-api-acceptance.azurewebsites.net'
         uses: Azure/functions-action@v1
         id: fa
         with:
           app-name: stryker-mutator-badge-api-acceptance
           package: 'package'
-
       - name: 'Verify deployment'
         run: |
           node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api ${{ needs.build-and-release.outputs.npm-package-version }}
           node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version ${{ needs.build-and-release.outputs.npm-package-version }}
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
-
       - name: Install dependencies
         run: npm ci
-
       - name: Install browsers
         run: |
           cd packages/e2e
           npx playwright install chromium --with-deps
-
       - name: Build
         run: |
           cd packages/e2e
           npx tsc -b
           cd ../..
-
       - name: Run e2e tests
         run: |
           cd packages/e2e
@@ -158,9 +131,7 @@ jobs:
           E2E_JWT_SECRET: ${{ secrets.E2E_JWT_SECRET }}
           E2E_ACCESS_TOKEN: ${{ secrets.E2E_ACCESS_TOKEN }}
           E2E_BADGE_API_BASE_URL: https://stryker-mutator-badge-api-acceptance.azurewebsites.net
-
-      - name: Upload artifacts if failed
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: playwright-videos
