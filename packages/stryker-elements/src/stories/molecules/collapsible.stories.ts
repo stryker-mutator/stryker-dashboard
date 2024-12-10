@@ -8,5 +8,9 @@ export default {
 } as Meta;
 
 export const Default: StoryObj = {
-  render: () => html`<sme-collapsible title="foo">Click here!</sme-collapsible>`,
+  args: {
+    title: 'foo',
+    content: 'Click here!',
+  },
+  render: ({ title, content }) => html`<sme-collapsible title="${title}">${content}</sme-collapsible>`,
 };
