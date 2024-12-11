@@ -11,7 +11,7 @@ export const Default: StoryObj = {
   args: {
     title: 'foo',
     content: 'Click here!',
-    opened: true,
+    opened: false,
   },
   render: ({ title, content, opened }) =>
     html`<sme-collapsible title="${title}" ?opened="${opened}">${content}</sme-collapsible>`,

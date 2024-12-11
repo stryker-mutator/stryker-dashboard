@@ -226,13 +226,9 @@ export class RepositoriesPage extends LitElement {
   }
 
   #handleModalClosed() {
-    setTimeout(() => {
-      // Reset the state of the modal
-      this.repositoryToToggle = null;
-      this.modalOpen = false;
-
-      this.requestUpdate();
-    }, 300);
+    // Reset the state of the modal
+    this.repositoryToToggle = null;
+    this.modalOpen = false;
   }
 
   #reflectOrganizationOrUserInUrl(orgOrUser: string) {
