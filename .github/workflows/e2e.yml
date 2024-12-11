@@ -48,7 +48,7 @@ jobs:
           git config --global user.email 158062761+stryker-mutator[bot]@users.noreply.github.com
           npx lerna version ${{ steps.version.outputs.npm-package-version }} --no-git-tag-version --no-push --exact --force-publish --yes --no-conventional-commits
           git commit -am "temp-commit"
-          npx lerna publish from-package --dist-tag canary --no-git-reset --yes --no-verify-access
+          npx lerna publish from-package --dist-tag canary --no-git-reset --yes
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
@@ -70,8 +70,8 @@ jobs:
             type=ref,event=pr
             type=semver,pattern={{version}},value=v${{ steps.version.outputs.npm-package-version }}
 
-      - name: Give npmjs.com time to get versioning consistent
-        run: sleep 15s
+      - name: Wait for package to be available
+        run: node tasks/wait-for-npm-package.js ${{ steps.version.outputs.npm-package-version }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
