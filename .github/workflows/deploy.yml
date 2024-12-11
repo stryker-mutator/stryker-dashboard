@@ -37,8 +37,8 @@ jobs:
         env:
           NPM_CONFIG_PROVENANCE: true
 
-      - name: Give npmjs.com time to get versioning consistent
-        run: sleep 15s
+      - name: Wait for package to be available
+        run: node tasks/wait-for-npm-package.js ${GITHUB_REF:11}
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3
