@@ -1,3 +1,4 @@
+import type { PropertyValues } from 'lit';
 import { html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
@@ -26,7 +27,13 @@ export class Modal extends BaseElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    // document.removeEventListener(MODAL_OPEN_EVENT, this.#handleModalOpen);
+    document.removeEventListener(MODAL_OPEN_EVENT, this.#handleModalOpen);
+  }
+
+  protected updated(changedProperties: PropertyValues<this>): void {
+    if (changedProperties.has('isOpen') && !this.isOpen) {
+      this.dispatchEvent(new CustomEvent(MODAL_CLOSED_EVENT));
+    }
   }
 
   render() {
@@ -65,8 +72,6 @@ export class Modal extends BaseElement {
     this.isAnimating = false;
 
     setTimeout(() => (this.isOpen = false), 300);
-
-    document.dispatchEvent(new Event(MODAL_CLOSED_EVENT));
   }
 }
 

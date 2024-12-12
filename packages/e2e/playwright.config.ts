@@ -8,9 +8,11 @@ export default defineConfig({
   testDir: 'spec',
   workers: 1,
   globalSetup: './spec/global-setup.ts',
+  /* Fail the build on CI if you accidentally left test.only in the source code. */
+  forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  reporter: process.env.CI ? [['github'], ['html']] : [['list'], ['html']],
+  reporter: process.env.CI ? [['github'], ['list'], ['html']] : [['list'], ['html']],
   use: {
     ...devices['Desktop Chrome'],
   },

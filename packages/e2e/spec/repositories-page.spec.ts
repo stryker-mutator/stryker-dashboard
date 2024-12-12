@@ -12,7 +12,7 @@ test.describe.serial('Repositories page', () => {
   let page: Page;
   let client: ReportClient;
 
-  const copyText: () => Promise<string> = async () => await page.evaluate('navigator.clipboard.readText()');
+  const copyText = () => page.evaluate<string>('navigator.clipboard.readText()');
 
   const enableRepository = async () => {
     await page.waitForSelector('sme-list#disabled-repositories');
@@ -53,8 +53,8 @@ test.describe.serial('Repositories page', () => {
   test.describe('when clicking on repositories', () => {
     test('should have the correct count of repositories', async () => {
       await page.waitForSelector('sme-list#disabled-repositories');
-      expect(await repositoriesPage.disabledRepositories.count()).toBe(2);
-      expect(await page.locator('sme-notify').count()).toBe(1);
+      await expect(repositoriesPage.disabledRepositories).toHaveCount(2);
+      await expect(page.locator('sme-notify')).toHaveCount(1);
     });
 
     test('should enable and disable repository', async () => {
@@ -68,23 +68,23 @@ test.describe.serial('Repositories page', () => {
       await page.locator('sme-modal div.mt-auto sme-button > button').click();
 
       let enabledRepositories = repositoriesPage.enabledRepositories;
-      expect(await enabledRepositories.first().isHidden()).toBe(false); // first one was enabled
-      expect(await enabledRepositories.last().isHidden()).toBe(true);
+      await expect(enabledRepositories.first()).toBeVisible(); // first one was enabled
+      await expect(enabledRepositories.last()).toBeHidden();
 
       let disabledRepositories = repositoriesPage.disabledRepositories;
-      expect(await disabledRepositories.first().isHidden()).toBe(true);
-      expect(await disabledRepositories.last().isHidden()).toBe(false);
+      await expect(disabledRepositories.first()).toBeHidden();
+      await expect(disabledRepositories.last()).toBeVisible();
 
       await disableRepository();
       await page.waitForTimeout(500);
 
       enabledRepositories = repositoriesPage.enabledRepositories;
-      expect(await enabledRepositories.first().isHidden()).toBe(true); // first one was enabled
-      expect(await enabledRepositories.last().isHidden()).toBe(true);
+      await expect(enabledRepositories.first()).toBeHidden(); // first one was enabled
+      await expect(enabledRepositories.last()).toBeHidden();
 
       disabledRepositories = repositoriesPage.disabledRepositories;
-      expect(await disabledRepositories.first().isHidden()).toBe(false);
-      expect(await disabledRepositories.last().isHidden()).toBe(false);
+      await expect(disabledRepositories.first()).toBeVisible();
+      await expect(disabledRepositories.last()).toBeVisible();
     });
   });
 

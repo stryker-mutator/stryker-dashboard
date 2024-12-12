@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 
 import { BaseElement } from '../base-element';
@@ -8,7 +8,7 @@ const COPY_RESET_TIMING = 2000;
 
 @customElement('sme-copy-text')
 export class CopyText extends BaseElement {
-  @property({ type: Boolean, reflect: true })
+  @state()
   copiedText = false;
 
   render() {
