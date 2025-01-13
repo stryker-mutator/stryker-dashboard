@@ -157,7 +157,7 @@ export class RepositoriesPage extends LitElement {
         )}
         <sme-collapsible id="badge-collapsible" title="Badge">
           <sme-badge-configurator
-            projectName="${ifDefined(this.repositoryToToggle?.instance.name)}"
+            projectName="${ifDefined(this.repositoryToToggle?.instance.slug)}"
           ></sme-badge-configurator>
         </sme-collapsible>
         <sme-collapsible id="usage-collapsible" title="Usage">
