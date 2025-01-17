@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.17.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.16.0...v0.17.0) (2025-01-17)
+
+### Features
+
+- **elements:** animate collapsible opening/closing ([#1119](https://github.com/stryker-mutator/stryker-dashboard/issues/1119)) ([3cfb554](https://github.com/stryker-mutator/stryker-dashboard/commit/3cfb5546fbaf28f711416d2d5267168390562c9d))
+- **website-frontend:** show spinner when loading takes too long ([#1023](https://github.com/stryker-mutator/stryker-dashboard/issues/1023)) ([f85dffa](https://github.com/stryker-mutator/stryker-dashboard/commit/f85dffa2af2ba1c0731eb7181f8027c2ed7d3a5e))
+
 # [0.16.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.15.1...v0.16.0) (2024-11-30)
 
 ### Features

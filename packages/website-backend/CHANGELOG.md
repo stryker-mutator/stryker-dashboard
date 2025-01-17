@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.17.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.16.0...v0.17.0) (2025-01-17)
+
+### Bug Fixes
+
+- **deps:** update nestjs packages to v10.4.13 ([#1104](https://github.com/stryker-mutator/stryker-dashboard/issues/1104)) ([1d36555](https://github.com/stryker-mutator/stryker-dashboard/commit/1d36555823893f15cb9cac2a2fcdbb2c7999a29e))
+- **deps:** update nestjs packages to v10.4.15 ([#1116](https://github.com/stryker-mutator/stryker-dashboard/issues/1116)) ([ef9d319](https://github.com/stryker-mutator/stryker-dashboard/commit/ef9d319cac27914ea4f2fa98cfd953a2cd2d0fd6))
+
 # [0.16.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.15.1...v0.16.0) (2024-11-30)
 
 ### Bug Fixes
