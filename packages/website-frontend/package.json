@@ -17,14 +17,14 @@
     "@stryker-mutator/dashboard-contract": "0.16.0",
     "@stryker-mutator/stryker-elements": "0.16.0",
     "@vaadin/router": "2.0.0",
-    "@vitest/browser": "2.1.8",
+    "@vitest/browser": "3.0.1",
     "lit": "3.2.1",
     "mutation-testing-elements": "3.4.0",
     "mutation-testing-metrics": "3.3.0",
     "mutation-testing-report-schema": "3.3.0",
     "playwright": "1.49.1",
     "vite": "6.0.7",
-    "vitest": "2.1.8",
+    "vitest": "3.0.1",
     "vitest-fetch-mock": "0.4.3"
   },
   "repository": {
