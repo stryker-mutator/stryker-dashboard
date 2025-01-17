@@ -1,6 +1,4 @@
-import fs from 'fs/promises';
 import { Controller, Get, Param } from '@nestjs/common';
-
 import {
   createMutationTestingReportMapper,
   DashboardQuery,
@@ -8,6 +6,8 @@ import {
   MutationTestingReportMapper,
 } from '@stryker-mutator/dashboard-data-access';
 import { version as frontendVersion } from '@stryker-mutator/dashboard-frontend';
+import fs from 'fs/promises';
+
 import { parseSlug } from '../utils/utils.js';
 
 const dashboardVersion = (

@@ -1,8 +1,8 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 import { BaseElement } from '../base-element.js';
-import { classMap } from 'lit/directives/class-map.js';
 
 @customElement('sme-split-layout')
 export class SplitLayout extends BaseElement {

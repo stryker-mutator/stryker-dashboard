@@ -1,7 +1,8 @@
-import { html, TemplateResult } from 'lit';
+import type { TemplateResult } from 'lit';
+import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { map } from 'lit/directives/map.js';
 import { classMap } from 'lit/directives/class-map.js';
+import { map } from 'lit/directives/map.js';
 
 import { BaseElement } from '../base-element';
 

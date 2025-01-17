@@ -1,15 +1,16 @@
+import 'mutation-testing-elements';
+
+import type { MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
+import { isMutationTestResult, isPendingReport } from '@stryker-mutator/dashboard-common';
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
-
-import { isMutationTestResult, isPendingReport, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
 import type { ThemeChangedEvent } from 'mutation-testing-elements';
-import 'mutation-testing-elements';
-import { MutationTestResult } from 'mutation-testing-report-schema';
+import type { MutationTestResult } from 'mutation-testing-report-schema';
 
-import { reportService } from '../services/report.service';
 import { locationService } from '../services/location.service';
+import { reportService } from '../services/report.service';
 import { versionService } from '../services/version.service';
 
 interface Reports {
@@ -104,7 +105,7 @@ export class ReportPage extends LitElement {
 
     return html`
       <sme-loader useSpinner .loading="${!this.reports.main}">
-        ${when(this.reports.main, () => { 
+        ${when(this.reports.main, () => {
           return html`
             <sme-tab-panels
               .tabs="${['Report', 'Compare']}"
@@ -173,7 +174,7 @@ export class ReportPage extends LitElement {
     this.loaded = { ...this.loaded, [direction]: false };
 
     const report = await reportService.getReport(this.#configureSlugWithVersion(event.detail.value));
-    if (report == undefined) {
+    if (report === undefined) {
       return;
     }
 
