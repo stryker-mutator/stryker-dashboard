@@ -3,7 +3,6 @@ import type { ToggleRepository } from '@stryker-mutator/stryker-elements';
 import type { PropertyValues } from 'lit';
 import { html, LitElement, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
 
@@ -157,7 +156,7 @@ export class RepositoriesPage extends LitElement {
         )}
         <sme-collapsible id="badge-collapsible" title="Badge">
           <sme-badge-configurator
-            projectName="${ifDefined(this.repositoryToToggle?.instance.name)}"
+            projectName="${this.repositoryToToggle?.instance.slug}/${this.repositoryToToggle?.instance.defaultBranch}"
           ></sme-badge-configurator>
         </sme-collapsible>
         <sme-collapsible id="usage-collapsible" title="Usage">
