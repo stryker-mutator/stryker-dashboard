@@ -1,6 +1,7 @@
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
+import { when } from 'lit/directives/when.js';
 
 import { BaseElement } from '../base-element';
 
@@ -12,6 +13,12 @@ export class Dropdown extends BaseElement {
   @property({ type: Array })
   options: { name: string; value: string }[] = [];
 
+  @property({ type: String })
+  selectedOption = '';
+
+  @property({ type: Boolean })
+  withDisabledEmtpyOption = false;
+
   render() {
     return html`
       <select
@@ -19,7 +26,17 @@ export class Dropdown extends BaseElement {
         class="w-full rounded-lg bg-neutral-800 p-2 text-3xl text-white"
         @change="${this.#handleChange}"
       >
-        ${map(this.options, (option) => html`<option value="${option.value}">${option.name}</option>`)}
+        ${when(
+          this.withDisabledEmtpyOption,
+          () => html`<option value="" disabled selected>Select an option</option>`,
+          () => nothing,
+        )}
+        ${map(
+          this.options,
+          (option) => html`
+            <option value="${option.value}" ?selected="${option.value === this.selectedOption}">${option.name}</option>
+          `,
+        )}
       </select>
     `;
   }

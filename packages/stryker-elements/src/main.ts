@@ -26,7 +26,8 @@ export { Loader } from './lib/molecules/loader';
 export { Modal } from './lib/molecules/modal';
 export { ProfileButton } from './lib/molecules/profile-button';
 export { Repository } from './lib/molecules/repository';
-export { SupportedFrameworkList } from './lib/molecules/supported-framework-list';
+export { SplitLayout } from './lib/molecules/split-layout';
+export { TabPanels } from './lib/molecules/tab-panels';
 export { ToggleRepository } from './lib/molecules/toggle-repository';
 
 // Organisms
