@@ -41,6 +41,9 @@ export class ReportPage extends LitElement {
   selection = { left: '', right: '' };
 
   @state()
+  selectedTheme: 'light' | 'dark' | undefined = 'light';
+
+  @state()
   sse: string | undefined;
 
   @state()
@@ -104,7 +107,7 @@ export class ReportPage extends LitElement {
     }
 
     return html`
-      <sme-loader useSpinner .loading="${!this.reports.main}">
+      <sme-loader useFullHeight useSpinner .loading="${!this.reports.main}">
         ${when(this.reports.main, () => {
           return html`
             <sme-tab-panels
@@ -118,25 +121,30 @@ export class ReportPage extends LitElement {
   }
 
   #renderReport() {
-    return html` <mutation-test-report-app
-      @theme-changed=${this.#handleThemeChange}
-      .titlePostfix="${this.#title}"
-      .report="${this.reports.main}"
-      sse="${ifDefined(this.sse)}"
-    ></mutation-test-report-app>`;
+    return html`
+      <mutation-test-report-app
+        @theme-changed=${(e: ThemeChangedEvent) => this.#handleThemeChange(e)}
+        .theme=${this.selectedTheme}
+        .titlePostfix="${this.#title}"
+        .report="${this.reports.main}"
+        sse="${ifDefined(this.sse)}"
+      ></mutation-test-report-app>
+    `;
   }
 
   #renderCompareView() {
     return html`
-      <sme-split-layout withBackground>
+      <sme-split-layout>
         <div slot="left">
           <sme-dropdown
             @dropdownChanged="${(e: CustomEvent<{ value: string }>) => this.#handleLeftVersionChange(e)}"
             .options="${this.versions}"
             .selectedOption="${this.selection.left}"
           ></sme-dropdown>
-          <sme-loader useSpinner .loading="${this.loaded.left}">
+          <sme-loader useSpinner .loading="${!this.loaded.left}">
             <mutation-test-report-app
+              @theme-changed=${(e: ThemeChangedEvent) => this.#handleThemeChange(e)}
+              .theme=${this.selectedTheme}
               .report="${this.reports.left}"
               sse="${ifDefined(this.sse)}"
             ></mutation-test-report-app>
@@ -149,8 +157,10 @@ export class ReportPage extends LitElement {
             .selectedOption="${this.selection.right}"
             ?withDisabledEmtpyOption="${this.selection.right !== undefined}"
           ></sme-dropdown>
-          <sme-loader ?doneWithLoading="${this.loaded.right}">
+          <sme-loader useSpinner .loading="${!this.loaded.right}">
             <mutation-test-report-app
+              @theme-changed=${(e: ThemeChangedEvent) => this.#handleThemeChange(e)}
+              .theme=${this.selectedTheme}
               .report="${this.reports.right}"
               sse="${ifDefined(this.sse)}"
             ></mutation-test-report-app>
@@ -233,6 +243,7 @@ export class ReportPage extends LitElement {
 
   #handleThemeChange(event: ThemeChangedEvent): void {
     this.style.backgroundColor = event.detail.themeBackgroundColor;
+    this.selectedTheme = event.detail.theme;
   }
 }
 

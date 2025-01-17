@@ -12,6 +12,9 @@ export class Loader extends BaseElement {
   useSpinner = false;
 
   @property({ type: Boolean, reflect: true })
+  useFullHeight = false;
+
+  @property({ type: Boolean, reflect: true })
   loading = true;
 
   @state()
@@ -30,6 +33,10 @@ export class Loader extends BaseElement {
       this.requestUpdate();
       this.#showSpinner = true;
     }, this.#showSpinnerDelay);
+
+    // if (this.useFullHeight) {
+    this.style.height = '100%';
+    // }
   }
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
@@ -54,9 +61,13 @@ export class Loader extends BaseElement {
       'pointer-events-none': this.loading,
     });
 
+    const fullHeightClassMap = classMap({
+      'h-full': this.useFullHeight,
+    });
+
     return this.useSpinner
       ? html`
-          <div class="relative flex justify-center">
+          <div class="${fullHeightClassMap} relative flex justify-center">
             <div class="${contentClassMap} w-full transition duration-300">
               <slot></slot>
             </div>

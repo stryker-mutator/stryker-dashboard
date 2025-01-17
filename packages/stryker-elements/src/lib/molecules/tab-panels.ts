@@ -17,9 +17,14 @@ export class TabPanels extends BaseElement {
   @state()
   activeTab = 0;
 
+  protected firstUpdated(): void {
+    this.style.display = 'block';
+    this.style.height = '100%';
+  }
+
   render() {
     return html`
-      <div class="h-full w-full">
+      <div class="w-full">
         <div class="flex justify-center bg-red-900">
           ${map(this.tabs, (tab, index) => {
             return html`
