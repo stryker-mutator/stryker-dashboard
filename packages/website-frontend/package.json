@@ -23,7 +23,7 @@
     "mutation-testing-metrics": "3.3.0",
     "mutation-testing-report-schema": "3.3.0",
     "playwright": "1.49.1",
-    "vite": "6.0.9",
+    "vite": "6.0.10",
     "vitest": "3.0.2",
     "vitest-fetch-mock": "0.4.3"
   },
