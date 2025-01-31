@@ -14,8 +14,11 @@ RUN npm init --yes && \
 RUN --mount=type=cache,id=npm,target=/root/.npm npm install @stryker-mutator/dashboard-backend@$version
 
 FROM base
+# Add /app./node_modules/.bin/ to the PATH
+ENV PATH $PATH:/app/node_modules/.bin/
+
 COPY --from=build /app/ /app/
 
-HEALTHCHECK CMD npx --offline dashboard-healthcheck
+HEALTHCHECK CMD dashboard-healthcheck
 EXPOSE 1337
-ENTRYPOINT [ "npx", "--offline", "dashboard-backend" ]
+ENTRYPOINT [ "dashboard-backend" ]

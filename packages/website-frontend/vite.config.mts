@@ -42,11 +42,15 @@ export default defineConfig({
     globals: true,
     include: ['test/unit/**/*.spec.ts'],
     browser: {
-      name: 'chromium',
       enabled: true,
       provider: 'playwright',
-      headless: Boolean(process.env.CI || process.env.HEADLESS),
-      screenshotFailures: false,
+      instances: [
+        {
+          browser: 'chromium',
+          headless: Boolean(process.env.CI || process.env.HEADLESS),
+          screenshotFailures: false,
+        },
+      ],
     },
   },
 });
