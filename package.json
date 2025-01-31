@@ -12,7 +12,7 @@
   ],
   "devDependencies": {
     "@actions/core": "1.11.1",
-    "@eslint/js": "9.18.0",
+    "@eslint/js": "9.19.0",
     "@stryker-mutator/core": "8.7.1",
     "@stryker-mutator/mocha-runner": "8.7.1",
     "@stryker-mutator/vitest-runner": "8.7.1",
@@ -38,7 +38,7 @@
     "rimraf": "6.0.1",
     "sinon": "19.0.2",
     "typescript": "5.7.3",
-    "typescript-eslint": "8.21.0",
+    "typescript-eslint": "8.22.0",
     "vite-plugin-dts": "4.5.0"
   },
   "license": "Apache-2.0",
