@@ -1,9 +1,20 @@
 /// <reference types="vitest" />
+import tailwindcss from '@tailwindcss/vite';
+import browserslist from 'browserslist';
+import { browserslistToTargets } from 'lightningcss';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  plugins: [tailwindcss()],
   build: {
+    cssMinify: 'lightningcss',
     target: 'esnext',
+  },
+  css: {
+    transformer: 'lightningcss',
+    lightningcss: {
+      targets: browserslistToTargets(browserslist()),
+    },
   },
   optimizeDeps: {
     esbuildOptions: {

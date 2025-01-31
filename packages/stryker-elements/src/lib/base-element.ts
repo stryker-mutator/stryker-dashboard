@@ -1,5 +1,3 @@
-import '../tailwind-styles/global.css';
-
 import { LitElement, unsafeCSS } from 'lit';
 import { property } from 'lit/decorators.js';
 

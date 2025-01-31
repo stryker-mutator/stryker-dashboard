@@ -1,3 +1,6 @@
+import tailwindcss from '@tailwindcss/vite';
+import browserslist from 'browserslist';
+import { browserslistToTargets } from 'lightningcss';
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
@@ -10,12 +13,20 @@ const TYPES_DIR = resolve(__dirname, 'dist');
 
 export default defineConfig({
   plugins: [
+    tailwindcss(),
     dts({
       outDir: TYPES_DIR,
     }),
   ],
+  css: {
+    transformer: 'lightningcss',
+    lightningcss: {
+      targets: browserslistToTargets(browserslist('defaults and > 0.2%')),
+    },
+  },
   build: {
-    target: 'ESNext',
+    cssMinify: 'lightningcss',
+    target: 'esnext',
     sourcemap: true,
     minify: false,
     outDir: BUILD_DIR,

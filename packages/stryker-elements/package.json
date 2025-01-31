@@ -55,8 +55,8 @@
     "@storybook/web-components": "8.5.2",
     "@storybook/web-components-vite": "8.5.2",
     "@stryker-mutator/dashboard-common": "0.17.0",
-    "autoprefixer": "10.4.20",
-    "postcss": "8.5.1",
+    "@tailwindcss/vite": "^4.0.1",
+    "lightningcss": "^1.29.1",
     "storybook": "8.5.2",
     "tailwindcss": "4.0.1",
     "vite": "6.0.11"
