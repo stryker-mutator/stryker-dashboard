@@ -26,6 +26,7 @@ async function configureAzureStorage(app: INestApplication) {
     dataAccess.blobService.createStorageIfNotExists(),
     dataAccess.mutationTestingReportService.createStorageIfNotExists(),
     dataAccess.repositoryMapper.createStorageIfNotExists(),
+    dataAccess.mutationTestingMetricsMapper.createStorageIfNotExists(),
   ]);
 }
 

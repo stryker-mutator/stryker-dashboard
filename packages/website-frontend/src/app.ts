@@ -2,6 +2,7 @@ import './pages/auth.page';
 import './pages/home.page';
 import './pages/report.page';
 import './pages/repositories.page';
+import './pages/statistics.page';
 /* Import preflight styles */
 import '@stryker-mutator/stryker-elements';
 
@@ -63,6 +64,7 @@ export class StrykerDashboard extends LitElement {
         component: 'stryker-dashboard-repositories-page',
       },
       { path: '/reports/(.*)', component: 'stryker-dashboard-report-page' },
+      { path: '/statistics/(.*)', component: 'stryker-dashboard-statistics-page' },
       { path: '/auth/github/callback', component: 'stryker-dashboard-auth-page' },
       { path: '(.*)', redirect: '/' },
     ]);

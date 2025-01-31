@@ -27,6 +27,7 @@ import Configuration from '../services/Configuration.js';
 import DataAccess from '../services/DataAccess.js';
 import { ReportValidator } from '../services/ReportValidator.js';
 import { parseSlug } from '../utils/utils.js';
+import { calculateMetrics } from 'mutation-testing-metrics';
 
 const API_KEY_HEADER = 'X-Api-Key';
 
@@ -66,7 +67,7 @@ export default class ReportsController {
     this.verifyIsCompletedReport(result);
     try {
       await this.#reportService.saveReport({ projectName: project, version, moduleName }, result, this.#logger);
-
+      
       if (moduleName && isMutationTestResult(result)) {
         return {
           href: `${this.#config.baseUrl}/reports/${project}/${version}?module=${moduleName}`,

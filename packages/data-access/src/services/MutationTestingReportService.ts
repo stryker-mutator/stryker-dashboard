@@ -1,13 +1,14 @@
 import type { Logger, MutationScoreOnlyResult, Report, ReportIdentifier } from '@stryker-mutator/dashboard-common';
 import { isMutationTestResult } from '@stryker-mutator/dashboard-common';
-import { aggregateResultsByModule, calculateMetrics } from 'mutation-testing-metrics';
+import { aggregateResultsByModule, calculateMetrics, FileUnderTestModel, Metrics, MetricsResult } from 'mutation-testing-metrics';
 import type { MutationTestResult } from 'mutation-testing-report-schema';
 
 import { OptimisticConcurrencyError } from '../errors/index.js';
-import type { MutationTestingReportMapper } from '../mappers/index.js';
-import { createMutationTestingReportMapper, DashboardQuery } from '../mappers/index.js';
+import type { MutationTestingMetricsMapper, MutationTestingReportMapper } from '../mappers/index.js';
+import { createMutationTestingMetricsMapper, createMutationTestingReportMapper, DashboardQuery } from '../mappers/index.js';
 import { MutationTestingResultMapper } from '../mappers/MutationTestingResultMapper.js';
-import { MutationTestingReport } from '../models/index.js';
+import { MutationTestingReport, Project } from '../models/index.js';
+import { MutationTestingMetrics } from '../models/MutationTestingMetrics.js';
 
 function moduleHasResult(tuple: readonly [string, MutationTestResult | null]): tuple is [string, MutationTestResult] {
   return !!tuple[1];
@@ -16,6 +17,7 @@ function moduleHasResult(tuple: readonly [string, MutationTestResult | null]): t
 export class MutationTestingReportService {
   constructor(
     private readonly resultMapper: MutationTestingResultMapper = new MutationTestingResultMapper(),
+    private readonly mutationMetricsMapper: MutationTestingMetricsMapper = createMutationTestingMetricsMapper(),
     private readonly mutationScoreMapper: MutationTestingReportMapper = createMutationTestingReportMapper(),
   ) {}
 
@@ -25,7 +27,11 @@ export class MutationTestingReportService {
   }
 
   public async saveReport(id: ReportIdentifier, result: MutationScoreOnlyResult | MutationTestResult, logger: Logger) {
-    const mutationScore = this.calculateMutationScore(result);
+    let metrics: Metrics | undefined;
+    if (isMutationTestResult(result)){
+      metrics = calculateMetrics(result.files).metrics;
+    }
+    const mutationScore = metrics?.mutationScore || 0;
 
     await this.insertOrMergeReport(
       id,
@@ -37,6 +43,13 @@ export class MutationTestingReportService {
     );
     if (isMutationTestResult(result) && id.moduleName) {
       await this.aggregateProjectReport(id.projectName, id.version, logger);
+    }
+    // insert metrics
+    if (metrics) {
+      const dataMetricslol = new MutationTestingMetrics(metrics);
+      dataMetricslol.project = id.projectName;
+      dataMetricslol.version = id.version;
+      await this.mutationMetricsMapper.insert(dataMetricslol)
     }
   }
 
