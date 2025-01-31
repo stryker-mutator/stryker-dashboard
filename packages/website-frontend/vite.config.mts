@@ -1,9 +1,20 @@
 /// <reference types="vitest" />
+import tailwindcss from '@tailwindcss/vite';
+import browserslist from 'browserslist';
+import { browserslistToTargets } from 'lightningcss';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  plugins: [tailwindcss()],
   build: {
+    cssMinify: 'lightningcss',
     target: 'esnext',
+  },
+  css: {
+    transformer: 'lightningcss',
+    lightningcss: {
+      targets: browserslistToTargets(browserslist()),
+    },
   },
   optimizeDeps: {
     esbuildOptions: {
@@ -31,11 +42,15 @@ export default defineConfig({
     globals: true,
     include: ['test/unit/**/*.spec.ts'],
     browser: {
-      name: 'chromium',
       enabled: true,
       provider: 'playwright',
-      headless: Boolean(process.env.CI || process.env.HEADLESS),
-      screenshotFailures: false,
+      instances: [
+        {
+          browser: 'chromium',
+          headless: Boolean(process.env.CI || process.env.HEADLESS),
+          screenshotFailures: false,
+        },
+      ],
     },
   },
 });

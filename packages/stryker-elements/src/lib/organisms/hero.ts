@@ -128,11 +128,11 @@ export class Hero extends BaseElement {
     });
 
     return html`
-      <div style="${style}" class="cloud-container absolute animate-flow opacity-0">
+      <div style="${style}" class="cloud-container animate-flow absolute opacity-0">
         <div style="transform: scale(${config.scale})" class="absolute">
-          <div class="cloud ${config.color} h-25 w-25 absolute rounded-full" style="left: 35px; top: 2px;"></div>
-          <div class="cloud-small ${config.color} h-25 w-25 absolute rounded-full" style="left: 15px; top: 10px;"></div>
-          <div class="cloud-pill ${config.color} h-25 w-25 absolute rounded-full" style="top: 25px;"></div>
+          <div class="cloud ${config.color} absolute h-25 w-25 rounded-full" style="left: 35px; top: 2px;"></div>
+          <div class="cloud-small ${config.color} absolute h-25 w-25 rounded-full" style="left: 15px; top: 10px;"></div>
+          <div class="cloud-pill ${config.color} absolute h-25 w-25 rounded-full" style="top: 25px;"></div>
         </div>
       </div>
     `;

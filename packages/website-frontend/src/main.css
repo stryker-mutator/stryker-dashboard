@@ -1,3 +1,6 @@
+/* Import utilities for @properties to be imported */
+@import 'tailwindcss/utilities.css' layer(utilities);
+
 html,
 body,
 stryker-dashboard {
