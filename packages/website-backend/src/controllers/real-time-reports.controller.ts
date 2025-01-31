@@ -58,11 +58,11 @@ export default class RealTimeReportsController {
 
   @Get('/*slug')
   public async getSseEndpointForProject(
-    @Param('slug') slug: string,
+    @Param('slug') slug: string[],
     @Res() res: Response,
     @Query('module') moduleName: string | undefined,
   ) {
-    const { project, version } = Slug.parse(slug);
+    const { project, version } = Slug.parse(slug.join('/'));
     const id = {
       projectName: project,
       version,
@@ -82,7 +82,7 @@ export default class RealTimeReportsController {
 
   @Delete('/*slug')
   public async delete(
-    @Param('slug') slug: string,
+    @Param('slug') slug: string[],
     @Query('module') moduleName: string | undefined,
     @Headers(API_KEY_HEADER) authorizationHeader: string | undefined,
   ) {
@@ -90,7 +90,7 @@ export default class RealTimeReportsController {
       throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
     }
 
-    const { project, version } = Slug.parse(slug);
+    const { project, version } = Slug.parse(slug.join('/'));
     await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
 
     const id = {
@@ -108,7 +108,7 @@ export default class RealTimeReportsController {
 
   @Post('/*slug')
   public async appendBatch(
-    @Param('slug') slug: string,
+    @Param('slug') slug: string[],
     @Body()
     mutants: Partial<MutantResult>[],
     @Query('module') moduleName: string | undefined,
@@ -118,7 +118,7 @@ export default class RealTimeReportsController {
       throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
     }
 
-    const { project, version } = Slug.parse(slug);
+    const { project, version } = Slug.parse(slug.join('/'));
     await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
 
     const errors = this.#reportValidator.validateMutants(mutants);
@@ -141,7 +141,7 @@ export default class RealTimeReportsController {
 
   @Put('/*slug')
   public async update(
-    @Param('slug') slug: string,
+    @Param('slug') slug: string[],
     @Body() result: MutationTestResult,
     @Query('module') moduleName: string | undefined,
     @Headers(API_KEY_HEADER) authorizationHeader: string | undefined,
@@ -149,7 +149,7 @@ export default class RealTimeReportsController {
     if (!authorizationHeader) {
       throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
     }
-    const { project, version } = parseSlug(slug);
+    const { project, version } = parseSlug(slug.join('/'));
     await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
 
     const errors = this.#reportValidator.findErrors(result);
