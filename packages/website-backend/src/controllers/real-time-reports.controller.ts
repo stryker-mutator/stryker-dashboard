@@ -56,7 +56,7 @@ export default class RealTimeReportsController {
     this.#config = config;
   }
 
-  @Get('/:slug(*)')
+  @Get('/*slug')
   public async getSseEndpointForProject(
     @Param('slug') slug: string,
     @Res() res: Response,
@@ -80,7 +80,7 @@ export default class RealTimeReportsController {
     data.forEach((mutant) => responseHandler.sendMutantTested(mutant));
   }
 
-  @Delete('/:slug(*)')
+  @Delete('/*slug')
   public async delete(
     @Param('slug') slug: string,
     @Query('module') moduleName: string | undefined,
@@ -106,7 +106,7 @@ export default class RealTimeReportsController {
     await Promise.all([this.#blobService.delete(id), this.#reportService.delete(id)]);
   }
 
-  @Post('/:slug(*)')
+  @Post('/*slug')
   public async appendBatch(
     @Param('slug') slug: string,
     @Body()
@@ -139,7 +139,7 @@ export default class RealTimeReportsController {
     });
   }
 
-  @Put('/:slug(*)')
+  @Put('/*slug')
   public async update(
     @Param('slug') slug: string,
     @Body() result: MutationTestResult,

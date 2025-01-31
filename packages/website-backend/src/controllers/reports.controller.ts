@@ -50,7 +50,7 @@ export default class ReportsController {
     this.#reportValidator = reportValidator;
   }
 
-  @Put('/:slug(*)')
+  @Put('/*slug')
   public async update(
     @Param('slug') slug: string,
     @Body() result: MutationScoreOnlyResult | MutationTestResult,
@@ -90,7 +90,7 @@ export default class ReportsController {
     }
   }
 
-  @Get('/:slug(*)')
+  @Get('/*slug')
   public async get(
     @Param('slug') slug: string,
     @Query('module') moduleName: string | undefined,
