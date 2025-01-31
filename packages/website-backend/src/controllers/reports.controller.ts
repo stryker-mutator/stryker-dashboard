@@ -27,7 +27,6 @@ import Configuration from '../services/Configuration.js';
 import DataAccess from '../services/DataAccess.js';
 import { ReportValidator } from '../services/ReportValidator.js';
 import { parseSlug } from '../utils/utils.js';
-import { calculateMetrics } from 'mutation-testing-metrics';
 
 const API_KEY_HEADER = 'X-Api-Key';
 

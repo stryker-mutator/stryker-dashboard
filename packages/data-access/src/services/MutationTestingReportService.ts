@@ -1,15 +1,15 @@
 import type { Logger, MutationScoreOnlyResult, Report, ReportIdentifier } from '@stryker-mutator/dashboard-common';
 import { isMutationTestResult } from '@stryker-mutator/dashboard-common';
 import type { Metrics} from 'mutation-testing-metrics';
-import { aggregateResultsByModule, calculateMetrics, FileUnderTestModel, MetricsResult } from 'mutation-testing-metrics';
+import { aggregateResultsByModule, calculateMetrics } from 'mutation-testing-metrics';
 import type { MutationTestResult } from 'mutation-testing-report-schema';
 
 import { OptimisticConcurrencyError } from '../errors/index.js';
 import type { MutationTestingMetricsMapper, MutationTestingReportMapper } from '../mappers/index.js';
 import { createMutationTestingMetricsMapper, createMutationTestingReportMapper, DashboardQuery } from '../mappers/index.js';
 import { MutationTestingResultMapper } from '../mappers/MutationTestingResultMapper.js';
-import { MutationTestingReport, Project } from '../models/index.js';
-import { MutationTestingMetrics } from '../models/MutationTestingMetrics.js';
+import { MutationTestingReport } from '../models/index.js';
+import { MutationTestingMetric } from '../models/MutationTestingMetrics.js';
 
 function moduleHasResult(tuple: readonly [string, MutationTestResult | null]): tuple is [string, MutationTestResult] {
   return !!tuple[1];
@@ -46,7 +46,7 @@ export class MutationTestingReportService {
       await this.aggregateProjectReport(id.projectName, id.version, logger);
     }
     if (metrics) {
-      const dataMetricslol = new MutationTestingMetrics(metrics);
+      const dataMetricslol = new MutationTestingMetric(metrics);
       dataMetricslol.project = id.projectName;
       dataMetricslol.version = id.version;
       console.log(dataMetricslol)
