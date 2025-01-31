@@ -1,6 +1,7 @@
 import type { Logger, MutationScoreOnlyResult, Report, ReportIdentifier } from '@stryker-mutator/dashboard-common';
 import { isMutationTestResult } from '@stryker-mutator/dashboard-common';
-import { aggregateResultsByModule, calculateMetrics, FileUnderTestModel, Metrics, MetricsResult } from 'mutation-testing-metrics';
+import type { Metrics} from 'mutation-testing-metrics';
+import { aggregateResultsByModule, calculateMetrics, FileUnderTestModel, MetricsResult } from 'mutation-testing-metrics';
 import type { MutationTestResult } from 'mutation-testing-report-schema';
 
 import { OptimisticConcurrencyError } from '../errors/index.js';
@@ -44,11 +45,11 @@ export class MutationTestingReportService {
     if (isMutationTestResult(result) && id.moduleName) {
       await this.aggregateProjectReport(id.projectName, id.version, logger);
     }
-    // insert metrics
     if (metrics) {
       const dataMetricslol = new MutationTestingMetrics(metrics);
       dataMetricslol.project = id.projectName;
       dataMetricslol.version = id.version;
+      console.log(dataMetricslol)
       await this.mutationMetricsMapper.insert(dataMetricslol)
     }
   }

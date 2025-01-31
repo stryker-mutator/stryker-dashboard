@@ -65,7 +65,8 @@ export class MutationTestingMetrics implements Metrics {
   public static readonly tableName = MutationTestingMetrics.name;
 
   public static createRowKey(identifier: Pick<MutationTestingMetrics, 'version'>): string | undefined {
-    return identifier.version;
+    const nowUtc = new Date().toISOString();
+    return identifier.version + nowUtc;
   }
 
   public static createPartitionKey(identifier: Pick<MutationTestingMetrics, 'project'>): string {
