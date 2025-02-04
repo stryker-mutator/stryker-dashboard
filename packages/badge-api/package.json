@@ -20,7 +20,7 @@
     "stryker": "stryker run"
   },
   "dependencies": {
-    "@azure/functions": "4.6.0",
+    "@azure/functions": "4.6.1",
     "@stryker-mutator/dashboard-common": "0.17.0",
     "@stryker-mutator/dashboard-data-access": "0.17.0",
     "source-map-support": "0.5.21"
