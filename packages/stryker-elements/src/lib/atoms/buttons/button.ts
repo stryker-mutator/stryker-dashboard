@@ -10,7 +10,7 @@ export type ButtonType = 'plain' | 'primary' | 'subtle';
 const BUTTON_STYLES = {
   plain: '',
   primary: 'bg-red-800 hover:bg-red-900 text-white font-bold',
-  subtle: 'box-border h-10 border-2 border-solid border-white bg-neutral-800 font-bold',
+  subtle: 'box-border h-10 border-2 border-solid border-white bg-zinc-800 font-bold hover:bg-zinc-900',
 };
 
 const BUTTON_PADDING = {
@@ -42,7 +42,9 @@ export class Button extends BaseElement {
       'w-full': !this.small,
     });
 
-    return html`<button class="${classes} flex h-full items-center rounded-lg p-2 transition duration-150">
+    return html`<button
+      class="${classes} flex h-full items-center rounded-lg p-2 transition-colors hover:cursor-pointer"
+    >
       <slot></slot>
     </button>`;
   }

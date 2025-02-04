@@ -27,7 +27,7 @@ export class Collapsible extends BaseElement {
 
   render() {
     return html`
-      <div class="rounded-lg bg-neutral-600">
+      <div class="rounded-lg bg-zinc-600">
         <button
           class="flex w-full p-4"
           @click="${this.#handleClick}"

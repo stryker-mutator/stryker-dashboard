@@ -23,10 +23,10 @@ interface CloudConfig {
 }
 
 const cloudColors: CloudColors = {
-  darkest: 'bg-cyan-900',
-  darker: 'bg-cyan-800',
-  dark: 'bg-cyan-700',
-  light: 'bg-cyan-600',
+  darkest: 'fill-cyan-900',
+  darker: 'fill-cyan-800',
+  dark: 'fill-cyan-700',
+  light: 'fill-cyan-600',
 };
 
 @customElement('sme-hero')
@@ -44,21 +44,6 @@ export class Hero extends BaseElement {
     css`
       .hero {
         height: 500px;
-      }
-
-      .cloud {
-        height: 50px;
-        width: 50px;
-      }
-
-      .cloud-pill {
-        height: 30px;
-        width: 100px;
-      }
-
-      .cloud-small {
-        height: 30px;
-        width: 30px;
       }
     `,
   ];
@@ -104,8 +89,8 @@ export class Hero extends BaseElement {
     return html`
       <div class="relative overflow-hidden">
         <div class="hero absolute top-0 w-full">${map(this.#myClouds, this.#renderCloud)}</div>
-        <div class="hero flex w-full content-center justify-center bg-gradient-to-b from-cyan-950 to-sky-950">
-          <div class="z-20 my-auto">
+        <div class="hero flex w-full content-center justify-center bg-linear-165 from-cyan-950 to-sky-950">
+          <div class="z-20 my-auto drop-shadow-lg">
             <h1 class="mb-2 text-6xl font-bold text-yellow-400">Stryker Dashboard</h1>
             <p class="text-center text-xl font-bold text-gray-50">See your mutation testing reports from anywhere</p>
             <div class="my-8 flex justify-center space-x-4">
@@ -122,18 +107,23 @@ export class Hero extends BaseElement {
     const style = styleMap({
       top: `${config.position.y}%`,
       left: `${config.position.x}%`,
-      transform: `scale(${config.duration})`,
       'animation-delay': `${config.delay}s`,
       'animation-duration': `${config.duration}s`,
     });
 
     return html`
-      <div style="${style}" class="cloud-container animate-flow absolute opacity-0">
-        <div style="transform: scale(${config.scale})" class="absolute">
-          <div class="cloud ${config.color} absolute h-25 w-25 rounded-full" style="left: 35px; top: 2px;"></div>
-          <div class="cloud-small ${config.color} absolute h-25 w-25 rounded-full" style="left: 15px; top: 10px;"></div>
-          <div class="cloud-pill ${config.color} absolute h-25 w-25 rounded-full" style="top: 25px;"></div>
-        </div>
+      <div style="${style}" class="animate-flow absolute opacity-0">
+        <svg
+          viewBox="0 0 100 52"
+          class="${config.color} drop-shadow-md"
+          width="100"
+          height="52"
+          style="transform: scale(${config.scale})"
+        >
+          <circle cx="60" cy="25" r="25" />
+          <circle cx="30" cy="22" r="15" />
+          <rect x="0" y="22" width="100" height="30" rx="15" ry="15" />
+        </svg>
       </div>
     `;
   }

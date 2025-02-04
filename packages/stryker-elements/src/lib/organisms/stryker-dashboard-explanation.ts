@@ -7,7 +7,7 @@ import { BaseElement } from '../base-element';
 export class StrykerDashboardExplanation extends BaseElement {
   render() {
     return html`
-      <div class="bg-neutral-900/50 p-8">
+      <div class="bg-zinc-900/50 p-8">
         <h2 class="mb-4 text-center text-2xl font-bold text-white">Why should I use Stryker Dashboard?</h2>
         <div class="flex justify-center space-x-5">
           <div class="flex rounded border border-red-800 bg-red-800/50">
