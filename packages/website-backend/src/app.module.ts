@@ -29,7 +29,7 @@ import { ReportValidator } from './services/ReportValidator.js';
     ConfigModule.forRoot(),
     ServeStaticModule.forRoot({
       rootPath: dist,
-      exclude: ['/api/(.*)'],
+      exclude: ['/api/*apiPath'],
       serveStaticOptions: {
         immutable: true,
         maxAge: '1y',
