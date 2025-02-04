@@ -20,6 +20,6 @@
   "main": "dist/src/index.js",
   "license": "Apache-2.0",
   "dependencies": {
-    "mutation-testing-report-schema": "3.3.0"
+    "mutation-testing-report-schema": "3.5.0"
   }
 }

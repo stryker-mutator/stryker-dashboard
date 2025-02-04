@@ -22,12 +22,12 @@
     "directory": "packages/website-backend"
   },
   "dependencies": {
-    "@nestjs/common": "11.0.6",
+    "@nestjs/common": "11.0.7",
     "@nestjs/config": "4.0.0",
-    "@nestjs/core": "11.0.6",
+    "@nestjs/core": "11.0.7",
     "@nestjs/jwt": "11.0.0",
     "@nestjs/passport": "11.0.5",
-    "@nestjs/platform-express": "11.0.6",
+    "@nestjs/platform-express": "11.0.7",
     "@nestjs/serve-static": "5.0.1",
     "@stryker-mutator/dashboard-common": "0.17.0",
     "@stryker-mutator/dashboard-contract": "0.17.0",
@@ -42,14 +42,14 @@
   },
   "devDependencies": {
     "@nestjs/schematics": "11.0.0",
-    "@nestjs/testing": "11.0.6",
+    "@nestjs/testing": "11.0.7",
     "@types/compression": "1.7.5",
     "@types/express": "5.0.0",
     "@types/passport": "1.0.17",
     "@types/passport-github2": "1.2.9",
     "@types/passport-jwt": "4.0.1",
     "@types/supertest": "6.0.2",
-    "mutation-testing-report-schema": "3.3.0",
+    "mutation-testing-report-schema": "3.5.0",
     "supertest": "7.0.0"
   },
   "keywords": [],
