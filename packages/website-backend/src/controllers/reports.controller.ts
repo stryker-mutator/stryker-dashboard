@@ -50,9 +50,9 @@ export default class ReportsController {
     this.#reportValidator = reportValidator;
   }
 
-  @Put('/:slug(*)')
+  @Put('/*slug')
   public async update(
-    @Param('slug') slug: string,
+    @Param('slug') slug: string[],
     @Body() result: MutationScoreOnlyResult | MutationTestResult,
     @Query('module') moduleName: string | undefined,
     @Headers(API_KEY_HEADER) authorizationHeader: string | undefined,
@@ -60,7 +60,7 @@ export default class ReportsController {
     if (!authorizationHeader) {
       throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
     }
-    const { project, version } = parseSlug(slug);
+    const { project, version } = parseSlug(slug.join('/'));
     await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
     this.verifyRequiredPutReportProperties(result);
     this.verifyIsCompletedReport(result);
@@ -90,13 +90,13 @@ export default class ReportsController {
     }
   }
 
-  @Get('/:slug(*)')
+  @Get('/*slug')
   public async get(
-    @Param('slug') slug: string,
+    @Param('slug') slug: string[],
     @Query('module') moduleName: string | undefined,
     @Query('realTime') realTime: boolean | undefined,
   ): Promise<Report> {
-    const { project, version } = parseSlug(slug);
+    const { project, version } = parseSlug(slug.join('/'));
     const id = {
       projectName: project,
       moduleName,
