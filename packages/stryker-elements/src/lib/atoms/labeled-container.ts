@@ -10,8 +10,8 @@ export class LabeledContainer extends BaseElement {
 
   render() {
     return html`
-      <div class="rounded border-2 border-neutral-600">
-        <p class="text-l cursor-default bg-neutral-600 p-1 font-semibold text-neutral-100">${this.label}</p>
+      <div class="rounded border-2 border-zinc-600">
+        <p class="text-l cursor-default bg-zinc-600 p-1 font-semibold text-zinc-100">${this.label}</p>
         <slot></slot>
       </div>
     `;

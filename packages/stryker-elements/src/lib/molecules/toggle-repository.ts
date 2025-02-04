@@ -29,7 +29,7 @@ export class ToggleRepository extends BaseElement {
         @click="${this.#handleClick}"
         class="${classMap({
           'opacity-50': this.isToggling,
-        })} grid grid-cols-2 rounded-lg border-2 border-neutral-600 p-2 transition"
+        })} grid grid-cols-2 rounded-lg border-2 border-zinc-600 p-2 transition"
       >
         <a
           class="ms-2 inline-flex items-center text-lg font-bold text-white underline decoration-transparent transition hover:underline hover:decoration-white"

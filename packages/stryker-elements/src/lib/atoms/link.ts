@@ -24,8 +24,8 @@ export class Link extends BaseElement {
 
   render() {
     const classes = classMap({
-      'bg-red-800': this.primary && !this.unStyled,
-      'bg-slate-800': this.secondary && !this.unStyled,
+      'bg-red-800 hover:bg-red-900': this.primary && !this.unStyled,
+      'bg-slate-800 hover:bg-slate-900': this.secondary && !this.unStyled,
       'text-l h-11 rounded-md px-6 py-3 font-bold text-white': !this.unStyled,
       'justify-center': this.align === 'middle',
       'justify-start': this.align === 'left',
@@ -34,7 +34,7 @@ export class Link extends BaseElement {
     });
 
     return html`
-      <a class="${classes}" href="${ifDefined(this.href)}">
+      <a class="${classes} transition-colors" href="${ifDefined(this.href)}">
         <slot></slot>
       </a>
     `;

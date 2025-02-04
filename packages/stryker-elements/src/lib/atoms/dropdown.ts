@@ -16,7 +16,7 @@ export class Dropdown extends BaseElement {
     return html`
       <select
         id="${this.id}"
-        class="w-full rounded-lg bg-neutral-800 p-2 text-3xl text-white"
+        class="w-full rounded-lg bg-zinc-800 p-2 text-3xl text-white"
         @change="${this.#handleChange}"
       >
         ${map(this.options, (option) => html`<option value="${option.value}">${option.name}</option>`)}

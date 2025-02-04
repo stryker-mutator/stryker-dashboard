@@ -49,7 +49,7 @@ export class Modal extends BaseElement {
       <div
         class="${animationClasses} fixed top-0 z-30 flex h-full w-full items-center justify-center bg-black/50 p-2 transition duration-300"
       >
-        <div class="flex h-full max-h-[48rem] w-[36rem] flex-col rounded bg-neutral-800 p-6 lg:w-[48rem]">
+        <div class="flex h-full max-h-[48rem] w-[36rem] flex-col rounded bg-zinc-800 p-6 lg:w-[48rem]">
           <h2 class="text-3xl text-white">${this.title}</h2>
           <sme-hr></sme-hr>
           <div class="grid max-h-fit gap-4 overflow-auto pt-6">

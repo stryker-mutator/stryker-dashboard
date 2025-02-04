@@ -21,7 +21,7 @@ export class SupportedFrameworkList extends BaseElement {
       'justify-between': this.spacing === 'between',
     });
     return html`
-      <div class="bg-neutral-900/50 p-8">
+      <div class="bg-zinc-900/50 p-8">
         <h2 class="mb-4 text-center text-2xl font-bold text-white">Supported Frameworks</h2>
         <sme-spatious-layout>
           <div class="${classes} flex">
