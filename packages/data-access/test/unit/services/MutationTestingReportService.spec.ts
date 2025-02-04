@@ -1,9 +1,9 @@
 import type { Logger, Report, ReportIdentifier } from '@stryker-mutator/dashboard-common';
 import { expect } from 'chai';
-import { aggregateResultsByModule } from 'mutation-testing-metrics';
+import { aggregateResultsByModule, MutationTestMetricsResult } from 'mutation-testing-metrics';
 import sinon from 'sinon';
 
-import type { MutationTestingReportMapper } from '../../../src/index.js';
+import type { MutationTestingMetricsMapper, MutationTestingReportMapper } from '../../../src/index.js';
 import { OptimisticConcurrencyError } from '../../../src/index.js';
 import { MutationTestingResultMapper } from '../../../src/mappers/MutationTestingResultMapper.js';
 import type { MutationTestingReport } from '../../../src/models/index.js';
@@ -18,6 +18,7 @@ import {
 describe(MutationTestingReportService.name, () => {
   let sut: MutationTestingReportService;
   let reportMapperMock: sinon.SinonStubbedInstance<MutationTestingReportMapper>;
+  let metricsMapperMock: sinon.SinonStubbedInstance<MutationTestingMetricsMapper>;
   let resultMapperMock: sinon.SinonStubbedInstance<MutationTestingResultMapper>;
   let logger: sinon.SinonStubbedInstance<Logger>;
 
@@ -29,9 +30,11 @@ describe(MutationTestingReportService.name, () => {
       error: sinon.stub(),
     };
     reportMapperMock = createTableMapperMock();
+    metricsMapperMock = createTableMapperMock();
     resultMapperMock = sinon.createStubInstance(MutationTestingResultMapper);
     sut = new MutationTestingReportService(
       resultMapperMock as unknown as MutationTestingResultMapper,
+      metricsMapperMock,
       reportMapperMock,
     );
   });

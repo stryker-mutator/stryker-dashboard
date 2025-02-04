@@ -5,8 +5,8 @@ export interface MutationScoreOnlyResult {
 }
 
 export interface ReportIdentifier {
-  projectName: string;
-  moduleName: string | undefined;
+  projectName: string; // github.com/stryker-mutator/stryker-dashboard
+  moduleName: string | undefined; // feat/implement-metrics
   realTime?: boolean;
   version: string;
 }
