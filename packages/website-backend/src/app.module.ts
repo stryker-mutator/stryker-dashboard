@@ -33,6 +33,7 @@ import { ReportValidator } from './services/ReportValidator.js';
       serveStaticOptions: {
         immutable: true,
         maxAge: '1y',
+        index: false,
       },
     }),
     JwtModule.registerAsync({

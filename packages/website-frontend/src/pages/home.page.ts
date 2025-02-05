@@ -11,22 +11,22 @@ export class HomePage extends LitElement {
     const supportedFrameworks = [
       {
         name: 'StrykerJS',
-        logo: 'https://stryker-mutator.io/images/stryker.svg',
+        logo: '/images/stryker.svg',
         url: 'https://stryker-mutator.io/docs/stryker-js/introduction/',
       },
       {
         name: 'Stryker.NET',
-        logo: 'https://stryker-mutator.io/images/stryker.svg',
+        logo: '/images/stryker.svg',
         url: 'https://stryker-mutator.io/docs/stryker-net/introduction/',
       },
       {
         name: 'Stryker4s',
-        logo: 'https://stryker-mutator.io/images/stryker.svg',
+        logo: '/images/stryker.svg',
         url: 'https://stryker-mutator.io/docs/stryker4s/getting-started/',
       },
       {
         name: 'Infection',
-        logo: './assets/infection-logo.png',
+        logo: '/images/infection-logo.webp',
         url: 'https://infection.github.io/',
       },
     ];

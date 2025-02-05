@@ -38,7 +38,7 @@ export class GettingStartedOverview extends BaseElement {
       description: html`
         <p class="mb-4">
           First, you should
-          <a class="text-red-600 underline" href="/api/auth/github">sign in</a>
+          <a class="text-red-400 underline hover:text-red-500" href="/api/auth/github">sign in</a>
           through GitHub.
         </p>
         <p>After signing in, you should see a list of all your public repositories.</p>
@@ -63,7 +63,7 @@ export class GettingStartedOverview extends BaseElement {
         <p class="mb-4">
           When using Stryker you can follow
           <a
-            class="text-red-600 underline"
+            class="text-red-400 underline hover:text-red-500"
             href="https://stryker-mutator.io/docs/General/dashboard/#send-your-first-report"
             >these</a
           >
