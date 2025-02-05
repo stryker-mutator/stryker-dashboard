@@ -1,6 +1,6 @@
 {
   "name": "@stryker-mutator/dashboard-contract",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "type": "module",
   "description": "This package contains the typescript interfaces shared between front end and backend",
   "main": "dist/src/index.js",

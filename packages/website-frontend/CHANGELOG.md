@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.18.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.17.0...v0.18.0) (2025-02-05)
+
+### Bug Fixes
+
+- **deps:** update mutation-testing-elements monorepo to v3.5.0 ([#1195](https://github.com/stryker-mutator/stryker-dashboard/issues/1195)) ([06c1ad3](https://github.com/stryker-mutator/stryker-dashboard/commit/06c1ad3ddf20d64ab81c45f6ad24480907c7ff3f))
+- hero image gradient not working (since tailwind 4) ([#1201](https://github.com/stryker-mutator/stryker-dashboard/issues/1201)) ([5a7e6be](https://github.com/stryker-mutator/stryker-dashboard/commit/5a7e6be1f8c946c09707853636be9dfda4f4c126))
+
+### Features
+
+- improve page load performance and accessibility ([#1203](https://github.com/stryker-mutator/stryker-dashboard/issues/1203)) ([de41a9b](https://github.com/stryker-mutator/stryker-dashboard/commit/de41a9bf5aaeac95fc5749682834ba14eb95318c))
+- use tailwind zinc instead of neutral ([#1202](https://github.com/stryker-mutator/stryker-dashboard/issues/1202)) ([4e076f2](https://github.com/stryker-mutator/stryker-dashboard/commit/4e076f23c10f7a86558e7f85e655d30d598c5c29))
+
 # [0.17.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.16.0...v0.17.0) (2025-01-17)
 
 ### Bug Fixes

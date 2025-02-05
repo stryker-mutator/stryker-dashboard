@@ -1,6 +1,6 @@
 {
   "name": "@stryker-mutator/dashboard-data-access",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "type": "module",
   "description": "This package contains the data access layer of the stryker dashboard application.",
   "scripts": {
@@ -24,7 +24,7 @@
   "dependencies": {
     "@azure/data-tables": "13.3.0",
     "@azure/storage-blob": "12.26.0",
-    "@stryker-mutator/dashboard-common": "0.17.0",
+    "@stryker-mutator/dashboard-common": "0.18.0",
     "mutation-testing-metrics": "3.5.0",
     "mutation-testing-report-schema": "3.5.0"
   }
