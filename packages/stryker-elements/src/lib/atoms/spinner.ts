@@ -8,7 +8,7 @@ export class Spinner extends BaseElement {
   render() {
     return html`
       <div class="m-6 grid place-items-center">
-        <img class="h-12 animate-spin" src="https://stryker-mutator.io/images/stryker.svg" />
+        <img class="h-12 animate-spin" src="/images/stryker.svg" />
       </div>
     `;
   }

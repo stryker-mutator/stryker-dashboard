@@ -39,13 +39,7 @@ function configureSecurityHeaders(app: INestApplication) {
       },
       contentSecurityPolicy: {
         directives: {
-          imgSrc: [
-            `'self'`,
-            'data:',
-            'https://stryker-mutator.io',
-            'https://avatars.githubusercontent.com',
-            'https://img.shields.io',
-          ],
+          imgSrc: [`'self'`, 'data:', 'https://avatars.githubusercontent.com', 'https://img.shields.io'],
           scriptSrcAttr: [`'unsafe-inline'`],
         },
       },

@@ -16,7 +16,7 @@ export const Default: StoryObj = {
   render: () => {
     return html`
       <div style="display: flex; justify-content: flex-end;">
-        <sme-profile-button avatarUrl="https://stryker-mutator.io/images/stryker.svg"></sme-profile-button>
+        <sme-profile-button avatarUrl="/images/stryker.svg"></sme-profile-button>
       </div>
     `;
   },
@@ -25,7 +25,7 @@ export const Default: StoryObj = {
 export const LeftAlignment: StoryObj = {
   name: 'Left Alignment',
   args: {
-    avatarUrl: 'https://stryker-mutator.io/images/stryker.svg',
+    avatarUrl: '/images/stryker.svg',
     direction: 'left',
   },
 };
@@ -38,7 +38,7 @@ export const Loading: StoryObj = {
   render: ({ loading }) => {
     return html`
       <sme-loader slot="right-side" ?loading=${loading}>
-        <sme-profile-button avatarUrl="https://stryker-mutator.io/images/stryker.svg"></sme-profile-button>
+        <sme-profile-button avatarUrl="/images/stryker.svg"></sme-profile-button>
       </sme-loader>
     `;
   },

@@ -17,7 +17,7 @@ export const TopBarWithUserProfile = {
   },
   render({ loading }) {
     return html`
-      <sme-top-bar logoUrl="https://stryker-mutator.io/images/stryker.svg">
+      <sme-top-bar logoUrl="/images/stryker.svg">
         <sme-loader slot="right-side" ?loading=${loading}>
           <sme-button type="subtle">Sign in with GitHub</sme-button>
         </sme-loader>

@@ -40,3 +40,9 @@ export class SupportedFrameworkList extends BaseElement {
     `;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-supported-framework-list': SupportedFrameworkList;
+  }
+}
