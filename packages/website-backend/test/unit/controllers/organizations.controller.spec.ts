@@ -33,6 +33,10 @@ describe(OrganizationsController.name, () => {
     await app.init();
   });
 
+  afterEach(async () => {
+    await app.close();
+  });
+
   describe('HTTP GET /organizations/:name/repositories', () => {
     it('should retrieve the organizations', async () => {
       // Arrange

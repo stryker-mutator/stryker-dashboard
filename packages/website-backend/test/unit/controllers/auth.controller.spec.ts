@@ -37,6 +37,10 @@ describe(AuthController.name, () => {
     await app.init();
   });
 
+  afterEach(async () => {
+    await app.close();
+  });
+
   describe('POST /auth/github', () => {
     it("should respond with the 'jwt' token", async () => {
       // Arrange

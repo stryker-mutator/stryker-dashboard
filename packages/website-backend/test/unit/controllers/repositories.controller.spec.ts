@@ -47,6 +47,10 @@ describe('RepositoriesController', () => {
     await app.init();
   });
 
+  afterEach(async () => {
+    await app.close();
+  });
+
   describe('PATCH /github/:owner/:name', () => {
     it('should enable the repository with a new api key if enabled = true', async () => {
       updateStub.resolves();

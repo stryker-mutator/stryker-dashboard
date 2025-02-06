@@ -56,6 +56,10 @@ describe(UserController.name, () => {
     await app.init();
   });
 
+  afterEach(async () => {
+    await app.close();
+  });
+
   describe('HTTP GET /user', () => {
     it('should retrieve current user', async () => {
       const githubResult = githubFactory.login({

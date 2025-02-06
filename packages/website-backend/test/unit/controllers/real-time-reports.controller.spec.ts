@@ -68,6 +68,10 @@ describe(RealTimeReportsController.name, () => {
     await app.init();
   });
 
+  afterEach(async () => {
+    await app.close();
+  });
+
   describe('HTTP GET /*', () => {
     it('should return not found when project does not exist', async () => {
       dataAccess.mutationTestingReportService.findOne.resolves(null);
