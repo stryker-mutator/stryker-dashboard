@@ -119,9 +119,11 @@ export default class RealTimeReportsController {
     }
 
     const { project, version } = Slug.parse(slug.join('/'));
-    await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
+    const [, errors] = await Promise.all([
+      this.#apiKeyValidator.validateApiKey(authorizationHeader, project),
+      this.#reportValidator.validateMutants(mutants),
+    ]);
 
-    const errors = this.#reportValidator.validateMutants(mutants);
     if (errors !== undefined) {
       throw new BadRequestException(`Invalid mutants: ${errors}`);
     }
@@ -152,7 +154,7 @@ export default class RealTimeReportsController {
     const { project, version } = parseSlug(slug.join('/'));
     await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
 
-    const errors = this.#reportValidator.findErrors(result);
+    const errors = await this.#reportValidator.findErrors(result);
     if (errors) {
       throw new BadRequestException('Invalid report. ${errors}');
     }

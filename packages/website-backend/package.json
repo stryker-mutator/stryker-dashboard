@@ -38,7 +38,8 @@
     "compression": "1.7.5",
     "helmet": "8.0.0",
     "passport-github2": "0.1.12",
-    "passport-jwt": "4.0.1"
+    "passport-jwt": "4.0.1",
+    "workerpool": "9.2.0"
   },
   "devDependencies": {
     "@nestjs/schematics": "11.0.0",

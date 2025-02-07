@@ -44,6 +44,10 @@ describe(ReportsController.name, () => {
     await app.init();
   });
 
+  afterEach(async () => {
+    await app.close();
+  });
+
   describe('HTTP GET /:slug', () => {
     it('should retrieve the expected report', async () => {
       // Arrange

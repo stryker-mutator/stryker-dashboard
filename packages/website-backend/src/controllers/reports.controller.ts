@@ -61,8 +61,10 @@ export default class ReportsController {
       throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
     }
     const { project, version } = parseSlug(slug.join('/'));
-    await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
-    this.verifyRequiredPutReportProperties(result);
+    await Promise.all([
+      this.#apiKeyValidator.validateApiKey(authorizationHeader, project),
+      this.verifyRequiredPutReportProperties(result),
+    ]);
     this.verifyIsCompletedReport(result);
     try {
       await this.#reportService.saveReport({ projectName: project, version, moduleName }, result, this.#logger);
@@ -119,8 +121,8 @@ export default class ReportsController {
     }
   }
 
-  private verifyRequiredPutReportProperties(body: MutationScoreOnlyResult | MutationTestResult) {
-    const errors = this.#reportValidator.findErrors(body);
+  private async verifyRequiredPutReportProperties(body: MutationScoreOnlyResult | MutationTestResult) {
+    const errors = await this.#reportValidator.findErrors(body);
     if (errors) {
       const mutationScoreOnlyResult = body as MutationScoreOnlyResult;
       if (
