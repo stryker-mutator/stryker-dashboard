@@ -15,7 +15,7 @@ RUN --mount=type=cache,id=npm,target=/root/.npm npm install @stryker-mutator/das
 
 FROM base
 # Add /app./node_modules/.bin/ to the PATH
-ENV PATH $PATH:/app/node_modules/.bin/
+ENV PATH=$PATH:/app/node_modules/.bin/
 
 COPY --from=build /app/ /app/
 
