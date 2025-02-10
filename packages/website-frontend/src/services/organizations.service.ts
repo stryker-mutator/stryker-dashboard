@@ -9,6 +9,11 @@ export class OrganizationsService {
         Authorization: `Bearer ${authService.currentBearerToken}`,
       },
     });
+    if (!response.ok) {
+      return Promise.reject(
+        new Error(`Failed to fetch repositories for organization ${organizationName}: ${response.statusText}`),
+      );
+    }
     return response.json() as Promise<Repository[]>;
   }
 }
