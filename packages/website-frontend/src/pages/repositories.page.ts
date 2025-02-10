@@ -1,8 +1,9 @@
 import type { Repository } from '@stryker-mutator/dashboard-contract';
 import type { ToggleRepository } from '@stryker-mutator/stryker-elements';
+import type { RouterLocation } from '@vaadin/router';
 import type { PropertyValues } from 'lit';
 import { html, LitElement, nothing } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
 
@@ -24,7 +25,7 @@ export class RepositoriesPage extends LitElement {
   organizations: { name: string; value: string }[] = [];
 
   @state()
-  done = { partOne: false, partTwo: false, repositories: true };
+  done = { partOne: false, partTwo: false, repositories: false };
 
   @state()
   repositoryToToggle: { instance: Repository; apiKey: string | null } | null = null;
@@ -32,16 +33,17 @@ export class RepositoriesPage extends LitElement {
   @state()
   modalOpen = false;
 
+  @state()
+  selectedOrg = '';
+
+  @property({ type: Object, attribute: false })
+  location: RouterLocation | undefined;
+
   override connectedCallback(): void {
     super.connectedCallback();
 
     this.userRepositoryName = authService.currentUser!.name;
-    this.#reflectOrganizationOrUserInUrl(this.userRepositoryName);
-
-    void userService.getRepositories().then((repositories) => {
-      this.repositories = repositories;
-      this.done.partOne = true;
-    });
+    this.selectedOrg = this.location?.params.orgOrUser?.toString() ?? authService.currentUser!.name;
 
     void userService.organizations().then((organizations) => {
       const organizationNames = organizations.map((o) => o.name);
@@ -52,13 +54,32 @@ export class RepositoriesPage extends LitElement {
         value: organization,
       }));
 
-      this.done.partTwo = true;
+      this.done = { ...this.done, partTwo: true };
     });
+  }
+
+  protected willUpdate(changedProperties: PropertyValues<this>): void {
+    if (changedProperties.has('selectedOrg')) {
+      void this.#getRepositories(this.selectedOrg)
+        .then((repositories) => {
+          this.repositories = repositories;
+          this.done = { ...this.done, partOne: true };
+        })
+        .catch(() => {
+          if (this.selectedOrg !== this.userRepositoryName) {
+            console.log(`error fetching org repos for ${this.selectedOrg}, trying user repos`);
+            this.selectedOrg = this.userRepositoryName;
+          }
+        });
+    }
   }
 
   protected updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has('modalOpen') && this.modalOpen) {
       document.dispatchEvent(new CustomEvent('modal-open'));
+    }
+    if (changedProperties.has('selectedOrg')) {
+      this.#reflectOrganizationOrUserInUrl(this.selectedOrg);
     }
   }
 
@@ -69,6 +90,7 @@ export class RepositoriesPage extends LitElement {
           <sme-dropdown
             @dropdownChanged="${this.#handleDropDownChanged}"
             .options="${this.organizations}"
+            selectedValue="${this.selectedOrg}"
           ></sme-dropdown>
           <sme-hr></sme-hr>
           <sme-loader useSpinner .loading=${!this.done.repositories}>
@@ -199,16 +221,20 @@ export class RepositoriesPage extends LitElement {
     return this.repositories.some((r) => r.enabled);
   }
 
-  async #handleDropDownChanged(event: CustomEvent<{ value: string }>) {
-    this.done = { ...this.done, repositories: false };
-    if (event.detail.value === this.userRepositoryName) {
-      this.repositories = await userService.getRepositories();
-    } else {
-      this.repositories = await organizationsService.getRepositories(event.detail.value);
-    }
+  #handleDropDownChanged(event: CustomEvent<{ value: string }>) {
+    this.selectedOrg = event.detail.value;
+  }
 
-    this.#reflectOrganizationOrUserInUrl(event.detail.value);
-    this.done = { ...this.done, repositories: true };
+  #getRepositories(orgOrUser: string) {
+    const setDone = (repositories: boolean) => (this.done = { ...this.done, repositories });
+
+    setDone(false);
+
+    if (orgOrUser === this.userRepositoryName) {
+      return userService.getRepositories().finally(() => setDone(true));
+    } else {
+      return organizationsService.getRepositories(orgOrUser).finally(() => setDone(true));
+    }
   }
 
   #handleRepositoryClick(repository: Repository) {

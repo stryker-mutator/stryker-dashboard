@@ -47,13 +47,12 @@ describe(RepositoriesPage.name, () => {
 
     it('should be done loading when fetch calls are complete', async () => {
       // Arrange
-      userService.getRepositories = vi.fn(() => Promise.resolve([]));
-      userService.organizations = vi.fn(() => Promise.resolve([]));
+      userService.getRepositories = vi.fn().mockResolvedValue([]);
+      userService.organizations = vi.fn().mockResolvedValue([]);
 
       // Act
       sut.connect();
-      await sut.whenStable();
-      await sut.whenStable();
+      await sutDone();
 
       // Assert
       const loader = sut.element.shadowRoot?.querySelector('sme-loader');
@@ -73,14 +72,12 @@ describe(RepositoriesPage.name, () => {
 
     it('should have the correct options', async () => {
       // Arrange
-      userService.getRepositories = vi.fn(() => Promise.resolve([]));
-      userService.organizations = vi.fn(() => Promise.resolve(organizations));
+      userService.getRepositories = vi.fn().mockResolvedValue([]);
+      userService.organizations = vi.fn().mockResolvedValue(organizations);
 
       // Act
       sut.connect();
-      await sut.whenStable();
-      // Allow it to render the options
-      await sut.whenStable();
+      await sutDone();
 
       // Assert
       const dropdown = sut.element.shadowRoot?.querySelector('sme-dropdown');
@@ -89,18 +86,17 @@ describe(RepositoriesPage.name, () => {
 
     it('should get new repositories when the dropdown changes', async () => {
       // Arrange
-      userService.getRepositories = vi.fn(() => Promise.resolve([]));
-      userService.organizations = vi.fn(() => Promise.resolve(organizations));
-      organizationsService.getRepositories = vi.fn(() => Promise.resolve([]));
+      userService.getRepositories = vi.fn().mockResolvedValue([]);
+      userService.organizations = vi.fn().mockResolvedValue(organizations);
+      organizationsService.getRepositories = vi.fn().mockResolvedValue([]);
 
       // Act
       sut.connect();
-      await sut.whenStable();
-      await sut.whenStable();
+      await sutDone();
 
       const dropdown = sut.element.shadowRoot?.querySelector('sme-dropdown');
       dropdown?.dispatchEvent(new CustomEvent('dropdownChanged', { detail: { value: 'foo' } }));
-      await sut.whenStable();
+      await sutDone();
 
       // Assert
       expect(organizationsService.getRepositories).toHaveBeenCalledWith('foo');
@@ -110,34 +106,31 @@ describe(RepositoriesPage.name, () => {
 
   describe('repositories', () => {
     beforeEach(() => {
-      userService.getRepositories = vi.fn(() =>
-        Promise.resolve([
-          {
-            name: 'foo1',
-            slug: 'foo1/bar/baz/1',
-            defaultBranch: 'main',
-            enabled: true,
-            owner: 'baz',
-            origin: 'foo',
-          },
-          {
-            name: 'foo2',
-            slug: 'foo2/bar/baz/2',
-            defaultBranch: 'main',
-            enabled: false,
-            owner: 'baz',
-            origin: 'foo',
-          },
-        ]),
-      );
-      userService.organizations = vi.fn(() => Promise.resolve([]));
+      userService.getRepositories = vi.fn().mockResolvedValue([
+        {
+          name: 'foo1',
+          slug: 'foo1/bar/baz/1',
+          defaultBranch: 'main',
+          enabled: true,
+          owner: 'baz',
+          origin: 'foo',
+        },
+        {
+          name: 'foo2',
+          slug: 'foo2/bar/baz/2',
+          defaultBranch: 'main',
+          enabled: false,
+          owner: 'baz',
+          origin: 'foo',
+        },
+      ]);
+      userService.organizations = vi.fn().mockResolvedValue([]);
     });
 
     it('should show the repositories correctly', async () => {
       // Act
       sut.connect();
-      await sut.whenStable();
-      await sut.whenStable();
+      await sutDone();
 
       // Assert
       const loader = sut.element.shadowRoot?.querySelector('sme-loader');
@@ -154,13 +147,12 @@ describe(RepositoriesPage.name, () => {
 
     it('should show no repositories when there are none', async () => {
       // Arrange
-      userService.getRepositories = vi.fn(() => Promise.resolve([]));
-      userService.organizations = vi.fn(() => Promise.resolve([]));
+      userService.getRepositories = vi.fn().mockResolvedValue([]);
+      userService.organizations = vi.fn().mockResolvedValue([]);
 
       // Act
       sut.connect();
-      await sut.whenStable();
-      await sut.whenStable();
+      await sutDone();
 
       // Assert
       const loader = sut.element.shadowRoot?.querySelector('sme-loader');
@@ -177,12 +169,11 @@ describe(RepositoriesPage.name, () => {
 
     it('should disable an enabled repository when it is clicked', async () => {
       // Arrange
-      repositoriesService.enableRepository = vi.fn(() => Promise.resolve(null));
+      repositoriesService.enableRepository = vi.fn().mockResolvedValue(null);
 
       // Act
       sut.connect();
-      await sut.whenStable();
-      await sut.whenStable();
+      await sutDone();
 
       const loader = sut.element.shadowRoot!.querySelector('sme-loader')!;
       const enabledRepository = loader.querySelector(
@@ -191,7 +182,7 @@ describe(RepositoriesPage.name, () => {
       const button = enabledRepository?.shadowRoot?.querySelectorAll('button')[1];
       button?.click();
 
-      await sut.whenStable();
+      await sutDone();
 
       // Assert
       expect(loader.querySelector('sme-notify#no-enabled-repositories')).toBeInTheDocument();
@@ -200,12 +191,11 @@ describe(RepositoriesPage.name, () => {
 
     it('should open the modal when a disabled repository is clicked', async () => {
       // Arrange
-      repositoriesService.enableRepository = vi.fn(() => Promise.resolve({ enabled: true, apiKey: 'foo-bar-baz' }));
+      repositoriesService.enableRepository = vi.fn().mockResolvedValue({ enabled: true, apiKey: 'foo-bar-baz' });
 
       // Act
       sut.connect();
-      await sut.whenStable();
-      await sut.whenStable();
+      await sutDone();
 
       const loader = sut.element.shadowRoot!.querySelector('sme-loader')!;
       const disabledRepository = loader.querySelector(
@@ -232,8 +222,7 @@ describe(RepositoriesPage.name, () => {
     it('should open the modal when an configure repository button is clicked', async () => {
       // Act
       sut.connect();
-      await sut.whenStable();
-      await sut.whenStable();
+      await sutDone();
 
       const loader = sut.element.shadowRoot!.querySelector('sme-loader')!;
       const disabledRepository = loader.querySelector(
@@ -252,4 +241,14 @@ describe(RepositoriesPage.name, () => {
       );
     });
   });
+
+  /**
+   * Wait until all fetch calls are done and the element is stable
+   */
+  const sutDone = async () => {
+    while (!(sut.element.done.partOne && sut.element.done.partTwo && sut.element.done.repositories)) {
+      await sut.whenStable();
+    }
+    await sut.whenStable();
+  };
 });

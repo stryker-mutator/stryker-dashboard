@@ -58,7 +58,7 @@ export class StrykerDashboard extends LitElement {
             this.#signIn();
           }
         },
-        path: '/repos/(.*)',
+        path: '/repos/:orgOrUser?',
         component: 'stryker-dashboard-repositories-page',
       },
       {

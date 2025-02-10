@@ -21,7 +21,9 @@ export class Collapsible extends BaseElement {
   protected firstUpdated(changedProperties: PropertyValues<this>): void {
     // If the component starts with opened=true, we need to render a second time to measure the content height
     if (changedProperties.has('opened') && this.opened) {
-      this.requestUpdate();
+      void this.updateComplete.then(() => {
+        this.requestUpdate();
+      });
     }
   }
 

@@ -12,6 +12,9 @@ export class Dropdown extends BaseElement {
   @property({ type: Array })
   options: { name: string; value: string }[] = [];
 
+  @property({ type: String })
+  selectedValue = '';
+
   render() {
     return html`
       <select
@@ -19,7 +22,13 @@ export class Dropdown extends BaseElement {
         class="w-full rounded-lg bg-zinc-800 p-2 text-3xl text-white"
         @change="${this.#handleChange}"
       >
-        ${map(this.options, (option) => html`<option value="${option.value}">${option.name}</option>`)}
+        ${map(
+          this.options,
+          (option) =>
+            html`<option ?selected="${option.value === this.selectedValue}" value="${option.value}">
+              ${option.name}
+            </option>`,
+        )}
       </select>
     `;
   }
