@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.18.0...v0.19.0) (2025-02-14)
+
+### Bug Fixes
+
+- **deps:** update mutation-testing-elements monorepo to v3.5.1 ([#1215](https://github.com/stryker-mutator/stryker-dashboard/issues/1215)) ([946f570](https://github.com/stryker-mutator/stryker-dashboard/commit/946f5709af52297cbcd760f929c1336d0f25d69a))
+- **website-frontend:** fix repository dropdown and url state ([#1213](https://github.com/stryker-mutator/stryker-dashboard/issues/1213)) ([a7d01a2](https://github.com/stryker-mutator/stryker-dashboard/commit/a7d01a200078b859e5c9762f3ab15a1b9c63c878)), closes [#1212](https://github.com/stryker-mutator/stryker-dashboard/issues/1212)
+
 # [0.18.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.17.0...v0.18.0) (2025-02-05)
 
 ### Bug Fixes
