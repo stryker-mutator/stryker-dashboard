@@ -31,7 +31,7 @@
     "eslint-plugin-lit": "1.15.0",
     "eslint-plugin-simple-import-sort": "12.1.1",
     "eslint-plugin-wc": "2.2.0",
-    "lerna": "8.1.9",
+    "lerna": "8.2.0",
     "mocha": "11.1.0",
     "prettier": "3.5.1",
     "prettier-plugin-tailwindcss": "0.6.11",
