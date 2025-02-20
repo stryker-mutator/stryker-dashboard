@@ -28,7 +28,7 @@
     "@nestjs/jwt": "11.0.0",
     "@nestjs/passport": "11.0.5",
     "@nestjs/platform-express": "11.0.10",
-    "@nestjs/serve-static": "5.0.2",
+    "@nestjs/serve-static": "5.0.3",
     "@stryker-mutator/dashboard-common": "0.19.0",
     "@stryker-mutator/dashboard-contract": "0.19.0",
     "@stryker-mutator/dashboard-data-access": "0.19.0",
