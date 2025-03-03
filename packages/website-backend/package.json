@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@nestjs/common": "11.0.11",
-    "@nestjs/config": "4.0.0",
+    "@nestjs/config": "4.0.1",
     "@nestjs/core": "11.0.11",
     "@nestjs/jwt": "11.0.0",
     "@nestjs/passport": "11.0.5",
@@ -42,7 +42,7 @@
     "workerpool": "9.2.0"
   },
   "devDependencies": {
-    "@nestjs/schematics": "11.0.1",
+    "@nestjs/schematics": "11.0.2",
     "@nestjs/testing": "11.0.11",
     "@types/compression": "1.7.5",
     "@types/express": "5.0.0",
