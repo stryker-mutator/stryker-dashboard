@@ -1,5 +1,6 @@
 {
   "singleQuote": true,
   "printWidth": 120,
-  "plugins": ["prettier-plugin-tailwindcss"]
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindStylesheet": "./packages/stryker-elements/src/tailwind-styles/component.css"
 }
