@@ -23,7 +23,7 @@
     "mutation-testing-metrics": "3.5.1",
     "mutation-testing-report-schema": "3.5.1",
     "playwright": "1.51.0",
-    "tailwindcss": "4.0.11",
+    "tailwindcss": "4.0.12",
     "vite": "6.2.1",
     "vitest": "3.0.8",
     "vitest-fetch-mock": "0.4.5"
