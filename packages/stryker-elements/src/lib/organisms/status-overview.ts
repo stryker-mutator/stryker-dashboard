@@ -26,7 +26,7 @@ export class StatusOverview extends BaseElement {
                 class="flex h-fit w-48 flex-col flex-nowrap items-center border-b-2 border-zinc-600 px-0 py-16 duration-150 hover:shadow-sm max-md:last:border-none sm:w-52 md:rounded md:border-2 md:px-4 md:py-2"
               >
                 <p class="${color} text-6xl font-bold md:text-2xl lg:text-4xl">${value}</p>
-                <p class="text-2xl font-bold whitespace-nowrap text-gray-100 md:text-lg">${label}</p>
+                <p class="whitespace-nowrap text-2xl font-bold text-gray-100 md:text-lg">${label}</p>
               </div>
             `,
           )}
