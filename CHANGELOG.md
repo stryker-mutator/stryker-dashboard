@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.19.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.19.0...v0.19.1) (2025-03-09)
+
+### Bug Fixes
+
+- **deps:** update dependency @azure/functions to v4.7.0 ([#1282](https://github.com/stryker-mutator/stryker-dashboard/issues/1282)) ([91f9e23](https://github.com/stryker-mutator/stryker-dashboard/commit/91f9e234615196b22b449be796ebacc8a663123c))
+- **deps:** update dependency @nestjs/serve-static to v5.0.3 ([#1240](https://github.com/stryker-mutator/stryker-dashboard/issues/1240)) ([042a258](https://github.com/stryker-mutator/stryker-dashboard/commit/042a258494bff2ae3df1b3ce6ab10c9e83b2bacc))
+- **deps:** update nestjs packages ([#1229](https://github.com/stryker-mutator/stryker-dashboard/issues/1229)) ([e9a8666](https://github.com/stryker-mutator/stryker-dashboard/commit/e9a86668c87e211fd13cb2d9952c16c37bca26f2))
+- **deps:** update nestjs packages ([#1266](https://github.com/stryker-mutator/stryker-dashboard/issues/1266)) ([73fe4cc](https://github.com/stryker-mutator/stryker-dashboard/commit/73fe4ccb300cb51d5b0098c8a4d1ecec89434d79))
+- **deps:** update nestjs packages to v11.0.11 ([#1258](https://github.com/stryker-mutator/stryker-dashboard/issues/1258)) ([e433f0c](https://github.com/stryker-mutator/stryker-dashboard/commit/e433f0c2bb60f431c38917e1529dd36473862268))
+- **website-backend:** increase worker pool timeout ([#1287](https://github.com/stryker-mutator/stryker-dashboard/issues/1287)) ([22700bb](https://github.com/stryker-mutator/stryker-dashboard/commit/22700bb6720b1674f0a10e9b4a689c558fed0342))
+- **website-frontend:** revert tailwind version bump ([#1289](https://github.com/stryker-mutator/stryker-dashboard/issues/1289)) ([ff0183c](https://github.com/stryker-mutator/stryker-dashboard/commit/ff0183cdc877c90db291b518d9cbd868b70be2e9))
+
 # [0.19.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.18.0...v0.19.0) (2025-02-14)
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "@stryker-mutator/stryker-elements",
-  "version": "0.19.0",
+  "version": "0.19.1",
   "type": "module",
   "files": [
     "dist",
@@ -54,7 +54,7 @@
     "@storybook/theming": "8.6.4",
     "@storybook/web-components": "8.6.4",
     "@storybook/web-components-vite": "8.6.4",
-    "@stryker-mutator/dashboard-common": "0.19.0",
+    "@stryker-mutator/dashboard-common": "0.19.1",
     "@tailwindcss/vite": "4.0.7",
     "lightningcss": "1.29.2",
     "storybook": "8.6.4",

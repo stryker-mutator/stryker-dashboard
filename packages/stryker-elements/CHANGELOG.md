@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.19.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.19.0...v0.19.1) (2025-03-09)
+
+### Bug Fixes
+
+- **website-frontend:** revert tailwind version bump ([#1289](https://github.com/stryker-mutator/stryker-dashboard/issues/1289)) ([ff0183c](https://github.com/stryker-mutator/stryker-dashboard/commit/ff0183cdc877c90db291b518d9cbd868b70be2e9))
+
 # [0.19.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.18.0...v0.19.0) (2025-02-14)
 
 ### Bug Fixes
