@@ -13,7 +13,7 @@ export class ToggleButton extends BaseElement {
       <label class="inline-flex cursor-pointer items-center justify-center">
         <input type="checkbox" class="peer sr-only" ?checked="${this.checked}" @change="${this.#handleChange}" />
         <div
-          class="relative h-6 w-11 rounded-full bg-zinc-600 peer-checked:bg-red-700 peer-focus:outline-none after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:bg-white after:transition-all peer-checked:after:translate-x-full"
+          class="relative h-6 w-11 rounded-full bg-zinc-600 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:bg-white after:transition-all peer-checked:bg-red-700 peer-checked:after:translate-x-full peer-focus:outline-none"
         ></div>
       </label>
     `;
