@@ -18,6 +18,7 @@
     "@stryker-mutator/stryker-elements": "0.19.0",
     "@vaadin/router": "2.0.0",
     "@vitest/browser": "3.0.8",
+    "applicationinsights": "3.5.0",
     "lit": "3.2.1",
     "mutation-testing-elements": "3.5.1",
     "mutation-testing-metrics": "3.5.1",
