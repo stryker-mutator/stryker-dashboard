@@ -5,10 +5,13 @@ import compression from 'compression';
 import helmet from 'helmet';
 
 import { AppModule } from './app.module.js';
+import { AppInsightsLogger } from './logger.js';
 import DataAccess from './services/DataAccess.js';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: new AppInsightsLogger('NestApplication'),
+  });
   app.setGlobalPrefix('/api');
 
   configureSecurityHeaders(app);
