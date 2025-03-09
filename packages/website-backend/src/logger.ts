@@ -30,7 +30,7 @@ export class AppInsightsLogger extends ConsoleLogger {
     super.log(message, context);
 
     if (this.#isInitialized) {
-      this.#client.trackTrace({ message, severity: 1, properties: { context } });
+      this.#client.trackTrace({ message, severity: '1', properties: { context } });
       this.#client.flush();
     }
   }
@@ -48,7 +48,7 @@ export class AppInsightsLogger extends ConsoleLogger {
     super.warn(message, context);
 
     if (this.#isInitialized) {
-      this.#client.trackTrace({ message, severity: 2, properties: { context } });
+      this.#client.trackTrace({ message, severity: '2', properties: { context } });
       this.#client.flush();
     }
   }
@@ -57,7 +57,7 @@ export class AppInsightsLogger extends ConsoleLogger {
     super.debug?.(message, context);
 
     if (this.#isInitialized) {
-      this.#client.trackTrace({ message, severity: 0, properties: { context } });
+      this.#client.trackTrace({ message, severity: '0', properties: { context } });
       this.#client.flush();
     }
   }
@@ -66,7 +66,7 @@ export class AppInsightsLogger extends ConsoleLogger {
     super.verbose?.(message, context);
 
     if (this.#isInitialized) {
-      this.#client.trackTrace({ message, severity: 0, properties: { context } });
+      this.#client.trackTrace({ message, severity: '0'  , properties: { context } });
       this.#client.flush();
     }
   }
