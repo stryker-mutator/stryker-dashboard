@@ -38,6 +38,12 @@
     ],
   },
   "settings": {
+    "files.associations": {
+      "*.css": "tailwindcss",
+    },
+    "editor.quickSuggestions": {
+      "strings": "on",
+    },
     "eslint.rules.customizations": [
       {
         "rule": "*",

@@ -89,7 +89,7 @@ export class Hero extends BaseElement {
     return html`
       <div class="relative overflow-hidden">
         <div class="hero absolute top-0 w-full">${map(this.#myClouds, this.#renderCloud)}</div>
-        <div class="hero bg-linear-165 flex w-full content-center justify-center from-cyan-950 to-sky-950">
+        <div class="hero flex w-full content-center justify-center bg-linear-165 from-cyan-950 to-sky-950">
           <div class="z-20 my-auto drop-shadow-lg">
             <h1 class="mb-2 text-6xl font-bold text-yellow-400">Stryker Dashboard</h1>
             <p class="text-center text-xl font-bold text-gray-50">See your mutation testing reports from anywhere</p>
@@ -112,7 +112,7 @@ export class Hero extends BaseElement {
     });
 
     return html`
-      <div style="${style}" class="animate-flow absolute opacity-0">
+      <div style="${style}" class="absolute animate-flow opacity-0">
         <svg
           viewBox="0 0 100 52"
           class="${config.color} drop-shadow-md"

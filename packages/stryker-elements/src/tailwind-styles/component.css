@@ -1,9 +1,6 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-background: #242526;
-  --color-hero-background: #22323d;
-
   --animate-flow: flow 1s linear infinite;
 
   @keyframes flow {
