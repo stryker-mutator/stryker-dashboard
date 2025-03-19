@@ -23,7 +23,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@azure/data-tables": "13.3.0",
-    "@azure/storage-blob": "12.26.0",
+    "@azure/storage-blob": "12.27.0",
     "@stryker-mutator/dashboard-common": "0.19.1",
     "mutation-testing-metrics": "3.5.1",
     "mutation-testing-report-schema": "3.5.1"
