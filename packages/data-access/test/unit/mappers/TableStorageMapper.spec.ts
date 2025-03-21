@@ -177,6 +177,25 @@ describe(TModel.name, () => {
     });
   });
 
+  describe('delete', () => {
+    it('should delete the entity', async () => {
+      tableClient.deleteEntity.resolves();
+      await sut.delete({
+        partitionId: 'partId',
+        rowId: 'rowId',
+      });
+      sinon.assert.calledWith(tableClient.deleteEntity, 'partId', 'rowId');
+    });
+
+    it('should not throw if the entity does not exist', async () => {
+      tableClient.deleteEntity.rejects(new StorageError('ResourceNotFound'));
+      await sut.delete({
+        partitionId: 'partId',
+        rowId: 'rowId',
+      });
+    });
+  });
+
   function createRawEntity(overrides?: Partial<FooModel>, etag?: string): TableEntity<Pick<FooModel, 'bar'>> {
     const foo: Pick<FooModel, 'bar'> = {
       bar: overrides?.bar ?? 42,
