@@ -89,6 +89,16 @@ export class ReportClient {
     });
   }
 
+  async deleteReport(result: Report) {
+    const apiKey = await this.enableRepository(result.projectName);
+    return await this.request.delete(this.#getUrl('/api/reports', result), {
+      failOnStatusCode: true,
+      headers: {
+        ['X-Api-Key']: apiKey,
+      },
+    });
+  }
+
   async deletePendingReport(result: Report) {
     const apiKey = await this.enableRepository(result.projectName);
     return await this.request.delete(this.#getUrl('/api/real-time', result), {

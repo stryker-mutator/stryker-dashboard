@@ -103,7 +103,7 @@ export default class RealTimeReportsController {
     server.sendFinished();
 
     this.#orchestrator.removeResponseHandler(id);
-    await Promise.all([this.#blobService.delete(id), this.#reportService.delete(id)]);
+    await Promise.all([this.#blobService.delete(id), this.#reportService.delete(id, this.#logger)]);
   }
 
   @Post('/*slug')

@@ -63,4 +63,13 @@ test.describe('Report api', () => {
       expect(response).toEqual(expectedResponse);
     });
   });
+
+  test.describe('HTTP delete', () => {
+    test('should return 204', async () => {
+      const response = await client.deleteReport(
+        simpleReportV1('github.com/stryker-mutator-test-organization/hello-org', 'feat/report'),
+      );
+      expect(response.status()).toBe(204);
+    });
+  });
 });

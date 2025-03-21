@@ -22,6 +22,7 @@ describe(ReportsController.name, () => {
   let findReportStub: sinon.SinonStubbedMember<MutationTestingReportService['findOne']>;
   let saveReportStub: sinon.SinonStubbedMember<MutationTestingReportService['saveReport']>;
   let findProjectStub: sinon.SinonStubbedMember<ProjectMapper['findOne']>;
+  let deleteReportStub: sinon.SinonStubbedMember<MutationTestingReportService['delete']>;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -40,6 +41,7 @@ describe(ReportsController.name, () => {
     findReportStub = dataAccess.mutationTestingReportService.findOne;
     saveReportStub = dataAccess.mutationTestingReportService.saveReport;
     findProjectStub = dataAccess.repositoryMapper.findOne;
+    deleteReportStub = dataAccess.mutationTestingReportService.delete;
 
     await app.init();
   });
@@ -245,6 +247,72 @@ describe(ReportsController.name, () => {
 
       // Assert
       expect(response.status).eq(400);
+    });
+  });
+
+  describe('HTTP DELETE /:slug', () => {
+    const apiKey = '1346';
+    let project: Project;
+
+    beforeEach(() => {
+      project = new Project();
+      project.enabled = true;
+      project.name = 'stryker';
+      project.owner = 'github.com/stryker-mutator';
+      project.apiKeyHash = utils.generateHashValue(apiKey);
+      findProjectStub.resolves({
+        model: project,
+        etag: 'etag',
+      });
+    });
+
+    it('should delete the expected report', async () => {
+      // Act
+      await request(app.getHttpServer())
+        .delete('/api/reports/github.com/testOrg/testName/feat/dashboard?module=core')
+        .set('X-Api-Key', apiKey)
+        .expect(204);
+
+      // Assert
+      sinon.assert.calledWith(findProjectStub, {
+        owner: 'github.com/testOrg',
+        name: 'testName',
+      });
+      sinon.assert.calledWith(deleteReportStub, {
+        projectName: 'github.com/testOrg/testName',
+        version: 'feat/dashboard',
+        moduleName: 'core',
+      });
+    });
+
+    it('should return 401 when the X-Api-Key header is missing', async () => {
+      const response = await request(app.getHttpServer()).delete(
+        '/api/reports/github.com/testOrg/testName/feat/dashboard',
+      );
+      expect(response.status).eq(401);
+      expect(JSON.parse((response.error as HTTPError).text).message).include('Provide an "X-Api-Key" header');
+    });
+
+    it('should return 401 when the api key is invalid', async () => {
+      const response = await request(app.getHttpServer())
+        .delete('/api/reports/github.com/testOrg/testName/feat/dashboard')
+        .set('X-Api-Key', 'invalid key');
+      expect(response.status).eq(401);
+      expect(JSON.parse((response.error as HTTPError).text).message).include('Invalid API key');
+    });
+
+    it('should return 500 when the delete operation fails', async () => {
+      // Arrange
+      deleteReportStub.rejects(new Error('Failed to delete'));
+
+      // Act
+      const response = await request(app.getHttpServer())
+        .delete('/api/reports/github.com/testOrg/testName/feat/dashboard?module=core')
+        .set('X-Api-Key', apiKey);
+
+      // Assert
+      expect(response.status).eq(500);
+      expect(response.text).includes('Internal server error');
     });
   });
 });

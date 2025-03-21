@@ -105,6 +105,21 @@ export default class TableStorageMapper<
     }
   }
 
+  public async delete(identity: Pick<TModel, TPartitionKeyFields | TRowKeyFields>): Promise<void> {
+    try {
+      await this.#tableClient.deleteEntity(
+        encodeKey(this.ModelClass.createPartitionKey(identity)),
+        encodeKey(this.ModelClass.createRowKey(identity) || ''),
+      );
+    } catch (err) {
+      if (hasErrorCode(err, errCodes.RESOURCE_NOT_FOUND)) {
+        // Already deleted, no need to throw
+      } else {
+        throw err;
+      }
+    }
+  }
+
   private toModel(entity: TableEntityResult<TModel>): Result<TModel> {
     const value = new this.ModelClass();
     this.ModelClass.identify(value, decodeKey(entity.partitionKey!), decodeKey(entity.rowKey!));

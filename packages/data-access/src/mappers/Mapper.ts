@@ -12,4 +12,5 @@ export interface Mapper<TModel, TPartitionKeyFields extends keyof TModel, TRowKe
   replace(model: TModel, etag: string): Promise<Result<TModel>>;
   findOne(identifier: Pick<TModel, TPartitionKeyFields | TRowKeyFields>): Promise<Result<TModel> | null>;
   findAll(query: DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields>): Promise<Result<TModel>[]>;
+  delete(identifier: Pick<TModel, TPartitionKeyFields | TRowKeyFields>): Promise<void>;
 }

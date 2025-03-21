@@ -72,6 +72,7 @@ export class DataAccessMock implements IDataAccessMock {
     insertOrMerge: sinon.stub(),
     insert: sinon.stub(),
     replace: sinon.stub(),
+    delete: sinon.stub(),
   };
   mutationTestingReportService = sinon.createStubInstance(dal.MutationTestingReportService);
   blobService = sinon.createStubInstance(dal.RealTimeMutantsBlobService);
