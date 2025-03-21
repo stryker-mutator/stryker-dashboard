@@ -2,8 +2,10 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Headers,
+  HttpCode,
   InternalServerErrorException,
   Logger,
   NotFoundException,
@@ -118,6 +120,40 @@ export default class ReportsController {
       return report;
     } else {
       throw new NotFoundException(`Version "${version}" does not exist for "${project}".`);
+    }
+  }
+
+  @Delete('/*slug')
+  @HttpCode(204)
+  public async delete(
+    @Param('slug') slug: string[],
+    @Query('module') moduleName: string | undefined,
+    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined,
+  ) {
+    if (!authorizationHeader) {
+      throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
+    }
+
+    const { project, version } = parseSlug(slug.join('/'));
+    const id = {
+      projectName: project,
+      moduleName,
+      version,
+    };
+    await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
+
+    try {
+      await this.#reportService.delete(id, this.#logger);
+    } catch (error) {
+      this.#logger.error({
+        message: `Error while trying to delete report ${JSON.stringify({
+          project,
+          version,
+          moduleName,
+        })}`,
+        error,
+      });
+      throw new InternalServerErrorException('Internal server error');
     }
   }
 

@@ -18,6 +18,7 @@ describe(ShieldMapper.name, () => {
       insertOrMerge: sinon.stub(),
       replace: sinon.stub(),
       insert: sinon.stub(),
+      delete: sinon.stub(),
     };
     sut = new ShieldMapper(mutationTestingReportStub);
   });

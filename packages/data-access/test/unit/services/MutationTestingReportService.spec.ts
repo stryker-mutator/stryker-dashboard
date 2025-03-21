@@ -345,23 +345,88 @@ describe(MutationTestingReportService.name, () => {
 
   describe('delete', () => {
     it('should delete the blob', async () => {
+      const projectName = 'p';
+      const version = 'v';
+      const otherModule = {
+        moduleName: 'core',
+        mutationScore: 80,
+        projectName,
+        version,
+      };
+      reportMapperMock.findAll.resolves([{ etag: '', model: otherModule }]);
+
       // Arrange
       const id = {
         moduleName: 'm',
-        projectName: 'p',
-        version: 'v',
+        projectName,
+        version,
       };
 
       // Act
-      await sut.delete(id);
+      await sut.delete(id, logger);
 
       // Assert
       expect(resultMapperMock.delete.calledOnce).to.be.true;
       sinon.assert.calledWith(resultMapperMock.delete, {
         moduleName: 'm',
-        projectName: 'p',
-        version: 'v',
+        projectName,
+        version,
       });
+      expect(reportMapperMock.delete.calledOnce).to.be.true;
+      sinon.assert.calledWith(reportMapperMock.delete, {
+        moduleName: 'm',
+        projectName,
+        version,
+      });
+      expect(reportMapperMock.findAll.calledOnce).to.be.true;
+      sinon.assert.calledWith(resultMapperMock.findOne, otherModule);
+    });
+
+    it('should delete modules when deleting the root', async () => {
+      const projectName = 'p';
+      const version = 'v';
+      const otherModule = {
+        moduleName: 'core',
+        mutationScore: 80,
+        projectName,
+        version,
+      };
+      reportMapperMock.findAll.resolves([{ etag: '', model: otherModule }]);
+      // Arrange
+      const id = {
+        moduleName: undefined,
+        projectName,
+        version,
+      };
+
+      // Act
+      await sut.delete(id, logger);
+
+      // Assert
+      expect(resultMapperMock.delete.calledTwice).to.be.true;
+      sinon.assert.calledWith(resultMapperMock.delete, {
+        moduleName: undefined,
+        projectName,
+        version,
+      });
+      sinon.assert.calledWith(resultMapperMock.delete, {
+        moduleName: 'core',
+        projectName,
+        version,
+      });
+      expect(reportMapperMock.delete.calledTwice).to.be.true;
+      sinon.assert.calledWith(reportMapperMock.delete, {
+        moduleName: undefined,
+        projectName,
+        version,
+      });
+      sinon.assert.calledWith(reportMapperMock.delete, {
+        moduleName: 'core',
+        projectName,
+        version,
+      });
+
+      expect(reportMapperMock.findAll.calledOnce).to.be.true;
     });
   });
 });

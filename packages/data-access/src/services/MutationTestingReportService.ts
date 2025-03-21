@@ -56,6 +56,29 @@ export class MutationTestingReportService {
     }
   }
 
+  private async deleteModules(projectName: string, version: string) {
+    const id: ReportIdentifier = {
+      projectName,
+      version,
+      moduleName: undefined,
+    };
+    const modules = await this.mutationScoreMapper.findAll(
+      DashboardQuery.create(MutationTestingReport)
+        .wherePartitionKeyEquals(id)
+        .whereRowKeyNotEquals({ moduleName: undefined }),
+    );
+    await Promise.all(
+      modules.map(async (module) => {
+        const id: ReportIdentifier = {
+          projectName,
+          version,
+          moduleName: module.model.moduleName,
+        };
+        return Promise.all([await this.resultMapper.delete(id), await this.mutationScoreMapper.delete(id)]);
+      }),
+    );
+  }
+
   private async tryAggregateProjectReport(id: ReportIdentifier) {
     const projectMutationScoreModel = await this.mutationScoreMapper.findOne(id);
     const moduleScoreResults = await this.mutationScoreMapper.findAll(
@@ -116,8 +139,14 @@ export class MutationTestingReportService {
     }
   }
 
-  public async delete(id: ReportIdentifier): Promise<void> {
-    await this.resultMapper.delete(id);
+  public async delete(id: ReportIdentifier, logger: Logger): Promise<void> {
+    await Promise.all([this.resultMapper.delete(id), this.mutationScoreMapper.delete(id)]);
+
+    if (id.moduleName) {
+      await this.aggregateProjectReport(id.projectName, id.version, logger);
+    } else {
+      await this.deleteModules(id.projectName, id.version);
+    }
   }
 
   private async insertOrMergeReport(

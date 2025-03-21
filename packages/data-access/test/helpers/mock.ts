@@ -18,6 +18,7 @@ export function createTableMapperMock<A, B extends keyof A, C extends keyof A>()
     findAll: sinon.stub(),
     replace: sinon.stub(),
     insert: sinon.stub(),
+    delete: sinon.stub(),
   };
 }
 
