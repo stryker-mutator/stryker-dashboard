@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { dist } from '@stryker-mutator/dashboard-frontend';
 
+import { ApiKeyGuard, JwtAuthGuard } from './auth/guard.js';
 import HttpClient from './client/HttpClient.js';
 import AuthController from './controllers/auth.controller.js';
 import { OldReportsController } from './controllers/old-reports.controller.js';
@@ -62,6 +63,8 @@ import { ReportValidator } from './services/ReportValidator.js';
     ReportValidator,
     GithubStrategy,
     JwtStrategy,
+    JwtAuthGuard,
+    ApiKeyGuard,
   ],
 })
 export class AppModule {}
