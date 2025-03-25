@@ -1,6 +1,7 @@
 import '@stryker-mutator/stryker-elements';
 
 import type { Login } from '@stryker-mutator/dashboard-contract';
+import { userEvent } from '@vitest/browser/context';
 
 import { RepositoriesPage } from '../../../src/pages/repositories.page';
 import { authService } from '../../../src/services/auth.service';
@@ -180,12 +181,12 @@ describe(RepositoriesPage.name, () => {
         'sme-list#enabled-repositories > sme-toggle-repository:not([hidden])',
       );
       const button = enabledRepository?.shadowRoot?.querySelectorAll('button')[1];
-      button?.click();
+      await userEvent.click(button!);
 
       await sutDone();
 
       // Assert
-      expect(loader.querySelector('sme-notify#no-enabled-repositories')).toBeInTheDocument();
+      await expect.element(loader.querySelector('sme-notify#no-enabled-repositories')!).toBeVisible();
       expect(repositoriesService.enableRepository).toHaveBeenCalledWith('foo1/bar/baz/1', false);
     });
 
@@ -202,18 +203,18 @@ describe(RepositoriesPage.name, () => {
         'sme-list#disabled-repositories > sme-toggle-repository:not([hidden])',
       );
       const button = disabledRepository?.shadowRoot?.querySelector('button');
-      button?.click();
+      await userEvent.click(button!);
 
       // Assert
-      await sut.waitFor(() => sut.element.shadowRoot?.querySelector('sme-modal') !== null);
+      await expect.element(sut.element.shadowRoot!.querySelector('sme-modal')!).toBeVisible();
       const modal = sut.element.shadowRoot!.querySelector('sme-modal')!;
       const apiKeyCollapsible = modal.querySelector('sme-collapsible#api-key-collapsible')!;
       const badgeCollapsible = modal.querySelector('sme-collapsible#badge-collapsible')!;
       const usageCollapsible = modal.querySelector('sme-collapsible#usage-collapsible')!;
 
-      expect(apiKeyCollapsible).toHaveTextContent("Here's your API key:foo-bar-baz");
-      expect(badgeCollapsible.querySelector('sme-badge-configurator')).toBeInTheDocument();
-      expect(usageCollapsible).toHaveTextContent('See the Stryker dashboard documentation ↗');
+      await expect.element(apiKeyCollapsible).toHaveTextContent("Here's your API key:foo-bar-baz");
+      await expect.element(badgeCollapsible.querySelector('sme-badge-configurator')!).toBeVisible();
+      await expect.element(usageCollapsible).toHaveTextContent('See the Stryker dashboard documentation ↗');
 
       const noEnabledRepositoriesNotification = loader?.querySelector('sme-notify#no-repositories-to-enable');
       expect(noEnabledRepositoriesNotification).toHaveTextContent("You don't have any repositories to enable.");
@@ -229,10 +230,10 @@ describe(RepositoriesPage.name, () => {
         'sme-list#enabled-repositories > sme-toggle-repository:not([hidden])',
       )!;
       const configureButton = disabledRepository.shadowRoot!.querySelector('button') as HTMLElement;
-      configureButton.click();
+      await userEvent.click(configureButton);
 
       // Assert
-      await sut.waitFor(() => sut.element.shadowRoot?.querySelector('sme-modal') !== null);
+      await expect.element(sut.element.shadowRoot!.querySelector('sme-modal')!).toBeVisible();
       const modal = sut.element.shadowRoot!.querySelector('sme-modal')!;
       const apiKeyCollapsible = modal.querySelector('sme-collapsible#no-api-key-collapsible')!;
 

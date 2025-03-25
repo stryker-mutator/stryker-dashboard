@@ -1,7 +1,5 @@
-import type { PropertyValues } from 'lit';
-import { html, nothing } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
+import { html } from 'lit';
+import { customElement, property, query } from 'lit/decorators.js';
 
 import { BaseElement } from '../base-element.js';
 
@@ -13,65 +11,55 @@ export class Modal extends BaseElement {
   @property()
   title = '';
 
-  @state()
-  isOpen = false;
+  @query('dialog')
+  declare private dialog: HTMLDialogElement;
 
-  @state()
-  isAnimating = false;
+  get isOpen() {
+    return this.dialog.open ?? false;
+  }
 
   connectedCallback(): void {
     super.connectedCallback();
 
-    document.addEventListener(MODAL_OPEN_EVENT, this.#handleModalOpen);
+    document.addEventListener(MODAL_OPEN_EVENT, this.open);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    document.removeEventListener(MODAL_OPEN_EVENT, this.#handleModalOpen);
+    document.removeEventListener(MODAL_OPEN_EVENT, this.open);
   }
 
-  protected updated(changedProperties: PropertyValues<this>): void {
-    if (changedProperties.has('isOpen') && !this.isOpen) {
-      this.dispatchEvent(new CustomEvent(MODAL_CLOSED_EVENT));
-    }
-  }
+  open = () => {
+    this.dialog.showModal();
+  };
+
+  close = () => {
+    this.dialog.close();
+  };
 
   render() {
-    if (!this.isOpen) {
-      return nothing;
-    }
-
-    const animationClasses = classMap({
-      'opacity-0': !this.isAnimating,
-      'opacity-100': this.isAnimating,
-    });
     return html`
-      <div
-        class="${animationClasses} fixed top-0 z-30 flex h-full w-full items-center justify-center bg-black/50 p-2 transition duration-300"
+      <dialog
+        @click="${this.close}"
+        @close="${this.#handleClose}"
+        class="m-auto h-full max-h-[48rem] w-[36rem] rounded bg-zinc-800 p-6 opacity-0 transition-[opacity,display,background-color,overlay] transition-discrete duration-300 backdrop:bg-transparent backdrop:transition-all backdrop:duration-300 open:opacity-100 open:backdrop:bg-black/50 lg:w-[48rem] starting:open:opacity-0 starting:open:backdrop:bg-black/0"
       >
-        <div class="flex h-full max-h-[48rem] w-[36rem] flex-col rounded bg-zinc-800 p-6 lg:w-[48rem]">
+        <div @click="${(e: Event) => e.stopPropagation()}" class="flex h-full w-full flex-col">
           <h2 class="text-3xl text-white">${this.title}</h2>
           <sme-hr></sme-hr>
           <div class="grid max-h-fit gap-4 overflow-auto pt-6">
             <slot></slot>
           </div>
           <div class="mt-auto flex pt-6">
-            <sme-button class="ms-auto" @click="${this.#handleClose}">Close</sme-button>
+            <sme-button class="ms-auto" @click="${this.close}">Close</sme-button>
           </div>
         </div>
-      </div>
+      </dialog>
     `;
   }
 
-  #handleModalOpen = () => {
-    this.isOpen = !this.isOpen;
-    setTimeout(() => (this.isAnimating = true), 100);
-  };
-
   #handleClose() {
-    this.isAnimating = false;
-
-    setTimeout(() => (this.isOpen = false), 300);
+    this.dispatchEvent(new CustomEvent(MODAL_CLOSED_EVENT));
   }
 }
 
