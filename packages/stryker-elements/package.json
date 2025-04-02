@@ -46,18 +46,18 @@
     "lit": "3.2.1"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "8.6.11",
-    "@storybook/addon-links": "8.6.11",
-    "@storybook/blocks": "8.6.11",
-    "@storybook/manager-api": "8.6.11",
-    "@storybook/test": "8.6.11",
-    "@storybook/theming": "8.6.11",
-    "@storybook/web-components": "8.6.11",
-    "@storybook/web-components-vite": "8.6.11",
+    "@storybook/addon-essentials": "8.6.12",
+    "@storybook/addon-links": "8.6.12",
+    "@storybook/blocks": "8.6.12",
+    "@storybook/manager-api": "8.6.12",
+    "@storybook/test": "8.6.12",
+    "@storybook/theming": "8.6.12",
+    "@storybook/web-components": "8.6.12",
+    "@storybook/web-components-vite": "8.6.12",
     "@stryker-mutator/dashboard-common": "0.19.1",
     "@tailwindcss/vite": "4.1.1",
     "lightningcss": "1.29.3",
-    "storybook": "8.6.11",
+    "storybook": "8.6.12",
     "tailwindcss": "4.1.1",
     "vite": "6.2.4"
   }
