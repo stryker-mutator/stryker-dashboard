@@ -55,10 +55,10 @@
     "@storybook/web-components": "8.6.12",
     "@storybook/web-components-vite": "8.6.12",
     "@stryker-mutator/dashboard-common": "0.19.1",
-    "@tailwindcss/vite": "4.1.1",
+    "@tailwindcss/vite": "4.1.2",
     "lightningcss": "1.29.3",
     "storybook": "8.6.12",
-    "tailwindcss": "4.1.1",
+    "tailwindcss": "4.1.2",
     "vite": "6.2.5"
   }
 }
