@@ -295,7 +295,7 @@ describe(RealTimeReportsController.name, () => {
       );
 
       expect(response.status).to.eq(401);
-      expect(response.body.message).to.eq('Provide an "X-Api-Key" header');
+      expect(response.body.message).to.eq('Provide a valid "X-Api-Key" or JWT authorization header');
     });
 
     it('should return unauthorized if ApiKey is invalid', async () => {

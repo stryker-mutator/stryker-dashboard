@@ -4,7 +4,6 @@ import {
   Controller,
   Delete,
   Get,
-  Headers,
   InternalServerErrorException,
   Logger,
   NotFoundException,
@@ -13,7 +12,7 @@ import {
   Put,
   Query,
   Res,
-  UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { MutantResult } from '@stryker-mutator/api/core';
 import { ReportIdentifier, Slug } from '@stryker-mutator/dashboard-common';
@@ -22,18 +21,15 @@ import { MutationTestingReportService, RealTimeMutantsBlobService } from '@stryk
 import type { Response } from 'express';
 import { MutationTestResult } from 'mutation-testing-report-schema';
 
-import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
+import { JwtOrApiKeyGuard } from '../auth/guard.js';
 import Configuration from '../services/Configuration.js';
 import DataAccess from '../services/DataAccess.js';
 import MutationEventResponseOrchestrator from '../services/real-time/MutationEventResponseOrchestrator.js';
 import { ReportValidator } from '../services/ReportValidator.js';
 import { parseSlug } from '../utils/utils.js';
 
-const API_KEY_HEADER = 'X-Api-Key';
-
 @Controller('/real-time')
 export default class RealTimeReportsController {
-  #apiKeyValidator: ApiKeyValidator;
   #reportService: MutationTestingReportService;
   #blobService: RealTimeMutantsBlobService;
   #orchestrator: MutationEventResponseOrchestrator;
@@ -42,13 +38,11 @@ export default class RealTimeReportsController {
   #logger: Logger = new Logger(RealTimeReportsController.name);
 
   constructor(
-    apiKeyValidator: ApiKeyValidator,
     dataAcces: DataAccess,
     mutationEventServerOrchestrator: MutationEventResponseOrchestrator,
     reportValidator: ReportValidator,
     config: Configuration,
   ) {
-    this.#apiKeyValidator = apiKeyValidator;
     this.#reportService = dataAcces.mutationTestingReportService;
     this.#blobService = dataAcces.blobService;
     this.#orchestrator = mutationEventServerOrchestrator;
@@ -81,17 +75,9 @@ export default class RealTimeReportsController {
   }
 
   @Delete('/*slug')
-  public async delete(
-    @Param('slug') slug: string[],
-    @Query('module') moduleName: string | undefined,
-    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined,
-  ) {
-    if (!authorizationHeader) {
-      throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
-    }
-
+  @UseGuards(JwtOrApiKeyGuard)
+  public async delete(@Param('slug') slug: string[], @Query('module') moduleName: string | undefined) {
     const { project, version } = Slug.parse(slug.join('/'));
-    await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
 
     const id = {
       projectName: project,
@@ -107,22 +93,14 @@ export default class RealTimeReportsController {
   }
 
   @Post('/*slug')
+  @UseGuards(JwtOrApiKeyGuard)
   public async appendBatch(
     @Param('slug') slug: string[],
-    @Body()
-    mutants: Partial<MutantResult>[],
+    @Body() mutants: Partial<MutantResult>[],
     @Query('module') moduleName: string | undefined,
-    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined,
   ) {
-    if (!authorizationHeader) {
-      throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
-    }
-
     const { project, version } = Slug.parse(slug.join('/'));
-    const [, errors] = await Promise.all([
-      this.#apiKeyValidator.validateApiKey(authorizationHeader, project),
-      this.#reportValidator.validateMutants(mutants),
-    ]);
+    const errors = await this.#reportValidator.validateMutants(mutants);
 
     if (errors !== undefined) {
       throw new BadRequestException(`Invalid mutants: ${errors}`);
@@ -142,17 +120,13 @@ export default class RealTimeReportsController {
   }
 
   @Put('/*slug')
+  @UseGuards(JwtOrApiKeyGuard)
   public async update(
     @Param('slug') slug: string[],
     @Body() result: MutationTestResult,
     @Query('module') moduleName: string | undefined,
-    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined,
   ): Promise<PutReportResponse> {
-    if (!authorizationHeader) {
-      throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
-    }
     const { project, version } = parseSlug(slug.join('/'));
-    await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
 
     const errors = await this.#reportValidator.findErrors(result);
     if (errors) {
