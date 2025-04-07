@@ -43,7 +43,7 @@
     "workerpool": "9.2.0"
   },
   "devDependencies": {
-    "@nestjs/schematics": "11.0.3",
+    "@nestjs/schematics": "11.0.4",
     "@nestjs/testing": "11.0.13",
     "@types/compression": "1.7.5",
     "@types/express": "5.0.1",
