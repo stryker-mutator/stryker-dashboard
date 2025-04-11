@@ -66,7 +66,7 @@ export default class ReportsController {
     this.verifyIsCompletedReport(result);
     try {
       await this.#reportService.saveReport({ projectName: project, version, moduleName }, result, this.#logger);
-      
+
       if (moduleName && isMutationTestResult(result)) {
         return {
           href: `${this.#config.baseUrl}/reports/${project}/${version}?module=${moduleName}`,

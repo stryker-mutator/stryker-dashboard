@@ -1,28 +1,28 @@
-import { LitElement } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import type { ReportStatisticsDto } from '@stryker-mutator/dashboard-common';
+import { html, LitElement } from 'lit';
+import { customElement, state } from 'lit/decorators.js';
 
 import { locationService } from '../services/location.service';
-import { metricsService } from '../services/metrics.service';
+import { statisticsService } from '../services/statistics.service';
 
 @customElement('stryker-dashboard-statistics-page')
 export class StatisticsPage extends LitElement {
-  report = undefined;
+  @state()
+  projectStatistics: ReportStatisticsDto[] | undefined = undefined;
 
   connectedCallback(): void {
     super.connectedCallback();
 
-    void this.#getStatistics().then();
+    void statisticsService.getStatistics(this.#slug).then((projectStatistics) => {
+      this.projectStatistics = projectStatistics;
+    });
   }
 
   override render() {
-    console.log(this.report);
-    return this.report;
-  }
-
-  async #getStatistics(): Promise<void> {
-    // Get All Reports For a repository
-    const metrics = await metricsService.getMetrics(this.#slug);
-    console.log(metrics);
+    return html`
+      <sme-statistic-tile title="Total files" statistic="--"></sme-statistic-tile>
+      <sme-statistics .projectStatistics="${this.projectStatistics}"></sme-statistics>
+    `;
   }
 
   get #baseSlug() {

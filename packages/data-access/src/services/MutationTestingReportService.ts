@@ -1,6 +1,6 @@
 import type { Logger, MutationScoreOnlyResult, Report, ReportIdentifier } from '@stryker-mutator/dashboard-common';
 import { isMutationTestResult } from '@stryker-mutator/dashboard-common';
-import type { Metrics} from 'mutation-testing-metrics';
+import type { Metrics } from 'mutation-testing-metrics';
 import { aggregateResultsByModule, calculateMetrics } from 'mutation-testing-metrics';
 import type { MutationTestResult } from 'mutation-testing-report-schema';
 
@@ -9,7 +9,7 @@ import type { MutationTestingMetricsMapper, MutationTestingReportMapper } from '
 import { createMutationTestingMetricsMapper, createMutationTestingReportMapper, DashboardQuery } from '../mappers/index.js';
 import { MutationTestingResultMapper } from '../mappers/MutationTestingResultMapper.js';
 import { MutationTestingReport } from '../models/index.js';
-import { MutationTestingMetric } from '../models/MutationTestingMetrics.js';
+import { MutationTestingMetrics } from '../models/MutationTestingMetrics.js';
 
 function moduleHasResult(tuple: readonly [string, MutationTestResult | null]): tuple is [string, MutationTestResult] {
   return !!tuple[1];
@@ -46,11 +46,12 @@ export class MutationTestingReportService {
       await this.aggregateProjectReport(id.projectName, id.version, logger);
     }
     if (metrics) {
-      const dataMetricslol = new MutationTestingMetric(metrics);
-      dataMetricslol.project = id.projectName;
-      dataMetricslol.version = id.version;
-      console.log(dataMetricslol)
-      await this.mutationMetricsMapper.insert(dataMetricslol)
+      const mutationTestingMetrics = new MutationTestingMetrics(metrics);
+
+      mutationTestingMetrics.project = id.projectName;
+      mutationTestingMetrics.version = id.version;
+      
+      await this.mutationMetricsMapper.insert(mutationTestingMetrics)
     }
   }
 

@@ -58,5 +58,6 @@
     "task.autoDetect": "off",
     "azurite.location": "root/.azurite",
     "azureFunctions.showExtensionsCsprojWarning": false,
+    "npm.packageManager": "npm",
   },
 }

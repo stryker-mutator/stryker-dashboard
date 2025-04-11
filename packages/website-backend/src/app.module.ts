@@ -11,6 +11,7 @@ import OrganizationsController from './controllers/organizations.controller.js';
 import RealTimeReportsController from './controllers/real-time-reports.controller.js';
 import ReportsController from './controllers/reports.controller.js';
 import RepositoriesController from './controllers/repositories.controller.js';
+import StatisticsController from './controllers/statistics.controller.js';
 import UserController from './controllers/user.controller.js';
 import VersionController from './controllers/version.controller.js';
 import GithubAgent from './github/GithubAgent.js';
@@ -49,6 +50,7 @@ import { ReportValidator } from './services/ReportValidator.js';
     RepositoriesController,
     UserController,
     VersionController,
+    StatisticsController,
   ],
   providers: [
     ApiKeyValidator,

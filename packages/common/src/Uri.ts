@@ -2,8 +2,9 @@ export function constructApiUri(
   location: string,
   slug: string,
   queryParams: { module: string | undefined; realTime: string | undefined },
+  controller = 'reports',
 ) {
-  const url = new URL(`${location}/api/reports/${slug}`);
+  const url = new URL(`${location}/api/${controller}/${slug}`);
   for (const [key, value] of Object.entries(queryParams)) {
     if (value !== undefined && value !== null) {
       url.searchParams.append(key, value);

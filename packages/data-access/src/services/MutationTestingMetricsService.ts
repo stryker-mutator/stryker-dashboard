@@ -1,7 +1,7 @@
 import { DashboardQuery } from "../mappers/DashboardQuery.js";
 import type { MutationTestingMetricsMapper } from "../mappers/factories.js";
 import { createMutationTestingMetricsMapper } from "../mappers/factories.js";
-import { MutationTestingMetric } from "../models/MutationTestingMetrics.js";
+import { MutationTestingMetrics } from "../models/MutationTestingMetrics.js";
 
 export class MutationTestingMetricsService {
   constructor(
@@ -9,9 +9,9 @@ export class MutationTestingMetricsService {
   ) {}
 
 
-  public async getMetrics(project: string): Promise<MutationTestingMetric[]> {
+  public async getMetrics(project: string): Promise<MutationTestingMetrics[]> {
     const metricResults = await this.mutationMetricsMapper.findAll(
-      DashboardQuery.create(MutationTestingMetric)
+      DashboardQuery.create(MutationTestingMetrics)
       .wherePartitionKeyEquals({ project })
     )
 

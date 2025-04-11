@@ -1,9 +1,10 @@
 import { type Metrics } from "mutation-testing-metrics";
 
-export class MutationTestingMetric implements Metrics {
+export class MutationTestingMetrics implements Metrics {
   public project: string; // github.com/stryker-mutator/stryker-dashboard
   public version: string | undefined; // feat/implement-metrics
 
+  public createdAt: Date;
   public pending: number;
   public killed: number;
   public timeout: number;
@@ -26,6 +27,7 @@ export class MutationTestingMetric implements Metrics {
       return;
     }
     
+    this.createdAt = new Date();
     this.pending = metrics.pending;
     this.killed = metrics.killed;
     this.timeout = metrics.timeout;
@@ -62,18 +64,18 @@ export class MutationTestingMetric implements Metrics {
     'mutationScore',
     'mutationScoreBasedOnCoveredCode',
   ] as const;
-  public static readonly tableName = MutationTestingMetric.name;
+  public static readonly tableName = MutationTestingMetrics.name;
 
-  public static createRowKey(identifier: Pick<MutationTestingMetric, 'version'>): string | undefined {
+  public static createRowKey(identifier: Pick<MutationTestingMetrics, 'version'>): string | undefined {
     const nowUtc = new Date().toISOString();
     return identifier.version + nowUtc;
   }
 
-  public static createPartitionKey(identifier: Pick<MutationTestingMetric, 'project'>): string {
+  public static createPartitionKey(identifier: Pick<MutationTestingMetrics, 'project'>): string {
     return identifier.project;
   }
 
-  public static identify(entity: Partial<MutationTestingMetric>, partitionKey: string, rowKey: string) {
+  public static identify(entity: Partial<MutationTestingMetrics>, partitionKey: string, rowKey: string) {
     entity.project = partitionKey;
     entity.version = rowKey;
   }
