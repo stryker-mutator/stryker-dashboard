@@ -223,7 +223,9 @@ describe(ReportsController.name, () => {
         '/api/reports/github.com/testOrg/testName/feat/dashboard',
       );
       expect(response.status).eq(401);
-      expect(JSON.parse((response.error as HTTPError).text).message).include('Provide an "X-Api-Key" header');
+      expect(JSON.parse((response.error as HTTPError).text).message).include(
+        'Provide a valid "X-Api-Key" or JWT authorization header',
+      );
     });
 
     it("should respond with 401 when the api key doesn't match", async () => {
@@ -231,7 +233,7 @@ describe(ReportsController.name, () => {
         .put('/api/reports/github.com/testOrg/testName/feat/dashboard?module=core')
         .set('X-Api-Key', 'wrong key');
       expect(response.status).eq(401);
-      expect(JSON.parse((response.error as HTTPError).text).message).include('Invalid API key');
+      expect(JSON.parse((response.error as HTTPError).text).message).include('Provide a valid "X-Api-Key"');
     });
 
     it('should respond with 400 when uploading a report that is in-progress', async () => {
@@ -290,7 +292,9 @@ describe(ReportsController.name, () => {
         '/api/reports/github.com/testOrg/testName/feat/dashboard',
       );
       expect(response.status).eq(401);
-      expect(JSON.parse((response.error as HTTPError).text).message).include('Provide an "X-Api-Key" header');
+      expect(JSON.parse((response.error as HTTPError).text).message).include(
+        'Provide a valid "X-Api-Key" or JWT authorization header',
+      );
     });
 
     it('should return 401 when the api key is invalid', async () => {
@@ -298,7 +302,7 @@ describe(ReportsController.name, () => {
         .delete('/api/reports/github.com/testOrg/testName/feat/dashboard')
         .set('X-Api-Key', 'invalid key');
       expect(response.status).eq(401);
-      expect(JSON.parse((response.error as HTTPError).text).message).include('Invalid API key');
+      expect(JSON.parse((response.error as HTTPError).text).message).include('Provide a valid "X-Api-Key"');
     });
 
     it('should return 500 when the delete operation fails', async () => {
