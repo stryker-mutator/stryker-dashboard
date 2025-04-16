@@ -4,7 +4,6 @@ import {
   Controller,
   Delete,
   Get,
-  Headers,
   HttpCode,
   InternalServerErrorException,
   Logger,
@@ -12,7 +11,7 @@ import {
   Param,
   Put,
   Query,
-  UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import {
   isMutationTestResult,
@@ -24,49 +23,34 @@ import { PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import { MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
 import { MutationTestResult } from 'mutation-testing-report-schema';
 
-import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
+import { JwtOrApiKeyGuard } from '../auth/guard.js';
 import Configuration from '../services/Configuration.js';
 import DataAccess from '../services/DataAccess.js';
 import { ReportValidator } from '../services/ReportValidator.js';
 import { parseSlug } from '../utils/utils.js';
 
-const API_KEY_HEADER = 'X-Api-Key';
-
 @Controller('/reports')
 export default class ReportsController {
-  #apiKeyValidator: ApiKeyValidator;
   #config: Configuration;
   #logger = new Logger(ReportsController.name);
   #reportService: MutationTestingReportService;
   #reportValidator: ReportValidator;
 
-  constructor(
-    apiKeyValidator: ApiKeyValidator,
-    config: Configuration,
-    dataAccess: DataAccess,
-    reportValidator: ReportValidator,
-  ) {
-    this.#apiKeyValidator = apiKeyValidator;
+  constructor(config: Configuration, dataAccess: DataAccess, reportValidator: ReportValidator) {
     this.#config = config;
     this.#reportService = dataAccess.mutationTestingReportService;
     this.#reportValidator = reportValidator;
   }
 
   @Put('/*slug')
+  @UseGuards(JwtOrApiKeyGuard)
   public async update(
     @Param('slug') slug: string[],
     @Body() result: MutationScoreOnlyResult | MutationTestResult,
     @Query('module') moduleName: string | undefined,
-    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined,
   ): Promise<PutReportResponse> {
-    if (!authorizationHeader) {
-      throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
-    }
     const { project, version } = parseSlug(slug.join('/'));
-    await Promise.all([
-      this.#apiKeyValidator.validateApiKey(authorizationHeader, project),
-      this.verifyRequiredPutReportProperties(result),
-    ]);
+    await this.verifyRequiredPutReportProperties(result);
     this.verifyIsCompletedReport(result);
     try {
       await this.#reportService.saveReport({ projectName: project, version, moduleName }, result, this.#logger);
@@ -125,22 +109,14 @@ export default class ReportsController {
 
   @Delete('/*slug')
   @HttpCode(204)
-  public async delete(
-    @Param('slug') slug: string[],
-    @Query('module') moduleName: string | undefined,
-    @Headers(API_KEY_HEADER) authorizationHeader: string | undefined,
-  ) {
-    if (!authorizationHeader) {
-      throw new UnauthorizedException(`Provide an "${API_KEY_HEADER}" header`);
-    }
-
+  @UseGuards(JwtOrApiKeyGuard)
+  public async delete(@Param('slug') slug: string[], @Query('module') moduleName: string | undefined) {
     const { project, version } = parseSlug(slug.join('/'));
     const id = {
       projectName: project,
       moduleName,
       version,
     };
-    await this.#apiKeyValidator.validateApiKey(authorizationHeader, project);
 
     try {
       await this.#reportService.delete(id, this.#logger);
