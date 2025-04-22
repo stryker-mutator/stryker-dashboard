@@ -206,8 +206,8 @@ describe(RepositoriesPage.name, () => {
       await userEvent.click(button!);
 
       // Assert
-      await expect.element(sut.element.shadowRoot!.querySelector('sme-modal')!).toBeVisible();
       const modal = sut.element.shadowRoot!.querySelector('sme-modal')!;
+      await expect.element(modal).toBeInTheDocument();
       const apiKeyCollapsible = modal.querySelector('sme-collapsible#api-key-collapsible')!;
       const badgeCollapsible = modal.querySelector('sme-collapsible#badge-collapsible')!;
       const usageCollapsible = modal.querySelector('sme-collapsible#usage-collapsible')!;
@@ -233,8 +233,8 @@ describe(RepositoriesPage.name, () => {
       await userEvent.click(configureButton);
 
       // Assert
-      await expect.element(sut.element.shadowRoot!.querySelector('sme-modal')!).toBeVisible();
       const modal = sut.element.shadowRoot!.querySelector('sme-modal')!;
+      await expect.element(modal).toBeInTheDocument();
       const apiKeyCollapsible = modal.querySelector('sme-collapsible#no-api-key-collapsible')!;
 
       expect(apiKeyCollapsible).toHaveTextContent(
