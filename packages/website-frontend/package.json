@@ -18,7 +18,7 @@
     "@stryker-mutator/stryker-elements": "0.19.1",
     "@tailwindcss/vite": "4.1.4",
     "@vaadin/router": "2.0.0",
-    "@vitest/browser": "3.0.9",
+    "@vitest/browser": "3.1.2",
     "lit": "3.3.0",
     "mutation-testing-elements": "3.5.1",
     "mutation-testing-metrics": "3.5.1",
@@ -26,7 +26,7 @@
     "playwright": "1.52.0",
     "tailwindcss": "4.1.4",
     "vite": "6.3.2",
-    "vitest": "3.0.9",
+    "vitest": "3.1.2",
     "vitest-fetch-mock": "0.4.5"
   },
   "repository": {
