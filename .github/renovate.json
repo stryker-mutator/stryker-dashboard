@@ -9,6 +9,15 @@
   "lockFileMaintenance": {
     "enabled": true
   },
+  "dockerfile": {
+    "extends": [":preserveSemverRanges"]
+  },
+  "github-actions": {
+    "extends": [":preserveSemverRanges"]
+  },
+  "nvm": {
+    "extends": [":preserveSemverRanges"]
+  },
   "packageRules": [
     {
       "groupName": "Angular packages",
