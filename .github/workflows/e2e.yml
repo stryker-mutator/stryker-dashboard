@@ -97,12 +97,6 @@ jobs:
     concurrency:
       group: Acceptance
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Download & install badge-api package
-        run: ./tasks/download-badge-api-package.sh ${{ needs.build-and-release.outputs.npm-package-version }}
-
       - name: Azure login
         uses: Azure/login@v2
         with:
@@ -116,17 +110,8 @@ jobs:
           app-name: 'stryker-dashboard-acceptance'
           images: 'ghcr.io/stryker-mutator/dashboard:${{ needs.build-and-release.outputs.npm-package-version }}'
 
-      - name: 'Deploy stryker-mutator-badge-api-acceptance.azurewebsites.net'
-        uses: Azure/functions-action@v1
-        id: fa
-        with:
-          app-name: stryker-mutator-badge-api-acceptance
-          package: 'package'
-
-      - name: 'Verify deployment'
-        run: |
-          node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api ${{ needs.build-and-release.outputs.npm-package-version }}
-          node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version ${{ needs.build-and-release.outputs.npm-package-version }}
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -134,19 +119,34 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
+      - name: Download & install badge-api package
+        run: ./tasks/download-badge-api-package.sh ${{ needs.build-and-release.outputs.npm-package-version }}
+
+      - name: 'Deploy stryker-mutator-badge-api-acceptance.azurewebsites.net'
+        uses: Azure/functions-action@v1
+        id: fa
+        with:
+          app-name: stryker-mutator-badge-api-acceptance
+          package: 'package'
+
       - name: Install dependencies
         run: npm ci
 
       - name: Install browsers
         run: |
           cd packages/e2e
-          npx playwright install chromium --with-deps
+          npx playwright install chromium
 
       - name: Build
         run: |
           cd packages/e2e
           npx tsc -b
           cd ../..
+
+      - name: 'Verify deployment'
+        run: |
+          node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api ${{ needs.build-and-release.outputs.npm-package-version }}
+          node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version ${{ needs.build-and-release.outputs.npm-package-version }}
 
       - name: Run e2e tests
         run: |
