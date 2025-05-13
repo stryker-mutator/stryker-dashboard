@@ -43,6 +43,9 @@ function tryCheckVersion(attemptsLeft = 40) {
   });
 }
 
+/**
+ * @param {import('http').IncomingMessage} resp
+ */
 async function checkResponse(resp) {
   if (type === 'dashboard') {
     await verifyDashboardVersion(resp);
@@ -52,6 +55,9 @@ async function checkResponse(resp) {
   console.log(`✅  ${expectedVersion} installed at ${url} ^-^`);
 }
 
+/**
+ * @param {import('http').IncomingMessage} resp
+ */
 function verifyBadgeApiVersion(resp) {
   const actual = trimGitShaPostFix(resp.headers['x-badge-api-version']);
   if (actual !== expectedVersion) {
@@ -63,6 +69,9 @@ function trimGitShaPostFix(rawVersion) {
   return rawVersion.split('+')[0];
 }
 
+/**
+ * @param {import('http').IncomingMessage} resp
+ */
 function verifyDashboardVersion(resp) {
   return new Promise((res, rej) => {
     let data = '';
