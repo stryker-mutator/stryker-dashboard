@@ -13,9 +13,9 @@
   "devDependencies": {
     "@actions/core": "1.11.1",
     "@eslint/js": "9.26.0",
-    "@stryker-mutator/core": "8.7.1",
-    "@stryker-mutator/mocha-runner": "8.7.1",
-    "@stryker-mutator/vitest-runner": "8.7.1",
+    "@stryker-mutator/core": "9.0.0",
+    "@stryker-mutator/mocha-runner": "9.0.0",
+    "@stryker-mutator/vitest-runner": "9.0.0",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",
     "@types/mocha": "10.0.10",
