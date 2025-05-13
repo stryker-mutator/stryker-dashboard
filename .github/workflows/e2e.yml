@@ -140,7 +140,7 @@ jobs:
       - name: Install browsers
         run: |
           cd packages/e2e
-          npx playwright install chromium --with-deps
+          npx playwright install chromium
 
       - name: Build
         run: |
