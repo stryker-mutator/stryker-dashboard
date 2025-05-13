@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.19.1...v0.20.0) (2025-05-13)
+
+### Bug Fixes
+
+- **deps:** update dependency @azure/storage-blob to v12.27.0 ([#1321](https://github.com/stryker-mutator/stryker-dashboard/issues/1321)) ([ec9504f](https://github.com/stryker-mutator/stryker-dashboard/commit/ec9504fe624b04466fa7eed57bf40319914eaaa9))
+- use isRestError type-guard ([#1429](https://github.com/stryker-mutator/stryker-dashboard/issues/1429)) ([7596916](https://github.com/stryker-mutator/stryker-dashboard/commit/75969169518b911e5bffba8e371e6247e1e5f6e1))
+
+### Features
+
+- **reports:** add DELETE report endpoint ([#1329](https://github.com/stryker-mutator/stryker-dashboard/issues/1329)) ([c6cfc7c](https://github.com/stryker-mutator/stryker-dashboard/commit/c6cfc7cad71a9971fc2ca5bf3459d639269279a6))
+
 ## [0.19.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.19.0...v0.19.1) (2025-03-09)
 
 **Note:** Version bump only for package e2e

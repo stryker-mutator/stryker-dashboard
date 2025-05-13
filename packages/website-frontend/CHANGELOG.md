@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.19.1...v0.20.0) (2025-05-13)
+
+### Features
+
+- **elements:** use <dialog> element for modal ([#1336](https://github.com/stryker-mutator/stryker-dashboard/issues/1336)) ([532ec56](https://github.com/stryker-mutator/stryker-dashboard/commit/532ec5653b41d668a651ace041f6a458106d2e66))
+
 ## [0.19.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.19.0...v0.19.1) (2025-03-09)
 
 ### Bug Fixes

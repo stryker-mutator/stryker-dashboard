@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.19.1...v0.20.0) (2025-05-13)
+
+### Features
+
+- **reports:** add DELETE report endpoint ([#1329](https://github.com/stryker-mutator/stryker-dashboard/issues/1329)) ([c6cfc7c](https://github.com/stryker-mutator/stryker-dashboard/commit/c6cfc7cad71a9971fc2ca5bf3459d639269279a6))
+
 ## [0.19.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.19.0...v0.19.1) (2025-03-09)
 
 ### Bug Fixes
