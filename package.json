@@ -12,7 +12,7 @@
   ],
   "devDependencies": {
     "@actions/core": "1.11.1",
-    "@eslint/js": "9.25.1",
+    "@eslint/js": "9.26.0",
     "@stryker-mutator/core": "8.7.1",
     "@stryker-mutator/mocha-runner": "8.7.1",
     "@stryker-mutator/vitest-runner": "8.7.1",
@@ -27,7 +27,7 @@
     "chai-as-promised": "8.0.1",
     "concurrently": "9.1.2",
     "eslint-import-resolver-typescript": "4.3.4",
-    "eslint-plugin-import-x": "4.11.0",
+    "eslint-plugin-import-x": "4.11.1",
     "eslint-plugin-lit": "2.1.1",
     "eslint-plugin-simple-import-sort": "12.1.1",
     "eslint-plugin-wc": "3.0.1",
@@ -38,7 +38,7 @@
     "rimraf": "6.0.1",
     "sinon": "20.0.0",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.31.1",
+    "typescript-eslint": "8.32.1",
     "vite-plugin-dts": "4.5.3"
   },
   "license": "Apache-2.0",
