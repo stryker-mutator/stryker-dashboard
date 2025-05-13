@@ -1,4 +1,4 @@
-import { RestError } from '@azure/storage-blob';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 
 export function encodeKey(inputWithSlashes: string) {
@@ -9,12 +9,8 @@ export function decodeKey(inputWithSemiColons: string) {
   return inputWithSemiColons.replace(/;/g, '/');
 }
 
-export function isStorageError(maybeStorageError: unknown): maybeStorageError is RestError {
-  return maybeStorageError instanceof RestError;
-}
-
 export function hasErrorCode(err: unknown, code: string): boolean {
-  if (!isStorageError(err)) return false;
+  if (!isRestError(err)) return false;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
   const details = err.details as any;

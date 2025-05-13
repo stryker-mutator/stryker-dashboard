@@ -16,6 +16,8 @@ async function deleteAllEntities(tableName: string) {
     allowInsecureConnection: true,
   });
 
+  await tableClient.createTable();
+
   for await (const entity of tableClient.listEntities()) {
     await tableClient.deleteEntity(entity.partitionKey!, entity.rowKey!);
   }
@@ -23,6 +25,8 @@ async function deleteAllEntities(tableName: string) {
 
 async function deleteAllBlobs(containerName: string) {
   const containerClient = blobService.getContainerClient(containerName);
+
+  await containerClient.createIfNotExists();
 
   for await (const blob of containerClient.listBlobsFlat()) {
     await containerClient.getBlobClient(blob.name).deleteIfExists();
