@@ -22,7 +22,7 @@
   "typings": "src/index.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "@azure/data-tables": "13.3.0",
+    "@azure/data-tables": "13.3.1",
     "@azure/storage-blob": "12.27.0",
     "@stryker-mutator/dashboard-common": "0.20.0",
     "mutation-testing-metrics": "3.5.1",
