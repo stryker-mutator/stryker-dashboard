@@ -1,4 +1,4 @@
-import { create } from '@storybook/theming/create';
+import { create } from 'storybook/theming/create';
 
 export default create({
   base: 'dark',
@@ -10,4 +10,5 @@ export default create({
   `,
   brandUrl: 'https://github.com/stryker-mutator/stryker-dashboard',
   brandTarget: '_blank',
+  appPreviewBg: 'var(--color-zinc-800)',
 });

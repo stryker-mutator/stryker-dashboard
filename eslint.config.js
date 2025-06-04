@@ -1,7 +1,8 @@
 import eslint from '@eslint/js';
-import importX from 'eslint-plugin-import-x';
+import { importX } from 'eslint-plugin-import-x';
 import { configs as litConfigs } from 'eslint-plugin-lit';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import storybook from 'eslint-plugin-storybook';
 import { configs as wcConfigs } from 'eslint-plugin-wc';
 import globals from 'globals';
 import { config, configs as tsConfigs } from 'typescript-eslint';
@@ -14,6 +15,7 @@ export default config(
   litConfigs['flat/recommended'],
   importX.flatConfigs.recommended,
   importX.flatConfigs.typescript,
+  ...storybook.configs['flat/recommended'],
   {
     rules: {
       '@typescript-eslint/consistent-type-imports': 'error',
@@ -91,6 +93,7 @@ export default config(
       'packages/*/reports',
       'test-results',
       'playwright-report',
+      '!.storybook',
     ],
   },
 );

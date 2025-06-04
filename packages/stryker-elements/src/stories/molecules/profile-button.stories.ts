@@ -3,7 +3,7 @@ import '../../lib/atoms/link';
 import '../../lib/molecules/loader';
 import '../../lib/molecules/profile-button';
 
-import type { Meta, StoryObj } from '@storybook/web-components';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
 export default {
@@ -23,7 +23,6 @@ export const Default: StoryObj = {
 };
 
 export const LeftAlignment: StoryObj = {
-  name: 'Left Alignment',
   args: {
     avatarUrl: '/images/stryker.svg',
     direction: 'left',
@@ -31,7 +30,6 @@ export const LeftAlignment: StoryObj = {
 };
 
 export const Loading: StoryObj = {
-  name: 'Loading',
   args: {
     loading: true,
   },

@@ -1,7 +1,7 @@
 import '../../lib/atoms/buttons/button';
 import '../../lib/molecules/badge-configurator';
 
-import type { Meta, StoryObj } from '@storybook/web-components';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
 export default {

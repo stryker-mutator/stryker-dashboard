@@ -1,9 +1,9 @@
 // Tailwind CSS
 import '../src/tailwind-styles/component.css';
 
-import type { Preview } from '@storybook/web-components';
+import type { Preview } from '@storybook/web-components-vite';
 
-const preview: Preview = {
+export default {
   parameters: {
     controls: {
       matchers: {
@@ -14,6 +14,4 @@ const preview: Preview = {
 
     backgrounds: { default: 'dark', values: [{ name: 'dark', value: '#262626' }] },
   },
-};
-
-export default preview;
+} satisfies Preview;

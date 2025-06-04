@@ -1,6 +1,6 @@
 import '../../lib/atoms/supported-framework';
 
-import type { StoryObj } from '@storybook/web-components';
+import type { StoryObj } from '@storybook/web-components-vite';
 
 export default {
   title: 'Atoms/Supported Framework',
@@ -8,7 +8,6 @@ export default {
 };
 
 export const Default: StoryObj = {
-  name: 'Default',
   args: {
     name: 'stryker-js',
     logo: '/images/stryker.svg',
