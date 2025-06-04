@@ -1,6 +1,6 @@
 import '../../lib/organisms/hero';
 
-import type { Meta, StoryObj } from '@storybook/web-components';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 export default {
   title: 'Organisms/Hero',

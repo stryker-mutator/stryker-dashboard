@@ -1,6 +1,6 @@
 import '../../lib/molecules/toggle-repository';
 
-import type { Meta, StoryObj } from '@storybook/web-components';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
 export default {
@@ -9,14 +9,12 @@ export default {
 } as Meta;
 
 export const Default: StoryObj = {
-  name: 'Default',
   render: () => {
     return html`<sme-toggle-repository name="GitHub.com/MyRepository"></sme-toggle-repository>`;
   },
 };
 
 export const Checked: StoryObj = {
-  name: 'Checked',
   render: () => {
     return html`
       <sme-toggle-repository

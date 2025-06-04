@@ -1,6 +1,6 @@
 import '../../lib/molecules/collapsible';
 
-import type { Meta, StoryObj } from '@storybook/web-components';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
 export default {
