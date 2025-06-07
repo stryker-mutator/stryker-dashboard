@@ -45,7 +45,7 @@
   "devDependencies": {
     "@nestjs/schematics": "11.0.5",
     "@nestjs/testing": "11.1.2",
-    "@types/compression": "1.8.0",
+    "@types/compression": "1.8.1",
     "@types/express": "5.0.2",
     "@types/passport": "1.0.17",
     "@types/passport-github2": "1.2.9",
