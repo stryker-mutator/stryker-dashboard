@@ -35,7 +35,7 @@
     "lerna": "8.2.2",
     "mocha": "11.7.0",
     "prettier": "3.5.3",
-    "prettier-plugin-tailwindcss": "0.6.12",
+    "prettier-plugin-tailwindcss": "0.6.13",
     "rimraf": "6.0.1",
     "sinon": "21.0.0",
     "typescript": "5.8.3",
