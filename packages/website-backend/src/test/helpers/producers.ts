@@ -1,7 +1,7 @@
 import type * as contract from '@stryker-mutator/dashboard-contract';
 import type * as dal from '@stryker-mutator/dashboard-data-access';
 
-import type * as github from '../../src/github/models.js';
+import type * as github from '../../github/models.js';
 
 function factoryMethod<T>(defaultsFactory: () => T) {
   return (overrides?: Partial<T>) => Object.assign({}, defaultsFactory(), overrides);

@@ -6,10 +6,11 @@
  * Unfortunately Lerna itself doesn't support this
  */
 import * as core from '@actions/core';
-import fs from 'fs';
 import semver from 'semver';
 
-const { version: currentVersion } = JSON.parse(fs.readFileSync(new URL('../lerna.json', import.meta.url), 'utf-8'));
+import lerna from '../lerna.json' with { type: 'json' };
+
+const { version: currentVersion } = lerna;
 
 determineNextCanaryVersion().catch((err) => {
   core.error(err);
@@ -20,6 +21,9 @@ async function determineNextCanaryVersion() {
   const ref = determineRef();
   const preId = sanitize(ref);
   const nextPatchVersion = semver.inc(currentVersion, 'patch');
+  if (!nextPatchVersion) {
+    throw new Error(`Could not increment patch version from current version: ${currentVersion}`);
+  }
   const { versions } = await (await fetch('https://registry.npmjs.org/@stryker-mutator/dashboard-backend')).json();
   const revision = determineNextFreeRevision(nextPatchVersion, preId, versions);
   const npmVersion = formatVersion(nextPatchVersion, preId, revision);

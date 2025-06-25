@@ -5,7 +5,7 @@
       "path": "src"
     },
     {
-      "path": "test"
+      "path": "src/test"
     }
   ]
 }

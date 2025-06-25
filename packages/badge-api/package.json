@@ -3,7 +3,7 @@
   "description": "The stryker dashboard badge-api serverless app",
   "type": "module",
   "version": "0.20.0",
-  "main": "dist/badge/index.mjs",
+  "main": "dist/index.mjs",
   "publishConfig": {
     "access": "public"
   },

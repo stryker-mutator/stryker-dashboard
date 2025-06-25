@@ -1,7 +1,7 @@
 import type { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 import { expect } from 'chai';
 
-import MutationEventResponseOrchestrator from '../../../../src/services/real-time/MutationEventResponseOrchestrator.js';
+import MutationEventResponseOrchestrator from '../../../../services/real-time/MutationEventResponseOrchestrator.js';
 import { ConfigurationStub } from '../../../helpers/TestServer.js';
 
 describe(MutationEventResponseOrchestrator.name, () => {

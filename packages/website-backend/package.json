@@ -8,8 +8,8 @@
     "dashboard-healthcheck": "bin/healthcheck.js"
   },
   "scripts": {
-    "start": "node --enable-source-maps dist/src/index.js",
-    "start:watch": "node --watch --enable-source-maps dist/src/index.js",
+    "start": "node --enable-source-maps dist/index.js",
+    "start:watch": "node --watch --enable-source-maps dist/index.js",
     "test": "c8 --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 61 mocha --node-option enable-source-maps \"dist/test/**/*.js\"",
     "stryker": "stryker run"
   },

@@ -9,11 +9,11 @@ import type { HTTPError } from 'superagent';
 import request from 'supertest';
 import type { App } from 'supertest/types.js';
 
-import { AppModule } from '../../../src/app.module.js';
-import ReportsController from '../../../src/controllers/reports.controller.js';
-import Configuration from '../../../src/services/Configuration.js';
-import DataAccess from '../../../src/services/DataAccess.js';
-import utils from '../../../src/utils/utils.js';
+import { AppModule } from '../../../app.module.js';
+import ReportsController from '../../../controllers/reports.controller.js';
+import Configuration from '../../../services/Configuration.js';
+import DataAccess from '../../../services/DataAccess.js';
+import utils from '../../../utils/utils.js';
 import { createMutationTestingResult, createMutationTestResult } from '../../helpers/mutants.js';
 import { config, DataAccessMock } from '../../helpers/TestServer.js';
 

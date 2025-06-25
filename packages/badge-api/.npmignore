@@ -1,6 +1,7 @@
 **/*
 !/badge/*.mjs
-!/dist/badge/**/*.+(js|d.ts)
+!/dist/**/*.+(js|d.ts)
+dist/test/**/*
 !README.md
 !host.json
 !bin

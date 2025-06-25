@@ -1,7 +1,7 @@
 {
-  "extends": "../../../tsconfig.settings.json",
+  "extends": "../../../../tsconfig.settings.json",
   "compilerOptions": {
-    "outDir": "../dist/test",
+    "outDir": "../../dist/test",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
@@ -9,7 +9,7 @@
   },
   "references": [
     {
-      "path": "../src"
+      "path": "../"
     }
   ]
 }

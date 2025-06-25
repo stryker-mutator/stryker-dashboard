@@ -3,9 +3,10 @@
   "compilerOptions": {
     "types": ["node", "mocha"],
     "outDir": "dist",
+    "rootDir": "badge",
     "allowJs": true
   },
-  "include": ["badge", "test", "package.json"],
+  "include": ["badge"],
   "references": [
     {
       "path": "../data-access/src"

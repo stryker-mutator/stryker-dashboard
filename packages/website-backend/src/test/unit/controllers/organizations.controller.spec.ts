@@ -4,11 +4,11 @@ import sinon from 'sinon';
 import request from 'supertest';
 import type { App } from 'supertest/types.js';
 
-import { AppModule } from '../../../src/app.module.js';
-import OrganizationsController from '../../../src/controllers/organizations.controller.js';
-import Configuration from '../../../src/services/Configuration.js';
-import DataAccess from '../../../src/services/DataAccess.js';
-import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
+import { AppModule } from '../../../app.module.js';
+import OrganizationsController from '../../../controllers/organizations.controller.js';
+import Configuration from '../../../services/Configuration.js';
+import DataAccess from '../../../services/DataAccess.js';
+import GithubRepositoryService from '../../../services/GithubRepositoryService.js';
 import { contractFactory, githubFactory } from '../../helpers/producers.js';
 import { config, createAuthorizationHeader, DataAccessMock } from '../../helpers/TestServer.js';
 

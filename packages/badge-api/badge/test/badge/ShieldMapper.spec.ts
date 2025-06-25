@@ -2,9 +2,9 @@ import type { MutationTestingReport, MutationTestingReportMapper } from '@stryke
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import type { Shield } from '../../badge/Shield.js';
-import { Color } from '../../badge/Shield.js';
-import { ShieldMapper } from '../../badge/ShieldMapper.js';
+import type { Shield } from '../../Shield.js';
+import { Color } from '../../Shield.js';
+import { ShieldMapper } from '../../ShieldMapper.js';
 
 describe(ShieldMapper.name, () => {
   let sut: ShieldMapper;

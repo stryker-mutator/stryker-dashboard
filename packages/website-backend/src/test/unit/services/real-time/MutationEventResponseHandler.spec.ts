@@ -5,8 +5,8 @@ import type { MutantResult } from 'mutation-testing-report-schema';
 import { Socket } from 'net';
 import sinon from 'sinon';
 
-import type Configuration from '../../../../src/services/Configuration.js';
-import { MutationEventResponseHandler } from '../../../../src/services/real-time/MutationEventResponseHandler.js';
+import type Configuration from '../../../../services/Configuration.js';
+import { MutationEventResponseHandler } from '../../../../services/real-time/MutationEventResponseHandler.js';
 import { createResponseStub } from '../../helpers.js';
 
 describe(MutationEventResponseHandler.name, () => {
