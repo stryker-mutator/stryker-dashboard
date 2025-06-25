@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "module": "Node16",
-    "moduleResolution": "node16",
+    "module": "node18",
     "esModuleInterop": true,
     "composite": true,
+    "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": false,
     "lib": ["DOM", "ES2023"],
     "types": [],
@@ -14,7 +14,7 @@
     "declaration": true,
     "sourceMap": true,
     "strict": true,
-    "target": "ES2022",
+    "target": "ES2023",
     "strictPropertyInitialization": false // TODO
   }
 }

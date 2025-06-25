@@ -7,13 +7,13 @@ import sinon from 'sinon';
 import request from 'supertest';
 import type { App } from 'supertest/types.js';
 
-import { AppModule } from '../../../src/app.module.js';
-import RealTimeReportsController from '../../../src/controllers/real-time-reports.controller.js';
-import Configuration from '../../../src/services/Configuration.js';
-import DataAccess from '../../../src/services/DataAccess.js';
-import { MutationEventResponseHandler } from '../../../src/services/real-time/MutationEventResponseHandler.js';
-import MutationEventResponseOrchestrator from '../../../src/services/real-time/MutationEventResponseOrchestrator.js';
-import utils from '../../../src/utils/utils.js';
+import { AppModule } from '../../../app.module.js';
+import RealTimeReportsController from '../../../controllers/real-time-reports.controller.js';
+import Configuration from '../../../services/Configuration.js';
+import DataAccess from '../../../services/DataAccess.js';
+import { MutationEventResponseHandler } from '../../../services/real-time/MutationEventResponseHandler.js';
+import MutationEventResponseOrchestrator from '../../../services/real-time/MutationEventResponseOrchestrator.js';
+import utils from '../../../utils/utils.js';
 import { createMutationTestResult } from '../../helpers/mutants.js';
 import { config, DataAccessMock, MutationEventResponseOrchestratorMock } from '../../helpers/TestServer.js';
 

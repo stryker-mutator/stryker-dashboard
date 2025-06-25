@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import utils from '../../../src/utils/utils.js';
+import utils from '../../../utils/utils.js';
 
 describe('utils', () => {
   describe(utils.generateApiKey.name, () => {

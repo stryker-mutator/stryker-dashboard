@@ -6,11 +6,11 @@ import sinon from 'sinon';
 import request from 'supertest';
 import type { App } from 'supertest/types.js';
 
-import { AppModule } from '../../../src/app.module.js';
-import AuthController from '../../../src/controllers/auth.controller.js';
-import type * as github from '../../../src/github/models.js';
-import Configuration from '../../../src/services/Configuration.js';
-import DataAccess from '../../../src/services/DataAccess.js';
+import { AppModule } from '../../../app.module.js';
+import AuthController from '../../../controllers/auth.controller.js';
+import type * as github from '../../../github/models.js';
+import Configuration from '../../../services/Configuration.js';
+import DataAccess from '../../../services/DataAccess.js';
 import { githubFactory } from '../../helpers/producers.js';
 import { config, createToken, DataAccessMock } from '../../helpers/TestServer.js';
 

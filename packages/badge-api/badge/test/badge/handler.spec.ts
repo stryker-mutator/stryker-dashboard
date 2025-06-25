@@ -1,19 +1,17 @@
 import type { HttpHandler, HttpRequest, InvocationContext } from '@azure/functions';
 import { InvalidSlugError } from '@stryker-mutator/dashboard-common';
 import { expect } from 'chai';
-import fs from 'fs';
 import type { SinonStubbedInstance } from 'sinon';
 import sinon from 'sinon';
 
-import { handler } from '../../badge/handler.js';
-import type { Shield } from '../../badge/Shield.js';
-import { Color } from '../../badge/Shield.js';
-import { ShieldMapper } from '../../badge/ShieldMapper.js';
+import pkg from '../../../package.json' with { type: 'json' };
+import { handler } from '../../handler.js';
+import type { Shield } from '../../Shield.js';
+import { Color } from '../../Shield.js';
+import { ShieldMapper } from '../../ShieldMapper.js';
 
 const headers = {
-  ['X-Badge-Api-Version']: (
-    JSON.parse(fs.readFileSync(new URL('../../../package.json', import.meta.url), 'utf-8')) as { version: string }
-  ).version,
+  ['X-Badge-Api-Version']: pkg.version,
 };
 
 describe(handler.name, () => {

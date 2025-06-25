@@ -1,13 +1,11 @@
 import type { HttpHandler } from '@azure/functions';
 import { InvalidSlugError, Slug } from '@stryker-mutator/dashboard-common';
-import fs from 'fs';
 
+import pkg from '../package.json' with { type: 'json' };
 import type { ShieldMapper } from './ShieldMapper.js';
 
 const headers = {
-  ['X-Badge-Api-Version']: (
-    JSON.parse(fs.readFileSync(new URL('../../package.json', import.meta.url), 'utf-8')) as { version: string }
-  ).version,
+  ['X-Badge-Api-Version']: pkg.version,
 };
 
 export function handler(mapper: ShieldMapper): HttpHandler {

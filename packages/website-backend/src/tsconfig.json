@@ -1,12 +1,13 @@
 {
   "extends": "../../../tsconfig.settings.json",
   "compilerOptions": {
-    "outDir": "../dist/src",
+    "outDir": "../dist",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "types": ["node"]
   },
+  "exclude": ["test"],
   "references": [
     {
       "path": "../../common/src"

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import type { ValidateFunction } from 'ajv';
 import { Ajv } from 'ajv';
 import _addFormats from 'ajv-formats';

@@ -1,10 +1,8 @@
-import fs from 'fs';
-import { URL } from 'url';
+import settings from '../../stryker.parent.conf.json' with { type: 'json' };
 
 /**
  * @type {import('@stryker-mutator/api/core').StrykerOptions}
  */
-const settings = JSON.parse(fs.readFileSync(new URL('../../stryker.parent.conf.json', import.meta.url), 'utf-8'));
 settings.dashboard.module = import.meta.url.split('/').slice(-2)[0];
 settings.mutate = ['badge/**/*.ts'];
 settings.mochaOptions = {

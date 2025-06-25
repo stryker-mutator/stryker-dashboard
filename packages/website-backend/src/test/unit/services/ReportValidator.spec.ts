@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import type { MutantResult } from 'mutation-testing-report-schema/api';
 
-import { ReportValidator } from '../../../src/services/ReportValidator.js';
+import { ReportValidator } from '../../../services/ReportValidator.js';
 
 describe(ReportValidator.name, () => {
   let sut: ReportValidator;

@@ -1,8 +1,5 @@
-// @ts-check
-import fs from 'fs';
-import { URL } from 'url';
+import settings from '../../stryker.parent.conf.json' with { type: 'json' };
 
-const settings = JSON.parse(fs.readFileSync(new URL('../../stryker.parent.conf.json', import.meta.url), 'utf-8'));
 settings.dashboard.module = import.meta.url.split('/').slice(-2)[0];
 
 settings.testRunner = 'vitest';

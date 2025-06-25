@@ -3,9 +3,9 @@ import * as dal from '@stryker-mutator/dashboard-data-access';
 import jwt from 'jsonwebtoken';
 import sinon from 'sinon';
 
-import type * as github from '../../src/github/models.js';
-import type Configuration from '../../src/services/Configuration.js';
-import type DataAccess from '../../src/services/DataAccess.js';
+import type * as github from '../../github/models.js';
+import type Configuration from '../../services/Configuration.js';
+import type DataAccess from '../../services/DataAccess.js';
 
 export function createToken(user: github.Authentication): Promise<string> {
   return new Promise<string>((resolve, reject) => {

@@ -5,9 +5,9 @@ import { DashboardQuery, Project } from '@stryker-mutator/dashboard-data-access'
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import GithubAgent from '../../../src/github/GithubAgent.js';
-import type * as github from '../../../src/github/models.js';
-import GithubRepositoryService from '../../../src/services/GithubRepositoryService.js';
+import GithubAgent from '../../../github/GithubAgent.js';
+import type * as github from '../../../github/models.js';
+import GithubRepositoryService from '../../../services/GithubRepositoryService.js';
 import { dalFactory, githubFactory } from '../../helpers/producers.js';
 import { DataAccessMock } from '../../helpers/TestServer.js';
 

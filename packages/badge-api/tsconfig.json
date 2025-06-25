@@ -1,12 +1,12 @@
 {
   "extends": "../../tsconfig.settings.json",
   "compilerOptions": {
-    "target": "es2017",
     "types": ["node", "mocha"],
     "outDir": "dist",
+    "rootDir": "badge",
     "allowJs": true
   },
-  "include": ["badge", "test"],
+  "include": ["badge"],
   "references": [
     {
       "path": "../data-access/src"

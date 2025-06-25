@@ -1,4 +1,5 @@
 **/*
-!/dist/src/**/*.+(js|d.ts)
+!/dist/**/*.+(js|d.ts)
+dist/test/**/*
 !README.md
 !bin
