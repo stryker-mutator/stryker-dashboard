@@ -14,7 +14,7 @@
   "keywords": [],
   "author": "Nico Jansen",
   "devDependencies": {
-    "@playwright/test": "1.53.1",
+    "@playwright/test": "1.53.2",
     "@stryker-mutator/dashboard-common": "0.20.0",
     "@stryker-mutator/dashboard-contract": "0.20.0",
     "@types/jsonwebtoken": "9.0.10"
