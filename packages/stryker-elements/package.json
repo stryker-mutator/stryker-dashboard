@@ -43,7 +43,7 @@
     "start": "storybook dev -p 6006"
   },
   "peerDependencies": {
-    "lit": "3.3.0"
+    "lit": "3.3.1"
   },
   "devDependencies": {
     "@storybook/addon-docs": "9.0.16",
