@@ -36,7 +36,7 @@
     "ajv": "8.17.1",
     "ajv-formats": "3.0.1",
     "applicationinsights": "3.7.0",
-    "compression": "1.8.0",
+    "compression": "1.8.1",
     "helmet": "8.1.0",
     "passport-github2": "0.1.12",
     "passport-jwt": "4.0.1",
