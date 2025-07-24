@@ -40,6 +40,7 @@ Next, you need to define the following environment variables in a `.env` file. A
 | `GH_BASIC_CLIENT_ID`              | `1234567890abcdef1234`        | GitHub-issued Client ID.                                                                                                           | Yes      |
 | `GH_BASIC_SECRET_ID`              | `1234567890...abcdef1`        | GitHub-issued Client Secret.                                                                                                       | Yes      |
 | `JWT_SECRET`                      | `u7apm8MrMBe8Fwrx4uMH`        | The secret for the HMAC algorithm that creates the signature of the [JWT](https://tools.ietf.org/html/rfc7519).                    | Yes      |
+| `STRYKER_DASHBOARD_BASE_URL`      | `http://localhost:4200`       | Base URL of the dashboard                                                                                                          | Yes      |
 | `NODE_ENV`                        | `development`                 | Node setting for production environment. Used by us for some SSL settings. Can be either: `production` (default) or `development`. | No       |
 
 ### Start the backend
