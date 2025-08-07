@@ -22,12 +22,12 @@
     "directory": "packages/website-backend"
   },
   "dependencies": {
-    "@nestjs/common": "11.1.5",
+    "@nestjs/common": "11.1.6",
     "@nestjs/config": "4.0.2",
-    "@nestjs/core": "11.1.5",
+    "@nestjs/core": "11.1.6",
     "@nestjs/jwt": "11.0.0",
     "@nestjs/passport": "11.0.5",
-    "@nestjs/platform-express": "11.1.5",
+    "@nestjs/platform-express": "11.1.6",
     "@nestjs/serve-static": "5.0.3",
     "@stryker-mutator/dashboard-common": "0.20.0",
     "@stryker-mutator/dashboard-contract": "0.20.0",
@@ -43,8 +43,8 @@
     "workerpool": "9.3.3"
   },
   "devDependencies": {
-    "@nestjs/schematics": "11.0.5",
-    "@nestjs/testing": "11.1.5",
+    "@nestjs/schematics": "11.0.7",
+    "@nestjs/testing": "11.1.6",
     "@types/compression": "1.8.1",
     "@types/express": "5.0.3",
     "@types/passport": "1.0.17",
