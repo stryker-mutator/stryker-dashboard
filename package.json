@@ -38,7 +38,7 @@
     "prettier-plugin-tailwindcss": "0.6.14",
     "rimraf": "6.0.1",
     "sinon": "21.0.0",
-    "typescript": "5.8.3",
+    "typescript": "5.9.2",
     "typescript-eslint": "8.39.0",
     "vite-plugin-dts": "4.5.4"
   },
