@@ -30,7 +30,7 @@
     "eslint-plugin-import-x": "4.16.1",
     "eslint-plugin-lit": "2.1.1",
     "eslint-plugin-simple-import-sort": "12.1.1",
-    "eslint-plugin-storybook": "9.1.1",
+    "eslint-plugin-storybook": "9.1.2",
     "eslint-plugin-wc": "3.0.1",
     "lerna": "8.2.3",
     "mocha": "11.7.1",
@@ -39,7 +39,7 @@
     "rimraf": "6.0.1",
     "sinon": "21.0.0",
     "typescript": "5.9.2",
-    "typescript-eslint": "8.39.0",
+    "typescript-eslint": "8.39.1",
     "vite-plugin-dts": "4.5.4"
   },
   "license": "Apache-2.0",
