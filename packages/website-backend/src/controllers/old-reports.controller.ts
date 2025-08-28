@@ -1,5 +1,5 @@
 import { BadRequestException, Body, Controller, HttpCode, Post } from '@nestjs/common';
-import { Logger, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
+import type { Logger, MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
 
 import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
 import DataAccess from '../services/DataAccess.js';

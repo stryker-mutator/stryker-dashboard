@@ -1,20 +1,21 @@
 {
+  "extends": [
+    "@tsconfig/recommended/tsconfig.json",
+    "@tsconfig/node-lts/tsconfig.json",
+    "@tsconfig/strictest/tsconfig"
+  ],
   "compilerOptions": {
-    "module": "node18",
-    "esModuleInterop": true,
     "composite": true,
     "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": false,
-    "lib": ["DOM", "ES2023"],
     "types": [],
-    "noImplicitReturns": true,
-    "noUnusedLocals": false, // verified using eslint
-    "skipLibCheck": true,
+
     "declarationMap": true,
     "declaration": true,
     "sourceMap": true,
-    "strict": true,
-    "target": "ES2023",
-    "strictPropertyInitialization": false // TODO
+    "strictPropertyInitialization": false, // TODO
+    "noPropertyAccessFromIndexSignature": false,
+    "exactOptionalPropertyTypes": false,
+    "noUncheckedIndexedAccess": false,
+    "noImplicitOverride": false
   }
 }
