@@ -64,5 +64,5 @@
     "test": "nx run-many -t test --exclude e2e"
   },
   "version": "0.0.1",
-  "packageManager": "npm@11.5.2"
+  "packageManager": "npm@11.4.2"
 }
