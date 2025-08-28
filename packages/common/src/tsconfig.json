@@ -1,6 +1,7 @@
 {
   "extends": "../../../tsconfig.settings.json",
   "compilerOptions": {
-    "outDir": "../dist/src"
+    "outDir": "../dist/src",
+    "lib": ["ES2024", "DOM"]
   }
 }

@@ -28,6 +28,10 @@
       "matchPackageNames": ["@nestjs{/,}**"]
     },
     {
+      "groupName": "TSConfig base packages",
+      "matchPackageNames": ["@tsconfig{/,}**"]
+    },
+    {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest", "lockFileMaintenance"],
       "automerge": true
     },

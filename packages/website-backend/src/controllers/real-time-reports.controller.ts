@@ -19,7 +19,7 @@ import { ReportIdentifier, Slug } from '@stryker-mutator/dashboard-common';
 import { PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import { MutationTestingReportService, RealTimeMutantsBlobService } from '@stryker-mutator/dashboard-data-access';
 import type { Response } from 'express';
-import { MutationTestResult } from 'mutation-testing-report-schema';
+import type { MutationTestResult } from 'mutation-testing-report-schema';
 
 import { JwtOrApiKeyGuard } from '../auth/guard.js';
 import Configuration from '../services/Configuration.js';

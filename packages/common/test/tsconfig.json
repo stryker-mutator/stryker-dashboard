@@ -2,7 +2,8 @@
   "extends": "../../../tsconfig.settings.json",
   "compilerOptions": {
     "outDir": "../dist/test",
-    "types": ["mocha", "node"]
+    "types": ["mocha", "node"],
+    "lib": ["ES2024", "DOM"]
   },
   "references": [
     {
