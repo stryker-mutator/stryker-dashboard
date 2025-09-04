@@ -1,16 +1,17 @@
 import eslint from '@eslint/js';
+import { defineConfig } from 'eslint/config';
 import { importX } from 'eslint-plugin-import-x';
 import { configs as litConfigs } from 'eslint-plugin-lit';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import storybook from 'eslint-plugin-storybook';
 import { configs as wcConfigs } from 'eslint-plugin-wc';
 import globals from 'globals';
-import { config, configs as tsConfigs } from 'typescript-eslint';
+import tseslint from 'typescript-eslint';
 
-export default config(
+export default defineConfig(
   eslint.configs.recommended,
-  ...tsConfigs.recommendedTypeChecked,
-  ...tsConfigs.stylisticTypeChecked,
+  ...tseslint.configs.recommendedTypeChecked,
+  ...tseslint.configs.stylisticTypeChecked,
   wcConfigs['flat/best-practice'],
   litConfigs['flat/recommended'],
   importX.flatConfigs.recommended,
@@ -74,7 +75,7 @@ export default config(
       'packages/*/.storybook/*.ts',
       'packages/*/testResources/**/*',
     ],
-    ...tsConfigs.disableTypeChecked,
+    ...tseslint.configs.disableTypeChecked,
   },
   {
     // Test-specific rules
