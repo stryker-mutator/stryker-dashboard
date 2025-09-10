@@ -40,7 +40,7 @@
     "helmet": "8.1.0",
     "passport-github2": "0.1.12",
     "passport-jwt": "4.0.1",
-    "workerpool": "9.3.3"
+    "workerpool": "9.3.4"
   },
   "devDependencies": {
     "@nestjs/schematics": "11.0.7",
