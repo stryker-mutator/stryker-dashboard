@@ -74,7 +74,7 @@ export class MutationTestingReportService {
           version,
           moduleName: module.model.moduleName,
         };
-        return Promise.all([await this.resultMapper.delete(id), await this.mutationScoreMapper.delete(id)]);
+        return Promise.all([this.resultMapper.delete(id), this.mutationScoreMapper.delete(id)]);
       }),
     );
   }
