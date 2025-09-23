@@ -18,7 +18,7 @@
     "@stryker-mutator/vitest-runner": "9.1.1",
     "@tsconfig/node-lts": "22.0.2",
     "@tsconfig/recommended": "1.0.10",
-    "@tsconfig/strictest": "2.0.5",
+    "@tsconfig/strictest": "2.0.6",
     "@tsconfig/vite-react": "7.0.1",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",
