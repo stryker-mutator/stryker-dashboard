@@ -25,10 +25,10 @@
     "@nestjs/common": "11.1.6",
     "@nestjs/config": "4.0.2",
     "@nestjs/core": "11.1.6",
-    "@nestjs/jwt": "11.0.0",
+    "@nestjs/jwt": "11.0.1",
     "@nestjs/passport": "11.0.5",
     "@nestjs/platform-express": "11.1.6",
-    "@nestjs/serve-static": "5.0.3",
+    "@nestjs/serve-static": "5.0.4",
     "@stryker-mutator/dashboard-common": "0.20.0",
     "@stryker-mutator/dashboard-contract": "0.20.0",
     "@stryker-mutator/dashboard-data-access": "0.20.0",
@@ -43,7 +43,7 @@
     "workerpool": "9.3.4"
   },
   "devDependencies": {
-    "@nestjs/schematics": "11.0.8",
+    "@nestjs/schematics": "11.0.9",
     "@nestjs/testing": "11.1.6",
     "@types/compression": "1.8.1",
     "@types/express": "5.0.3",
