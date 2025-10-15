@@ -22,7 +22,7 @@ export class ApiKeyValidator {
         name: projectName.substr(lastDelimiter + 1),
       });
       const repo = await projectPromise;
-      if (repo === null || repo.model.apiKeyHash !== hash) {
+      if (repo?.model.apiKeyHash !== hash) {
         throw new HttpException('Invalid API key', HttpStatus.UNAUTHORIZED);
       }
     }
