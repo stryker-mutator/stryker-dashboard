@@ -1,7 +1,7 @@
 import '@stryker-mutator/stryker-elements';
 
 import type { Login } from '@stryker-mutator/dashboard-contract';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 
 import { RepositoriesPage } from '../../../src/pages/repositories.page';
 import { authService } from '../../../src/services/auth.service';
@@ -186,7 +186,7 @@ describe(RepositoriesPage.name, () => {
       await sutDone();
 
       // Assert
-      await expect.element(loader.querySelector('sme-notify#no-enabled-repositories')!).toBeVisible();
+      await expect.element(loader.querySelector<HTMLElement>('sme-notify#no-enabled-repositories')).toBeVisible();
       expect(repositoriesService.enableRepository).toHaveBeenCalledWith('foo1/bar/baz/1', false);
     });
 
@@ -208,9 +208,9 @@ describe(RepositoriesPage.name, () => {
       // Assert
       const modal = sut.element.shadowRoot!.querySelector('sme-modal')!;
       await expect.element(modal).toBeInTheDocument();
-      const apiKeyCollapsible = modal.querySelector('sme-collapsible#api-key-collapsible')!;
-      const badgeCollapsible = modal.querySelector('sme-collapsible#badge-collapsible')!;
-      const usageCollapsible = modal.querySelector('sme-collapsible#usage-collapsible')!;
+      const apiKeyCollapsible = modal.querySelector<HTMLElement>('sme-collapsible#api-key-collapsible')!;
+      const badgeCollapsible = modal.querySelector<HTMLElement>('sme-collapsible#badge-collapsible')!;
+      const usageCollapsible = modal.querySelector<HTMLElement>('sme-collapsible#usage-collapsible')!;
 
       await expect.element(apiKeyCollapsible).toHaveTextContent("Here's your API key:foo-bar-baz");
       await expect.element(badgeCollapsible.querySelector('sme-badge-configurator')!).toBeVisible();
