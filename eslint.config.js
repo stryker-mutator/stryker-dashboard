@@ -94,6 +94,7 @@ export default defineConfig(
       'packages/*/reports',
       'test-results',
       'playwright-report',
+      'tasks/set-npm-canary-version.js',
       '!.storybook',
     ],
   },

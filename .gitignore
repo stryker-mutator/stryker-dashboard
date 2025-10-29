@@ -28,3 +28,4 @@ yarn-error.log*
 __azurite_*
 
 packages/*/reports
+lerna-publish-summary.json
