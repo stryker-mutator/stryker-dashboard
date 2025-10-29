@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stryker-mutator/stryker-dashboard",
+    "url": "git+https://github.com/stryker-mutator/stryker-dashboard.git",
     "directory": "packages/common"
   },
   "keywords": [],

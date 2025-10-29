@@ -28,7 +28,7 @@ We store our data in [Azure Storage](https://azure.microsoft.com/en-us/free/serv
 
 ### Build the application
 
-Building the application is easy. First run `npm install && npm run build`, to build the application.
+Building the application is easy. First run `pnpm install && pnpm run build`, to build the application.
 
 ### Configuration
 

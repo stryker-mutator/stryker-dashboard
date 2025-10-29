@@ -1,24 +1,16 @@
+// @ts-check
 /**
  * This task checks if the version of the badge-api or dashboard is correct according to the expectation.
  */
 
-import http from 'http';
-import https from 'https';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-function httpClient() {
-  if (url.startsWith('https://')) {
-    return https.get;
-  } else {
-    return http.get;
-  }
-}
-
-const [, , type, url, expectedVersion] = process.argv;
+let [, , type, url, expectedVersion] = process.argv;
+expectedVersion = expectedVersion.trim().replace(/^v/, ''); // remove leading v if present
 console.log(`Validating ${url} for version ${expectedVersion}`);
 if ((url && expectedVersion && type === 'dashboard') || type === 'badge-api') {
-  tryCheckVersion();
+  await tryCheckVersion();
 } else {
   console.info(`Usage: node ${path.basename(fileURLToPath(import.meta.url))} [badge-api/dashboard] url version`);
   console.info(
@@ -29,22 +21,27 @@ if ((url && expectedVersion && type === 'dashboard') || type === 'badge-api') {
   process.exitCode = 1;
 }
 
-function tryCheckVersion(attemptsLeft = 40) {
-  httpClient()(url, (res) => {
-    checkResponse(res).catch((err) => {
-      if (attemptsLeft === 0) {
-        console.error(err);
-        process.exitCode = 1;
-      } else {
-        console.log(`Failed, ${err} trying ${attemptsLeft} more time(s)`);
-        setTimeout(() => tryCheckVersion(attemptsLeft - 1), 10000);
-      }
-    });
-  });
+async function tryCheckVersion(attemptsLeft = 40) {
+  try {
+    const abort = new AbortController();
+    const timeout = setTimeout(() => abort.abort('Request timed out'), 10_000);
+    const res = await fetch(url, { signal: abort.signal });
+    clearTimeout(timeout);
+
+    await checkResponse(res);
+  } catch (err) {
+    if (attemptsLeft === 0) {
+      console.error(err);
+      process.exitCode = 1;
+    } else {
+      console.log(`Failed, ${err} trying ${attemptsLeft} more time(s)`);
+      setTimeout(() => tryCheckVersion(attemptsLeft - 1), 10000);
+    }
+  }
 }
 
 /**
- * @param {import('http').IncomingMessage} resp
+ * @param {Response} resp
  */
 async function checkResponse(resp) {
   if (type === 'dashboard') {
@@ -56,41 +53,36 @@ async function checkResponse(resp) {
 }
 
 /**
- * @param {import('http').IncomingMessage} resp
+ * @param {Response} resp
  */
 function verifyBadgeApiVersion(resp) {
-  const actual = trimGitShaPostFix(resp.headers['x-badge-api-version']);
+  const actual = trimGitShaPostFix(resp.headers.get('x-badge-api-version'));
   if (actual !== expectedVersion) {
     throw new Error(`Expected ${actual} to equal ${expectedVersion}`);
   }
 }
 
+/**
+ * @param {string | null} rawVersion
+ */
 function trimGitShaPostFix(rawVersion) {
-  return rawVersion.split('+')[0];
+  return rawVersion?.split('+')[0];
 }
 
 /**
- * @param {import('http').IncomingMessage} resp
+ * @param {Response} resp
  */
-function verifyDashboardVersion(resp) {
-  return new Promise((res, rej) => {
-    let data = '';
-    resp.on('data', (chunk) => (data += chunk));
-    resp.on('end', () => {
-      try {
-        const actual = JSON.parse(data);
-        const expected = {
-          dashboard: expectedVersion,
-          frontend: expectedVersion,
-        };
-        if (actual.dashboard !== expected.dashboard || actual.frontend !== expected.frontend) {
-          throw new Error(`Expected ${JSON.stringify(actual)} to equal ${JSON.stringify(expected)}`);
-        }
-        res();
-      } catch (err) {
-        rej(err);
-      }
-    });
-    resp.on('err', (err) => rej(err));
-  });
+async function verifyDashboardVersion(resp) {
+  if (!resp.ok) {
+    throw new Error(`Request failed with status ${resp.status} ${resp.statusText}`);
+  }
+
+  const actual = await resp.json();
+  const expected = {
+    dashboard: expectedVersion,
+    frontend: expectedVersion,
+  };
+  if (actual.dashboard !== expected.dashboard || actual.frontend !== expected.frontend) {
+    throw new Error(`Expected ${JSON.stringify(actual)} to equal ${JSON.stringify(expected)}`);
+  }
 }

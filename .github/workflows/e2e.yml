@@ -14,7 +14,7 @@ jobs:
     name: Build and Release
     runs-on: ubuntu-latest
     outputs:
-      npm-package-version: ${{ steps.version.outputs.npm-package-version }}
+      version: ${{ steps.meta.outputs.version }}
     permissions:
       contents: read
       packages: write
@@ -23,32 +23,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Set NPM Env
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-
-      - name: Setup Node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Choose version
-        id: version
-        run: 'node tasks/set-npm-canary-version.js'
+      - uses: ./.github/setup
 
       - name: Build
-        run: npm run build
-
-      - name: Lerna publish canary version
         run: |
-          git config --global user.name "stryker-mutator[bot]"
-          git config --global user.email 158062761+stryker-mutator[bot]@users.noreply.github.com
-          npx lerna version ${{ steps.version.outputs.npm-package-version }} --no-git-tag-version --no-push --exact --force-publish --yes --no-conventional-commits
-          git commit -am "temp-commit"
-          npx lerna publish from-package --dist-tag canary --no-git-reset --yes
+          cd packages/badge-api
+          pnpm exec tsc -b
+          cd ../..
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
@@ -60,24 +41,26 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - id: base-version
+        run: echo "version=$(jq --raw-output '.version' lerna.json)" >> $GITHUB_OUTPUT
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/stryker-mutator/dashboard
           tags: |
-            type=ref,event=branch
+            type=ref,event=pr,prefix=${{ steps.base-version.outputs.version }}-pr-,suffix=.{{sha}}
             type=ref,event=pr
-            type=semver,pattern={{version}},value=v${{ steps.version.outputs.npm-package-version }}
+            type=ref,event=branch
 
-      - name: Wait for package to be available
-        run: node tasks/wait-for-npm-package.js ${{ steps.version.outputs.npm-package-version }}
+      - name: Set versions
+        run: pnpm pkg set version="${{ steps.meta.outputs.version }}" --workspaces
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
-        id: build
         with:
-          context: ./docker
+          context: .
           push: true
           build-args: 'version=${{ steps.meta.outputs.version }}'
           tags: ${{ steps.meta.outputs.tags }}
@@ -86,6 +69,15 @@ jobs:
           platforms: linux/amd64
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Package badge-api
+        run: pnpm --node-linker=hoisted deploy --filter='@stryker-mutator/dashboard-badge-api' --prod package
+
+      - name: Upload badge-api package artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: badge-api-package
+          path: package
 
   deploy-and-test:
     name: Deploy to Acceptance and run E2E tests
@@ -97,6 +89,9 @@ jobs:
     concurrency:
       group: Acceptance
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
       - name: Azure login
         uses: Azure/login@v2
         with:
@@ -108,50 +103,39 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'stryker-dashboard-acceptance'
-          images: 'ghcr.io/stryker-mutator/dashboard:${{ needs.build-and-release.outputs.npm-package-version }}'
+          images: 'ghcr.io/stryker-mutator/dashboard:${{ needs.build-and-release.outputs.version }}'
 
-      - name: Checkout repository
-        uses: actions/checkout@v5
-
-      - name: Setup Node
-        uses: actions/setup-node@v6
+      - name: Download badge-api package artifact
+        uses: actions/download-artifact@v6
         with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-
-      - name: Download & install badge-api package
-        run: ./tasks/download-badge-api-package.sh ${{ needs.build-and-release.outputs.npm-package-version }}
+          name: badge-api-package
+          path: package
 
       - name: 'Deploy stryker-mutator-badge-api-acceptance.azurewebsites.net'
         uses: Azure/functions-action@v1
-        id: fa
         with:
           app-name: stryker-mutator-badge-api-acceptance
           package: 'package'
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install browsers
-        run: |
-          cd packages/e2e
-          npx playwright install chromium
+      - uses: ./.github/setup
+        with:
+          install-chromium: 'true'
 
       - name: Build
         run: |
           cd packages/e2e
-          npx tsc -b
+          pnpm exec tsc -b
           cd ../..
 
       - name: 'Verify deployment'
         run: |
-          node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api ${{ needs.build-and-release.outputs.npm-package-version }}
-          node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version ${{ needs.build-and-release.outputs.npm-package-version }}
+          node tasks/check-version badge-api https://stryker-mutator-badge-api-acceptance.azurewebsites.net/api ${{ needs.build-and-release.outputs.version }}
+          node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version ${{ needs.build-and-release.outputs.version }}
 
       - name: Run e2e tests
         run: |
           cd packages/e2e
-          npm run test
+          pnpm test
         env:
           BASE_URL: https://stryker-dashboard-acceptance.azurewebsites.net
           E2E_AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.E2E_AZURE_STORAGE_CONNECTION_STRING }}

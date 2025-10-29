@@ -6,17 +6,17 @@
   "description": "The end to end tests for the Stryker Dashboard",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test:acceptance",
-    "test:local": "npm run playwright -- --project local",
-    "test:acceptance": "npm run playwright -- --project acceptance",
+    "test": "pnpm run test:acceptance",
+    "test:local": "pnpm run playwright --project local",
+    "test:acceptance": "pnpm run playwright --project acceptance",
     "playwright": "playwright test"
   },
   "keywords": [],
   "author": "Nico Jansen",
   "devDependencies": {
     "@playwright/test": "1.56.1",
-    "@stryker-mutator/dashboard-common": "0.20.0",
-    "@stryker-mutator/dashboard-contract": "0.20.0",
+    "@stryker-mutator/dashboard-common": "workspace:",
+    "@stryker-mutator/dashboard-contract": "workspace:",
     "@types/jsonwebtoken": "9.0.10"
   },
   "dependencies": {
@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stryker-mutator/stryker-dashboard",
+    "url": "git+https://github.com/stryker-mutator/stryker-dashboard.git",
     "directory": "packages/e2e"
   }
 }

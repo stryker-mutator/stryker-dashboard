@@ -1,8 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
-import { version as frontendVersion } from '@stryker-mutator/dashboard-frontend';
+import frontendPkg from '@stryker-mutator/dashboard-frontend/package.json' with { type: 'json' };
 
 import pkg from '../../package.json' with { type: 'json' };
 
+const frontendVersion = frontendPkg.version;
 const dashboardVersion = pkg.version;
 
 @Controller('/version')

@@ -128,3 +128,9 @@ export class Hero extends BaseElement {
     `;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-hero': Hero;
+  }
+}

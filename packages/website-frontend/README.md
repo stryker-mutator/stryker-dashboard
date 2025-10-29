@@ -11,11 +11,11 @@ Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app 
 
 ## Build
 
-Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Run `pnpm run build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
 ## Running tests
 
-Run `npm run test` to execute the tests via [Vitest](https://vitest.dev/) and [Playwright](https://playwright.dev/).
+Run `pnpm run test` to execute the tests via [Vitest](https://vitest.dev/) and [Playwright](https://playwright.dev/).
 
 ## Adding a report to the dashboard
 

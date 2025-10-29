@@ -1,4 +1,3 @@
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { TableEntity, TableEntityResult } from '@azure/data-tables';
 import { TableClient } from '@azure/data-tables';
 import { expect } from 'chai';
@@ -8,6 +7,8 @@ import type { Result } from '../../../src/index.js';
 import { DashboardQuery, OptimisticConcurrencyError } from '../../../src/index.js';
 import TModel from '../../../src/mappers/TableStorageMapper.js';
 import { StorageError } from '../../helpers/StorageError.js';
+
+type PagedAsyncIterableIterator = ReturnType<TableClient['listEntities']>;
 
 export class FooModel {
   public partitionId: string;
@@ -237,7 +238,7 @@ describe(TModel.name, () => {
    * Used for the listEntities result
    */
   // @ts-expect-error byPage property is missing
-  async function* createAsyncIterable<T>(...values: T[]): PagedAsyncIterableIterator<T> {
+  async function* createAsyncIterable<T extends TableEntityResult<object>>(...values: T[]): PagedAsyncIterableIterator {
     for (const value of values) {
       yield await Promise.resolve(value);
     }

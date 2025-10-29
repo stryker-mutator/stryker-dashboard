@@ -70,3 +70,9 @@ export class Collapsible extends BaseElement {
     this.opened = !this.opened;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-collapsible': Collapsible;
+  }
+}
