@@ -32,6 +32,10 @@
       "matchPackageNames": ["@tsconfig{/,}**"]
     },
     {
+      "groupName": "Storybook",
+      "matchPackageNames": ["/storybook/"]
+    },
+    {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest", "lockFileMaintenance"],
       "automerge": true
     },
