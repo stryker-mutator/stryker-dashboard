@@ -12,7 +12,7 @@ WORKDIR /usr/src/app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 RUN pnpm run build
-RUN pnpm --node-linker=hoisted deploy --filter='@stryker-mutator/dashboard-backend' --prod /app
+RUN pnpm backend --node-linker=hoisted deploy --prod /app
 
 FROM base
 

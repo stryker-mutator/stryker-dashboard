@@ -30,7 +30,5 @@ runs:
 
     - name: Install chromium
       if: ${{ inputs.install-deps == 'true' && inputs.install-chromium == 'true' }}
-      run: |
-        cd packages/e2e
-        pnpm exec playwright install chromium
+      run: pnpm e2e exec playwright install chromium
       shell: bash

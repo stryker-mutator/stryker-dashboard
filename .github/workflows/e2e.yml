@@ -25,12 +25,6 @@ jobs:
 
       - uses: ./.github/setup
 
-      - name: Build
-        run: |
-          cd packages/badge-api
-          pnpm exec tsc -b
-          cd ../..
-
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -70,8 +64,10 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Package badge-api
-        run: pnpm --node-linker=hoisted deploy --filter='@stryker-mutator/dashboard-badge-api' --prod package
+      - name: Build & package badge-api
+        run: |
+          pnpm badge-api exec tsc -b
+          pnpm badge-api --node-linker=hoisted deploy --prod package
 
       - name: Upload badge-api package artifact
         uses: actions/upload-artifact@v5
@@ -120,12 +116,8 @@ jobs:
       - uses: ./.github/setup
         with:
           install-chromium: 'true'
-
       - name: Build
-        run: |
-          cd packages/e2e
-          pnpm exec tsc -b
-          cd ../..
+        run: pnpm e2e exec tsc -b
 
       - name: 'Verify deployment'
         run: |
@@ -133,9 +125,7 @@ jobs:
           node tasks/check-version dashboard https://stryker-dashboard-acceptance.azurewebsites.net/api/version ${{ needs.build-and-release.outputs.version }}
 
       - name: Run e2e tests
-        run: |
-          cd packages/e2e
-          pnpm test
+        run: pnpm e2e test
         env:
           BASE_URL: https://stryker-dashboard-acceptance.azurewebsites.net
           E2E_AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.E2E_AZURE_STORAGE_CONNECTION_STRING }}
