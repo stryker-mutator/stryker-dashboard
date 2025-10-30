@@ -37,9 +37,9 @@
     "lit": "^3.3.1"
   },
   "devDependencies": {
-    "@storybook/addon-docs": "10.0.1",
-    "@storybook/addon-links": "10.0.1",
-    "@storybook/web-components-vite": "10.0.1",
+    "@storybook/addon-docs": "10.0.2",
+    "@storybook/addon-links": "10.0.2",
+    "@storybook/web-components-vite": "10.0.2",
     "@stryker-mutator/dashboard-common": "workspace:",
     "@tailwindcss/vite": "4.1.16",
     "browserslist": "4.27.0",
