@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { dist } from '@stryker-mutator/dashboard-frontend';
+import { fileURLToPath } from 'url';
 
 import { ApiKeyGuard, JwtAuthGuard } from './auth/guard.js';
 import HttpClient from './client/HttpClient.js';
@@ -24,6 +24,8 @@ import { JwtConfigService } from './services/JwtConfigService.js';
 import { JwtStrategy } from './services/JwtStrategy.js';
 import MutationEventResponseOrchestrator from './services/real-time/MutationEventResponseOrchestrator.js';
 import { ReportValidator } from './services/ReportValidator.js';
+
+const dist = fileURLToPath(import.meta.resolve('@stryker-mutator/dashboard-frontend/dist'));
 
 @Module({
   imports: [

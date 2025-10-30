@@ -7,3 +7,4 @@ coverage/
 .stryker-tmp
 
 packages/e2e/testResources
+pnpm-lock.yaml

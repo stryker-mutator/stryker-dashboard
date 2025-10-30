@@ -11,28 +11,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stryker-mutator/stryker-dashboard",
+    "url": "git+https://github.com/stryker-mutator/stryker-dashboard.git",
     "directory": "packages/stryker-elements"
   },
-  "module": "./dist/main.mjs",
-  "main": "./dist/main.cjs",
   "types": "./dist/main.d.ts",
+  "module": "./dist/main.js",
   "exports": {
     ".": {
-      "module": "./dist/main.mjs",
-      "main": "./dist/main.cjs",
-      "types": "./dist/main.d.ts"
+      "types": "./dist/main.d.ts",
+      "module": "./dist/main.js"
     },
     "./*": {
-      "module": "./dist/exports/*",
-      "main": "./dist/exports/*",
-      "types": "./dist/exports/*"
-    },
-    "./dist/style.css": "./dist/style.css",
-    "./components/*": {
-      "module": "./dist/components/*",
-      "main": "./dist/components/*",
-      "types": "./dist/components/*"
+      "types": "./dist/*",
+      "module": "./dist/*"
     },
     "./package.json": "./package.json"
   },
@@ -43,14 +34,15 @@
     "start": "storybook dev -p 6006"
   },
   "peerDependencies": {
-    "lit": "3.3.1"
+    "lit": "^3.3.1"
   },
   "devDependencies": {
     "@storybook/addon-docs": "10.0.1",
     "@storybook/addon-links": "10.0.1",
     "@storybook/web-components-vite": "10.0.1",
-    "@stryker-mutator/dashboard-common": "0.20.0",
+    "@stryker-mutator/dashboard-common": "workspace:",
     "@tailwindcss/vite": "4.1.16",
+    "browserslist": "4.27.0",
     "lightningcss": "1.30.2",
     "storybook": "10.0.1",
     "tailwindcss": "4.1.16",

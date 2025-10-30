@@ -12,23 +12,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Setup Node
-        uses: actions/setup-node@v6
+      - uses: ./.github/setup
         with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+          install-chromium: 'true'
 
       - name: Build
-        run: npm run build
-
-      - name: Install chromium
-        run: npx playwright install chromium --with-deps
+        run: pnpm run build
 
       - name: Mutation testing
-        run: npx nx run @stryker-mutator/dashboard-frontend:stryker
+        run: pnpm exec nx run @stryker-mutator/dashboard-frontend:stryker
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
@@ -38,18 +30,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+      - uses: ./.github/setup
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Mutation testing
-        run: npx nx run-many --parallel 1 --exclude @stryker-mutator/dashboard-frontend -t stryker
+        run: pnpm exec nx run-many --parallel 1 --exclude @stryker-mutator/dashboard-frontend -t stryker
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}

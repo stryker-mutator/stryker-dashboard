@@ -14,12 +14,11 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { MutantResult } from '@stryker-mutator/api/core';
 import { ReportIdentifier, Slug } from '@stryker-mutator/dashboard-common';
 import { PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import { MutationTestingReportService, RealTimeMutantsBlobService } from '@stryker-mutator/dashboard-data-access';
 import type { Response } from 'express';
-import type { MutationTestResult } from 'mutation-testing-report-schema';
+import type { MutantResult, MutationTestResult } from 'mutation-testing-report-schema';
 
 import { JwtOrApiKeyGuard } from '../auth/guard.js';
 import Configuration from '../services/Configuration.js';

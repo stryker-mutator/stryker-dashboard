@@ -13,3 +13,9 @@ export class Spinner extends BaseElement {
     `;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'sme-spinner': Spinner;
+  }
+}

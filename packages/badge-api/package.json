@@ -9,21 +9,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stryker-mutator/stryker-dashboard",
+    "url": "git+https://github.com/stryker-mutator/stryker-dashboard.git",
     "directory": "packages/badge-api"
   },
   "scripts": {
     "prestart": "func extensions install",
     "start:host": "func start",
-    "start": "npm run start:host",
+    "start": "pnpm run start:host",
     "test": "c8 --check-coverage --reporter=html --report-dir=reports/coverage --lines 80 --functions 75 --branches 65 mocha --node-option enable-source-maps \"dist/test/**/*.js\"",
     "stryker": "stryker run"
   },
   "dependencies": {
     "@azure/functions": "4.8.0",
-    "@stryker-mutator/dashboard-common": "0.20.0",
-    "@stryker-mutator/dashboard-data-access": "0.20.0",
-    "source-map-support": "0.5.21"
+    "@stryker-mutator/dashboard-common": "workspace:",
+    "@stryker-mutator/dashboard-data-access": "workspace:"
   },
   "devDependencies": {
     "azure-functions-core-tools": "4.3.0"

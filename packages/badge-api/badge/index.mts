@@ -1,5 +1,3 @@
-import 'source-map-support/register.js';
-
 import type { HttpHandler } from '@azure/functions';
 import { app } from '@azure/functions';
 import { createMutationTestingReportMapper } from '@stryker-mutator/dashboard-data-access';
