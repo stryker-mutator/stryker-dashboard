@@ -21,8 +21,8 @@
   },
   "dependencies": {
     "@azure/functions": "4.8.0",
-    "@stryker-mutator/dashboard-common": "workspace:",
-    "@stryker-mutator/dashboard-data-access": "workspace:"
+    "@stryker-mutator/dashboard-common": "workspace:*",
+    "@stryker-mutator/dashboard-data-access": "workspace:*"
   },
   "devDependencies": {
     "azure-functions-core-tools": "4.3.0"

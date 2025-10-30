@@ -40,7 +40,7 @@
     "@storybook/addon-docs": "10.0.2",
     "@storybook/addon-links": "10.0.2",
     "@storybook/web-components-vite": "10.0.2",
-    "@stryker-mutator/dashboard-common": "workspace:",
+    "@stryker-mutator/dashboard-common": "workspace:*",
     "@tailwindcss/vite": "4.1.16",
     "browserslist": "4.27.0",
     "lightningcss": "1.30.2",

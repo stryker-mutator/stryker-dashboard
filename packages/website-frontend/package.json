@@ -11,9 +11,9 @@
     "access": "public"
   },
   "devDependencies": {
-    "@stryker-mutator/dashboard-common": "workspace:",
-    "@stryker-mutator/dashboard-contract": "workspace:",
-    "@stryker-mutator/stryker-elements": "workspace:",
+    "@stryker-mutator/dashboard-common": "workspace:*",
+    "@stryker-mutator/dashboard-contract": "workspace:*",
+    "@stryker-mutator/stryker-elements": "workspace:*",
     "@tailwindcss/vite": "4.1.16",
     "@vaadin/router": "2.0.0",
     "@vitest/browser-playwright": "4.0.5",

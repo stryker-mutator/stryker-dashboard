@@ -15,8 +15,8 @@
   "author": "Nico Jansen",
   "devDependencies": {
     "@playwright/test": "1.56.1",
-    "@stryker-mutator/dashboard-common": "workspace:",
-    "@stryker-mutator/dashboard-contract": "workspace:",
+    "@stryker-mutator/dashboard-common": "workspace:*",
+    "@stryker-mutator/dashboard-contract": "workspace:*",
     "@types/jsonwebtoken": "9.0.10"
   },
   "dependencies": {
