@@ -1,6 +1,6 @@
 {
   "name": "@stryker-mutator/dashboard-data-access",
-  "version": "0.20.0",
+  "version": "0.20.1",
   "type": "module",
   "description": "This package contains the data access layer of the stryker dashboard application.",
   "scripts": {

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.0...v0.20.1) (2025-10-30)
+
+### Bug Fixes
+
+- **deps:** update dependency @azure/data-tables to v13.3.1 ([#1475](https://github.com/stryker-mutator/stryker-dashboard/issues/1475)) ([4be60df](https://github.com/stryker-mutator/stryker-dashboard/commit/4be60df77e0cad9157061d2243b17ac78da0b590))
+- **deps:** update dependency @azure/storage-blob to v12.28.0 ([#1585](https://github.com/stryker-mutator/stryker-dashboard/issues/1585)) ([5063d96](https://github.com/stryker-mutator/stryker-dashboard/commit/5063d96b9b9d2fc3463cfffe3dcc5cdf72627291))
+- **deps:** update dependency @azure/storage-blob to v12.29.1 ([#1707](https://github.com/stryker-mutator/stryker-dashboard/issues/1707)) ([d63520c](https://github.com/stryker-mutator/stryker-dashboard/commit/d63520c52ad0c4e9dd44ae56dd8e0f889d61c534))
+
 # [0.20.0](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.19.1...v0.20.0) (2025-05-13)
 
 ### Bug Fixes

@@ -2,7 +2,7 @@
   "name": "@stryker-mutator/dashboard-badge-api",
   "description": "The stryker dashboard badge-api serverless app",
   "type": "module",
-  "version": "0.20.0",
+  "version": "0.20.1",
   "main": "dist/index.mjs",
   "publishConfig": {
     "access": "public"
