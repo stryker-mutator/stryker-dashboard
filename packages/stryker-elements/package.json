@@ -44,7 +44,7 @@
     "@tailwindcss/vite": "4.1.16",
     "browserslist": "4.27.0",
     "lightningcss": "1.30.2",
-    "storybook": "10.0.1",
+    "storybook": "10.0.2",
     "tailwindcss": "4.1.16",
     "vite": "7.1.12"
   },
