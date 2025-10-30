@@ -63,7 +63,15 @@
     "lint:fix": "eslint . --fix && prettier --write .",
     "build": "tsc -b && nx run-many -t build",
     "start:azurite": "rimraf .azurite && mkdir -p .azurite && azurite -l .azurite",
-    "test": "nx run-many -t test --exclude e2e"
+    "test": "nx run-many -t test --exclude e2e",
+    "backend": "pnpm --filter @stryker-mutator/dashboard-backend",
+    "badge-api": "pnpm --filter @stryker-mutator/dashboard-badge-api",
+    "common": "pnpm --filter @stryker-mutator/dashboard-common",
+    "contract": "pnpm --filter @stryker-mutator/dashboard-contract",
+    "data-access": "pnpm --filter @stryker-mutator/dashboard-data-access",
+    "e2e": "pnpm --filter e2e",
+    "elements": "pnpm --filter @stryker-mutator/stryker-elements",
+    "frontend": "pnpm --filter @stryker-mutator/dashboard-frontend"
   },
   "version": "0.0.1",
   "packageManager": "pnpm@10.20.0"
