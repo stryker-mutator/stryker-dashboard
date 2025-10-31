@@ -1,5 +1,6 @@
 {
   "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "packageManager": "pnpm",
   "coverageAnalysis": "perTest",
   "mochaOptions": {
     "spec": ["dist/test/helpers/**/*.js", "dist/test/unit/**/*.js"]
@@ -11,5 +12,6 @@
     "reportType": "full"
   },
   "buildCommand": "tsc -b",
-  "thresholds": { "break": 50 }
+  "thresholds": { "break": 50 },
+  "plugins": ["@stryker-mutator/*", "@stryker-mutator/mocha-runner"]
 }

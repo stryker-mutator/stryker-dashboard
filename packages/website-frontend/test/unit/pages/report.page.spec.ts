@@ -3,13 +3,13 @@ import '@stryker-mutator/stryker-elements';
 import type { MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common';
 import type { MutationTestResult } from 'mutation-testing-report-schema';
 
-import { ReportPage } from '../../../src/pages/report.page';
-import { locationService } from '../../../src/services/location.service';
-import { reportService } from '../../../src/services/report.service';
-import { CustomElementFixture } from '../../helpers/custom-element-fixture';
-import scoreOnlyReport from '../testResources/score-only-report.json';
-import pendingReport from '../testResources/simple-pending-report.json';
-import simpleReport from '../testResources/simple-report.json';
+import { ReportPage } from '../../../src/pages/report.page.ts';
+import { locationService } from '../../../src/services/location.service.ts';
+import { reportService } from '../../../src/services/report.service.ts';
+import { CustomElementFixture } from '../../helpers/custom-element-fixture.ts';
+import scoreOnlyReport from '../testResources/score-only-report.json' with { type: 'json' };
+import pendingReport from '../testResources/simple-pending-report.json' with { type: 'json' };
+import simpleReport from '../testResources/simple-report.json' with { type: 'json' };
 
 describe(ReportPage.name, () => {
   let sut: CustomElementFixture<ReportPage>;

@@ -1,7 +1,7 @@
 import type { AuthenticateResponse, Login } from '@stryker-mutator/dashboard-contract';
 
-import type { SessionStorageService } from './session-storage.service';
-import { sessionStorageService } from './session-storage.service';
+import type { SessionStorageService } from './session-storage.service.ts';
+import { sessionStorageService } from './session-storage.service.ts';
 
 const AUTH_TOKEN_SESSION_KEY = 'authToken';
 

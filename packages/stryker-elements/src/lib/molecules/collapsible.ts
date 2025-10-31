@@ -5,7 +5,7 @@ import { html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { BaseElement } from '../base-element';
+import { BaseElement } from '../base-element.ts';
 
 @customElement('sme-collapsible')
 export class Collapsible extends BaseElement {

@@ -1,6 +1,6 @@
 import type { EnableRepositoryResponse } from '@stryker-mutator/dashboard-contract';
 
-import { authService } from './auth.service';
+import { authService } from './auth.service.ts';
 
 export class RepositoriesService {
   async enableRepository(slug: string, enabled: boolean): Promise<EnableRepositoryResponse | null> {

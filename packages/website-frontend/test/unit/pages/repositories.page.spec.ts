@@ -3,12 +3,12 @@ import '@stryker-mutator/stryker-elements';
 import type { Login } from '@stryker-mutator/dashboard-contract';
 import { userEvent } from 'vitest/browser';
 
-import { RepositoriesPage } from '../../../src/pages/repositories.page';
-import { authService } from '../../../src/services/auth.service';
-import { organizationsService } from '../../../src/services/organizations.service';
-import { repositoriesService } from '../../../src/services/repositories.service';
-import { userService } from '../../../src/services/user.service';
-import { CustomElementFixture } from '../../helpers/custom-element-fixture';
+import { RepositoriesPage } from '../../../src/pages/repositories.page.ts';
+import { authService } from '../../../src/services/auth.service.ts';
+import { organizationsService } from '../../../src/services/organizations.service.ts';
+import { repositoriesService } from '../../../src/services/repositories.service.ts';
+import { userService } from '../../../src/services/user.service.ts';
+import { CustomElementFixture } from '../../helpers/custom-element-fixture.ts';
 
 describe(RepositoriesPage.name, () => {
   let sut: CustomElementFixture<RepositoriesPage>;

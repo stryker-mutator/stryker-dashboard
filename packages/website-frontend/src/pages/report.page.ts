@@ -9,8 +9,8 @@ import { when } from 'lit/directives/when.js';
 import type { ThemeChangedEvent } from 'mutation-testing-elements';
 import type { MutationTestResult } from 'mutation-testing-report-schema';
 
-import { locationService } from '../services/location.service';
-import { reportService } from '../services/report.service';
+import { locationService } from '../services/location.service.ts';
+import { reportService } from '../services/report.service.ts';
 
 @customElement('stryker-dashboard-report-page')
 export class ReportPage extends LitElement {

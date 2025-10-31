@@ -2,10 +2,10 @@ import '@stryker-mutator/stryker-elements';
 
 import type { Login } from '@stryker-mutator/dashboard-contract';
 
-import { AuthPage } from '../../../src/pages/auth.page';
-import { authService } from '../../../src/services/auth.service';
-import { locationService } from '../../../src/services/location.service';
-import { CustomElementFixture } from '../../helpers/custom-element-fixture';
+import { AuthPage } from '../../../src/pages/auth.page.ts';
+import { authService } from '../../../src/services/auth.service.ts';
+import { locationService } from '../../../src/services/location.service.ts';
+import { CustomElementFixture } from '../../helpers/custom-element-fixture.ts';
 
 describe(AuthPage.name, () => {
   let sut: CustomElementFixture<AuthPage>;

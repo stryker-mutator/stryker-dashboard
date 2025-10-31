@@ -21,6 +21,7 @@ export default defineConfig({
     esbuildOptions: {
       target: 'esnext',
     },
+    include: ['@stryker-mutator/stryker-elements'],
   },
   server: {
     host: 'localhost',

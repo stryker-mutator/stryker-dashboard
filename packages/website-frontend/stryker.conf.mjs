@@ -8,6 +8,9 @@ settings.mutate = ['src/**/*.ts', '!src/**/*.spec.ts', '!src/*.ts'];
 
 settings.plugins = ['@stryker-mutator/*', '@stryker-mutator/vitest-runner'];
 
+delete settings.buildCommand;
+delete settings.mochaOptions;
+
 /**
  * @type {import('@stryker-mutator/api/core').PartialStrykerOptions}
  */

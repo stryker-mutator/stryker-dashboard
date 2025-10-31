@@ -1,6 +1,6 @@
-import './pages/auth.page';
-import './pages/home.page';
-import './pages/repositories.page';
+import './pages/auth.page.ts';
+import './pages/home.page.ts';
+import './pages/repositories.page.ts';
 /* Import preflight styles */
 import '@stryker-mutator/stryker-elements';
 
@@ -10,9 +10,9 @@ import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 
-import type { AuthService } from './services/auth.service';
-import { authService } from './services/auth.service';
-import { locationService } from './services/location.service';
+import type { AuthService } from './services/auth.service.ts';
+import { authService } from './services/auth.service.ts';
+import { locationService } from './services/location.service.ts';
 
 @customElement('stryker-dashboard')
 export class StrykerDashboard extends LitElement {
@@ -66,7 +66,7 @@ export class StrykerDashboard extends LitElement {
         component: 'stryker-dashboard-report-page',
         // Lazy load the report page
         action: async () => {
-          await import('./pages/report.page');
+          await import('./pages/report.page.ts');
         },
       },
       { path: '/auth/github/callback', component: 'stryker-dashboard-auth-page' },
