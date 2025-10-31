@@ -17,14 +17,8 @@
   "types": "./dist/main.d.ts",
   "module": "./dist/main.js",
   "exports": {
-    ".": {
-      "types": "./dist/main.d.ts",
-      "module": "./dist/main.js"
-    },
-    "./*": {
-      "types": "./dist/*",
-      "module": "./dist/*"
-    },
+    ".": "./dist/main.js",
+    "./*": "./dist/*.js",
     "./package.json": "./package.json"
   },
   "scripts": {

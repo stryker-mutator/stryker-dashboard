@@ -1,4 +1,4 @@
-import { HistoryService, historyService } from '../../../src/services/history.service';
+import { HistoryService, historyService } from '../../../src/services/history.service.ts';
 
 describe(HistoryService.name, () => {
   it('should return an instance of History', () => {

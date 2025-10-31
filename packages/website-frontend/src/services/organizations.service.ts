@@ -1,6 +1,6 @@
 import type { Repository } from '@stryker-mutator/dashboard-contract';
 
-import { authService } from './auth.service';
+import { authService } from './auth.service.ts';
 
 export class OrganizationsService {
   public async getRepositories(organizationName: string): Promise<Repository[]> {

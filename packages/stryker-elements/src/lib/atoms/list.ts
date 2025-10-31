@@ -1,7 +1,7 @@
 import { html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-import { BaseElement } from '../base-element';
+import { BaseElement } from '../base-element.ts';
 
 @customElement('sme-list')
 export class List extends BaseElement {

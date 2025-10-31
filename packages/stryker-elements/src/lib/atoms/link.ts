@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
-import { BaseElement } from '../base-element';
+import { BaseElement } from '../base-element.ts';
 
 @customElement('sme-link')
 export class Link extends BaseElement {

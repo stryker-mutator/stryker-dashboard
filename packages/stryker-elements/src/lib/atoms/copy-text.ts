@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 
-import { BaseElement } from '../base-element';
+import { BaseElement } from '../base-element.ts';
 
 const COPY_RESET_TIMING = 2000;
 

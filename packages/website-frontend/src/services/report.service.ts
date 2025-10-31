@@ -2,8 +2,8 @@ import type { MutationScoreOnlyResult } from '@stryker-mutator/dashboard-common'
 import { constructApiUri } from '@stryker-mutator/dashboard-common';
 import type { MutationTestResult } from 'mutation-testing-report-schema';
 
-import { authService } from './auth.service';
-import { locationService } from './location.service';
+import { authService } from './auth.service.ts';
+import { locationService } from './location.service.ts';
 
 export class ReportService {
   async getReport(

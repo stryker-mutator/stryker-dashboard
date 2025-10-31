@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { BaseElement } from '../../base-element';
+import { BaseElement } from '../../base-element.ts';
 
 export type ButtonPadding = 'square' | 'rectangle';
 export type ButtonType = 'plain' | 'primary' | 'subtle';

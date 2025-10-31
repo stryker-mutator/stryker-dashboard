@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 
-import { BaseElement } from '../base-element';
+import { BaseElement } from '../base-element.ts';
 
 @customElement('sme-dropdown')
 export class Dropdown extends BaseElement {

@@ -6,6 +6,8 @@
   ],
 
   "compilerOptions": {
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
     "types": ["vite/client"],

@@ -7,11 +7,11 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
 
-import { authService } from '../services/auth.service';
-import { historyService } from '../services/history.service';
-import { organizationsService } from '../services/organizations.service';
-import { repositoriesService } from '../services/repositories.service';
-import { userService } from '../services/user.service';
+import { authService } from '../services/auth.service.ts';
+import { historyService } from '../services/history.service.ts';
+import { organizationsService } from '../services/organizations.service.ts';
+import { repositoriesService } from '../services/repositories.service.ts';
+import { userService } from '../services/user.service.ts';
 
 @customElement('stryker-dashboard-repositories-page')
 export class RepositoriesPage extends LitElement {

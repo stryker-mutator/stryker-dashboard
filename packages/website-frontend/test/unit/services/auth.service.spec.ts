@@ -2,8 +2,8 @@ import type { AuthenticateResponse } from '@stryker-mutator/dashboard-contract';
 import type { FetchMock } from 'vitest-fetch-mock';
 import createFetchMock from 'vitest-fetch-mock';
 
-import { AuthService } from '../../../src/services/auth.service';
-import { SessionStorageService } from '../../../src/services/session-storage.service';
+import { AuthService } from '../../../src/services/auth.service.ts';
+import { SessionStorageService } from '../../../src/services/session-storage.service.ts';
 
 describe(AuthService.name, () => {
   let authService: AuthService;

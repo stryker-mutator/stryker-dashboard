@@ -1,4 +1,4 @@
-import { SessionStorageService } from '../../../src/services/session-storage.service';
+import { SessionStorageService } from '../../../src/services/session-storage.service.ts';
 
 describe(SessionStorageService.name, () => {
   let sut: SessionStorageService;

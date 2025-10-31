@@ -1,8 +1,8 @@
 import { html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-import { authService } from '../services/auth.service';
-import { locationService } from '../services/location.service';
+import { authService } from '../services/auth.service.ts';
+import { locationService } from '../services/location.service.ts';
 
 @customElement('stryker-dashboard-auth-page')
 export class AuthPage extends LitElement {

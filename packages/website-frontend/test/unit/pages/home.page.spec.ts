@@ -1,7 +1,7 @@
 import '@stryker-mutator/stryker-elements';
 
-import { HomePage } from '../../../src/pages/home.page';
-import { CustomElementFixture } from '../../helpers/custom-element-fixture';
+import { HomePage } from '../../../src/pages/home.page.ts';
+import { CustomElementFixture } from '../../helpers/custom-element-fixture.ts';
 
 describe(HomePage.name, () => {
   let sut: CustomElementFixture<HomePage>;
