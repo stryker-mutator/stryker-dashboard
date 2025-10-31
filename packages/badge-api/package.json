@@ -25,6 +25,6 @@
     "@stryker-mutator/dashboard-data-access": "workspace:*"
   },
   "devDependencies": {
-    "azure-functions-core-tools": "4.3.0"
+    "azure-functions-core-tools": "4.4.0"
   }
 }
