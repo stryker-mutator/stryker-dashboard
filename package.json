@@ -45,7 +45,7 @@
     "rimraf": "6.1.0",
     "sinon": "21.0.0",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.46.2",
+    "typescript-eslint": "8.46.3",
     "vite-plugin-dts": "4.5.4"
   },
   "license": "Apache-2.0",
