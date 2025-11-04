@@ -19,7 +19,10 @@
   "keywords": [],
   "author": "",
   "main": "dist/src/index.js",
-  "typings": "src/index.ts",
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./package.json": "./package.json"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "@azure/core-rest-pipeline": "1.22.1",

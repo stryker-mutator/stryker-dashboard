@@ -56,7 +56,7 @@
   },
   "scripts": {
     "all": "pnpm clean && pnpm build && pnpm lint && pnpm test",
-    "clean": "rimraf --glob \"packages/*/{.nyc_output,reports,coverage,dist}\"",
+    "clean": "rimraf --glob \"packages/*/{.nyc_output,reports,coverage,dist,*.tsbuildinfo}\"",
     "lint": "concurrently -c auto \"pnpm:lint:*(!fix)\"",
     "lint:prettier": "prettier --check .",
     "lint:eslint": "eslint .",

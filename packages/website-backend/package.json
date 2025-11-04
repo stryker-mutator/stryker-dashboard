@@ -7,6 +7,11 @@
     "dashboard-backend": "bin/dashboard-backend.js",
     "dashboard-healthcheck": "bin/healthcheck.js"
   },
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "start": "node --enable-source-maps dist/index.js",
     "start:watch": "node --watch --enable-source-maps dist/index.js",

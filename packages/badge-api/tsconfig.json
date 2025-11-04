@@ -3,8 +3,7 @@
   "compilerOptions": {
     "types": ["node", "mocha"],
     "outDir": "dist",
-    "rootDir": "badge",
-    "allowJs": true
+    "rootDir": "badge"
   },
   "include": ["badge"],
   "references": [

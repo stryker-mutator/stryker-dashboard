@@ -18,6 +18,10 @@
   "keywords": [],
   "author": "",
   "main": "dist/src/index.js",
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./package.json": "./package.json"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "mutation-testing-report-schema": "3.5.1"

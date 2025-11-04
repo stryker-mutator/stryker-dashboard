@@ -4,7 +4,6 @@
   "version": "0.20.1",
   "type": "module",
   "description": "The end to end tests for the Stryker Dashboard",
-  "main": "index.js",
   "scripts": {
     "test": "pnpm run test:acceptance",
     "test:local": "pnpm run playwright --project local",

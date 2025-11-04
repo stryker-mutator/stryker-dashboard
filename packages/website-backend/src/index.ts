@@ -1,4 +1,4 @@
-import type { INestApplication } from '@nestjs/common';
+import { type INestApplication, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import compression from 'compression';
@@ -15,16 +15,21 @@ async function bootstrap() {
   app.setGlobalPrefix('/api');
 
   configureSecurityHeaders(app);
-  await configureAzureStorage(app);
+  const log = new Logger('bootstrap');
+  await configureAzureStorage(app, log);
 
   app.useBodyParser('json', { limit: '100mb' });
   app.use(compression());
-  await app.listen(1337);
+  const port = process.env.PORT ? parseFloat(process.env.PORT) : 1337;
+  await app.listen(port, () => {
+    log.log(`🚀  Server ready at http://localhost:${port}/`);
+  });
 }
 
-async function configureAzureStorage(app: INestApplication) {
+async function configureAzureStorage(app: INestApplication, log: Logger) {
   const dataAccess = app.get<DataAccess>(DataAccess);
 
+  log.log('Initializing Azure Storage containers...');
   await Promise.all([
     dataAccess.blobService.createStorageIfNotExists(),
     dataAccess.mutationTestingReportService.createStorageIfNotExists(),
