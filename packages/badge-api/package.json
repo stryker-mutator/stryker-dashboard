@@ -4,6 +4,11 @@
   "type": "module",
   "version": "0.20.1",
   "main": "dist/index.mjs",
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json",
+    "./host.json": "./host.json"
+  },
   "publishConfig": {
     "access": "public"
   },

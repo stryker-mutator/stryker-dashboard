@@ -24,4 +24,4 @@ COPY --from=build /app/ /app/
 
 HEALTHCHECK CMD ["node", "/app/bin/dashboard-healthcheck.js"]
 EXPOSE 1337
-ENTRYPOINT [ "node", "/app/bin/dashboard-backend.js" ]
+ENTRYPOINT [ "node", "--enable-source-maps", "/app/bin/dashboard-backend.js" ]

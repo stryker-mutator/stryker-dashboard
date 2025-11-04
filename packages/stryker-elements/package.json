@@ -14,15 +14,14 @@
     "url": "git+https://github.com/stryker-mutator/stryker-dashboard.git",
     "directory": "packages/stryker-elements"
   },
-  "types": "./dist/main.d.ts",
-  "module": "./dist/main.js",
+  "main": "./dist/main.js",
   "exports": {
     ".": "./dist/main.js",
     "./*": "./dist/*.js",
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "tsc && vite build",
+    "build": "tsc -b && vite build",
     "build:watch": "vite build --watch",
     "preview": "vite preview",
     "start": "storybook dev -p 6006"
