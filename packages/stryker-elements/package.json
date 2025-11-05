@@ -39,7 +39,7 @@
     "lightningcss": "1.30.2",
     "storybook": "10.0.4",
     "tailwindcss": "4.1.16",
-    "vite": "7.1.12"
+    "vite": "7.2.0"
   },
   "overrides": {
     "storybook": "$storybook"
