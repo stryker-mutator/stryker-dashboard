@@ -121,8 +121,8 @@ importers:
   packages/badge-api:
     dependencies:
       '@azure/functions':
-        specifier: 4.8.2
-        version: 4.8.2
+        specifier: 4.9.0
+        version: 4.9.0
       '@stryker-mutator/dashboard-common':
         specifier: workspace:*
         version: link:../common
@@ -470,12 +470,16 @@ packages:
     resolution: {integrity: sha512-jGk1s1SbAfy39zxArNn4HAmycmHF/+XtYYRZ6kakayxJNQeeuacSkLUioezOZIVI01i3Yvr4xzTMuKZpdKXf1Q==}
     engines: {node: '>=18.0.0'}
 
+  '@azure/functions-extensions-base@0.2.0':
+    resolution: {integrity: sha512-ncCkHBNQYJa93dBIh+toH0v1iSgCzSo9tr94s6SMBe7DPWREkaWh8cq33A5P4rPSFX1g5W+3SPvIzDr/6/VOWQ==}
+    engines: {node: '>=18.0'}
+
   '@azure/functions@3.5.1':
     resolution: {integrity: sha512-6UltvJiuVpvHSwLcK/Zc6NfUwlkDLOFFx97BHCJzlWNsfiWwzwmTsxJXg4kE/LemKTHxPpfoPE+kOJ8hAdiKFQ==}
 
-  '@azure/functions@4.8.2':
-    resolution: {integrity: sha512-MrIvgseTdfMX7uZRL2Lrv8BjAe5lXtJFA5CSdSyhMAKPu3fIJdaJCLc4NhdbXj3hEiVugr5D699f1QkpaQ8wTg==}
-    engines: {node: '>=18.0'}
+  '@azure/functions@4.9.0':
+    resolution: {integrity: sha512-IlgCl2/OiSXjMaow5oUhtMQMlsxEAZwsk7BXoT44vgzdIaiZz1VjCzGK9D/7pi6bd0FSyDo6H/1mZASzcD0K6A==}
+    engines: {node: '>=20.0'}
 
   '@azure/identity@3.4.2':
     resolution: {integrity: sha512-0q5DL4uyR0EZ4RXQKD8MadGH6zTIcloUoS/RVbCpNpej4pwte0xpqYxk8K97Py2RiuUvI7F4GXpoT4046VfufA==}
@@ -7295,14 +7299,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/functions-extensions-base@0.2.0': {}
+
   '@azure/functions@3.5.1':
     dependencies:
       iconv-lite: 0.6.3
       long: 4.0.0
       uuid: 8.3.2
 
-  '@azure/functions@4.8.2':
+  '@azure/functions@4.9.0':
     dependencies:
+      '@azure/functions-extensions-base': 0.2.0
       cookie: 0.7.2
       long: 4.0.0
       undici: 5.29.0
@@ -10208,7 +10215,7 @@ snapshots:
   applicationinsights@3.12.0:
     dependencies:
       '@azure/core-auth': 1.10.1
-      '@azure/functions': 4.8.2
+      '@azure/functions': 4.9.0
       '@azure/functions-old': '@azure/functions@3.5.1'
       '@azure/identity': 4.13.0
       '@azure/monitor-opentelemetry': 1.14.0
