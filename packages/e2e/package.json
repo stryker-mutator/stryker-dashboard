@@ -19,7 +19,7 @@
     "@types/jsonwebtoken": "9.0.10"
   },
   "dependencies": {
-    "@azure/data-tables": "13.3.1",
+    "@azure/data-tables": "13.3.2",
     "@azure/storage-blob": "12.29.1",
     "jsonwebtoken": "9.0.2",
     "mutation-testing-report-schema": "3.5.1"
