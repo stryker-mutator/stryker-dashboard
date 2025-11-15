@@ -16,7 +16,7 @@
     "@stryker-mutator/dashboard-contract": "workspace:*",
     "@stryker-mutator/stryker-elements": "workspace:*",
     "@tailwindcss/vite": "4.1.17",
-    "@vaadin/router": "2.0.0",
+    "@vaadin/router": "2.0.1",
     "@vitest/browser-playwright": "4.0.9",
     "browserslist": "4.28.0",
     "lightningcss": "1.30.2",
