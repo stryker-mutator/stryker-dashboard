@@ -17,6 +17,6 @@ stryker-dashboard {
   flex-direction: column;
 }
 
-stryker-dashboard #outlet {
+stryker-dashboard main {
   flex-grow: 1;
 }
