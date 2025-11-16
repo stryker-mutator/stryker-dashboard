@@ -4,8 +4,8 @@ import './pages/repositories.page.ts';
 /* Import preflight styles */
 import '@stryker-mutator/stryker-elements';
 
+import { Routes } from '@lit-labs/router';
 import type { Login } from '@stryker-mutator/dashboard-contract';
-import { Router } from '@vaadin/router';
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
@@ -17,7 +17,7 @@ import { locationService } from './services/location.service.ts';
 @customElement('stryker-dashboard')
 export class StrykerDashboard extends LitElement {
   #authService: AuthService;
-  #router: Router | null;
+  #routes: Routes | null;
 
   @state()
   done = false;
@@ -29,7 +29,7 @@ export class StrykerDashboard extends LitElement {
     super();
 
     this.#authService = authService;
-    this.#router = null;
+    this.#routes = null;
 
     this.user = null;
   }
@@ -37,9 +37,9 @@ export class StrykerDashboard extends LitElement {
   override connectedCallback(): void {
     super.connectedCallback();
 
-    void this.#authService.getUser().then(async (user) => {
+    void this.#authService.getUser().then((user) => {
       this.user = user;
-      await this.#configureRouting();
+      this.#configureRouting();
       this.done = true;
     });
   }
@@ -48,36 +48,50 @@ export class StrykerDashboard extends LitElement {
     return this;
   }
 
-  async #configureRouting() {
-    this.#router = new Router(this.querySelector('#outlet'));
-    await this.#router.setRoutes([
-      { path: '/', component: 'stryker-dashboard-home-page' },
+  #configureRouting() {
+    this.#routes = new Routes(this, [
       {
-        action: () => {
+        path: '/',
+        render: () => html`<stryker-dashboard-home-page></stryker-dashboard-home-page>`,
+      },
+      {
+        path: '/repos/:orgOrUser?',
+        render: ({ orgOrUser }) =>
+          html`<stryker-dashboard-repositories-page .orgOrUser=${orgOrUser}></stryker-dashboard-repositories-page>`,
+        enter: () => {
           if (!this.user) {
             this.#signIn();
           }
+          return true;
         },
-        path: '/repos/:orgOrUser?',
-        component: 'stryker-dashboard-repositories-page',
       },
       {
         path: '/reports/(.*)',
-        component: 'stryker-dashboard-report-page',
+        render: () => html`<stryker-dashboard-report-page></stryker-dashboard-report-page>`,
         // Lazy load the report page
-        action: async () => {
+        enter: async () => {
           await import('./pages/report.page.ts');
+          return true;
         },
       },
-      { path: '/auth/github/callback', component: 'stryker-dashboard-auth-page' },
-      { path: '(.*)', redirect: '/' },
+      {
+        path: '/auth/github/callback',
+        render: () => html`<stryker-dashboard-auth-page></stryker-dashboard-auth-page>`,
+      },
+      {
+        path: '/*',
+        enter: async () => {
+          await this.#routes?.goto('/');
+          return false;
+        },
+      },
     ]);
   }
 
   override render() {
     return html`
       <sme-top-bar logoUrl="/images/stryker.svg">${this.#renderProfileButtonOrSignInButton()}</sme-top-bar>
-      <div id="outlet"></div>
+      <main>${this.#routes?.outlet()}</main>
     `;
   }
 

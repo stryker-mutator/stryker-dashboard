@@ -42,7 +42,7 @@ export class Modal extends BaseElement {
       <dialog
         @click="${this.close}"
         @close="${this.#handleClose}"
-        class="m-auto h-full max-h-[48rem] w-[36rem] rounded bg-zinc-800 p-6 opacity-0 transition-[opacity,display,background-color,overlay] transition-discrete duration-300 backdrop:bg-transparent backdrop:transition-all backdrop:duration-300 open:opacity-100 open:backdrop:bg-black/50 lg:w-[48rem] starting:open:opacity-0 starting:open:backdrop:bg-black/0"
+        class="m-auto h-full max-h-192 w-xl rounded bg-zinc-800 p-6 opacity-0 transition-[opacity,display,background-color,overlay] transition-discrete duration-300 backdrop:bg-transparent backdrop:transition-all backdrop:duration-300 open:opacity-100 open:backdrop:bg-black/50 lg:w-3xl starting:open:opacity-0 starting:open:backdrop:bg-black/0"
       >
         <div @click="${(e: Event) => e.stopPropagation()}" class="flex h-full w-full flex-col">
           <h2 class="text-3xl text-white">${this.title}</h2>

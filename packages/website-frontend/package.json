@@ -12,11 +12,11 @@
     "access": "public"
   },
   "devDependencies": {
+    "@lit-labs/router": "0.1.4",
     "@stryker-mutator/dashboard-common": "workspace:*",
     "@stryker-mutator/dashboard-contract": "workspace:*",
     "@stryker-mutator/stryker-elements": "workspace:*",
     "@tailwindcss/vite": "4.1.17",
-    "@vaadin/router": "2.0.0",
     "@vitest/browser-playwright": "4.0.9",
     "browserslist": "4.28.0",
     "lightningcss": "1.30.2",

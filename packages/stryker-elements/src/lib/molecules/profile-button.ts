@@ -35,7 +35,7 @@ export class ProfileButton extends BaseElement {
         class="${classMap({
           'opacity-100': this.menuOpened,
           '-translate-x-40': this.direction === 'right',
-        })} align-center absolute z-[999] flex w-48 translate-y-4 flex-col overflow-hidden rounded-md border-2 border-zinc-600 bg-zinc-800 opacity-0 transition"
+        })} align-center absolute z-999 flex w-48 translate-y-4 flex-col overflow-hidden rounded-md border-2 border-zinc-600 bg-zinc-800 opacity-0 transition"
       >
         <sme-link
           href="/repos/${this.name}"
