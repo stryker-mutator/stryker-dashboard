@@ -1,6 +1,5 @@
 import type { Repository } from '@stryker-mutator/dashboard-contract';
 import type { ToggleRepository } from '@stryker-mutator/stryker-elements';
-import type { RouterLocation } from '@vaadin/router';
 import type { PropertyValues } from 'lit';
 import { html, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
@@ -36,14 +35,14 @@ export class RepositoriesPage extends LitElement {
   @state()
   selectedOrg = '';
 
-  @property({ type: Object, attribute: false })
-  location: RouterLocation | undefined;
+  @property({ type: String, attribute: false })
+  orgOrUser: string | undefined;
 
   override connectedCallback(): void {
     super.connectedCallback();
 
     this.userRepositoryName = authService.currentUser!.name;
-    this.selectedOrg = this.location?.params.orgOrUser?.toString() ?? authService.currentUser!.name;
+    this.selectedOrg = this.orgOrUser?.toString() ?? authService.currentUser!.name;
 
     void userService.organizations().then((organizations) => {
       const organizationNames = organizations.map((o) => o.name);
