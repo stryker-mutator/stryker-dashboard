@@ -17,7 +17,7 @@
     "@stryker-mutator/dashboard-contract": "workspace:*",
     "@stryker-mutator/stryker-elements": "workspace:*",
     "@tailwindcss/vite": "4.1.17",
-    "@vitest/browser-playwright": "4.0.9",
+    "@vitest/browser-playwright": "4.0.10",
     "browserslist": "4.28.0",
     "lightningcss": "1.30.2",
     "lit": "3.3.1",
@@ -27,7 +27,7 @@
     "playwright": "1.56.1",
     "tailwindcss": "4.1.17",
     "vite": "7.2.2",
-    "vitest": "4.0.9",
+    "vitest": "4.0.10",
     "vitest-fetch-mock": "0.4.5"
   },
   "repository": {
