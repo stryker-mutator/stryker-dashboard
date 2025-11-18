@@ -15,7 +15,7 @@
     "@stryker-mutator/core": "9.3.0",
     "@stryker-mutator/mocha-runner": "9.3.0",
     "@stryker-mutator/vitest-runner": "9.3.0",
-    "@tsconfig/node-lts": "22.0.3",
+    "@tsconfig/node-lts": "22.0.4",
     "@tsconfig/recommended": "1.0.13",
     "@tsconfig/strictest": "2.0.8",
     "@tsconfig/vite-react": "7.0.2",
