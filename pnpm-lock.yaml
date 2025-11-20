@@ -286,8 +286,8 @@ importers:
         specifier: 4.0.1
         version: 4.0.1
       workerpool:
-        specifier: 10.0.0
-        version: 10.0.0
+        specifier: 10.0.1
+        version: 10.0.1
     devDependencies:
       '@nestjs/schematics':
         specifier: 11.0.9
@@ -7013,8 +7013,8 @@ packages:
   wordwrap@1.0.0:
     resolution: {integrity: sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==}
 
-  workerpool@10.0.0:
-    resolution: {integrity: sha512-q++kYpKoYSfe7myTA5bH8nov9XKpEj7ji3f/W2h4E8yrX42Fhdt6x3E5pgsmnL1+swBZXryUwudNQJmcuodqmw==}
+  workerpool@10.0.1:
+    resolution: {integrity: sha512-NAnKwZJxWlj/U1cp6ZkEtPE+GQY1S6KtOS3AlCiPfPFLxV3m64giSp7g2LsNJxzYCocDT7TSl+7T0sgrDp3KoQ==}
 
   workerpool@9.3.4:
     resolution: {integrity: sha512-TmPRQYYSAnnDiEB0P/Ytip7bFGvqnSU6I2BcuSw7Hx+JSg/DsUi5ebYfc8GYaSdpuvOcEs6dXxPurOYpe9QFwg==}
@@ -14807,7 +14807,7 @@ snapshots:
 
   wordwrap@1.0.0: {}
 
-  workerpool@10.0.0: {}
+  workerpool@10.0.1: {}
 
   workerpool@9.3.4: {}
 
