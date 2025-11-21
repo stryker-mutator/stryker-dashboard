@@ -22,7 +22,7 @@
     "@azure/data-tables": "13.3.2",
     "@azure/storage-blob": "12.29.1",
     "jsonwebtoken": "9.0.2",
-    "mutation-testing-report-schema": "3.5.1"
+    "mutation-testing-report-schema": "3.7.0"
   },
   "repository": {
     "type": "git",
