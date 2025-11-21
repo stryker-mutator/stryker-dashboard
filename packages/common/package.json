@@ -24,6 +24,6 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "mutation-testing-report-schema": "3.5.1"
+    "mutation-testing-report-schema": "3.7.0"
   }
 }
