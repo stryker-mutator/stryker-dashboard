@@ -1,6 +1,6 @@
 {
   "name": "@stryker-mutator/dashboard-backend",
-  "version": "0.20.1",
+  "version": "0.20.2",
   "description": "The package which contains the stryker dashboard website backend.",
   "type": "module",
   "bin": {

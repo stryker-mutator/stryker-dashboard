@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.2](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.1...v0.20.2) (2025-11-21)
+
+### Bug Fixes
+
+- **deps:** update dependency @azure/data-tables to v13.3.2 ([#1787](https://github.com/stryker-mutator/stryker-dashboard/issues/1787)) ([a348bc0](https://github.com/stryker-mutator/stryker-dashboard/commit/a348bc08f4d6824cc6a057a54347031ae247fa26))
+- **deps:** update mutation-testing-elements monorepo to v3.7.0 ([#1808](https://github.com/stryker-mutator/stryker-dashboard/issues/1808)) ([3f391c5](https://github.com/stryker-mutator/stryker-dashboard/commit/3f391c5cbc082d75c47ac516c4afd2a8e7aac06e))
+
 ## [0.20.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.0...v0.20.1) (2025-10-30)
 
 ### Bug Fixes

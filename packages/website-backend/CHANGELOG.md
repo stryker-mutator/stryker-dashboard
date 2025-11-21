@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.2](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.1...v0.20.2) (2025-11-21)
+
+### Bug Fixes
+
+- **deps:** update dependency workerpool to v10.0.1 ([#1800](https://github.com/stryker-mutator/stryker-dashboard/issues/1800)) ([1b2c29b](https://github.com/stryker-mutator/stryker-dashboard/commit/1b2c29b070c54c81de6bd4b2e730e4eb5a111b65))
+- **deps:** update mutation-testing-elements monorepo to v3.7.0 ([#1808](https://github.com/stryker-mutator/stryker-dashboard/issues/1808)) ([3f391c5](https://github.com/stryker-mutator/stryker-dashboard/commit/3f391c5cbc082d75c47ac516c4afd2a8e7aac06e))
+- **deps:** update nestjs packages to v11.1.9 ([#1788](https://github.com/stryker-mutator/stryker-dashboard/issues/1788)) ([08b4908](https://github.com/stryker-mutator/stryker-dashboard/commit/08b4908c404ec9abe895ee3f3eef993711942055))
+
 ## [0.20.1](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.0...v0.20.1) (2025-10-30)
 
 ### Bug Fixes
