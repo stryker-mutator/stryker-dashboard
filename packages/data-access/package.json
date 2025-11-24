@@ -29,7 +29,7 @@
     "@azure/data-tables": "13.3.2",
     "@azure/storage-blob": "12.29.1",
     "@stryker-mutator/dashboard-common": "workspace:*",
-    "mutation-testing-metrics": "3.7.0",
-    "mutation-testing-report-schema": "3.7.0"
+    "mutation-testing-metrics": "3.7.1",
+    "mutation-testing-report-schema": "3.7.1"
   }
 }
