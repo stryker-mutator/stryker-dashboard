@@ -61,7 +61,7 @@
     "@types/superagent": "8.1.9",
     "@types/supertest": "6.0.3",
     "jsonwebtoken": "9.0.2",
-    "mutation-testing-report-schema": "3.7.0",
+    "mutation-testing-report-schema": "3.7.1",
     "supertest": "7.1.4"
   },
   "keywords": [],
