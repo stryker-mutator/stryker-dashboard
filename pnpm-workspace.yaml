@@ -3,5 +3,17 @@ packages:
 
 injectWorkspacePackages: true
 
+# 2 days, in minutes
+minimumReleaseAge: 2880
+
+trustPolicy: no-downgrade
+
 onlyBuiltDependencies:
+  - '@nestjs/core'
+  - azure-functions-core-tools
+  - esbuild
   - nx
+
+ignoredBuiltDependencies:
+  - protobufjs
+  - unrs-resolver
