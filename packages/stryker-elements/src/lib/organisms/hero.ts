@@ -112,7 +112,7 @@ export class Hero extends BaseElement {
     });
 
     return html`
-      <div style="${style}" class="absolute animate-flow opacity-0">
+      <div style=${style} class="absolute animate-flow opacity-0">
         <svg
           viewBox="0 0 100 52"
           class="${config.color} drop-shadow-md"

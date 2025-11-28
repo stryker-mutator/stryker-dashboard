@@ -20,8 +20,8 @@ export class Badge extends BaseElement {
   slug = '';
 
   render() {
-    return html`<a href="${buildReportUrl(this.slug)}">
-      <img src="${this.#buildBadgeUrl()}" alt="${this.slug} badge" />
+    return html`<a href=${buildReportUrl(this.slug)}>
+      <img src=${this.#buildBadgeUrl()} alt="${this.slug} badge" />
     </a>`;
   }
 

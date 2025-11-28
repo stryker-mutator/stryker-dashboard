@@ -15,7 +15,7 @@ export class CopyText extends BaseElement {
     return html`
       <div class="inline-flex">
         <sme-text bold><slot></slot></sme-text>
-        <button class="ms-1" @click="${this.#handleCopyText}">
+        <button class="ms-1" @click=${this.#handleCopyText}>
           ${when(
             !this.copiedText,
             () =>

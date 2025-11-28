@@ -32,10 +32,10 @@ export class Collapsible extends BaseElement {
       <div class="rounded-lg bg-zinc-600">
         <button
           class="flex w-full p-4"
-          @click="${this.#handleClick}"
+          @click=${this.#handleClick}
           id="header"
           aria-controls="content"
-          aria-expanded="${this.opened}"
+          aria-expanded=${this.opened}
         >
           <sme-title textSize="large" alignLeft noMargin>${this.title}</sme-title>
           <div class="ms-auto flex items-center pe-2">
@@ -55,7 +55,7 @@ export class Collapsible extends BaseElement {
           style="max-height: ${this.opened && this.content ? this.content.scrollHeight : 0}px"
           class="overflow-hidden transition-all"
           id="content"
-          aria-hidden="${!this.opened}"
+          aria-hidden=${!this.opened}
           aria-labelledby="header"
         >
           <div class="m-4 mt-0">

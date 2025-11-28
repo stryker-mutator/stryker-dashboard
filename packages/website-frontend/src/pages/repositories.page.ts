@@ -87,9 +87,9 @@ export class RepositoriesPage extends LitElement {
       <sme-spatious-layout>
         <sme-loader useSpinner .loading=${!this.done.partOne && !this.done.partTwo}>
           <sme-dropdown
-            @dropdownChanged="${this.#handleDropDownChanged}"
-            .options="${this.organizations}"
-            selectedValue="${this.selectedOrg}"
+            @dropdownChanged=${this.#handleDropDownChanged}
+            .options=${this.organizations}
+            selectedValue=${this.selectedOrg}
           ></sme-dropdown>
           <sme-hr></sme-hr>
           <sme-loader useSpinner .loading=${!this.done.repositories}>
@@ -129,13 +129,13 @@ export class RepositoriesPage extends LitElement {
   #renderRepository(repository: Repository, shouldHide: () => boolean) {
     return html`
       <sme-toggle-repository
-        ?hidden="${shouldHide()}"
-        @openRepositorySettings="${() => this.#handleRepositoryClick(repository)}"
-        @repositoryToggled="${(event: CustomEvent<{ checked: boolean; ref: ToggleRepository }>) =>
-          this.#handleRepositoryToggled(event, repository)}"
-        .enabled="${repository.enabled}"
-        name="${repository.name}"
-        slug="${this.#getSlugWithDefaultBranch(repository)}"
+        ?hidden=${shouldHide()}
+        @openRepositorySettings=${() => this.#handleRepositoryClick(repository)}
+        @repositoryToggled=${(event: CustomEvent<{ checked: boolean; ref: ToggleRepository }>) =>
+          this.#handleRepositoryToggled(event, repository)}
+        .enabled=${repository.enabled}
+        name=${repository.name}
+        slug=${this.#getSlugWithDefaultBranch(repository)}
       >
       </sme-toggle-repository>
     `;
@@ -143,10 +143,7 @@ export class RepositoriesPage extends LitElement {
 
   #renderRepositoryModal() {
     return html`
-      <sme-modal
-        title="Configuring ${this.repositoryToToggle?.instance.name}"
-        @modal-close="${this.#handleModalClosed}"
-      >
+      <sme-modal title="Configuring ${this.repositoryToToggle?.instance.name}" @modal-close=${this.#handleModalClosed}>
         ${when(
           this.modalOpen,
           () =>

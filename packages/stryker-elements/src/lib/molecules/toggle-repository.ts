@@ -26,14 +26,14 @@ export class ToggleRepository extends BaseElement {
   render() {
     return html`
       <div
-        @click="${this.#handleClick}"
+        @click=${this.#handleClick}
         class="${classMap({
           'opacity-50': this.isToggling,
         })} grid grid-cols-2 rounded-lg border-2 border-zinc-600 p-2 transition"
       >
         <a
           class="ms-2 inline-flex items-center text-lg font-bold text-white underline decoration-transparent transition hover:underline hover:decoration-white"
-          href="${buildReportUrl(this.slug)}"
+          href=${buildReportUrl(this.slug)}
         >
           ${this.name}
         </a>
@@ -56,7 +56,7 @@ export class ToggleRepository extends BaseElement {
         <div class="ms-auto flex">
           ${when(
             this.enabled,
-            () => html`<sme-badge class="flex items-center" slug="${ifDefined(this.slug)}"></sme-badge>`,
+            () => html`<sme-badge class="flex items-center" slug=${ifDefined(this.slug)}></sme-badge>`,
           )}
           ${when(
             this.enabled,
@@ -71,18 +71,18 @@ export class ToggleRepository extends BaseElement {
   #renderWhenEnabled() {
     return html`
       <button
-        @click="${this.#openRepositorySettings}"
+        @click=${this.#openRepositorySettings}
         class="ml-2 rounded bg-blue-600 p-1 transition hover:bg-blue-700"
         title="Open repository settings"
-        ?disabled="${this.isToggling}"
+        ?disabled=${this.isToggling}
       >
         ${SettingsIcon}
       </button>
       <button
-        @click="${this.#toggleRepository}"
+        @click=${this.#toggleRepository}
         class="ml-2 rounded bg-red-600 p-1 transition hover:bg-red-700"
         title="Disable repository"
-        ?disabled="${this.isToggling}"
+        ?disabled=${this.isToggling}
       >
         ${MinusIcon}
       </button>
@@ -92,10 +92,10 @@ export class ToggleRepository extends BaseElement {
   #renderWhenDisabled() {
     return html`
       <button
-        @click="${this.#toggleRepository}"
+        @click=${this.#toggleRepository}
         class="ml-2 rounded bg-green-600 p-1 transition hover:bg-green-700"
         title="Enable repository"
-        ?disabled="${this.isToggling}"
+        ?disabled=${this.isToggling}
       >
         ${PlusIcon}
       </button>

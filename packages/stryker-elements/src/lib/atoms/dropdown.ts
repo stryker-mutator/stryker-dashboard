@@ -17,15 +17,11 @@ export class Dropdown extends BaseElement {
 
   render() {
     return html`
-      <select
-        id="${this.id}"
-        class="w-full rounded-lg bg-zinc-800 p-2 text-3xl text-white"
-        @change="${this.#handleChange}"
-      >
+      <select id=${this.id} class="w-full rounded-lg bg-zinc-800 p-2 text-3xl text-white" @change=${this.#handleChange}>
         ${map(
           this.options,
           (option) =>
-            html`<option ?selected="${option.value === this.selectedValue}" value="${option.value}">
+            html`<option ?selected=${option.value === this.selectedValue} value=${option.value}>
               ${option.name}
             </option>`,
         )}

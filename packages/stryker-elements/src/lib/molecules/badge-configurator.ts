@@ -36,7 +36,7 @@ export class BadgeConfigurator extends BaseElement {
         <h3 class="mb-2 text-xl text-white">Choose from the following styles:</h3>
         <div class="mb-4">
           ${map(badgeStyles, (style) => this.#renderBadge(style))}
-          <sme-button class="mt-2 block" .small="${true}" type="primary" @click="${this.#copyToClipboard}"
+          <sme-button class="mt-2 block" .small=${true} type="primary" @click=${this.#copyToClipboard}
             >${this.isCopied ? 'Copied!' : 'Copy markdown'}</sme-button
           >
         </div>
@@ -49,7 +49,7 @@ export class BadgeConfigurator extends BaseElement {
   }
 
   #renderImage(source: string) {
-    return html`<img class="m-2 ms-0" src="${source}" />`;
+    return html`<img class="m-2 ms-0" src=${source} />`;
   }
 
   #renderBadge(style: string) {
@@ -57,13 +57,13 @@ export class BadgeConfigurator extends BaseElement {
       <div class="flex items-center">
         <input
           type="radio"
-          id="${style}"
+          id=${style}
           name="style"
-          .value="${style}"
-          ?checked="${this.selectedStyle === style}"
-          @change="${() => (this.selectedStyle = style)}"
+          .value=${style}
+          ?checked=${this.selectedStyle === style}
+          @change=${() => (this.selectedStyle = style)}
         />
-        <label for="${style}" class="ml-2 text-white">${style}</label>
+        <label for=${style} class="ml-2 text-white">${style}</label>
       </div>
     `;
   }

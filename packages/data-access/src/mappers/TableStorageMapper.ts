@@ -17,8 +17,7 @@ export default class TableStorageMapper<
   TModel extends object,
   TPartitionKeyFields extends keyof TModel,
   TRowKeyFields extends keyof TModel,
-> implements Mapper<TModel, TPartitionKeyFields, TRowKeyFields>
-{
+> implements Mapper<TModel, TPartitionKeyFields, TRowKeyFields> {
   readonly #tableClient: TableClient;
 
   constructor(

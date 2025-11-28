@@ -40,18 +40,18 @@ export class Modal extends BaseElement {
   render() {
     return html`
       <dialog
-        @click="${this.close}"
-        @close="${this.#handleClose}"
+        @click=${this.close}
+        @close=${this.#handleClose}
         class="m-auto h-full max-h-192 w-xl rounded bg-zinc-800 p-6 opacity-0 transition-[opacity,display,background-color,overlay] transition-discrete duration-300 backdrop:bg-transparent backdrop:transition-all backdrop:duration-300 open:opacity-100 open:backdrop:bg-black/50 lg:w-3xl starting:open:opacity-0 starting:open:backdrop:bg-black/0"
       >
-        <div @click="${(e: Event) => e.stopPropagation()}" class="flex h-full w-full flex-col">
+        <div @click=${(e: Event) => e.stopPropagation()} class="flex h-full w-full flex-col">
           <h2 class="text-3xl text-white">${this.title}</h2>
           <sme-hr></sme-hr>
           <div class="grid max-h-fit gap-4 overflow-auto pt-6">
             <slot></slot>
           </div>
           <div class="mt-auto flex pt-6">
-            <sme-button class="ms-auto" @click="${this.close}">Close</sme-button>
+            <sme-button class="ms-auto" @click=${this.close}>Close</sme-button>
           </div>
         </div>
       </dialog>

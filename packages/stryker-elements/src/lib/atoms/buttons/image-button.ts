@@ -14,9 +14,9 @@ export class ImageButton extends BaseElement {
   render() {
     return html`
       <div>
-        ${this.direction === 'left' && html`<img src="${this.src}" />`}
+        ${this.direction === 'left' && html`<img src=${this.src} />`}
         <sme-button></sme-button>
-        ${this.direction === 'right' && html`<img src="${this.src}" />`}
+        ${this.direction === 'right' && html`<img src=${this.src} />`}
       </div>
     `;
   }
