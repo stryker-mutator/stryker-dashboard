@@ -18,7 +18,7 @@ export const Checked: StoryObj = {
   render: () => {
     return html`
       <sme-toggle-repository
-        @repositoryClicked="${() => console.log('foo')}"
+        @repositoryClicked=${() => console.log('foo')}
         name="GitHub.com/MyRepository"
         enabled
       ></sme-toggle-repository>

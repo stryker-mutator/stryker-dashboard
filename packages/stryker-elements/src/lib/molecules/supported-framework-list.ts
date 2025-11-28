@@ -28,9 +28,9 @@ export class SupportedFrameworkList extends BaseElement {
             ${this.supportedFrameworks.map(
               (framework) => html`
                 <sme-supported-framework
-                  name="${framework.name}"
-                  logo="${framework.logo}"
-                  url="${framework.url}"
+                  name=${framework.name}
+                  logo=${framework.logo}
+                  url=${framework.url}
                 ></sme-supported-framework>
               `,
             )}

@@ -103,11 +103,11 @@ export class StrykerDashboard extends LitElement {
         this.user,
         (user) =>
           html`<sme-profile-button
-            @sign-out="${this.#signOut}"
-            avatarUrl="${user.avatarUrl}"
-            name="${user.name}"
+            @sign-out=${this.#signOut}
+            avatarUrl=${user.avatarUrl}
+            name=${user.name}
           ></sme-profile-button>`,
-        () => html`<sme-button @click="${this.#signIn}" type="subtle">Sign in with GitHub</sme-button>`,
+        () => html`<sme-button @click=${this.#signIn} type="subtle">Sign in with GitHub</sme-button>`,
       )}
     </sme-loader>`;
   }

@@ -77,15 +77,15 @@ export class ReportPage extends LitElement {
     }
 
     return html`
-      <sme-loader useSpinner .loading="${!this.report}">
+      <sme-loader useSpinner .loading=${!this.report}>
         ${when(
           this.report,
           () =>
             html`<mutation-test-report-app
               @theme-changed=${this.#handleThemeChange}
-              .titlePostfix="${this.#title}"
-              .report="${this.report}"
-              sse="${ifDefined(this.sse)}"
+              .titlePostfix=${this.#title}
+              .report=${this.report}
+              sse=${ifDefined(this.sse)}
             ></mutation-test-report-app>`,
         )}
       </sme-loader>

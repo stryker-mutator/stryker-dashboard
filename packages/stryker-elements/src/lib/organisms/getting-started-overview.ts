@@ -83,17 +83,17 @@ export class GettingStartedOverview extends BaseElement {
         <sme-spatious-layout>
           <h2 class="text-center text-2xl font-bold text-white">Getting started with Stryker dashboard</h2>
           <div class="grid-template grid">
-            <sme-getting-started-step class="col-span-2 self-center" title="${this.steps[0].title}">
+            <sme-getting-started-step class="col-span-2 self-center" title=${this.steps[0].title}>
               ${this.steps[0].description}
             </sme-getting-started-step>
             <div class="trail-one col-span-3 self-center">${unsafeSVG(TrailOne)}</div>
 
             <div class="trail-two col-span-3 place-self-end self-center">${unsafeSVG(TrailTwo)}</div>
-            <sme-getting-started-step class="col-span-2 self-center" title="${this.steps[1].title}">
+            <sme-getting-started-step class="col-span-2 self-center" title=${this.steps[1].title}>
               ${this.steps[1].description}
             </sme-getting-started-step>
 
-            <sme-getting-started-step class="col-span-2" title="${this.steps[2].title}">
+            <sme-getting-started-step class="col-span-2" title=${this.steps[2].title}>
               ${this.steps[2].description}
             </sme-getting-started-step>
             <div class="trail-three col-span-3 self-center">${unsafeSVG(TrailThree)}</div>

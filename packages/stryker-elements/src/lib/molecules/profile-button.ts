@@ -25,13 +25,13 @@ export class ProfileButton extends BaseElement {
     });
 
     return html`<button
-        @mouseenter="${this.#openMenu}"
+        @mouseenter=${this.#openMenu}
         class="profile mr-4 h-10 w-10 overflow-hidden rounded-full border-2 border-solid border-zinc-600"
       >
-        <img class="h-full w-full" src="${this.avatarUrl}" />
+        <img class="h-full w-full" src=${this.avatarUrl} />
       </button>
       <div
-        @mouseleave="${this.#closeMenu}"
+        @mouseleave=${this.#closeMenu}
         class="${classMap({
           'opacity-100': this.menuOpened,
           '-translate-x-40': this.direction === 'right',
@@ -49,7 +49,7 @@ export class ProfileButton extends BaseElement {
           align="right"
           class="${directionClasses} border-b2 h-10 border-zinc-600 text-white transition-all"
           type="plain"
-          @click="${this.#dispatchSignOut}"
+          @click=${this.#dispatchSignOut}
         >
           Sign out
         </sme-button>

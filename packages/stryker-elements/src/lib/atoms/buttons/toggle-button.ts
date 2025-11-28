@@ -11,7 +11,7 @@ export class ToggleButton extends BaseElement {
   render() {
     return html`
       <label class="inline-flex cursor-pointer items-center justify-center">
-        <input type="checkbox" class="peer sr-only" ?checked="${this.checked}" @change="${this.#handleChange}" />
+        <input type="checkbox" class="peer sr-only" ?checked=${this.checked} @change=${this.#handleChange} />
         <div
           class="relative h-6 w-11 rounded-full bg-zinc-600 peer-checked:bg-red-700 peer-focus:outline-none after:absolute after:start-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:bg-white after:transition-all peer-checked:after:translate-x-full"
         ></div>

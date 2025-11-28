@@ -53,25 +53,25 @@ export class ProgressBar extends BaseElement {
           'pr-3': !this.hideProgressBar,
           [this.textColors[this.getIndex()]]: true,
         })} font-bold"
-        ?hidden="${this.hideProgressText}"
+        ?hidden=${this.hideProgressText}
       >
         ${Math.round((this.currentStep / this.totalSteps) * 1000) / 10}%
       </span>
     `;
 
     const progressBar = html`
-      <div class="h-4 w-full rounded-full bg-zinc-600" ?hidden="${this.hideProgressBar}">
+      <div class="h-4 w-full rounded-full bg-zinc-600" ?hidden=${this.hideProgressBar}>
         <div
           class="${this.backgroundColors[this.getIndex()]} h-4 rounded-full"
-          style="${styleMap({
+          style=${styleMap({
             width: `${(this.currentStep / this.totalSteps) * 100}%`,
-          })}"
+          })}
         ></div>
       </div>
     `;
 
     return html`
-      <div class="${this.hideProgressText ? 'grid items-center h-full' : ''}">
+      <div class=${this.hideProgressText ? 'grid items-center h-full' : ''}>
         <div
           class="${classMap({
             'flex space-y-1': !this.hideProgressText,

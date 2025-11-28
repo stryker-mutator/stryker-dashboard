@@ -34,7 +34,7 @@ export class Link extends BaseElement {
     });
 
     return html`
-      <a class="${classes} transition-colors" href="${ifDefined(this.href)}">
+      <a class="${classes} transition-colors" href=${ifDefined(this.href)}>
         <slot></slot>
       </a>
     `;
