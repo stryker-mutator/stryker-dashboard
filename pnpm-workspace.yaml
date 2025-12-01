@@ -9,6 +9,7 @@ minimumReleaseAge: 2880
 trustPolicy: no-downgrade
 trustPolicyExclude:
   - chokidar
+  - undici
 
 onlyBuiltDependencies:
   - '@nestjs/core'
