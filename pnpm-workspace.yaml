@@ -8,6 +8,7 @@ minimumReleaseAge: 2880
 
 trustPolicy: no-downgrade
 trustPolicyExclude:
+  - '@octokit/endpoint'
   - chokidar
   - semver
   - undici
