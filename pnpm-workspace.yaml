@@ -7,6 +7,8 @@ injectWorkspacePackages: true
 minimumReleaseAge: 2880
 
 trustPolicy: no-downgrade
+trustPolicyExclude:
+  - chokidar
 
 onlyBuiltDependencies:
   - '@nestjs/core'
