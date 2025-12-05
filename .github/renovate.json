@@ -1,6 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:js-app", "group:linters", "group:test"],
+  "timezone": "Europe/Amsterdam",
+  "schedule": ["every weekend"],
   "configMigration": true,
   "gitAuthor": "Renovatebot <renovatebot@stryker-mutator.io>",
   "platformCommit": "disabled",
