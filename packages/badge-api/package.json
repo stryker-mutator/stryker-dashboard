@@ -25,7 +25,7 @@
     "stryker": "stryker run"
   },
   "dependencies": {
-    "@azure/functions": "4.9.0",
+    "@azure/functions": "4.10.0",
     "@stryker-mutator/dashboard-common": "workspace:*",
     "@stryker-mutator/dashboard-data-access": "workspace:*"
   },
