@@ -16,7 +16,7 @@
     "@stryker-mutator/dashboard-common": "workspace:*",
     "@stryker-mutator/dashboard-contract": "workspace:*",
     "@stryker-mutator/stryker-elements": "workspace:*",
-    "@tailwindcss/vite": "4.1.17",
+    "@tailwindcss/vite": "4.1.18",
     "@vitest/browser-playwright": "4.0.16",
     "browserslist": "4.28.1",
     "lightningcss": "1.30.2",
@@ -25,7 +25,7 @@
     "mutation-testing-metrics": "3.7.1",
     "mutation-testing-report-schema": "3.7.1",
     "playwright": "1.57.0",
-    "tailwindcss": "4.1.17",
+    "tailwindcss": "4.1.18",
     "vite": "7.3.0",
     "vitest": "4.0.16",
     "vitest-fetch-mock": "0.4.5"
