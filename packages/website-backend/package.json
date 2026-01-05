@@ -60,7 +60,7 @@
     "@types/passport-jwt": "4.0.1",
     "@types/superagent": "8.1.9",
     "@types/supertest": "6.0.3",
-    "jsonwebtoken": "9.0.2",
+    "jsonwebtoken": "9.0.3",
     "mutation-testing-report-schema": "3.7.1",
     "supertest": "7.1.4"
   },
