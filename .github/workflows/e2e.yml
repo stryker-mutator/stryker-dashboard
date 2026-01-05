@@ -84,6 +84,7 @@ jobs:
       url: https://stryker-dashboard-acceptance.azurewebsites.net/
     concurrency:
       group: Acceptance
+      cancel-in-progress: false
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
