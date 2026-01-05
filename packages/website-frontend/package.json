@@ -18,7 +18,7 @@
     "@stryker-mutator/stryker-elements": "workspace:*",
     "@tailwindcss/vite": "4.1.17",
     "@vitest/browser-playwright": "4.0.16",
-    "browserslist": "4.28.0",
+    "browserslist": "4.28.1",
     "lightningcss": "1.30.2",
     "lit": "3.3.1",
     "mutation-testing-elements": "3.7.1",
