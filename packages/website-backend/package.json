@@ -62,7 +62,7 @@
     "@types/supertest": "6.0.3",
     "jsonwebtoken": "9.0.3",
     "mutation-testing-report-schema": "3.7.1",
-    "supertest": "7.1.4"
+    "supertest": "7.2.2"
   },
   "keywords": [],
   "author": "",
