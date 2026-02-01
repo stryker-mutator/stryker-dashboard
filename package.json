@@ -12,9 +12,9 @@
   ],
   "devDependencies": {
     "@eslint/js": "9.39.2",
-    "@stryker-mutator/core": "9.4.0",
-    "@stryker-mutator/mocha-runner": "9.4.0",
-    "@stryker-mutator/vitest-runner": "9.4.0",
+    "@stryker-mutator/core": "9.5.0",
+    "@stryker-mutator/mocha-runner": "9.5.0",
+    "@stryker-mutator/vitest-runner": "9.5.0",
     "@tsconfig/node-lts": "24.0.0",
     "@tsconfig/recommended": "1.0.13",
     "@tsconfig/strictest": "2.0.8",
