@@ -121,8 +121,8 @@ importers:
   packages/badge-api:
     dependencies:
       '@azure/functions':
-        specifier: 4.11.0
-        version: 4.11.0
+        specifier: 4.11.1
+        version: 4.11.1
       '@stryker-mutator/dashboard-common':
         specifier: workspace:*
         version: link:../common
@@ -477,8 +477,8 @@ packages:
   '@azure/functions@3.5.1':
     resolution: {integrity: sha512-6UltvJiuVpvHSwLcK/Zc6NfUwlkDLOFFx97BHCJzlWNsfiWwzwmTsxJXg4kE/LemKTHxPpfoPE+kOJ8hAdiKFQ==}
 
-  '@azure/functions@4.11.0':
-    resolution: {integrity: sha512-J0We2gav3YZFLO9pJlXDKUSOT0r/DzkUaJTaruhm8pwoSMbi4zjsS5N6fARrTel+IBCm77hlD0IgZSKSWvVpUw==}
+  '@azure/functions@4.11.1':
+    resolution: {integrity: sha512-9cxn8H7jnNRUhvKW9dVz2EldfUR2GGwo1mKTjBNRx7HrFbrc8w1Mtk7DQ9OmziMt3gVgsRvC7Vs8haja2lPr3A==}
     engines: {node: '>=20.0'}
 
   '@azure/identity@3.4.2':
@@ -7422,11 +7422,10 @@ snapshots:
       long: 4.0.0
       uuid: 8.3.2
 
-  '@azure/functions@4.11.0':
+  '@azure/functions@4.11.1':
     dependencies:
       '@azure/functions-extensions-base': 0.2.0
       cookie: 0.7.2
-      long: 4.0.0
 
   '@azure/identity@3.4.2':
     dependencies:
@@ -10339,7 +10338,7 @@ snapshots:
   applicationinsights@3.13.0:
     dependencies:
       '@azure/core-auth': 1.10.1
-      '@azure/functions': 4.11.0
+      '@azure/functions': 4.11.1
       '@azure/functions-old': '@azure/functions@3.5.1'
       '@azure/identity': 4.13.0
       '@azure/monitor-opentelemetry': 1.15.1
