@@ -13,7 +13,7 @@
   "keywords": [],
   "author": "Nico Jansen",
   "devDependencies": {
-    "@playwright/test": "1.57.0",
+    "@playwright/test": "1.58.2",
     "@stryker-mutator/dashboard-common": "workspace:*",
     "@stryker-mutator/dashboard-contract": "workspace:*",
     "@types/jsonwebtoken": "9.0.10"
