@@ -27,7 +27,7 @@
   "dependencies": {
     "@azure/core-rest-pipeline": "1.22.2",
     "@azure/data-tables": "13.3.2",
-    "@azure/storage-blob": "12.30.0",
+    "@azure/storage-blob": "12.31.0",
     "@stryker-mutator/dashboard-common": "workspace:*",
     "mutation-testing-metrics": "3.7.1",
     "mutation-testing-report-schema": "3.7.1"
