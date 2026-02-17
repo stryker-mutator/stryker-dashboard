@@ -22,3 +22,6 @@ onlyBuiltDependencies:
 ignoredBuiltDependencies:
   - protobufjs
   - unrs-resolver
+minimumReleaseAgeExclude:
+  # Renovate security update: ajv@8.18.0
+  - ajv@8.18.0
