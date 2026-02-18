@@ -38,7 +38,7 @@
     "@stryker-mutator/dashboard-contract": "workspace:*",
     "@stryker-mutator/dashboard-data-access": "workspace:*",
     "@stryker-mutator/dashboard-frontend": "workspace:*",
-    "ajv": "8.17.1",
+    "ajv": "8.18.0",
     "ajv-formats": "3.0.1",
     "applicationinsights": "3.13.0",
     "compression": "1.8.1",
