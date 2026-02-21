@@ -11,7 +11,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@eslint/js": "9.39.2",
+    "@eslint/js": "10.0.1",
     "@stryker-mutator/core": "9.5.1",
     "@stryker-mutator/mocha-runner": "9.5.1",
     "@stryker-mutator/vitest-runner": "9.5.1",
@@ -29,7 +29,7 @@
     "chai": "6.2.2",
     "chai-as-promised": "8.0.2",
     "concurrently": "9.2.1",
-    "eslint": "9.39.2",
+    "eslint": "10.0.0",
     "eslint-import-resolver-typescript": "4.4.4",
     "eslint-plugin-import-x": "4.16.1",
     "eslint-plugin-lit": "2.2.1",
