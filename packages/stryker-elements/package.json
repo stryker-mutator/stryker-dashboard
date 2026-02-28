@@ -34,11 +34,11 @@
     "@storybook/addon-links": "10.2.13",
     "@storybook/web-components-vite": "10.2.13",
     "@stryker-mutator/dashboard-common": "workspace:*",
-    "@tailwindcss/vite": "4.2.0",
+    "@tailwindcss/vite": "4.2.1",
     "browserslist": "4.28.1",
     "lightningcss": "1.31.1",
     "storybook": "10.2.13",
-    "tailwindcss": "4.2.0",
+    "tailwindcss": "4.2.1",
     "vite": "7.3.1"
   },
   "overrides": {
