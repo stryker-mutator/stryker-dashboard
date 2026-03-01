@@ -268,8 +268,8 @@ importers:
         specifier: 3.0.1
         version: 3.0.1(ajv@8.18.0)
       applicationinsights:
-        specifier: 3.13.0
-        version: 3.13.0
+        specifier: 3.14.0
+        version: 3.14.0
       compression:
         specifier: 1.8.1
         version: 1.8.1
@@ -504,12 +504,12 @@ packages:
     resolution: {integrity: sha512-fCqPIfOcLE+CGqGPd66c8bZpwAji98tZ4JI9i/mlTNTlsIWslCfpg48s/ypyLxZTump5sypjrKn2/kY7q8oAbA==}
     engines: {node: '>=20.0.0'}
 
-  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.38':
-    resolution: {integrity: sha512-lzY9XpgRwWC94lzeAf2I1YXrP7oMx1B/vn83zoYA5RKW2ZBPzXZ+LUJjYCo/ItzLfT4eMQC80VL4lQC/VknIMA==}
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.39':
+    resolution: {integrity: sha512-ljvm3PBe5em/kudINq3kA7wzwCQihYn/1HiO1/lKocK68QGahr6qiTwsadBXWJ2cDUS64iWbHtSM1TsJteBS0A==}
     engines: {node: '>=20.0.0'}
 
-  '@azure/monitor-opentelemetry@1.15.1':
-    resolution: {integrity: sha512-Ybr8BfypmSt0L3TObjMFxv37B6qYI7TTX/fs9V0hi86LI75ZG2bvPAFr9Dt/L2LaNXaLck3fNVQ/ocuMJid7hQ==}
+  '@azure/monitor-opentelemetry@1.16.0':
+    resolution: {integrity: sha512-GUE4kowIKrqxzPjiy/o417jot4n0BILomMbDCeK9lOnLxV0VliccEuz+FJ9BgLWKWswr6H0Q2Nzpcx9GFuLHXw==}
     engines: {node: '>=20.0.0'}
 
   '@azure/ms-rest-js@1.11.2':
@@ -3009,9 +3009,9 @@ packages:
       applicationinsights-native-metrics:
         optional: true
 
-  applicationinsights@3.13.0:
-    resolution: {integrity: sha512-1zH4HjiXKUmxVUJ7KLvz9+U6CSkEWKAK+/YKU6P6DvjU8dJfiX3rzo5rNpZGYg0YrQrXK1ryM//izd4Wx1vGTQ==}
-    engines: {node: '>=8.0.0'}
+  applicationinsights@3.14.0:
+    resolution: {integrity: sha512-S84oAM3By//EL98JhO9nYOgnvamEQxWzJyDGDVGMMJ1PdjFdxAuyy47SPm8kvY9fQdtLTM0vXMuG1SeT39ONxw==}
+    engines: {node: '>=18.0.0'}
 
   aproba@2.0.0:
     resolution: {integrity: sha512-lYe4Gx7QT+MKGbDsA+Z+he/Wtef0BiwDOlK/XkBrdfsh9J/jPPXbX0tE9x9cl27Tmu5gg3QUbUrQYa/y+KOHPQ==}
@@ -7306,7 +7306,7 @@ snapshots:
   '@azure/core-rest-pipeline@1.16.3':
     dependencies:
       '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.7.2
+      '@azure/core-auth': 1.10.1
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -7445,7 +7445,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.38':
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.39':
     dependencies:
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
@@ -7462,13 +7462,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/monitor-opentelemetry@1.15.1':
+  '@azure/monitor-opentelemetry@1.16.0':
     dependencies:
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
       '@azure/core-rest-pipeline': 1.22.2
       '@azure/logger': 1.3.0
-      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.38
+      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.39
       '@azure/opentelemetry-instrumentation-azure-sdk': 1.0.0-beta.9
       '@microsoft/applicationinsights-web-snippet': 1.2.3
       '@opentelemetry/api': 1.9.0
@@ -10291,14 +10291,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  applicationinsights@3.13.0:
+  applicationinsights@3.14.0:
     dependencies:
       '@azure/core-auth': 1.10.1
       '@azure/functions': 4.11.2
       '@azure/functions-old': '@azure/functions@3.5.1'
       '@azure/identity': 4.13.0
-      '@azure/monitor-opentelemetry': 1.15.1
-      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.38
+      '@azure/monitor-opentelemetry': 1.16.0
+      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.39
       '@azure/opentelemetry-instrumentation-azure-sdk': 1.0.0-beta.9
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.208.0
