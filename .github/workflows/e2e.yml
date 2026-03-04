@@ -70,7 +70,7 @@ jobs:
           pnpm badge-api --node-linker=hoisted deploy --prod package
 
       - name: Upload badge-api package artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: badge-api-package
           path: package
@@ -103,7 +103,7 @@ jobs:
           images: 'ghcr.io/stryker-mutator/dashboard:${{ needs.build-and-release.outputs.version }}'
 
       - name: Download badge-api package artifact
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: badge-api-package
           path: package
@@ -135,7 +135,7 @@ jobs:
           E2E_BADGE_API_BASE_URL: https://stryker-mutator-badge-api-acceptance.azurewebsites.net
 
       - name: Upload artifacts if failed
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: playwright-videos
