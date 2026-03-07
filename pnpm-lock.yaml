@@ -131,8 +131,8 @@ importers:
         version: link:../data-access
     devDependencies:
       azure-functions-core-tools:
-        specifier: 4.7.0
-        version: 4.7.0
+        specifier: 4.8.0
+        version: 4.8.0
 
   packages/common:
     dependencies:
@@ -3089,8 +3089,8 @@ packages:
   axios@1.13.6:
     resolution: {integrity: sha512-ChTCHMouEe2kn713WHbQGcuYrr6fXTBiu460OTwWrWob16g1bXn4vtz07Ope7ewMozJAnEquLk5lWQWtBig9DQ==}
 
-  azure-functions-core-tools@4.7.0:
-    resolution: {integrity: sha512-VEREf2BKvVH5ZgFDVWoJtk5oqrXsQIF2RkONvFtKHqVdDgi7ZW/JuAboEcTJb56HbbHRVEeEHpaJeUw/N5SanQ==}
+  azure-functions-core-tools@4.8.0:
+    resolution: {integrity: sha512-gsiTwxvNxc0VZWlNpzeoxlDOMhgT2ILvryGLwczWphxfdgi/eKByyuH5STnUIBqs7d6xSN3RS682HTJAqHT74Q==}
     engines: {node: '>=6.9.1'}
     os: [win32, darwin, linux]
     hasBin: true
@@ -10351,7 +10351,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  azure-functions-core-tools@4.7.0:
+  azure-functions-core-tools@4.8.0:
     dependencies:
       chalk: 3.0.0
       extract-zip: 2.0.1
