@@ -25,7 +25,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@azure/core-rest-pipeline": "1.22.2",
+    "@azure/core-rest-pipeline": "1.23.0",
     "@azure/data-tables": "13.3.2",
     "@azure/storage-blob": "12.31.0",
     "@stryker-mutator/dashboard-common": "workspace:*",
