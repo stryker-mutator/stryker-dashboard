@@ -17,41 +17,40 @@ function prefixGithub(slug: string) {
 
 @Injectable()
 export default class GithubRepositoryService {
-  private readonly projectMapper: dal.ProjectMapper;
+  readonly #projectMapper: dal.ProjectMapper;
+  readonly #agent: GithubAgent;
 
-  constructor(
-    dataAccess: DataAccess,
-    private agent: GithubAgent,
-  ) {
-    this.projectMapper = dataAccess.repositoryMapper;
+  constructor(dataAccess: DataAccess, agent: GithubAgent) {
+    this.#projectMapper = dataAccess.repositoryMapper;
+    this.#agent = agent;
   }
 
   public async getAllForUser(auth: github.Authentication): Promise<contract.Repository[]> {
-    const githubRepos = this.agent.getMyRepositories(auth);
-    const repoEntities = this.projectMapper.findAll(
+    const githubRepos = this.#agent.getMyRepositories(auth);
+    const repoEntities = this.#projectMapper.findAll(
       DashboardQuery.create(Project).wherePartitionKeyEquals({
         owner: prefixGithub(auth.username),
       }),
     );
-    return this.matchRepositories(githubRepos, repoEntities);
+    return this.#matchRepositories(githubRepos, repoEntities);
   }
 
   public async getAllForOrganization(
     auth: github.Authentication,
     organizationLogin: string,
   ): Promise<contract.Repository[]> {
-    const githubRepos = this.agent.getOrganizationRepositories(auth, organizationLogin);
-    const repoEntities = this.projectMapper.findAll(
+    const githubRepos = this.#agent.getOrganizationRepositories(auth, organizationLogin);
+    const repoEntities = this.#projectMapper.findAll(
       DashboardQuery.create(Project).wherePartitionKeyEquals({
         owner: prefixGithub(organizationLogin),
       }),
     );
-    return this.matchRepositories(githubRepos, repoEntities);
+    return this.#matchRepositories(githubRepos, repoEntities);
   }
 
   public async update(auth: github.Authentication, owner: string, name: string, enabled: boolean, apiKeyHash = '') {
-    await this.guardUserHasAccess(auth, owner, name);
-    await this.projectMapper.insertOrMerge({
+    await this.#guardUserHasAccess(auth, owner, name);
+    await this.#projectMapper.insertOrMerge({
       apiKeyHash,
       name,
       owner: prefixGithub(owner),
@@ -59,8 +58,8 @@ export default class GithubRepositoryService {
     });
   }
 
-  private async guardUserHasAccess(auth: github.Authentication, owner: string, name: string): Promise<void> {
-    const hasPushAccess = await this.agent.userHasPushAccess(auth, owner, name);
+  async #guardUserHasAccess(auth: github.Authentication, owner: string, name: string): Promise<void> {
+    const hasPushAccess = await this.#agent.userHasPushAccess(auth, owner, name);
     if (!hasPushAccess) {
       throw new HttpException(
         `Permission denied. ${auth.username} does not have enough permissions for resource ${owner}/${name} (was "push": false).`,
@@ -69,7 +68,7 @@ export default class GithubRepositoryService {
     }
   }
 
-  private async matchRepositories(
+  async #matchRepositories(
     githubReposPromise: Promise<github.Repository[]>,
     repositoryEntitiesPromise: Promise<dal.Result<dal.Project>[]>,
   ): Promise<contract.Repository[]> {

@@ -6,20 +6,23 @@ import type { MutantResult } from 'mutation-testing-report-schema';
 import { generateAuthToken } from '../../actions/auth.action.js';
 
 export class ReportClient {
-  private projectApiKeys = new Map<string, Promise<string>>();
+  readonly #projectApiKeys = new Map<string, Promise<string>>();
+  readonly #request: APIRequestContext;
 
-  constructor(private request: APIRequestContext) {}
+  constructor(request: APIRequestContext) {
+    this.#request = request;
+  }
 
   async enableRepository(slug: string): Promise<string> {
-    if (this.projectApiKeys.has(slug)) {
-      return this.projectApiKeys.get(slug)!;
+    if (this.#projectApiKeys.has(slug)) {
+      return this.#projectApiKeys.get(slug)!;
     } else {
-      this.projectApiKeys.set(
+      this.#projectApiKeys.set(
         slug,
         Promise.resolve().then(async () => {
           const patchBody: Partial<Repository> = { enabled: true };
           const authToken = generateAuthToken();
-          const response = await this.request.patch(`/api/repositories/${slug}`, {
+          const response = await this.#request.patch(`/api/repositories/${slug}`, {
             failOnStatusCode: true,
             data: patchBody,
             headers: {
@@ -30,14 +33,14 @@ export class ReportClient {
           return body.apiKey;
         }),
       );
-      return this.projectApiKeys.get(slug)!;
+      return this.#projectApiKeys.get(slug)!;
     }
   }
 
   async disableRepository(slug: string): Promise<void> {
     const patchBody: Partial<Repository> = { enabled: true };
     const authToken = generateAuthToken();
-    await this.request.patch(`/api/repositories/${slug}`, {
+    await this.#request.patch(`/api/repositories/${slug}`, {
       failOnStatusCode: true,
       data: patchBody,
       headers: {
@@ -48,7 +51,7 @@ export class ReportClient {
 
   async getUserRepositories(): Promise<Repository[]> {
     const auth = generateAuthToken();
-    const response = await this.request.get('api/user/repositories', {
+    const response = await this.#request.get('api/user/repositories', {
       failOnStatusCode: true,
       headers: { Authorization: `Bearer ${auth}` },
     });
@@ -57,7 +60,7 @@ export class ReportClient {
 
   async uploadReport(result: Report): Promise<PutReportResponse> {
     const apiKey = await this.enableRepository(result.projectName);
-    const response = await this.request.put(this.#getUrl('/api/reports', result), {
+    const response = await this.#request.put(this.#getUrl('/api/reports', result), {
       failOnStatusCode: true,
       data: result,
       headers: {
@@ -69,7 +72,7 @@ export class ReportClient {
 
   async uploadPendingReport(result: Report): Promise<PutReportResponse> {
     const apiKey = await this.enableRepository(result.projectName);
-    const response = await this.request.put(this.#getUrl('/api/real-time', result), {
+    const response = await this.#request.put(this.#getUrl('/api/real-time', result), {
       failOnStatusCode: true,
       data: result,
       headers: {
@@ -81,7 +84,7 @@ export class ReportClient {
 
   async postMutantBatch(result: Report, mutants: Partial<MutantResult>[]) {
     const apiKey = await this.enableRepository(result.projectName);
-    return await this.request.post(this.#getUrl('/api/real-time', result), {
+    return await this.#request.post(this.#getUrl('/api/real-time', result), {
       data: mutants,
       headers: {
         ['X-Api-Key']: apiKey,
@@ -91,7 +94,7 @@ export class ReportClient {
 
   async deleteReport(result: Report) {
     const apiKey = await this.enableRepository(result.projectName);
-    return await this.request.delete(this.#getUrl('/api/reports', result), {
+    return await this.#request.delete(this.#getUrl('/api/reports', result), {
       failOnStatusCode: true,
       headers: {
         ['X-Api-Key']: apiKey,
@@ -101,7 +104,7 @@ export class ReportClient {
 
   async deletePendingReport(result: Report) {
     const apiKey = await this.enableRepository(result.projectName);
-    return await this.request.delete(this.#getUrl('/api/real-time', result), {
+    return await this.#request.delete(this.#getUrl('/api/real-time', result), {
       failOnStatusCode: true,
       headers: {
         ['X-Api-Key']: apiKey,

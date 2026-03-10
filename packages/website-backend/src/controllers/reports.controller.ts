@@ -16,12 +16,12 @@ import {
 import {
   isMutationTestResult,
   isPendingReport,
-  MutationScoreOnlyResult,
-  Report,
+  type MutationScoreOnlyResult,
+  type Report,
 } from '@stryker-mutator/dashboard-common';
-import { PutReportResponse } from '@stryker-mutator/dashboard-contract';
+import type { PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import { MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
-import { MutationTestResult } from 'mutation-testing-report-schema';
+import type { MutationTestResult } from 'mutation-testing-report-schema';
 
 import { JwtOrApiKeyGuard } from '../auth/guard.js';
 import Configuration from '../services/Configuration.js';
@@ -50,8 +50,8 @@ export default class ReportsController {
     @Query('module') moduleName: string | undefined,
   ): Promise<PutReportResponse> {
     const { project, version } = parseSlug(slug.join('/'));
-    await this.verifyRequiredPutReportProperties(result);
-    this.verifyIsCompletedReport(result);
+    await this.#verifyRequiredPutReportProperties(result);
+    this.#verifyIsCompletedReport(result);
     try {
       await this.#reportService.saveReport({ projectName: project, version, moduleName }, result, this.#logger);
 
@@ -133,7 +133,7 @@ export default class ReportsController {
     }
   }
 
-  private async verifyRequiredPutReportProperties(body: MutationScoreOnlyResult | MutationTestResult) {
+  async #verifyRequiredPutReportProperties(body: MutationScoreOnlyResult | MutationTestResult) {
     const errors = await this.#reportValidator.findErrors(body);
     if (errors) {
       const mutationScoreOnlyResult = body as MutationScoreOnlyResult;
@@ -147,7 +147,7 @@ export default class ReportsController {
     }
   }
 
-  private verifyIsCompletedReport(result: MutationScoreOnlyResult | MutationTestResult) {
+  #verifyIsCompletedReport(result: MutationScoreOnlyResult | MutationTestResult) {
     if (!isMutationTestResult(result)) {
       return;
     }

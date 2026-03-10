@@ -12,10 +12,12 @@
     "declarationMap": true,
     "declaration": true,
     "sourceMap": true,
-    "strictPropertyInitialization": false, // TODO
+    "strictPropertyInitialization": true,
     "noPropertyAccessFromIndexSignature": false,
     "exactOptionalPropertyTypes": false,
     "noUncheckedIndexedAccess": false,
-    "noImplicitOverride": false
+    "noImplicitOverride": false,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true
   }
 }

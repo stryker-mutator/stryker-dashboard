@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ReportIdentifier } from '@stryker-mutator/dashboard-common';
+import type { ReportIdentifier } from '@stryker-mutator/dashboard-common';
 
 import Configuration from '../Configuration.js';
 import { MutationEventResponseHandler as MutationEventResponseHandler } from './MutationEventResponseHandler.js';

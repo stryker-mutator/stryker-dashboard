@@ -8,10 +8,13 @@ const NR_OF_PROJECT_NAME_PARTS = 3;
  * Or "github.com/stryker-mutator/stryker/feat/allow/slashes"
  */
 export class Slug {
-  constructor(
-    public readonly project: string,
-    public readonly version: string,
-  ) {}
+  public readonly project: string;
+  public readonly version: string;
+
+  constructor(project: string, version: string) {
+    this.project = project;
+    this.version = version;
+  }
 
   /**
    * Parses a raw slug into project and version.

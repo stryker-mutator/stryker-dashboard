@@ -11,11 +11,13 @@ export interface Shield {
   logoColor: Color;
 }
 
-export enum Color {
-  Grey = 'lightgrey',
-  Red = 'red',
-  Orange = 'orange',
-  Green = 'green',
-  BrightGreen = 'brightgreen',
-  WhiteSmoke = 'whitesmoke',
-}
+export const Color = {
+  Grey: 'lightgrey',
+  Red: 'red',
+  Orange: 'orange',
+  Green: 'green',
+  BrightGreen: 'brightgreen',
+  WhiteSmoke: 'whitesmoke',
+} as const;
+
+export type Color = (typeof Color)[keyof typeof Color];

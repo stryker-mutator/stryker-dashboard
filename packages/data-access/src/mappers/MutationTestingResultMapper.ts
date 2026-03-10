@@ -15,12 +15,12 @@ const errCodes = Object.freeze({
  * The report json part of a mutation testing report is stored in blob storage
  */
 export class MutationTestingResultMapper {
-  private static readonly CONTAINER_NAME = 'mutation-testing-report';
+  static readonly #CONTAINER_NAME = 'mutation-testing-report';
 
   #containerClient: ContainerClient;
 
   constructor(blobService: BlobServiceClient = createBlobServiceClient()) {
-    this.#containerClient = blobService.getContainerClient(MutationTestingResultMapper.CONTAINER_NAME);
+    this.#containerClient = blobService.getContainerClient(MutationTestingResultMapper.#CONTAINER_NAME);
   }
 
   public createStorageIfNotExists(): Promise<ContainerCreateIfNotExistsResponse> {

@@ -2,7 +2,8 @@
   "extends": "../../../tsconfig.settings.json",
   "compilerOptions": {
     "outDir": "../dist/test",
-    "types": ["node", "mocha"]
+    "types": ["node", "mocha"],
+    "strictPropertyInitialization": false
   },
   "references": [
     {
