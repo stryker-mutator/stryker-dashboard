@@ -1,14 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ProjectMapper } from '@stryker-mutator/dashboard-data-access';
+import type { ProjectMapper } from '@stryker-mutator/dashboard-data-access';
 
 import util from '../utils/utils.js';
 import DataAccess from './DataAccess.js';
 
 @Injectable()
 export class ApiKeyValidator {
-  private readonly projectMapper: ProjectMapper;
+  readonly #projectMapper: ProjectMapper;
   constructor({ repositoryMapper }: DataAccess) {
-    this.projectMapper = repositoryMapper;
+    this.#projectMapper = repositoryMapper;
   }
 
   public async validateApiKey(apiKey: string, projectName: string): Promise<void> {
@@ -17,7 +17,7 @@ export class ApiKeyValidator {
     if (lastDelimiter === -1) {
       throw new HttpException(`Repository "${projectName}" is invalid`, HttpStatus.BAD_REQUEST);
     } else {
-      const projectPromise = this.projectMapper.findOne({
+      const projectPromise = this.#projectMapper.findOne({
         owner: projectName.substr(0, lastDelimiter),
         name: projectName.substr(lastDelimiter + 1),
       });

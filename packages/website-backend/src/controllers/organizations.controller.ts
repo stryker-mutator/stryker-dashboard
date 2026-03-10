@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
-import { Repository } from '@stryker-mutator/dashboard-contract';
+import type { Repository } from '@stryker-mutator/dashboard-contract';
 
 import { JwtAuthGuard } from '../auth/guard.js';
 import GithubRepositoryService from '../services/GithubRepositoryService.js';

@@ -4,10 +4,13 @@ import type { Shield } from './Shield.js';
 import { Color } from './Shield.js';
 
 export class ShieldMapper {
-  constructor(private readonly reportMapper: MutationTestingReportMapper) {}
+  readonly #reportMapper: MutationTestingReportMapper;
+  constructor(reportMapper: MutationTestingReportMapper) {
+    this.#reportMapper = reportMapper;
+  }
 
   public async shieldFor(projectName: string, version: string, moduleName?: string): Promise<Shield> {
-    const report = await this.reportMapper.findOne({
+    const report = await this.#reportMapper.findOne({
       projectName,
       version,
       moduleName,

@@ -14,8 +14,8 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { ReportIdentifier, Slug } from '@stryker-mutator/dashboard-common';
-import { PutReportResponse } from '@stryker-mutator/dashboard-contract';
+import { type ReportIdentifier, Slug } from '@stryker-mutator/dashboard-common';
+import type { PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import { MutationTestingReportService, RealTimeMutantsBlobService } from '@stryker-mutator/dashboard-data-access';
 import type { Response } from 'express';
 import type { MutantResult, MutationTestResult } from 'mutation-testing-report-schema';

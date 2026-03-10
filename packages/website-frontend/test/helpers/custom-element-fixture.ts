@@ -10,7 +10,7 @@ const defaultOptions: Readonly<CustomElementFixtureOptions> = Object.freeze({
 
 export class CustomElementFixture<TCustomElement extends LitElement> {
   public readonly element: TCustomElement;
-  private isConnected = false;
+  #isConnected = false;
   #customElementName: string;
 
   constructor(customElementName: string, options?: Partial<CustomElementFixtureOptions>) {
@@ -30,13 +30,13 @@ export class CustomElementFixture<TCustomElement extends LitElement> {
    * Only call this manually if you construct the fixture with `{ autoConnect: false }`
    */
   public connect() {
-    if (this.isConnected) {
+    if (this.#isConnected) {
       throw new Error(
         `Element ${this.#customElementName} is already connected to the DOM. Cannot connect a second time.`,
       );
     }
     document.body.appendChild(this.element);
-    this.isConnected = true;
+    this.#isConnected = true;
   }
 
   public async whenStable(): Promise<void> {
@@ -76,10 +76,10 @@ export class CustomElementFixture<TCustomElement extends LitElement> {
   }
 
   public async catchNativeEvent(eventType: string, act: () => Promise<void> | void): Promise<Event | undefined> {
-    return this.catchEvent(eventType, act);
+    return this.#catchEvent(eventType, act);
   }
 
-  private async catchEvent<TEvent extends Event = Event>(
+  async #catchEvent<TEvent extends Event = Event>(
     eventType: string,
     act: () => Promise<void> | void,
   ): Promise<TEvent | undefined> {

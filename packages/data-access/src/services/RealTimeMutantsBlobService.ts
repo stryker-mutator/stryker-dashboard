@@ -8,12 +8,12 @@ import { createBlobServiceClient } from './BlobServiceClient.js';
 // To make resource delete themselves automatically, this should be managed from within Azure:
 // https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-overview?tabs=azure-portal
 export class RealTimeMutantsBlobService {
-  private static readonly CONTAINER_NAME = 'real-time-mutant-results';
+  static readonly #CONTAINER_NAME = 'real-time-mutant-results';
 
   #containerClient: ContainerClient;
 
   constructor(blobService: BlobServiceClient = createBlobServiceClient()) {
-    this.#containerClient = blobService.getContainerClient(RealTimeMutantsBlobService.CONTAINER_NAME);
+    this.#containerClient = blobService.getContainerClient(RealTimeMutantsBlobService.#CONTAINER_NAME);
   }
 
   public async createStorageIfNotExists() {

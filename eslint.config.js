@@ -1,5 +1,5 @@
 import eslint from '@eslint/js';
-import { defineConfig } from 'eslint/config';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import { importX } from 'eslint-plugin-import-x';
 import { configs as litConfigs } from 'eslint-plugin-lit';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
@@ -20,6 +20,8 @@ export default defineConfig(
   {
     rules: {
       '@typescript-eslint/consistent-type-imports': 'error',
+      '@typescript-eslint/no-import-type-side-effects': 'error',
+
       '@typescript-eslint/unbound-method': 'off',
       '@typescript-eslint/prefer-nullish-coalescing': 'off',
 
@@ -85,16 +87,14 @@ export default defineConfig(
       '@typescript-eslint/no-unsafe-member-access': 'off',
     },
   },
-  {
-    ignores: [
-      'node_modules',
-      'packages/*/dist',
-      'dist',
-      '.stryker-tmp',
-      'packages/*/reports',
-      'test-results',
-      'playwright-report',
-      '!.storybook',
-    ],
-  },
+  globalIgnores([
+    'node_modules',
+    'packages/*/dist',
+    'dist',
+    '.stryker-tmp',
+    'packages/*/reports',
+    'test-results',
+    'playwright-report',
+    '!.storybook',
+  ]),
 );

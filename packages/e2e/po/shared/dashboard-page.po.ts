@@ -3,7 +3,10 @@ import type { Page } from '@playwright/test';
 import { generateAuthToken } from '../../actions/auth.action.js';
 
 export abstract class DashboardPage {
-  constructor(public readonly page: Page) {}
+  public readonly page: Page;
+  constructor(page: Page) {
+    this.page = page;
+  }
 
   async logOn() {
     const authToken = generateAuthToken();

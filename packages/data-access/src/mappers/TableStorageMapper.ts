@@ -18,12 +18,14 @@ export default class TableStorageMapper<
   TPartitionKeyFields extends keyof TModel,
   TRowKeyFields extends keyof TModel,
 > implements Mapper<TModel, TPartitionKeyFields, TRowKeyFields> {
+  readonly #ModelClass: ModelClass<TModel, TPartitionKeyFields, TRowKeyFields>;
   readonly #tableClient: TableClient;
 
   constructor(
-    private readonly ModelClass: ModelClass<TModel, TPartitionKeyFields, TRowKeyFields>,
+    ModelClass: ModelClass<TModel, TPartitionKeyFields, TRowKeyFields>,
     tableClient: TableClient = createTableClient(ModelClass.name),
   ) {
+    this.#ModelClass = ModelClass;
     this.#tableClient = tableClient;
   }
 
@@ -32,17 +34,17 @@ export default class TableStorageMapper<
   }
 
   public async insertOrMerge(model: TModel) {
-    const entity = this.toEntity(model);
+    const entity = this.#toEntity(model);
     await this.#tableClient.upsertEntity(entity, 'Merge');
   }
 
   public async findOne(identity: Pick<TModel, TPartitionKeyFields | TRowKeyFields>): Promise<Result<TModel> | null> {
     try {
       const result = await this.#tableClient.getEntity<TModel>(
-        encodeKey(this.ModelClass.createPartitionKey(identity)),
-        encodeKey(this.ModelClass.createRowKey(identity) || ''),
+        encodeKey(this.#ModelClass.createPartitionKey(identity)),
+        encodeKey(this.#ModelClass.createRowKey(identity) || ''),
       );
-      return this.toModel(result);
+      return this.#toModel(result);
     } catch (err) {
       if (hasErrorCode(err, errCodes.RESOURCE_NOT_FOUND)) {
         return null;
@@ -54,14 +56,14 @@ export default class TableStorageMapper<
   }
 
   public async findAll(
-    query: DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> = DashboardQuery.create(this.ModelClass),
+    query: DashboardQuery<TModel, TPartitionKeyFields, TRowKeyFields> = DashboardQuery.create(this.#ModelClass),
   ): Promise<Result<TModel>[]> {
     const tableQuery = query.build();
     const entities = this.#tableClient.listEntities<TModel>({ queryOptions: tableQuery });
 
     const results: Result<TModel>[] = [];
     for await (const entity of entities) {
-      results.push(this.toModel(entity));
+      results.push(this.#toModel(entity));
     }
     return results;
   }
@@ -73,7 +75,7 @@ export default class TableStorageMapper<
    * @throws {OptimisticConcurrencyError}
    */
   public async replace(model: TModel, etag: string): Promise<Result<TModel>> {
-    const entity = this.toEntity(model);
+    const entity = this.#toEntity(model);
     try {
       const result = await this.#tableClient.updateEntity(entity, 'Replace', { etag });
       return { model, etag: result.etag! };
@@ -89,7 +91,7 @@ export default class TableStorageMapper<
   }
 
   public async insert(model: TModel): Promise<Result<TModel>> {
-    const entity = this.toEntity(model);
+    const entity = this.#toEntity(model);
     try {
       const result = await this.#tableClient.createEntity(entity);
       return { model, etag: result.etag! };
@@ -107,8 +109,8 @@ export default class TableStorageMapper<
   public async delete(identity: Pick<TModel, TPartitionKeyFields | TRowKeyFields>): Promise<void> {
     try {
       await this.#tableClient.deleteEntity(
-        encodeKey(this.ModelClass.createPartitionKey(identity)),
-        encodeKey(this.ModelClass.createRowKey(identity) || ''),
+        encodeKey(this.#ModelClass.createPartitionKey(identity)),
+        encodeKey(this.#ModelClass.createRowKey(identity) || ''),
       );
     } catch (err) {
       if (hasErrorCode(err, errCodes.RESOURCE_NOT_FOUND)) {
@@ -119,24 +121,24 @@ export default class TableStorageMapper<
     }
   }
 
-  private toModel(entity: TableEntityResult<TModel>): Result<TModel> {
-    const value = new this.ModelClass();
-    this.ModelClass.identify(value, decodeKey(entity.partitionKey!), decodeKey(entity.rowKey!));
-    this.ModelClass.persistedFields.forEach((field) => (value[field] = entity[field]));
+  #toModel(entity: TableEntityResult<TModel>): Result<TModel> {
+    const value = new this.#ModelClass();
+    this.#ModelClass.identify(value, decodeKey(entity.partitionKey!), decodeKey(entity.rowKey!));
+    this.#ModelClass.persistedFields.forEach((field) => (value[field] = entity[field]));
     return {
       etag: entity.etag,
       model: value,
     };
   }
 
-  private toEntity(entity: TModel): TableEntity<TModel> {
+  #toEntity(entity: TModel): TableEntity<TModel> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data: TableEntity<any> = {
-      partitionKey: encodeKey(this.ModelClass.createPartitionKey(entity)),
-      rowKey: encodeKey(this.ModelClass.createRowKey(entity) || ''),
+      partitionKey: encodeKey(this.#ModelClass.createPartitionKey(entity)),
+      rowKey: encodeKey(this.#ModelClass.createRowKey(entity) || ''),
     };
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    this.ModelClass.persistedFields.forEach((field) => (data[field] = entity[field]));
+    this.#ModelClass.persistedFields.forEach((field) => (data[field] = entity[field]));
 
     return data as TableEntity<TModel>;
   }

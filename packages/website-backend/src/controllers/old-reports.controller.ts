@@ -25,7 +25,7 @@ export class OldReportsController {
   @Post()
   @HttpCode(201)
   public async addNew(@Body() report: ScoreReport, log: Logger) {
-    this.verifyRequiredPostScoreReportProperties(report);
+    this.#verifyRequiredPostScoreReportProperties(report);
     await this.#apiKeyValidator.validateApiKey(report.apiKey, report.repositorySlug);
     await this.#dal.mutationTestingReportService.saveReport(
       {
@@ -39,7 +39,7 @@ export class OldReportsController {
     return '';
   }
 
-  private verifyRequiredPostScoreReportProperties(body: ScoreReport) {
+  #verifyRequiredPostScoreReportProperties(body: ScoreReport) {
     (['apiKey', 'repositorySlug', 'mutationScore'] as const).forEach((prop) => {
       if (body[prop] === undefined) {
         throw new BadRequestException(`Missing required property "${prop}"`);

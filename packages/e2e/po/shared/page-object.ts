@@ -1,7 +1,10 @@
 import { expect, type Locator } from '@playwright/test';
 
 export abstract class PageObject {
-  constructor(public readonly host: Locator) {}
+  public readonly host: Locator;
+  constructor(host: Locator) {
+    this.host = host;
+  }
 
   public async isPresent(): Promise<boolean> {
     const element = await this.host.elementHandle();

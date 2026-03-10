@@ -14,20 +14,23 @@ function moduleHasResult(tuple: readonly [string, MutationTestResult | null]): t
 }
 
 export class MutationTestingReportService {
-  constructor(
-    private readonly resultMapper: MutationTestingResultMapper = new MutationTestingResultMapper(),
-    private readonly mutationScoreMapper: MutationTestingReportMapper = createMutationTestingReportMapper(),
-  ) {}
+  readonly #resultMapper: MutationTestingResultMapper;
+  readonly #mutationScoreMapper: MutationTestingReportMapper;
+
+  constructor(resultMapper?: MutationTestingResultMapper, mutationScoreMapper?: MutationTestingReportMapper) {
+    this.#resultMapper = resultMapper ?? new MutationTestingResultMapper();
+    this.#mutationScoreMapper = mutationScoreMapper ?? createMutationTestingReportMapper();
+  }
 
   public async createStorageIfNotExists() {
-    await this.resultMapper.createStorageIfNotExists();
-    await this.mutationScoreMapper.createStorageIfNotExists();
+    await this.#resultMapper.createStorageIfNotExists();
+    await this.#mutationScoreMapper.createStorageIfNotExists();
   }
 
   public async saveReport(id: ReportIdentifier, result: MutationScoreOnlyResult | MutationTestResult, logger: Logger) {
-    const mutationScore = this.calculateMutationScore(result);
+    const mutationScore = this.#calculateMutationScore(result);
 
-    await this.insertOrMergeReport(
+    await this.#insertOrMergeReport(
       id,
       {
         ...id,
@@ -36,18 +39,18 @@ export class MutationTestingReportService {
       isMutationTestResult(result) ? result : null,
     );
     if (isMutationTestResult(result) && id.moduleName) {
-      await this.aggregateProjectReport(id.projectName, id.version, logger);
+      await this.#aggregateProjectReport(id.projectName, id.version, logger);
     }
   }
 
-  private async aggregateProjectReport(projectName: string, version: string, logger: Logger) {
+  async #aggregateProjectReport(projectName: string, version: string, logger: Logger) {
     const id: ReportIdentifier = {
       projectName,
       version,
       moduleName: undefined,
     };
 
-    while (!(await this.tryAggregateProjectReport(id))) {
+    while (!(await this.#tryAggregateProjectReport(id))) {
       logger.log({
         message: `Optimistic concurrency exception occurred while trying to aggregate the report ${JSON.stringify(
           id,
@@ -56,13 +59,13 @@ export class MutationTestingReportService {
     }
   }
 
-  private async deleteModules(projectName: string, version: string) {
+  async #deleteModules(projectName: string, version: string) {
     const id: ReportIdentifier = {
       projectName,
       version,
       moduleName: undefined,
     };
-    const modules = await this.mutationScoreMapper.findAll(
+    const modules = await this.#mutationScoreMapper.findAll(
       DashboardQuery.create(MutationTestingReport)
         .wherePartitionKeyEquals(id)
         .whereRowKeyNotEquals({ moduleName: undefined }),
@@ -74,14 +77,14 @@ export class MutationTestingReportService {
           version,
           moduleName: module.model.moduleName,
         };
-        return Promise.all([this.resultMapper.delete(id), this.mutationScoreMapper.delete(id)]);
+        return Promise.all([this.#resultMapper.delete(id), this.#mutationScoreMapper.delete(id)]);
       }),
     );
   }
 
-  private async tryAggregateProjectReport(id: ReportIdentifier) {
-    const projectMutationScoreModel = await this.mutationScoreMapper.findOne(id);
-    const moduleScoreResults = await this.mutationScoreMapper.findAll(
+  async #tryAggregateProjectReport(id: ReportIdentifier) {
+    const projectMutationScoreModel = await this.#mutationScoreMapper.findOne(id);
+    const moduleScoreResults = await this.#mutationScoreMapper.findAll(
       DashboardQuery.create(MutationTestingReport)
         .wherePartitionKeyEquals(id)
         .whereRowKeyNotEquals({ moduleName: undefined }),
@@ -90,7 +93,7 @@ export class MutationTestingReportService {
       (
         await Promise.all(
           moduleScoreResults.map(
-            async (score) => [score.model.moduleName!, await this.resultMapper.findOne(score.model)] as const,
+            async (score) => [score.model.moduleName!, await this.#resultMapper.findOne(score.model)] as const,
           ),
         )
       ).filter(moduleHasResult),
@@ -99,14 +102,14 @@ export class MutationTestingReportService {
       const projectResult = aggregateResultsByModule(resultsByModule);
       const projectReport: MutationTestingReport = {
         ...id,
-        mutationScore: this.calculateMutationScore(projectResult),
+        mutationScore: this.#calculateMutationScore(projectResult),
       };
       try {
-        await this.resultMapper.insertOrReplace(id, projectResult);
+        await this.#resultMapper.insertOrReplace(id, projectResult);
         if (projectMutationScoreModel) {
-          await this.mutationScoreMapper.replace(projectReport, projectMutationScoreModel.etag);
+          await this.#mutationScoreMapper.replace(projectReport, projectMutationScoreModel.etag);
         } else {
-          await this.mutationScoreMapper.insert(projectReport);
+          await this.#mutationScoreMapper.insert(projectReport);
         }
       } catch (err) {
         if (err instanceof OptimisticConcurrencyError) {
@@ -121,8 +124,8 @@ export class MutationTestingReportService {
 
   public async findOne(id: ReportIdentifier): Promise<Report | null> {
     const [reportEntity, result] = await Promise.all([
-      this.mutationScoreMapper.findOne(id),
-      this.resultMapper.findOne(id),
+      this.#mutationScoreMapper.findOne(id),
+      this.#resultMapper.findOne(id),
     ]);
     if (reportEntity) {
       if (result) {
@@ -140,24 +143,23 @@ export class MutationTestingReportService {
   }
 
   public async delete(id: ReportIdentifier, logger: Logger): Promise<void> {
-    await Promise.all([this.resultMapper.delete(id), this.mutationScoreMapper.delete(id)]);
+    await Promise.all([this.#resultMapper.delete(id), this.#mutationScoreMapper.delete(id)]);
 
     if (id.moduleName) {
-      await this.aggregateProjectReport(id.projectName, id.version, logger);
+      await this.#aggregateProjectReport(id.projectName, id.version, logger);
     } else {
-      await this.deleteModules(id.projectName, id.version);
+      await this.#deleteModules(id.projectName, id.version);
     }
   }
 
-  private async insertOrMergeReport(
-    id: ReportIdentifier,
-    report: MutationTestingReport,
-    result: MutationTestResult | null,
-  ) {
-    await Promise.all([this.resultMapper.insertOrReplace(id, result), this.mutationScoreMapper.insertOrMerge(report)]);
+  async #insertOrMergeReport(id: ReportIdentifier, report: MutationTestingReport, result: MutationTestResult | null) {
+    await Promise.all([
+      this.#resultMapper.insertOrReplace(id, result),
+      this.#mutationScoreMapper.insertOrMerge(report),
+    ]);
   }
 
-  private calculateMutationScore(result: MutationScoreOnlyResult | MutationTestResult) {
+  #calculateMutationScore(result: MutationScoreOnlyResult | MutationTestResult) {
     if (isMutationTestResult(result)) {
       return calculateMetrics(result.files).metrics.mutationScore;
     } else {

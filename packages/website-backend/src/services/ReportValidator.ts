@@ -1,8 +1,8 @@
-import { Injectable, OnApplicationShutdown } from '@nestjs/common';
-import { MutantResult } from 'mutation-testing-report-schema';
-import { Pool, pool } from 'workerpool';
+import { Injectable, type OnApplicationShutdown } from '@nestjs/common';
+import type { MutantResult } from 'mutation-testing-report-schema';
+import { type Pool, pool } from 'workerpool';
 
-import { ValidateMutants, ValidateReport } from './ValidatorWorker.js';
+import type { ValidateMutants, ValidateReport } from './ValidatorWorker.js';
 
 @Injectable()
 export class ReportValidator implements OnApplicationShutdown {
