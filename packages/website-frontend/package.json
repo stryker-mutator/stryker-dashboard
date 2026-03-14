@@ -19,7 +19,7 @@
     "@tailwindcss/vite": "4.2.1",
     "@vitest/browser-playwright": "4.0.18",
     "browserslist": "4.28.1",
-    "lightningcss": "1.31.1",
+    "lightningcss": "1.32.0",
     "lit": "3.3.2",
     "mutation-testing-elements": "3.7.2",
     "mutation-testing-metrics": "3.7.2",

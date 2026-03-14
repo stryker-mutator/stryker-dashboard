@@ -36,7 +36,7 @@
     "@stryker-mutator/dashboard-common": "workspace:*",
     "@tailwindcss/vite": "4.2.1",
     "browserslist": "4.28.1",
-    "lightningcss": "1.31.1",
+    "lightningcss": "1.32.0",
     "storybook": "10.2.16",
     "tailwindcss": "4.2.1",
     "vite": "7.3.1"
