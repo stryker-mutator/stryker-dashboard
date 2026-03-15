@@ -30,14 +30,14 @@
     "lit": "^3.3.1"
   },
   "devDependencies": {
-    "@storybook/addon-docs": "10.2.18",
-    "@storybook/addon-links": "10.2.18",
-    "@storybook/web-components-vite": "10.2.18",
+    "@storybook/addon-docs": "10.2.19",
+    "@storybook/addon-links": "10.2.19",
+    "@storybook/web-components-vite": "10.2.19",
     "@stryker-mutator/dashboard-common": "workspace:*",
     "@tailwindcss/vite": "4.2.1",
     "browserslist": "4.28.1",
     "lightningcss": "1.32.0",
-    "storybook": "10.2.18",
+    "storybook": "10.2.19",
     "tailwindcss": "4.2.1",
     "vite": "8.0.0"
   },
