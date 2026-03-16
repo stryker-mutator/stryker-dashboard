@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.3](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.2...v0.20.3) (2026-03-16)
+
+### Bug Fixes
+
+- **deps:** update dependency @azure/core-rest-pipeline to v1.23.0 ([#1941](https://github.com/stryker-mutator/stryker-dashboard/issues/1941)) ([7937d30](https://github.com/stryker-mutator/stryker-dashboard/commit/7937d30cd5b0b4f48439dbeed8509c9d7d970fa6))
+- **deps:** update dependency @azure/functions to v4.10.0 ([#1839](https://github.com/stryker-mutator/stryker-dashboard/issues/1839)) ([4da6dc3](https://github.com/stryker-mutator/stryker-dashboard/commit/4da6dc3237b4818ecd5047050994228c42059a6b))
+- **deps:** update dependency @azure/functions to v4.11.0 ([#1853](https://github.com/stryker-mutator/stryker-dashboard/issues/1853)) ([80c9617](https://github.com/stryker-mutator/stryker-dashboard/commit/80c9617d72a0b3c91e55372b22716f885d9f5318))
+- **deps:** update dependency @azure/functions to v4.11.1 ([#1882](https://github.com/stryker-mutator/stryker-dashboard/issues/1882)) ([1da5a03](https://github.com/stryker-mutator/stryker-dashboard/commit/1da5a035fccc489bee3c7b08d97d8a1fe0ef5aa2))
+- **deps:** update dependency @azure/functions to v4.11.2 ([#1891](https://github.com/stryker-mutator/stryker-dashboard/issues/1891)) ([8bb1403](https://github.com/stryker-mutator/stryker-dashboard/commit/8bb14030446f57f0675c34f9ad034e2ced16a045))
+- **deps:** update dependency @azure/storage-blob to v12.30.0 ([#1855](https://github.com/stryker-mutator/stryker-dashboard/issues/1855)) ([7f6f6fd](https://github.com/stryker-mutator/stryker-dashboard/commit/7f6f6fd62a7a04cd7604d51273175916bc1a7e9e))
+- **deps:** update dependency @azure/storage-blob to v12.31.0 ([#1895](https://github.com/stryker-mutator/stryker-dashboard/issues/1895)) ([9c7eb4a](https://github.com/stryker-mutator/stryker-dashboard/commit/9c7eb4a90cc8a3a8817f1133fb840301170c1af8))
+- **deps:** update dependency ajv to v8.18.0 [security] ([#1901](https://github.com/stryker-mutator/stryker-dashboard/issues/1901)) ([3cd5e0e](https://github.com/stryker-mutator/stryker-dashboard/commit/3cd5e0e97e42c8685a2e738fae9648165678e066))
+- **deps:** update dependency applicationinsights to v3.12.1 ([#1815](https://github.com/stryker-mutator/stryker-dashboard/issues/1815)) ([25634b6](https://github.com/stryker-mutator/stryker-dashboard/commit/25634b64bc7e22afac0b06ef3649d5ee0f6810a4))
+- **deps:** update dependency applicationinsights to v3.13.0 ([#1862](https://github.com/stryker-mutator/stryker-dashboard/issues/1862)) ([750e0d3](https://github.com/stryker-mutator/stryker-dashboard/commit/750e0d30ff945943b8ac56902d35f672f445af70))
+- **deps:** update dependency applicationinsights to v3.14.0 ([#1921](https://github.com/stryker-mutator/stryker-dashboard/issues/1921)) ([c6bc74e](https://github.com/stryker-mutator/stryker-dashboard/commit/c6bc74ed40caa4648f997fb47aea93c39a522f83))
+- **deps:** update dependency jsonwebtoken to v9.0.3 ([#1836](https://github.com/stryker-mutator/stryker-dashboard/issues/1836)) ([e183988](https://github.com/stryker-mutator/stryker-dashboard/commit/e1839885ebffcbc12697958f17f7d737d59e73a2))
+- **deps:** update mutation-testing-elements monorepo to v3.7.1 ([#1813](https://github.com/stryker-mutator/stryker-dashboard/issues/1813)) ([73fd604](https://github.com/stryker-mutator/stryker-dashboard/commit/73fd60444c400b56129b5ffec080c70a1ff1583d))
+- **deps:** update mutation-testing-elements monorepo to v3.7.2 ([#1898](https://github.com/stryker-mutator/stryker-dashboard/issues/1898)) ([cea4e5f](https://github.com/stryker-mutator/stryker-dashboard/commit/cea4e5fe03a7002c137366af076b08a641d2d1b7))
+- **deps:** update mutation-testing-elements monorepo to v3.7.3 ([#1957](https://github.com/stryker-mutator/stryker-dashboard/issues/1957)) ([9e4ed81](https://github.com/stryker-mutator/stryker-dashboard/commit/9e4ed81f3bf28d1982928a7dd37afc0a7c783e01))
+- **deps:** update nestjs packages ([#1842](https://github.com/stryker-mutator/stryker-dashboard/issues/1842)) ([664471a](https://github.com/stryker-mutator/stryker-dashboard/commit/664471a47b4821d681a52f4b0bdc48857420d4aa))
+- **deps:** update nestjs packages ([#1883](https://github.com/stryker-mutator/stryker-dashboard/issues/1883)) ([3d794b5](https://github.com/stryker-mutator/stryker-dashboard/commit/3d794b511e8e35620c26bd74476eb7ea339de144))
+- **deps:** update nestjs packages to v11.1.12 ([#1851](https://github.com/stryker-mutator/stryker-dashboard/issues/1851)) ([e51e83d](https://github.com/stryker-mutator/stryker-dashboard/commit/e51e83d9a44b883f4cda57edeb4a781d52c196ef))
+- **deps:** update nestjs packages to v11.1.14 ([#1905](https://github.com/stryker-mutator/stryker-dashboard/issues/1905)) ([8607176](https://github.com/stryker-mutator/stryker-dashboard/commit/86071769e81c2f13084bfa54b2af647ac2bff76c))
+- **deps:** update nestjs packages to v11.1.16 ([#1934](https://github.com/stryker-mutator/stryker-dashboard/issues/1934)) ([3f5d886](https://github.com/stryker-mutator/stryker-dashboard/commit/3f5d886979eb8271e110bf435e44685ac3ba0c6e))
+
 ## [0.20.2](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.1...v0.20.2) (2025-11-21)
 
 ### Bug Fixes

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.3](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.2...v0.20.3) (2026-03-16)
+
+### Bug Fixes
+
+- **deps:** update dependency @azure/core-rest-pipeline to v1.23.0 ([#1941](https://github.com/stryker-mutator/stryker-dashboard/issues/1941)) ([7937d30](https://github.com/stryker-mutator/stryker-dashboard/commit/7937d30cd5b0b4f48439dbeed8509c9d7d970fa6))
+- **deps:** update dependency @azure/storage-blob to v12.30.0 ([#1855](https://github.com/stryker-mutator/stryker-dashboard/issues/1855)) ([7f6f6fd](https://github.com/stryker-mutator/stryker-dashboard/commit/7f6f6fd62a7a04cd7604d51273175916bc1a7e9e))
+- **deps:** update dependency @azure/storage-blob to v12.31.0 ([#1895](https://github.com/stryker-mutator/stryker-dashboard/issues/1895)) ([9c7eb4a](https://github.com/stryker-mutator/stryker-dashboard/commit/9c7eb4a90cc8a3a8817f1133fb840301170c1af8))
+- **deps:** update mutation-testing-elements monorepo to v3.7.1 ([#1813](https://github.com/stryker-mutator/stryker-dashboard/issues/1813)) ([73fd604](https://github.com/stryker-mutator/stryker-dashboard/commit/73fd60444c400b56129b5ffec080c70a1ff1583d))
+- **deps:** update mutation-testing-elements monorepo to v3.7.2 ([#1898](https://github.com/stryker-mutator/stryker-dashboard/issues/1898)) ([cea4e5f](https://github.com/stryker-mutator/stryker-dashboard/commit/cea4e5fe03a7002c137366af076b08a641d2d1b7))
+- **deps:** update mutation-testing-elements monorepo to v3.7.3 ([#1957](https://github.com/stryker-mutator/stryker-dashboard/issues/1957)) ([9e4ed81](https://github.com/stryker-mutator/stryker-dashboard/commit/9e4ed81f3bf28d1982928a7dd37afc0a7c783e01))
+
 ## [0.20.2](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.1...v0.20.2) (2025-11-21)
 
 ### Bug Fixes

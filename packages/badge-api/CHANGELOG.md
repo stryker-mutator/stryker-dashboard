@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.3](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.2...v0.20.3) (2026-03-16)
+
+### Bug Fixes
+
+- **deps:** update dependency @azure/functions to v4.10.0 ([#1839](https://github.com/stryker-mutator/stryker-dashboard/issues/1839)) ([4da6dc3](https://github.com/stryker-mutator/stryker-dashboard/commit/4da6dc3237b4818ecd5047050994228c42059a6b))
+- **deps:** update dependency @azure/functions to v4.11.0 ([#1853](https://github.com/stryker-mutator/stryker-dashboard/issues/1853)) ([80c9617](https://github.com/stryker-mutator/stryker-dashboard/commit/80c9617d72a0b3c91e55372b22716f885d9f5318))
+- **deps:** update dependency @azure/functions to v4.11.1 ([#1882](https://github.com/stryker-mutator/stryker-dashboard/issues/1882)) ([1da5a03](https://github.com/stryker-mutator/stryker-dashboard/commit/1da5a035fccc489bee3c7b08d97d8a1fe0ef5aa2))
+- **deps:** update dependency @azure/functions to v4.11.2 ([#1891](https://github.com/stryker-mutator/stryker-dashboard/issues/1891)) ([8bb1403](https://github.com/stryker-mutator/stryker-dashboard/commit/8bb14030446f57f0675c34f9ad034e2ced16a045))
+
 ## [0.20.2](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.1...v0.20.2) (2025-11-21)
 
 ### Bug Fixes
