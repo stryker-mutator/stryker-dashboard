@@ -27,13 +27,13 @@
     "start": "storybook dev -p 6006"
   },
   "peerDependencies": {
+    "@stryker-mutator/dashboard-common": "workspace:*",
     "lit": "^3.3.1"
   },
   "devDependencies": {
     "@storybook/addon-docs": "10.2.19",
     "@storybook/addon-links": "10.2.19",
     "@storybook/web-components-vite": "10.2.19",
-    "@stryker-mutator/dashboard-common": "workspace:*",
     "@tailwindcss/vite": "4.2.1",
     "storybook": "10.2.19",
     "tailwindcss": "4.2.1",
