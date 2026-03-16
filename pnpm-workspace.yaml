@@ -5,6 +5,10 @@ injectWorkspacePackages: true
 
 # 2 days, in minutes
 minimumReleaseAge: 2880
+minimumReleaseAgeExclude:
+  - mutation-testing-elements
+  - mutation-testing-metrics
+  - mutation-testing-report-schema
 
 trustPolicy: no-downgrade
 trustPolicyExclude:
@@ -22,6 +26,3 @@ onlyBuiltDependencies:
 ignoredBuiltDependencies:
   - protobufjs
   - unrs-resolver
-minimumReleaseAgeExclude:
-  # Renovate security update: ajv@8.18.0
-  - ajv@8.18.0
