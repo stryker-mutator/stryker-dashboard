@@ -210,12 +210,6 @@ importers:
       '@tailwindcss/vite':
         specifier: 4.2.1
         version: 4.2.1(vite@8.0.0(@types/node@24.12.0)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.8.2))
-      browserslist:
-        specifier: 4.28.1
-        version: 4.28.1
-      lightningcss:
-        specifier: 1.32.0
-        version: 1.32.0
       storybook:
         specifier: 10.2.19
         version: 10.2.19(@testing-library/dom@10.4.1)(prettier@3.8.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -358,12 +352,6 @@ importers:
       '@vitest/browser-playwright':
         specifier: 4.1.0
         version: 4.1.0(playwright@1.58.2)(vite@8.0.0(@types/node@24.12.0)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.8.2))(vitest@4.1.0)
-      browserslist:
-        specifier: 4.28.1
-        version: 4.28.1
-      lightningcss:
-        specifier: 1.32.0
-        version: 1.32.0
       lit:
         specifier: 3.3.2
         version: 3.3.2
@@ -450,7 +438,7 @@ packages:
     engines: {node: '>=18.0.0'}
 
   '@azure/core-rest-pipeline@1.16.3':
-    resolution: {integrity: sha512-VxLk4AHLyqcHsfKe4MZ6IQ+D+ShuByy+RfStKfSjxJoL3WBWq17VNmrz8aT8etKzqc2nAeIyLxScjpzsS4fz8w==}
+    resolution: {integrity: sha512-VxLk4AHLyqcHsfKe4MZ6IQ+D+ShuByy+RfStKfSjxJoL3WBWq17VNmrz8aT8etKzqc2nAeIyLxScjpzsS4fz8w==, tarball: https://registry.npmjs.org/@azure/core-rest-pipeline/-/core-rest-pipeline-1.16.3.tgz}
     engines: {node: '>=18.0.0'}
 
   '@azure/core-rest-pipeline@1.23.0':

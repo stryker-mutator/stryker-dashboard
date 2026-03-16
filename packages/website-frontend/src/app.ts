@@ -90,7 +90,6 @@ export class StrykerDashboard extends LitElement {
   }
 
   override render() {
-    console.log(this.#router.link());
     return html`
       <sme-top-bar logoUrl="/images/stryker.svg">${this.#renderProfileButtonOrSignInButton()}</sme-top-bar>
       <main>${when(this.done, () => this.#router.outlet())}</main>

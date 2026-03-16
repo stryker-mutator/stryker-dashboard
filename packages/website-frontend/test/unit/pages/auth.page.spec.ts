@@ -7,13 +7,13 @@ import { authService } from '../../../src/services/auth.service.ts';
 import { locationService } from '../../../src/services/location.service.ts';
 import { CustomElementFixture } from '../../helpers/custom-element-fixture.ts';
 
+vi.mock('../../src/services/auth.service');
+
 describe(AuthPage.name, () => {
   let sut: CustomElementFixture<AuthPage>;
 
   beforeEach(() => {
     sut = new CustomElementFixture('stryker-dashboard-auth-page', { autoConnect: false });
-
-    vi.mock('../../src/services/auth.service');
   });
 
   afterEach(() => {

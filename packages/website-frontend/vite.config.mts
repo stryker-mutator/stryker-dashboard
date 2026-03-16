@@ -1,26 +1,17 @@
 /// <reference types="vitest" />
 import tailwindcss from '@tailwindcss/vite';
 import { playwright } from '@vitest/browser-playwright';
-import browserslist from 'browserslist';
-import { browserslistToTargets } from 'lightningcss';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [tailwindcss()],
   build: {
-    cssMinify: 'lightningcss',
     target: 'esnext',
   },
   css: {
     transformer: 'lightningcss',
-    lightningcss: {
-      targets: browserslistToTargets(browserslist()),
-    },
   },
   optimizeDeps: {
-    esbuildOptions: {
-      target: 'esnext',
-    },
     include: ['@stryker-mutator/stryker-elements'],
   },
   server: {

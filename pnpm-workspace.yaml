@@ -15,14 +15,13 @@ trustPolicyExclude:
   - '@octokit/endpoint'
   - chokidar
   - semver
-  - undici
 
 onlyBuiltDependencies:
   - '@nestjs/core'
   - azure-functions-core-tools
-  - esbuild
   - nx
 
 ignoredBuiltDependencies:
+  - esbuild
   - protobufjs
   - unrs-resolver
