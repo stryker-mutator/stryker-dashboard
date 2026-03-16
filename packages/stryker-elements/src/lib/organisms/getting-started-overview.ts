@@ -1,12 +1,9 @@
 import type { TemplateResult } from 'lit';
 import { css, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 
-import TrailOne from '../../assets/trail-1.svg?raw';
-import TrailTwo from '../../assets/trail-2.svg?raw';
-import TrailThree from '../../assets/trail-3.svg?raw';
 import { BaseElement } from '../base-element.js';
+import { TrailOne, TrailThree, TrailTwo } from '../icons/svg-icons.ts';
 
 @customElement('sme-getting-started-overview')
 export class GettingStartedOverview extends BaseElement {
@@ -86,9 +83,9 @@ export class GettingStartedOverview extends BaseElement {
             <sme-getting-started-step class="col-span-2 self-center" title=${this.steps[0].title}>
               ${this.steps[0].description}
             </sme-getting-started-step>
-            <div class="trail-one col-span-3 self-center">${unsafeSVG(TrailOne)}</div>
+            <div class="trail-one col-span-3 self-center">${TrailOne}</div>
 
-            <div class="trail-two col-span-3 place-self-end self-center">${unsafeSVG(TrailTwo)}</div>
+            <div class="trail-two col-span-3 place-self-end self-center">${TrailTwo}</div>
             <sme-getting-started-step class="col-span-2 self-center" title=${this.steps[1].title}>
               ${this.steps[1].description}
             </sme-getting-started-step>
@@ -96,7 +93,7 @@ export class GettingStartedOverview extends BaseElement {
             <sme-getting-started-step class="col-span-2" title=${this.steps[2].title}>
               ${this.steps[2].description}
             </sme-getting-started-step>
-            <div class="trail-three col-span-3 self-center">${unsafeSVG(TrailThree)}</div>
+            <div class="trail-three col-span-3 self-center">${TrailThree}</div>
           </div>
           <h2 class="mb-3 text-xl font-bold text-white">🔍 View your results</h2>
           <sme-repository name="Stryker.NET" slug="github.com/stryker-mutator/stryker-net/master"></sme-repository>
