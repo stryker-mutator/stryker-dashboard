@@ -32,8 +32,8 @@ export class MutationTestingReport implements ReportIdentifier {
 
   public static identify(entity: Partial<MutationTestingReport>, partitionKeyValue: string, rowKeyValue: string) {
     const versionSplit = partitionKeyValue.lastIndexOf('/');
-    entity.projectName = partitionKeyValue.substr(0, versionSplit);
-    entity.version = partitionKeyValue.substr(versionSplit + 1);
+    entity.projectName = partitionKeyValue.substring(0, versionSplit);
+    entity.version = partitionKeyValue.substring(versionSplit + 1);
     entity.moduleName = rowKeyValue;
   }
   public static readonly persistedFields = ['mutationScore'] as const;

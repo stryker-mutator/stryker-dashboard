@@ -46,10 +46,10 @@ function sanitize(rawSlug: string | undefined) {
     return undefined;
   } else {
     while (rawSlug.endsWith('/')) {
-      rawSlug = rawSlug.substr(0, rawSlug.length - 1);
+      rawSlug = rawSlug.slice(0, -1);
     }
     while (rawSlug.startsWith('/')) {
-      rawSlug = rawSlug.substr(1);
+      rawSlug = rawSlug.slice(1);
     }
     return rawSlug;
   }
