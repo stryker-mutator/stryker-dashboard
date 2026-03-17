@@ -18,8 +18,8 @@ export class ApiKeyValidator {
       throw new HttpException(`Repository "${projectName}" is invalid`, HttpStatus.BAD_REQUEST);
     } else {
       const projectPromise = this.#projectMapper.findOne({
-        owner: projectName.substr(0, lastDelimiter),
-        name: projectName.substr(lastDelimiter + 1),
+        owner: projectName.substring(0, lastDelimiter),
+        name: projectName.substring(lastDelimiter + 1),
       });
       const repo = await projectPromise;
       if (repo?.model.apiKeyHash !== hash) {
