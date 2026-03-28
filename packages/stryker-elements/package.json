@@ -31,11 +31,11 @@
     "lit": "^3.3.1"
   },
   "devDependencies": {
-    "@storybook/addon-docs": "10.3.1",
-    "@storybook/addon-links": "10.3.1",
-    "@storybook/web-components-vite": "10.3.1",
+    "@storybook/addon-docs": "10.3.3",
+    "@storybook/addon-links": "10.3.3",
+    "@storybook/web-components-vite": "10.3.3",
     "@tailwindcss/vite": "4.2.2",
-    "storybook": "10.3.1",
+    "storybook": "10.3.3",
     "tailwindcss": "4.2.2",
     "vite": "8.0.2"
   },
