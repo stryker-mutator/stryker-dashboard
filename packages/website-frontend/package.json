@@ -24,7 +24,7 @@
     "mutation-testing-report-schema": "3.7.3",
     "playwright": "1.59.1",
     "tailwindcss": "4.2.2",
-    "vite": "8.0.3",
+    "vite": "8.0.5",
     "vitest": "4.1.2",
     "vitest-fetch-mock": "0.4.5"
   },
