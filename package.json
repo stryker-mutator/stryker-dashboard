@@ -36,7 +36,7 @@
     "eslint-plugin-simple-import-sort": "13.0.0",
     "eslint-plugin-storybook": "10.3.5",
     "eslint-plugin-wc": "3.1.0",
-    "globals": "17.4.0",
+    "globals": "17.5.0",
     "lerna": "9.0.7",
     "mocha": "11.7.5",
     "nx": "22.6.5",
