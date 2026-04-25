@@ -37,7 +37,7 @@
     "@tailwindcss/vite": "4.2.2",
     "storybook": "10.3.5",
     "tailwindcss": "4.2.2",
-    "vite": "8.0.8"
+    "vite": "8.0.9"
   },
   "overrides": {
     "storybook": "$storybook"
