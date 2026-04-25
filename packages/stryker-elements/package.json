@@ -34,9 +34,9 @@
     "@storybook/addon-docs": "10.3.5",
     "@storybook/addon-links": "10.3.5",
     "@storybook/web-components-vite": "10.3.5",
-    "@tailwindcss/vite": "4.2.2",
+    "@tailwindcss/vite": "4.2.4",
     "storybook": "10.3.5",
-    "tailwindcss": "4.2.2",
+    "tailwindcss": "4.2.4",
     "vite": "8.0.10"
   },
   "overrides": {
