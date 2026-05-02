@@ -46,7 +46,7 @@
     "sinon": "21.1.2",
     "typescript": "5.9.3",
     "typescript-eslint": "8.58.2",
-    "vite-plugin-dts": "4.5.4"
+    "vite-plugin-dts": "5.0.0"
   },
   "license": "Apache-2.0",
   "name": "stryker-dashboard",
