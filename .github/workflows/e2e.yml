@@ -49,7 +49,7 @@ jobs:
             type=ref,event=branch
 
       - name: Set versions
-        run: pnpm pkg set version="${{ steps.meta.outputs.version }}" --workspaces
+        run: npm pkg set version="${{ steps.meta.outputs.version }}" --workspaces
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v7
