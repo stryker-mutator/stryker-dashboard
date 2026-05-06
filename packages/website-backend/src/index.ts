@@ -1,3 +1,6 @@
+import cluster from 'node:cluster';
+import os from 'node:os';
+
 import { type INestApplication, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
@@ -16,7 +19,6 @@ async function bootstrap() {
 
   configureSecurityHeaders(app);
   const log = new Logger('bootstrap');
-  await configureAzureStorage(app, log);
 
   app.useBodyParser('json', { limit: '100mb' });
   app.use(compression());
@@ -26,8 +28,8 @@ async function bootstrap() {
   });
 }
 
-async function configureAzureStorage(app: INestApplication, log: Logger) {
-  const dataAccess = app.get<DataAccess>(DataAccess);
+async function configureAzureStorage(log: Logger) {
+  const dataAccess = new DataAccess();
 
   log.log('Initializing Azure Storage containers...');
   await Promise.all([
@@ -55,7 +57,26 @@ function configureSecurityHeaders(app: INestApplication) {
   );
 }
 
-bootstrap().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+/**
+ * Create a cluster of Node.js processes to take advantage of multi-core systems.
+ */
+function forkClusterWorkers(log: Logger) {
+  const numWorkers = parseInt(process.env.WEB_CONCURRENCY!, 10) || os.availableParallelism();
+  log.log(`Running with ${numWorkers} workers`);
+  // Fork workers.
+  for (let i = 0; i < numWorkers; i++) {
+    cluster.fork();
+  }
+
+  cluster.on('exit', (worker, code, signal) => {
+    log.log(`Worker ${worker.process.pid} died (${signal || code})`);
+  });
+}
+
+if (cluster.isPrimary) {
+  const log = new Logger('primary');
+  await configureAzureStorage(log);
+  forkClusterWorkers(log);
+} else {
+  await bootstrap();
+}
