@@ -3,5 +3,6 @@
     "build": {
       "dependsOn": ["^build"]
     }
-  }
+  },
+  "analytics": false
 }

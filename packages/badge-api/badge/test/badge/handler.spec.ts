@@ -148,6 +148,7 @@ describe(handler.name, () => {
     };
 
     const requestDefaults: HttpRequest = {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       params: { slug: 'github.com/stryker-mutator/stryker/master' } as Record<string, string>,
       query: new URLSearchParams(),
     } as HttpRequest;

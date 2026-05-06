@@ -30,10 +30,7 @@ describe(MutationTestingReportService.name, () => {
     };
     reportMapperMock = createTableMapperMock();
     resultMapperMock = sinon.createStubInstance(MutationTestingResultMapper);
-    sut = new MutationTestingReportService(
-      resultMapperMock as unknown as MutationTestingResultMapper,
-      reportMapperMock,
-    );
+    sut = new MutationTestingReportService(resultMapperMock, reportMapperMock);
   });
 
   describe('createStorageIfNotExists', () => {
