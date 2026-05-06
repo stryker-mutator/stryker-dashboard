@@ -62,7 +62,7 @@
     "lint:eslint": "eslint .",
     "lint:fix": "eslint . --fix && prettier --write .",
     "build": "tsc -b && nx run-many -t build",
-    "start:azurite": "rimraf .azurite && mkdir -p .azurite && azurite -l .azurite",
+    "start:azurite": "rimraf .azurite && mkdir -p .azurite && azurite -l .azurite --skipApiVersionCheck",
     "test": "nx run-many -t test --exclude e2e",
     "backend": "pnpm --filter @stryker-mutator/dashboard-backend",
     "badge-api": "pnpm --filter @stryker-mutator/dashboard-badge-api",
