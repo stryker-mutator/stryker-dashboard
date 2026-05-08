@@ -9,7 +9,7 @@ RUN corepack enable
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm ci --prefer-offline
 
 RUN pnpm run build
 RUN pnpm backend --node-linker=hoisted deploy --prod /app
