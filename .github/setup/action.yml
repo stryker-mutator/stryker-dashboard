@@ -25,7 +25,7 @@ runs:
 
     - name: Install dependencies
       if: ${{ inputs.install-deps == 'true' }}
-      run: pnpm install --frozen-lockfile
+      run: pnpm ci --prefer-offline
       shell: bash
 
     - name: Install chromium
