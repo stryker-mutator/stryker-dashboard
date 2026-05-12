@@ -44,9 +44,8 @@
     "prettier-plugin-tailwindcss": "0.8.0",
     "rimraf": "6.1.3",
     "sinon": "21.1.2",
-    "typescript": "5.9.3",
-    "typescript-eslint": "8.59.2",
-    "vite-plugin-dts": "5.0.0"
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.59.2"
   },
   "license": "Apache-2.0",
   "name": "stryker-dashboard",
