@@ -1,5 +1,8 @@
 {
   "extends": "../../tsconfig.bundler.settings.json",
   "include": ["src"],
-  "exclude": ["src/**/*.stories.ts"]
+  "exclude": ["src/**/*.stories.ts"],
+  "compilerOptions": {
+    "rootDir": "src"
+  }
 }
