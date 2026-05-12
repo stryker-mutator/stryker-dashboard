@@ -17,12 +17,15 @@ function initSchemaValidator() {
   const ajv = new Ajv();
   addFormats(ajv);
 
+  const baseMutantSchema = schema.properties.files.additionalProperties.properties.mutants;
   const mutantSchema = {
-    ...schema.properties.files.additionalProperties.properties.mutants,
+    ...baseMutantSchema,
+    items: {
+      ...baseMutantSchema.items,
+      required: ['id', 'status'],
+    },
     definitions: schema.definitions,
   };
-  mutantSchema.items.required = ['id', 'status'];
-
   return {
     fullSchemaValidate: ajv.compile<MutationTestResult>(schema),
     mutantSchemaValidate: ajv.compile<Partial<MutantResult>[]>(mutantSchema),
