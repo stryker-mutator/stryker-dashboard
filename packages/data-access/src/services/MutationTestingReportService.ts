@@ -83,21 +83,27 @@ export class MutationTestingReportService {
   }
 
   async #tryAggregateProjectReport(id: ReportIdentifier) {
-    const projectMutationScoreModel = await this.#mutationScoreMapper.findOne(id);
-    const moduleScoreResults = await this.#mutationScoreMapper.findAll(
-      DashboardQuery.create(MutationTestingReport)
-        .wherePartitionKeyEquals(id)
-        .whereRowKeyNotEquals({ moduleName: undefined }),
-    );
-    const resultsByModule = Object.fromEntries(
-      (
-        await Promise.all(
-          moduleScoreResults.map(
-            async (score) => [score.model.moduleName!, await this.#resultMapper.findOne(score.model)] as const,
-          ),
+    const [projectMutationScoreModel, resultsByModule] = await Promise.all([
+      this.#mutationScoreMapper.findOne(id),
+      this.#mutationScoreMapper
+        .findAll(
+          DashboardQuery.create(MutationTestingReport)
+            .wherePartitionKeyEquals(id)
+            .whereRowKeyNotEquals({ moduleName: undefined }),
         )
-      ).filter(moduleHasResult),
-    );
+        .then(async (moduleScoreResults) =>
+          Object.fromEntries(
+            (
+              await Promise.all(
+                moduleScoreResults.map(
+                  async (score) => [score.model.moduleName!, await this.#resultMapper.findOne(score.model)] as const,
+                ),
+              )
+            ).filter(moduleHasResult),
+          ),
+        ),
+    ]);
+
     if (Object.keys(resultsByModule).length) {
       const projectResult = aggregateResultsByModule(resultsByModule);
       const projectReport: MutationTestingReport = {
