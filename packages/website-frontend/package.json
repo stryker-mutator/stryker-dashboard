@@ -1,6 +1,6 @@
 {
   "name": "@stryker-mutator/dashboard-frontend",
-  "version": "0.20.3",
+  "version": "0.20.4",
   "type": "module",
   "scripts": {
     "start": "vite --host",

@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.4](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.3...v0.20.4) (2026-05-13)
+
+### Bug Fixes
+
+- **deps:** update dependency @azure/functions to v4.12.0 ([#1978](https://github.com/stryker-mutator/stryker-dashboard/issues/1978)) ([0ffd69d](https://github.com/stryker-mutator/stryker-dashboard/commit/0ffd69de9652061305e922fdb30f0869df3d9828))
+- **deps:** update dependency @azure/functions to v4.14.0 ([#2026](https://github.com/stryker-mutator/stryker-dashboard/issues/2026)) ([c5321db](https://github.com/stryker-mutator/stryker-dashboard/commit/c5321db64391be0f64b190e0f9900616b1dd9310))
+- **deps:** update dependency ajv to v8.20.0 ([#2027](https://github.com/stryker-mutator/stryker-dashboard/issues/2027)) ([6944a5c](https://github.com/stryker-mutator/stryker-dashboard/commit/6944a5c767c0a27f89edd1ad041984b0e9172e54))
+- **deps:** update dependency workerpool to v10.0.2 ([#2014](https://github.com/stryker-mutator/stryker-dashboard/issues/2014)) ([503f498](https://github.com/stryker-mutator/stryker-dashboard/commit/503f4984fd0e15c8bc96eee37a191672cee1029b))
+- **deps:** update nestjs packages ([#2002](https://github.com/stryker-mutator/stryker-dashboard/issues/2002)) ([159541e](https://github.com/stryker-mutator/stryker-dashboard/commit/159541e9c38bec2a2520eb806bb9ba3a7679c21d))
+- **deps:** update nestjs packages to v11.1.17 ([#1967](https://github.com/stryker-mutator/stryker-dashboard/issues/1967)) ([a6db64f](https://github.com/stryker-mutator/stryker-dashboard/commit/a6db64f83b88086943ccee45cb8e4e52dd9657e2))
+- **deps:** update nestjs packages to v11.1.18 ([#1992](https://github.com/stryker-mutator/stryker-dashboard/issues/1992)) ([b620364](https://github.com/stryker-mutator/stryker-dashboard/commit/b62036489241b8564a86aec6766c22c210aa3879))
+- **deps:** update nestjs packages to v11.1.19 ([#2011](https://github.com/stryker-mutator/stryker-dashboard/issues/2011)) ([4bdbe92](https://github.com/stryker-mutator/stryker-dashboard/commit/4bdbe92f9a91ab05b9d5d40042f8c0dd465f0f6c))
+- **validation:** don't mutate the original schema when creating the mutant schema ([#2040](https://github.com/stryker-mutator/stryker-dashboard/issues/2040)) ([c3b68a3](https://github.com/stryker-mutator/stryker-dashboard/commit/c3b68a3876e001c5ebc2fb38c2ea560dda7865ae))
+
+### Performance Improvements
+
+- **aggregate:** use Promise.all when finding reports to aggregate ([#2039](https://github.com/stryker-mutator/stryker-dashboard/issues/2039)) ([871a45d](https://github.com/stryker-mutator/stryker-dashboard/commit/871a45de55717be169bb0f89d232c21232bd9528))
+- **backend:** use cluster mode for the backend ([#2037](https://github.com/stryker-mutator/stryker-dashboard/issues/2037)) ([33c05e5](https://github.com/stryker-mutator/stryker-dashboard/commit/33c05e5e715d216c7cac6b81cdbc33a92c06f89d))
+
 ## [0.20.3](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.2...v0.20.3) (2026-03-16)
 
 ### Bug Fixes

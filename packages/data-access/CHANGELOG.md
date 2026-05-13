@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.4](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.3...v0.20.4) (2026-05-13)
+
+### Performance Improvements
+
+- **aggregate:** use Promise.all when finding reports to aggregate ([#2039](https://github.com/stryker-mutator/stryker-dashboard/issues/2039)) ([871a45d](https://github.com/stryker-mutator/stryker-dashboard/commit/871a45de55717be169bb0f89d232c21232bd9528))
+
 ## [0.20.3](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.2...v0.20.3) (2026-03-16)
 
 ### Bug Fixes
