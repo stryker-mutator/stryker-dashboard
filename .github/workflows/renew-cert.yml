@@ -46,7 +46,7 @@ jobs:
 
           echo "dns_cloudflare_api_token = ${{ secrets.CLOUDFLARE_API_KEY }}" >> cloudflare.ini
 
-          sudo certbot certonly --dns-cloudflare --dns-cloudflare-credentials ./cloudflare.ini -d dashboard.stryker-mutator.io -d badge.stryker-mutator.io -d badge-api.stryker-mutator.io --dns-cloudflare-propagation-seconds 60 -m ${{ secrets.CLOUDFLARE_EMAIL }} --agree-tos
+          sudo certbot certonly --dns-cloudflare --dns-cloudflare-credentials ./cloudflare.ini -d dashboard.stryker-mutator.io -d badge-api.stryker-mutator.io --dns-cloudflare-propagation-seconds 60 -m ${{ secrets.CLOUDFLARE_EMAIL }} --agree-tos
           sudo openssl pkcs12 -export -out stryker.pfx -inkey /etc/letsencrypt/live/dashboard.stryker-mutator.io/privkey.pem -in /etc/letsencrypt/live/dashboard.stryker-mutator.io/cert.pem -certfile /etc/letsencrypt/live/dashboard.stryker-mutator.io/chain.pem -password pass:$PASSWORD
           sudo chown $USER:$USER stryker.pfx
 
