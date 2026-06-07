@@ -18,7 +18,7 @@
     "@stryker-mutator/stryker-elements": "workspace:*",
     "@tailwindcss/vite": "4.3.0",
     "@vitest/browser-playwright": "4.1.5",
-    "lit": "3.3.2",
+    "lit": "3.3.3",
     "mutation-testing-elements": "3.7.3",
     "mutation-testing-metrics": "3.7.3",
     "mutation-testing-report-schema": "3.7.3",

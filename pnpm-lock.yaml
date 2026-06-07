@@ -348,7 +348,7 @@ importers:
         version: link:../website-contract
       '@stryker-mutator/stryker-elements':
         specifier: workspace:*
-        version: link:../stryker-elements
+        version: file:packages/stryker-elements(@stryker-mutator/dashboard-common@file:packages/common)(lit@3.3.3)
       '@tailwindcss/vite':
         specifier: 4.3.0
         version: 4.3.0(vite@8.0.16(@types/node@24.13.0)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.9.0))
@@ -356,8 +356,8 @@ importers:
         specifier: 4.1.5
         version: 4.1.5(playwright@1.61.0)(vite@8.0.16(@types/node@24.13.0)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.5)
       lit:
-        specifier: 3.3.2
-        version: 3.3.2
+        specifier: 3.3.3
+        version: 3.3.3
       mutation-testing-elements:
         specifier: 3.7.3
         version: 3.7.3
@@ -2289,6 +2289,9 @@ packages:
     engines: {node: '>=20.0.0'}
     hasBin: true
 
+  '@stryker-mutator/dashboard-common@file:packages/common':
+    resolution: {directory: packages/common, type: directory}
+
   '@stryker-mutator/instrumenter@9.6.1':
     resolution: {integrity: sha512-5K8wH4Pthly25c2uKKik4Dfcoeou7sbJdFS6u3QIYHlulgFVDJwtEMWTZGkZfs7IiUEXIDNa0keRACq5jn5AvA==}
     engines: {node: '>=20.0.0'}
@@ -2299,6 +2302,12 @@ packages:
     peerDependencies:
       '@stryker-mutator/core': 9.6.1
       mocha: '>= 7.2 < 12'
+
+  '@stryker-mutator/stryker-elements@file:packages/stryker-elements':
+    resolution: {directory: packages/stryker-elements, type: directory}
+    peerDependencies:
+      '@stryker-mutator/dashboard-common': workspace:*
+      lit: ^3.3.1
 
   '@stryker-mutator/util@9.6.1':
     resolution: {integrity: sha512-Lk/ALVctJjFv1vvwR+CFoKzDCWvsBlq7flDUnmnpuwTrGbm156EdZD1Jjq4o8KdOap0ezUZqQNE9OAI1m2+pUQ==}
@@ -4891,6 +4900,9 @@ packages:
 
   lit@3.3.2:
     resolution: {integrity: sha512-NF9zbsP79l4ao2SNrH3NkfmFgN/hBYSQo90saIVI1o5GpjAdCPVstVzO1MrLOakHoEhYkrtRjPK6Ob521aoYWQ==}
+
+  lit@3.3.3:
+    resolution: {integrity: sha512-fycuvZg/hkpozL00lm1pEJH5nN/lr9ZXd6mJI2HSN4+Bzc+LDNdEApJ6HFbPkdFNHLvOplIIuJvxkS4XUxqirw==}
 
   load-esm@1.0.3:
     resolution: {integrity: sha512-v5xlu8eHD1+6r8EHTg6hfmO97LN8ugKtiXcy5e6oN72iD2r6u0RPfLl6fxM+7Wnh2ZRq15o0russMst44WauPA==}
@@ -8168,7 +8180,7 @@ snapshots:
 
   '@lit-labs/router@0.1.4':
     dependencies:
-      lit: 3.3.2
+      lit: 3.3.3
 
   '@lit-labs/ssr-dom-shim@1.5.1': {}
 
@@ -9261,6 +9273,10 @@ snapshots:
       - '@types/node'
       - supports-color
 
+  '@stryker-mutator/dashboard-common@file:packages/common':
+    dependencies:
+      mutation-testing-report-schema: 3.7.3
+
   '@stryker-mutator/instrumenter@9.6.1(supports-color@8.1.1)':
     dependencies:
       '@babel/core': 7.29.0(supports-color@8.1.1)
@@ -9285,6 +9301,11 @@ snapshots:
       '@stryker-mutator/util': 9.6.1
       mocha: 11.7.5
       tslib: 2.8.1
+
+  '@stryker-mutator/stryker-elements@file:packages/stryker-elements(@stryker-mutator/dashboard-common@file:packages/common)(lit@3.3.3)':
+    dependencies:
+      '@stryker-mutator/dashboard-common': file:packages/common
+      lit: 3.3.3
 
   '@stryker-mutator/util@9.6.1': {}
 
@@ -12212,6 +12233,12 @@ snapshots:
       '@types/trusted-types': 2.0.7
 
   lit@3.3.2:
+    dependencies:
+      '@lit/reactive-element': 2.1.2
+      lit-element: 4.2.2
+      lit-html: 3.3.2
+
+  lit@3.3.3:
     dependencies:
       '@lit/reactive-element': 2.1.2
       lit-element: 4.2.2
