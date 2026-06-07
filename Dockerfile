@@ -14,7 +14,7 @@ RUN pnpm fetch
 COPY . .
 RUN pnpm install --offline --frozen-lockfile
 RUN pnpm run build
-RUN pnpm backend --node-linker=hoisted deploy --prod /app
+RUN pnpm backend --node-linker=hoisted --config.inject-workspace-packages=true deploy --prod /app
 
 FROM base
 

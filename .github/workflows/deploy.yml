@@ -66,7 +66,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Package badge-api
-        run: pnpm badge-api --node-linker=hoisted deploy --prod package
+        run: pnpm badge-api --node-linker=hoisted --config.inject-workspace-packages=true deploy --prod package
 
       - name: Upload badge-api package artifact
         uses: actions/upload-artifact@v7

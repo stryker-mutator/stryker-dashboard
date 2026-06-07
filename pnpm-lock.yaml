@@ -3,7 +3,6 @@ lockfileVersion: '9.0'
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
-  injectWorkspacePackages: true
 
 importers:
 
@@ -333,9 +332,6 @@ importers:
         version: 3.7.3
 
   packages/website-frontend:
-    dependenciesMeta:
-      '@stryker-mutator/stryker-elements':
-        injected: false
     devDependencies:
       '@lit-labs/router':
         specifier: 0.1.4
@@ -348,7 +344,7 @@ importers:
         version: link:../website-contract
       '@stryker-mutator/stryker-elements':
         specifier: workspace:*
-        version: file:packages/stryker-elements(@stryker-mutator/dashboard-common@file:packages/common)(lit@3.3.3)
+        version: link:../stryker-elements
       '@tailwindcss/vite':
         specifier: 4.3.0
         version: 4.3.0(vite@8.0.16(@types/node@24.13.0)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.9.0))
@@ -2289,9 +2285,6 @@ packages:
     engines: {node: '>=20.0.0'}
     hasBin: true
 
-  '@stryker-mutator/dashboard-common@file:packages/common':
-    resolution: {directory: packages/common, type: directory}
-
   '@stryker-mutator/instrumenter@9.6.1':
     resolution: {integrity: sha512-5K8wH4Pthly25c2uKKik4Dfcoeou7sbJdFS6u3QIYHlulgFVDJwtEMWTZGkZfs7IiUEXIDNa0keRACq5jn5AvA==}
     engines: {node: '>=20.0.0'}
@@ -2302,12 +2295,6 @@ packages:
     peerDependencies:
       '@stryker-mutator/core': 9.6.1
       mocha: '>= 7.2 < 12'
-
-  '@stryker-mutator/stryker-elements@file:packages/stryker-elements':
-    resolution: {directory: packages/stryker-elements, type: directory}
-    peerDependencies:
-      '@stryker-mutator/dashboard-common': workspace:*
-      lit: ^3.3.1
 
   '@stryker-mutator/util@9.6.1':
     resolution: {integrity: sha512-Lk/ALVctJjFv1vvwR+CFoKzDCWvsBlq7flDUnmnpuwTrGbm156EdZD1Jjq4o8KdOap0ezUZqQNE9OAI1m2+pUQ==}
@@ -9273,10 +9260,6 @@ snapshots:
       - '@types/node'
       - supports-color
 
-  '@stryker-mutator/dashboard-common@file:packages/common':
-    dependencies:
-      mutation-testing-report-schema: 3.7.3
-
   '@stryker-mutator/instrumenter@9.6.1(supports-color@8.1.1)':
     dependencies:
       '@babel/core': 7.29.0(supports-color@8.1.1)
@@ -9301,11 +9284,6 @@ snapshots:
       '@stryker-mutator/util': 9.6.1
       mocha: 11.7.5
       tslib: 2.8.1
-
-  '@stryker-mutator/stryker-elements@file:packages/stryker-elements(@stryker-mutator/dashboard-common@file:packages/common)(lit@3.3.3)':
-    dependencies:
-      '@stryker-mutator/dashboard-common': file:packages/common
-      lit: 3.3.3
 
   '@stryker-mutator/util@9.6.1': {}
 

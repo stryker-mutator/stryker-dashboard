@@ -1,8 +1,6 @@
 packages:
   - packages/*
 
-injectWorkspacePackages: true
-
 # 2 days, in minutes
 minimumReleaseAge: 2880
 minimumReleaseAgeExclude:
