@@ -6,11 +6,13 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN npm install -g corepack && corepack enable
 
-COPY . /usr/src/app
 WORKDIR /usr/src/app
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm ci --prefer-offline
+COPY pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN pnpm fetch
 
+COPY . .
+RUN pnpm install --offline --frozen-lockfile
 RUN pnpm run build
 RUN pnpm backend --node-linker=hoisted deploy --prod /app
 
