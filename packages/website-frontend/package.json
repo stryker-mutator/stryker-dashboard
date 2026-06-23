@@ -32,5 +32,10 @@
     "type": "git",
     "url": "git+https://github.com/stryker-mutator/stryker-dashboard.git",
     "directory": "packages/website-frontend"
+  },
+  "dependenciesMeta": {
+    "@stryker-mutator/stryker-elements": {
+      "injected": false
+    }
   }
 }

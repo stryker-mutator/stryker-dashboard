@@ -9,8 +9,6 @@ minimumReleaseAgeExclude:
   - mutation-testing-elements
   - mutation-testing-metrics
   - mutation-testing-report-schema
-  # Renovate security update: vite@8.0.5
-  - vite@8.0.5
 
 trustPolicy: no-downgrade
 trustPolicyExclude:
