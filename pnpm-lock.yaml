@@ -3,7 +3,6 @@ lockfileVersion: '9.0'
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
-  injectWorkspacePackages: true
 
 importers:
 
@@ -333,9 +332,6 @@ importers:
         version: 3.7.3
 
   packages/website-frontend:
-    dependenciesMeta:
-      '@stryker-mutator/stryker-elements':
-        injected: false
     devDependencies:
       '@lit-labs/router':
         specifier: 0.1.4
@@ -356,8 +352,8 @@ importers:
         specifier: 4.1.5
         version: 4.1.5(playwright@1.61.0)(vite@8.0.16(@types/node@24.13.0)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.5)
       lit:
-        specifier: 3.3.2
-        version: 3.3.2
+        specifier: 3.3.3
+        version: 3.3.3
       mutation-testing-elements:
         specifier: 3.7.3
         version: 3.7.3
@@ -4892,6 +4888,9 @@ packages:
   lit@3.3.2:
     resolution: {integrity: sha512-NF9zbsP79l4ao2SNrH3NkfmFgN/hBYSQo90saIVI1o5GpjAdCPVstVzO1MrLOakHoEhYkrtRjPK6Ob521aoYWQ==}
 
+  lit@3.3.3:
+    resolution: {integrity: sha512-fycuvZg/hkpozL00lm1pEJH5nN/lr9ZXd6mJI2HSN4+Bzc+LDNdEApJ6HFbPkdFNHLvOplIIuJvxkS4XUxqirw==}
+
   load-esm@1.0.3:
     resolution: {integrity: sha512-v5xlu8eHD1+6r8EHTg6hfmO97LN8ugKtiXcy5e6oN72iD2r6u0RPfLl6fxM+7Wnh2ZRq15o0russMst44WauPA==}
     engines: {node: '>=13.2.0'}
@@ -8168,7 +8167,7 @@ snapshots:
 
   '@lit-labs/router@0.1.4':
     dependencies:
-      lit: 3.3.2
+      lit: 3.3.3
 
   '@lit-labs/ssr-dom-shim@1.5.1': {}
 
@@ -12212,6 +12211,12 @@ snapshots:
       '@types/trusted-types': 2.0.7
 
   lit@3.3.2:
+    dependencies:
+      '@lit/reactive-element': 2.1.2
+      lit-element: 4.2.2
+      lit-html: 3.3.2
+
+  lit@3.3.3:
     dependencies:
       '@lit/reactive-element': 2.1.2
       lit-element: 4.2.2
