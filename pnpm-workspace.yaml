@@ -19,7 +19,7 @@ trustPolicyExclude:
   - semver
 allowBuilds:
   '@nestjs/core': true
-  azure-functions-core-tools: true
+  azure-functions-core-tools: false
   nx: true
   esbuild: false
   protobufjs: false
