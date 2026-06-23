@@ -333,6 +333,9 @@ importers:
         version: 3.7.3
 
   packages/website-frontend:
+    dependenciesMeta:
+      '@stryker-mutator/stryker-elements':
+        injected: false
     devDependencies:
       '@lit-labs/router':
         specifier: 0.1.4
