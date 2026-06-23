@@ -2,8 +2,7 @@ name: e2e
 
 on:
   workflow_dispatch:
-  pull_request:
-    types: [synchronize, opened, reopened]
+  merge_group:
 
 permissions:
   id-token: write
@@ -44,9 +43,7 @@ jobs:
         with:
           images: ghcr.io/stryker-mutator/dashboard
           tags: |
-            type=ref,event=pr,prefix=${{ steps.base-version.outputs.version }}-pr-,suffix=.{{sha}}
-            type=ref,event=pr
-            type=ref,event=branch
+            type=sha,prefix=${{ steps.base-version.outputs.version }}-pr-
 
       - name: Set versions
         run: npm pkg set version="${{ steps.meta.outputs.version }}" --workspaces
@@ -61,8 +58,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
           platforms: linux/amd64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=registry,ref=ghcr.io/stryker-mutator/dashboard:buildcache
+          cache-to: type=registry,ref=ghcr.io/stryker-mutator/dashboard:buildcache,mode=max,image-manifest=true,oci-mediatypes=true
 
       - name: Build & package badge-api
         run: |
