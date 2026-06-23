@@ -48,7 +48,6 @@
     }
   ],
   "env": {
-    "PNPM_CONFIG_TRUST_LOCKFILE": "true",
     "PNPM_MAX_WORKERS": "1"
   },
   "toolSettings": {
