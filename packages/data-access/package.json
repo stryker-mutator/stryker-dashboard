@@ -25,11 +25,11 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@azure/core-rest-pipeline": "1.23.0",
+    "@azure/core-rest-pipeline": "1.24.0",
     "@azure/data-tables": "13.3.2",
-    "@azure/storage-blob": "12.31.0",
+    "@azure/storage-blob": "12.32.0",
     "@stryker-mutator/dashboard-common": "workspace:*",
-    "mutation-testing-metrics": "3.7.3",
-    "mutation-testing-report-schema": "3.7.3"
+    "mutation-testing-metrics": "3.8.0",
+    "mutation-testing-report-schema": "3.8.0"
   }
 }
