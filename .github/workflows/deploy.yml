@@ -17,7 +17,7 @@ jobs:
       version: ${{ steps.meta.outputs.version }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - uses: ./.github/setup
 
@@ -85,7 +85,7 @@ jobs:
       group: Production Dashboard
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: 'Login via Azure CLI'
         uses: Azure/login@v3
@@ -112,7 +112,7 @@ jobs:
       group: Production Badge Api
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: 'Login via Azure CLI'
         uses: Azure/login@v3
