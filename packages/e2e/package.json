@@ -20,9 +20,9 @@
   },
   "dependencies": {
     "@azure/data-tables": "13.3.2",
-    "@azure/storage-blob": "12.31.0",
+    "@azure/storage-blob": "12.32.0",
     "jsonwebtoken": "9.0.3",
-    "mutation-testing-report-schema": "3.7.3"
+    "mutation-testing-report-schema": "3.8.0"
   },
   "repository": {
     "type": "git",
