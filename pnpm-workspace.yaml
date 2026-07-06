@@ -20,5 +20,3 @@ allowBuilds:
   esbuild: false
   protobufjs: false
   unrs-resolver: false
-configDependencies:
-  '@pnpm/pacquet': 0.11.12

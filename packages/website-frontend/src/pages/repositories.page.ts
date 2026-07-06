@@ -173,8 +173,9 @@ export class RepositoriesPage extends LitElement {
               )}
               <sme-collapsible id="badge-collapsible" title="Badge">
                 <sme-badge-configurator
-                  projectName="${this.repositoryToToggle?.instance.slug}/${this.repositoryToToggle?.instance
-                    .defaultBranch}"
+                  projectName="${this.repositoryToToggle?.instance.slug}/${
+                    this.repositoryToToggle?.instance.defaultBranch
+                  }"
                 ></sme-badge-configurator>
               </sme-collapsible>
               <sme-collapsible id="usage-collapsible" title="Usage">
