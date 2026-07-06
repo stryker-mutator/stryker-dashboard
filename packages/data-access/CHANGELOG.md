@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.5](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.4...v0.20.5) (2026-07-06)
+
+**Note:** Version bump only for package @stryker-mutator/dashboard-data-access
+
 ## [0.20.4](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.3...v0.20.4) (2026-05-13)
 
 ### Performance Improvements
