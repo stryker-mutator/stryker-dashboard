@@ -73,5 +73,5 @@
     "frontend": "pnpm --filter @stryker-mutator/dashboard-frontend"
   },
   "version": "0.0.1",
-  "packageManager": "pnpm@11.8.0"
+  "packageManager": "pnpm@11.10.0"
 }
