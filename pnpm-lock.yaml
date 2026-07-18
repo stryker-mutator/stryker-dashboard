@@ -270,8 +270,8 @@ importers:
         specifier: 4.4.3
         version: 4.4.3(supports-color@8.1.1)
       helmet:
-        specifier: 8.2.0
-        version: 8.2.0
+        specifier: 8.3.0
+        version: 8.3.0
       passport-github2:
         specifier: 0.1.12
         version: 0.1.12
@@ -4518,8 +4518,8 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
-  helmet@8.2.0:
-    resolution: {integrity: sha512-DRgTIUgnWcJ62KyarxxziuqYxKGnR6Rgg19BlbucN/dpmJbl1XOit6qvoOX0ZT+HhWe5OUVhU/a1zpGyc1xA0Q==}
+  helmet@8.3.0:
+    resolution: {integrity: sha512-Qgpiaws3Sm30Av8Eah6sjMCZZwjlBu+E68rhpCWBshY1lb09HtLwj5GviX0OyQIn+ulUS0iX0AxN5n3tLZzz1w==}
     engines: {node: '>=18.0.0'}
 
   hosted-git-info@2.8.9:
@@ -11739,7 +11739,7 @@ snapshots:
 
   he@1.2.0: {}
 
-  helmet@8.2.0: {}
+  helmet@8.3.0: {}
 
   hosted-git-info@2.8.9: {}
 

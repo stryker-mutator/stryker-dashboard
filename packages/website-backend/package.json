@@ -43,7 +43,7 @@
     "applicationinsights": "3.15.1",
     "compression": "1.8.1",
     "debug": "4.4.3",
-    "helmet": "8.2.0",
+    "helmet": "8.3.0",
     "passport-github2": "0.1.12",
     "passport-jwt": "4.0.1",
     "workerpool": "10.0.3"
