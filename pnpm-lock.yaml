@@ -30,8 +30,8 @@ importers:
         specifier: 2.0.8
         version: 2.0.8
       '@tsconfig/vite-react':
-        specifier: 8.0.6
-        version: 8.0.6
+        specifier: 8.1.1
+        version: 8.1.1
       '@types/chai':
         specifier: 5.2.3
         version: 5.2.3
@@ -2749,8 +2749,8 @@ packages:
   '@tsconfig/strictest@2.0.8':
     resolution: {integrity: sha512-XnQ7vNz5HRN0r88GYf1J9JJjqtZPiHt2woGJOo2dYqyHGGcd6OLGqSlBB6p1j9mpzja6Oe5BoPqWmeDx6X9rLw==}
 
-  '@tsconfig/vite-react@8.0.6':
-    resolution: {integrity: sha512-O+Eg45m/oNBY9r0EsI/N3VnXvrT4SZbcjTYW5M50eoBVnIUXL+W+ha0uDkK1WqezflsBrHkBSEyn+WdewFJJmw==}
+  '@tsconfig/vite-react@8.1.1':
+    resolution: {integrity: sha512-TdLtRE9INt7aupEC2yhem6y4RN8T+B4oa2OUYsay0ioxSDl8Q4yaq0k2yc86Gb2BEHjKp4RUxgIzqOTk4IQ8dQ==}
 
   '@tufjs/canonical-json@2.0.0':
     resolution: {integrity: sha512-yVtV8zsdo8qFHe+/3kw81dSLyF7D576A5cCFCi4X7B39tWT7SekaEFUnvnWJHz+9qO7qJTah1JbrDjWKqFtdWA==}
@@ -10030,7 +10030,7 @@ snapshots:
 
   '@tsconfig/strictest@2.0.8': {}
 
-  '@tsconfig/vite-react@8.0.6': {}
+  '@tsconfig/vite-react@8.1.1': {}
 
   '@tufjs/canonical-json@2.0.0': {}
 
