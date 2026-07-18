@@ -39,7 +39,7 @@
     "globals": "17.7.0",
     "lerna": "9.0.7",
     "mocha": "11.7.6",
-    "nx": "23.0.1",
+    "nx": "23.1.0",
     "prettier": "3.9.5",
     "prettier-plugin-tailwindcss": "0.8.1",
     "rimraf": "6.1.3",
