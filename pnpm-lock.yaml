@@ -75,8 +75,8 @@ importers:
         specifier: 2.3.1
         version: 2.3.1(eslint@10.7.0(jiti@2.7.0)(supports-color@8.1.1))
       eslint-plugin-simple-import-sort:
-        specifier: 13.0.0
-        version: 13.0.0(eslint@10.7.0(jiti@2.7.0)(supports-color@8.1.1))
+        specifier: 14.0.0
+        version: 14.0.0(eslint@10.7.0(jiti@2.7.0)(supports-color@8.1.1))
       eslint-plugin-storybook:
         specifier: 10.5.2
         version: 10.5.2(eslint@10.7.0(jiti@2.7.0)(supports-color@8.1.1))(storybook@10.5.2(@types/react@19.2.17)(prettier@3.9.5)(react@19.2.7))(typescript@6.0.3)
@@ -4099,8 +4099,8 @@ packages:
     peerDependencies:
       eslint: '>= 8'
 
-  eslint-plugin-simple-import-sort@13.0.0:
-    resolution: {integrity: sha512-McAc+/Nlvcg4byY/CABGH8kqnefWBj8s3JA2okEtz8ixbECQgU46p0HkTUKa4YS7wvgGceimlc34p1nXqbWqtA==}
+  eslint-plugin-simple-import-sort@14.0.0:
+    resolution: {integrity: sha512-NUJO0+XFCkk+o5EsAJruTgnfMEpeWrPWeJS15UVF60GgXmqz1BJ9/3hzlvG7lkL8Bubzos5cCLptThbFfPnSMQ==}
     peerDependencies:
       eslint: '>=5.0.0'
 
@@ -11197,7 +11197,7 @@ snapshots:
       parse5: 8.0.1
       parse5-htmlparser2-tree-adapter: 8.0.1
 
-  eslint-plugin-simple-import-sort@13.0.0(eslint@10.7.0(jiti@2.7.0)(supports-color@8.1.1)):
+  eslint-plugin-simple-import-sort@14.0.0(eslint@10.7.0(jiti@2.7.0)(supports-color@8.1.1)):
     dependencies:
       eslint: 10.7.0(jiti@2.7.0)(supports-color@8.1.1)
 
