@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { InvalidSlugError, Slug } from '@stryker-mutator/dashboard-common';
-import { createHash, randomUUID } from 'crypto';
+import { hash, randomUUID } from 'crypto';
 
 export function parseSlug(slug: string) {
   try {
@@ -38,6 +38,6 @@ export default {
   },
 
   generateHashValue(value: string): string {
-    return createHash('sha512-256').update(value).digest('hex');
+    return hash('sha512-256', value);
   },
 };
