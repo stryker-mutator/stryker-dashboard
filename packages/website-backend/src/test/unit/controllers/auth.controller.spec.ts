@@ -19,6 +19,7 @@ describe(AuthController.name, () => {
   let user: github.Authentication;
 
   beforeEach(async () => {
+    sinon.useFakeTimers({ toFake: ['Date'] });
     user = githubFactory.authentication({ username: 'dummy' });
     sinon.stub(Strategy.prototype, 'authenticate').callsFake(function (this: Strategy) {
       this.success(user);
