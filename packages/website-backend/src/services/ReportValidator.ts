@@ -16,7 +16,7 @@ export class ReportValidator implements OnApplicationShutdown {
     await this.#pool.terminate();
   }
 
-  public async findErrors(report: object): Promise<undefined | string> {
+  public async findErrors(report: object | Uint8Array): Promise<undefined | string> {
     return this.#pool.exec<ValidateReport>('validateReport', [report]).timeout(120_000);
   }
 
