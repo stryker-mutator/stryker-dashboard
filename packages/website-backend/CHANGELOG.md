@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.6](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.5...v0.20.6) (2026-07-27)
+
+### Bug Fixes
+
+- **deps:** update dependency helmet to v8.3.0 ([#2093](https://github.com/stryker-mutator/stryker-dashboard/issues/2093)) ([e3e2d2b](https://github.com/stryker-mutator/stryker-dashboard/commit/e3e2d2b6d0e81c989b0aecddc030644a788d7158))
+- **deps:** update mutation-testing-elements monorepo to v3.9.0 ([#2110](https://github.com/stryker-mutator/stryker-dashboard/issues/2110)) ([894833e](https://github.com/stryker-mutator/stryker-dashboard/commit/894833ee5db59148413d4b4d7edab3b2587d014f))
+- **deps:** update nestjs packages to v11.1.28 ([#2072](https://github.com/stryker-mutator/stryker-dashboard/issues/2072)) ([60f223f](https://github.com/stryker-mutator/stryker-dashboard/commit/60f223fdd1faad1947f71bc5536f60f2ee3e776f))
+- **security:** use timing safe comparison for API key validation ([#2099](https://github.com/stryker-mutator/stryker-dashboard/issues/2099)) ([e07b0bc](https://github.com/stryker-mutator/stryker-dashboard/commit/e07b0bc017acebe17886cde9ec3536d7224a74eb))
+
+### Performance Improvements
+
+- **backend:** pass raw report bytes to validator worker ([#2112](https://github.com/stryker-mutator/stryker-dashboard/issues/2112)) ([679c4fb](https://github.com/stryker-mutator/stryker-dashboard/commit/679c4fb1fe57324369d0e16c8e10e7c900f17fb2))
+
 ## [0.20.5](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.4...v0.20.5) (2026-07-06)
 
 **Note:** Version bump only for package @stryker-mutator/dashboard-backend

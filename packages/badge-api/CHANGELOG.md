@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.6](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.5...v0.20.6) (2026-07-27)
+
+### Bug Fixes
+
+- **deps:** update dependency @azure/functions to v4.16.2 ([#2074](https://github.com/stryker-mutator/stryker-dashboard/issues/2074)) ([406d404](https://github.com/stryker-mutator/stryker-dashboard/commit/406d40400d279092167e6862bac8dbdbe60bd408))
+
 ## [0.20.5](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.4...v0.20.5) (2026-07-06)
 
 **Note:** Version bump only for package @stryker-mutator/dashboard-badge-api
