@@ -14,6 +14,7 @@ import DataAccess from './services/DataAccess.js';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: new AppInsightsLogger('NestApplication'),
+    rawBody: true,
   });
   app.setGlobalPrefix('/api');
 

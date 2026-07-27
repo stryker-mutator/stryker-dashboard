@@ -11,6 +11,8 @@ import {
   Param,
   Put,
   Query,
+  type RawBodyRequest,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -21,6 +23,7 @@ import {
 } from '@stryker-mutator/dashboard-common';
 import type { PutReportResponse } from '@stryker-mutator/dashboard-contract';
 import { MutationTestingReportService } from '@stryker-mutator/dashboard-data-access';
+import type { Request } from 'express';
 import type { MutationTestResult } from 'mutation-testing-report-schema';
 
 import { JwtOrApiKeyGuard } from '../auth/guard.js';
@@ -48,9 +51,12 @@ export default class ReportsController {
     @Param('slug') slug: string[],
     @Body() result: MutationScoreOnlyResult | MutationTestResult,
     @Query('module') moduleName: string | undefined,
+    @Req() request: RawBodyRequest<Request>,
   ): Promise<PutReportResponse> {
     const { project, version } = parseSlug(slug.join('/'));
-    await this.#verifyRequiredPutReportProperties(result);
+    await this.#verifyRequiredPutReportProperties(result, request.rawBody);
+    // No need to keep raw body in scope after validation
+    request.rawBody = undefined;
     this.#verifyIsCompletedReport(result);
     try {
       await this.#reportService.saveReport({ projectName: project, version, moduleName }, result, this.#logger);
@@ -133,8 +139,8 @@ export default class ReportsController {
     }
   }
 
-  async #verifyRequiredPutReportProperties(body: MutationScoreOnlyResult | MutationTestResult) {
-    const errors = await this.#reportValidator.findErrors(body);
+  async #verifyRequiredPutReportProperties(body: MutationScoreOnlyResult | MutationTestResult, rawBody?: Buffer) {
+    const errors = await this.#reportValidator.findErrors(rawBody ?? body);
     if (errors) {
       const mutationScoreOnlyResult = body as MutationScoreOnlyResult;
       if (
