@@ -4790,8 +4790,8 @@ packages:
       '@types/node':
         optional: true
 
-  ip-address@10.2.2:
-    resolution: {integrity: sha512-aNJVEVdXTr/g5+N2VCLo+CTrFLo/Y+9rx9RC5BpxPtf7NEknmzY+UQvMO8Fjni5KFmDaHJieL8HCMJKjJXsTgg==}
+  ip-address@10.3.1:
+    resolution: {integrity: sha512-1e9d3kb97NHJTIJDZW9rKqW2h6+dFa50Dy0fpPSMQp2ADje5gvKsXmdiK6dwY5t76TaTt5+P5N1Y/LoToIxP6g==}
     engines: {node: '>= 12'}
 
   ipaddr.js@1.9.1:
@@ -12366,7 +12366,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 24.13.3
 
-  ip-address@10.2.2: {}
+  ip-address@10.3.1: {}
 
   ipaddr.js@1.9.1: {}
 
@@ -14456,7 +14456,7 @@ snapshots:
 
   socks@2.8.9:
     dependencies:
-      ip-address: 10.2.2
+      ip-address: 10.3.1
       smart-buffer: 4.2.0
 
   source-map-js@1.2.1: {}
