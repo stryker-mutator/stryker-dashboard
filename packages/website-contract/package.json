@@ -13,7 +13,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "mutation-testing-report-schema": "3.8.4"
+    "mutation-testing-report-schema": "3.9.0"
   },
   "publishConfig": {
     "access": "public"

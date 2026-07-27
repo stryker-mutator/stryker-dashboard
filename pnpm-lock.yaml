@@ -136,8 +136,8 @@ importers:
   packages/common:
     dependencies:
       mutation-testing-report-schema:
-        specifier: 3.8.4
-        version: 3.8.4
+        specifier: 3.9.0
+        version: 3.9.0
 
   packages/data-access:
     dependencies:
@@ -154,11 +154,11 @@ importers:
         specifier: workspace:*
         version: link:../common
       mutation-testing-metrics:
-        specifier: 3.8.4
-        version: 3.8.4
+        specifier: 3.9.0
+        version: 3.9.0
       mutation-testing-report-schema:
-        specifier: 3.8.4
-        version: 3.8.4
+        specifier: 3.9.0
+        version: 3.9.0
 
   packages/e2e:
     dependencies:
@@ -172,8 +172,8 @@ importers:
         specifier: 9.0.3
         version: 9.0.3
       mutation-testing-report-schema:
-        specifier: 3.8.4
-        version: 3.8.4
+        specifier: 3.9.0
+        version: 3.9.0
     devDependencies:
       '@playwright/test':
         specifier: 1.61.1
@@ -322,8 +322,8 @@ importers:
         specifier: 9.0.3
         version: 9.0.3
       mutation-testing-report-schema:
-        specifier: 3.8.4
-        version: 3.8.4
+        specifier: 3.9.0
+        version: 3.9.0
       supertest:
         specifier: 7.2.2
         version: 7.2.2(supports-color@10.2.2)
@@ -331,8 +331,8 @@ importers:
   packages/website-contract:
     dependencies:
       mutation-testing-report-schema:
-        specifier: 3.8.4
-        version: 3.8.4
+        specifier: 3.9.0
+        version: 3.9.0
 
   packages/website-frontend:
     devDependencies:
@@ -358,14 +358,14 @@ importers:
         specifier: 3.3.3
         version: 3.3.3
       mutation-testing-elements:
-        specifier: 3.8.4
-        version: 3.8.4
+        specifier: 3.9.0
+        version: 3.9.0
       mutation-testing-metrics:
-        specifier: 3.8.4
-        version: 3.8.4
+        specifier: 3.9.0
+        version: 3.9.0
       mutation-testing-report-schema:
-        specifier: 3.8.4
-        version: 3.8.4
+        specifier: 3.9.0
+        version: 3.9.0
       playwright:
         specifier: 1.61.1
         version: 1.61.1
@@ -4552,7 +4552,7 @@ packages:
   git-raw-commits@3.0.0:
     resolution: {integrity: sha512-b5OHmZ3vAgGrDn/X0kS+9qCfNKWe4K/jFnhwzVWWg0/k5eLa3060tZShrRg8Dja5kPc+YjS0Gc6y7cRr44Lpjw==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-remote-origin-url@2.0.0:
@@ -4562,7 +4562,7 @@ packages:
   git-semver-tags@5.0.1:
     resolution: {integrity: sha512-hIvOeZwRbQ+7YEUmCkHqo8FOLQZCEn18yevLHADlFPZY02KJGsu5FZt9YW/lybfK2uhWFI7Qg/07LekJiTv7iA==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-up@7.0.0:
@@ -5550,20 +5550,20 @@ packages:
   mutation-testing-elements@3.7.3:
     resolution: {integrity: sha512-SMeIPxngJpfjfNYctFpYQQtlBlZaVO0aoB3FKdwrI8Ee/2bkyUuCZzAOCLv1U9fnmfA37dPFq0Owduoxs2XgGQ==}
 
-  mutation-testing-elements@3.8.4:
-    resolution: {integrity: sha512-5CF1SNa7at5ZH33vEr+21wNebTSrtNIVvnzaUlxortHajOrIPaSLczIWvg6sI/fsExekQ7jookwf2cHftkckqQ==}
+  mutation-testing-elements@3.9.0:
+    resolution: {integrity: sha512-3G4GhBO8Wc/ZrqOJ5uT8AbM1h/ew9kfX0MIlpy59gWu/amMZyKH3TreKAOMwwXNibhZMOL7A3n5nFvhYWLdtYQ==}
 
   mutation-testing-metrics@3.7.3:
     resolution: {integrity: sha512-B8QrP0ZomErzTPNlhrzKWPNBln+3afwBZPHv0Q7N8wZZTYxMptzb/Gdm3ExXVmioVYrtZAtsDs7W/T/b2AixOQ==}
 
-  mutation-testing-metrics@3.8.4:
-    resolution: {integrity: sha512-DZcmndJBH6nrNs3tpiB3OcMVq9KkG2cHCpJSnDxSxPwi9qrafRmoec40xjhkbzOoX1n7/4UkDqg5tIj4A6nvCw==}
+  mutation-testing-metrics@3.9.0:
+    resolution: {integrity: sha512-E2i+8bXoEST8KIyJymc+OjO3eW+Q2gBAwI+hh0tvEZxif9nZQnawAh/+2hLWg+aZRWsG5s3I5xDAGZfELxC7hw==}
 
   mutation-testing-report-schema@3.7.3:
     resolution: {integrity: sha512-BHm3MYq+ckO+t5CtlG8zpqxc75rdJCkxVlE+fGuGJM3F7tNCQ/OW2N+TQVHN3BHsYa84+BFc6g3AwDYkUsw2MA==}
 
-  mutation-testing-report-schema@3.8.4:
-    resolution: {integrity: sha512-s4G71R6Lt/PpZ0cqeglIcgyBdzLM8E+SeCHZAPg1wkSsPtRBa4XfPzAozYKdiJk/TLbNEEb7En9t0/bveuPuxA==}
+  mutation-testing-report-schema@3.9.0:
+    resolution: {integrity: sha512-28CobrcLdQm35zySemaLMKrUpVccLMA1DekUGtfezOSmnI0Xq8oJisixYnO0BQYIwKCkKL7+AE71/uWq/vFSJQ==}
 
   mute-stream@2.0.0:
     resolution: {integrity: sha512-WWdIxpyjEn+FhQJQQv9aQAYlHoNVdzIzUySNV1gHUPDSdZJ3yZn7pAAbQcV7B56Mvu881q9FZV+0Vx2xC44VWA==}
@@ -13140,19 +13140,19 @@ snapshots:
 
   mutation-testing-elements@3.7.3: {}
 
-  mutation-testing-elements@3.8.4: {}
+  mutation-testing-elements@3.9.0: {}
 
   mutation-testing-metrics@3.7.3:
     dependencies:
       mutation-testing-report-schema: 3.7.3
 
-  mutation-testing-metrics@3.8.4:
+  mutation-testing-metrics@3.9.0:
     dependencies:
-      mutation-testing-report-schema: 3.8.4
+      mutation-testing-report-schema: 3.9.0
 
   mutation-testing-report-schema@3.7.3: {}
 
-  mutation-testing-report-schema@3.8.4: {}
+  mutation-testing-report-schema@3.9.0: {}
 
   mute-stream@2.0.0: {}
 
