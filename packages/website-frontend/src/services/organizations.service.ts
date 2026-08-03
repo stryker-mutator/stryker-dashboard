@@ -5,9 +5,7 @@ import { authService } from './auth.service.ts';
 export class OrganizationsService {
   public async getRepositories(organizationName: string): Promise<Repository[]> {
     const response = await fetch(`/api/organizations/${organizationName}/repositories`, {
-      headers: {
-        Authorization: `Bearer ${authService.currentBearerToken}`,
-      },
+      headers: authService.authHeaders,
     });
     if (!response.ok) {
       return Promise.reject(

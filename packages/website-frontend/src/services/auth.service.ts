@@ -17,6 +17,14 @@ export class AuthService {
     return this.#sessionStorageService.getItem(AUTH_TOKEN_SESSION_KEY);
   }
 
+  /**
+   * Auth headers if logged in, otherwise empty object
+   */
+  public get authHeaders(): HeadersInit {
+    const token = this.currentBearerToken;
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  }
+
   public get currentUser(): Login | null {
     return this.#user;
   }
@@ -35,9 +43,7 @@ export class AuthService {
     }
 
     const response = await fetch(`/api/user`, {
-      headers: {
-        Authorization: `Bearer ${this.currentBearerToken}`,
-      },
+      headers: this.authHeaders,
     });
     if (response.status !== 200) {
       return null;

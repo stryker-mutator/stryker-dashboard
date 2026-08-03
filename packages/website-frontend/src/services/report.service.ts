@@ -16,9 +16,7 @@ export class ReportService {
       realTime: realTime,
     });
     const response = await fetch(`${uri}`, {
-      headers: {
-        Authorization: `Bearer ${authService.currentBearerToken}`,
-      },
+      headers: authService.authHeaders,
     });
     if (response.status === 404 || response.status === 500) {
       return undefined;
