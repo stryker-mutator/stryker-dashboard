@@ -9,7 +9,7 @@ export class RepositoriesService {
       body: JSON.stringify({ enabled: enabled }),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${authService.currentBearerToken}`,
+        ...authService.authHeaders,
       },
     });
 
