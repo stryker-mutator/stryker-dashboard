@@ -38,7 +38,7 @@ export class ReportClient {
   }
 
   async disableRepository(slug: string): Promise<void> {
-    const patchBody: Partial<Repository> = { enabled: true };
+    const patchBody: Partial<Repository> = { enabled: false };
     const authToken = generateAuthToken();
     await this.#request.patch(`/api/repositories/${slug}`, {
       failOnStatusCode: true,
