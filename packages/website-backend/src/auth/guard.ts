@@ -2,15 +2,50 @@ import { type CanActivate, type ExecutionContext, Injectable, UnauthorizedExcept
 import { AuthGuard } from '@nestjs/passport';
 import { Slug } from '@stryker-mutator/dashboard-common';
 import type { Request } from 'express';
+import { AuthorizationResponseError, ClientError, ResponseBodyError } from 'openid-client';
 
 import { ApiKeyValidator } from '../services/ApiKeyValidator.js';
 import { parseSlug } from '../utils/utils.js';
+
+const FORM_CONTENT_TYPE = 'application/x-www-form-urlencoded';
 
 /**
  * Verify GitHub OAuth2 flow
  */
 @Injectable()
-export class GithubAuthGuard extends AuthGuard('github') {}
+export class GithubAuthGuard extends AuthGuard('github') {
+  /**
+   * Rejects an authorization response that openid-client cannot read at all, before passport gets to it.
+   */
+  override async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest<Request>();
+    if (request.method === 'POST' && !request.is(FORM_CONTENT_TYPE)) {
+      throw new UnauthorizedException(`The authorization response must be posted as "${FORM_CONTENT_TYPE}"`);
+    }
+    return super.canActivate(context) as Promise<boolean>;
+  }
+
+  /**
+   * Returns 401 for any openid-client errors
+   */
+  override handleRequest<TUser>(
+    err: unknown,
+    user: TUser,
+    info: unknown,
+    context: ExecutionContext,
+    status?: unknown,
+  ): TUser {
+    if (
+      err instanceof ClientError ||
+      err instanceof AuthorizationResponseError ||
+      err instanceof ResponseBodyError ||
+      err instanceof TypeError
+    ) {
+      throw new UnauthorizedException(err.message);
+    }
+    return super.handleRequest(err, user, info, context, status);
+  }
+}
 
 /**
  * Verify a JWT token, returns 401 if the token is invalid or missing

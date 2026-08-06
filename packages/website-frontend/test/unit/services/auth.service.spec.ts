@@ -64,7 +64,10 @@ describe(AuthService.name, () => {
   it('should authenticate and store the token correctly', async () => {
     // Arrange
     const provider = 'test-provider';
-    const code = 'test-code';
+    const authorizationResponse = new URLSearchParams([
+      ['code', 'test-code'],
+      ['state', 'test-state'],
+    ]);
 
     const mockJwtResponse: AuthenticateResponse = {
       jwt: 'foo',
@@ -77,10 +80,31 @@ describe(AuthService.name, () => {
     fetchMock.once(JSON.stringify(mockJwtResponse)).once(JSON.stringify(mockUserResponse));
 
     // Act
-    await authService.authenticate(provider, code);
+    await authService.authenticate(provider, authorizationResponse);
 
     // Assert
+    expect(fetchMock).toHaveBeenNthCalledWith(1, '/api/auth/test-provider', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: authorizationResponse,
+    });
+    expect(authorizationResponse.toString()).to.eq('code=test-code&state=test-state');
     expect(sessionStorage.getItem('authToken')).to.eq('foo');
     expect(authService.currentUser).toEqual(mockUserResponse);
+  });
+
+  it('should reject and not store a token when the authentication request fails', async () => {
+    // Arrange
+    sessionStorage.removeItem('authToken');
+    fetchMock.once(JSON.stringify({ statusCode: 401, message: 'Unauthorized' }), { status: 401 });
+
+    // Act
+    const promise = authService.authenticate('test-provider', new URLSearchParams([['code', 'test-code']]));
+
+    // Assert
+    await expect(promise).rejects.toThrow('Authentication failed (401');
+    expect(sessionStorage.getItem('authToken')).to.eq(null);
+    expect(authService.currentUser).toBeNull();
+    expect(fetchMock).toHaveBeenCalledOnce();
   });
 });

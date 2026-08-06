@@ -24,8 +24,6 @@ export default class AuthController {
   public async post(@Req() request: Request) {
     const jwt = await this.#tokens.create({ ...request.user! });
     this.#logger.log(`Generated JWT for user ${request.user!.username}`);
-    return {
-      jwt,
-    };
+    return { jwt };
   }
 }

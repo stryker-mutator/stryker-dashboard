@@ -269,7 +269,7 @@ describe(RealTimeReportsController.name, () => {
 
       // Arrange
       expect(response.body.href).to.deep.include(
-        'baseUrl/reports/github.com/testOrg/testName/main?module=logging&realTime=true',
+        'https://baseUrl/reports/github.com/testOrg/testName/main?module=logging&realTime=true',
       );
     });
 
@@ -284,7 +284,9 @@ describe(RealTimeReportsController.name, () => {
         .send(report);
 
       // Arrange
-      expect(response.body.href).to.deep.include('baseUrl/reports/github.com/testOrg/testName/main?realTime=true');
+      expect(response.body.href).to.deep.include(
+        'https://baseUrl/reports/github.com/testOrg/testName/main?realTime=true',
+      );
     });
   });
 

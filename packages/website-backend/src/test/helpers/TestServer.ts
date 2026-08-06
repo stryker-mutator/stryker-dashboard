@@ -10,7 +10,7 @@ import type DataAccess from '../../services/DataAccess.js';
 export const config: Configuration = {
   githubClientId: 'githubClientId',
   githubSecret: 'githubSecret',
-  baseUrl: 'baseUrl',
+  baseUrl: 'https://baseUrl',
   jwtSecret: 'jwtSecret',
   isDevelopment: true,
   cors: '*',

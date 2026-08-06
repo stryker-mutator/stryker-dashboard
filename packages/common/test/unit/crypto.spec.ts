@@ -7,15 +7,6 @@ interface TestClaims {
   username: string;
 }
 
-async function expectRejection(promise: Promise<unknown>) {
-  try {
-    await promise;
-  } catch {
-    return;
-  }
-  expect.fail('Expected the token to be rejected');
-}
-
 describe(AuthTokenCodec.name, () => {
   const secret = 'u7apm8MrMBe8Fwrx4uMH';
   const claims: TestClaims = { accessToken: 'gho_the_access_token', username: 'dummy' };
@@ -60,12 +51,12 @@ describe(AuthTokenCodec.name, () => {
   });
 
   it('should reject a token that is not encrypted at all', async () => {
-    await expectRejection(sut.read('not.a.token'));
+    await expect(sut.read('not.a.token')).rejectedWith('Invalid Compact JWE');
   });
 
   it('should reject a token created with a different secret', async () => {
     const token = await new AuthTokenCodec('a different secret').create({ ...claims });
 
-    await expectRejection(sut.read(token));
+    await expect(sut.read(token)).rejectedWith('decryption operation failed');
   });
 });

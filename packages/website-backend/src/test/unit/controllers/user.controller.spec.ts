@@ -62,7 +62,7 @@ describe(UserController.name, () => {
 
   describe('HTTP GET /user', () => {
     it('should retrieve current user', async () => {
-      const githubResult = githubFactory.login({
+      const githubResult = githubFactory.user({
         avatar_url: 'bar',
         login: 'foo',
         url: 'bazUrl',

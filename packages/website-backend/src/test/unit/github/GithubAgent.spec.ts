@@ -7,7 +7,7 @@ import GithubAgent from '../../../github/GithubAgent.js';
 import type * as github from '../../../github/models.js';
 import { githubFactory } from '../../helpers/producers.js';
 
-describe('GithubClient', () => {
+describe(GithubAgent.name, () => {
   let httpClientMock: sinon.SinonStubbedInstance<HttpClient>;
   let sut: GithubAgent;
   let user: github.Authentication;
@@ -82,12 +82,12 @@ describe('GithubClient', () => {
 
   describe('getCurrentUser', () => {
     it('should HTTP GET `/user` and forward the response', async () => {
-      const response: Response<github.Login> = {
-        body: githubFactory.login({ login: 'foobar' }),
+      const response: Response<github.User> = {
+        body: githubFactory.user({ login: 'foobar' }),
         headers: new Headers({}),
       };
       httpClientMock.fetchJson.resolves(response);
-      const actual = await sut.getCurrentUser(user);
+      const actual = await sut.getCurrentUser(user.accessToken);
       expect(actual).eq(response.body);
       sinon.assert.calledWith(httpClientMock.fetchJson, 'https://api.github.com/user', {
         headers: expectedHeaders,

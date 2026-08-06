@@ -169,7 +169,7 @@ describe(ReportsController.name, () => {
       // Assert
       expect(response.status).eq(200);
       expect(response.body).deep.eq({
-        href: 'baseUrl/reports/github.com/testOrg/testName/feat/dashboard',
+        href: 'https://baseUrl/reports/github.com/testOrg/testName/feat/dashboard',
       });
     });
 
@@ -183,8 +183,8 @@ describe(ReportsController.name, () => {
       // Assert
       expect(response.status).eq(200);
       expect(response.body).deep.eq({
-        href: 'baseUrl/reports/github.com/testOrg/testName/myWebsite?module=logging',
-        projectHref: 'baseUrl/reports/github.com/testOrg/testName/myWebsite',
+        href: 'https://baseUrl/reports/github.com/testOrg/testName/myWebsite?module=logging',
+        projectHref: 'https://baseUrl/reports/github.com/testOrg/testName/myWebsite',
       });
     });
 
@@ -198,7 +198,7 @@ describe(ReportsController.name, () => {
       // Assert
       expect(response.status).eq(200);
       expect(response.body).deep.eq({
-        href: 'baseUrl/reports/github.com/testOrg/testName/myWebsite?module=logging',
+        href: 'https://baseUrl/reports/github.com/testOrg/testName/myWebsite?module=logging',
       });
     });
 

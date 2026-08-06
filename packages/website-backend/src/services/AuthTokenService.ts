@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AuthTokenCodec } from '@stryker-mutator/dashboard-common/crypto';
 
 import Configuration from './Configuration.js';
@@ -9,7 +9,6 @@ import Configuration from './Configuration.js';
 @Injectable()
 export class AuthTokenService extends AuthTokenCodec {
   constructor(config: Configuration) {
-    new Logger(AuthTokenService.name).debug('Initializing AuthTokenService');
     super(config.jwtSecret);
   }
 }

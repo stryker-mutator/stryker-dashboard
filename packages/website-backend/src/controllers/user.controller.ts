@@ -30,7 +30,7 @@ export default class UserController {
 
   @Get()
   public async get(@Req() request: Express.Request): Promise<contract.Login> {
-    return this.#agent.getCurrentUser(request.user!).then(toContract);
+    return this.#agent.getCurrentUser(request.user!.accessToken).then(toContract);
   }
 
   @Get('/repositories')
