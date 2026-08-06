@@ -1,38 +1,11 @@
+import { AuthTokenCodec } from '@stryker-mutator/dashboard-common/crypto';
 import type { ProjectMapper } from '@stryker-mutator/dashboard-data-access';
 import * as dal from '@stryker-mutator/dashboard-data-access';
-import jwt from 'jsonwebtoken';
 import sinon from 'sinon';
 
 import type * as github from '../../github/models.js';
 import type Configuration from '../../services/Configuration.js';
 import type DataAccess from '../../services/DataAccess.js';
-
-export function createToken(user: github.Authentication): Promise<string> {
-  return new Promise<string>((resolve, reject) => {
-    jwt.sign(
-      user,
-      config.jwtSecret,
-      {
-        algorithm: 'HS512',
-        audience: 'stryker',
-        expiresIn: '30m',
-        issuer: 'stryker',
-      },
-      (err, encoded) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(encoded!);
-        }
-      },
-    );
-  });
-}
-
-export async function createAuthorizationHeader(user: github.Authentication) {
-  const token = await createToken(user);
-  return `Bearer ${token}`;
-}
 
 export const config: Configuration = {
   githubClientId: 'githubClientId',
@@ -42,6 +15,27 @@ export const config: Configuration = {
   isDevelopment: true,
   cors: '*',
 };
+
+const codec = new AuthTokenCodec(config.jwtSecret);
+
+/**
+ * Creates an encrypted JWT (JWE) the same way the backend does.
+ */
+export function createToken(user: github.Authentication): Promise<string> {
+  return codec.create({ ...user });
+}
+
+/**
+ * Reads back an encrypted JWT (JWE) the backend handed out.
+ */
+export function readToken(token: string): Promise<github.Authentication> {
+  return codec.read<github.Authentication>(token);
+}
+
+export async function createAuthorizationHeader(user: github.Authentication) {
+  const token = await createToken(user);
+  return `Bearer ${token}`;
+}
 
 export class ConfigurationStub implements Configuration {
   constructor() {

@@ -20,10 +20,12 @@
   "main": "dist/src/index.js",
   "exports": {
     ".": "./dist/src/index.js",
+    "./crypto": "./dist/src/crypto.js",
     "./package.json": "./package.json"
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "jose": "6.2.8",
     "mutation-testing-report-schema": "3.9.0"
   }
 }

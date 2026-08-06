@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { fileURLToPath } from 'url';
 
@@ -17,10 +16,10 @@ import VersionController from './controllers/version.controller.js';
 import GithubAgent from './github/GithubAgent.js';
 import { GithubStrategy } from './github/Strategy.js';
 import { ApiKeyValidator } from './services/ApiKeyValidator.js';
+import { AuthTokenService } from './services/AuthTokenService.js';
 import Configuration from './services/Configuration.js';
 import DataAccess from './services/DataAccess.js';
 import GithubRepositoryService from './services/GithubRepositoryService.js';
-import { JwtConfigService } from './services/JwtConfigService.js';
 import { JwtStrategy } from './services/JwtStrategy.js';
 import MutationEventResponseOrchestrator from './services/real-time/MutationEventResponseOrchestrator.js';
 import { ReportValidator } from './services/ReportValidator.js';
@@ -39,10 +38,6 @@ const dist = fileURLToPath(import.meta.resolve('@stryker-mutator/dashboard-front
         index: false,
       },
     }),
-    JwtModule.registerAsync({
-      useClass: JwtConfigService,
-      extraProviders: [Configuration],
-    }),
   ],
   controllers: [
     AuthController,
@@ -56,6 +51,7 @@ const dist = fileURLToPath(import.meta.resolve('@stryker-mutator/dashboard-front
   ],
   providers: [
     ApiKeyValidator,
+    AuthTokenService,
     Configuration,
     DataAccess,
     GithubAgent,

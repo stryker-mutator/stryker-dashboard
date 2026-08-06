@@ -21,7 +21,7 @@ export class ReportClient {
         slug,
         Promise.resolve().then(async () => {
           const patchBody: Partial<Repository> = { enabled: true };
-          const authToken = generateAuthToken();
+          const authToken = await generateAuthToken();
           const response = await this.#request.patch(`/api/repositories/${slug}`, {
             failOnStatusCode: true,
             data: patchBody,
@@ -39,7 +39,7 @@ export class ReportClient {
 
   async disableRepository(slug: string): Promise<void> {
     const patchBody: Partial<Repository> = { enabled: false };
-    const authToken = generateAuthToken();
+    const authToken = await generateAuthToken();
     await this.#request.patch(`/api/repositories/${slug}`, {
       failOnStatusCode: true,
       data: patchBody,
@@ -50,7 +50,7 @@ export class ReportClient {
   }
 
   async getUserRepositories(): Promise<Repository[]> {
-    const auth = generateAuthToken();
+    const auth = await generateAuthToken();
     const response = await this.#request.get('api/user/repositories', {
       failOnStatusCode: true,
       headers: { Authorization: `Bearer ${auth}` },
