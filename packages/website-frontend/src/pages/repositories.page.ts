@@ -41,8 +41,8 @@ export class RepositoriesPage extends LitElement {
   override connectedCallback(): void {
     super.connectedCallback();
 
-    this.userRepositoryName = authService.currentUser!.name;
-    this.selectedOrg = this.orgOrUser?.toString() ?? authService.currentUser!.name;
+    this.userRepositoryName = authService.currentUser?.name ?? '';
+    this.selectedOrg = this.orgOrUser?.toString() ?? authService.currentUser?.name ?? '';
 
     void userService.organizations().then((organizations) => {
       const organizationNames = organizations.map((o) => o.name);

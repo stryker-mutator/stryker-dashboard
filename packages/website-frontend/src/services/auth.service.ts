@@ -8,6 +8,7 @@ const AUTH_TOKEN_SESSION_KEY = 'authToken';
 export class AuthService {
   #sessionStorageService;
   #user: Login | null = null;
+  #userPromise: Promise<Login | null> | null = null;
 
   constructor(sessionStorageService: SessionStorageService) {
     this.#sessionStorageService = sessionStorageService;
@@ -31,6 +32,8 @@ export class AuthService {
 
   public signOut() {
     this.#sessionStorageService.removeItem(AUTH_TOKEN_SESSION_KEY);
+    this.#user = null;
+    this.#userPromise = null;
   }
 
   public async getUser(): Promise<Login | null> {
@@ -42,10 +45,24 @@ export class AuthService {
       return this.#user;
     }
 
+    if (this.#userPromise) {
+      return this.#userPromise;
+    }
+
+    try {
+      const userPromise = this.#fetchUser();
+      this.#userPromise = userPromise;
+      return await userPromise;
+    } finally {
+      this.#userPromise = null;
+    }
+  }
+
+  async #fetchUser(): Promise<Login | null> {
     const response = await fetch(`/api/user`, {
       headers: this.authHeaders,
     });
-    if (response.status !== 200) {
+    if (!response.ok) {
       return null;
     }
 
