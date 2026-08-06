@@ -269,9 +269,6 @@ importers:
       compression:
         specifier: 1.8.1
         version: 1.8.1(supports-color@10.2.2)
-      debug:
-        specifier: 4.4.3
-        version: 4.4.3(supports-color@10.2.2)
       helmet:
         specifier: 8.3.0
         version: 8.3.0
@@ -294,9 +291,6 @@ importers:
       '@types/compression':
         specifier: 1.8.1
         version: 1.8.1
-      '@types/debug':
-        specifier: 4.1.13
-        version: 4.1.13
       '@types/express':
         specifier: 5.0.6
         version: 5.0.6
