@@ -12,8 +12,14 @@ import { AppInsightsLogger } from './logger.js';
 import DataAccess from './services/DataAccess.js';
 
 async function bootstrap() {
+  const logger = new AppInsightsLogger('NestApplication');
+  if (process.env.NODE_ENV === 'production') {
+    logger.setLogLevels(['log', 'warn', 'error', 'fatal']);
+  } else {
+    logger.setLogLevels(['debug', 'log', 'warn', 'error', 'fatal']);
+  }
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    logger: new AppInsightsLogger('NestApplication'),
+    logger,
     rawBody: true,
   });
   app.setGlobalPrefix('/api');

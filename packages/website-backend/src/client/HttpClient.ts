@@ -1,5 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import debug from 'debug';
+import { Injectable, Logger } from '@nestjs/common';
 
 export interface Response<T> {
   body: T;
@@ -8,10 +7,10 @@ export interface Response<T> {
 
 @Injectable()
 export default class HttpClient {
-  readonly #log = debug(HttpClient.name);
+  readonly #log = new Logger(HttpClient.name);
 
   public async fetchJson<T>(fullUrl: string, requestInit?: RequestInit): Promise<Response<T>> {
-    this.#log(`Performing HTTP GET "${fullUrl}"`);
+    this.#log.verbose(`Performing HTTP GET "${fullUrl}"`);
     const response = await fetch(fullUrl, requestInit);
     if (response.ok) {
       return {
@@ -20,7 +19,7 @@ export default class HttpClient {
       };
     } else {
       const { status } = response;
-      this.#log(`Http GET ${fullUrl} response status: ${status}`);
+      this.#log.debug(`Http GET ${fullUrl} response status: ${status}`);
       const error = new Error(`Failed request: (${status}), message: ${await response.text()}`);
       error.name = 'InvalidHttpStatusCode';
       return Promise.reject(error);

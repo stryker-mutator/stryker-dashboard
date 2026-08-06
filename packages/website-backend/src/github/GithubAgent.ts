@@ -1,5 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import debug from 'debug';
+import { Injectable, Logger } from '@nestjs/common';
 
 import HttpClient from '../client/HttpClient.js';
 import * as github from '../github/models.js';
@@ -9,7 +8,7 @@ const GITHUB_BACKEND = 'https://api.github.com';
 
 @Injectable()
 export default class GithubAgent {
-  readonly #log = debug(GithubAgent.name);
+  readonly #log = new Logger(GithubAgent.name);
   readonly #client: HttpClient;
 
   constructor(client: HttpClient) {
@@ -56,7 +55,7 @@ export default class GithubAgent {
     const nextLinkTest = /<(.*?)>; rel="next"/;
     const nextLink = nextLinkTest.exec(link);
     if (nextLink && Array.isArray(response.body)) {
-      this.#log(`Retrieving next page: ${nextLink[1]}`);
+      this.#log.debug(`Retrieving next page: ${nextLink[1]}`);
       const next = await this.#get<T>(user, nextLink[1]);
       return (response.body as unknown[]).concat(next) as T;
     } else {
