@@ -1,8 +1,7 @@
 import '../atoms/title.js';
 
-import type { PropertyValues } from 'lit';
 import { html } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import { BaseElement } from '../base-element.ts';
@@ -14,18 +13,6 @@ export class Collapsible extends BaseElement {
 
   @property({ type: Boolean, reflect: true })
   opened = false;
-
-  @query('#content')
-  declare private content: HTMLDivElement | undefined;
-
-  protected firstUpdated(changedProperties: PropertyValues<this>): void {
-    // If the component starts with opened=true, we need to render a second time to measure the content height
-    if (changedProperties.has('opened') && this.opened) {
-      void this.updateComplete.then(() => {
-        this.requestUpdate();
-      });
-    }
-  }
 
   render() {
     return html`
@@ -52,14 +39,18 @@ export class Collapsible extends BaseElement {
           </div>
         </button>
         <div
-          style="max-height: ${this.opened && this.content ? this.content.scrollHeight : 0}px"
-          class="overflow-hidden transition-all"
+          class="${classMap({
+            'grid-rows-[1fr]': this.opened,
+            'grid-rows-[0fr]': !this.opened,
+          })} grid transition-all"
           id="content"
           aria-hidden=${!this.opened}
           aria-labelledby="header"
         >
-          <div class="m-4 mt-0">
-            <slot></slot>
+          <div class="overflow-hidden">
+            <div class="m-4 mt-0">
+              <slot></slot>
+            </div>
           </div>
         </div>
       </div>
