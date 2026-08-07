@@ -12,6 +12,11 @@ stryker-dashboard {
   width: 100%;
 }
 
+body {
+  margin: 0;
+  background-color: var(--color-zinc-800);
+}
+
 stryker-dashboard {
   display: flex;
   flex-direction: column;
