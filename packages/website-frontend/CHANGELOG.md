@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.7](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.6...v0.20.7) (2026-08-07)
+
+### Bug Fixes
+
+- only send Authorization headers if auth is present ([#2123](https://github.com/stryker-mutator/stryker-dashboard/issues/2123)) ([b601926](https://github.com/stryker-mutator/stryker-dashboard/commit/b6019261eec80641c0477392b09e547ec0bb2230))
+- **security:** replace passport-github2 with openid-client and encrypt JWT ([#2127](https://github.com/stryker-mutator/stryker-dashboard/issues/2127)) ([d8057b1](https://github.com/stryker-mutator/stryker-dashboard/commit/d8057b1ec6b9e7764c2f037240cd9308011e0e31))
+
+### Performance Improvements
+
+- **frontend:** deduplicate user fetches ([#2124](https://github.com/stryker-mutator/stryker-dashboard/issues/2124)) ([92b61a2](https://github.com/stryker-mutator/stryker-dashboard/commit/92b61a26b35b714eb9286f66104589b7907a01a8))
+
 ## [0.20.6](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.5...v0.20.6) (2026-07-27)
 
 ### Bug Fixes
