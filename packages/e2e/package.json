@@ -15,13 +15,11 @@
   "devDependencies": {
     "@playwright/test": "1.62.1",
     "@stryker-mutator/dashboard-common": "workspace:*",
-    "@stryker-mutator/dashboard-contract": "workspace:*",
-    "@types/jsonwebtoken": "9.0.10"
+    "@stryker-mutator/dashboard-contract": "workspace:*"
   },
   "dependencies": {
     "@azure/data-tables": "13.3.2",
     "@azure/storage-blob": "12.33.0",
-    "jsonwebtoken": "9.0.3",
     "mutation-testing-report-schema": "3.9.0"
   },
   "repository": {

@@ -1,16 +1,16 @@
 import { Controller, Get, Logger, Post, Req, UseGuards } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import type { Request } from 'express';
 
 import { GithubAuthGuard } from '../auth/guard.js';
+import { AuthTokenService } from '../services/AuthTokenService.js';
 
 @Controller('/auth')
 export default class AuthController {
   #logger = new Logger(AuthController.name);
-  #jwtService: JwtService;
+  #tokens: AuthTokenService;
 
-  constructor(jwtService: JwtService) {
-    this.#jwtService = jwtService;
+  constructor(tokens: AuthTokenService) {
+    this.#tokens = tokens;
   }
 
   @Get('/github')
@@ -21,11 +21,9 @@ export default class AuthController {
 
   @Post('/github')
   @UseGuards(GithubAuthGuard)
-  public post(@Req() request: Request) {
-    const jwt = this.#jwtService.sign(request.user!, {});
+  public async post(@Req() request: Request) {
+    const jwt = await this.#tokens.create({ ...request.user! });
     this.#logger.log(`Generated JWT for user ${request.user!.username}`);
-    return {
-      jwt,
-    };
+    return { jwt };
   }
 }

@@ -8,6 +8,7 @@ import compression from 'compression';
 import helmet from 'helmet';
 
 import { AppModule } from './app.module.js';
+import { configureApp } from './configure-app.js';
 import { AppInsightsLogger } from './logger.js';
 import DataAccess from './services/DataAccess.js';
 
@@ -22,12 +23,10 @@ async function bootstrap() {
     logger,
     rawBody: true,
   });
-  app.setGlobalPrefix('/api');
-
   configureSecurityHeaders(app);
+  configureApp(app);
   const log = new Logger('bootstrap');
 
-  app.useBodyParser('json', { limit: '100mb' });
   app.use(compression());
   const port = process.env.PORT ? parseFloat(process.env.PORT) : 1337;
   await app.listen(port, () => {

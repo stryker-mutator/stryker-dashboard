@@ -9,7 +9,7 @@ export abstract class DashboardPage {
   }
 
   async logOn() {
-    const authToken = generateAuthToken();
+    const authToken = await generateAuthToken();
     await this.page.goto('/');
     await this.page.evaluate(`window.sessionStorage.setItem('authToken', '${authToken}');`);
   }

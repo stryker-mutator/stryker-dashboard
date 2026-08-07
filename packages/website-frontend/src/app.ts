@@ -64,7 +64,7 @@ export class StrykerDashboard extends LitElement {
         {
           path: '/auth/github/callback',
           name: 'auth',
-          render: () => html`<stryker-dashboard-auth-page></stryker-dashboard-auth-page>`,
+          render: () => html`<stryker-dashboard-auth-page .router=${this.#router}></stryker-dashboard-auth-page>`,
         },
       ],
       {

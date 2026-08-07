@@ -70,8 +70,15 @@ export class AuthService {
     return this.#user;
   }
 
-  public async authenticate(provider: string, code: string) {
-    const response = await fetch(`/api/auth/${provider}?code=${code}`, { method: 'POST' });
+  public async authenticate(provider: string, authorizationResponse: URLSearchParams) {
+    const response = await fetch(`/api/auth/${provider}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: authorizationResponse,
+    });
+    if (!response.ok) {
+      throw new Error(`Authentication failed (${response.status} ${response.statusText})`);
+    }
     const json = (await response.json()) as AuthenticateResponse;
     this.#sessionStorageService.setItem(AUTH_TOKEN_SESSION_KEY, json.jwt);
     const user = await this.getUser();

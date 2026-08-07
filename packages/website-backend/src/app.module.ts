@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { type MiddlewareConsumer, Module, type NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { deriveKey } from '@stryker-mutator/dashboard-common/crypto';
+import cookieSession from 'cookie-session';
 import { fileURLToPath } from 'url';
 
 import { ApiKeyGuard, JwtAuthGuard } from './auth/guard.js';
@@ -17,10 +18,10 @@ import VersionController from './controllers/version.controller.js';
 import GithubAgent from './github/GithubAgent.js';
 import { GithubStrategy } from './github/Strategy.js';
 import { ApiKeyValidator } from './services/ApiKeyValidator.js';
+import { AuthTokenService } from './services/AuthTokenService.js';
 import Configuration from './services/Configuration.js';
 import DataAccess from './services/DataAccess.js';
 import GithubRepositoryService from './services/GithubRepositoryService.js';
-import { JwtConfigService } from './services/JwtConfigService.js';
 import { JwtStrategy } from './services/JwtStrategy.js';
 import MutationEventResponseOrchestrator from './services/real-time/MutationEventResponseOrchestrator.js';
 import { ReportValidator } from './services/ReportValidator.js';
@@ -39,10 +40,6 @@ const dist = fileURLToPath(import.meta.resolve('@stryker-mutator/dashboard-front
         index: false,
       },
     }),
-    JwtModule.registerAsync({
-      useClass: JwtConfigService,
-      extraProviders: [Configuration],
-    }),
   ],
   controllers: [
     AuthController,
@@ -56,6 +53,7 @@ const dist = fileURLToPath(import.meta.resolve('@stryker-mutator/dashboard-front
   ],
   providers: [
     ApiKeyValidator,
+    AuthTokenService,
     Configuration,
     DataAccess,
     GithubAgent,
@@ -69,4 +67,30 @@ const dist = fileURLToPath(import.meta.resolve('@stryker-mutator/dashboard-front
     ApiKeyGuard,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  #config: Configuration;
+
+  constructor(config: Configuration) {
+    this.#config = config;
+  }
+
+  /**
+   * Set up cookie-based session only used for OAuth flow, to verify state
+   */
+  async configure(consumer: MiddlewareConsumer): Promise<void> {
+    const key = await deriveKey(this.#config.jwtSecret, 'oauth-session');
+    consumer
+      .apply(
+        cookieSession({
+          name: 'stryker-dashboard-oauth',
+          keys: [Buffer.from(key).toString('base64url')],
+          httpOnly: true,
+          sameSite: 'strict',
+          secure: new URL(this.#config.baseUrl).protocol === 'https:',
+          maxAge: 15 * 60 * 1000,
+          path: '/api/auth/github',
+        }),
+      )
+      .forRoutes(AuthController);
+  }
+}

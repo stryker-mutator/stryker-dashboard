@@ -2,9 +2,9 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import HttpClient from '../client/HttpClient.js';
 import * as github from '../github/models.js';
-import type { Login, Repository } from './models.js';
+import type { Login, Repository, User } from './models.js';
 
-const GITHUB_BACKEND = 'https://api.github.com';
+export const GITHUB_BACKEND = 'https://api.github.com';
 
 @Injectable()
 export default class GithubAgent {
@@ -15,37 +15,37 @@ export default class GithubAgent {
     this.#client = client;
   }
 
-  public getCurrentUser(user: github.Authentication): Promise<Login> {
-    return this.#get<Login>(user, `${GITHUB_BACKEND}/user`);
+  public getCurrentUser(accessToken: string): Promise<User> {
+    return this.#get<User>(accessToken, `${GITHUB_BACKEND}/user`);
   }
 
   public async getMyOrganizations(user: github.Authentication): Promise<Login[]> {
-    const logins = await this.#get<Login[]>(user, `${GITHUB_BACKEND}/user/orgs`);
+    const logins = await this.#get<Login[]>(user.accessToken, `${GITHUB_BACKEND}/user/orgs`);
     return logins;
   }
 
   public async getOrganizations(user: github.Authentication, loginName: string): Promise<Login[]> {
-    const logins = await this.#get<Login[]>(user, `${GITHUB_BACKEND}/users/${loginName}/orgs`);
+    const logins = await this.#get<Login[]>(user.accessToken, `${GITHUB_BACKEND}/users/${loginName}/orgs`);
     return logins;
   }
 
   public getOrganizationRepositories(user: github.Authentication, organizationLogin: string): Promise<Repository[]> {
-    return this.#get<Repository[]>(user, `${GITHUB_BACKEND}/orgs/${organizationLogin}/repos?type=member`);
+    return this.#get<Repository[]>(user.accessToken, `${GITHUB_BACKEND}/orgs/${organizationLogin}/repos?type=member`);
   }
 
   public getMyRepositories(user: github.Authentication): Promise<Repository[]> {
-    return this.#get<Repository[]>(user, `${GITHUB_BACKEND}/user/repos?type=owner`);
+    return this.#get<Repository[]>(user.accessToken, `${GITHUB_BACKEND}/user/repos?type=owner`);
   }
 
   public async userHasPushAccess(user: github.Authentication, owner: string, name: string): Promise<boolean> {
     // https://developer.github.com/v3/repos/#get
-    const repo = await this.#get<Repository>(user, `${GITHUB_BACKEND}/repos/${owner}/${name}`);
+    const repo = await this.#get<Repository>(user.accessToken, `${GITHUB_BACKEND}/repos/${owner}/${name}`);
     return !!repo.permissions?.push;
   }
 
-  async #get<T>(user: github.Authentication, url: string): Promise<T> {
+  async #get<T>(accessToken: string, url: string): Promise<T> {
     const response = await this.#client.fetchJson<T>(url, {
-      headers: { Authorization: `Bearer ${user.accessToken}` },
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
 
     // Status: 200 OK
@@ -56,7 +56,7 @@ export default class GithubAgent {
     const nextLink = nextLinkTest.exec(link);
     if (nextLink && Array.isArray(response.body)) {
       this.#log.debug(`Retrieving next page: ${nextLink[1]}`);
-      const next = await this.#get<T>(user, nextLink[1]);
+      const next = await this.#get<T>(accessToken, nextLink[1]);
       return (response.body as unknown[]).concat(next) as T;
     } else {
       return Promise.resolve(response.body);

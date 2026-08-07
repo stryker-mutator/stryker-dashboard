@@ -1,6 +1,6 @@
 export interface Authentication {
   accessToken: string;
-  displayName: string;
+  displayName: string | null;
   id: string;
   username: string;
 }
@@ -9,6 +9,11 @@ export interface Login {
   login: string;
   avatar_url: string;
   url: string;
+}
+
+export interface User extends Login {
+  id: number;
+  name: string | null;
 }
 
 export interface Repository {

@@ -62,7 +62,7 @@ describe(UserController.name, () => {
 
   describe('HTTP GET /user', () => {
     it('should retrieve current user', async () => {
-      const githubResult = githubFactory.login({
+      const githubResult = githubFactory.user({
         avatar_url: 'bar',
         login: 'foo',
         url: 'bazUrl',
@@ -79,6 +79,18 @@ describe(UserController.name, () => {
         .expect(expectedResult);
 
       sinon.assert.called(getCurrentUserStub);
+    });
+
+    it('should respond with 401 without an Authorization header', async () => {
+      await request(app.getHttpServer()).get('/api/user').expect(401);
+    });
+
+    it('should respond with 401 for a token that is not an encrypted JWT', async () => {
+      // A signed JWT, which is what the backend handed out before the switch to JWE
+      const legacyToken =
+        'eyJhbGciOiJIUzUxMiJ9.eyJ1c2VybmFtZSI6ImR1bW15IiwiYXVkIjoic3RyeWtlciIsImlzcyI6InN0cnlrZXIifQ.oops';
+
+      await request(app.getHttpServer()).get('/api/user').set('Authorization', `Bearer ${legacyToken}`).expect(401);
     });
   });
 
