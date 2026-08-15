@@ -39,7 +39,7 @@
     "@stryker-mutator/dashboard-frontend": "workspace:*",
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
-    "applicationinsights": "3.15.1",
+    "applicationinsights": "3.16.0",
     "compression": "1.8.1",
     "cookie-session": "2.1.1",
     "helmet": "8.3.0",
