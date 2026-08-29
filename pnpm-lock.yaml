@@ -130,8 +130,8 @@ importers:
         version: link:../data-access
     devDependencies:
       azure-functions-core-tools:
-        specifier: 4.13.0
-        version: 4.13.0(supports-color@10.2.2)
+        specifier: 4.14.0
+        version: 4.14.0(supports-color@10.2.2)
 
   packages/common:
     dependencies:
@@ -3390,8 +3390,8 @@ packages:
   axios@1.19.0:
     resolution: {integrity: sha512-ht/iuYZXEjFxLH/Hkezgd7m6JKlHHXEUSneaDz8uZe1Gj5QZtCnpyDsckvAiEnT89OEbCLmnte4R4sn7P0EKFw==}
 
-  azure-functions-core-tools@4.13.0:
-    resolution: {integrity: sha512-8/sgQA7WAM6DQjVS1DDeUC1gEIAt/rOorPorQCxhl6tn74GFri/kFgM4O+LBC3uSwfh6X48/guUlZYyJTFKDnA==}
+  azure-functions-core-tools@4.14.0:
+    resolution: {integrity: sha512-rgkOyC6LEwDVB2DmrxOWym6Idi4EL6FuXdp4MUfl40OsB23niXfPZNyN7+J+YLJSUVuwpLOEjNU7B8yHjPpG9g==}
     engines: {node: '>=22'}
     os: [win32, darwin, linux]
     hasBin: true
@@ -3551,6 +3551,10 @@ packages:
   chalk@5.6.2:
     resolution: {integrity: sha512-7NzBL0rN6fMUW+f7A6Io4h40qQlG+xGmtMxfbnH/K7TAtt8JQWVQK+6g0UXKMeVJoyV5EkkNsErQ8pVD3bLHbA==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+
+  chalk@6.0.0:
+    resolution: {integrity: sha512-2uNTXIuTTxk7ciZgAU1BQcgnchcG0xXnrs6jzkQfj9SsRa9M2s5zE8WT96hS6KmG4MzWHSrvH43DF1m4XRkrFg==}
+    engines: {node: '>=22'}
 
   chardet@2.2.0:
     resolution: {integrity: sha512-rddelWYNPRrXq6PtNEN2S3f6t9ILzvqaN5pVgi4kqt9jHQaXIial9PznB5iSPVlQSLNaaH22ItWz3EJtQ10+OA==}
@@ -10357,9 +10361,9 @@ snapshots:
       - debug
       - supports-color
 
-  azure-functions-core-tools@4.13.0(supports-color@10.2.2):
+  azure-functions-core-tools@4.14.0(supports-color@10.2.2):
     dependencies:
-      chalk: 4.1.2
+      chalk: 6.0.0
       extract-zip: 2.0.1(supports-color@10.2.2)
       https-proxy-agent: 9.1.0(supports-color@10.2.2)
       progress: 2.0.3
@@ -10595,6 +10599,8 @@ snapshots:
       supports-color: 7.2.0
 
   chalk@5.6.2: {}
+
+  chalk@6.0.0: {}
 
   chardet@2.2.0: {}
 
