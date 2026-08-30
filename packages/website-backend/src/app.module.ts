@@ -1,5 +1,6 @@
 import { type MiddlewareConsumer, Module, type NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { PassportModule } from '@nestjs/passport';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { deriveKey } from '@stryker-mutator/dashboard-common/crypto';
 import cookieSession from 'cookie-session';
@@ -31,6 +32,7 @@ const dist = fileURLToPath(import.meta.resolve('@stryker-mutator/dashboard-front
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    PassportModule.register({}),
     ServeStaticModule.forRoot({
       rootPath: dist,
       exclude: ['/api/*apiPath'],
