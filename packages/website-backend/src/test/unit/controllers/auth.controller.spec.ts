@@ -138,6 +138,26 @@ describe(AuthController.name, () => {
       });
     });
 
+    it('should accept the issuer GitHub identifies itself with', async () => {
+      // Arrange
+      const { cookie, state } = await beginAuthorization();
+
+      // Act & Assert
+      await exchange({ code: 'the-authorization-code', state, iss: 'https://github.com/login/oauth' })
+        .set('Cookie', cookie)
+        .expect(201);
+    });
+
+    it('should reject an authorization response from another issuer', async () => {
+      // Arrange
+      const { cookie, state } = await beginAuthorization();
+
+      // Act & Assert
+      await exchange({ code: 'the-authorization-code', state, iss: 'https://github.example.org/login/oauth' })
+        .set('Cookie', cookie)
+        .expect(401);
+    });
+
     it('should reject an authorization response without the state cookie', async () => {
       // Arrange
       const { state } = await beginAuthorization();
