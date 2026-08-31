@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.8](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.7...v0.20.8) (2026-08-31)
+
+### Bug Fixes
+
+- **deps:** update dependency applicationinsights to v3.16.0 ([#2149](https://github.com/stryker-mutator/stryker-dashboard/issues/2149)) ([353254f](https://github.com/stryker-mutator/stryker-dashboard/commit/353254fc3a01b94e11e9d969971db8870edab6d0))
+- **deps:** update dependency jose to v6.2.10 ([#2172](https://github.com/stryker-mutator/stryker-dashboard/issues/2172)) ([43aee07](https://github.com/stryker-mutator/stryker-dashboard/commit/43aee076b6d747ad7d917f894251877e7dd66da6))
+- **deps:** update dependency jose to v6.2.9 ([#2163](https://github.com/stryker-mutator/stryker-dashboard/issues/2163)) ([4d8ed9c](https://github.com/stryker-mutator/stryker-dashboard/commit/4d8ed9c350bb549f8c7b08166795f055cdfc3a54))
+- **deps:** update dependency openid-client to v6.8.5 ([#2144](https://github.com/stryker-mutator/stryker-dashboard/issues/2144)) ([c8394a1](https://github.com/stryker-mutator/stryker-dashboard/commit/c8394a1614f3b63ce05769f6ca840f259f21dc82))
+- **deps:** update dependency openid-client to v6.8.7 ([#2164](https://github.com/stryker-mutator/stryker-dashboard/issues/2164)) ([ee2ea98](https://github.com/stryker-mutator/stryker-dashboard/commit/ee2ea98536054d9c205544b3a44f98335479cbcf))
+- **deps:** update nestjs packages to v11.1.29 ([#2145](https://github.com/stryker-mutator/stryker-dashboard/issues/2145)) ([77e4a84](https://github.com/stryker-mutator/stryker-dashboard/commit/77e4a84c433b3f0fda63370a3d9da905c44ff753))
+- **deps:** update nestjs packages to v11.2.0 ([#2152](https://github.com/stryker-mutator/stryker-dashboard/issues/2152)) ([1eea2f5](https://github.com/stryker-mutator/stryker-dashboard/commit/1eea2f5220afdcaf7520f733a38431edbe135a1b))
+- **deps:** update nestjs packages to v11.2.1 ([#2153](https://github.com/stryker-mutator/stryker-dashboard/issues/2153)) ([2d2f68f](https://github.com/stryker-mutator/stryker-dashboard/commit/2d2f68f197fa806a3b2d96d29a148d11debfdeea))
+- **deps:** update nestjs packages to v11.2.3 ([#2173](https://github.com/stryker-mutator/stryker-dashboard/issues/2173)) ([d0fdfb9](https://github.com/stryker-mutator/stryker-dashboard/commit/d0fdfb95d8a78e2da31b096688dea46d5d3bdffc))
+- **deps:** update nestjs packages to v12 ([#2177](https://github.com/stryker-mutator/stryker-dashboard/issues/2177)) ([26eacc9](https://github.com/stryker-mutator/stryker-dashboard/commit/26eacc92b458add5f8e518960c2615f542518c54))
+- issuer metadata for GitHub auth ([#2178](https://github.com/stryker-mutator/stryker-dashboard/issues/2178)) ([4d26c8e](https://github.com/stryker-mutator/stryker-dashboard/commit/4d26c8edebff3cd9fd689b399550759420153978)), closes [#2156](https://github.com/stryker-mutator/stryker-dashboard/issues/2156) [#2167](https://github.com/stryker-mutator/stryker-dashboard/issues/2167)
+
 ## [0.20.7](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.6...v0.20.7) (2026-08-07)
 
 ### Bug Fixes
