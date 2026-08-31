@@ -59,7 +59,7 @@
       "**/*.code-search": true,
       "**/dist": true,
     },
-    "typescript.tsdk": "stryker-dashboard\\node_modules\\typescript\\lib",
+    "js/ts.tsdk.path": "root/node_modules/typescript/lib",
     "cSpell.words": ["Clazz", "clippy", "etag", "fdescribe", "gitlab", "Testabilities"],
     "task.autoDetect": "off",
     "azurite.location": "root/.azurite",
