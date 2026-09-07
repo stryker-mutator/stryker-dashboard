@@ -77,7 +77,7 @@ describe(AuthPage.name, () => {
     expect(mockLocation.href).to.eq('');
     const notify = sut.element.shadowRoot?.querySelector('sme-notify');
     expect(notify?.getAttribute('type')).to.eq('error');
-    expect(notify).toHaveTextContent('Signing in failed.');
+    expect(notify).toMatchTextContent('Signing in failed.');
     expect(notify?.querySelector('a')?.getAttribute('href')).to.eq('/api/auth/github');
   });
 });
