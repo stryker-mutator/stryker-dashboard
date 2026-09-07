@@ -57,7 +57,7 @@ describe(ReportPage.name, () => {
 
     // Assert
     const reportElement = sut.element.shadowRoot?.querySelector('mutation-test-report-app');
-    expect(reportElement?.shadowRoot).toHaveTextContent('my-repo/branch - Stryker Dashboard');
+    expect(reportElement?.shadowRoot).toMatchTextContent('my-repo/branch - Stryker Dashboard');
 
     expect(sut.element.didNotFindReport).to.be.false;
     expect(sut.element.shadowRoot?.querySelector('sme-spatious-layout')).not.toBeInTheDocument();
@@ -82,7 +82,7 @@ describe(ReportPage.name, () => {
 
     // Assert
     const reportElement = sut.element.shadowRoot?.querySelector('mutation-test-report-app');
-    expect(reportElement?.shadowRoot).toHaveTextContent('my-repo/branch/my-module - Stryker Dashboard');
+    expect(reportElement?.shadowRoot).toMatchTextContent('my-repo/branch/my-module - Stryker Dashboard');
     expect(reportService.getReport).toHaveBeenCalled();
   });
 
@@ -97,7 +97,7 @@ describe(ReportPage.name, () => {
     // Assert
     expect(sut.element.didNotFindReport).to.be.false;
     expect(sut.element.shadowRoot?.querySelector('mutation-test-report-app')).not.toBeInTheDocument();
-    expect(sut.element.shadowRoot).toHaveTextContent('Mutation score: 42');
+    expect(sut.element.shadowRoot).toMatchTextContent('Mutation score: 42');
     expect(reportService.getReport).toHaveBeenCalled();
   });
 

@@ -212,9 +212,9 @@ describe(RepositoriesPage.name, () => {
       const badgeCollapsible = modal.querySelector<HTMLElement>('sme-collapsible#badge-collapsible')!;
       const usageCollapsible = modal.querySelector<HTMLElement>('sme-collapsible#usage-collapsible')!;
 
-      await expect.element(apiKeyCollapsible).toHaveTextContent("Here's your API key:foo-bar-baz");
+      await expect.element(apiKeyCollapsible).toMatchTextContent("Here's your API key:foo-bar-baz");
       await expect.element(badgeCollapsible.querySelector('sme-badge-configurator')!).toBeVisible();
-      await expect.element(usageCollapsible).toHaveTextContent('See the Stryker dashboard documentation ↗');
+      await expect.element(usageCollapsible).toMatchTextContent('See the Stryker dashboard documentation ↗');
 
       const noEnabledRepositoriesNotification = loader?.querySelector('sme-notify#no-repositories-to-enable');
       expect(noEnabledRepositoriesNotification).toHaveTextContent("You don't have any repositories to enable.");
