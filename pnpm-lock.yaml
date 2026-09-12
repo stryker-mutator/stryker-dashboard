@@ -237,8 +237,8 @@ importers:
   packages/common:
     dependencies:
       jose:
-        specifier: 6.2.11
-        version: 6.2.11
+        specifier: 6.2.12
+        version: 6.2.12
       mutation-testing-report-schema:
         specifier: 3.9.0
         version: 3.9.0
@@ -4718,6 +4718,9 @@ packages:
 
   jose@6.2.11:
     resolution: {integrity: sha512-A5NPn7g8EAzGU3IzRs+Yiq8K5n3ypYS75M5+KKiVHdUexfpWK1kP4ZMq7QnTGDoMj6TJ1dtcEJjW60yZDXS4hg==}
+
+  jose@6.2.12:
+    resolution: {integrity: sha512-9NiFmJEex0sy2Dk58j2UGBSHgUs2ypF9eZSu4L6vjOX3Dp96Sw1F3uL+H+D1sx02jZZdzUT0HgvCy59CuvXcWw==}
 
   js-levenshtein-esm@2.0.0:
     resolution: {integrity: sha512-1n4LEPOL4wRXY8rOQcuA7Iuaphe5xCMayvufCzlLAi+hRsnBRDbSS6XPuV58CBVJxj5D9ApFLyjQ7KzFToyHBw==}
@@ -11892,6 +11895,8 @@ snapshots:
   jiti@2.7.0: {}
 
   jose@6.2.11: {}
+
+  jose@6.2.12: {}
 
   js-levenshtein-esm@2.0.0: {}
 
