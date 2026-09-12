@@ -38,7 +38,7 @@
     "storybook": "10.6.0",
     "tailwindcss": "4.3.3",
     "unplugin-dts": "1.1.0",
-    "vite": "8.2.2"
+    "vite": "8.3.0"
   },
   "overrides": {
     "storybook": "$storybook"
