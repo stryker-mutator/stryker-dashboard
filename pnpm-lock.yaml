@@ -435,8 +435,8 @@ importers:
         version: 10.0.3
     devDependencies:
       '@nestjs/schematics':
-        specifier: 12.0.0
-        version: 12.0.0(@typescript/typescript6@6.0.2)(chokidar@5.0.0)(prettier@3.9.6)
+        specifier: 12.0.1
+        version: 12.0.1(@typescript/typescript6@6.0.2)(chokidar@5.0.0)(prettier@3.9.6)
       '@nestjs/testing':
         specifier: 12.0.1
         version: 12.0.1(@nestjs/common@12.0.1(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.0.1)(@nestjs/platform-express@12.0.1)
@@ -524,8 +524,8 @@ packages:
   '@adobe/css-tools@4.5.0':
     resolution: {integrity: sha512-6OzddxPio9UiWTCemp4N8cYLV2ZN1ncRnV1cVGtve7dhPOtRkleRyx32GQCYSwDYgaHU3USMm84tNsvKzRCa1Q==}
 
-  '@angular-devkit/core@22.1.5':
-    resolution: {integrity: sha512-HiY6d5dkIdJs5grP9OHvgkf14QOcDIo+hbuT7YKuLItQ++ZxCwUabJMLCCJ5R0KrstE5NqED0dNcyk5WD01t5Q==}
+  '@angular-devkit/core@22.1.6':
+    resolution: {integrity: sha512-KLBsZoc2RhOy0xSdeYcLoSOqV/fBP3feBmhY9o12ry2IuyW/17sCmWr6XbIfTIYQN6M98Y1ewmwVNFsvV5b0gA==}
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
     peerDependencies:
       chokidar: ^5.0.0
@@ -533,8 +533,8 @@ packages:
       chokidar:
         optional: true
 
-  '@angular-devkit/schematics@22.1.5':
-    resolution: {integrity: sha512-HTmo9y8wjXKtJGVTYomTjZsjWzhirpu1pPRAzsVob3eiYOuxv1qDRAgWiHXNGp5CpnbHunZweXY/WffNGOFRyA==}
+  '@angular-devkit/schematics@22.1.6':
+    resolution: {integrity: sha512-IbDO9KbQyQm20uinsfT8d9ZtQw41/WVutI/65mAw39WZfN8Ky+MOgOUJCGLiSccMprvZ9YdodBTnN9bLH149Ag==}
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
 
   '@azure-rest/core-client@2.8.0':
@@ -1566,9 +1566,9 @@ packages:
       '@nestjs/common': ^12.0.0
       '@nestjs/core': ^12.0.0
 
-  '@nestjs/schematics@12.0.0':
-    resolution: {integrity: sha512-ilsxam7i+SWd2psr12faLVSk86FYKnxRUGO6jAGNi1P9+O0kRaYVOScyrKeIj97W9T9UJoJF38fg+7KgjY/nOg==}
-    engines: {node: '>=22.12.0'}
+  '@nestjs/schematics@12.0.1':
+    resolution: {integrity: sha512-BOhog8srf6UzpZvVZMWgyjeVOpcH4YcJZKIkbp8J2v62AiuZ6FP0O9o71jWHeoZUHO9bkvysyQzmHGweef9ZbQ==}
+    engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
     peerDependencies:
       prettier: ^3.0.0
       typescript: '>=6.0.0'
@@ -7071,7 +7071,7 @@ snapshots:
 
   '@adobe/css-tools@4.5.0': {}
 
-  '@angular-devkit/core@22.1.5(chokidar@5.0.0)':
+  '@angular-devkit/core@22.1.6(chokidar@5.0.0)':
     dependencies:
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
@@ -7082,9 +7082,9 @@ snapshots:
     optionalDependencies:
       chokidar: 5.0.0
 
-  '@angular-devkit/schematics@22.1.5(chokidar@5.0.0)':
+  '@angular-devkit/schematics@22.1.6(chokidar@5.0.0)':
     dependencies:
-      '@angular-devkit/core': 22.1.5(chokidar@5.0.0)
+      '@angular-devkit/core': 22.1.6(chokidar@5.0.0)
       jsonc-parser: 3.3.1
       magic-string: 1.0.0
       ora: 9.4.1
@@ -8537,10 +8537,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@nestjs/schematics@12.0.0(@typescript/typescript6@6.0.2)(chokidar@5.0.0)(prettier@3.9.6)':
+  '@nestjs/schematics@12.0.1(@typescript/typescript6@6.0.2)(chokidar@5.0.0)(prettier@3.9.6)':
     dependencies:
-      '@angular-devkit/core': 22.1.5(chokidar@5.0.0)
-      '@angular-devkit/schematics': 22.1.5(chokidar@5.0.0)
+      '@angular-devkit/core': 22.1.6(chokidar@5.0.0)
+      '@angular-devkit/schematics': 22.1.6(chokidar@5.0.0)
       comment-json: 5.0.0
       jsonc-parser: 3.3.1
       pluralize: 8.0.0
