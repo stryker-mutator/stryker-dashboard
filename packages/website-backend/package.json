@@ -40,7 +40,7 @@
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
     "applicationinsights": "3.16.0",
-    "compression": "1.8.1",
+    "compression": "1.8.2",
     "cookie-session": "2.1.1",
     "helmet": "8.3.0",
     "openid-client": "6.8.8",
