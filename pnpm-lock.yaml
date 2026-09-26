@@ -380,23 +380,23 @@ importers:
   packages/website-backend:
     dependencies:
       '@nestjs/common':
-        specifier: 12.0.3
-        version: 12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
+        specifier: 12.1.0
+        version: 12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
       '@nestjs/config':
-        specifier: 12.0.0
-        version: 12.0.0(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(rxjs@7.8.2)
+        specifier: 12.0.1
+        version: 12.0.1(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(rxjs@7.8.2)
       '@nestjs/core':
-        specifier: 12.0.3
-        version: 12.0.3(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/platform-express@12.0.3)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+        specifier: 12.1.0
+        version: 12.1.0(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/platform-express@12.1.0)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/passport':
         specifier: 12.0.0
-        version: 12.0.0(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(passport@0.7.0)
+        version: 12.0.0(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(passport@0.7.0)
       '@nestjs/platform-express':
-        specifier: 12.0.3
-        version: 12.0.3(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.0.3)(supports-color@10.2.2)
+        specifier: 12.1.0
+        version: 12.1.0(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.1.0)(supports-color@10.2.2)
       '@nestjs/serve-static':
         specifier: 12.0.0
-        version: 12.0.0(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.0.3)(express@5.2.1(supports-color@10.2.2))
+        version: 12.0.0(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.1.0)(express@5.2.1(supports-color@10.2.2))
       '@stryker-mutator/dashboard-common':
         specifier: workspace:*
         version: link:../common
@@ -435,11 +435,11 @@ importers:
         version: 10.0.3
     devDependencies:
       '@nestjs/schematics':
-        specifier: 12.0.3
-        version: 12.0.3(@typescript/typescript6@6.0.2)(chokidar@5.0.0)(prettier@3.9.9)
+        specifier: 12.0.5
+        version: 12.0.5(@typescript/typescript6@6.0.2)(chokidar@5.0.0)(prettier@3.9.9)
       '@nestjs/testing':
-        specifier: 12.0.3
-        version: 12.0.3(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.0.3)(@nestjs/platform-express@12.0.3)
+        specifier: 12.1.0
+        version: 12.1.0(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.1.0)(@nestjs/platform-express@12.1.0)
       '@types/compression':
         specifier: 1.8.1
         version: 1.8.1
@@ -1518,8 +1518,8 @@ packages:
       '@emnapi/core': ^1.7.1 || ^2.0.0-alpha.4
       '@emnapi/runtime': ^1.7.1 || ^2.0.0-alpha.4
 
-  '@nestjs/common@12.0.3':
-    resolution: {integrity: sha512-Fosz6lHc9OagZNcF0LTrVHyJS8W7mtuNFBOo9RRccGwyeICBd0hiutjAi9zxnzBcP45RkYXeNB+idA/52jZhBQ==}
+  '@nestjs/common@12.1.0':
+    resolution: {integrity: sha512-YGNboXyCmLWwIyrrVLst2dsH+DjsIje4S3P2i06HRwV0Sdcp+qZ7UV3PvIvCD4mI/VGH/f4p0Oq2sMVkVB0GOA==}
     peerDependencies:
       class-transformer: '>=0.4.1'
       class-validator: '>=0.13.2'
@@ -1531,14 +1531,14 @@ packages:
       class-validator:
         optional: true
 
-  '@nestjs/config@12.0.0':
-    resolution: {integrity: sha512-pG5+fFfCo3cdgVkLJLvvhUGfxEjwzv9hIAQ1aJVHvHlHVniDWfwX5pR/utgoAkJzSikv2oTR1BmIF03FXdi42Q==}
+  '@nestjs/config@12.0.1':
+    resolution: {integrity: sha512-pxqEtULFi4qXda0TqyR2YFq7o4UoRa7h4K5H0lgFuBMrUGr6x6VVldaJJrowFyh4uvp8dNq9Mie3T+l+uEOTfw==}
     peerDependencies:
       '@nestjs/common': ^11.0.0 || ^12.0.0
       rxjs: ^7.1.0
 
-  '@nestjs/core@12.0.3':
-    resolution: {integrity: sha512-Ouv++gAXOL50S8K8n6AN19QGmw51rnIo6v7y9AqUYoaf0NcZlufTu5XTDeC2RtpMz8oXRr9nykBngRjflcoQKA==}
+  '@nestjs/core@12.1.0':
+    resolution: {integrity: sha512-lI/JwCwuDgvJPHZMqQdP7vDwQFPzWQ0Sgsqe6SeCdN3FWu2t+9kkW7kLxrPcRnTdyB9XnuCanh9J9oMc/pQgUg==}
     engines: {node: '>= 20'}
     peerDependencies:
       '@nestjs/common': ^12.0.0
@@ -1561,14 +1561,14 @@ packages:
       '@nestjs/common': ^11.0.0 || ^12.0.0
       passport: ^0.5.0 || ^0.6.0 || ^0.7.0
 
-  '@nestjs/platform-express@12.0.3':
-    resolution: {integrity: sha512-q9ImjCMjbYYgqvRHHro6sAypNwhjspIAHad0RTL2ww5wYd9gwUGWMss7Q+ACCw5Sksu7Q8S/3rjSLhB+W6B6bg==}
+  '@nestjs/platform-express@12.1.0':
+    resolution: {integrity: sha512-LOyutflFXjV+ahGKpcje9x1BFSVj9GjOE7kU1kGpI3P+NBzEf3dnsES/fmGuW8R7gV11VJlRz7u+3wYbda5/xg==}
     peerDependencies:
       '@nestjs/common': ^12.0.0
       '@nestjs/core': ^12.0.0
 
-  '@nestjs/schematics@12.0.3':
-    resolution: {integrity: sha512-HGF66VyIlQt79yMnBzPfI6TU/dyf6yUg/Ja4DraL1uw6Tt+MsGK15LbZnfDODEErztckZYu2Y/FZoH2Fv14AwQ==}
+  '@nestjs/schematics@12.0.5':
+    resolution: {integrity: sha512-AuZJVAglqzjFyXVy1EIyzjyEArw6mdOF19vWTgVviJICvVAK8DT97q+6CX4v3wWFhGZoDbGiDnbq6EsGub7/bA==}
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
     peerDependencies:
       prettier: ^3.0.0
@@ -1594,8 +1594,8 @@ packages:
       fastify:
         optional: true
 
-  '@nestjs/testing@12.0.3':
-    resolution: {integrity: sha512-TYDvBI8HvYeldNCmsuSaE4XqSs1Mg7IekSPlJf+zbrVt3+s5sqt4ySMUhbTs8JpMTFMyqCwtPTGVHIcFVuTBbQ==}
+  '@nestjs/testing@12.1.0':
+    resolution: {integrity: sha512-OL6ar+p4BRy26YlOk6nqSchGShQajW0jaPSz2tvP7C3dLQcb26Wm0AG2IlvqIBoHuN3zQFMc5DoLAyiosPP4pw==}
     peerDependencies:
       '@nestjs/common': ^12.0.0
       '@nestjs/core': ^12.0.0
@@ -4087,6 +4087,11 @@ packages:
     resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
     engines: {node: '>=12'}
 
+  dotenv@18.0.3:
+    resolution: {integrity: sha512-/8CJTyL817qPnfbQrJgOEcrU3fDrJkRIoXBE566wHuvIXKOCHUZhPqGPbCPi9SogjdGnreF0TlvnTgK6J/8zpA==}
+    engines: {node: '>=12'}
+    hasBin: true
+
   dottie@2.0.7:
     resolution: {integrity: sha512-7lAK2A0b3zZr3UC5aE69CPdCFR4RHW1o2Dr74TqFykxkUCBXSRJum/yPc7g8zRHJqWKomPLHwFLLoUnn8PXXRg==}
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
@@ -4177,8 +4182,8 @@ packages:
     resolution: {integrity: sha512-j6vWzfrGVfyXxge+O0x5sh6cvxAog0a/4Rdd2K36zCMV5eJ+/+tOAngRO8cODMNWbVRdVlmGZQL2YS3yR8bIUA==}
     engines: {node: '>= 0.4'}
 
-  es-toolkit@1.51.0:
-    resolution: {integrity: sha512-zC2lQGkM7QX+Gm6iM3+WIdZJzthsEd14LvRNJneSO2hzyz/zNBENR8+YXWo1cKxgPBtV6ksPYHELbcwBRzmdCw==}
+  es-toolkit@1.52.0:
+    resolution: {integrity: sha512-XTNEJQh1tY1ZJVcf6ayP/2n4ZPyaHlW2FWs7xvw5ddPuhUVjLD3olQVQS7kf58JbAB48iL0uL/jerTrjtV3lDA==}
 
   esbuild@0.28.2:
     resolution: {integrity: sha512-HKVLS8dvII+xoKW9kmqxbRKrnWEXfJJr/FZhhJmiqIB0e053QNYFqOBouTMO/k5sID4MvCiUCvv8b9M4h32wIA==}
@@ -4417,8 +4422,8 @@ packages:
   file-entry-cache@11.1.5:
     resolution: {integrity: sha512-+PFTHITI08JIGhnNpGNI8T8inUpgZfk3GNEqfT9R2zZV2iFXg3CvqzSl/uEhs7TSGujYRELEANyDvS8Fj7+S7Q==}
 
-  file-type@22.1.0:
-    resolution: {integrity: sha512-fbvf9u6jnHWr1EP6V8R99E9iLMhNLXgZkUzWBiPpJ5/89UJ/Atuxjn5YXR+XaZWo2hc2/8mGfTez+NDAgOcpLA==}
+  file-type@22.1.1:
+    resolution: {integrity: sha512-sEB0oStmeLGtpmSAD88RDNuLsvhv4iC3u0lE25CUvfCULvj49xoQ3l3K525Vn+ZzsZ6DOLajQCV6RmhwwhqiJg==}
     engines: {node: '>=22'}
 
   finalhandler@2.1.1:
@@ -8345,10 +8350,10 @@ snapshots:
       '@tybys/wasm-util': 0.10.4
     optional: true
 
-  '@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)':
+  '@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)':
     dependencies:
       '@standard-schema/spec': 1.1.0
-      file-type: 22.1.0(supports-color@10.2.2)
+      file-type: 22.1.1(supports-color@10.2.2)
       iterare: 1.2.1
       load-esm: 1.0.3
       reflect-metadata: 0.2.2
@@ -8358,18 +8363,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@nestjs/config@12.0.0(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(rxjs@7.8.2)':
+  '@nestjs/config@12.0.1(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(rxjs@7.8.2)':
     dependencies:
-      '@nestjs/common': 12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
+      '@nestjs/common': 12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
       '@standard-schema/spec': 1.1.0
-      dotenv: 17.4.2
+      dotenv: 18.0.3
       dotenv-expand: 13.0.0
-      es-toolkit: 1.51.0
+      es-toolkit: 1.52.0
       rxjs: 7.8.2
 
-  '@nestjs/core@12.0.3(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/platform-express@12.0.3)(reflect-metadata@0.2.2)(rxjs@7.8.2)':
+  '@nestjs/core@12.1.0(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/platform-express@12.1.0)(reflect-metadata@0.2.2)(rxjs@7.8.2)':
     dependencies:
-      '@nestjs/common': 12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
+      '@nestjs/common': 12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
       fast-safe-stringify: 2.1.1
       iterare: 1.2.1
       path-to-regexp: 8.4.2
@@ -8378,17 +8383,17 @@ snapshots:
       tslib: 2.8.1
       uid: 2.0.2
     optionalDependencies:
-      '@nestjs/platform-express': 12.0.3(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.0.3)(supports-color@10.2.2)
+      '@nestjs/platform-express': 12.1.0(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.1.0)(supports-color@10.2.2)
 
-  '@nestjs/passport@12.0.0(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(passport@0.7.0)':
+  '@nestjs/passport@12.0.0(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(passport@0.7.0)':
     dependencies:
-      '@nestjs/common': 12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
+      '@nestjs/common': 12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
       passport: 0.7.0
 
-  '@nestjs/platform-express@12.0.3(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.0.3)(supports-color@10.2.2)':
+  '@nestjs/platform-express@12.1.0(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.1.0)(supports-color@10.2.2)':
     dependencies:
-      '@nestjs/common': 12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
-      '@nestjs/core': 12.0.3(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/platform-express@12.0.3)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/common': 12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
+      '@nestjs/core': 12.1.0(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/platform-express@12.1.0)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       cors: 2.8.6
       express: 5.2.1(supports-color@10.2.2)
       multer: 2.4.0
@@ -8397,7 +8402,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@nestjs/schematics@12.0.3(@typescript/typescript6@6.0.2)(chokidar@5.0.0)(prettier@3.9.9)':
+  '@nestjs/schematics@12.0.5(@typescript/typescript6@6.0.2)(chokidar@5.0.0)(prettier@3.9.9)':
     dependencies:
       '@angular-devkit/core': 22.1.8(chokidar@5.0.0)
       '@angular-devkit/schematics': 22.1.8(chokidar@5.0.0)
@@ -8410,21 +8415,21 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@nestjs/serve-static@12.0.0(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.0.3)(express@5.2.1(supports-color@10.2.2))':
+  '@nestjs/serve-static@12.0.0(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.1.0)(express@5.2.1(supports-color@10.2.2))':
     dependencies:
-      '@nestjs/common': 12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
-      '@nestjs/core': 12.0.3(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/platform-express@12.0.3)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/common': 12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
+      '@nestjs/core': 12.1.0(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/platform-express@12.1.0)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       path-to-regexp: 8.4.2
     optionalDependencies:
       express: 5.2.1(supports-color@10.2.2)
 
-  '@nestjs/testing@12.0.3(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.0.3)(@nestjs/platform-express@12.0.3)':
+  '@nestjs/testing@12.1.0(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.1.0)(@nestjs/platform-express@12.1.0)':
     dependencies:
-      '@nestjs/common': 12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
-      '@nestjs/core': 12.0.3(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/platform-express@12.0.3)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/common': 12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
+      '@nestjs/core': 12.1.0(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/platform-express@12.1.0)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       tslib: 2.8.1
     optionalDependencies:
-      '@nestjs/platform-express': 12.0.3(@nestjs/common@12.0.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.0.3)(supports-color@10.2.2)
+      '@nestjs/platform-express': 12.1.0(@nestjs/common@12.1.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.1.0)(supports-color@10.2.2)
 
   '@noble/hashes@1.8.0': {}
 
@@ -11132,6 +11137,8 @@ snapshots:
 
   dotenv@17.4.2: {}
 
+  dotenv@18.0.3: {}
+
   dottie@2.0.7: {}
 
   dunder-proto@1.0.1:
@@ -11205,7 +11212,7 @@ snapshots:
       has-tostringtag: 1.0.2
       hasown: 2.0.4
 
-  es-toolkit@1.51.0: {}
+  es-toolkit@1.52.0: {}
 
   esbuild@0.28.2:
     optionalDependencies:
@@ -11565,7 +11572,7 @@ snapshots:
     dependencies:
       flat-cache: 6.1.23
 
-  file-type@22.1.0(supports-color@10.2.2):
+  file-type@22.1.1(supports-color@10.2.2):
     dependencies:
       '@tokenizer/inflate': 0.4.1(supports-color@10.2.2)
       strtok3: 10.3.5
