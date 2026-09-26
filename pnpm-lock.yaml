@@ -288,8 +288,8 @@ importers:
         version: link:../data-access
     devDependencies:
       azure-functions-core-tools:
-        specifier: 4.14.0
-        version: 4.14.0(supports-color@8.1.1)
+        specifier: 4.15.1
+        version: 4.15.1(supports-color@8.1.1)
 
   packages/common:
     dependencies:
@@ -3522,8 +3522,8 @@ packages:
   axios@1.20.0:
     resolution: {integrity: sha512-r8aOh8j9cGKpgQAqpzrUHnSIc6a59Y3Xf/cv8sy1DrHCkZHzQGEuoq1tARk6qSyDdtQGSDgpb9kFlruzPvrgwg==}
 
-  azure-functions-core-tools@4.14.0:
-    resolution: {integrity: sha512-rgkOyC6LEwDVB2DmrxOWym6Idi4EL6FuXdp4MUfl40OsB23niXfPZNyN7+J+YLJSUVuwpLOEjNU7B8yHjPpG9g==}
+  azure-functions-core-tools@4.15.1:
+    resolution: {integrity: sha512-g6tMpzlOBTbw77QWblbBXzVo0Hv/qF0Q84CwLMC9gG8G3NinulwJwZiYHjoY33ZnYExaXetrpxXmbvQ3N0TdgQ==}
     engines: {node: '>=22'}
     os: [win32, darwin, linux]
     hasBin: true
@@ -9931,7 +9931,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 24.13.5
+      '@types/node': 24.13.6
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.70.0(@typescript-eslint/parser@8.70.0(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(@typescript/typescript6@6.0.2)(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)':
@@ -10468,7 +10468,7 @@ snapshots:
       - debug
       - supports-color
 
-  azure-functions-core-tools@4.14.0(supports-color@8.1.1):
+  azure-functions-core-tools@4.15.1(supports-color@8.1.1):
     dependencies:
       chalk: 6.0.0
       extract-zip: 2.0.1(supports-color@8.1.1)
