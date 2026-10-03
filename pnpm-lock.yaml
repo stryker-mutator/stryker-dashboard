@@ -288,8 +288,8 @@ importers:
         version: link:../data-access
     devDependencies:
       azure-functions-core-tools:
-        specifier: 4.15.1
-        version: 4.15.1(supports-color@8.1.1)
+        specifier: 4.15.2
+        version: 4.15.2(supports-color@8.1.1)
 
   packages/common:
     dependencies:
@@ -3566,8 +3566,8 @@ packages:
   axios@1.20.0:
     resolution: {integrity: sha512-r8aOh8j9cGKpgQAqpzrUHnSIc6a59Y3Xf/cv8sy1DrHCkZHzQGEuoq1tARk6qSyDdtQGSDgpb9kFlruzPvrgwg==}
 
-  azure-functions-core-tools@4.15.1:
-    resolution: {integrity: sha512-g6tMpzlOBTbw77QWblbBXzVo0Hv/qF0Q84CwLMC9gG8G3NinulwJwZiYHjoY33ZnYExaXetrpxXmbvQ3N0TdgQ==}
+  azure-functions-core-tools@4.15.2:
+    resolution: {integrity: sha512-lGXOZ+4UdAB0m+amO4wQzTFK45D3bYEeujPUUAz/MyYUCYBzgxoZE0zAlMBcGhZS1euMcWUkxdMQUAjwtsGv4Q==}
     engines: {node: '>=22'}
     os: [win32, darwin, linux]
     hasBin: true
@@ -10583,7 +10583,7 @@ snapshots:
       - debug
       - supports-color
 
-  azure-functions-core-tools@4.15.1(supports-color@8.1.1):
+  azure-functions-core-tools@4.15.2(supports-color@8.1.1):
     dependencies:
       chalk: 6.0.0
       extract-zip: 2.0.1(supports-color@8.1.1)
