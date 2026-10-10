@@ -37,7 +37,7 @@
     "@tailwindcss/vite": "4.3.3",
     "storybook": "10.6.1",
     "tailwindcss": "4.3.3",
-    "unplugin-dts": "1.1.1",
+    "unplugin-dts": "1.1.2",
     "vite": "8.3.2"
   },
   "overrides": {
