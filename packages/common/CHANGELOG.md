@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.9](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.8...v0.20.9) (2026-10-25)
+
+### Bug Fixes
+
+- **deps:** update dependency jose to v6.2.11 ([#2188](https://github.com/stryker-mutator/stryker-dashboard/issues/2188)) ([1cd46db](https://github.com/stryker-mutator/stryker-dashboard/commit/1cd46db47e789d7ce3e6e8b808c65eb3af026518))
+- **deps:** update dependency jose to v6.2.12 ([#2192](https://github.com/stryker-mutator/stryker-dashboard/issues/2192)) ([edd7b5c](https://github.com/stryker-mutator/stryker-dashboard/commit/edd7b5c073511314b6a1721d7b27289dfeb24cd7))
+- **deps:** update dependency jose to v6.2.13 ([#2269](https://github.com/stryker-mutator/stryker-dashboard/issues/2269)) ([6f37194](https://github.com/stryker-mutator/stryker-dashboard/commit/6f37194448cebd103d70815e21ca95f6988490fc))
+
 ## [0.20.8](https://github.com/stryker-mutator/stryker-dashboard/compare/v0.20.7...v0.20.8) (2026-08-31)
 
 ### Bug Fixes
