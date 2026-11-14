@@ -294,8 +294,8 @@ importers:
   packages/common:
     dependencies:
       jose:
-        specifier: 6.2.15
-        version: 6.2.15
+        specifier: 6.2.17
+        version: 6.2.17
       mutation-testing-report-schema:
         specifier: 3.9.0
         version: 3.9.0
@@ -4675,8 +4675,8 @@ packages:
     resolution: {integrity: sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==}
     hasBin: true
 
-  jose@6.2.15:
-    resolution: {integrity: sha512-qdF6ewcZARtef63fJ9AKKZPgxw+t7USH6HLXYcD4CrdmSvDp79rpJSPFEKc90QBeGS63u1KQtN2MZQHC0yDIzA==}
+  jose@6.2.17:
+    resolution: {integrity: sha512-wOuK9V1yujQFH5S0ZWmLcDZN7+IKh9bUCC2ZPCf2HDlol3WWHy+PPyNjEI75FXRLMp3vDKQcupP59xhVU95hcg==}
 
   js-levenshtein-esm@2.0.0:
     resolution: {integrity: sha512-1n4LEPOL4wRXY8rOQcuA7Iuaphe5xCMayvufCzlLAi+hRsnBRDbSS6XPuV58CBVJxj5D9ApFLyjQ7KzFToyHBw==}
@@ -11493,7 +11493,7 @@ snapshots:
 
   jiti@2.7.0: {}
 
-  jose@6.2.15: {}
+  jose@6.2.17: {}
 
   js-levenshtein-esm@2.0.0: {}
 
@@ -12386,7 +12386,7 @@ snapshots:
 
   openid-client@6.8.9:
     dependencies:
-      jose: 6.2.15
+      jose: 6.2.17
       oauth4webapi: 3.8.8
 
   optionator@0.9.4:
