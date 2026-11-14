@@ -278,8 +278,8 @@ importers:
   packages/badge-api:
     dependencies:
       '@azure/functions':
-        specifier: 4.17.0
-        version: 4.17.0
+        specifier: 4.17.1
+        version: 4.17.1
       '@stryker-mutator/dashboard-common':
         specifier: workspace:*
         version: link:../common
@@ -596,8 +596,8 @@ packages:
     resolution: {integrity: sha512-Cux0hLu5ZXlC/Kb+yvJVhRLIdkfFwui2HeT5oGZL00r/GCUUkhGTzRfZUjRN4Bq729mPv3okPucz2z7SMQLStA==}
     engines: {node: '>=18.0'}
 
-  '@azure/functions@4.17.0':
-    resolution: {integrity: sha512-BC+eWRqwL3LYvkfKO0UqVSig4IrEbgbaUvxGC6MhpUJRsZqVlEYHyE0EZcn7MtOc2py1ArJdXkqwuOzdvlbBSA==}
+  '@azure/functions@4.17.1':
+    resolution: {integrity: sha512-uvfAoU/j89p1IJ4pi1r4DJysznmbdLV/KZgx26TxF3z06Cnu2NiiNZLHL83Km9oHy+sSuaSUKuEsdj32tL3C6A==}
     engines: {node: '>=20.0'}
 
   '@azure/identity@4.14.1':
@@ -6893,7 +6893,7 @@ snapshots:
 
   '@azure/functions-extensions-base@0.3.0': {}
 
-  '@azure/functions@4.17.0':
+  '@azure/functions@4.17.1':
     dependencies:
       '@azure/functions-extensions-base': 0.3.0
       cookie: 0.7.2
@@ -9943,7 +9943,7 @@ snapshots:
   applicationinsights@3.17.0(supports-color@10.2.2):
     dependencies:
       '@azure/core-auth': 1.11.0(supports-color@10.2.2)
-      '@azure/functions': 4.17.0
+      '@azure/functions': 4.17.1
       '@azure/identity': 4.14.1(supports-color@10.2.2)
       '@azure/monitor-opentelemetry': 1.21.0(supports-color@10.2.2)
       '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.47(supports-color@10.2.2)
@@ -9969,7 +9969,7 @@ snapshots:
   applicationinsights@3.17.0(supports-color@8.1.1):
     dependencies:
       '@azure/core-auth': 1.11.0(supports-color@8.1.1)
-      '@azure/functions': 4.17.0
+      '@azure/functions': 4.17.1
       '@azure/identity': 4.14.1(supports-color@8.1.1)
       '@azure/monitor-opentelemetry': 1.21.0(supports-color@8.1.1)
       '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.47(supports-color@8.1.1)
