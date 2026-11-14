@@ -303,8 +303,8 @@ importers:
   packages/data-access:
     dependencies:
       '@azure/core-rest-pipeline':
-        specifier: 1.25.0
-        version: 1.25.0(supports-color@10.2.2)
+        specifier: 1.25.1
+        version: 1.25.1(supports-color@10.2.2)
       '@azure/data-tables':
         specifier: 13.3.2
         version: 13.3.2(supports-color@10.2.2)
@@ -572,8 +572,8 @@ packages:
     resolution: {integrity: sha512-/shnJ+ooO8WPxDhPEeI/2oRQuubn16gZ6CvlbpWbEswZfzwI9tI/sMAHmF3x1LuQ9yZYXfLW3TjzGMLEC5blKg==}
     engines: {node: '>=22.0.0'}
 
-  '@azure/core-rest-pipeline@1.25.0':
-    resolution: {integrity: sha512-bMs8ekJLjX8wPV+9IPBges1SLPyuDtE9g5gLDWOpxzKcoOFQnpLGkbcT1tdw3FaAmDS1gnPmMmJ6y/T5B96kIA==}
+  '@azure/core-rest-pipeline@1.25.1':
+    resolution: {integrity: sha512-fTIA3CAm/cdODqiXkO6jYOIkU2Ylld7vq65KGc70gTwl12sLQsC8v7I5t6tp2N2CfUONzZBXyeFw7KEu6Ks2zg==}
     engines: {node: '>=22.0.0'}
 
   '@azure/core-tracing@1.4.0':
@@ -3087,6 +3087,10 @@ packages:
   '@typescript/typescript6@6.0.2':
     resolution: {integrity: sha512-mbCddXd+jm7hfx7w2YU64/Av4/NqqeG3GoRZgxPcgoTxYjhrcfJRw9ULch71SS4G+Q3bOXFhRvPqjguN0Hyp5w==}
     hasBin: true
+
+  '@typespec/ts-http-runtime@0.3.10':
+    resolution: {integrity: sha512-vddvvtZ7sejSlCv+OIkn2ztjB1O31Fc2JsxI/YK725r3elXXlF/J3o3lbXJFRhoeWRWK1tjdZ+GTi6Fdtrp+EA==}
+    engines: {node: '>=22.0.0'}
 
   '@typespec/ts-http-runtime@0.3.9':
     resolution: {integrity: sha512-edSdeAqkdxBVzA1yL1LrLCml1YjyCVvPMtMqJpbF+6K609tHe8V6sQUzFQSGcYNhcuhOceZtjvN32+mpIth30A==}
@@ -6758,22 +6762,24 @@ snapshots:
     dependencies:
       '@azure/abort-controller': 2.2.0
       '@azure/core-auth': 1.11.0(supports-color@10.2.2)
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@10.2.2)
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@10.2.2)
       '@azure/core-tracing': 1.4.0
       '@typespec/ts-http-runtime': 0.3.9(supports-color@10.2.2)
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   '@azure-rest/core-client@2.9.0(supports-color@8.1.1)':
     dependencies:
       '@azure/abort-controller': 2.2.0
       '@azure/core-auth': 1.11.0(supports-color@8.1.1)
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@8.1.1)
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@8.1.1)
       '@azure/core-tracing': 1.4.0
       '@typespec/ts-http-runtime': 0.3.9(supports-color@8.1.1)
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   '@azure/abort-controller@2.2.0':
@@ -6800,31 +6806,33 @@ snapshots:
     dependencies:
       '@azure/abort-controller': 2.2.0
       '@azure/core-auth': 1.11.0(supports-color@10.2.2)
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@10.2.2)
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@10.2.2)
       '@azure/core-tracing': 1.4.0
       '@azure/core-util': 1.14.0(supports-color@10.2.2)
       '@azure/logger': 1.4.0(supports-color@10.2.2)
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   '@azure/core-client@1.11.1(supports-color@8.1.1)':
     dependencies:
       '@azure/abort-controller': 2.2.0
       '@azure/core-auth': 1.11.0(supports-color@8.1.1)
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@8.1.1)
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@8.1.1)
       '@azure/core-tracing': 1.4.0
       '@azure/core-util': 1.14.0(supports-color@8.1.1)
       '@azure/logger': 1.4.0(supports-color@8.1.1)
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
-  '@azure/core-http-compat@2.5.0(@azure/core-client@1.11.1(supports-color@10.2.2))(@azure/core-rest-pipeline@1.25.0(supports-color@10.2.2))':
+  '@azure/core-http-compat@2.5.0(@azure/core-client@1.11.1(supports-color@10.2.2))(@azure/core-rest-pipeline@1.25.1(supports-color@10.2.2))':
     dependencies:
       '@azure/abort-controller': 2.2.0
       '@azure/core-client': 1.11.1(supports-color@10.2.2)
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@10.2.2)
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@10.2.2)
 
   '@azure/core-lro@2.7.2(supports-color@10.2.2)':
     dependencies:
@@ -6850,28 +6858,30 @@ snapshots:
 
   '@azure/core-process@1.0.0': {}
 
-  '@azure/core-rest-pipeline@1.25.0(supports-color@10.2.2)':
+  '@azure/core-rest-pipeline@1.25.1(supports-color@10.2.2)':
     dependencies:
       '@azure/abort-controller': 2.2.0
       '@azure/core-auth': 1.11.0(supports-color@10.2.2)
       '@azure/core-tracing': 1.4.0
       '@azure/core-util': 1.14.0(supports-color@10.2.2)
       '@azure/logger': 1.4.0(supports-color@10.2.2)
-      '@typespec/ts-http-runtime': 0.3.9(supports-color@10.2.2)
+      '@typespec/ts-http-runtime': 0.3.10(supports-color@10.2.2)
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
-  '@azure/core-rest-pipeline@1.25.0(supports-color@8.1.1)':
+  '@azure/core-rest-pipeline@1.25.1(supports-color@8.1.1)':
     dependencies:
       '@azure/abort-controller': 2.2.0
       '@azure/core-auth': 1.11.0(supports-color@8.1.1)
       '@azure/core-tracing': 1.4.0
       '@azure/core-util': 1.14.0(supports-color@8.1.1)
       '@azure/logger': 1.4.0(supports-color@8.1.1)
-      '@typespec/ts-http-runtime': 0.3.9(supports-color@8.1.1)
+      '@typespec/ts-http-runtime': 0.3.10(supports-color@8.1.1)
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   '@azure/core-tracing@1.4.0':
@@ -6904,13 +6914,14 @@ snapshots:
       '@azure/core-auth': 1.11.0(supports-color@10.2.2)
       '@azure/core-client': 1.11.1(supports-color@10.2.2)
       '@azure/core-paging': 1.7.0
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@10.2.2)
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@10.2.2)
       '@azure/core-tracing': 1.4.0
       '@azure/core-util': 1.14.0(supports-color@10.2.2)
       '@azure/core-xml': 1.6.0
       '@azure/logger': 1.4.0(supports-color@10.2.2)
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   '@azure/functions-extensions-base@0.3.0': {}
@@ -6926,7 +6937,7 @@ snapshots:
       '@azure/core-auth': 1.11.0(supports-color@10.2.2)
       '@azure/core-client': 1.11.1(supports-color@10.2.2)
       '@azure/core-process': 1.0.0
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@10.2.2)
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@10.2.2)
       '@azure/core-tracing': 1.4.0
       '@azure/core-util': 1.14.0(supports-color@10.2.2)
       '@azure/logger': 1.4.0(supports-color@10.2.2)
@@ -6935,6 +6946,7 @@ snapshots:
       open: 11.0.4
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   '@azure/identity@4.14.1(supports-color@8.1.1)':
@@ -6943,7 +6955,7 @@ snapshots:
       '@azure/core-auth': 1.11.0(supports-color@8.1.1)
       '@azure/core-client': 1.11.1(supports-color@8.1.1)
       '@azure/core-process': 1.0.0
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@8.1.1)
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@8.1.1)
       '@azure/core-tracing': 1.4.0
       '@azure/core-util': 1.14.0(supports-color@8.1.1)
       '@azure/logger': 1.4.0(supports-color@8.1.1)
@@ -6952,6 +6964,7 @@ snapshots:
       open: 11.0.4
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   '@azure/keyvault-common@2.1.1(supports-color@8.1.1)':
@@ -6959,12 +6972,13 @@ snapshots:
       '@azure-rest/core-client': 2.9.0(supports-color@8.1.1)
       '@azure/abort-controller': 2.2.0
       '@azure/core-auth': 1.11.0(supports-color@8.1.1)
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@8.1.1)
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@8.1.1)
       '@azure/core-tracing': 1.4.0
       '@azure/core-util': 1.14.0(supports-color@8.1.1)
       '@azure/logger': 1.4.0(supports-color@8.1.1)
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   '@azure/keyvault-keys@4.10.2(supports-color@8.1.1)':
@@ -6974,13 +6988,14 @@ snapshots:
       '@azure/core-auth': 1.11.0(supports-color@8.1.1)
       '@azure/core-lro': 2.7.2(supports-color@8.1.1)
       '@azure/core-paging': 1.7.0
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@8.1.1)
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@8.1.1)
       '@azure/core-tracing': 1.4.0
       '@azure/core-util': 1.14.0(supports-color@8.1.1)
       '@azure/keyvault-common': 2.1.1(supports-color@8.1.1)
       '@azure/logger': 1.4.0(supports-color@8.1.1)
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   '@azure/logger@1.4.0(supports-color@10.2.2)':
@@ -7003,7 +7018,7 @@ snapshots:
       '@azure/core-auth': 1.11.0(supports-color@10.2.2)
       '@azure/core-client': 1.11.1(supports-color@10.2.2)
       '@azure/core-process': 1.0.0
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@10.2.2)
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@10.2.2)
       '@azure/core-util': 1.14.0(supports-color@10.2.2)
       '@opentelemetry/api': 1.10.0
       '@opentelemetry/api-logs': 0.221.0
@@ -7015,6 +7030,7 @@ snapshots:
       '@opentelemetry/semantic-conventions': 1.45.0
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   '@azure/monitor-opentelemetry-exporter@1.0.0-beta.47(supports-color@8.1.1)':
@@ -7023,7 +7039,7 @@ snapshots:
       '@azure/core-auth': 1.11.0(supports-color@8.1.1)
       '@azure/core-client': 1.11.1(supports-color@8.1.1)
       '@azure/core-process': 1.0.0
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@8.1.1)
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@8.1.1)
       '@azure/core-util': 1.14.0(supports-color@8.1.1)
       '@opentelemetry/api': 1.10.0
       '@opentelemetry/api-logs': 0.221.0
@@ -7035,13 +7051,14 @@ snapshots:
       '@opentelemetry/semantic-conventions': 1.45.0
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   '@azure/monitor-opentelemetry@1.21.0(supports-color@10.2.2)':
     dependencies:
       '@azure-rest/core-client': 2.9.0(supports-color@10.2.2)
       '@azure/core-auth': 1.11.0(supports-color@10.2.2)
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@10.2.2)
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@10.2.2)
       '@azure/core-tracing': 1.4.0
       '@azure/identity': 4.14.1(supports-color@10.2.2)
       '@azure/logger': 1.4.0(supports-color@10.2.2)
@@ -7071,13 +7088,14 @@ snapshots:
       '@opentelemetry/winston-transport': 0.31.0
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   '@azure/monitor-opentelemetry@1.21.0(supports-color@8.1.1)':
     dependencies:
       '@azure-rest/core-client': 2.9.0(supports-color@8.1.1)
       '@azure/core-auth': 1.11.0(supports-color@8.1.1)
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@8.1.1)
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@8.1.1)
       '@azure/core-tracing': 1.4.0
       '@azure/identity': 4.14.1(supports-color@8.1.1)
       '@azure/logger': 1.4.0(supports-color@8.1.1)
@@ -7107,6 +7125,7 @@ snapshots:
       '@opentelemetry/winston-transport': 0.31.0
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   '@azure/ms-rest-js@2.7.0(supports-color@8.1.1)':
@@ -7187,10 +7206,10 @@ snapshots:
       '@azure/abort-controller': 2.2.0
       '@azure/core-auth': 1.11.0(supports-color@10.2.2)
       '@azure/core-client': 1.11.1(supports-color@10.2.2)
-      '@azure/core-http-compat': 2.5.0(@azure/core-client@1.11.1(supports-color@10.2.2))(@azure/core-rest-pipeline@1.25.0(supports-color@10.2.2))
+      '@azure/core-http-compat': 2.5.0(@azure/core-client@1.11.1(supports-color@10.2.2))(@azure/core-rest-pipeline@1.25.1(supports-color@10.2.2))
       '@azure/core-lro': 2.7.2(supports-color@10.2.2)
       '@azure/core-paging': 1.7.0
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@10.2.2)
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@10.2.2)
       '@azure/core-tracing': 1.4.0
       '@azure/core-util': 1.14.0(supports-color@10.2.2)
       '@azure/core-xml': 1.6.0
@@ -7200,14 +7219,15 @@ snapshots:
       events: 3.3.0
       tslib: 2.9.1
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   '@azure/storage-common@12.5.0(@azure/core-client@1.11.1(supports-color@10.2.2))(supports-color@10.2.2)':
     dependencies:
       '@azure/abort-controller': 2.2.0
       '@azure/core-auth': 1.11.0(supports-color@10.2.2)
-      '@azure/core-http-compat': 2.5.0(@azure/core-client@1.11.1(supports-color@10.2.2))(@azure/core-rest-pipeline@1.25.0(supports-color@10.2.2))
-      '@azure/core-rest-pipeline': 1.25.0(supports-color@10.2.2)
+      '@azure/core-http-compat': 2.5.0(@azure/core-client@1.11.1(supports-color@10.2.2))(@azure/core-rest-pipeline@1.25.1(supports-color@10.2.2))
+      '@azure/core-rest-pipeline': 1.25.1(supports-color@10.2.2)
       '@azure/core-tracing': 1.4.0
       '@azure/core-util': 1.14.0(supports-color@10.2.2)
       '@azure/logger': 1.4.0(supports-color@10.2.2)
@@ -7215,6 +7235,7 @@ snapshots:
       tslib: 2.9.1
     transitivePeerDependencies:
       - '@azure/core-client'
+      - kerberos
       - supports-color
 
   '@babel/code-frame@7.29.7':
@@ -9710,6 +9731,24 @@ snapshots:
     dependencies:
       '@typescript/old': typescript@6.0.3
 
+  '@typespec/ts-http-runtime@0.3.10(supports-color@10.2.2)':
+    dependencies:
+      http-proxy-agent: 9.1.0(supports-color@10.2.2)
+      https-proxy-agent: 9.1.0(supports-color@10.2.2)
+      tslib: 2.9.1
+    transitivePeerDependencies:
+      - kerberos
+      - supports-color
+
+  '@typespec/ts-http-runtime@0.3.10(supports-color@8.1.1)':
+    dependencies:
+      http-proxy-agent: 9.1.0(supports-color@8.1.1)
+      https-proxy-agent: 9.1.0(supports-color@8.1.1)
+      tslib: 2.9.1
+    transitivePeerDependencies:
+      - kerberos
+      - supports-color
+
   '@typespec/ts-http-runtime@0.3.9(supports-color@10.2.2)':
     dependencies:
       http-proxy-agent: 7.0.2(supports-color@10.2.2)
@@ -10006,6 +10045,7 @@ snapshots:
       '@opentelemetry/sdk-trace-node': 2.12.0(@opentelemetry/api@1.10.0)
       '@opentelemetry/semantic-conventions': 1.45.0
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   applicationinsights@3.17.0(supports-color@8.1.1):
@@ -10031,6 +10071,7 @@ snapshots:
       '@opentelemetry/sdk-trace-node': 2.12.0(@opentelemetry/api@1.10.0)
       '@opentelemetry/semantic-conventions': 1.45.0
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   argparse@2.0.1: {}
@@ -10116,6 +10157,7 @@ snapshots:
       - debug
       - encoding
       - ibm_db
+      - kerberos
       - mariadb
       - oracledb
       - pg
@@ -11312,6 +11354,15 @@ snapshots:
       agent-base: 7.1.4
       debug: 4.4.3(supports-color@8.1.1)
     transitivePeerDependencies:
+      - supports-color
+
+  http-proxy-agent@9.1.0(supports-color@10.2.2):
+    dependencies:
+      agent-base: 9.0.0
+      debug: 4.4.3(supports-color@10.2.2)
+      proxy-agent-negotiate: 1.1.0
+    transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   http-proxy-agent@9.1.0(supports-color@8.1.1):
@@ -13289,6 +13340,7 @@ snapshots:
       js-md4: 0.3.2
       native-duplexpair: 1.0.0
     transitivePeerDependencies:
+      - kerberos
       - supports-color
 
   test-exclude@8.0.0:
