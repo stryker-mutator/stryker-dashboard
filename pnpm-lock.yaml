@@ -398,8 +398,8 @@ importers:
         specifier: 12.5.0
         version: 12.5.0(@nestjs/common@12.5.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/platform-express@12.5.0)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/passport':
-        specifier: 12.0.1
-        version: 12.0.1(@nestjs/common@12.5.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(passport@0.7.0)
+        specifier: 12.0.2
+        version: 12.0.2(@nestjs/common@12.5.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(passport@0.7.0)
       '@nestjs/platform-express':
         specifier: 12.5.0
         version: 12.5.0(@nestjs/common@12.5.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.5.0)(rxjs@7.8.2)(supports-color@10.2.2)
@@ -1461,8 +1461,8 @@ packages:
       '@nestjs/websockets':
         optional: true
 
-  '@nestjs/passport@12.0.1':
-    resolution: {integrity: sha512-GJNuSMrh4QjouB3nlztNOreWvu1IigJzY3hOiVtiNfFE4XOlznsUXQk7WAq0XnsOUvHusjYF3//9of0gEzm/+Q==}
+  '@nestjs/passport@12.0.2':
+    resolution: {integrity: sha512-ukOGcJ5FUQRYx0EC57gaR72IYfXmBNUSRNJL5QH8RlRk3G41QhcXC6De3rGwJrGVrQodCI3aW4E2H953I06B0Q==}
     peerDependencies:
       '@nestjs/common': ^11.0.0 || ^12.0.0
       passport: ^0.5.0 || ^0.6.0 || ^0.7.0
@@ -7978,7 +7978,7 @@ snapshots:
     optionalDependencies:
       '@nestjs/platform-express': 12.5.0(@nestjs/common@12.5.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@12.5.0)(rxjs@7.8.2)(supports-color@10.2.2)
 
-  '@nestjs/passport@12.0.1(@nestjs/common@12.5.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(passport@0.7.0)':
+  '@nestjs/passport@12.0.2(@nestjs/common@12.5.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(passport@0.7.0)':
     dependencies:
       '@nestjs/common': 12.5.0(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
       passport: 0.7.0
