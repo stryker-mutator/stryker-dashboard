@@ -297,8 +297,8 @@ importers:
         version: link:../data-access
     devDependencies:
       azure-functions-core-tools:
-        specifier: 4.16.0
-        version: 4.16.0(supports-color@10.2.2)
+        specifier: 4.16.1
+        version: 4.16.1(supports-color@10.2.2)
 
   packages/common:
     dependencies:
@@ -3060,6 +3060,7 @@ packages:
   '@typespec/ts-http-runtime@0.3.10':
     resolution: {integrity: sha512-vddvvtZ7sejSlCv+OIkn2ztjB1O31Fc2JsxI/YK725r3elXXlF/J3o3lbXJFRhoeWRWK1tjdZ+GTi6Fdtrp+EA==}
     engines: {node: '>=22.0.0'}
+    deprecated: A newer version 0.3.11 has been published.
 
   '@unrs/resolver-binding-android-arm-eabi@1.13.0':
     resolution: {integrity: sha512-60E5mvmIiW+i1E/HYeSX4iE4A8s9NJSGYPu7UM0DJght1c2tTkWwuyDyAwzsEXhKM/XbbndfnTiXdfrf27d2hw==}
@@ -3399,8 +3400,8 @@ packages:
   axios@1.21.1:
     resolution: {integrity: sha512-6eI5Q/Y4u/Um9dDlsRoq5pY2rxnUTv+L4PpLitnbk/i4jb3MxLZ5CsN5Ih3IysbeRYK4pR+P7qfMsOQl9fwwFQ==}
 
-  azure-functions-core-tools@4.16.0:
-    resolution: {integrity: sha512-JxSpCJ7TgjiTdyP3PrrhnI1WkoZKHYgToltyUJKqYWe4yLTuIyqi8Hl9xvg8AAyem6Vg4RSx6+RJr1QKk9SS6g==}
+  azure-functions-core-tools@4.16.1:
+    resolution: {integrity: sha512-G0wZ8YO0Wq1KFO2kS82olPCmgy8/ylbfIKVwVhJSzpDXAFTtf1kQD3QciM9Jf/xYQUrtaGM5DZYc9X7cskviXw==}
     engines: {node: '>=22'}
     os: [win32, darwin, linux]
     hasBin: true
@@ -10024,7 +10025,7 @@ snapshots:
       - debug
       - supports-color
 
-  azure-functions-core-tools@4.16.0(supports-color@10.2.2):
+  azure-functions-core-tools@4.16.1(supports-color@10.2.2):
     dependencies:
       chalk: 6.0.1
       extract-zip: 2.0.1(supports-color@10.2.2)
