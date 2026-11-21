@@ -218,8 +218,8 @@ importers:
         specifier: npm:typescript@7.0.2
         version: typescript@7.0.2
       azurite:
-        specifier: 3.37.0
-        version: 3.37.0(@types/node@26.6.6)(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
+        specifier: 3.38.0
+        version: 3.38.0(@types/node@26.6.6)(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
       c8:
         specifier: 12.0.0
         version: 12.0.0
@@ -3402,8 +3402,8 @@ packages:
     os: [win32, darwin, linux]
     hasBin: true
 
-  azurite@3.37.0:
-    resolution: {integrity: sha512-dl2AXMkXtVlX9s3U3ttIQFFlKwe64k/ugSIVNT4V3qX488Ncw988rIHAs6apgUtfEzyqwtFN9MZp0Foq60Htag==}
+  azurite@3.38.0:
+    resolution: {integrity: sha512-5RYAzeygFgTS9nC3RUrURObNWODiDgUCq4SJQCRBGAjspB2ZXha2NNp6OGbk6ieqjntMy2PAegbzQPoyhupDvA==}
     engines: {node: '>=22.0.0', vscode: ^1.39.0}
     hasBin: true
 
@@ -10032,9 +10032,11 @@ snapshots:
       - kerberos
       - supports-color
 
-  azurite@3.37.0(@types/node@26.6.6)(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1):
+  azurite@3.38.0(@types/node@26.6.6)(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1):
     dependencies:
       '@azure/ms-rest-js': 2.7.0(supports-color@8.1.1)
+      '@opentelemetry/api': 1.10.0
+      '@opentelemetry/resources': 2.12.1(@opentelemetry/api@1.10.0)
       applicationinsights: 3.17.1(supports-color@8.1.1)
       args: 5.0.3
       axios: 1.21.1(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
