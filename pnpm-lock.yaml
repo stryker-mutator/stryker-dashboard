@@ -425,8 +425,8 @@ importers:
         specifier: 3.0.1
         version: 3.0.1(ajv@8.20.0)
       applicationinsights:
-        specifier: 3.17.0
-        version: 3.17.0(supports-color@10.2.2)
+        specifier: 3.17.1
+        version: 3.17.1(supports-color@10.2.2)
       compression:
         specifier: 1.8.2
         version: 1.8.2(supports-color@10.2.2)
@@ -3343,10 +3343,6 @@ packages:
 
   append-field@1.0.0:
     resolution: {integrity: sha512-klpgFSWLW1ZEs8svjfb7g4qWY0YS5imI82dTg+QahUvJ8YqAY0P10Uk8tTyh9ZGuYEZEMaeJYCF5BFuX552hsw==}
-
-  applicationinsights@3.17.0:
-    resolution: {integrity: sha512-+53E/0oXjl1x/o4fCLCxdEoUqqqRSg1EPH1+U07/6MHkALsmKtUTyKPrqhIgCGE/fIowQGNIFBkoSDYibfYW9A==}
-    engines: {node: '>=22.0.0'}
 
   applicationinsights@3.17.1:
     resolution: {integrity: sha512-bAutRLQ1xkakQUEqNOvbmx2EFgw4HgSvkSwBxOraZiw4z48WS+CaOP17akVUfhsq9K4OKJ9x4f8D7FnEvLanjg==}
@@ -9928,7 +9924,7 @@ snapshots:
 
   append-field@1.0.0: {}
 
-  applicationinsights@3.17.0(supports-color@10.2.2):
+  applicationinsights@3.17.1(supports-color@10.2.2):
     dependencies:
       '@azure/core-auth': 1.11.0(supports-color@10.2.2)
       '@azure/functions': 4.17.1
